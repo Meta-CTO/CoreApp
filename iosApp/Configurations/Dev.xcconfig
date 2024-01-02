@@ -1,0 +1,13 @@
+//
+//  Dev.xcconfig
+//  iosApp
+//
+//  Created by Karem on 11/15/23.
+//  Copyright © 2023 orgName. All rights reserved.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+DISPLAY_NAME = SampleApp (Dev)
+PRODUCT_BUNDLE_IDENTIFIER = com.sampleApp.app.dev

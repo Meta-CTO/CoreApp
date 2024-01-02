@@ -1,0 +1,16 @@
+object Configs {
+    const val COMPILE_SDK_VERSION = 34
+    const val TARGET_SDK_VERSION = 34
+    const val MIN_SDK_VERSION = 24
+    const val CORE_APP_ID = "com.metacto.coreApp"
+    const val CORE_APP_FRAMEWORK_NAME = "CoreApp"
+    const val SAMPLE_APP_FRAMEWORK_NAME = "sampleAppShared"
+    const val SAMPLE_APP_ID = "com.sampleApp.app"
+    val MY_ATLAS_VERSION_CODE by lazy { getGitCommitCount() }
+    val MY_ATLAS_VERSION_NAME by lazy { getVersionName() }
+    const val IOS_DEPLOYEMENT_TARGET = "14.1"
+
+    // TODO: move these values to gradle.properties
+    const val SH_USERNAME = "developer-swensonhe"
+    const val SH_PASSWORD = "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"
+}

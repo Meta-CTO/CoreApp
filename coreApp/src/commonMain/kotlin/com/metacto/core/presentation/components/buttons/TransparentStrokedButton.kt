@@ -1,0 +1,55 @@
+package com.metacto.core.presentation.components.buttons
+
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
+import com.metacto.core.presentation.theme.CoreTheme
+
+@Composable
+fun TransparentStrokedButton(
+    modifier: Modifier = Modifier,
+    text: String? = null,
+    textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
+    startIconPainter: Painter? = null,
+    startIconVector: ImageVector? = null,
+    endIconPainter: Painter? = null,
+    endIconVector: ImageVector? = null,
+    isEnabled: Boolean = true,
+    isDimmed: Boolean = false,
+    isLoading: Boolean = false,
+    contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
+    padding: PaddingValues = PaddingValues(
+        vertical = CoreTheme.spacings.btnPaddingVertical,
+        horizontal = CoreTheme.spacings.btnPaddingHorizontal
+    ),
+    onClick: () -> Unit = {}
+) {
+    BaseButton(
+        modifier = modifier,
+        text = text,
+        textStyle = textStyle,
+        textColor = CoreTheme.colors.onPrimary,
+        iconColor = CoreTheme.colors.onPrimary,
+        startIconPainter = startIconPainter,
+        startIconVector = startIconVector,
+        endIconPainter = endIconPainter,
+        endIconVector = endIconVector,
+        isEnabled = isEnabled,
+        isDimmed = isDimmed,
+        isLoading = isLoading,
+        onClick = onClick,
+        backgroundColor = CoreTheme.colors.transparent,
+        contentAlignment = contentAlignment,
+        elevation = CoreTheme.spacings.noSpacing,
+        border = BorderStroke(
+            width = CoreTheme.spacings.stroke,
+            color = CoreTheme.colors.onPrimary
+        ),
+        padding = padding
+    )
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseAppTheme" parent="Theme.AppCompat.NoActionBar" />
+
+    <style name="AppTheme.App" parent="BaseAppTheme">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorAccent">@color/primary</item>
+        <item name="android:colorAccent">@color/primary</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="isLightTheme">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="AppTheme.Splash" parent="Theme.SplashScreen.IconBackground">
+        <item name="windowSplashScreenBackground">@color/primary</item>
+        <item name="windowSplashScreenIconBackgroundColor">@color/primary</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/no_image</item>
+        <item name="postSplashScreenTheme">@style/AppTheme.App</item>
+    </style>
+
+</resources>

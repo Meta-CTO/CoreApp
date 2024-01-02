@@ -1,0 +1,87 @@
+object Dependencies {
+    object Moko {
+        const val RESOURCES = "dev.icerock.moko:resources:${Versions.MOKO_RESOURCES}"
+        const val RESOURCES_COMPOSE =
+            "dev.icerock.moko:resources-compose:${Versions.MOKO_RESOURCES}"
+        const val GRAPHICS = "dev.icerock.moko:graphics:${Versions.MOKO_GRAPHICS}"
+    }
+
+    object Pods {
+        const val FIREBASE_AUTH = "FirebaseAuth"
+        const val GOOGLE_SIGN_IN = "GoogleSignIn"
+        const val FIREBASE_DYNAMIC_LINKS = "FirebaseDynamicLinks"
+        const val FIREBASE_CRASHLYTICS = "FirebaseCrashlytics"
+        const val AMPLITUDE = "Amplitude"
+
+        object CleverTap {
+            const val MODULE = "CleverTapSDK"
+            const val SDK = "CleverTap-iOS-SDK"
+        }
+    }
+
+    object Compose {
+        const val RUNTIME = "org.jetbrains.compose.runtime:runtime:${Versions.COMPOSE}"
+        const val FOUNDATION = "org.jetbrains.compose.foundation:foundation:${Versions.COMPOSE}"
+        const val MATERIAL = "org.jetbrains.compose.material:material:${Versions.COMPOSE}"
+        const val MATERIAL3 = "org.jetbrains.compose.material3:material3:${Versions.COMPOSE}"
+        const val ANIMATION = "org.jetbrains.compose.animation:animation:${Versions.COMPOSE}"
+        const val ANIMATION_GRAPHICS =
+            "org.jetbrains.compose.animation:animation-graphics:${Versions.COMPOSE}"
+        const val EXTENDED_ICONS =
+            "org.jetbrains.compose.material:material-icons-extended:${Versions.COMPOSE}"
+        const val RESOURCES =
+            "org.jetbrains.compose.components:components-resources:${Versions.COMPOSE}"
+    }
+
+    object Kotlin {
+        const val DATE_TIME = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.DATE_TIME}"
+    }
+
+    object Koin {
+        const val CORE = "io.insert-koin:koin-core:${Versions.KOIN}"
+        const val COMPOSE = "io.insert-koin:koin-compose:${Versions.KOIN_COMPOSE}"
+        const val ANDROID = "io.insert-koin:koin-android:${Versions.KOIN}"
+        const val ANDROID_COMPOSE = "io.insert-koin:koin-androidx-compose:${Versions.KOIN}"
+    }
+
+    object Voyager {
+        const val NAVIGATOR = "cafe.adriel.voyager:voyager-navigator:${Versions.VOYAGER}"
+        const val BOTTOM_SHEET =
+            "cafe.adriel.voyager:voyager-bottom-sheet-navigator:${Versions.VOYAGER}"
+        const val TAB_NAVIGATOR =
+            "cafe.adriel.voyager:voyager-tab-navigator:${Versions.VOYAGER}"
+        const val ANDROID = "cafe.adriel.voyager:voyager-androidx:${Versions.VOYAGER}"
+        const val KOIN = "cafe.adriel.voyager:voyager-koin:${Versions.VOYAGER}"
+    }
+
+    object AndroidX {
+        const val ACTIVITY_COMPOSE =
+            "androidx.activity:activity-compose:${Versions.ACTIVITY_COMPOSE}"
+        const val APP_COMPAT = "androidx.appcompat:appcompat:${Versions.APP_COMPAT}"
+        const val CORE_KTS = "androidx.core:core-ktx:${Versions.CORE_KTS}"
+        const val SECURITY_CRYPTO =
+            "androidx.security:security-crypto:${Versions.SECURITY_CRYPTO}"
+        const val SPLASH_SCREEN = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN}"
+    }
+
+    object Firebase {
+        const val BOM = "com.google.firebase:firebase-bom:${Versions.FIREBASE}"
+        const val DYNAMIC_LINKS = "com.google.firebase:firebase-dynamic-links-ktx"
+        const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics"
+        const val ANALYTICS = "com.google.firebase:firebase-analytics"
+        const val PLAY_SERVICES_AUTH =
+            "com.google.android.gms:play-services-auth:${Versions.PLAY_SERVICES_AUTH}"
+    }
+
+    object Modules {
+        const val CORE_APP = ":coreApp"
+        const val SAMPLE_APP_SHARED = ":sampleAppShared"
+    }
+
+    const val STRAPI_KMM = "com.swensonhe:strapi:${Versions.STRAPI_KMM}"
+    const val KAMEL_IMAGE = "media.kamel:kamel-image:${Versions.KAMEL_IMAGE}"
+    const val LOTTIE_COMPOSE = "com.airbnb.android:lottie-compose:${Versions.LOTTIE}"
+    const val ANDROID_IMAGE_PICKER = "com.github.dhaval2404:imagepicker:${Versions.ANDROID_IMAGE_PICKER}"
+    const val LIB_PHONE_NUMBER = "io.github.luca992.libphonenumber-kotlin:libphonenumber:${Versions.LIB_PHONE_NUMBER}"
+    const val ANDROID_CROPPER = "com.vanniktech:android-image-cropper:${Versions.ANDROID_CROPPER}"
+}

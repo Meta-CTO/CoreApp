@@ -1,0 +1,44 @@
+package com.metacto.core.presentation.globalState
+
+import androidx.compose.runtime.State
+import androidx.compose.ui.unit.Dp
+import com.metacto.core.presentation.globalState.models.ChoicesPopupParams
+import com.metacto.core.presentation.globalState.models.ConfirmationPopupParams
+import com.metacto.core.presentation.globalState.models.DatePickerParams
+import com.metacto.core.presentation.globalState.models.LoadingType
+import com.metacto.core.presentation.globalState.models.MessagePopupParams
+import com.metacto.core.presentation.globalState.models.SnackBarParams
+import com.metacto.core.presentation.globalState.models.SuccessPopupParams
+import com.metacto.core.presentation.globalState.models.TimePickerParams
+
+interface ICoreGlobalState {
+    val appLoadedState: State<Boolean>
+    val navigateToLogin: State<Boolean>
+    val loadingState: State<LoadingType>
+    val messagePopupState: State<MessagePopupParams?>
+    val successPopupState: State<SuccessPopupParams?>
+    val confirmationPopupState: State<ConfirmationPopupParams?>
+    val choicesPopupState: State<ChoicesPopupParams?>
+    val datePickerState: State<DatePickerParams?>
+    val timePickerState: State<TimePickerParams?>
+    val snackBarState:  State<SnackBarParams>
+    val dismissKeyboardState: State<Boolean>
+    val iOSKeyboardHeight: State<Dp>
+
+    fun idle()
+    fun navigateToLogin()
+    fun resetNavigateToLogin()
+    fun setAppLoaded()
+    fun loading(type: LoadingType)
+    fun messagePopup(params: MessagePopupParams)
+    fun successPopup(params: SuccessPopupParams)
+    fun confirmationPopup(params: ConfirmationPopupParams)
+    fun choicesPopup(params: ChoicesPopupParams)
+    fun datePicker(params: DatePickerParams)
+    fun timePicker(params: TimePickerParams)
+    fun snackBar(params: SnackBarParams)
+    fun hideSnackBar(delay: Long = 0)
+    fun dismissKeyboard()
+    fun resetDismissKeyboardState()
+    fun setIOSKeyboardHeight(height: Dp)
+}

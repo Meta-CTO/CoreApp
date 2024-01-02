@@ -1,0 +1,29 @@
+name: Publish production build
+
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  deploy_android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+          architecture: x64
+
+      - name: build Dev release
+        run: ./gradlew androidApp:assembleQaRelease --warning-mode all
+
+      - name: upload artifact to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{secrets.FIREBASE_APP_ID_DEV}}
+          token: ${{secrets.FIREBASE_TOKEN}}
+          groups: metacto-testers
+          debug: true
+          file: androidApp/build/outputs/apk/qa/release/androidApp-qa-release.apk
