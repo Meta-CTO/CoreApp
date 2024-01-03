@@ -51,6 +51,12 @@ kotlin {
         xcodeConfigurationToNativeBuildType["Debug"] = NativeBuildType.RELEASE
     }
 
+    metadata {
+        compilations.matching { it.name == "iosMain" }.all {
+            compileTaskProvider.configure { enabled = false }
+        }
+    }
+
     sourceSets {
         val commonMain by getting {
             dependencies {
@@ -173,7 +179,7 @@ val javadocJar by tasks.registering(Jar::class) {
 publishing {
     repositories {
         repositories {
-            maven("https://maven.pkg.github.com/swensonhe/strapi-kmm") {
+            maven("https://maven.pkg.github.com/Meta-CTO/CoreApp") {
                 name = "Github"
                 credentials {
                     username = gradleLocalProperties(rootDir).getProperty("PUBLISH_REPO_USER") as String
@@ -189,9 +195,9 @@ publishing {
         version = gradleLocalProperties(rootDir).getProperty("PUBLISH_VERSION") as String
 
         pom {
-            name.set("Epic Calendar")
-            description.set("Compose Multiplatform library for displaying epic calendars")
-            url.set("https://github.com/epicarchitect/epic-calendar")
+            name.set("coreApp")
+            description.set("Compose Multiplatform library for MetaCTO core app module")
+            url.set("https://github.com/Meta-CTO/CoreApp")
 
             licenses {
                 license {
@@ -201,21 +207,17 @@ publishing {
             }
             developers {
                 developer {
-                    id.set("epicarchitect")
-                    name.set("Alexander Kolmachikhin")
-                    email.set("alexanderkolmachikhin@gmail.com")
+                    id.set("ahmedsalemelzeiny")
+                    name.set("Ahmed Salem Elzeiny")
+                    email.set("ahmedsalemelzeiny2013@gmail.com")
                 }
             }
             scm {
-                url.set("https://github.com/epicarchitect/epic-calendar")
+                url.set("https://github.com/Meta-CTO/CoreApp")
             }
         }
     }
 }
-
-//signing {
-//    sign(publishing.publications)
-//}
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {

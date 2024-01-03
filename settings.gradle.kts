@@ -1,4 +1,4 @@
 rootProject.name = "CoreProject"
 include(":sampleAppShared")
-include(":coreApp")
+include(":coreapp")
 include(":androidApp")

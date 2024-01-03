@@ -1,5 +1,5 @@
 import SwiftUI
-import myAtlasShared
+import sampleAppShared
 
 class ContainerViewController: UIViewController {
     private let onTouchDown: (CGPoint) -> Void

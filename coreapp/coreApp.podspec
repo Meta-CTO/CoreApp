@@ -1,5 +1,5 @@
 Pod::Spec.new do |spec|
-    spec.name                     = 'coreApp'
+    spec.name                     = 'coreapp'
     spec.version                  = '1.0.0'
     spec.homepage                 = 'https://metacto.com/'
     spec.source                   = { :http=> ''}
@@ -12,13 +12,13 @@ Pod::Spec.new do |spec|
                 
                 
     spec.pod_target_xcconfig = {
-        'KOTLIN_PROJECT_PATH' => ':coreApp',
+        'KOTLIN_PROJECT_PATH' => ':coreapp',
         'PRODUCT_MODULE_NAME' => 'CoreApp',
     }
                 
     spec.script_phases = [
         {
-            :name => 'Build coreApp',
+            :name => 'Build coreapp',
             :execution_position => :before_compile,
             :shell_path => '/bin/sh',
             :script => <<-SCRIPT

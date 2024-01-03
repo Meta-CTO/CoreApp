@@ -74,7 +74,7 @@ object Dependencies {
     }
 
     object Modules {
-        const val CORE_APP = ":coreApp"
+        const val CORE_APP = ":coreapp"
         const val SAMPLE_APP_SHARED = ":sampleAppShared"
     }
 

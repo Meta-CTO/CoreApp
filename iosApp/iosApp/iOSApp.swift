@@ -3,7 +3,7 @@ import FirebaseCore
 import GoogleSignIn
 import FirebaseAuth
 
-import myAtlasShared
+import sampleAppShared
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
@@ -51,11 +51,11 @@ struct iOSApp: App {
 	var body: some Scene {
 		WindowGroup {
 			ContentView()
-                .onOpenURL { url in
-                    DeepLinkRegistryKt.process(deepLink: url.absoluteString)
-                }.onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
-                    DeepLinkRegistryKt.process(deepLink: activity.webpageURL?.absoluteString ?? "")
-                }
+//                .onOpenURL { url in
+//                    DeepLinkRegistryKt.process(deepLink: url.absoluteString)
+//                }.onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
+//                    DeepLinkRegistryKt.process(deepLink: activity.webpageURL?.absoluteString ?? "")
+//                }
 		}
     }
 }
