@@ -1,12 +1,13 @@
 package com.metacto.core.di
 
-import com.metacto.coreApp.MR
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.presentation.base.CommonViewModel
 import com.metacto.core.utils.DispatchersProvider
 import com.metacto.core.utils.IDispatchersProvider
 import com.metacto.core.utils.IResourceProvider
 import com.metacto.core.utils.ResourceProvider
+import com.metacto.core.viewModelsStore.ViewModelsStore
+import com.metacto.coreApp.MR
 import dev.icerock.moko.resources.utils.loadableBundle
 import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
 import io.michaelrocks.libphonenumber.kotlin.metadata.defaultMetadataLoader
@@ -27,6 +28,10 @@ actual fun corePlatformModule(appStorageName: String) = module {
             environment = get(),
             appStorageName = appStorageName
         )
+    }
+
+    single {
+        ViewModelsStore()
     }
 
     single<IResourceProvider> {

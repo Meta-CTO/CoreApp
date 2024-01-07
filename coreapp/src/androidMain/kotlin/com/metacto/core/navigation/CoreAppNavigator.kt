@@ -1,4 +1,4 @@
-package com.metacto.core.presentation.app
+package com.metacto.core.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
@@ -6,9 +6,9 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModelStore
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.CurrentScreen
-import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import com.metacto.core.presentation.base.BaseScreen
@@ -23,20 +23,17 @@ import com.metacto.core.utils.extensions.navigateTo
 import com.metacto.core.utils.extensions.popByCount
 import com.metacto.core.utils.extensions.popToExclusive
 import com.metacto.core.utils.extensions.popToInclusive
-import com.metacto.core.utils.navigation.INavManager
-import com.metacto.core.utils.navigation.NavEffect
-import org.koin.compose.rememberKoinInject
 
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 @Composable
-fun CoreAppNavigator(
-    modifier: Modifier = Modifier,
-    navManager: INavManager = rememberKoinInject(),
+actual fun CoreAppNavigator(
+    modifier: Modifier,
+    navManager: NavManager,
     startScreen: Screen
 ) {
     // Get local navigator
-    var navigator = LocalNavigator.current
+    var navigator: Navigator? = null
     var sheetNavigator: BottomSheetNavigator? = null
 
     // Handle navigation effects

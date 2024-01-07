@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import com.metacto.core.navigation.CoreAppNavigator
+import com.metacto.core.navigation.NavManager
 import com.metacto.core.presentation.components.dialogs.ChoicesDialog
 import com.metacto.core.presentation.components.dialogs.ConfirmationDialog
 import com.metacto.core.presentation.components.dialogs.MessageDialog
@@ -29,14 +31,13 @@ import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.core.utils.navigation.INavManager
 import org.koin.compose.rememberKoinInject
 
 @Composable
 fun CoreAppContent(
     modifier: Modifier = Modifier,
     globalState: ICoreGlobalState = rememberKoinInject(),
-    navManager: INavManager = rememberKoinInject(),
+    navManager: NavManager = rememberKoinInject(),
     startScreen: Screen,
     iOSKeyboardHeight: Float = 0f
 ) {

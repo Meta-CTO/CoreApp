@@ -14,8 +14,7 @@ import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.utils.IDispatchersProvider
 import com.metacto.core.utils.IResourceProvider
-import com.metacto.core.utils.navigation.INavManager
-import com.metacto.core.utils.navigation.onNavResult
+import com.metacto.core.navigation.NavManager
 import com.swensonhe.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
 import com.swensonhe.strapikmm.errorhandling.AppException
 import com.swensonhe.strapikmm.errorhandling.NetworkErrorMapper
@@ -53,7 +52,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     // Inject main objects
     protected val coreGlobalState by inject<ICoreGlobalState>()
     protected val dispatcherProvider by inject<IDispatchersProvider>()
-    protected val navManager by inject<INavManager>()
+    protected val navManager by inject<NavManager>()
     protected val resourceProvider by inject<IResourceProvider>()
 
     abstract fun setInitialState(): S
@@ -233,7 +232,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         return ErrorMessageType.Popup
     }
 
-    protected inline fun <reified D, reified R> INavManager.onNavResult(
+    protected inline fun <reified D, reified R> NavManager.onNavResult(
         crossinline onResult: (R) -> Unit
     ) = coroutineScope.launch {
         // Get nav manager

@@ -2,7 +2,7 @@ package com.metacto.core.presentation.imagePicker
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.metacto.core.presentation.base.BaseScreen
+import com.metacto.core.presentation.base.BaseSheet
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.components.imagePicker.rememberImagePicker
 import com.metacto.core.presentation.imagePicker.ImagePickerContract.Effect
@@ -17,7 +17,7 @@ class ImagePickerSheet(
     private val enableCropping: Boolean = false,
     private val aspectRatioX: Int? = null,
     private val aspectRatioY: Int? = null
-) : BaseScreen<ImagePickerViewModel>() {
+) : BaseSheet<ImagePickerViewModel>() {
 
     @Composable
     override fun Content() {
