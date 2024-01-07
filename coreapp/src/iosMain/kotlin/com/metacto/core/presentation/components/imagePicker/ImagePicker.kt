@@ -11,6 +11,7 @@ import platform.UIKit.UIImageJPEGRepresentation
 import platform.UIKit.UIImagePickerController
 import platform.UIKit.UIImagePickerControllerDelegateProtocol
 import platform.UIKit.UIImagePickerControllerSourceType
+import platform.UIKit.UIModalPresentationPopover
 import platform.UIKit.UINavigationControllerDelegateProtocol
 import platform.UIKit.UIViewController
 import platform.darwin.NSObject
@@ -47,6 +48,7 @@ actual class ImagePicker(
                 val ratioX = aspectRatioX ?: 1
                 val ratioY = aspectRatioY ?: 1
                 // TODO: open cropper and wait for result then notify onImagePicked(bytes)
+                onImagePicked(bytes)
             } else {
                 onImagePicked(bytes)
             }
@@ -76,6 +78,7 @@ actual class ImagePicker(
 
     private fun pickImage(source: UIImagePickerControllerSourceType) {
         imagePickerController.sourceType = source
+        imagePickerController.setModalPresentationStyle(UIModalPresentationPopover)
         rootController.presentViewController(imagePickerController, true) {
             imagePickerController.delegate = delegate
         }

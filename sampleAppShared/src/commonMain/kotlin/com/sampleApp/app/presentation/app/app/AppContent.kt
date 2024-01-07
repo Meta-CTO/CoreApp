@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import com.metacto.core.presentation.app.CoreAppContent
-import com.metacto.core.utils.navigation.INavManager
+import com.metacto.core.navigation.NavManager
 import com.sampleApp.app.presentation.app.globalState.IAppGlobalState
 import com.sampleApp.app.presentation.app.globalState.models.AppBackgroundType
 import com.sampleApp.app.presentation.landing.splash.SplashScreen
@@ -19,7 +19,7 @@ internal fun AppContent(
 ) {
     // Get main objects
     val globalState = rememberKoinInject<IAppGlobalState>()
-    val navManager = rememberKoinInject<INavManager>()
+    val navManager = rememberKoinInject<NavManager>()
 
     // Get states
     val backgroundType by globalState.appBgState

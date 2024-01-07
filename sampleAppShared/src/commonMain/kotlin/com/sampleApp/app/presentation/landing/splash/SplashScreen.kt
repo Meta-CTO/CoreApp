@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.metacto.core.presentation.base.BaseScreen
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
+import com.metacto.core.presentation.base.rememberViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.components.SplashContent
 
