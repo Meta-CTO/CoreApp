@@ -1,8 +1,9 @@
-package com.metacto.core.utils.navigation
+package com.metacto.core.navigation
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
@@ -11,13 +12,13 @@ import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
 
 @OptIn(DelicateCoroutinesApi::class)
-class NavManager : INavManager {
+actual class NavManager {
     private val _effects: Channel<NavEffect> = Channel()
     private val effects = _effects.receiveAsFlow()
     private val _results = Channel<NavResult<*>>()
     private val results = _results.receiveAsFlow()
 
-    override fun navigate(destination: NavDestination) {
+    actual fun navigate(destination: NavDestination) {
         GlobalScope.launch {
             _effects.send(
                 NavEffect.NavigateTo(destination)
@@ -25,7 +26,7 @@ class NavManager : INavManager {
         }
     }
 
-    override fun clearAndNavigate(destination: NavDestination) {
+    actual fun clearAndNavigate(destination: NavDestination) {
         GlobalScope.launch {
             _effects.send(
                 NavEffect.ClearAndNavigateTo(destination)
@@ -33,7 +34,7 @@ class NavManager : INavManager {
         }
     }
 
-    override fun <D : NavDestination> popToExclusive(destClass: KClass<D>) {
+    actual fun <D : NavDestination> popToExclusive(destClass: KClass<D>) {
         GlobalScope.launch {
             _effects.send(
                 NavEffect.PopToExclusive(destClass)
@@ -41,7 +42,7 @@ class NavManager : INavManager {
         }
     }
 
-    override fun <D : NavDestination> popToInclusive(destClass: KClass<D>) {
+    actual fun <D : NavDestination> popToInclusive(destClass: KClass<D>) {
         GlobalScope.launch {
             _effects.send(
                 NavEffect.PopToInclusive(destClass)
@@ -49,7 +50,7 @@ class NavManager : INavManager {
         }
     }
 
-    override fun popByCount(popCount: Int) {
+    actual fun popByCount(popCount: Int) {
         GlobalScope.launch {
             _effects.send(
                 NavEffect.PopByCount(popCount)
@@ -57,7 +58,7 @@ class NavManager : INavManager {
         }
     }
 
-    override fun navigateAndPopupCurrent(destination: NavDestination) {
+    actual fun navigateAndPopupCurrent(destination: NavDestination) {
         GlobalScope.launch {
             _effects.send(
                 NavEffect.NavigateAndPopCurrent(destination)
@@ -65,7 +66,7 @@ class NavManager : INavManager {
         }
     }
 
-    override fun navigateToBottomSheet(destination: NavDestination) {
+    actual fun navigateToBottomSheet(destination: NavDestination) {
         GlobalScope.launch {
             _effects.send(
                 NavEffect.NavigateToBottomSheet(destination)
@@ -73,7 +74,7 @@ class NavManager : INavManager {
         }
     }
 
-    override fun goBack() {
+    actual fun goBack() {
         GlobalScope.launch {
             _effects.send(
                 NavEffect.GoBack
@@ -81,7 +82,7 @@ class NavManager : INavManager {
         }
     }
 
-    override fun collectNavEffects(
+    fun collectNavEffects(
         coroutineScope: CoroutineScope,
         callback: (NavEffect) -> Unit
     ) {
@@ -90,7 +91,7 @@ class NavManager : INavManager {
         }
     }
 
-    override fun <R> sendResult(source: String?, result: R) {
+    actual fun <R> sendResult(source: String?, result: R) {
         GlobalScope.launch {
             _results.send(
                 NavResult(
@@ -101,7 +102,21 @@ class NavManager : INavManager {
         }
     }
 
-    override suspend fun collectNavResults(callback: (NavResult<*>) -> Unit) {
+    actual suspend fun collectNavResults(callback: (NavResult<*>) -> Unit) {
         results.onEach(callback).collect()
+    }
+
+    actual inline fun <reified S, reified R> onNavResult(
+        coroutineScope: CoroutineScope,
+        crossinline callback: (R) -> Unit
+    ) {
+        coroutineScope.launch {
+            collectNavResults {
+                if (S::class.simpleName == it.source && it.result is R) {
+                    callback.invoke(it.result as R)
+                    this.cancel()
+                }
+            }
+        }
     }
 }

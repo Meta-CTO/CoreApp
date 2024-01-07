@@ -2,8 +2,7 @@ package com.metacto.core.di
 
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.RepositoriesFactory
-import com.metacto.core.utils.navigation.INavManager
-import com.metacto.core.utils.navigation.NavManager
+import com.metacto.core.navigation.NavManager
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.metacto.core.utils.phoneNumber.PhoneNumberManager
 import dev.gitlive.firebase.Firebase
@@ -26,7 +25,7 @@ fun coreModule(
         environment
     }
 
-    single<INavManager> {
+    single {
         NavManager()
     }
 
