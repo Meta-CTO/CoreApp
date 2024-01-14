@@ -120,11 +120,11 @@ open class CoreGlobalState : ICoreGlobalState {
     }
 
     override fun setNavigationBarDark() {
-        isStatusBarDarkState.value = true
+        isNavigationBarDarkState.value = true
     }
 
     override fun setNavigationBarLight() {
-        isStatusBarDarkState.value = false
+        isNavigationBarDarkState.value = false
     }
 
     companion object {
