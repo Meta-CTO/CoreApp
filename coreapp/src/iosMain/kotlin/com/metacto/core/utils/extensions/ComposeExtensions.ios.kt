@@ -2,6 +2,7 @@
 package com.metacto.core.utils.extensions
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asComposeImageBitmap
@@ -15,6 +16,8 @@ import org.jetbrains.skia.Bitmap
 import org.jetbrains.skia.Image
 import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
+import platform.UIKit.UIColor
+import platform.UIKit.UINavigationBar
 
 @Composable
 actual fun openUrlInBrowser(url: String) {
@@ -65,6 +68,16 @@ actual fun rememberPhoneNumberUtil(): PhoneNumberUtil {
     return remember {
         PhoneNumberUtil.Companion.createInstance(
             metadataLoader = defaultMetadataLoader()
+        )
+    }
+}
+
+@Composable
+actual fun setStatusBarColor(isDark: Boolean) {
+    LaunchedEffect(isDark) {
+        val color = if (isDark) UIColor.blackColor() else UIColor.whiteColor()
+        UINavigationBar.appearance().titleTextAttributes = mapOf(
+            "NSForegroundColorAttributeName" to color
         )
     }
 }

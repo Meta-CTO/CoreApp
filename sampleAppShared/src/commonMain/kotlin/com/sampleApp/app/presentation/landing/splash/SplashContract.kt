@@ -7,11 +7,14 @@ import com.metacto.core.presentation.base.ViewState
 class SplashContract {
 
     data class State(
-        val isInitialized: Boolean = false
+        val isInitialized: Boolean = false,
+        val isWelcome: Boolean = false
     ) : ViewState
 
     sealed class Event : ViewEvent {
         data object ScreenAppeared : Event()
+        data object ScreenDisposed : Event()
+        data object TextClicked : Event()
     }
 
     sealed class Effect : ViewSideEffect

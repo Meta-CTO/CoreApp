@@ -56,6 +56,7 @@ data class CoreColors(
 
     val placeholder: Color = Color(0xFF8F8F8F),
     val optionsArrow: Color = black,
+    val divider: Color = Color(0xFFA5A5A5),
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

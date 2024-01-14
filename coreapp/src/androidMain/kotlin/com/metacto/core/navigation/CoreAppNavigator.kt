@@ -1,12 +1,12 @@
 package com.metacto.core.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.ViewModelStore
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
@@ -14,7 +14,6 @@ import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import com.metacto.core.presentation.base.BaseScreen
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.components.bottomSheets.BottomSheetInsetsContainer
-import com.metacto.core.presentation.components.containers.ScreenInsetsContainer
 import com.metacto.core.presentation.components.voyager.FadeTransition
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.clearAndNavigateTo
@@ -111,8 +110,8 @@ actual fun CoreAppNavigator(
                     // Update current navigator to the created one
                     navigator = createdNavigator
 
-                    // Render current screen inside safe insets container
-                    ScreenInsetsContainer(
+                    // Render current screen
+                    Box(
                         modifier = Modifier.fillMaxSize()
                     ) {
                         FadeTransition(createdNavigator)

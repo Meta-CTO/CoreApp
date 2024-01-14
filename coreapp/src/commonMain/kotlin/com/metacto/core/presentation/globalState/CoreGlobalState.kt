@@ -31,7 +31,7 @@ open class CoreGlobalState : ICoreGlobalState {
     override val timePickerState = mutableStateOf<TimePickerParams?>(null)
     override val snackBarState = mutableStateOf(SnackBarParams.hidden())
     override val dismissKeyboardState = mutableStateOf(false)
-    override val iOSKeyboardHeight = mutableStateOf(0.dp)
+    override val isStatusBarDarkState = mutableStateOf(false)
     private var hideSnackBarJob: Job? = null
 
     override fun idle() {
@@ -110,8 +110,12 @@ open class CoreGlobalState : ICoreGlobalState {
         dismissKeyboardState.value = false
     }
 
-    override fun setIOSKeyboardHeight(height: Dp) {
-        iOSKeyboardHeight.value = height
+    override fun setStatusBarDark() {
+        isStatusBarDarkState.value = true
+    }
+
+    override fun setStatusBarLight() {
+        isStatusBarDarkState.value = false
     }
 
     companion object {

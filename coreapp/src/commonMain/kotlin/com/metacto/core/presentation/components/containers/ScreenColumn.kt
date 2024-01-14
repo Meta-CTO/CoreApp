@@ -30,6 +30,7 @@ fun ScreenColumn(
     bottomPadding: Dp = CoreTheme.spacings.screenPadding,
     startPadding: Dp = CoreTheme.spacings.screenPadding,
     endPadding: Dp = CoreTheme.spacings.screenPadding,
+    enableSafeInsets: Boolean = true,
     isScrollable: Boolean = false,
     onScrolled: (() -> Unit)? = null,
     toolbar: @Composable () -> Unit = {},
@@ -62,8 +63,9 @@ fun ScreenColumn(
     }
 
     // Container column
-    Column(
-        modifier = modifier.fillMaxSize()
+    SafeInsetsColumn(
+        modifier = modifier.fillMaxSize(),
+        enableSafeInsets = enableSafeInsets
     ) {
         // Render toolbar
         toolbar()

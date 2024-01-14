@@ -10,11 +10,11 @@ import androidx.compose.ui.text.TextStyle
 import com.metacto.core.presentation.theme.CoreTheme
 
 @Composable
-fun SecondaryFilledButton(
+fun TertiaryFilledButton(
     modifier: Modifier = Modifier,
     text: String? = null,
     textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
-    iconColor: Color? = CoreTheme.colors.onSecondary,
+    iconColor: Color? = CoreTheme.colors.onTertiary,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
@@ -33,9 +33,9 @@ fun SecondaryFilledButton(
         modifier = modifier,
         text = text,
         textStyle = textStyle,
-        textColor = CoreTheme.colors.onSecondary,
+        textColor = CoreTheme.colors.onTertiary,
         iconColor = iconColor,
-        backgroundColor = CoreTheme.colors.secondary,
+        backgroundColor = CoreTheme.colors.tertiary,
         startIconPainter = startIconPainter,
         startIconVector = startIconVector,
         endIconPainter = endIconPainter,

@@ -31,6 +31,7 @@ object Dependencies {
             "org.jetbrains.compose.material:material-icons-extended:${Versions.COMPOSE}"
         const val RESOURCES =
             "org.jetbrains.compose.components:components-resources:${Versions.COMPOSE}"
+        const val UI_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE}"
     }
 
     object Kotlin {

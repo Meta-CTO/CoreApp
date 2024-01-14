@@ -4,8 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.width
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import com.metacto.core.presentation.components.inputFields.OutlinedOtpInputField
 import com.sampleApp.app.presentation.MainView
 
 
@@ -16,6 +22,7 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
+            //Preview()
             MainView()
         }
 
@@ -28,8 +35,16 @@ class MainActivity : AppCompatActivity() {
         intent?.let { checkDeepLink(it) }
     }
 
-
     private fun checkDeepLink(intent: Intent) {
-
     }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    OutlinedOtpInputField(
+        text = "123",
+        pinCount = 6,
+        modifier = Modifier.width(200.dp)
+    )
 }

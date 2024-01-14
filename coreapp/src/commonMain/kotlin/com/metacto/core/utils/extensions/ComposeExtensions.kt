@@ -324,3 +324,6 @@ expect fun isGesturesNavBarEnabled(): Boolean
 
 @Composable
 expect fun rememberPhoneNumberUtil(): PhoneNumberUtil
+
+@Composable
+expect fun setStatusBarColor(isDark: Boolean)
