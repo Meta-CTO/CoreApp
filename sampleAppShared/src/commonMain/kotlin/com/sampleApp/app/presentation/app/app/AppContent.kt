@@ -14,9 +14,7 @@ import com.sampleApp.app.presentation.theme.AppThemeContent
 import org.koin.compose.rememberKoinInject
 
 @Composable
-internal fun AppContent(
-    iOSKeyboardHeight: Float = 0f
-) {
+internal fun AppContent() {
     // Get main objects
     val globalState = rememberKoinInject<IAppGlobalState>()
     val navManager = rememberKoinInject<NavManager>()
@@ -37,8 +35,7 @@ internal fun AppContent(
             modifier = Modifier.background(bgColor),
             globalState = globalState,
             navManager = navManager,
-            startScreen = SplashScreen,
-            iOSKeyboardHeight = iOSKeyboardHeight
+            startScreen = SplashScreen()
         )
     }
 

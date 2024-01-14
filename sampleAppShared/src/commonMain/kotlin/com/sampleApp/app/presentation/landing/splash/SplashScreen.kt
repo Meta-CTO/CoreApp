@@ -8,7 +8,10 @@ import com.metacto.core.presentation.base.rememberViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.components.SplashContent
 
-internal object SplashScreen : BaseScreen<SplashViewModel>() {
+internal class SplashScreen(
+    private val isWelcome: Boolean = false
+) : BaseScreen<SplashViewModel>() {
+
     @Composable
     override fun Content() {
         // Get the view model
@@ -19,7 +22,9 @@ internal object SplashScreen : BaseScreen<SplashViewModel>() {
 
         // Init view model
         LaunchedEffect(SIDE_EFFECTS_KEY) {
-            viewModel.init()
+            viewModel.init(
+                isWelcome = isWelcome
+            )
         }
 
         // Render content

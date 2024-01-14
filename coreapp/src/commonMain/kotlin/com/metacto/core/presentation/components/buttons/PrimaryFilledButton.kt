@@ -14,7 +14,7 @@ fun PrimaryFilledButton(
     modifier: Modifier = Modifier,
     text: String? = null,
     textColor: Color = CoreTheme.colors.onPrimary,
-    iconColor: Color = CoreTheme.colors.onPrimary,
+    iconColor: Color? = CoreTheme.colors.onPrimary,
     backgroundColor: Color = CoreTheme.colors.primary,
     textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
     startIconPainter: Painter? = null,

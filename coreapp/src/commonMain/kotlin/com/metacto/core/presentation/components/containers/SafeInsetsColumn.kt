@@ -1,6 +1,8 @@
 package com.metacto.core.presentation.components.containers
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.navigationBars
@@ -12,13 +14,28 @@ import androidx.compose.ui.Modifier
 import com.metacto.core.utils.extensions.isGesturesNavBarEnabled
 
 @Composable
-fun ScreenInsetsContainer(
+fun SafeInsetsColumn(
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit,
+    enableSafeInsets: Boolean = true,
+    content: @Composable ColumnScope.() -> Unit,
 ) {
+    // Prepare status bars modifier
+    val statusBarsModifier = if (enableSafeInsets) {
+        Modifier.windowInsetsPadding(WindowInsets.statusBars)
+    } else {
+        Modifier
+    }
+
     // Prepare nav bars modifier
-    val navBarsModifier = if (isGesturesNavBarEnabled().not()) {
+    val navBarsModifier = if (enableSafeInsets && isGesturesNavBarEnabled().not()) {
         Modifier.windowInsetsPadding(WindowInsets.navigationBars)
+    } else {
+        Modifier
+    }
+
+    // Prepare safe drawing modifier
+    val safeDrawingModifier = if (enableSafeInsets) {
+        Modifier.windowInsetsPadding(WindowInsets.safeDrawing)
     } else {
         Modifier
     }
@@ -26,17 +43,17 @@ fun ScreenInsetsContainer(
     // Render outer box that will respect status and nav bars
     Box(
         modifier = modifier
-            .windowInsetsPadding(WindowInsets.statusBars)
+            .then(statusBarsModifier)
             .then(navBarsModifier)
     ) {
-        // Render inner box that will respect ime padding
-        Box(
+        // Render inner column that will respect ime padding
+        Column(
             modifier = Modifier
-                .windowInsetsPadding(WindowInsets.safeDrawing)
+                .then(safeDrawingModifier)
                 .windowInsetsPadding(WindowInsets.ime)
         ) {
             // Then render content
-            content()
+            content(this)
         }
     }
 }

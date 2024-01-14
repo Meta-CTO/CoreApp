@@ -7,45 +7,42 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 
 @Composable
-fun SecondaryFilledButton(
+fun TertiaryTextButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
-    iconColor: Color? = CoreTheme.colors.onSecondary,
+    isEnabled: Boolean = true,
+    color: Color = CoreTheme.colors.tertiary,
+    disabledColor: Color = color.copy(alpha = 0.3f),
+    textStyle: TextStyle = CoreTheme.typography.btnLabelSmall,
+    iconSize: Dp = CoreTheme.spacings.iconMedium,
+    iconColor: Color? = CoreTheme.colors.tertiary,
+    spacing: Dp = CoreTheme.spacings.textBtnSpacing,
+    padding: PaddingValues = PaddingValues(vertical = CoreTheme.spacings.btnPaddingVertical),
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
     endIconVector: ImageVector? = null,
-    isEnabled: Boolean = true,
-    isDimmed: Boolean = false,
-    isSmallHeight: Boolean = false,
-    isLoading: Boolean = false,
-    padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.btnPaddingVertical,
-        horizontal = CoreTheme.spacings.btnPaddingHorizontal
-    ),
-    onClick: () -> Unit = {}
+    onClick: (() -> Unit)? = null
 ) {
-    BaseButton(
+    BaseTextButton(
         modifier = modifier,
         text = text,
+        isEnabled = isEnabled,
+        color = color,
+        disabledColor = disabledColor,
         textStyle = textStyle,
-        textColor = CoreTheme.colors.onSecondary,
+        iconSize = iconSize,
         iconColor = iconColor,
-        backgroundColor = CoreTheme.colors.secondary,
+        spacing = spacing,
+        padding = padding,
         startIconPainter = startIconPainter,
         startIconVector = startIconVector,
         endIconPainter = endIconPainter,
         endIconVector = endIconVector,
-        isEnabled = isEnabled,
-        isDimmed = isDimmed,
-        isLoading = isLoading,
-        onClick = onClick,
-        minHeight = if (isSmallHeight) CoreTheme.spacings.btnMinHeightSmall else CoreTheme.spacings.btnMinHeightNormal,
-        shape = if (isSmallHeight) CoreTheme.shapes.xSmall else CoreTheme.shapes.small,
-        padding = padding
+        onClick = onClick
     )
 }

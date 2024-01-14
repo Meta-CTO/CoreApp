@@ -23,7 +23,7 @@ interface ICoreGlobalState {
     val timePickerState: State<TimePickerParams?>
     val snackBarState:  State<SnackBarParams>
     val dismissKeyboardState: State<Boolean>
-    val iOSKeyboardHeight: State<Dp>
+    val isStatusBarDarkState: State<Boolean>
 
     fun idle()
     fun navigateToLogin()
@@ -40,5 +40,6 @@ interface ICoreGlobalState {
     fun hideSnackBar(delay: Long = 0)
     fun dismissKeyboard()
     fun resetDismissKeyboardState()
-    fun setIOSKeyboardHeight(height: Dp)
+    fun setStatusBarDark()
+    fun setStatusBarLight()
 }

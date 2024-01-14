@@ -3,10 +3,8 @@ package com.metacto.core.presentation.components.inputFields
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -18,12 +16,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.DelayedLaunchedEffect
 import com.metacto.core.utils.extensions.focusRequesterIfNotNull
@@ -33,15 +33,16 @@ import com.metacto.core.utils.extensions.removeAllNonNumeric
 private const val DEF_REQUEST_FOCUS_DELAY = 250L
 
 @Composable
-fun OtpInputField(
+fun OutlinedOtpInputField(
     modifier: Modifier = Modifier,
     pinCount: Int,
     text: String = "",
     onValueChange: ((String) -> Unit)? = null,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    textColor: Color = CoreTheme.colors.secondary,
-    borderColor: Color = CoreTheme.colors.primary,
-    textStyle: TextStyle = CoreTheme.typography.headline,
+    textColor: Color = CoreTheme.colors.primary,
+    backgroundColor: Color = CoreTheme.colors.tertiary,
+    textStyle: TextStyle = CoreTheme.typography.labelSmall,
+    horizontalSpacing: Dp = CoreTheme.spacings.paddingLarge,
     requestFocus: Boolean = false,
     requestFocusDelay: Long = DEF_REQUEST_FOCUS_DELAY
 ) {
@@ -104,7 +105,7 @@ fun OtpInputField(
                 // Container row
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(
-                        space = CoreTheme.spacings.paddingSmall,
+                        space = horizontalSpacing,
                         alignment = Alignment.CenterHorizontally
                     )
                 ) {
@@ -115,7 +116,7 @@ fun OtpInputField(
                             digit = text.getOrNull(index) ?: ' ',
                             textStyle = textStyle,
                             textColor = textColor,
-                            borderColor = borderColor
+                            backgroundColor = backgroundColor
                         )
                     }
                 }
@@ -130,28 +131,17 @@ private fun OtpDigit(
     digit: Char,
     textStyle: TextStyle,
     textColor: Color,
-    borderColor: Color
+    backgroundColor: Color
 ) {
-    // Container column
-    Column(
-        modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Render digit text
-        Text(
-            text = digit.toString(),
-            style = textStyle,
-            color = textColor,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        // Border line
-        Box(
-            modifier = Modifier
-                .background(borderColor)
-                .height(CoreTheme.spacings.stroke)
-                .fillMaxWidth()
-        )
-    }
+    // Render digit text
+    Text(
+        text = digit.toString(),
+        style = textStyle,
+        color = textColor,
+        textAlign = TextAlign.Center,
+        modifier = modifier
+            .clip(CoreTheme.shapes.xLarge)
+            .background(backgroundColor)
+            .padding(vertical = CoreTheme.spacings.paddingXLarge)
+    )
 }

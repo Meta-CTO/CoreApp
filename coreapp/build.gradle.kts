@@ -98,6 +98,9 @@ kotlin {
         val androidMain by getting {
             dependsOn(commonMain)
             dependencies {
+                // Compose
+                api(Dependencies.Compose.UI_TOOLING)
+
                 // Android X
                 api(Dependencies.AndroidX.ACTIVITY_COMPOSE)
                 api(Dependencies.AndroidX.APP_COMPAT)

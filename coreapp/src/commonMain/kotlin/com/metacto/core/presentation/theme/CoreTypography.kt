@@ -40,11 +40,14 @@ data class CoreTypography(
         fontSize = 16.sp
     ),
 
+    val labelSmall: TextStyle = primaryMedium.copy(
+        fontSize = 14.sp
+    ),
     val labelMedium: TextStyle = primaryMedium.copy(
         fontSize = 16.sp
     ),
-    val labelSmall: TextStyle = primaryMedium.copy(
-        fontSize = 14.sp
+    val labelLarge: TextStyle = primaryMedium.copy(
+        fontSize = 18.sp
     ),
 
     val bodyXXLarge: TextStyle = primaryMedium.copy(

@@ -10,7 +10,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import com.metacto.core.navigation.CoreAppNavigator
 import com.metacto.core.navigation.NavManager
@@ -31,6 +30,7 @@ import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.utils.extensions.setStatusBarColor
 import org.koin.compose.rememberKoinInject
 
 @Composable
@@ -39,13 +39,7 @@ fun CoreAppContent(
     globalState: ICoreGlobalState = rememberKoinInject(),
     navManager: NavManager = rememberKoinInject(),
     startScreen: Screen,
-    iOSKeyboardHeight: Float = 0f
 ) {
-    // Update iOS keyboard height in state
-    globalState.setIOSKeyboardHeight(
-        iOSKeyboardHeight.dp
-    )
-
     // Get global states
     val messageParams by globalState.messagePopupState
     val successParams by globalState.successPopupState
@@ -55,6 +49,7 @@ fun CoreAppContent(
     val timePickerParams by globalState.timePickerState
     val loadingType by globalState.loadingState
     val snackBarParams by globalState.snackBarState
+    val isStatusBarDark by globalState.isStatusBarDarkState
 
     // Render container box
     Box(
@@ -235,4 +230,9 @@ fun CoreAppContent(
         globalState.resetDismissKeyboardState()
         LocalSoftwareKeyboardController.current?.hide()
     }
+
+    // Handle changing status bar color
+    setStatusBarColor(
+        isDark = isStatusBarDark
+    )
 }

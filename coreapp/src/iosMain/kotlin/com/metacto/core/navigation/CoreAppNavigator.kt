@@ -1,6 +1,7 @@
 package com.metacto.core.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
@@ -11,7 +12,6 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import com.metacto.core.presentation.base.BaseScreen
 import com.metacto.core.presentation.components.bottomSheets.BottomSheetInsetsContainer
-import com.metacto.core.presentation.components.containers.ScreenInsetsContainer
 import com.metacto.core.presentation.components.voyager.FadeTransition
 import com.metacto.core.presentation.theme.CoreTheme
 
@@ -55,7 +55,7 @@ actual fun CoreAppNavigator(
 
                     // Then render using the navigator in the nav manager if possible
                     navManager.getNavigator()?.let { currentNavigator ->
-                        ScreenInsetsContainer(
+                        Box(
                             modifier = Modifier.fillMaxSize()
                         ) {
                             FadeTransition(currentNavigator)
