@@ -58,13 +58,18 @@ actual fun rememberPhoneNumberUtil(): PhoneNumberUtil {
 actual fun setStatusBarColor(isDark: Boolean) {
     val insetsController = getInsetsController()
     LaunchedEffect(isDark) {
-        insetsController?.let {
-            it.isAppearanceLightStatusBars = isDark.not()
-            it.isAppearanceLightNavigationBars = isDark.not()
-        }
+        insetsController?.isAppearanceLightStatusBars = isDark.not()
     }
 }
 
+@SuppressLint("ComposableNaming")
+@Composable
+actual fun setNavigationBarColor(isDark: Boolean) {
+    val insetsController = getInsetsController()
+    LaunchedEffect(isDark) {
+        insetsController?.isAppearanceLightNavigationBars = isDark.not()
+    }
+}
 
 @Composable
 fun getInsetsController(): WindowInsetsControllerCompat? {

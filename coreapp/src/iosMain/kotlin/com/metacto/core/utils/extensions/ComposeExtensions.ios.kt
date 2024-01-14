@@ -1,4 +1,5 @@
 @file:OptIn(ExperimentalForeignApi::class, ExperimentalForeignApi::class)
+
 package com.metacto.core.utils.extensions
 
 import androidx.compose.runtime.Composable
@@ -18,6 +19,7 @@ import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
 import platform.UIKit.UIColor
 import platform.UIKit.UINavigationBar
+import platform.UIKit.UIStatusBarManager
 
 @Composable
 actual fun openUrlInBrowser(url: String) {
@@ -75,9 +77,14 @@ actual fun rememberPhoneNumberUtil(): PhoneNumberUtil {
 @Composable
 actual fun setStatusBarColor(isDark: Boolean) {
     LaunchedEffect(isDark) {
-        val color = if (isDark) UIColor.blackColor() else UIColor.whiteColor()
+        val color = if (isDark) UIColor.whiteColor() else UIColor.blackColor()
         UINavigationBar.appearance().titleTextAttributes = mapOf(
             "NSForegroundColorAttributeName" to color
         )
     }
+}
+
+@Composable
+actual fun setNavigationBarColor(isDark: Boolean) {
+    // No need to do that, iOS do this automatically
 }

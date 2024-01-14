@@ -24,6 +24,7 @@ interface ICoreGlobalState {
     val snackBarState:  State<SnackBarParams>
     val dismissKeyboardState: State<Boolean>
     val isStatusBarDarkState: State<Boolean>
+    val isNavigationBarDarkState: State<Boolean>
 
     fun idle()
     fun navigateToLogin()
@@ -42,4 +43,6 @@ interface ICoreGlobalState {
     fun resetDismissKeyboardState()
     fun setStatusBarDark()
     fun setStatusBarLight()
+    fun setNavigationBarDark()
+    fun setNavigationBarLight()
 }

@@ -32,6 +32,7 @@ open class CoreGlobalState : ICoreGlobalState {
     override val snackBarState = mutableStateOf(SnackBarParams.hidden())
     override val dismissKeyboardState = mutableStateOf(false)
     override val isStatusBarDarkState = mutableStateOf(false)
+    override val isNavigationBarDarkState = mutableStateOf(false)
     private var hideSnackBarJob: Job? = null
 
     override fun idle() {
@@ -115,6 +116,14 @@ open class CoreGlobalState : ICoreGlobalState {
     }
 
     override fun setStatusBarLight() {
+        isStatusBarDarkState.value = false
+    }
+
+    override fun setNavigationBarDark() {
+        isStatusBarDarkState.value = true
+    }
+
+    override fun setNavigationBarLight() {
         isStatusBarDarkState.value = false
     }
 

@@ -327,3 +327,6 @@ expect fun rememberPhoneNumberUtil(): PhoneNumberUtil
 
 @Composable
 expect fun setStatusBarColor(isDark: Boolean)
+
+@Composable
+expect fun setNavigationBarColor(isDark: Boolean)

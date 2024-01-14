@@ -30,6 +30,7 @@ import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.utils.extensions.setNavigationBarColor
 import com.metacto.core.utils.extensions.setStatusBarColor
 import org.koin.compose.rememberKoinInject
 
@@ -50,6 +51,7 @@ fun CoreAppContent(
     val loadingType by globalState.loadingState
     val snackBarParams by globalState.snackBarState
     val isStatusBarDark by globalState.isStatusBarDarkState
+    val isNavigationBarDark by globalState.isNavigationBarDarkState
 
     // Render container box
     Box(
@@ -234,5 +236,10 @@ fun CoreAppContent(
     // Handle changing status bar color
     setStatusBarColor(
         isDark = isStatusBarDark
+    )
+
+    // Handle changing navigation bar color
+    setNavigationBarColor(
+        isDark = isNavigationBarDark
     )
 }
