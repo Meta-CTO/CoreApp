@@ -27,6 +27,7 @@ fun BottomSheetContainer(
     endIcon: ImageVector? = null,
     onEndIconClick: (() -> Unit)? = null,
     contentPadding: PaddingValues = PaddingValues(),
+    showToolbarDivider: Boolean = true,
     content: @Composable ColumnScope.() -> Unit
 ) {
     // Container column
@@ -39,13 +40,14 @@ fun BottomSheetContainer(
         val showToolbar = title != null || startIcon != null || endIcon != null
         if (showToolbar) {
             BottomSheetToolbar(
+                modifier = Modifier.fillMaxWidth(),
                 title = title,
                 titleStyle = titleStyle,
                 startIcon = startIcon,
                 onStartIconClick = onStartIconClick,
                 endIcon = endIcon,
                 onEndIconClick = onEndIconClick,
-                modifier = Modifier.fillMaxWidth()
+                showDivider = showToolbarDivider
             )
         }
 

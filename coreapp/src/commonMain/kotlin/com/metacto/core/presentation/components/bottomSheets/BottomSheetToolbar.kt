@@ -27,6 +27,7 @@ fun BottomSheetToolbar(
     onStartIconClick: (() -> Unit)? = null,
     endIcon: ImageVector? = null,
     onEndIconClick: (() -> Unit)? = null,
+    showDivider: Boolean = true
 ) {
     // Prepare sizes
     val iconSize = CoreTheme.spacings.iconLarge
@@ -86,7 +87,9 @@ fun BottomSheetToolbar(
             }
         }
 
-        // Vertical divider
-        VerticalDivider()
+        // Vertical divider if required
+        if (showDivider) {
+            VerticalDivider()
+        }
     }
 }
