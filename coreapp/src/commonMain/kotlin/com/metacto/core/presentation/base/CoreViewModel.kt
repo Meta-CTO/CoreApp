@@ -5,7 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.coroutineScope
-import com.metacto.coreApp.MR
+import com.metacto.core.navigation.NavManager
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.ConfirmationPopupParams
 import com.metacto.core.presentation.globalState.models.LoadingType
@@ -14,7 +14,7 @@ import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.utils.IDispatchersProvider
 import com.metacto.core.utils.IResourceProvider
-import com.metacto.core.navigation.NavManager
+import com.metacto.coreApp.MR
 import com.swensonhe.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
 import com.swensonhe.strapikmm.errorhandling.AppException
 import com.swensonhe.strapikmm.errorhandling.NetworkErrorMapper
@@ -26,7 +26,9 @@ import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -96,71 +98,102 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         val effectValue = builder()
         coroutineScope.launch { _effect.send(effectValue) }
     }
-
     fun <T> executeCatching(
         block: suspend () -> T,
         loadingType: LoadingType = getDefaultLoadingType(),
         scope: CoroutineScope = coroutineScope,
         context: CoroutineContext = dispatcherProvider.io,
+        debounce: Long = 0,
+        oldDebounceJob: Job? = null,
+        onCreated: (Job) -> Unit = {},
         onError: ((Throwable, String?) -> Unit)? = null,
-        onComplete: (() -> Unit)? = null
-    ) = scope.launch(context) {
-        val hasLoading = loadingType != LoadingType.NO_LOADING
+        onComplete: (() -> Unit)? = null,
+    ): Job {
+        // Cancel old job if required
+        if (debounce != 0L) oldDebounceJob?.cancel()
 
-        try {
-            if (hasLoading) showLoading(loadingType)
-            block.invoke()
-            if (hasLoading) hideLoading()
-        } catch (e: kotlin.coroutines.cancellation.CancellationException) {
-            onError?.invoke(e, null)
-        } catch (e: CancellationException) {
-            onError?.invoke(e, null)
-        } catch (throwable: Throwable) {
-            if (isAuthError(throwable)) {
-                handleAuthError()
-                return@launch
+        // Create the new job
+        val newJob = scope.launch(context) {
+            // Debounce if required
+            if (debounce != 0L) delay(debounce)
+
+            val hasLoading = loadingType != LoadingType.NO_LOADING
+
+            try {
+                if (hasLoading) showLoading(loadingType)
+                block.invoke()
+                if (hasLoading) hideLoading()
+            } catch (e: kotlin.coroutines.cancellation.CancellationException) {
+                onError?.invoke(e, null)
+            } catch (e: CancellationException) {
+                onError?.invoke(e, null)
+            } catch (throwable: Throwable) {
+                if (isAuthError(throwable)) {
+                    handleAuthError()
+                    return@launch
+                }
+                val errorMessage = when (throwable) {
+                    is AppException -> {
+                        extractErrorCodeAndMessage(throwable.errorMessage).first
+                    }
+
+                    is SocketTimeoutException,
+                    is HttpRequestTimeoutException,
+                    is ConnectTimeoutException -> {
+                        resourceProvider.getString(MR.strings.server_taking_too_long)
+                    }
+
+                    else -> {
+                        NetworkErrorMapper().mapThrowable(throwable).errorMessage
+                    }
+                }
+                if (hasLoading) hideLoading()
+                showError(errorMessage)
+                onError?.invoke(throwable, errorMessage)
+            } finally {
+                onComplete?.invoke()
             }
-            val errorMessage = when (throwable) {
-                is AppException -> {
-                    extractErrorCodeAndMessage(throwable.errorMessage).first
-                }
-
-                is SocketTimeoutException,
-                is HttpRequestTimeoutException,
-                is ConnectTimeoutException -> {
-                    resourceProvider.getString(MR.strings.server_taking_too_long)
-                }
-
-                else -> {
-                    NetworkErrorMapper().mapThrowable(throwable).errorMessage
-                }
-            }
-            if (hasLoading) hideLoading()
-            showError(errorMessage)
-            onError?.invoke(throwable, errorMessage)
-        } finally {
-            onComplete?.invoke()
         }
+
+        // Invoke on created and return the new job
+        onCreated.invoke(newJob)
+        return newJob
     }
 
     fun <T> executeSilent(
         block: suspend () -> T,
         scope: CoroutineScope = coroutineScope,
         context: CoroutineContext = dispatcherProvider.io,
+        debounce: Long = 0,
+        oldDebounceJob: Job? = null,
+        onCreated: (Job) -> Unit = {},
         onError: (() -> Unit)? = null,
         onComplete: (() -> Unit)? = null
-    ) = scope.launch(context) {
-        try {
-            block.invoke()
-        } catch (throwable: Throwable) {
-            if (isAuthError(throwable)) {
-                handleAuthError()
-                return@launch
+    ): Job{
+        // Cancel old job if required
+        if (debounce != 0L) oldDebounceJob?.cancel()
+
+        // Create the new job
+        val newJob = scope.launch(context) {
+            // Debounce if required
+            if (debounce != 0L) delay(debounce)
+
+            try {
+                block.invoke()
+            } catch (throwable: Throwable) {
+                if (isAuthError(throwable)) {
+                    handleAuthError()
+                    return@launch
+                }
+                onError?.invoke()
+            } finally {
+                onComplete?.invoke()
             }
-            onError?.invoke()
-        } finally {
-            onComplete?.invoke()
         }
+
+        // Invoke on created and return the new job
+        onCreated.invoke(newJob)
+        return newJob
     }
 
     private fun isAuthError(throwable: Throwable): Boolean {
