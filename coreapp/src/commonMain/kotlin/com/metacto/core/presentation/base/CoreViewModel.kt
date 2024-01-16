@@ -265,11 +265,11 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         return ErrorMessageType.Popup
     }
 
-    protected inline fun <reified D, reified R> NavManager.onNavResult(
+    protected inline fun <reified D, reified R> NavManager.collectNavResult(
         crossinline onResult: (R) -> Unit
     ) = coroutineScope.launch {
         // Get nav manager
-        val navManager = this@onNavResult
+        val navManager = this@collectNavResult
 
         // Collect results with view model scope
         navManager.onNavResult<D, R>(
