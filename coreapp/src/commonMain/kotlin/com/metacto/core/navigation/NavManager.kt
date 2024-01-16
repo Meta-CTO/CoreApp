@@ -1,6 +1,5 @@
 package com.metacto.core.navigation
 
-import kotlinx.coroutines.CoroutineScope
 import kotlin.reflect.KClass
 
 expect class NavManager constructor() {
@@ -15,8 +14,7 @@ expect class NavManager constructor() {
     fun <R> sendResult(source: String?, result: R)
     suspend fun collectNavResults(callback: (NavResult<*>?) -> Unit)
     fun <R> goBackWithResult(source: String?, result: R)
-    inline fun <reified S, reified R> onNavResult(
-        coroutineScope: CoroutineScope,
+    suspend inline fun <reified S, reified R> onNavResult(
         crossinline callback: (R) -> Unit
     )
 }
