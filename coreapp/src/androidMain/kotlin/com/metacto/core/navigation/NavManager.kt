@@ -6,6 +6,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -16,8 +17,7 @@ import kotlin.reflect.KClass
 actual class NavManager {
     private val _effects: Channel<NavEffect> = Channel()
     private val effects = _effects.receiveAsFlow()
-    private val _results = Channel<NavResult<*>?>()
-    private val results = _results.receiveAsFlow()
+    private val _results = MutableStateFlow<NavResult<*>?>(null)
 
     actual fun navigate(destination: NavDestination) {
         GlobalScope.launch {
@@ -100,13 +100,13 @@ actual class NavManager {
             )
 
             // Push the nav result then push null value to prevent getting this value again once re-visit same screen
-            _results.send(navResult)
-            _results.send(null)
+            _results.value = navResult
+            _results.value = null
         }
     }
 
     actual suspend fun collectNavResults(callback: (NavResult<*>?) -> Unit) {
-        results.onEach(callback).collect()
+        _results.onEach(callback).collect()
     }
 
     actual fun <R> goBackWithResult(source: String?, result: R) {
@@ -120,9 +120,9 @@ actual class NavManager {
                 result = result
             )
             // Push the nav result then push null value to prevent getting this value again once re-visit same screen
-            _results.send(navResult)
+            _results.value = navResult
             delay(1000)
-            _results.send(null)
+            _results.value = null
         }
     }
 
