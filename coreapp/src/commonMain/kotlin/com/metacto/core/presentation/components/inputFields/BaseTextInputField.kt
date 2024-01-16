@@ -135,7 +135,7 @@ fun BaseTextInputField(
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
                     .size(startIconSize)
-                    .noRippleClickable(onClick = onEndIconClick)
+                    .noRippleClickable(onClick = onStartIconClick)
             )
         }
     } else null
@@ -148,7 +148,9 @@ fun BaseTextInputField(
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(iconTintColor),
                 contentScale = ContentScale.FillBounds,
-                modifier = Modifier.size(endIconSize)
+                modifier = Modifier
+                    .size(endIconSize)
+                    .noRippleClickable(onClick = onEndIconClick)
             )
         }
     } else if (endIconPainter != null) {
@@ -158,7 +160,9 @@ fun BaseTextInputField(
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(iconTintColor),
                 contentScale = ContentScale.FillBounds,
-                modifier = Modifier.size(endIconSize)
+                modifier = Modifier
+                    .size(endIconSize)
+                    .noRippleClickable(onClick = onEndIconClick)
             )
         }
     } else null
