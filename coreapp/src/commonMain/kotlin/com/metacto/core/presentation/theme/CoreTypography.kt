@@ -74,6 +74,9 @@ data class CoreTypography(
     val numberSelector: TextStyle = primaryBold.copy(
         fontSize = 20.sp
     ),
+    val titleBold: TextStyle = primaryBold.copy(
+        fontSize = 18.sp
+    ),
 )
 
 val LocalCoreTypography = staticCompositionLocalOf { CoreTypography() }

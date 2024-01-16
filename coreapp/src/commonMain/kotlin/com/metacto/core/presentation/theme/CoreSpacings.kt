@@ -63,6 +63,9 @@ data class CoreSpacings(
     val stepBarHeight: Dp = 8.dp,
     val stepBarStroke: Dp = 1.5.dp,
     val numberSelectorSize: Dp = 44.dp,
+
+    val toolbarIconMinSize: Dp = 40.dp,
+    val toolbarHeight: Dp = 62.dp
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }
