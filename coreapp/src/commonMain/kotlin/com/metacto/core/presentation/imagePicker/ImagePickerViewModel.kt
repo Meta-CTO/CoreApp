@@ -49,18 +49,16 @@ class ImagePickerViewModel : CoreViewModel<State, Event, Effect>() {
     }
 
     private fun handlePickImageResult(bytes: ByteArray) {
-        navManager.sendResult(
+        navManager.goBackWithResult(
             source = ImagePickerSheet::class.simpleName,
             result = ImagePickerResult.ImagePicked(bytes)
         )
-        navManager.goBack()
     }
 
     private fun handleDeleteCurrentPhotoClick() {
-        navManager.sendResult(
+        navManager.goBackWithResult(
             source = ImagePickerSheet::class.simpleName,
             result = ImagePickerResult.ImageDeleted
         )
-        navManager.goBack()
     }
 }

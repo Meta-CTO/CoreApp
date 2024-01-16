@@ -31,10 +31,9 @@ class OptionsViewModel : CoreViewModel<State, Event, Effect>() {
     }
 
     private fun handleOptionItemClick(item: OptionUIModel) {
-        navManager.sendResult(
+        navManager.goBackWithResult(
             source = OptionsSheet::class.simpleName,
             result = item
         )
-        navManager.goBack()
     }
 }
