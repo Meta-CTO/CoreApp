@@ -13,7 +13,8 @@ expect class NavManager constructor() {
     fun navigateToBottomSheet(destination: NavDestination)
     fun goBack()
     fun <R> sendResult(source: String?, result: R)
-    suspend fun collectNavResults(callback: (NavResult<*>) -> Unit)
+    suspend fun collectNavResults(callback: (NavResult<*>?) -> Unit)
+    fun <R> goBackWithResult(source: String?, result: R)
     inline fun <reified S, reified R> onNavResult(
         coroutineScope: CoroutineScope,
         crossinline callback: (R) -> Unit
