@@ -20,7 +20,7 @@ actual fun LottieAnimation(
     val composition by rememberLottieComposition(LottieCompositionSpec.Asset(animRes.path))
     val progress by animateLottieCompositionAsState(
         composition = composition,
-        iterations = if (isRepeated) LottieConstants.IterateForever else 0
+        iterations = if (isRepeated) LottieConstants.IterateForever else 1
     )
 
     NativeLottieAnimation(
