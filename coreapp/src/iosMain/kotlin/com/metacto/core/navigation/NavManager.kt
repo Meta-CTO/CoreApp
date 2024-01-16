@@ -9,10 +9,8 @@ import com.metacto.core.utils.extensions.navigateTo
 import com.metacto.core.utils.extensions.popByCount
 import com.metacto.core.utils.extensions.popToExclusive
 import com.metacto.core.utils.extensions.popToInclusive
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
@@ -170,16 +168,12 @@ actual class NavManager {
         }
     }
 
-    actual inline fun <reified S, reified R> onNavResult(
-        coroutineScope: CoroutineScope,
+    actual suspend inline fun <reified S, reified R> onNavResult(
         crossinline callback: (R) -> Unit
     ) {
-        coroutineScope.launch {
-            collectNavResults {
-                if (S::class.simpleName == it?.source && it?.result is R) {
-                    callback.invoke(it?.result as R)
-                    this.cancel()
-                }
+        collectNavResults {
+            if (it?.source == S::class.simpleName && it?.result is R) {
+                callback.invoke(it?.result as R)
             }
         }
     }

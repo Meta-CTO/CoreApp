@@ -266,16 +266,14 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     }
 
     protected inline fun <reified D, reified R> NavManager.collectNavResult(
-        crossinline onResult: (R) -> Unit
-    ) = coroutineScope.launch {
-        // Get nav manager
-        val navManager = this@collectNavResult
+        crossinline onResult: (R) -> Unit) {
+        executeSilent({
+            // Get nav manager
+            val navManager = this@collectNavResult
 
-        // Collect results with view model scope
-        navManager.onNavResult<D, R>(
-            coroutineScope = this,
-            callback = onResult
-        )
+            // Collect results with view model scope
+            navManager.onNavResult<D, R>(callback = onResult)
+        })
     }
 }
 
