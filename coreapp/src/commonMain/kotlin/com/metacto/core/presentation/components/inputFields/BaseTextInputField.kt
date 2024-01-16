@@ -77,9 +77,11 @@ fun BaseTextInputField(
     endIconVector: ImageVector?,
     endIconPainter: Painter?,
     endIconSize: Dp,
+    onEndIconClick: (() -> Unit)?,
     startIconVector: ImageVector?,
     startIconPainter: Painter?,
     startIconSize: Dp,
+    onStartIconClick: (() -> Unit)?,
     iconTintColor: Color,
     placeholder: String?,
     placeholderMaxLines: Int,
@@ -119,7 +121,9 @@ fun BaseTextInputField(
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(iconTintColor),
                 contentScale = ContentScale.FillBounds,
-                modifier = Modifier.size(startIconSize),
+                modifier = Modifier
+                    .size(startIconSize)
+                    .noRippleClickable(onClick = onStartIconClick)
             )
         }
     } else if (startIconPainter != null) {
@@ -129,7 +133,9 @@ fun BaseTextInputField(
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(iconTintColor),
                 contentScale = ContentScale.FillBounds,
-                modifier = Modifier.size(startIconSize),
+                modifier = Modifier
+                    .size(startIconSize)
+                    .noRippleClickable(onClick = onEndIconClick)
             )
         }
     } else null
