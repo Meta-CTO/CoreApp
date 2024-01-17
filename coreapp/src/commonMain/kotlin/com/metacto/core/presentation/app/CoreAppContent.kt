@@ -32,6 +32,7 @@ import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.setNavigationBarColor
 import com.metacto.core.utils.extensions.setStatusBarColor
+import com.metacto.coreApp.MR
 import org.koin.compose.rememberKoinInject
 
 @Composable
@@ -176,36 +177,40 @@ fun CoreAppContent(
 
         // Handle progress indicator
         when (loadingType) {
-            LoadingType.PRIMARY_CIRCULAR -> PrimaryProgressIndicator(
+            LoadingType.PrimaryCircular -> PrimaryProgressIndicator(
                 isBlocking = false
             )
 
-            LoadingType.PRIMARY_CIRCULAR_BLOCKING -> PrimaryProgressIndicator(
+            LoadingType.PrimaryCircularBlocking -> PrimaryProgressIndicator(
                 isBlocking = true
             )
 
-            LoadingType.SECONDARY_CIRCULAR -> SecondaryProgressIndicator(
+            LoadingType.SecondaryCircular -> SecondaryProgressIndicator(
                 isBlocking = false
             )
 
-            LoadingType.SECONDARY_CIRCULAR_BLOCKING -> SecondaryProgressIndicator(
+            LoadingType.SecondaryCircularBlocking -> SecondaryProgressIndicator(
                 isBlocking = true
             )
 
-            LoadingType.LOTTIE -> LottieProgressIndicator(
+            is LoadingType.Lottie -> LottieProgressIndicator(
+                lottieRes = (loadingType as? LoadingType.Lottie)?.anim
+                    ?: MR.assets.loading_indicator_anim,
                 isBlocking = false
             )
 
-            LoadingType.LOTTIE_BLOCKING -> LottieProgressIndicator(
+            is LoadingType.LottieBlocking -> LottieProgressIndicator(
+                lottieRes = (loadingType as LoadingType.LottieBlocking).anim
+                    ?: MR.assets.loading_indicator_anim,
                 isBlocking = true
             )
 
-            LoadingType.HIDDEN_BLOCKING -> ProgressIndicator(
+            LoadingType.HiddenBlocking -> ProgressIndicator(
                 color = CoreTheme.colors.transparent,
                 isBlocking = true
             )
 
-            LoadingType.NO_LOADING -> {}
+            LoadingType.NoLoading -> {}
         }
     }
 

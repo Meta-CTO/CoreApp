@@ -100,7 +100,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     }
     fun <T> executeCatching(
         block: suspend () -> T,
-        loadingType: LoadingType = getDefaultLoadingType(),
+        loadingType: LoadingType = defaultLoadingType,
         scope: CoroutineScope = coroutineScope,
         context: CoroutineContext = dispatcherProvider.io,
         debounce: Long = 0,
@@ -117,7 +117,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
             // Debounce if required
             if (debounce != 0L) delay(debounce)
 
-            val hasLoading = loadingType != LoadingType.NO_LOADING
+            val hasLoading = loadingType != LoadingType.NoLoading
 
             try {
                 if (hasLoading) showLoading(loadingType)
@@ -220,17 +220,15 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         )
     }
 
-    open fun getDefaultLoadingType(): LoadingType {
-        return LoadingType.LOTTIE_BLOCKING
-    }
+    open val defaultLoadingType: LoadingType = LoadingType.LottieBlocking()
 
-    open fun showLoading(type: LoadingType = getDefaultLoadingType()) {
+    open fun showLoading(type: LoadingType = defaultLoadingType) {
         coreGlobalState.loading(type)
         loadingCount++
     }
 
     open fun hideLoading() {
-        coreGlobalState.loading(LoadingType.NO_LOADING)
+        coreGlobalState.loading(LoadingType.NoLoading)
         loadingCount--
     }
 

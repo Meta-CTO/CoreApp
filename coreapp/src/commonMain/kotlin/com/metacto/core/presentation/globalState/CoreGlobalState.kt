@@ -22,7 +22,7 @@ open class CoreGlobalState : ICoreGlobalState {
 
     override val appLoadedState = mutableStateOf(false)
     override val navigateToLogin = mutableStateOf(false)
-    override val loadingState = mutableStateOf(LoadingType.NO_LOADING)
+    override val loadingState = mutableStateOf<LoadingType>(LoadingType.NoLoading)
     override val messagePopupState = mutableStateOf<MessagePopupParams?>(null)
     override val successPopupState = mutableStateOf<SuccessPopupParams?>(null)
     override val confirmationPopupState = mutableStateOf<ConfirmationPopupParams?>(null)
@@ -37,7 +37,7 @@ open class CoreGlobalState : ICoreGlobalState {
 
     override fun idle() {
         navigateToLogin.value = false
-        loadingState.value = LoadingType.NO_LOADING
+        loadingState.value = LoadingType.NoLoading
         messagePopupState.value = null
         successPopupState.value = null
         confirmationPopupState.value = null
