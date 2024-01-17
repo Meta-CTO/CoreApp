@@ -4,7 +4,8 @@ object Versions {
     val JVM = JavaVersion.VERSION_17
     const val GRADLE = "8.1.1"
     const val KOTLIN = "1.9.0"
-    const val COMPOSE = "1.5.2"
+    const val COMPOSE = "1.5.11"
+    const val COMPOSE_ANDROID = "1.5.4"
     const val BUILD_CONFIGS = "4.1.2"
     const val KT_LINT = "10.3.0"
     const val DETEKT = "1.19.0"
