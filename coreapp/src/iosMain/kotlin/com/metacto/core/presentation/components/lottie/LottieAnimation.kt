@@ -32,7 +32,7 @@ actual fun LottieAnimation(
     animRes: AssetResource,
     isRepeated: Boolean,
     contentScale: ContentScale,
-    speed: Float = 1F,
+    speed: Float,
 ) {
     // Init the animation
     var animation by remember(animRes) {
