@@ -15,6 +15,5 @@ abstract class BaseSheet<T : CoreViewModel<*, *, *>> : BaseScreen<T>(), KoinComp
 
     inline fun <reified VM : CoreViewModel<*, *, *>> BaseScreen<*>.getViewModel(): VM {
         return inject<VM>().value
-
     }
 }
