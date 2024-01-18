@@ -10,5 +10,6 @@ expect fun LottieAnimation(
     modifier: Modifier = Modifier,
     animRes: AssetResource,
     isRepeated: Boolean = false,
-    contentScale: ContentScale = ContentScale.Fit
+    contentScale: ContentScale = ContentScale.Fit,
+    speed: Float = 1F
 )

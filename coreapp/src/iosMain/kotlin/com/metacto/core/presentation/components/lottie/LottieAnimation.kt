@@ -31,7 +31,8 @@ actual fun LottieAnimation(
     modifier: Modifier,
     animRes: AssetResource,
     isRepeated: Boolean,
-    contentScale: ContentScale
+    contentScale: ContentScale,
+    speed: Float = 1F,
 ) {
     // Init the animation
     var animation by remember(animRes) {
@@ -49,13 +50,15 @@ actual fun LottieAnimation(
         animation != null && isRepeated -> InfiniteAnimation(
             modifier = modifier,
             animation = animation!!,
-            contentScale = contentScale
+            contentScale = contentScale,
+            speed = speed
         )
 
         animation != null && isRepeated.not() -> FiniteAnimation(
             modifier = modifier,
             animation = animation!!,
-            contentScale = contentScale
+            contentScale = contentScale,
+            speed = speed
         )
     }
 }
@@ -65,7 +68,8 @@ actual fun LottieAnimation(
 private fun InfiniteAnimation(
     modifier: Modifier = Modifier,
     animation: Animation,
-    contentScale: ContentScale
+    contentScale: ContentScale,
+    speed: Float
 ) {
     // Prepare main objects
     val infiniteTransition = rememberInfiniteTransition()
@@ -76,7 +80,7 @@ private fun InfiniteAnimation(
         initialValue = 0f,
         targetValue = animation.duration,
         animationSpec = infiniteRepeatable(
-            animation = tween((animation.duration * 1000).roundToInt(), easing = LinearEasing),
+            animation = tween((animation.duration * 1000 * speed).roundToInt(), easing = LinearEasing),
             repeatMode = RepeatMode.Restart
         )
     )
@@ -107,14 +111,15 @@ private fun InfiniteAnimation(
 private fun FiniteAnimation(
     modifier: Modifier = Modifier,
     animation: Animation,
-    contentScale: ContentScale
+    contentScale: ContentScale,
+    speed: Float
 ) {
     // Prepare the progress animator
     val progress = remember { Animatable(0f) }
     LaunchedEffect(animation) {
         progress.animateTo(
             targetValue = animation.duration,
-            animationSpec = tween((animation.duration * 1000).roundToInt(), easing = LinearEasing)
+            animationSpec = tween((animation.duration * 1000 * speed).roundToInt(), easing = LinearEasing)
         )
     }
 

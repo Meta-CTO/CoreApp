@@ -16,11 +16,13 @@ actual fun LottieAnimation(
     modifier: Modifier,
     animRes: AssetResource,
     isRepeated: Boolean,
-    contentScale: ContentScale
+    contentScale: ContentScale,
+    speed: Float
 ) {
     // Load the lottie composition
     val composition by rememberLottieComposition(LottieCompositionSpec.Asset(animRes.path))
     val progress by animateLottieCompositionAsState(
+        speed = speed,
         composition = composition,
         iterations = if (isRepeated) LottieConstants.IterateForever else 1
     )
