@@ -15,8 +15,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.layout.ContentScale
 import dev.icerock.moko.resources.AssetResource
 import dev.icerock.moko.resources.compose.readTextAsState
 import org.jetbrains.skia.Rect
@@ -28,7 +30,8 @@ import kotlin.math.roundToInt
 actual fun LottieAnimation(
     modifier: Modifier,
     animRes: AssetResource,
-    isRepeated: Boolean
+    isRepeated: Boolean,
+    contentScale: ContentScale
 ) {
     // Init the animation
     var animation by remember(animRes) {
@@ -44,13 +47,15 @@ actual fun LottieAnimation(
     // And render suitable animation if possible
     when {
         animation != null && isRepeated -> InfiniteAnimation(
+            modifier = modifier,
             animation = animation!!,
-            modifier = modifier
+            contentScale = contentScale
         )
 
         animation != null && isRepeated.not() -> FiniteAnimation(
+            modifier = modifier,
             animation = animation!!,
-            modifier = modifier
+            contentScale = contentScale
         )
     }
 }
@@ -59,7 +64,8 @@ actual fun LottieAnimation(
 @Composable
 private fun InfiniteAnimation(
     modifier: Modifier = Modifier,
-    animation: Animation
+    animation: Animation,
+    contentScale: ContentScale
 ) {
     // Prepare main objects
     val infiniteTransition = rememberInfiniteTransition()
@@ -79,11 +85,19 @@ private fun InfiniteAnimation(
     Canvas(
         modifier = modifier
     ) {
-        drawIntoCanvas {
+        drawIntoCanvas { canvas ->
+            // Prepare scale factor
+            val compositionSize = animation.size.let { Size(it.x, it.y) }
+            val scale = contentScale.computeScaleFactor(compositionSize, size)
+
+            // Then render
             animation.seekFrameTime(progress, invalidationController)
             animation.render(
-                canvas = it.nativeCanvas,
-                dst = Rect.makeWH(size.width, size.height)
+                canvas = canvas.nativeCanvas,
+                dst = Rect.makeWH(
+                    w = animation.width * scale.scaleX,
+                    h = animation.height * scale.scaleY
+                )
             )
         }
     }
@@ -92,7 +106,8 @@ private fun InfiniteAnimation(
 @Composable
 private fun FiniteAnimation(
     modifier: Modifier = Modifier,
-    animation: Animation
+    animation: Animation,
+    contentScale: ContentScale
 ) {
     // Prepare the progress animator
     val progress = remember { Animatable(0f) }
@@ -107,11 +122,19 @@ private fun FiniteAnimation(
     Canvas(
         modifier = modifier
     ) {
-        drawIntoCanvas {
+        drawIntoCanvas { canvas ->
+            // Prepare scale factor
+            val compositionSize = animation.size.let { Size(it.x, it.y) }
+            val scale = contentScale.computeScaleFactor(compositionSize, size)
+
+            // Then render
             animation.seekFrameTime(progress.value)
             animation.render(
-                canvas = it.nativeCanvas,
-                dst = Rect.makeWH(size.width, size.height)
+                canvas = canvas.nativeCanvas,
+                dst = Rect.makeWH(
+                    w = animation.width * scale.scaleX,
+                    h = animation.height * scale.scaleY
+                )
             )
         }
     }
