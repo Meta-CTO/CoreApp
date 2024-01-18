@@ -1,6 +1,7 @@
 package com.metacto.core.presentation.base
 
 import androidx.compose.runtime.Composable
+import cafe.adriel.voyager.core.model.rememberScreenModel
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.core.screen.ScreenKey
 import com.metacto.core.navigation.NavManager
@@ -24,6 +25,12 @@ abstract class BaseScreen<T : CoreViewModel<*, *, *>> : Screen, KoinComponent {
 }
 
 @Composable
-expect inline fun <reified VM : CoreViewModel<*, *, *>> BaseScreen<*>.rememberViewModel(): VM
+inline fun <reified VM : CoreViewModel<*, *, *>> BaseScreen<*>.rememberViewModel(): VM {
+    return rememberScreenModel(tag) {
+        inject<VM>().value
+    }
+}
 
-expect inline fun <reified VM : CoreViewModel<*, *, *>> BaseScreen<*>.getViewModel(): VM
+inline fun <reified VM : CoreViewModel<*, *, *>> BaseScreen<*>.getViewModel(): VM {
+    return inject<VM>().value
+}
