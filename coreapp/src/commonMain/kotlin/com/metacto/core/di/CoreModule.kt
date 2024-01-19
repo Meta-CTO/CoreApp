@@ -8,6 +8,8 @@ import com.metacto.core.utils.phoneNumber.PhoneNumberManager
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.ActionCodeSettings
 import dev.gitlive.firebase.auth.auth
+import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
+import io.michaelrocks.libphonenumber.kotlin.metadata.defaultMetadataLoader
 import org.koin.dsl.module
 import com.swensonhe.strapikmm.repos.AuthRepository as StrapiAuthRepository
 import com.swensonhe.strapikmm.repos.UserRepository as StrapiUserRepository
@@ -56,5 +58,12 @@ fun coreModule(
 
     single<IPhoneNumberManager> {
         PhoneNumberManager(get())
+    }
+
+    single {
+        val metadataLoader = defaultMetadataLoader()
+        PhoneNumberUtil.createInstance(
+            metadataLoader = metadataLoader
+        )
     }
 }

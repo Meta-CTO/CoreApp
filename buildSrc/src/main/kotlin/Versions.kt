@@ -30,6 +30,6 @@ object Versions {
     const val PLAY_SERVICES_PLUGIN = "4.3.14"
     const val CRASHLYTICS_PLUGIN = "2.9.4"
     const val ANDROID_IMAGE_PICKER = "2.1"
-    const val LIB_PHONE_NUMBER = "0.1.0-SNAPSHOT"
+    const val LIB_PHONE_NUMBER = "0.1.1"
     const val ANDROID_CROPPER = "4.5.0"
 }

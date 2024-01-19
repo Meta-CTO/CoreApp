@@ -8,8 +8,6 @@ import com.metacto.core.utils.IResourceProvider
 import com.metacto.core.utils.ResourceProvider
 import com.metacto.coreApp.MR
 import dev.icerock.moko.resources.utils.loadableBundle
-import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
-import io.michaelrocks.libphonenumber.kotlin.metadata.defaultMetadataLoader
 import org.koin.core.definition.Definition
 import org.koin.core.definition.KoinDefinition
 import org.koin.core.module.Module
@@ -32,12 +30,6 @@ actual fun corePlatformModule(appStorageName: String) = module {
     single<IResourceProvider> {
         ResourceProvider(
             bundle = NSBundle.loadableBundle(MR::class.qualifiedName.orEmpty())
-        )
-    }
-
-    single {
-        PhoneNumberUtil.createInstance(
-            metadataLoader = defaultMetadataLoader()
         )
     }
 }

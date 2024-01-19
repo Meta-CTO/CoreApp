@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.base.ViewSideEffect
 import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
+import io.michaelrocks.libphonenumber.kotlin.metadata.defaultMetadataLoader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -307,6 +308,16 @@ fun DelayedLaunchedEffect(key: Any? = null, delay: Long, callback: suspend () ->
     }
 }
 
+
+@Composable
+fun rememberPhoneNumberUtil(): PhoneNumberUtil {
+    return remember {
+        PhoneNumberUtil.Companion.createInstance(
+            metadataLoader = defaultMetadataLoader()
+        )
+    }
+}
+
 @Composable
 expect fun openUrlInBrowser(url: String)
 
@@ -321,9 +332,6 @@ expect fun rememberBitmapFromBytes(bytes: ByteArray?): ImageBitmap?
 
 @Composable
 expect fun isGesturesNavBarEnabled(): Boolean
-
-@Composable
-expect fun rememberPhoneNumberUtil(): PhoneNumberUtil
 
 @Composable
 expect fun setStatusBarColor(isDark: Boolean)
