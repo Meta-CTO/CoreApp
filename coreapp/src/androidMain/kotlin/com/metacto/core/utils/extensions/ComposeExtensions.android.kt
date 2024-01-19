@@ -12,8 +12,6 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
-import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
-import io.michaelrocks.libphonenumber.kotlin.metadata.defaultMetadataLoader
 
 @SuppressLint("ComposableNaming")
 @Composable
@@ -41,16 +39,6 @@ actual fun rememberBitmapFromBytes(bytes: ByteArray?): ImageBitmap? {
 @Composable
 actual fun isGesturesNavBarEnabled(): Boolean {
     return LocalContext.current.getNavigationBarInteractionMode() == NAVIGATION_BAR_INTERACTION_MODE_GESTURE
-}
-
-@Composable
-actual fun rememberPhoneNumberUtil(): PhoneNumberUtil {
-    val context = LocalContext.current
-    return remember {
-        PhoneNumberUtil.Companion.createInstance(
-            metadataLoader = defaultMetadataLoader(context)
-        )
-    }
 }
 
 @SuppressLint("ComposableNaming")

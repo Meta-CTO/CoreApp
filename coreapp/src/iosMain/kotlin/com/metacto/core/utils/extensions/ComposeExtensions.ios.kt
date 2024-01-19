@@ -9,8 +9,6 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asComposeImageBitmap
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
-import io.michaelrocks.libphonenumber.kotlin.metadata.defaultMetadataLoader
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
 import org.jetbrains.skia.Bitmap
@@ -19,7 +17,6 @@ import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
 import platform.UIKit.UIColor
 import platform.UIKit.UINavigationBar
-import platform.UIKit.UIStatusBarManager
 
 @Composable
 actual fun openUrlInBrowser(url: String) {
@@ -63,15 +60,6 @@ actual fun rememberBitmapFromBytes(bytes: ByteArray?): ImageBitmap? {
 @Composable
 actual fun isGesturesNavBarEnabled(): Boolean {
     return true
-}
-
-@Composable
-actual fun rememberPhoneNumberUtil(): PhoneNumberUtil {
-    return remember {
-        PhoneNumberUtil.Companion.createInstance(
-            metadataLoader = defaultMetadataLoader()
-        )
-    }
 }
 
 @Composable
