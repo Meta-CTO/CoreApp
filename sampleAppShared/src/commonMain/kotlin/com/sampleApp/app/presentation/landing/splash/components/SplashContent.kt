@@ -1,5 +1,6 @@
 package com.sampleApp.app.presentation.landing.splash.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -10,7 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import coil3.compose.rememberAsyncImagePainter
 import com.metacto.core.presentation.components.containers.ScreenColumn
+import com.metacto.core.presentation.components.images.GrayAppImage
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
 import com.sampleApp.app.presentation.theme.AppTheme
@@ -38,8 +41,12 @@ internal fun SplashContent(
             style = AppTheme.typography.fenwickBold24,
             color = AppTheme.colors.midnight,
             modifier = modifier
-                .fillMaxSize()
                 .clickable { onEvent(Event.TextClicked) }
+        )
+
+        GrayAppImage(
+            url = "https://mahmoudelshamy.com/index-assets/images/profile-2-250x250.png",
+            contentDescription = null
         )
     }
 }

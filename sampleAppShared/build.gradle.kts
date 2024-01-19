@@ -29,8 +29,8 @@ kotlin {
 
     cocoapods {
         version = "1.0.0"
-        summary = "My Atlas shared module"
-        homepage = "https://www.myatlas-health.com/"
+        summary = "Sample app shared module"
+        homepage = "https://www.metacto.com/"
         ios.deploymentTarget = Configs.IOS_DEPLOYEMENT_TARGET
         podfile = project.file("../iosApp/Podfile")
         framework {

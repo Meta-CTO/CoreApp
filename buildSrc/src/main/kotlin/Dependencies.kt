@@ -74,13 +74,18 @@ object Dependencies {
             "com.google.android.gms:play-services-auth:${Versions.PLAY_SERVICES_AUTH}"
     }
 
+    object Coil {
+        const val CORE = "io.coil-kt.coil3:coil:${Versions.COIL}"
+        const val COMPOSE = "io.coil-kt.coil3:coil-compose:${Versions.COIL}"
+        const val NETOWRK = "io.coil-kt.coil3:coil-network:${Versions.COIL}"
+    }
+
     object Modules {
         const val CORE_APP = ":coreapp"
         const val SAMPLE_APP_SHARED = ":sampleAppShared"
     }
 
     const val STRAPI_KMM = "com.swensonhe:strapi:${Versions.STRAPI_KMM}"
-    const val KAMEL_IMAGE = "media.kamel:kamel-image:${Versions.KAMEL_IMAGE}"
     const val LOTTIE_COMPOSE = "com.airbnb.android:lottie-compose:${Versions.LOTTIE}"
     const val ANDROID_IMAGE_PICKER = "com.github.dhaval2404:imagepicker:${Versions.ANDROID_IMAGE_PICKER}"
     const val LIB_PHONE_NUMBER = "io.github.luca992.libphonenumber-kotlin:libphonenumber:${Versions.LIB_PHONE_NUMBER}"

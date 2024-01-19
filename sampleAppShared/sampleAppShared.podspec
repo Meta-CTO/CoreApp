@@ -1,11 +1,11 @@
 Pod::Spec.new do |spec|
     spec.name                     = 'sampleAppShared'
     spec.version                  = '1.0.0'
-    spec.homepage                 = 'https://www.myatlas-health.com/'
+    spec.homepage                 = 'https://www.metacto.com/'
     spec.source                   = { :http=> ''}
     spec.authors                  = ''
     spec.license                  = ''
-    spec.summary                  = 'My Atlas shared module'
+    spec.summary                  = 'Sample app shared module'
     spec.vendored_frameworks      = 'build/cocoapods/framework/sampleAppShared.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '14.1'
@@ -16,6 +16,17 @@ Pod::Spec.new do |spec|
     spec.dependency 'FirebaseCrashlytics'
     spec.dependency 'FirebaseDynamicLinks'
     spec.dependency 'GoogleSignIn', '7.0.0'
+                
+    if !Dir.exist?('build/cocoapods/framework/sampleAppShared.framework') || Dir.empty?('build/cocoapods/framework/sampleAppShared.framework')
+        raise "
+
+        Kotlin framework 'sampleAppShared' doesn't exist yet, so a proper Xcode project can't be generated.
+        'pod install' should be executed after running ':generateDummyFramework' Gradle task:
+
+            ./gradlew :sampleAppShared:generateDummyFramework
+
+        Alternatively, proper pod installation is performed during Gradle sync in the IDE (if Podfile location is set)"
+    end
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':sampleAppShared',

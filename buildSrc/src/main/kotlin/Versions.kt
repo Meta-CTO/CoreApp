@@ -3,7 +3,7 @@ import org.gradle.api.JavaVersion
 object Versions {
     val JVM = JavaVersion.VERSION_17
     const val GRADLE = "8.1.1"
-    const val KOTLIN = "1.9.0"
+    const val KOTLIN = "1.9.21"
     const val COMPOSE = "1.5.11"
     const val COMPOSE_ANDROID = "1.5.4"
     const val BUILD_CONFIGS = "4.1.2"
@@ -17,7 +17,6 @@ object Versions {
     const val KOIN = "3.5.0"
     const val KOIN_COMPOSE = "1.1.0"
     const val VOYAGER = "1.0.0-rc07"
-    const val KAMEL_IMAGE = "0.7.0"
     const val LOTTIE = "6.0.1"
     const val ACTIVITY_COMPOSE = "1.8.0"
     const val APP_COMPAT = "1.6.1"
@@ -26,10 +25,11 @@ object Versions {
     const val PLAY_SERVICES_AUTH = "20.7.0"
     const val SPLASH_SCREEN = "1.1.0-alpha02"
     const val FIREBASE = "32.1.1"
-    const val SERIALIZATION = "1.9.10"
+    const val SERIALIZATION = "1.9.21"
     const val PLAY_SERVICES_PLUGIN = "4.3.14"
     const val CRASHLYTICS_PLUGIN = "2.9.4"
     const val ANDROID_IMAGE_PICKER = "2.1"
     const val LIB_PHONE_NUMBER = "0.1.1"
     const val ANDROID_CROPPER = "4.5.0"
+    const val COIL = "3.0.0-alpha02"
 }

@@ -86,9 +86,13 @@ kotlin {
                 // Kotlin
                 api(Dependencies.Kotlin.DATE_TIME)
 
+                // Coil
+                api(Dependencies.Coil.CORE)
+                api(Dependencies.Coil.COMPOSE)
+                api(Dependencies.Coil.NETOWRK)
+
                 // Others
                 api(Dependencies.STRAPI_KMM)
-                api(Dependencies.KAMEL_IMAGE)
 
                 // Phone number utils
                 api(Dependencies.LIB_PHONE_NUMBER)

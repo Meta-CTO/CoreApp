@@ -1,97 +1,82 @@
 package com.metacto.core.presentation.components.images
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultAlpha
 import androidx.compose.ui.graphics.FilterQuality
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.layout.ContentScale
-import com.metacto.core.utils.extensions.rememberBitmapFromBytes
-import dev.icerock.moko.resources.ImageResource
-import dev.icerock.moko.resources.compose.painterResource
+import androidx.compose.ui.unit.Dp
+import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
+import coil3.request.CachePolicy
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import com.metacto.core.presentation.models.ImageUIModel
+import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.utils.extensions.backgroundIfNotNull
+import com.metacto.core.utils.extensions.borderIfNotNull
+import com.metacto.core.utils.extensions.clipIfNotNull
+import com.metacto.core.utils.extensions.shadowIfNotNull
 
 @Composable
 fun AppImage(
     modifier: Modifier = Modifier,
-    imageVector: ImageVector? = null,
-    imageResource: ImageResource? = null,
-    painter: Painter? = null,
     url: String? = null,
-    bytes: ByteArray? = null,
-    placeholder: ImageResource? = null,
+    image: ImageUIModel? = null,
+    placeholderPainter: Painter? = null,
+    placeholderVector: ImageVector? = null,
+    errorPainter: Painter? = null,
+    errorVector: ImageVector? = null,
+    fallbackPainter: Painter? = null,
+    fallbackVector: ImageVector? = null,
     contentDescription: String? = null,
     alignment: Alignment = Alignment.Center,
     contentScale: ContentScale = ContentScale.Fit,
     alpha: Float = DefaultAlpha,
     colorFilter: ColorFilter? = null,
+    shape: Shape? = null,
+    border: BorderStroke? = null,
+    elevation: Dp = CoreTheme.spacings.noSpacing,
+    bgColor: Color? = null,
     quality: FilterQuality = FilterQuality.Medium
 ) {
-    // Get image bitmap
-    val imageBitmap = rememberBitmapFromBytes(bytes)
+    // Prepare painters
+    val placeholder = placeholderPainter ?: placeholderVector?.let { rememberVectorPainter(it) }
+    val error = errorPainter ?: errorVector?.let { rememberVectorPainter(it) }
+    val fallback = fallbackPainter ?: fallbackVector?.let { rememberVectorPainter(it) }
 
-    if (imageVector != null) {
-        Image(
-            imageVector = imageVector,
-            modifier = modifier,
-            contentDescription = contentDescription,
-            alignment = alignment,
-            contentScale = contentScale,
-            alpha = alpha,
-            colorFilter = colorFilter
-        )
-    } else if (imageResource != null) {
-        Image(
-            painter = painterResource(imageResource),
-            modifier = modifier,
-            contentDescription = contentDescription,
-            alignment = alignment,
-            contentScale = contentScale,
-            alpha = alpha,
-            colorFilter = colorFilter
-        )
-    } else if (painter != null) {
-        Image(
-            painter = painter,
-            modifier = modifier,
-            contentDescription = contentDescription,
-            alignment = alignment,
-            contentScale = contentScale,
-            alpha = alpha,
-            colorFilter = colorFilter
-        )
-    } else if (imageBitmap != null) {
-        Image(
-            bitmap = imageBitmap,
-            modifier = modifier,
-            contentDescription = contentDescription,
-            alignment = alignment,
-            contentScale = contentScale,
-            alpha = alpha,
-            colorFilter = colorFilter
-        )
-    } else if (url != null) {
-        // Render image
-        RemoteImage(
-            modifier = modifier,
-            url = url,
-            placeholderRes = placeholder,
-            contentDescription = contentDescription,
-            contentScale = contentScale,
-            quality = quality
-        )
-    } else if (placeholder != null) {
-        Image(
-            painter = painterResource(placeholder),
-            modifier = modifier,
-            contentDescription = contentDescription,
-            alignment = alignment,
-            contentScale = contentScale,
-            alpha = alpha,
-            colorFilter = colorFilter
-        )
-    }
+    // Build the model
+    val model = ImageRequest.Builder(LocalPlatformContext.current)
+        .data(url ?: image?.getData())
+        .diskCachePolicy(CachePolicy.ENABLED)
+        .memoryCachePolicy(CachePolicy.DISABLED)
+        .crossfade(true)
+        .build()
+
+    // Render image
+    AsyncImage(
+        model = model,
+        placeholder = placeholder,
+        error = error ?: placeholder,
+        fallback = fallback ?: placeholder,
+        filterQuality = quality,
+        contentScale = contentScale,
+        contentDescription = contentDescription,
+        alignment = alignment,
+        alpha = alpha,
+        colorFilter = colorFilter,
+        modifier = modifier
+            .shadowIfNotNull(elevation, shape)
+            .clipIfNotNull(shape)
+            .backgroundIfNotNull(bgColor)
+            .borderIfNotNull(border, shape)
+    )
 }

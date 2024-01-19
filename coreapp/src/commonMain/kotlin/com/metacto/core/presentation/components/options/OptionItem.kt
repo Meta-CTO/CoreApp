@@ -14,10 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
-import com.metacto.core.presentation.components.images.AppImage
 import com.metacto.core.presentation.options.models.OptionUIModel
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.toColor
+import dev.icerock.moko.resources.compose.painterResource
 
 @Composable
 fun OptionItem(
@@ -40,8 +40,8 @@ fun OptionItem(
     ) {
         // Render icon if possible
         if (option.icon != null) {
-            AppImage(
-                imageResource = option.icon,
+            Image(
+                painter = painterResource(option.icon),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(color),
                 modifier = Modifier.size(CoreTheme.spacings.iconLarge)
