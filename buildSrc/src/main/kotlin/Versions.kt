@@ -16,7 +16,7 @@ object Versions {
     const val STRAPI_KMM = "8.2.55"
     const val KOIN = "3.5.0"
     const val KOIN_COMPOSE = "1.1.0"
-    const val VOYAGER = "1.0.0"
+    const val VOYAGER = "1.0.0-rc10"
     const val LOTTIE = "6.0.1"
     const val ACTIVITY_COMPOSE = "1.8.0"
     const val APP_COMPAT = "1.6.1"
