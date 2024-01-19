@@ -80,7 +80,7 @@ private fun InfiniteAnimation(
         initialValue = 0f,
         targetValue = animation.duration,
         animationSpec = infiniteRepeatable(
-            animation = tween((animation.duration * 1000 * speed).roundToInt(), easing = LinearEasing),
+            animation = tween((animation.duration * 1000 / speed).roundToInt(), easing = LinearEasing),
             repeatMode = RepeatMode.Restart
         )
     )
@@ -119,7 +119,7 @@ private fun FiniteAnimation(
     LaunchedEffect(animation) {
         progress.animateTo(
             targetValue = animation.duration,
-            animationSpec = tween((animation.duration * 1000 * speed).roundToInt(), easing = LinearEasing)
+            animationSpec = tween((animation.duration * 1000 / speed).roundToInt(), easing = LinearEasing)
         )
     }
 

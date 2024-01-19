@@ -7,7 +7,10 @@ class PhoneNumberManager(
     private val phoneNumberUtil: PhoneNumberUtil
 ) : IPhoneNumberManager {
 
-    override fun getValidPhoneNumber(number: String): String? {
+    override fun getValidPhoneNumber(
+        number: String,
+        countryCode: String
+    ): String? {
         val regex = Regex("[^+0-9]")
 
         // Remove all non-numeric characters except +
@@ -15,7 +18,7 @@ class PhoneNumberManager(
         // create phone number util instance
 
         // parse the updated number without country code and check if it's valid
-        val internationalPhoneNumber = parsePhoneNumber(updatedNumber, null)
+        val internationalPhoneNumber = parsePhoneNumber(updatedNumber, countryCode)
         // if valid, format it to international format
         if (internationalPhoneNumber != null) {
             // return the formatted number
@@ -25,7 +28,7 @@ class PhoneNumberManager(
             )
         } else {
             // if not valid, try to parse it with US country code
-            val usPhoneNumber = parsePhoneNumber(updatedNumber, "US")
+            val usPhoneNumber = parsePhoneNumber(updatedNumber, countryCode)
             // if valid, format it to international format
             if (usPhoneNumber != null) {
                 // return the formatted number
@@ -40,24 +43,24 @@ class PhoneNumberManager(
         return null
     }
 
-    override fun getFormattedPhoneNumber(number: String, countryCode: String?): String? {
+    override fun getFormattedPhoneNumber(number: String, countryCode: String): String? {
         val phoneNumber = parsePhoneNumber(number, countryCode) ?: return null
         return phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
     }
 
-    override fun getE164FormattedPhoneNumber(number: String, countryCode: String?): String? {
+    override fun getE164FormattedPhoneNumber(number: String, countryCode: String): String? {
         val phoneNumber = parsePhoneNumber(number, countryCode) ?: return null
         return phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164)
     }
 
-    override fun isValidPhoneNumber(number: String, countryCode: String?): Boolean {
+    override fun isValidPhoneNumber(number: String, countryCode: String): Boolean {
         val phoneNumber = parsePhoneNumber(number, countryCode) ?: return false
         return phoneNumberUtil.isValidNumber(phoneNumber)
     }
 
     private fun parsePhoneNumber(
         number: String,
-        countryCode: String?
+        countryCode: String
     ): Phonenumber.PhoneNumber? {
         try {
             val phoneNumber = phoneNumberUtil.parse(number, countryCode)
