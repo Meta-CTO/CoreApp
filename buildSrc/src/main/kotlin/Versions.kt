@@ -13,7 +13,7 @@ object Versions {
     const val MOKO_GRAPHICS = "0.9.0"
     const val GOOGLE_SIGN_IN_POD = "7.0.0"
     const val DATE_TIME = "0.4.0"
-    const val STRAPI_KMM = "8.2.54"
+    const val STRAPI_KMM = "8.2.55"
     const val KOIN = "3.5.0"
     const val KOIN_COMPOSE = "1.1.0"
     const val VOYAGER = "1.0.0-rc07"
