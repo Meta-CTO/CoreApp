@@ -6,4 +6,5 @@ object CoreConstants {
     const val MAX_PAGE_SIZE = 100
     const val SERVER_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
     const val YEAR_MONTH_DAY_DATE_FORMAT = "yyyy-MM-dd"
+    const val US_COUNTRY_CODE = "US"
 }

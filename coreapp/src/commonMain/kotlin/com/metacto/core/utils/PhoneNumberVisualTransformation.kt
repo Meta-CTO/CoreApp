@@ -4,12 +4,12 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.intl.Locale
+import com.metacto.core.domain.CoreConstants.US_COUNTRY_CODE
 import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
 
 class PhoneNumberVisualTransformation(
     phoneNumberUtil: PhoneNumberUtil,
-    countryCode: String = Locale.current.region
+    countryCode: String = US_COUNTRY_CODE
 ) : VisualTransformation {
 
     private val phoneNumberFormatter = phoneNumberUtil.getAsYouTypeFormatter(countryCode)

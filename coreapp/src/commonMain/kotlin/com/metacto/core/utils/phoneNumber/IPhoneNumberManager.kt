@@ -1,5 +1,7 @@
 package com.metacto.core.utils.phoneNumber
 
+import com.metacto.core.domain.CoreConstants.US_COUNTRY_CODE
+
 interface IPhoneNumberManager {
     fun getValidPhoneNumber(
         number: String,
@@ -20,8 +22,4 @@ interface IPhoneNumberManager {
         number: String,
         countryCode: String = US_COUNTRY_CODE
     ): Boolean
-
-    companion object {
-        private const val US_COUNTRY_CODE = "US"
-    }
 }
