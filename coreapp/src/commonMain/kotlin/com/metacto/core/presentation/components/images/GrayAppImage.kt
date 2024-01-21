@@ -36,13 +36,15 @@ fun GrayAppImage(
     border: BorderStroke? = null,
     elevation: Dp = CoreTheme.spacings.noSpacing,
     bgColor: Color? = null,
-    quality: FilterQuality = FilterQuality.Medium
+    quality: FilterQuality = FilterQuality.Medium,
+    crossFade: Boolean = true
 ) {
     AppImage(
         modifier = modifier,
         url = url,
         image = image,
         quality = quality,
+        crossFade = crossFade,
         contentDescription = contentDescription,
         contentScale = contentScale,
         shape = shape,

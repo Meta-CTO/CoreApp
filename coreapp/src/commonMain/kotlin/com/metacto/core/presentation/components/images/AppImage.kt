@@ -2,6 +2,7 @@ package com.metacto.core.presentation.components.images
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,7 +47,8 @@ fun AppImage(
     border: BorderStroke? = null,
     elevation: Dp = CoreTheme.spacings.noSpacing,
     bgColor: Color? = null,
-    quality: FilterQuality = FilterQuality.Medium
+    quality: FilterQuality = FilterQuality.Medium,
+    crossFade: Boolean = true
 ) {
     // Prepare painters
     val placeholder = placeholderPainter ?: placeholderVector?.let { rememberVectorPainter(it) }
@@ -54,12 +56,15 @@ fun AppImage(
     val fallback = fallbackPainter ?: fallbackVector?.let { rememberVectorPainter(it) }
 
     // Build the model
-    val model = ImageRequest.Builder(LocalPlatformContext.current)
-        .data(url ?: image?.getData())
-        .diskCachePolicy(CachePolicy.ENABLED)
-        .memoryCachePolicy(CachePolicy.DISABLED)
-        .crossfade(true)
-        .build()
+    val context = LocalPlatformContext.current
+    val model = remember(url, image?.getData()) {
+        ImageRequest.Builder(context)
+            .data(url ?: image?.getData())
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .memoryCachePolicy(CachePolicy.DISABLED)
+            .crossfade(crossFade)
+            .build()
+    }
 
     // Render image
     AsyncImage(
