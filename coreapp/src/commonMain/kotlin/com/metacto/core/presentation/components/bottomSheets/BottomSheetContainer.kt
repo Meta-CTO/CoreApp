@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -13,11 +14,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 
 @Composable
 fun BottomSheetContainer(
     modifier: Modifier = Modifier,
+    minHeight: Dp = CoreTheme.spacings.minSheetHeight,
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     title: String? = null,
@@ -34,6 +37,7 @@ fun BottomSheetContainer(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .heightIn(min = minHeight)
             .then(modifier)
     ) {
         // Render toolbar if required
