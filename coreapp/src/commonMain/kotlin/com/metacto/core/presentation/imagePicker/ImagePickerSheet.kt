@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.metacto.core.presentation.base.BaseSheet
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
+import com.metacto.core.presentation.base.rememberViewModel
 import com.metacto.core.presentation.components.imagePicker.rememberImagePicker
 import com.metacto.core.presentation.imagePicker.ImagePickerContract.Effect
 import com.metacto.core.presentation.imagePicker.ImagePickerContract.Event
