@@ -49,9 +49,8 @@ object Dependencies {
         const val NAVIGATOR = "cafe.adriel.voyager:voyager-navigator:${Versions.VOYAGER}"
         const val BOTTOM_SHEET =
             "cafe.adriel.voyager:voyager-bottom-sheet-navigator:${Versions.VOYAGER}"
-        const val TAB_NAVIGATOR =
-            "cafe.adriel.voyager:voyager-tab-navigator:${Versions.VOYAGER}"
-        const val ANDROID = "cafe.adriel.voyager:voyager-androidx:${Versions.VOYAGER}"
+        const val TAB_NAVIGATOR = "cafe.adriel.voyager:voyager-tab-navigator:${Versions.VOYAGER}"
+        const val SCREEN_MODEL = "cafe.adriel.voyager:voyager-screenmodel:${Versions.VOYAGER}"
         const val KOIN = "cafe.adriel.voyager:voyager-koin:${Versions.VOYAGER}"
     }
 
@@ -60,8 +59,7 @@ object Dependencies {
             "androidx.activity:activity-compose:${Versions.ACTIVITY_COMPOSE}"
         const val APP_COMPAT = "androidx.appcompat:appcompat:${Versions.APP_COMPAT}"
         const val CORE_KTS = "androidx.core:core-ktx:${Versions.CORE_KTS}"
-        const val SECURITY_CRYPTO =
-            "androidx.security:security-crypto:${Versions.SECURITY_CRYPTO}"
+        const val SECURITY_CRYPTO = "androidx.security:security-crypto:${Versions.SECURITY_CRYPTO}"
         const val SPLASH_SCREEN = "androidx.core:core-splashscreen:${Versions.SPLASH_SCREEN}"
     }
 

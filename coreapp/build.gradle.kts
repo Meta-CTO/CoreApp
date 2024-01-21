@@ -74,6 +74,7 @@ kotlin {
                 api(Dependencies.Voyager.NAVIGATOR)
                 api(Dependencies.Voyager.BOTTOM_SHEET)
                 api(Dependencies.Voyager.TAB_NAVIGATOR)
+                api(Dependencies.Voyager.SCREEN_MODEL)
 
                 // Koin
                 api(Dependencies.Koin.CORE)
@@ -124,7 +125,6 @@ kotlin {
                 api(Dependencies.Koin.ANDROID_COMPOSE)
 
                 // Voyager
-                api(Dependencies.Voyager.ANDROID)
                 api(Dependencies.Voyager.KOIN)
 
                 // Lottie

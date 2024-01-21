@@ -4,7 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import cafe.adriel.voyager.core.model.ScreenModel
-import cafe.adriel.voyager.core.model.coroutineScope
+import cafe.adriel.voyager.core.model.screenModelScope
 import com.metacto.core.navigation.NavManager
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.ConfirmationPopupParams
@@ -78,7 +78,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     }
 
     private fun subscribeToEvents() {
-        coroutineScope.launch {
+        screenModelScope.launch {
             _event.collect {
                 handleEvents(it)
             }
@@ -86,7 +86,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     }
 
     fun setEvent(event: E) {
-        coroutineScope.launch { _event.emit(event) }
+        screenModelScope.launch { _event.emit(event) }
     }
 
     protected fun setState(reducer: S.() -> S) {
@@ -96,12 +96,12 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
     protected fun setEffect(builder: () -> SF) {
         val effectValue = builder()
-        coroutineScope.launch { _effect.send(effectValue) }
+        screenModelScope.launch { _effect.send(effectValue) }
     }
     fun <T> executeCatching(
         block: suspend () -> T,
         loadingType: LoadingType = defaultLoadingType,
-        scope: CoroutineScope = coroutineScope,
+        scope: CoroutineScope = screenModelScope,
         context: CoroutineContext = dispatcherProvider.io,
         debounce: Long = 0,
         oldDebounceJob: Job? = null,
@@ -162,7 +162,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
     fun <T> executeSilent(
         block: suspend () -> T,
-        scope: CoroutineScope = coroutineScope,
+        scope: CoroutineScope = screenModelScope,
         context: CoroutineContext = dispatcherProvider.io,
         debounce: Long = 0,
         oldDebounceJob: Job? = null,
