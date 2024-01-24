@@ -5,6 +5,7 @@ import com.metacto.core.presentation.base.BaseScreen
 import com.metacto.core.presentation.base.getViewModel
 import com.metacto.core.presentation.options.components.OptionsContent
 import com.metacto.core.presentation.options.models.OptionUIModel
+import com.metacto.core.presentation.options.OptionsContract.Event
 
 class OptionsSheet(
     options: List<OptionUIModel>
@@ -14,8 +15,10 @@ class OptionsSheet(
 
     init {
         // Init view model
-        viewModel.init(
-            options = options
+        viewModel.setEvent(
+            Event.Init(
+                options = options
+            )
         )
     }
 

@@ -9,7 +9,23 @@ import com.metacto.core.presentation.imagePicker.models.ImagePickerResult
 
 class ImagePickerViewModel : CoreViewModel<State, Event, Effect>() {
 
-    fun init(
+    override fun setInitialState() = State()
+
+    override fun handleEvents(event: Event): Any = when (event) {
+        is Event.Init -> init(
+            allowGallery = event.allowGallery,
+            allowCamera = event.allowCamera,
+            showDeleteAction = event.showDeleteAction
+        )
+
+        Event.CloseClicked -> navManager.goBack()
+        Event.PickFromGalleryClicked -> handlePickFromGalleryClick()
+        Event.CaptureUsingCameraClicked -> handleCaptureUsingCameraClick()
+        is Event.PickImageResult -> handlePickImageResult(event.bytes)
+        Event.DeleteCurrentPhotoClicked -> handleDeleteCurrentPhotoClick()
+    }
+
+    private fun init(
         allowGallery: Boolean,
         allowCamera: Boolean,
         showDeleteAction: Boolean
@@ -28,16 +44,6 @@ class ImagePickerViewModel : CoreViewModel<State, Event, Effect>() {
 
         // Update the flag
         setState { copy(isInitialized = true) }
-    }
-
-    override fun setInitialState() = State()
-
-    override fun handleEvents(event: Event): Any = when (event) {
-        Event.CloseClicked -> navManager.goBack()
-        Event.PickFromGalleryClicked -> handlePickFromGalleryClick()
-        Event.CaptureUsingCameraClicked -> handleCaptureUsingCameraClick()
-        is Event.PickImageResult -> handlePickImageResult(event.bytes)
-        Event.DeleteCurrentPhotoClicked -> handleDeleteCurrentPhotoClick()
     }
 
     private fun handlePickFromGalleryClick() {

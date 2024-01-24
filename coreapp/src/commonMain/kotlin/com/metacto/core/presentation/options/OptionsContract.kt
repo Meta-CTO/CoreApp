@@ -13,6 +13,7 @@ class OptionsContract {
     ) : ViewState
 
     sealed class Event : ViewEvent {
+        data class Init(val options: List<OptionUIModel>) : Event()
         data object CloseClicked : Event()
         data class OptionItemClicked(val item: OptionUIModel) : Event()
     }

@@ -22,10 +22,12 @@ class ImagePickerSheet(
 
     init {
         // Init view model
-        viewModel.init(
-            allowGallery = allowGallery,
-            allowCamera = allowCamera,
-            showDeleteAction = showDeleteAction
+        viewModel.setEvent(
+            Event.Init(
+                allowGallery = allowGallery,
+                allowCamera = allowCamera,
+                showDeleteAction = showDeleteAction
+            )
         )
     }
 

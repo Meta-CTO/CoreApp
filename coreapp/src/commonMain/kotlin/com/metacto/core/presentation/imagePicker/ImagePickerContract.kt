@@ -14,6 +14,12 @@ class ImagePickerContract {
     ) : ViewState
 
     sealed class Event : ViewEvent {
+        data class Init(
+            val allowGallery: Boolean,
+            val allowCamera: Boolean,
+            val showDeleteAction: Boolean
+        ) : Event()
+
         data object CloseClicked : Event()
         data object PickFromGalleryClicked : Event()
         data object CaptureUsingCameraClicked : Event()
