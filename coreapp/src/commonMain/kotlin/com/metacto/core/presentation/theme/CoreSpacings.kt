@@ -58,7 +58,6 @@ data class CoreSpacings(
     val appBarDefaultElevation: Dp = 3.dp,
 
     val sheetElevation: Dp = 12.dp,
-    val minSheetHeight: Dp = 150.dp,
     val pickerItemSize: Dp = 40.dp,
     val datePickerHeight: Dp = 300.dp,
     val stepBarHeight: Dp = 8.dp,
