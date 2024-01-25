@@ -8,9 +8,11 @@ plugins {
     kotlin(Plugins.COCOAPODS_PLUGIN)
     id(Plugins.ANDROID_LIBRARY_PLUGIN)
     id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
+
     id(Plugins.SERIALIZATION_PLUGIN)
     id(Plugins.PARCELIZE_PLUGIN)
     id(Plugins.MOKO_RESOURCES_PLUGIN)
+//    id("io.github.ttypic.swiftklib") version "0.4.0"
     id("maven-publish")
     id("signing")
 }
@@ -97,6 +99,20 @@ kotlin {
 
                 // Phone number utils
                 api(Dependencies.LIB_PHONE_NUMBER)
+
+
+                // Media File Picker
+                api("com.darkrockstudios:mpfilepicker:3.1.0")
+
+                // Moko Permissions
+                api("dev.icerock.moko:permissions:0.17.0")
+
+                // Moko Permissions Compose
+                api("dev.icerock.moko:permissions-compose:0.17.0")
+
+                // Moko Media Compose
+                api("dev.icerock.moko:media-compose:0.11.0")
+
             }
         }
 

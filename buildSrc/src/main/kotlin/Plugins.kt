@@ -13,6 +13,7 @@ object Plugins {
     const val KT_LINT_PLUGIN = "org.jlleitschuh.gradle.ktlint"
     const val DETEKT_PLUGIN = "io.gitlab.arturbosch.detekt"
     const val BUILD_CONFIGS_PLUGIN = "com.github.gmazzo.buildconfig"
+    const val SWIFT_KLIB = "com.github.gmazzo.buildconfig"
 
     // Classpaths
     const val GRADLE_CLASSPATH = "com.android.tools.build:gradle:${Versions.GRADLE}"
