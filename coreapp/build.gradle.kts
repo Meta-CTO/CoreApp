@@ -8,11 +8,10 @@ plugins {
     kotlin(Plugins.COCOAPODS_PLUGIN)
     id(Plugins.ANDROID_LIBRARY_PLUGIN)
     id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
-
     id(Plugins.SERIALIZATION_PLUGIN)
     id(Plugins.PARCELIZE_PLUGIN)
     id(Plugins.MOKO_RESOURCES_PLUGIN)
-//    id("io.github.ttypic.swiftklib") version "0.4.0"
+    id(Plugins.SWIFT_KLIB)
     id("maven-publish")
     id("signing")
 }

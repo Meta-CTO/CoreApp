@@ -8,6 +8,7 @@ buildscript {
         classpath(Plugins.MOKO_RESOURCES_CLASSPATH)
         classpath(Plugins.PLAY_SERVICES_CLASSPATH)
         classpath(Plugins.CRASHLYTICS_PLUGIN_CLASSPATH)
+        classpath(Plugins.SWIFT_KLIB_PLUGIN_CLASSPATH)
     }
 }
 
