@@ -1,5 +1,6 @@
 package com.metacto.core.utils
 
+import dev.icerock.moko.resources.AssetResource
 import dev.icerock.moko.resources.PluralsResource
 import dev.icerock.moko.resources.StringResource
 
@@ -13,4 +14,6 @@ interface IResourceProvider {
         quantity: Int,
         vararg args: Any
     ): String
+
+    suspend fun getBytes(res: AssetResource): ByteArray?
 }

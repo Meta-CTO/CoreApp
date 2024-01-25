@@ -308,6 +308,16 @@ fun DelayedLaunchedEffect(key: Any? = null, delay: Long, callback: suspend () ->
     }
 }
 
+@Composable
+fun IOLaunchedEffect(key: Any? = null, callback: suspend () -> Unit) {
+    val coroutineScope = rememberIOCoroutineScope()
+    LaunchedEffect(key) {
+        coroutineScope.launch {
+            callback.invoke()
+        }
+    }
+}
+
 
 @Composable
 fun rememberPhoneNumberUtil(): PhoneNumberUtil {

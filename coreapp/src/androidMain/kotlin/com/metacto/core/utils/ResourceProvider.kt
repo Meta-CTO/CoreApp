@@ -2,6 +2,7 @@ package com.metacto.core.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
+import dev.icerock.moko.resources.AssetResource
 import dev.icerock.moko.resources.PluralsResource
 import dev.icerock.moko.resources.StringResource
 import dev.icerock.moko.resources.format
@@ -28,5 +29,14 @@ class ResourceProvider(
         vararg args: Any
     ): String {
         return res.format(quantity, args).toString(context)
+    }
+
+    override suspend fun getBytes(res: AssetResource): ByteArray? {
+        return try {
+            val inputStream = res.getInputStream(context)
+            inputStream.readBytes()
+        } catch (_: Throwable) {
+            null
+        }
     }
 }

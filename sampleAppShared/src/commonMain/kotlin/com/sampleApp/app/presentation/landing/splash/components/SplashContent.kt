@@ -1,19 +1,18 @@
 package com.sampleApp.app.presentation.landing.splash.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
-import coil3.compose.rememberAsyncImagePainter
 import com.metacto.core.presentation.components.containers.ScreenColumn
-import com.metacto.core.presentation.components.images.GrayAppImage
+import com.metacto.core.presentation.components.images.GifImage
+import com.sampleApp.app.MR
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
 import com.sampleApp.app.presentation.theme.AppTheme
@@ -34,7 +33,8 @@ internal fun SplashContent(
         bottomPadding = AppTheme.spacings.spacing0,
         startPadding = AppTheme.spacings.spacing0,
         endPadding = AppTheme.spacings.spacing0,
-        enableSafeInsets = false
+        enableSafeInsets = false,
+        isScrollable = true
     ) {
         Text(
             text = if (state.isWelcome) "Welcome" else "Sample App",
@@ -44,9 +44,14 @@ internal fun SplashContent(
                 .clickable { onEvent(Event.TextClicked) }
         )
 
-        GrayAppImage(
-            url = "https://mahmoudelshamy.com/index-assets/images/profile-2-250x250.png",
-            contentDescription = null
+        GifImage(
+            modifier = Modifier.fillMaxWidth(),
+            resource = MR.assets.search_anim
+        )
+
+        GifImage(
+            modifier = Modifier.fillMaxWidth(),
+            resource = MR.assets.people_anim
         )
     }
 }

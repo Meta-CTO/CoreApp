@@ -32,4 +32,5 @@ object Versions {
     const val LIB_PHONE_NUMBER = "0.1.1"
     const val ANDROID_CROPPER = "4.5.0"
     const val COIL = "3.0.0-alpha02"
+    const val COIL_ANDROID = "2.5.0"
 }

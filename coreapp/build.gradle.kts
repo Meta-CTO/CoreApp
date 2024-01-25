@@ -131,6 +131,10 @@ kotlin {
                 api(Dependencies.LOTTIE_COMPOSE)
                 api(Dependencies.ANDROID_IMAGE_PICKER)
                 api(Dependencies.ANDROID_CROPPER)
+
+                // Coil
+                api(Dependencies.Coil.ANDROID_COMPOSE)
+                api(Dependencies.Coil.ANDROID_GIF)
             }
         }
 

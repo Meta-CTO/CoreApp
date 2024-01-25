@@ -17,6 +17,7 @@ import org.koin.core.module.Module
 import org.koin.core.qualifier.Qualifier
 import org.koin.dsl.module
 import platform.Foundation.NSBundle
+import platform.Foundation.NSFileManager
 
 actual fun corePlatformModule(appStorageName: String) = module {
     single<IDispatchersProvider> {
@@ -32,7 +33,8 @@ actual fun corePlatformModule(appStorageName: String) = module {
 
     single<IResourceProvider> {
         ResourceProvider(
-            bundle = NSBundle.loadableBundle(MR::class.qualifiedName.orEmpty())
+            bundle = NSBundle.loadableBundle(MR::class.qualifiedName.orEmpty()),
+            fileManager = NSFileManager.defaultManager()
         )
     }
 
