@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalForeignApi::class, ExperimentalForeignApi::class)
+@file:OptIn(ExperimentalForeignApi::class)
 package com.metacto.core.presentation.components.imagePicker
 
 import androidx.compose.runtime.Composable
@@ -6,8 +6,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.interop.LocalUIViewController
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.refTo
+import kotlinx.cinterop.useContents
+import platform.CoreGraphics.CGRectMake
+import platform.UIKit.UIGraphicsBeginImageContextWithOptions
+import platform.UIKit.UIGraphicsEndImageContext
+import platform.UIKit.UIGraphicsGetImageFromCurrentImageContext
 import platform.UIKit.UIImage
 import platform.UIKit.UIImageJPEGRepresentation
+import platform.UIKit.UIImageOrientation
 import platform.UIKit.UIImagePickerController
 import platform.UIKit.UIImagePickerControllerDelegateProtocol
 import platform.UIKit.UIImagePickerControllerSourceType
@@ -34,8 +40,10 @@ actual class ImagePicker(
             didFinishPickingImage: UIImage,
             editingInfo: Map<Any?, *>?
         ) {
+//            didFinishPickingImage.normalizedImage()
+//            didFinishPickingImage.imageOrientation()
             // Get picked image
-            val imageNsData = UIImageJPEGRepresentation(didFinishPickingImage, 1.0)
+            val imageNsData = UIImageJPEGRepresentation(didFinishPickingImage.normalizedImage(), 1.0)
                 ?: return
             val bytes = ByteArray(imageNsData.length.toInt())
             memcpy(bytes.refTo(0), imageNsData.bytes, imageNsData.length)
@@ -100,4 +108,24 @@ actual fun rememberImagePicker(
             aspectRatioY = aspectRatioY
         )
     }
+}
+
+fun UIImage.normalizedImage(): UIImage {
+    if (this.imageOrientation == UIImageOrientation.UIImageOrientationUp) return this
+
+    val size = this.size
+    var width = 0.0
+    var height = 0.0
+    size.useContents { 
+       width = this.width
+        height = this.height
+    }
+    val scale = this.scale
+
+    UIGraphicsBeginImageContextWithOptions(size, false, scale)
+    this.drawInRect(CGRectMake(0.0, 0.0, width, height))
+    val normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+
+    return normalizedImage ?: this
 }
