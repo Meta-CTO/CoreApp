@@ -15,6 +15,7 @@ class SplashContract {
         data object ScreenAppeared : Event()
         data object ScreenDisposed : Event()
         data object TextClicked : Event()
+        data object AnimClicked : Event()
     }
 
     sealed class Effect : ViewSideEffect

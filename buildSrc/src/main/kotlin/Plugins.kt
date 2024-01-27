@@ -14,6 +14,8 @@ object Plugins {
     const val DETEKT_PLUGIN = "io.gitlab.arturbosch.detekt"
     const val BUILD_CONFIGS_PLUGIN = "com.github.gmazzo.buildconfig"
     const val SWIFT_KLIB = "io.github.ttypic.swiftklib"
+    const val MAVEN_PUBLISH = "maven-publish"
+    const val SIGNING = "signing"
 
     // Classpaths
     const val GRADLE_CLASSPATH = "com.android.tools.build:gradle:${Versions.GRADLE}"

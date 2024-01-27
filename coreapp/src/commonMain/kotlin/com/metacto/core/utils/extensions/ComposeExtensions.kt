@@ -40,6 +40,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.base.ViewSideEffect
+import dev.icerock.moko.resources.AssetResource
+import dev.icerock.moko.resources.compose.readTextAsState
+import io.github.alexzhirkevich.compottie.LottieCompositionResult
+import io.github.alexzhirkevich.compottie.LottieCompositionSpec
 import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
 import io.michaelrocks.libphonenumber.kotlin.metadata.defaultMetadataLoader
 import kotlinx.coroutines.CoroutineScope
@@ -326,6 +330,20 @@ fun rememberPhoneNumberUtil(): PhoneNumberUtil {
             metadataLoader = defaultMetadataLoader()
         )
     }
+}
+
+@Composable
+fun rememberLottieComposition(res: AssetResource): LottieCompositionResult {
+    // Load json if required
+    var json by remember(res) { mutableStateOf<String?>(null) }
+    if (json == null) json = res.readTextAsState().value
+
+    // Then return the composition
+    return io.github.alexzhirkevich.compottie.rememberLottieComposition(
+        LottieCompositionSpec.JsonString(
+            json.orEmpty()
+        )
+    )
 }
 
 @Composable
