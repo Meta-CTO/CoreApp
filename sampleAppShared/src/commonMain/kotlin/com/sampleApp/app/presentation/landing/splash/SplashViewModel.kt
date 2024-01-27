@@ -1,5 +1,6 @@
 package com.sampleApp.app.presentation.landing.splash
 
+import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.imagePicker.ImagePickerSheet
 import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
@@ -30,15 +31,19 @@ class SplashViewModel : BaseViewModel<State, Event, Effect>() {
         }
 
         Event.TextClicked -> {
-//            navManager.navigate(
-//                SplashScreen(
-//                    isWelcome = currentState.isWelcome.not()
-//                )
-//            )
-
-            navManager.navigateToBottomSheet(
-                ImagePickerSheet()
+            navManager.navigate(
+                SplashScreen(
+                    isWelcome = currentState.isWelcome.not()
+                )
             )
+
+//            navManager.navigateToBottomSheet(
+//                ImagePickerSheet()
+//            )
+        }
+
+        Event.AnimClicked -> {
+            showLoading(LoadingType.LottieBlocking())
         }
     }
 

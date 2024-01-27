@@ -86,8 +86,8 @@ object Dependencies {
     }
 
     const val STRAPI_KMM = "com.swensonhe:strapi:${Versions.STRAPI_KMM}"
-    const val LOTTIE_COMPOSE = "com.airbnb.android:lottie-compose:${Versions.LOTTIE}"
     const val ANDROID_IMAGE_PICKER = "com.github.dhaval2404:imagepicker:${Versions.ANDROID_IMAGE_PICKER}"
     const val LIB_PHONE_NUMBER = "io.github.luca992.libphonenumber-kotlin:libphonenumber:${Versions.LIB_PHONE_NUMBER}"
     const val ANDROID_CROPPER = "com.vanniktech:android-image-cropper:${Versions.ANDROID_CROPPER}"
+    const val COMPOTTIE = "io.github.alexzhirkevich:compottie:${Versions.COMPOTTIE}"
 }

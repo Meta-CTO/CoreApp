@@ -1,4 +1,5 @@
 @file:OptIn(ExperimentalForeignApi::class)
+
 package com.metacto.core.presentation.components.imagePicker
 
 import androidx.compose.runtime.Composable
@@ -40,11 +41,10 @@ actual class ImagePicker(
             didFinishPickingImage: UIImage,
             editingInfo: Map<Any?, *>?
         ) {
-//            didFinishPickingImage.normalizedImage()
-//            didFinishPickingImage.imageOrientation()
             // Get picked image
-            val imageNsData = UIImageJPEGRepresentation(didFinishPickingImage.normalizedImage(), 1.0)
-                ?: return
+            val imageNsData =
+                UIImageJPEGRepresentation(didFinishPickingImage.normalizedImage(), 1.0)
+                    ?: return
             val bytes = ByteArray(imageNsData.length.toInt())
             memcpy(bytes.refTo(0), imageNsData.bytes, imageNsData.length)
 
@@ -100,7 +100,7 @@ actual fun rememberImagePicker(
     aspectRatioY: Int?
 ): ImagePicker {
     val rootController = LocalUIViewController.current
-    return remember {
+    return remember(enableCropping, aspectRatioX, aspectRatioY) {
         ImagePicker(
             rootController = rootController,
             enableCropping = enableCropping,
@@ -116,8 +116,8 @@ fun UIImage.normalizedImage(): UIImage {
     val size = this.size
     var width = 0.0
     var height = 0.0
-    size.useContents { 
-       width = this.width
+    size.useContents {
+        width = this.width
         height = this.height
     }
     val scale = this.scale

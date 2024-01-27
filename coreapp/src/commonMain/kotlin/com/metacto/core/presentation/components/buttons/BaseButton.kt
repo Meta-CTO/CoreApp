@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,12 +24,15 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import com.metacto.coreApp.MR
-import com.metacto.core.presentation.components.lottie.LottieAnimation
 import com.metacto.core.presentation.components.visibilities.FadeVisibility
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.orZero
+import com.metacto.core.utils.extensions.rememberLottieComposition
 import com.metacto.core.utils.extensions.tintIfNotNull
 import dev.icerock.moko.resources.AssetResource
+import io.github.alexzhirkevich.compottie.LottieAnimation
+import io.github.alexzhirkevich.compottie.LottieConstants
+import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
 
 @Composable
 fun BaseButton(
@@ -90,9 +94,17 @@ fun BaseButton(
         ) {
             // Loading indicator
             FadeVisibility(visible = isLoading) {
+                // Prepare composition
+                val composition by rememberLottieComposition(loadingAnimRes)
+                val progress = animateLottieCompositionAsState(
+                    composition = composition,
+                    iterations = LottieConstants.IterateForever,
+                )
+
+                // Then render lottie
                 LottieAnimation(
-                    animRes = loadingAnimRes,
-                    isRepeated = true,
+                    composition = composition,
+                    progress = { progress.value },
                     modifier = Modifier.size(
                         CoreTheme.spacings.btnLoadingSize
                     )

@@ -5,7 +5,7 @@ object Versions {
     const val GRADLE = "8.1.1"
     const val KOTLIN = "1.9.21"
     const val COMPOSE = "1.5.11"
-    const val SWIFT_KLIB = "0.4.0"
+    const val SWIFT_KLIB = "0.5.1"
     const val COMPOSE_ANDROID = "1.5.4"
     const val BUILD_CONFIGS = "4.1.2"
     const val KT_LINT = "10.3.0"
@@ -18,7 +18,6 @@ object Versions {
     const val KOIN = "3.5.0"
     const val KOIN_COMPOSE = "1.1.0"
     const val VOYAGER = "1.1.0-alpha02"
-    const val LOTTIE = "6.0.1"
     const val ACTIVITY_COMPOSE = "1.8.0"
     const val APP_COMPAT = "1.6.1"
     const val CORE_KTS = "1.12.0"
@@ -34,4 +33,5 @@ object Versions {
     const val ANDROID_CROPPER = "4.5.0"
     const val COIL = "3.0.0-alpha02"
     const val COIL_ANDROID = "2.5.0"
+    const val COMPOTTIE = "1.1.0"
 }

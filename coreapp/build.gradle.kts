@@ -8,13 +8,12 @@ plugins {
     kotlin(Plugins.COCOAPODS_PLUGIN)
     id(Plugins.ANDROID_LIBRARY_PLUGIN)
     id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
-
     id(Plugins.SERIALIZATION_PLUGIN)
     id(Plugins.PARCELIZE_PLUGIN)
     id(Plugins.MOKO_RESOURCES_PLUGIN)
-//    id("io.github.ttypic.swiftklib") version "0.4.0"
-    id("maven-publish")
-    id("signing")
+    id(Plugins.SWIFT_KLIB)
+    id(Plugins.MAVEN_PUBLISH)
+    id(Plugins.SIGNING)
 }
 
 kotlin {
@@ -96,23 +95,8 @@ kotlin {
 
                 // Others
                 api(Dependencies.STRAPI_KMM)
-
-                // Phone number utils
                 api(Dependencies.LIB_PHONE_NUMBER)
-
-
-                // Media File Picker
-                api("com.darkrockstudios:mpfilepicker:3.1.0")
-
-                // Moko Permissions
-                api("dev.icerock.moko:permissions:0.17.0")
-
-                // Moko Permissions Compose
-                api("dev.icerock.moko:permissions-compose:0.17.0")
-
-                // Moko Media Compose
-                api("dev.icerock.moko:media-compose:0.11.0")
-
+                api(Dependencies.COMPOTTIE)
             }
         }
 
@@ -143,14 +127,13 @@ kotlin {
                 // Voyager
                 api(Dependencies.Voyager.KOIN)
 
-                // Lottie
-                api(Dependencies.LOTTIE_COMPOSE)
-                api(Dependencies.ANDROID_IMAGE_PICKER)
-                api(Dependencies.ANDROID_CROPPER)
-
                 // Coil
                 api(Dependencies.Coil.ANDROID_COMPOSE)
                 api(Dependencies.Coil.ANDROID_GIF)
+
+                // Others
+                api(Dependencies.ANDROID_IMAGE_PICKER)
+                api(Dependencies.ANDROID_CROPPER)
             }
         }
 

@@ -13,7 +13,9 @@ object Plugins {
     const val KT_LINT_PLUGIN = "org.jlleitschuh.gradle.ktlint"
     const val DETEKT_PLUGIN = "io.gitlab.arturbosch.detekt"
     const val BUILD_CONFIGS_PLUGIN = "com.github.gmazzo.buildconfig"
-    const val SWIFT_KLIB = "com.github.gmazzo.buildconfig"
+    const val SWIFT_KLIB = "io.github.ttypic.swiftklib"
+    const val MAVEN_PUBLISH = "maven-publish"
+    const val SIGNING = "signing"
 
     // Classpaths
     const val GRADLE_CLASSPATH = "com.android.tools.build:gradle:${Versions.GRADLE}"
@@ -26,4 +28,5 @@ object Plugins {
         "com.google.gms:google-services:${Versions.PLAY_SERVICES_PLUGIN}"
     const val CRASHLYTICS_PLUGIN_CLASSPATH =
         "com.google.firebase:firebase-crashlytics-gradle:${Versions.CRASHLYTICS_PLUGIN}"
+    const val SWIFT_KLIB_PLUGIN_CLASSPATH = "io.github.ttypic:plugin:${Versions.SWIFT_KLIB}"
 }
