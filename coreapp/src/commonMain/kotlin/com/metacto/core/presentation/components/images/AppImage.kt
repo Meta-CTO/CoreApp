@@ -26,6 +26,9 @@ import com.metacto.core.utils.extensions.backgroundIfNotNull
 import com.metacto.core.utils.extensions.borderIfNotNull
 import com.metacto.core.utils.extensions.clipIfNotNull
 import com.metacto.core.utils.extensions.shadowIfNotNull
+import com.swensonhe.strapikmm.util.applyIf
+
+internal const val DEFAULT_IMAGE_CROSS_FADE_DURATION = 200
 
 @Composable
 fun AppImage(
@@ -48,7 +51,8 @@ fun AppImage(
     elevation: Dp = CoreTheme.spacings.noSpacing,
     bgColor: Color? = null,
     quality: FilterQuality = FilterQuality.Medium,
-    crossFade: Boolean = true
+    crossFade: Boolean = true,
+    crossFadeDuration: Int = DEFAULT_IMAGE_CROSS_FADE_DURATION
 ) {
     // Prepare painters
     val placeholder = placeholderPainter ?: placeholderVector?.let { rememberVectorPainter(it) }
@@ -62,7 +66,7 @@ fun AppImage(
             .data(url ?: image?.getData())
             .diskCachePolicy(CachePolicy.ENABLED)
             .memoryCachePolicy(CachePolicy.DISABLED)
-            .crossfade(crossFade)
+            .applyIf(crossFade) { crossfade(crossFadeDuration) }
             .build()
     }
 

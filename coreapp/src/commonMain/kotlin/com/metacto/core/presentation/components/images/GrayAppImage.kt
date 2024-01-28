@@ -37,7 +37,8 @@ fun GrayAppImage(
     elevation: Dp = CoreTheme.spacings.noSpacing,
     bgColor: Color? = null,
     quality: FilterQuality = FilterQuality.Medium,
-    crossFade: Boolean = true
+    crossFade: Boolean = true,
+    crossFadeDuration: Int = DEFAULT_IMAGE_CROSS_FADE_DURATION
 ) {
     AppImage(
         modifier = modifier,
@@ -45,6 +46,7 @@ fun GrayAppImage(
         image = image,
         quality = quality,
         crossFade = crossFade,
+        crossFadeDuration = crossFadeDuration,
         contentDescription = contentDescription,
         contentScale = contentScale,
         shape = shape,
