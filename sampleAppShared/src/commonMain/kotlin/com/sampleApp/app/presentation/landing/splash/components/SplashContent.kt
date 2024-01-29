@@ -16,12 +16,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.containers.ScreenColumn
+import com.metacto.core.presentation.components.ratingBar.RatingBar
+import com.metacto.core.presentation.components.ratingBar.StepSize
 import com.metacto.core.utils.extensions.noRippleClickable
 import com.metacto.core.utils.extensions.rememberLottieComposition
 import com.sampleApp.app.MR
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
 import com.sampleApp.app.presentation.theme.AppTheme
+import dev.icerock.moko.resources.compose.painterResource
 import io.github.alexzhirkevich.compottie.LottieAnimation
 import io.github.alexzhirkevich.compottie.LottieConstants
 import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
@@ -85,6 +88,16 @@ internal fun SplashContent(
                     .noRippleClickable {
                         onEvent(Event.AnimClicked)
                     }
+            )
+
+            RatingBar(
+                value = 3.5f,
+//                style = RatingBarStyle.Fill(),
+                isIndicator = true,
+                stepSize = StepSize.HALF,
+                size = AppTheme.spacings.spacing30,
+                painterFilled = painterResource(MR.images.ic_star_filled),
+                painterEmpty = painterResource(MR.images.ic_star_empty),
             )
         }
     }
