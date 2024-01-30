@@ -105,7 +105,7 @@ actual fun rememberImagePicker(
     aspectRatioY: Int?
 ): ImagePicker {
     val activity = LocalContext.current as AppCompatActivity
-    return remember(activity) {
+    return remember(activity, enableCropping, aspectRatioX, aspectRatioY) {
         ImagePicker(
             activity = activity,
             enableCropping = enableCropping,

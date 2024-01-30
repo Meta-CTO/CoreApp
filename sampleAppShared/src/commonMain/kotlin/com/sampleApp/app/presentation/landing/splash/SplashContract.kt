@@ -8,7 +8,8 @@ class SplashContract {
 
     data class State(
         val isInitialized: Boolean = false,
-        val isWelcome: Boolean = false
+        val isWelcome: Boolean = false,
+        val imageBytes: ByteArray? = null,
     ) : ViewState
 
     sealed class Event : ViewEvent {

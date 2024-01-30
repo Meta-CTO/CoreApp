@@ -51,15 +51,8 @@ actual class ImagePicker(
             // Dismiss the picker controller
             picker.dismissViewControllerAnimated(true, null)
 
-            // Check if cropping is required
-            if (enableCropping) {
-                val ratioX = aspectRatioX ?: 1
-                val ratioY = aspectRatioY ?: 1
-                // TODO: open cropper and wait for result then notify onImagePicked(bytes)
-                onImagePicked(bytes)
-            } else {
-                onImagePicked(bytes)
-            }
+            // Notify image picked
+            onImagePicked(bytes)
         }
 
         override fun imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -85,8 +78,18 @@ actual class ImagePicker(
     }
 
     private fun pickImage(source: UIImagePickerControllerSourceType) {
-        imagePickerController.sourceType = source
-        imagePickerController.setModalPresentationStyle(UIModalPresentationPopover)
+        // Config image picker
+        imagePickerController.apply {
+            sourceType = source
+            setModalPresentationStyle(UIModalPresentationPopover)
+            allowsEditing = enableCropping
+
+            // TODO set cropper aspect ratio
+            val ratioX = aspectRatioX ?: 1
+            val ratioY = aspectRatioY ?: 1
+        }
+
+        // Then present it
         rootController.presentViewController(imagePickerController, true) {
             imagePickerController.delegate = delegate
         }

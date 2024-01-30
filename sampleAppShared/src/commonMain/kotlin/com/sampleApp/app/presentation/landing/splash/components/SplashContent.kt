@@ -1,11 +1,13 @@
 package com.sampleApp.app.presentation.landing.splash.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +21,7 @@ import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.ratingBar.RatingBar
 import com.metacto.core.presentation.components.ratingBar.StepSize
 import com.metacto.core.utils.extensions.noRippleClickable
+import com.metacto.core.utils.extensions.rememberBitmapFromBytes
 import com.metacto.core.utils.extensions.rememberLottieComposition
 import com.sampleApp.app.MR
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
@@ -99,6 +102,15 @@ internal fun SplashContent(
                 painterFilled = painterResource(MR.images.ic_star_filled),
                 painterEmpty = painterResource(MR.images.ic_star_empty),
             )
+
+            val bitmap = rememberBitmapFromBytes(state.imageBytes)
+            if (bitmap != null) {
+                Image(
+                    bitmap = bitmap,
+                    contentDescription = null,
+                    modifier = Modifier.size(150.dp)
+                )
+            }
         }
     }
 }
