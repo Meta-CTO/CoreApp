@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.noRippleClickable
 
@@ -21,6 +22,17 @@ fun PickerInputField(
     showTrailingIcon: Boolean = true,
     trailingIcon: ImageVector? = Icons.Default.ExpandMore,
     iconTintColor: Color = CoreTheme.colors.secondary,
+    textStyle: TextStyle = CoreTheme.typography.bodyMedium,
+    textColor: Color = CoreTheme.colors.black,
+    placeholderTextStyle: TextStyle = CoreTheme.typography.labelMedium.copy(
+        color = CoreTheme.colors.secondaryContainer
+    ),
+    labelTextStyle: TextStyle = CoreTheme.typography.labelMedium.copy(
+        color = CoreTheme.colors.black
+    ),
+    errorTextStyle: TextStyle = CoreTheme.typography.labelMedium.copy(
+        color = CoreTheme.colors.danger
+    )
 ) {
     TertiaryTextInputField(
         text = text,
@@ -31,6 +43,11 @@ fun PickerInputField(
         iconTintColor = iconTintColor,
         onValueChange = {},
         placeholder = placeholder,
+        textStyle = textStyle,
+        textColor = textColor,
+        placeholderTextStyle = placeholderTextStyle,
+        labelTextStyle = labelTextStyle,
+        errorTextStyle = errorTextStyle,
         modifier = Modifier
             .fillMaxWidth()
             .noRippleClickable {

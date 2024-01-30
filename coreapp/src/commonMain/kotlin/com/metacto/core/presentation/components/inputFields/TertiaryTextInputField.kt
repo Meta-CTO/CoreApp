@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
@@ -49,7 +50,18 @@ fun TertiaryTextInputField(
     textAlign: TextAlign? = null,
     allowDigitsOnly: Boolean = false,
     isStaticLabel: Boolean = false,
-    requestFocus: Boolean = false
+    requestFocus: Boolean = false,
+    textStyle: TextStyle = CoreTheme.typography.bodyMedium,
+    textColor: Color = CoreTheme.colors.black,
+    placeholderTextStyle: TextStyle = CoreTheme.typography.labelMedium.copy(
+        color = CoreTheme.colors.secondaryContainer
+    ),
+    labelTextStyle: TextStyle = CoreTheme.typography.labelMedium.copy(
+        color = CoreTheme.colors.black
+    ),
+    errorTextStyle: TextStyle = CoreTheme.typography.labelMedium.copy(
+        color = CoreTheme.colors.danger
+    )
 ) {
     BaseTextInputField(
         requestFocus = requestFocus,
@@ -87,17 +99,11 @@ fun TertiaryTextInputField(
         backgroundColor = CoreTheme.colors.background,
         focusedBorderColor = CoreTheme.colors.tertiaryBorder,
         unFocusedBorderColor = CoreTheme.colors.tertiaryBorder,
-        textStyle = CoreTheme.typography.bodyMedium,
+        textStyle = textStyle,
         textAlign = textAlign,
-        textColor = CoreTheme.colors.black,
-        placeholderTextStyle = CoreTheme.typography.labelMedium.copy(
-            color = CoreTheme.colors.secondaryContainer
-        ),
-        labelTextStyle = CoreTheme.typography.labelMedium.copy(
-            color = CoreTheme.colors.black
-        ),
-        errorTextStyle = CoreTheme.typography.labelMedium.copy(
-            color = CoreTheme.colors.danger
-        )
+        textColor = textColor,
+        placeholderTextStyle = placeholderTextStyle,
+        labelTextStyle = labelTextStyle,
+        errorTextStyle = errorTextStyle
     )
 }
