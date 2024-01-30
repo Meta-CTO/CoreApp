@@ -346,6 +346,14 @@ fun rememberLottieComposition(res: AssetResource): LottieCompositionResult {
     )
 }
 
+fun Modifier.borderIf(
+    condition: Boolean,
+    border: BorderStroke,
+    shape: Shape = RectangleShape
+): Modifier {
+    return if (condition) this.border(border = border, shape = shape) else this
+}
+
 @Composable
 expect fun openUrlInBrowser(url: String)
 

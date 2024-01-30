@@ -8,7 +8,6 @@ fun Int.isOdd(): Boolean = this % 2 != 0
 
 fun Double.round(decimals: Int = 2): Double = "%.${decimals}f".format(this).toDouble()
 
-
 fun Int?.toBoolean() = this == 1
 
 fun Int?.orZero() = this ?: 0
@@ -68,7 +67,14 @@ fun Int?.stringOrDash(): String {
     }
 }
 
-
 fun Int.isMoreThanOne() = this > 1
 
 fun Dp?.orZero() = this ?: 0.dp
+
+expect fun formatToMaxOneDecimal(number: Double): String
+
+expect fun formatToMaxTwoDecimals(number: Double): String
+
+expect fun formatToComma(number: Double): String
+
+expect fun formatToCurrency(number: Double): String
