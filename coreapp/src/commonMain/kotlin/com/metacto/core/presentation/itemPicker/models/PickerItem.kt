@@ -1,4 +1,4 @@
-package com.metacto.core.presentation.components.itemPicker
+package com.metacto.core.presentation.itemPicker.models
 
 import com.metacto.core.utils.CommonParcelable
 
