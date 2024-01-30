@@ -28,7 +28,7 @@ class ResourceProvider(
         quantity: Int,
         vararg args: Any
     ): String {
-        return res.format(quantity, args).toString(context)
+        return res.format(quantity, *args).toString(context)
     }
 
     override suspend fun getBytes(res: AssetResource): ByteArray? {

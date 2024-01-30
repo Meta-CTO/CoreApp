@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <plural name="d_languages">
+        <item quantity="one">%d Language</item>
+        <item quantity="other">%d Languages</item>
+    </plural>
+</resources>

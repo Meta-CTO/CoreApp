@@ -4,6 +4,7 @@ import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.imagePicker.ImagePickerSheet
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
+import com.sampleApp.app.MR
 import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
@@ -18,6 +19,16 @@ class SplashViewModel : BaseViewModel<State, Event, Effect>() {
         // Init
         setState { copy(isWelcome = isWelcome) }
         checkUserState()
+        println("laaang: " + resourceProvider.getPluralString(
+            MR.plurals.d_languages,
+            1,
+            1
+        ))
+        println("laaang: " + resourceProvider.getPluralString(
+            MR.plurals.d_languages,
+            3,
+            3
+        ))
 
         // Update the flag
         setState { copy(isInitialized = true) }

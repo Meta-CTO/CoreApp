@@ -34,7 +34,7 @@ class ResourceProvider(
         quantity: Int,
         vararg args: Any
     ): String {
-        return res.format(quantity, args).localized()
+        return res.format(quantity, *args).localized()
     }
 
     @OptIn(ExperimentalForeignApi::class)
