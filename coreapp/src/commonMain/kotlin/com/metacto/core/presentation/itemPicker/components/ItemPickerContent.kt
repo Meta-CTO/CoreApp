@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.metacto.core.presentation.components.bottomSheets.BottomSheetContainer
@@ -22,6 +23,11 @@ fun ItemPickerContent(
 ) {
     // Init wheel state
     val wheelState = rememberFWheelPickerState(state.initialItemIndex)
+
+    // Scroll to initial index
+    LaunchedEffect(state.initialItemIndex) {
+        wheelState.scrollToIndex(state.initialItemIndex)
+    }
 
     // Bottom sheet container
     BottomSheetContainer(

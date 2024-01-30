@@ -54,7 +54,8 @@ class SplashViewModel : BaseViewModel<State, Event, Effect>() {
                 ItemPickerSheet(
                     items = (0..50).map {
                         PickerItemUIModel(it.toString(), "Item " + it.toString())
-                    }
+                    },
+                    selectedItem =  PickerItemUIModel("20", "Item 20")
                 )
             )
         }
