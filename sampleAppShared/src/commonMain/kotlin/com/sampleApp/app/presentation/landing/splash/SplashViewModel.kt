@@ -1,7 +1,6 @@
 package com.sampleApp.app.presentation.landing.splash
 
 import com.metacto.core.presentation.globalState.models.LoadingType
-import com.metacto.core.presentation.imagePicker.ImagePickerSheet
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.sampleApp.app.MR
@@ -53,7 +52,7 @@ class SplashViewModel : BaseViewModel<State, Event, Effect>() {
             navManager.navigateToBottomSheet(
                 ItemPickerSheet(
                     items = (0..50).map {
-                        PickerItemUIModel(it.toString(), "Item " + it.toString())
+                        PickerItemUIModel(it.toString(), "Item $it")
                     },
                     selectedItem =  PickerItemUIModel("20", "Item 20")
                 )

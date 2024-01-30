@@ -32,6 +32,7 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
         // Prepare initial item index
         val initialItemIndex = items
             .indexOfFirst { it.key == selectedItem?.key }
+            .takeIf { it != -1 }
             .orZero()
 
         // Update state
