@@ -63,7 +63,7 @@ fun BaseTextButton(
         if (startIconVector != null) {
             Image(
                 imageVector = startIconVector,
-                colorFilter = tintIfNotNull(iconColor ?: color),
+                colorFilter = tintIfNotNull(iconColor),
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.size(iconSize)
@@ -71,7 +71,7 @@ fun BaseTextButton(
         } else if (startIconPainter != null) {
             Image(
                 painter = startIconPainter,
-                colorFilter = tintIfNotNull(iconColor ?: color),
+                colorFilter = tintIfNotNull(iconColor),
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.size(iconSize)
