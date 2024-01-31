@@ -3,14 +3,14 @@ package com.metacto.core.utils.extensions
 import platform.Foundation.NSString
 import platform.Foundation.stringWithFormat
 
-actual fun formatToMaxOneDecimal(number: Double): String =
-    NSString.stringWithFormat("%.1f", number).removeSuffix(".0")
+actual fun Double.formatToMaxOneDecimal(): String =
+    NSString.stringWithFormat("%.1f", this).removeSuffix(".0")
 
-actual fun formatToMaxTwoDecimals(number: Double): String =
-    NSString.stringWithFormat("%.2f", number)
+actual fun Double.formatToMaxTwoDecimals(): String =
+    NSString.stringWithFormat("%.2f", this)
 
-actual fun formatToComma(number: Double): String =
-    NSString.stringWithFormat("%,.0f", number)
+actual fun Double.formatToComma(): String =
+    NSString.stringWithFormat("%,.0f", this)
 
-actual fun formatToCurrency(number: Double): String =
-    NSString.stringWithFormat("$%,.0f", number)
+actual fun Double.formatToCurrency(): String =
+    NSString.stringWithFormat("$%,.0f", this)
