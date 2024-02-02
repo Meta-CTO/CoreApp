@@ -9,7 +9,8 @@ import com.metacto.core.presentation.itemPicker.models.PickerItem
 
 actual class ItemPickerSheet actual constructor(
     actual val items: List<PickerItem>,
-    actual val selectedItem: PickerItem?
+    actual val selectedItem: PickerItem?,
+    actual val unfocusedItemsCount: Int
 ) : BaseSheet<ItemPickerViewModel>() {
 
     private val viewModel = getViewModel<ItemPickerViewModel>()
@@ -19,7 +20,8 @@ actual class ItemPickerSheet actual constructor(
         viewModel.setEvent(
             Event.Init(
                 items = items,
-                selectedItem = selectedItem
+                selectedItem = selectedItem,
+                unfocusedItemsCount = unfocusedItemsCount
             )
         )
     }

@@ -31,8 +31,8 @@ fun DefaultWheel(
             SingleLineText(
                 text = items[index].toString(),
                 textAlign = TextAlign.Center,
-                style = CoreTheme.typography.bodyXLarge,
-                color = CoreTheme.colors.secondary,
+                style = CoreTheme.typography.pickerItem,
+                color = CoreTheme.colors.pickerItem,
                 onClick = {
                     coroutineScope.launch {
                         wheelState.animateScrollToIndex(index)

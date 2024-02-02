@@ -2,7 +2,7 @@ package com.sampleApp.app.presentation.landing.splash
 
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
-import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
+import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.sampleApp.app.MR
 import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
@@ -18,19 +18,33 @@ class SplashViewModel : BaseViewModel<State, Event, Effect>() {
         // Init
         setState { copy(isWelcome = isWelcome) }
         checkUserState()
-        println("laaang: " + resourceProvider.getPluralString(
-            MR.plurals.d_languages,
-            1,
-            1
-        ))
-        println("laaang: " + resourceProvider.getPluralString(
-            MR.plurals.d_languages,
-            3,
-            3
-        ))
+        println(
+            "laaang: " + resourceProvider.getPluralString(
+                MR.plurals.d_languages,
+                1,
+                1
+            )
+        )
+        println(
+            "laaang: " + resourceProvider.getPluralString(
+                MR.plurals.d_languages,
+                3,
+                3
+            )
+        )
+
+        // Observe item picker results
+        observeItemPickerResults()
 
         // Update the flag
         setState { copy(isInitialized = true) }
+    }
+
+    private fun observeItemPickerResults() {
+        navManager.collectNavResult<ItemPickerSheet, PickerItem> {
+            println("Item selected: $it")
+            setState { copy(selectedItem = it) }
+        }
     }
 
     override fun setInitialState() = State()
@@ -51,10 +65,8 @@ class SplashViewModel : BaseViewModel<State, Event, Effect>() {
 
             navManager.navigateToBottomSheet(
                 ItemPickerSheet(
-                    items = (0..50).map {
-                        PickerItemUIModel(it.toString(), "Item $it")
-                    },
-                    selectedItem =  PickerItemUIModel("20", "Item 20")
+                    items = currentState.options,
+                    selectedItem = currentState.selectedItem
                 )
             )
         }

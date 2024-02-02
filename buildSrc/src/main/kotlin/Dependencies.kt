@@ -80,6 +80,11 @@ object Dependencies {
         const val ANDROID_GIF = "io.coil-kt:coil-gif:${Versions.COIL_ANDROID}"
     }
 
+    object ExoPlayer {
+        const val PLAYER = "androidx.media3:media3-exoplayer:${Versions.EXO_PLAYER}"
+        const val UI = "androidx.media3:media3-ui:${Versions.EXO_PLAYER}"
+    }
+
     object Modules {
         const val CORE_APP = ":coreapp"
         const val SAMPLE_APP_SHARED = ":sampleAppShared"

@@ -71,10 +71,10 @@ fun Int.isMoreThanOne() = this > 1
 
 fun Dp?.orZero() = this ?: 0.dp
 
-expect fun formatToMaxOneDecimal(number: Double): String
+expect fun Double.formatToMaxOneDecimal(): String
 
-expect fun formatToMaxTwoDecimals(number: Double): String
+expect fun Double.formatToMaxTwoDecimals(): String
 
-expect fun formatToComma(number: Double): String
+expect fun Double.formatToComma(): String
 
-expect fun formatToCurrency(number: Double): String
+expect fun Double.formatToCurrency(): String

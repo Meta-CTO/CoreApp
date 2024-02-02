@@ -131,6 +131,10 @@ kotlin {
                 api(Dependencies.Coil.ANDROID_COMPOSE)
                 api(Dependencies.Coil.ANDROID_GIF)
 
+                // Exo Player
+                api(Dependencies.ExoPlayer.PLAYER)
+                api(Dependencies.ExoPlayer.UI)
+
                 // Others
                 api(Dependencies.ANDROID_IMAGE_PICKER)
                 api(Dependencies.ANDROID_CROPPER)

@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import com.metacto.core.presentation.components.bottomSheets.BottomSheetContainer
@@ -15,14 +16,17 @@ import com.metacto.core.presentation.components.wheelPicker.rememberFWheelPicker
 import com.metacto.core.presentation.itemPicker.ItemPickerContract.Event
 import com.metacto.core.presentation.itemPicker.ItemPickerContract.State
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.utils.extensions.noRippleClickable
+import kotlinx.coroutines.launch
 
 @Composable
 fun ItemPickerContent(
     state: State,
     onEvent: (Event) -> Unit
 ) {
-    // Init wheel state
+    // Prepare main objects
     val wheelState = rememberFWheelPickerState(state.initialItemIndex)
+    val coroutineScope = rememberCoroutineScope()
 
     // Scroll to initial index
     LaunchedEffect(state.initialItemIndex) {
@@ -46,20 +50,26 @@ fun ItemPickerContent(
     ) {
         // Render wheel picker
         WheelPicker(
+            modifier = Modifier.fillMaxWidth(),
             state = wheelState,
             count = state.items.size,
-            unfocusedCount = 3,
+            unfocusedCount = state.unfocusedItemsCount,
             isVertical = true,
-            itemSize = CoreTheme.spacings.pickerItemSize,
-            modifier = Modifier.fillMaxWidth()
-        ) {
+            itemSize = CoreTheme.spacings.pickerItemSize
+        ) { index ->
             // Render item title
             Text(
-                text = state.items[it].title,
+                text = state.items[index].title,
                 textAlign = TextAlign.Center,
                 style = CoreTheme.typography.pickerItem,
                 color = CoreTheme.colors.pickerItem,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .noRippleClickable {
+                        coroutineScope.launch {
+                            wheelState.animateScrollToIndex(index)
+                        }
+                    }
             )
         }
     }
