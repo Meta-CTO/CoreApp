@@ -86,3 +86,5 @@ expect fun Float.formatToMaxTwoDecimals(): String
 expect fun Float.formatToComma(): String
 
 expect fun Float.formatToCurrency(): String
+expect fun Float.format(decimalsCount: Int): String
+expect fun Double.format(decimalsCount: Int): String

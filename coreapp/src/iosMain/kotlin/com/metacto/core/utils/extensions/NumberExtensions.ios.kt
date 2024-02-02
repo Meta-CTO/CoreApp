@@ -26,3 +26,9 @@ actual fun Float.formatToComma(): String =
 
 actual fun Float.formatToCurrency(): String =
     NSString.stringWithFormat("$%,.0f", this)
+
+actual fun Float.format(decimalsCount: Int): String =
+    NSString.stringWithFormat("$%,.${decimalsCount}f", this)
+
+actual fun Double.format(decimalsCount: Int): String =
+    NSString.stringWithFormat("$%,.${decimalsCount}f", this)
