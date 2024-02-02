@@ -2,6 +2,7 @@ package com.metacto.core.utils.extensions
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlin.math.pow
 import kotlin.random.Random
 
 fun Int.isOdd(): Boolean = this % 2 != 0
@@ -76,6 +77,16 @@ expect fun Double.formatToMaxOneDecimal(): String
 expect fun Double.formatToMaxTwoDecimals(): String
 
 expect fun Double.formatToComma(): String
+
+fun Double.truncate(decimalsCount: Int): Double {
+    val multiplier = 10.0.pow(decimalsCount.toDouble())
+    return (this * multiplier).toInt() / multiplier
+}
+
+fun Float.truncate(decimalsCount: Int): Float {
+    val multiplier = 10.0.pow(decimalsCount.toDouble())
+    return (this * multiplier).toInt() / multiplier.toFloat()
+}
 
 expect fun Double.formatToCurrency(): String
 
