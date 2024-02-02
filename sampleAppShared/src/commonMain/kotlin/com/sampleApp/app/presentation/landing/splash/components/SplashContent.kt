@@ -54,6 +54,7 @@ internal fun SplashContent(
 
         VideoPlayer(
             url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            autoPlay = true,
             modifier = Modifier
                 .background(AppTheme.colors.black)
                 .fillMaxWidth()

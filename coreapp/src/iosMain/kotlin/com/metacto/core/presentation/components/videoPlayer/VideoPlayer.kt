@@ -5,6 +5,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.UIKitView
 import kotlinx.cinterop.ExperimentalForeignApi
+import platform.AVFoundation.AVLayerVideoGravityResizeAspect
+import platform.AVFoundation.AVLayerVideoGravityResizeAspectFill
 import platform.AVFoundation.AVPlayer
 import platform.AVFoundation.AVPlayerLayer
 import platform.AVFoundation.play
@@ -19,6 +21,7 @@ import platform.UIKit.UIView
 actual fun VideoPlayer(
     modifier: Modifier,
     autoPlay: Boolean,
+    scaleToCrop: Boolean,
     url: String
 ) {
     val player = remember(url) {
@@ -28,6 +31,11 @@ actual fun VideoPlayer(
     val playerLayer = remember(player) {
         AVPlayerLayer().apply {
             this.player = player
+            videoGravity = if (scaleToCrop) {
+                AVLayerVideoGravityResizeAspectFill
+            } else {
+                AVLayerVideoGravityResizeAspect
+            }
         }
     }
 
@@ -35,6 +43,11 @@ actual fun VideoPlayer(
         AVPlayerViewController().apply {
             this.player = player
             showsPlaybackControls = true
+            videoGravity = if (scaleToCrop) {
+                AVLayerVideoGravityResizeAspectFill
+            } else {
+                AVLayerVideoGravityResizeAspect
+            }
         }
     }
 

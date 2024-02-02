@@ -7,5 +7,6 @@ import androidx.compose.ui.Modifier
 expect fun VideoPlayer(
     modifier: Modifier = Modifier,
     autoPlay: Boolean = false,
+    scaleToCrop: Boolean = false,
     url: String
 )

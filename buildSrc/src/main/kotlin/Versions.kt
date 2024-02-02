@@ -34,4 +34,5 @@ object Versions {
     const val COIL = "3.0.0-alpha02"
     const val COIL_ANDROID = "2.5.0"
     const val COMPOTTIE = "1.1.0"
+    const val EXO_PLAYER = "1.2.1"
 }
