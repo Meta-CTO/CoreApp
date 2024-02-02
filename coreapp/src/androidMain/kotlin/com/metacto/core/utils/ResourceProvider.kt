@@ -12,7 +12,7 @@ class ResourceProvider(
 ) : IResourceProvider {
 
     override fun getString(res: StringResource, vararg args: Any): String {
-        return res.format(args).toString(context)
+        return res.format(*args).toString(context)
     }
 
     @SuppressLint("DiscouragedApi")
