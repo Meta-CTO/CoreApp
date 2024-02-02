@@ -13,3 +13,15 @@ actual fun Double.formatToComma(): String =
 
 actual fun Double.formatToCurrency(): String =
     DecimalFormat("$#,##0").format(this)
+
+actual fun Float.formatToMaxOneDecimal(): String =
+    DecimalFormat("#.#").format(this)
+
+actual fun Float.formatToMaxTwoDecimals(): String =
+    DecimalFormat("##0.00").format(this)
+
+actual fun Float.formatToComma(): String =
+    DecimalFormat("#,##0").format(this)
+
+actual fun Float.formatToCurrency(): String =
+    DecimalFormat("$#,##0").format(this)
