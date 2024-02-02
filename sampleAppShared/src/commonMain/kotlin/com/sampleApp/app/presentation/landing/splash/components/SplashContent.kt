@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.ratingBar.RatingBar
 import com.metacto.core.presentation.components.ratingBar.StepSize
+import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.extensions.noRippleClickable
 import com.metacto.core.utils.extensions.rememberLottieComposition
 import com.sampleApp.app.MR
@@ -36,69 +37,93 @@ internal fun SplashContent(
 ) {
     val modifier = if (state.isWelcome) Modifier.background(Color.Blue) else Modifier
 
-    // Container column
-    ScreenColumn(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier = Modifier.fillMaxSize(),
-        enableSafeInsets = true,
-        isScrollable = false
-    ) {
+    ScreenColumn() {
         Text(
             text = if (state.isWelcome) "Welcome" else "Sample App",
             style = AppTheme.typography.fenwickBold24,
-            color = AppTheme.colors.midnight,
+            color = Color.Red,
             modifier = modifier
                 .clickable { onEvent(Event.TextClicked) }
         )
 
-        if (state.isWelcome) {
-            val composition by rememberLottieComposition(MR.assets.people_lottie_anim)
-            val progress = animateLottieCompositionAsState(
-                composition = composition,
-                iterations = LottieConstants.IterateForever,
-            )
-            LottieAnimation(
-                composition = composition,
-                progress = { progress.value },
-                contentScale = ContentScale.FillHeight,
-                alignment = Alignment.Center,
-                clipToCompositionBounds = true,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .noRippleClickable {
-                        onEvent(Event.AnimClicked)
-                    }
-            )
-        } else {
-            val composition by rememberLottieComposition(MR.assets.search_lottie_anim)
-            val progress = animateLottieCompositionAsState(
-                composition = composition,
-                iterations = LottieConstants.IterateForever,
-            )
-            LottieAnimation(
-                composition = composition,
-                progress = { progress.value },
-                modifier = Modifier
-                    .width(300.dp)
-                    .height(200.dp)
-                    .align(Alignment.CenterHorizontally)
-                    .background(Color.Gray)
-                    .noRippleClickable {
-                        onEvent(Event.AnimClicked)
-                    }
-            )
+        Text(
+            text = "Selected item: ${state.selectedItem}",
+            style = AppTheme.typography.fenwickBold18,
+            color = Color.Red
+        )
 
-            RatingBar(
-                value = 3.5f,
-//                style = RatingBarStyle.Fill(),
-                isIndicator = true,
-                stepSize = StepSize.HALF,
-                size = AppTheme.spacings.spacing30,
-                painterFilled = painterResource(MR.images.ic_star_filled),
-                painterEmpty = painterResource(MR.images.ic_star_empty),
-            )
-        }
+        VideoPlayer(
+            url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+            modifier = Modifier
+                .background(AppTheme.colors.black)
+                .fillMaxWidth()
+                .height(200.dp)
+        )
     }
+//
+//    // Container column
+//    ScreenColumn(
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        verticalArrangement = Arrangement.Center,
+//        modifier = Modifier.fillMaxSize(),
+//        enableSafeInsets = true,
+//        isScrollable = false
+//    ) {
+//        Text(
+//            text = if (state.isWelcome) "Welcome" else "Sample App",
+//            style = AppTheme.typography.fenwickBold24,
+//            color = AppTheme.colors.midnight,
+//            modifier = modifier
+//                .clickable { onEvent(Event.TextClicked) }
+//        )
+//
+//        if (state.isWelcome) {
+//            val composition by rememberLottieComposition(MR.assets.people_lottie_anim)
+//            val progress = animateLottieCompositionAsState(
+//                composition = composition,
+//                iterations = LottieConstants.IterateForever,
+//            )
+//            LottieAnimation(
+//                composition = composition,
+//                progress = { progress.value },
+//                contentScale = ContentScale.FillHeight,
+//                alignment = Alignment.Center,
+//                clipToCompositionBounds = true,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .weight(1f)
+//                    .noRippleClickable {
+//                        onEvent(Event.AnimClicked)
+//                    }
+//            )
+//        } else {
+//            val composition by rememberLottieComposition(MR.assets.search_lottie_anim)
+//            val progress = animateLottieCompositionAsState(
+//                composition = composition,
+//                iterations = LottieConstants.IterateForever,
+//            )
+//            LottieAnimation(
+//                composition = composition,
+//                progress = { progress.value },
+//                modifier = Modifier
+//                    .width(300.dp)
+//                    .height(200.dp)
+//                    .align(Alignment.CenterHorizontally)
+//                    .background(Color.Gray)
+//                    .noRippleClickable {
+//                        onEvent(Event.AnimClicked)
+//                    }
+//            )
+//
+//            RatingBar(
+//                value = 3.5f,
+////                style = RatingBarStyle.Fill(),
+//                isIndicator = true,
+//                stepSize = StepSize.HALF,
+//                size = AppTheme.spacings.spacing30,
+//                painterFilled = painterResource(MR.images.ic_star_filled),
+//                painterEmpty = painterResource(MR.images.ic_star_empty),
+//            )
+//        }
+//    }
 }

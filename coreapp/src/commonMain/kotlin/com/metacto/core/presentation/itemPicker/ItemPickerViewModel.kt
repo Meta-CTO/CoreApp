@@ -15,7 +15,8 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
     override fun handleEvents(event: Event): Any = when (event) {
         is Event.Init -> init(
             items = event.items,
-            selectedItem = event.selectedItem
+            selectedItem = event.selectedItem,
+            unfocusedItemsCount = event.unfocusedItemsCount
         )
 
         Event.CloseClicked -> navManager.goBack()
@@ -24,7 +25,8 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
 
     private fun init(
         items: List<PickerItem>,
-        selectedItem: PickerItem?
+        selectedItem: PickerItem?,
+        unfocusedItemsCount: Int
     ) {
         // Validate if already initialized
         if (currentState.isInitialized) return
@@ -39,7 +41,8 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
         setState {
             copy(
                 items = items,
-                initialItemIndex = initialItemIndex
+                initialItemIndex = initialItemIndex,
+                unfocusedItemsCount = unfocusedItemsCount
             )
         }
 
