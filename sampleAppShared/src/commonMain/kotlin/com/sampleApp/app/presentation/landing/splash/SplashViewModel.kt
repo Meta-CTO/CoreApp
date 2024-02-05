@@ -3,13 +3,19 @@ package com.sampleApp.app.presentation.landing.splash
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItem
+import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.sampleApp.app.MR
+import com.sampleApp.app.domain.TestUserModel
+import com.sampleApp.app.domain.events.UserEvent
 import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
 
-class SplashViewModel : BaseViewModel<State, Event, Effect>() {
+class SplashViewModel(
+    private val eventBroadcaster: EventBroadcaster
+) : BaseViewModel<State, Event, Effect>() {
+    private var clickCount = 0
 
     fun init(isWelcome: Boolean) {
         // Validate if already initialized
@@ -36,6 +42,26 @@ class SplashViewModel : BaseViewModel<State, Event, Effect>() {
         // Observe item picker results
         observeItemPickerResults()
 
+        if (isWelcome.not()) {
+            executeSilent({
+                eventBroadcaster.subscribeToEvent<UserEvent.UserDeleted>(UserEvent.UserDeleted.eventName) {
+                    println("user deleted: $it")
+                }
+            })
+
+            executeSilent({
+                eventBroadcaster.subscribeToEvent<UserEvent.UserUpdated>(UserEvent.UserUpdated.eventName) {
+                    println("user updated: ${it.userName}")
+                }
+            })
+
+            executeSilent({
+                eventBroadcaster.subscribeToEvent<UserEvent.UserAdded>(UserEvent.UserAdded.eventName) {
+                    println("user added: ${it.user}")
+                }
+            })
+        }
+
         // Update the flag
         setState { copy(isInitialized = true) }
     }
@@ -57,18 +83,42 @@ class SplashViewModel : BaseViewModel<State, Event, Effect>() {
         }
 
         Event.TextClicked -> {
+            when {
+                clickCount == 0 -> {
+                    eventBroadcaster.notify(UserEvent.UserDeleted())
+                }
+
+                clickCount == 1 -> {
+                    eventBroadcaster.notify(UserEvent.UserUpdated("shamy updated"))
+                }
+
+                clickCount == 2 -> {
+                    eventBroadcaster.notify(UserEvent.UserAdded(TestUserModel("naaame", 3, true)))
+                }
+
+                else -> {
+                    if (currentState.isWelcome) {
+                        navManager.clearAndNavigate(SplashScreen(isWelcome = true))
+                    } else {
+                        navManager.navigate(SplashScreen(isWelcome = true))
+                    }
+                }
+            }
+
+            clickCount++
+
 //            navManager.navigate(
 //                SplashScreen(
 //                    isWelcome = currentState.isWelcome.not()
 //                )
 //            )
 
-            navManager.navigateToBottomSheet(
-                ItemPickerSheet(
-                    items = currentState.options,
-                    selectedItem = currentState.selectedItem
-                )
-            )
+//            navManager.navigateToBottomSheet(
+//                ItemPickerSheet(
+//                    items = currentState.options,
+//                    selectedItem = currentState.selectedItem
+//                )
+//            )
         }
 
         Event.AnimClicked -> {

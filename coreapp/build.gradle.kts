@@ -93,6 +93,9 @@ kotlin {
                 api(Dependencies.Coil.COMPOSE)
                 api(Dependencies.Coil.NETOWRK)
 
+                // GitLive
+                api(Dependencies.GitLive.CONFIG)
+
                 // Others
                 api(Dependencies.STRAPI_KMM)
                 api(Dependencies.LIB_PHONE_NUMBER)
@@ -118,6 +121,7 @@ kotlin {
                 api(Dependencies.Firebase.DYNAMIC_LINKS)
                 api(Dependencies.Firebase.CRASHLYTICS)
                 api(Dependencies.Firebase.ANALYTICS)
+                api(Dependencies.Firebase.MESSAGING)
                 api(Dependencies.Firebase.PLAY_SERVICES_AUTH)
 
                 // Koin

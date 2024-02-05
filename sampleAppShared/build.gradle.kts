@@ -72,7 +72,11 @@ kotlin {
             linkOnly = true
         )
         pod(
-            name = "AWSS3",
+            name = Dependencies.Pods.FIREBASE_REMOTE_CONFIG,
+            linkOnly = true
+        )
+        pod(
+            name = Dependencies.Pods.AWSS3,
             linkOnly = true
         )
 

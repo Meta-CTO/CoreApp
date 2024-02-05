@@ -11,7 +11,9 @@ object Dependencies {
         const val GOOGLE_SIGN_IN = "GoogleSignIn"
         const val FIREBASE_DYNAMIC_LINKS = "FirebaseDynamicLinks"
         const val FIREBASE_CRASHLYTICS = "FirebaseCrashlytics"
+        const val FIREBASE_REMOTE_CONFIG = "FirebaseRemoteConfig"
         const val AMPLITUDE = "Amplitude"
+        const val AWSS3 = "AWSS3"
 
         object CleverTap {
             const val MODULE = "CleverTapSDK"
@@ -68,6 +70,7 @@ object Dependencies {
         const val DYNAMIC_LINKS = "com.google.firebase:firebase-dynamic-links-ktx"
         const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics"
         const val ANALYTICS = "com.google.firebase:firebase-analytics"
+        const val MESSAGING = "com.google.firebase:firebase-messaging-ktx"
         const val PLAY_SERVICES_AUTH =
             "com.google.android.gms:play-services-auth:${Versions.PLAY_SERVICES_AUTH}"
     }
@@ -88,6 +91,10 @@ object Dependencies {
     object Modules {
         const val CORE_APP = ":coreapp"
         const val SAMPLE_APP_SHARED = ":sampleAppShared"
+    }
+
+    object GitLive {
+        const val CONFIG = "dev.gitlive:firebase-config:${Versions.GIT_LIVE}"
     }
 
     const val STRAPI_KMM = "com.swensonhe:strapi:${Versions.STRAPI_KMM}"

@@ -3,15 +3,20 @@ package com.metacto.core.utils.extensions
 import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 
 @SuppressLint("ComposableNaming")
 @Composable
@@ -66,5 +71,41 @@ fun getInsetsController(): WindowInsetsControllerCompat? {
 
     return window?.let {
         WindowCompat.getInsetsController(window, view)
+    }
+}
+
+@Composable
+fun OnLifecycleEvent(
+    onCreate: () -> Unit = {},
+    onStart: () -> Unit = {},
+    onResume: () -> Unit = {},
+    onPause: () -> Unit = {},
+    onStop: () -> Unit = {},
+    onDestroy: () -> Unit = {},
+    onAny: () -> Unit = {},
+    onDispose: () -> Unit = {}
+) {
+    val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
+
+    DisposableEffect(lifecycleOwner.value) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_CREATE -> onCreate.invoke()
+                Lifecycle.Event.ON_START -> onStart.invoke()
+                Lifecycle.Event.ON_RESUME -> onResume.invoke()
+                Lifecycle.Event.ON_PAUSE -> onPause.invoke()
+                Lifecycle.Event.ON_STOP -> onStop.invoke()
+                Lifecycle.Event.ON_DESTROY -> onDestroy.invoke()
+                Lifecycle.Event.ON_ANY -> onAny.invoke()
+            }
+        }
+
+        val lifecycle = lifecycleOwner.value.lifecycle
+        lifecycle.addObserver(observer)
+
+        onDispose {
+            onDispose.invoke()
+            lifecycle.removeObserver(observer)
+        }
     }
 }
