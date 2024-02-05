@@ -5,6 +5,8 @@ import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.navigation.NavManager
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.metacto.core.utils.phoneNumber.PhoneNumberManager
+import com.metacto.core.utils.remoteConfigs.FirebaseRemoteConfigs
+import com.metacto.core.utils.remoteConfigs.IRemoteConfigs
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.ActionCodeSettings
 import dev.gitlive.firebase.auth.auth
@@ -64,6 +66,13 @@ fun coreModule(
         val metadataLoader = defaultMetadataLoader()
         PhoneNumberUtil.createInstance(
             metadataLoader = metadataLoader
+        )
+    }
+
+    single<IRemoteConfigs> {
+        FirebaseRemoteConfigs(
+            kmmPreference = get(),
+            firebaseConfigs = get()
         )
     }
 }

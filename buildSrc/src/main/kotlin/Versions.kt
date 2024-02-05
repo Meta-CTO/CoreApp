@@ -24,7 +24,7 @@ object Versions {
     const val SECURITY_CRYPTO = "1.0.0"
     const val PLAY_SERVICES_AUTH = "20.7.0"
     const val SPLASH_SCREEN = "1.1.0-alpha02"
-    const val FIREBASE = "32.1.1"
+    const val FIREBASE = "32.7.0"
     const val SERIALIZATION = "1.9.21"
     const val PLAY_SERVICES_PLUGIN = "4.3.14"
     const val CRASHLYTICS_PLUGIN = "2.9.4"
@@ -35,4 +35,5 @@ object Versions {
     const val COIL_ANDROID = "2.5.0"
     const val COMPOTTIE = "1.1.0"
     const val EXO_PLAYER = "1.2.1"
+    const val GIT_LIVE = "1.10.4"
 }

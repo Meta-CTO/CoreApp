@@ -7,5 +7,5 @@ import org.koin.dsl.module
 
 val viewModelsModule = module {
     commonViewModel { AppViewModel() }
-    commonViewModel { SplashViewModel() }
+    commonViewModel { SplashViewModel(get()) }
 }

@@ -27,6 +27,7 @@ import io.ktor.client.plugins.HttpRequestTimeoutException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -272,6 +273,11 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
             // Collect results with view model scope
             navManager.onNavResult<D, R>(callback = onResult)
         })
+    }
+
+    override fun onDispose() {
+        screenModelScope.cancel()
+        super.onDispose()
     }
 }
 

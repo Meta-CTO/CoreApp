@@ -17,6 +17,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
+import com.metacto.core.utils.extensions.OnLifecycleEvent
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -74,4 +75,15 @@ actual fun VideoPlayer(
             exoPlayer.release()
         }
     }
+
+    // Handle lifecycle
+    OnLifecycleEvent(
+        onPause = {
+            exoPlayer.pause()
+        },
+        onDispose = {
+            exoPlayer.pause()
+            exoPlayer.release()
+        }
+    )
 }
