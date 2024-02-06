@@ -12,7 +12,6 @@ import com.metacto.core.utils.imagePreloader.IPreloader
 import com.metacto.core.utils.imagePreloader.Preloader
 import com.metacto.coreApp.MR
 import dev.gitlive.firebase.Firebase
-import dev.gitlive.firebase.initialize
 import dev.gitlive.firebase.remoteconfig.remoteConfig
 import dev.icerock.moko.resources.utils.loadableBundle
 import org.koin.core.definition.Definition
@@ -53,7 +52,6 @@ actual fun corePlatformModule(appStorageName: String) = module {
     }
 
     single {
-        Firebase.initialize()
         Firebase.remoteConfig
     }
 }
