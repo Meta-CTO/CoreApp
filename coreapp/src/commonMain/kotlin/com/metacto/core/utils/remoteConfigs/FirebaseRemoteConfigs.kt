@@ -78,6 +78,7 @@ class FirebaseRemoteConfigs(
         }
     }
 
+    @Throws(Throwable::class)
     override suspend fun forceGetString(key: String): String? {
         return getString(key) ?: run {
             fetchConfigsFromRemote()
@@ -93,6 +94,7 @@ class FirebaseRemoteConfigs(
         }
     }
 
+    @Throws(Throwable::class)
     override suspend fun forceGetBoolean(key: String): Boolean? {
         return getBoolean(key) ?: run {
             fetchConfigsFromRemote()
@@ -108,6 +110,7 @@ class FirebaseRemoteConfigs(
         }
     }
 
+    @Throws(Throwable::class)
     override suspend fun forceGetDouble(key: String): Double? {
         return getDouble(key) ?: run {
             fetchConfigsFromRemote()
@@ -123,6 +126,7 @@ class FirebaseRemoteConfigs(
         }
     }
 
+    @Throws(Throwable::class)
     override suspend fun forceGetLong(key: String): Long? {
         return getLong(key) ?: run {
             fetchConfigsFromRemote()
@@ -138,6 +142,7 @@ class FirebaseRemoteConfigs(
         }
     }
 
+    @Throws(Throwable::class)
     override suspend fun forceGetInt(key: String): Int? {
         return getInt(key) ?: run {
             fetchConfigsFromRemote()
