@@ -2,6 +2,8 @@ package com.metacto.core.utils.phoneNumber
 
 import com.metacto.core.domain.CoreConstants.US_COUNTRY_CODE
 
+val Class = IPhoneNumberManager::class
+
 interface IPhoneNumberManager {
     fun getValidPhoneNumber(
         number: String,

@@ -1,5 +1,7 @@
 package com.metacto.core.utils.remoteConfigs
 
+val Class = IRemoteConfigs::class
+
 interface IRemoteConfigs {
     suspend fun init(minFetchIntervalSeconds: Long = DEFAULT_MIN_FETCH_INTERVAL_SECONDS)
 

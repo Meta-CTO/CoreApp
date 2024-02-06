@@ -12,6 +12,8 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlin.reflect.KClass
 
+val Class = NavManager::class
+
 @OptIn(DelicateCoroutinesApi::class)
 class NavManager {
     private val _effects: Channel<NavEffect> = Channel()
