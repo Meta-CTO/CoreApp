@@ -1,8 +1,5 @@
 package com.metacto.core.utils.extensions
 
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.encodeToJsonElement
 import kotlin.math.abs
 import kotlin.random.Random
 
@@ -126,14 +123,3 @@ fun <T> Array<T>.random(): T {
 }
 
 fun <T> List<T>.takeIfNotEmpty() = this.takeIf { it.isNotEmpty() }
-
-fun <K, V> Map<K, V>.toPairs(): List<Pair<K, V>> {
-    return this.map { (key, value) -> key to value }
-}
-
-inline fun <reified V> Map<String, V>.toJsonObject(): JsonObject {
-    val elements = this.map { (key, value) ->
-        key to Json.encodeToJsonElement(value)
-    }
-    return JsonObject(elements.toMap())
-}
