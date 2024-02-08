@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.metacto.core.presentation.base.BaseSheet
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
-import com.metacto.core.presentation.base.getViewModel
+import com.metacto.core.presentation.base.rememberViewModel
+import com.metacto.core.presentation.options.OptionsContract.Event
 import com.metacto.core.presentation.options.components.OptionsContent
 import com.metacto.core.presentation.options.models.OptionUIModel
-import com.metacto.core.presentation.options.OptionsContract.Event
 
 actual class OptionsSheet actual constructor(
     actual val options: List<OptionUIModel>
@@ -16,7 +16,7 @@ actual class OptionsSheet actual constructor(
     @Composable
     override fun Content() {
         // Get the view model
-        val viewModel = getViewModel<OptionsViewModel>()
+        val viewModel = rememberViewModel<OptionsViewModel>()
 
         // Init view model
         LaunchedEffect(SIDE_EFFECTS_KEY) {

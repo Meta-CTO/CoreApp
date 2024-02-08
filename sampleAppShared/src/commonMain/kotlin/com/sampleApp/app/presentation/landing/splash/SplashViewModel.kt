@@ -3,6 +3,8 @@ package com.sampleApp.app.presentation.landing.splash
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItem
+import com.metacto.core.presentation.options.OptionsSheet
+import com.metacto.core.presentation.options.models.OptionUIModel
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.sampleApp.app.MR
 import com.sampleApp.app.domain.TestUserModel
@@ -83,29 +85,49 @@ class SplashViewModel(
         }
 
         Event.TextClicked -> {
-            when {
-                clickCount == 0 -> {
-                    eventBroadcaster.notify(UserEvent.UserDeleted())
-                }
+            val options = listOf(
+                OptionUIModel(
+                    title = "Option 1"
+                ),
+                OptionUIModel(
+                    title = "Option 2"
+                ),
+                OptionUIModel(
+                    title = "Option 3"
+                ),
+                OptionUIModel(
+                    title = "Option 4"
+                ),
+            )
+            navManager.navigateToBottomSheet(
+                OptionsSheet(
+                    options = options
+                )
+            )
 
-                clickCount == 1 -> {
-                    eventBroadcaster.notify(UserEvent.UserUpdated("shamy updated"))
-                }
-
-                clickCount == 2 -> {
-                    eventBroadcaster.notify(UserEvent.UserAdded(TestUserModel("naaame", 3, true)))
-                }
-
-                else -> {
-                    if (currentState.isWelcome) {
-                        navManager.clearAndNavigate(SplashScreen(isWelcome = true))
-                    } else {
-                        navManager.navigate(SplashScreen(isWelcome = true))
-                    }
-                }
-            }
-
-            clickCount++
+//            when {
+//                clickCount == 0 -> {
+//                    eventBroadcaster.notify(UserEvent.UserDeleted())
+//                }
+//
+//                clickCount == 1 -> {
+//                    eventBroadcaster.notify(UserEvent.UserUpdated("shamy updated"))
+//                }
+//
+//                clickCount == 2 -> {
+//                    eventBroadcaster.notify(UserEvent.UserAdded(TestUserModel("naaame", 3, true)))
+//                }
+//
+//                else -> {
+//                    if (currentState.isWelcome) {
+//                        navManager.clearAndNavigate(SplashScreen(isWelcome = true))
+//                    } else {
+//                        navManager.navigate(SplashScreen(isWelcome = true))
+//                    }
+//                }
+//            }
+//
+//            clickCount++
 
 //            navManager.navigate(
 //                SplashScreen(
