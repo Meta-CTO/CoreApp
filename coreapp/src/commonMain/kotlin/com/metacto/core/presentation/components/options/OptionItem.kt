@@ -58,16 +58,6 @@ fun OptionItem(
                 .padding(start = CoreTheme.spacings.paddingXLarge)
         )
 
-        if(option.showSelectionIcon && option.selectionIcon != null && option.isSelected) {
-            // Render selection icon if required
-            Image(
-                painter = painterResource(option.selectionIcon),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(color),
-                modifier = Modifier.size(CoreTheme.spacings.iconMedium).padding(horizontal = CoreTheme.spacings.paddingSmall)
-            )
-        }
-
         // Render arrow if required
         if (option.hasArrow) {
             Image(
