@@ -15,7 +15,6 @@ Pod::Spec.new do |spec|
     spec.dependency 'FirebaseAuth'
     spec.dependency 'FirebaseCrashlytics'
     spec.dependency 'FirebaseDynamicLinks'
-    spec.dependency 'FirebaseRemoteConfig'
     spec.dependency 'GoogleSignIn', '7.0.0'
                 
     if !Dir.exist?('build/cocoapods/framework/sampleAppShared.framework') || Dir.empty?('build/cocoapods/framework/sampleAppShared.framework')

@@ -11,4 +11,7 @@ data class OptionUIModel(
     val icon: ImageResource? = null,
     val color: ULong? = null,
     val hasArrow: Boolean = false,
+    val isSelected: Boolean = false,
+    val showSelectionIcon: Boolean = false,
+    val selectionIcon: ImageResource? = null,
 ) : CommonParcelable
