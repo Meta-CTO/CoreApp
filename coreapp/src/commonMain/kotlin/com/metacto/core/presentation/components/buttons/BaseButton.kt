@@ -71,8 +71,7 @@ fun BaseButton(
 
     // Render button
     Button(
-        modifier = modifier
-            .heightIn(min = minHeight + border?.width.orZero()),
+        modifier = modifier.heightIn(min = minHeight + border?.width.orZero()),
         shape = shape,
         border = border,
         enabled = realIsEnabled,

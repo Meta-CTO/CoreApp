@@ -58,6 +58,9 @@ data class CoreColors(
     val optionsArrow: Color = black,
     val divider: Color = Color(0xFFA5A5A5),
     val pickerItem: Color = midnight,
+
+    val pullRefreshIndicator: Color = primary,
+    val pullRefreshIndicatorBackground: Color = white
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

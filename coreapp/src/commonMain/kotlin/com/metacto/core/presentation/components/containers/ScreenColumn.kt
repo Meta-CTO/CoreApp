@@ -1,24 +1,21 @@
 package com.metacto.core.presentation.components.containers
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.isKeyboardVisible
-import com.metacto.core.utils.extensions.onScrolling
 import org.koin.compose.rememberKoinInject
 
 @Composable
@@ -33,6 +30,11 @@ fun ScreenColumn(
     enableSafeInsets: Boolean = true,
     isScrollable: Boolean = false,
     onScrolled: (() -> Unit)? = null,
+    isRefreshable: Boolean = false,
+    isRefreshing: Boolean = false,
+    onRefresh: (() -> Unit)? = null,
+    refreshIndicatorColor: Color = CoreTheme.colors.pullRefreshIndicator,
+    refreshIndicatorBgColor: Color = CoreTheme.colors.pullRefreshIndicatorBackground,
     toolbar: @Composable () -> Unit = {},
     topContent: (@Composable () -> Unit)? = null,
     mainContent: @Composable ColumnScope.() -> Unit,
@@ -40,18 +42,7 @@ fun ScreenColumn(
     // Prepare main objects
     val globalState = rememberKoinInject<ICoreGlobalState>()
     val isKeyboardVisible by isKeyboardVisible()
-    val scrollState = rememberScrollState()
-
-    // Prepare scroll modifier
-    val scrollableModifier = if (isScrollable) {
-        Modifier.verticalScroll(scrollState)
-    } else {
-        Modifier
-    }
-
-    // Listen for scroll events
-    scrollState.onScrolling {
-        // Invoke onScrolled callback
+    val onScrolledHandler: () -> Unit = {
         onScrolled?.invoke()
 
         // TODO: When tap on input field the view is getting scrolled and keyboard is dismissed instatly
@@ -71,15 +62,21 @@ fun ScreenColumn(
         toolbar()
 
         // Then render content column
-        Column(
+        CoreColumn(
             verticalArrangement = verticalArrangement,
             horizontalAlignment = horizontalAlignment,
+            isScrollable = isScrollable,
+            onScrolled = onScrolledHandler,
+            isRefreshable = isRefreshable,
+            isRefreshing = isRefreshing,
+            onRefresh = onRefresh,
+            refreshIndicatorColor = refreshIndicatorColor,
+            refreshIndicatorBgColor = refreshIndicatorBgColor,
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
                 .padding(start = startPadding)
                 .padding(end = endPadding)
-                .then(scrollableModifier)
         ) {
             // Render top content if required
             topContent?.invoke()

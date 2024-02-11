@@ -64,7 +64,7 @@ kotlin {
                 // Compose
                 api(Dependencies.Compose.RUNTIME)
                 api(Dependencies.Compose.FOUNDATION)
-                implementation(Dependencies.Compose.MATERIAL)
+                api(Dependencies.Compose.MATERIAL)
                 api(Dependencies.Compose.MATERIAL3)
                 api(Dependencies.Compose.ANIMATION)
                 api(Dependencies.Compose.ANIMATION_GRAPHICS)
@@ -154,7 +154,7 @@ kotlin {
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                implementation(Dependencies.Compose.MATERIAL)
+                api(Dependencies.Compose.MATERIAL)
             }
         }
     }

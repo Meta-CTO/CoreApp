@@ -17,6 +17,12 @@ import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshState
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.*
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
@@ -352,6 +358,43 @@ fun Modifier.borderIf(
     shape: Shape = RectangleShape
 ): Modifier {
     return if (condition) this.border(border = border, shape = shape) else this
+}
+
+@Composable
+fun Modifier.verticalScrollIf(
+    condition: Boolean,
+    state: ScrollState? = rememberScrollState()
+): Modifier {
+    return if (condition && state != null) this.verticalScroll(state) else this
+}
+
+@Composable
+fun rememberScrollStateIf(condition: Boolean): ScrollState? {
+    return if (condition) rememberScrollState() else null
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun rememberPullRefreshStateIf(
+    condition: Boolean,
+    refreshing: Boolean,
+    onRefresh: () -> Unit,
+): PullRefreshState? {
+    return if (condition) return rememberPullRefreshState(
+        refreshing = refreshing,
+        onRefresh = onRefresh
+    ) else {
+        null
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun Modifier.pullRefreshIf(
+    condition: Boolean,
+    state: PullRefreshState?
+): Modifier {
+    return if (condition && state != null) this.pullRefresh(state) else this
 }
 
 @Composable

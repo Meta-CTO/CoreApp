@@ -37,7 +37,10 @@ internal fun SplashContent(
 ) {
     val modifier = if (state.isWelcome) Modifier.background(Color.Blue) else Modifier
 
-    ScreenColumn() {
+    ScreenColumn(
+        isRefreshable = true,
+        isRefreshing = true
+    ) {
         Text(
             text = if (state.isWelcome) "Welcome" else "Sample App",
             style = AppTheme.typography.fenwickBold24,
