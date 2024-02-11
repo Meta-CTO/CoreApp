@@ -14,12 +14,11 @@ import com.metacto.core.presentation.components.dateTime.DatePickerDefaults.DEFA
 import com.metacto.core.presentation.components.dateTime.DatePickerDefaults.DEFAULT_MIN_DATE
 import com.metacto.core.presentation.components.wheelPicker.DefaultWheel
 import com.metacto.core.utils.extensions.capitalizeFirstLetter
+import com.metacto.core.utils.extensions.daysInMonth
 import com.metacto.core.utils.extensions.getCurrentDate
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import kotlin.math.min
-
-expect fun daysInMonth(year: Int, month: Int): Int
 
 @Composable
 fun AppDatePicker(

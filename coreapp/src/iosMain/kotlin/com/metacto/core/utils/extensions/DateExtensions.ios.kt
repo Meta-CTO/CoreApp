@@ -1,4 +1,4 @@
-package com.metacto.core.presentation.components.dateTime
+package com.metacto.core.utils.extensions
 
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.convert
@@ -19,4 +19,8 @@ actual fun daysInMonth(year: Int, month: Int): Int {
     val date = calendar.dateFromComponents(components) ?: return 0
     val range = calendar.rangeOfUnit(NSCalendarUnitDay, NSCalendarUnitMonth, date)
     return range.size
+}
+
+actual fun Long.toReadableDate(): String {
+    TODO("Not implemented yet")
 }

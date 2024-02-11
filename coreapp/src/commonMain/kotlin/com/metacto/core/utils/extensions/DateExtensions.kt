@@ -108,3 +108,7 @@ fun String.parseDate(format: String): LocalDate? {
         null
     }
 }
+
+expect fun daysInMonth(year: Int, month: Int): Int
+
+expect fun Long.toReadableDate(): String
