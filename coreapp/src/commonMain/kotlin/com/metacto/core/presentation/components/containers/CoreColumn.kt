@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.components.containers
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,7 @@ fun CoreColumn(
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     isScrollable: Boolean = false,
+    scrollState: ScrollState? = rememberScrollStateIf(isScrollable),
     onScrolled: (() -> Unit)? = null,
     isRefreshable: Boolean = false,
     isRefreshing: Boolean = false,
@@ -33,8 +35,8 @@ fun CoreColumn(
     refreshIndicatorBgColor: Color = CoreTheme.colors.pullRefreshIndicatorBackground,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    // Prepare scroll state
-    val scrollState = rememberScrollStateIf(isScrollable)?.also {
+    // Config scroll state
+    scrollState?.let {
         it.onScrolling {
             onScrolled?.invoke()
         }
