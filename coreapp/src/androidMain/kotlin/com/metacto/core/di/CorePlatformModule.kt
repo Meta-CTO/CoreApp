@@ -16,6 +16,7 @@ import com.metacto.core.utils.pushNotifications.FirebasePushNotificationsManager
 import com.metacto.core.utils.pushNotifications.IPushNotificationsManager
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
+import dev.icerock.moko.permissions.PermissionsController
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.definition.Definition
@@ -64,6 +65,12 @@ actual fun corePlatformModule(appStorageName: String) = module {
     single<IPushNotificationsManager> {
         FirebasePushNotificationsManager(
             firebaseMessaging = FirebaseMessaging.getInstance()
+        )
+    }
+
+    single {
+        PermissionsController(
+            applicationContext = androidContext().applicationContext
         )
     }
 }

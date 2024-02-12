@@ -20,6 +20,7 @@ import com.swensonhe.strapikmm.errorhandling.AppException
 import com.swensonhe.strapikmm.errorhandling.NetworkErrorMapper
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
+import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.resources.StringResource
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
@@ -57,6 +58,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     protected val dispatcherProvider by inject<IDispatchersProvider>()
     protected val navManager by inject<NavManager>()
     protected val resourceProvider by inject<IResourceProvider>()
+    val permissionscontroller by inject<PermissionsController>()
 
     abstract fun setInitialState(): S
     abstract fun handleEvents(event: E): Any

@@ -13,6 +13,7 @@ import com.metacto.core.utils.imagePreloader.Preloader
 import com.metacto.coreApp.MR
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
+import dev.icerock.moko.permissions.ios.PermissionsController
 import dev.icerock.moko.resources.utils.loadableBundle
 import org.koin.core.definition.Definition
 import org.koin.core.definition.KoinDefinition
@@ -53,6 +54,10 @@ actual fun corePlatformModule(appStorageName: String) = module {
 
     single {
         Firebase.remoteConfig
+    }
+
+    single {
+        PermissionsController()
     }
 }
 

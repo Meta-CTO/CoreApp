@@ -13,6 +13,7 @@ import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
+import dev.icerock.moko.permissions.Permission
 
 class SplashViewModel(
     private val eventBroadcaster: EventBroadcaster
@@ -85,25 +86,30 @@ class SplashViewModel(
         }
 
         Event.TextClicked -> {
-            val options = listOf(
-                OptionUIModel(
-                    title = "Option 1"
-                ),
-                OptionUIModel(
-                    title = "Option 2"
-                ),
-                OptionUIModel(
-                    title = "Option 3"
-                ),
-                OptionUIModel(
-                    title = "Option 4"
-                ),
-            )
-            navManager.navigateToBottomSheet(
-                OptionsSheet(
-                    options = options
-                )
-            )
+           executeCatching({
+               permissionscontroller.providePermission(Permission.REMOTE_NOTIFICATION)
+               println("Graaaaaanteeeeed")
+           })
+
+//            val options = listOf(
+//                OptionUIModel(
+//                    title = "Option 1"
+//                ),
+//                OptionUIModel(
+//                    title = "Option 2"
+//                ),
+//                OptionUIModel(
+//                    title = "Option 3"
+//                ),
+//                OptionUIModel(
+//                    title = "Option 4"
+//                ),
+//            )
+//            navManager.navigateToBottomSheet(
+//                OptionsSheet(
+//                    options = options
+//                )
+//            )
 
 //            when {
 //                clickCount == 0 -> {

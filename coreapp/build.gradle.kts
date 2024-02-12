@@ -84,6 +84,8 @@ kotlin {
                 // Moko
                 api(Dependencies.Moko.RESOURCES)
                 api(Dependencies.Moko.RESOURCES_COMPOSE)
+                api(Dependencies.Moko.PERMISSIONS)
+                api(Dependencies.Moko.PERMISSIONS_COMPOSE)
 
                 // Kotlin
                 api(Dependencies.Kotlin.DATE_TIME)

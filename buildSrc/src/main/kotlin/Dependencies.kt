@@ -1,8 +1,9 @@
 object Dependencies {
     object Moko {
         const val RESOURCES = "dev.icerock.moko:resources:${Versions.MOKO_RESOURCES}"
-        const val RESOURCES_COMPOSE =
-            "dev.icerock.moko:resources-compose:${Versions.MOKO_RESOURCES}"
+        const val RESOURCES_COMPOSE = "dev.icerock.moko:resources-compose:${Versions.MOKO_RESOURCES}"
+        const val PERMISSIONS = "dev.icerock.moko:permissions:${Versions.MOKO_PERMISSIONS}"
+        const val PERMISSIONS_COMPOSE = "dev.icerock.moko:permissions-compose:${Versions.MOKO_PERMISSIONS}"
         const val GRAPHICS = "dev.icerock.moko:graphics:${Versions.MOKO_GRAPHICS}"
     }
 
