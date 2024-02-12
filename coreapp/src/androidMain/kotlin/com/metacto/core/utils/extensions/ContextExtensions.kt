@@ -7,11 +7,26 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 
 fun Context.getActivity(): Activity? {
+    return when (this) {
+        is Activity -> this
+        else -> {
+            var context = this
+            while (context is ContextWrapper) {
+                context = context.baseContext
+                if (context is Activity) return context
+            }
+            null
+        }
+    }
+}
+
+inline fun <reified Activity : ComponentActivity> Context.getActivity(): Activity? {
     return when (this) {
         is Activity -> this
         else -> {

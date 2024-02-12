@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import cafe.adriel.voyager.core.screen.Screen
 import com.metacto.core.navigation.CoreAppNavigator
 import com.metacto.core.navigation.NavManager
@@ -30,6 +29,7 @@ import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.utils.extensions.dismissKeyboard
 import com.metacto.core.utils.extensions.setNavigationBarColor
 import com.metacto.core.utils.extensions.setStatusBarColor
 import com.metacto.coreApp.MR
@@ -235,7 +235,7 @@ fun CoreAppContent(
     // Handle dismiss keyboard state
     if (globalState.dismissKeyboardState.value) {
         globalState.resetDismissKeyboardState()
-        LocalSoftwareKeyboardController.current?.hide()
+        dismissKeyboard()
     }
 
     // Handle changing status bar color

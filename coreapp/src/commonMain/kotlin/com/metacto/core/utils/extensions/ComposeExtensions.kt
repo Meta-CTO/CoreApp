@@ -417,3 +417,6 @@ expect fun setStatusBarColor(isDark: Boolean)
 
 @Composable
 expect fun setNavigationBarColor(isDark: Boolean)
+
+@Composable
+expect fun dismissKeyboard()

@@ -5,8 +5,10 @@ package com.metacto.core.utils.extensions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asComposeImageBitmap
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -75,4 +77,10 @@ actual fun setStatusBarColor(isDark: Boolean) {
 @Composable
 actual fun setNavigationBarColor(isDark: Boolean) {
     // No need to do that, iOS do this automatically
+}
+
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+actual fun dismissKeyboard() {
+    LocalSoftwareKeyboardController.current?.hide()
 }

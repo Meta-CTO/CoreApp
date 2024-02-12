@@ -7,10 +7,12 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
@@ -108,4 +110,12 @@ fun OnLifecycleEvent(
             lifecycle.removeObserver(observer)
         }
     }
+}
+
+@SuppressLint("ComposableNaming")
+@OptIn(ExperimentalComposeUiApi::class)
+@Composable
+actual fun dismissKeyboard() {
+    LocalView.current.hideKeyboard()
+    LocalSoftwareKeyboardController.current?.hide()
 }
