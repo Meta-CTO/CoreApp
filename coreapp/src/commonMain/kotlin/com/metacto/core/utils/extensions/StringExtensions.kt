@@ -137,11 +137,28 @@ fun String.asInt(): Int {
     }
 }
 
-fun String?.containsAnyOf(strings: List<String>): Boolean {
+fun String?.containsAny(strings: List<String>): Boolean {
+    return containsAny(
+        strings = strings,
+        ignoreCase = false
+    )
+}
+
+fun String?.containsAnyIgnoringCase(strings: List<String>): Boolean {
+    return containsAny(
+        strings = strings,
+        ignoreCase = true
+    )
+}
+
+private fun String?.containsAny(
+    strings: List<String>,
+    ignoreCase: Boolean = false
+): Boolean {
     if (this == null) return false
 
     strings.forEach { str ->
-        if (this.contains(str)) {
+        if (this.contains(str, ignoreCase)) {
             return true
         }
     }
