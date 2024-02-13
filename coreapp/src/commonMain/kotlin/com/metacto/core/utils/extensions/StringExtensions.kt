@@ -137,7 +137,7 @@ fun String.asInt(): Int {
     }
 }
 
-private fun String?.containsAnyOf(strings: List<String>): Boolean {
+fun String?.containsAnyOf(strings: List<String>): Boolean {
     if (this == null) return false
 
     strings.forEach { str ->
