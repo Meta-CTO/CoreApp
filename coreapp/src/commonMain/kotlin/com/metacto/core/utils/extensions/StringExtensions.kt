@@ -136,3 +136,15 @@ fun String.asInt(): Int {
         0
     }
 }
+
+private fun String?.containsAnyOf(strings: List<String>): Boolean {
+    if (this == null) return false
+
+    strings.forEach { str ->
+        if (this.contains(str)) {
+            return true
+        }
+    }
+
+    return false
+}
