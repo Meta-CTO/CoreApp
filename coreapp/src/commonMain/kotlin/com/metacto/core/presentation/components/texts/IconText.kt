@@ -6,13 +6,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
@@ -21,6 +19,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.utils.extensions.tintIfNotNull
 
 @Composable
 fun IconText(
@@ -33,7 +32,7 @@ fun IconText(
     isUnderlined: Boolean = false,
     isSingleLine: Boolean = false,
     color: Color = CoreTheme.colors.tertiary,
-    iconTint: Color = color,
+    iconTint: Color? = color,
     iconSize: Dp = CoreTheme.spacings.paddingXLarge,
     iconSpacing: Dp = CoreTheme.spacings.paddingMedium,
     style: TextStyle = CoreTheme.typography.bodySmall,
@@ -48,18 +47,18 @@ fun IconText(
     ) {
         // Render start icon if possible
         if (startIconVector != null) {
-            Icon(
+            Image(
                 imageVector = startIconVector,
-                tint = iconTint,
-                contentDescription = null,
+                colorFilter = tintIfNotNull(iconTint),
+                contentDescription = text,
                 modifier = Modifier.size(iconSize)
             )
             Spacer(modifier = Modifier.width(iconSpacing))
         } else if (startIconPainter != null) {
-            Icon(
+            Image(
                 painter = startIconPainter,
-                tint = iconTint,
-                contentDescription = null,
+                colorFilter = tintIfNotNull(iconTint),
+                contentDescription = text,
                 modifier = Modifier.size(iconSize)
             )
             Spacer(modifier = Modifier.width(iconSpacing))
@@ -82,7 +81,7 @@ fun IconText(
             Spacer(modifier = Modifier.width(iconSpacing))
             Image(
                 imageVector = endIconVector,
-                colorFilter = ColorFilter.tint(color),
+                colorFilter = tintIfNotNull(iconTint),
                 contentDescription = text,
                 modifier = Modifier.size(iconSize)
             )
@@ -90,7 +89,7 @@ fun IconText(
             Spacer(modifier = Modifier.width(iconSpacing))
             Image(
                 painter = endIconPainter,
-                colorFilter = ColorFilter.tint(color),
+                colorFilter = tintIfNotNull(iconTint),
                 contentDescription = text,
                 modifier = Modifier.size(iconSize)
             )
