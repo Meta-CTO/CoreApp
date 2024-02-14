@@ -13,6 +13,8 @@ internal class SplashScreen(
     private val isWelcome: Boolean = false
 ) : BaseScreen<SplashViewModel>() {
 
+    override val screenTag: String = SplashScreen::class.simpleName + isWelcome
+
     @Composable
     override fun Content() {
         // Get the view model

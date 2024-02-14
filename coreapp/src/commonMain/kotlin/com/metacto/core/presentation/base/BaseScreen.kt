@@ -10,6 +10,9 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 abstract class BaseScreen<T : CoreViewModel<*, *, *>> : Screen, KoinComponent {
+    override val key: ScreenKey = randomUUID()
+    open val viewModelTag: String = randomUUID()
+    open val screenTag: String = randomUUID()
 
     protected fun getNavManager(): NavManager {
         return inject<NavManager>().value
@@ -18,15 +21,11 @@ abstract class BaseScreen<T : CoreViewModel<*, *, *>> : Screen, KoinComponent {
     open fun onBackPressed() {
         getNavManager().goBack()
     }
-
-    override val key: ScreenKey = randomUUID()
-
-    open val tag: String = randomUUID()
 }
 
 @Composable
 inline fun <reified VM : CoreViewModel<*, *, *>> BaseScreen<*>.rememberViewModel(): VM {
-    return rememberScreenModel(tag) {
+    return rememberScreenModel(viewModelTag) {
         inject<VM>().value
     }
 }

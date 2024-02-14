@@ -16,12 +16,6 @@ import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.components.bottomSheets.BottomSheetInsetsContainer
 import com.metacto.core.presentation.components.voyager.FadeTransition
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.core.utils.extensions.clearAndNavigateTo
-import com.metacto.core.utils.extensions.navigateAndPopCurrent
-import com.metacto.core.utils.extensions.navigateTo
-import com.metacto.core.utils.extensions.popByCount
-import com.metacto.core.utils.extensions.popToExclusive
-import com.metacto.core.utils.extensions.popToInclusive
 import org.koin.compose.rememberKoinInject
 
 
@@ -41,7 +35,8 @@ fun CoreAppNavigator(
         navManager.collectNavEffects(this) { effect ->
             when (effect) {
                 is NavEffect.NavigateTo -> navigator?.navigateTo(
-                    screen = effect.destination
+                    screen = effect.destination,
+                    behaviour = effect.behaviour
                 )
 
                 is NavEffect.ClearAndNavigateTo -> navigator?.clearAndNavigateTo(

@@ -3,7 +3,10 @@ package com.metacto.core.navigation
 import kotlin.reflect.KClass
 
 sealed class NavEffect {
-    data class NavigateTo(val destination: NavDestination) : NavEffect()
+    data class NavigateTo(
+        val destination: NavDestination,
+        val behaviour: NavigateBehaviour
+    ) : NavEffect()
 
     data class ClearAndNavigateTo(val destination: NavDestination) : NavEffect()
 

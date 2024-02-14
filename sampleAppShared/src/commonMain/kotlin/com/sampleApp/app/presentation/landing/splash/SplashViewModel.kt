@@ -1,5 +1,6 @@
 package com.sampleApp.app.presentation.landing.splash
 
+import com.metacto.core.navigation.NavigateBehaviour
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItem
@@ -83,10 +84,17 @@ class SplashViewModel(
         }
 
         Event.TextClicked -> {
-           executeCatching({
-               permissionsController.providePermission(Permission.REMOTE_NOTIFICATION)
-               println("Graaaaaanteeeeed")
-           })
+            navManager.navigate(
+                destination = SplashScreen(
+                    isWelcome = currentState.isWelcome
+                ),
+                behaviour = NavigateBehaviour.KeepIfCurrent
+            )
+
+//           executeCatching({
+//               permissionsController.providePermission(Permission.REMOTE_NOTIFICATION)
+//               println("Graaaaaanteeeeed")
+//           })
 
 //            val options = listOf(
 //                OptionUIModel(

@@ -20,10 +20,16 @@ class NavManager {
     private val effects = _effects.receiveAsFlow()
     private val _results = MutableStateFlow<NavResult<*>?>(null)
 
-    fun navigate(destination: NavDestination) {
+    fun navigate(
+        destination: NavDestination,
+        behaviour: NavigateBehaviour = NavigateBehaviour.Normal
+    ) {
         GlobalScope.launch {
             _effects.send(
-                NavEffect.NavigateTo(destination)
+                NavEffect.NavigateTo(
+                    destination = destination,
+                    behaviour = behaviour
+                )
             )
         }
     }
