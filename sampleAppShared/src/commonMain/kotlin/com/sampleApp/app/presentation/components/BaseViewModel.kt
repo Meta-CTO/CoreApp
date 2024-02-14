@@ -16,7 +16,5 @@ abstract class BaseViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
     override val defaultLoadingType: LoadingType = LoadingType.SecondaryCircularBlocking
 
-    override fun getErrorMessageType(): ErrorMessageType {
-        return ErrorMessageType.SnackBar
-    }
+    override val defaultErrorType: ErrorMessageType = ErrorMessageType.SnackBar
 }

@@ -58,7 +58,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     protected val dispatcherProvider by inject<IDispatchersProvider>()
     protected val navManager by inject<NavManager>()
     protected val resourceProvider by inject<IResourceProvider>()
-    val permissionscontroller by inject<PermissionsController>()
+    val permissionsController by inject<PermissionsController>()
 
     abstract fun setInitialState(): S
     abstract fun handleEvents(event: E): Any
@@ -101,9 +101,11 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         val effectValue = builder()
         screenModelScope.launch { _effect.send(effectValue) }
     }
+
     fun <T> executeCatching(
         block: suspend () -> T,
         loadingType: LoadingType = defaultLoadingType,
+        errorType: ErrorMessageType = defaultErrorType,
         scope: CoroutineScope = screenModelScope,
         context: CoroutineContext = dispatcherProvider.io,
         debounce: Long = 0,
@@ -151,7 +153,10 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                     }
                 }
                 if (hasLoading) hideLoading()
-                showError(errorMessage)
+                showError(
+                    error = errorMessage,
+                    errorType = errorType
+                )
                 onError?.invoke(throwable, errorMessage)
             } finally {
                 onComplete?.invoke()
@@ -239,8 +244,23 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         return loadingCount > 0
     }
 
-    protected fun showError(error: String) {
-        when (getErrorMessageType()) {
+    open val defaultErrorType: ErrorMessageType = ErrorMessageType.Popup
+
+    protected fun showError(
+        errorRes: StringResource,
+        errorType: ErrorMessageType = defaultErrorType
+    ) {
+        showError(
+            error = resourceProvider.getString(errorRes),
+            errorType = errorType
+        )
+    }
+
+    protected fun showError(
+        error: String,
+        errorType: ErrorMessageType = defaultErrorType
+    ) {
+        when (errorType) {
             ErrorMessageType.Popup -> coreGlobalState.messagePopup(
                 MessagePopupParams(
                     title = resourceProvider.getString(MR.strings.error),
@@ -255,15 +275,6 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                 )
             )
         }
-    }
-
-    protected fun showError(errorRes: StringResource) {
-        val error = resourceProvider.getString(errorRes)
-        showError(error)
-    }
-
-    open fun getErrorMessageType(): ErrorMessageType {
-        return ErrorMessageType.Popup
     }
 
     protected inline fun <reified D, reified R> NavManager.collectNavResult(

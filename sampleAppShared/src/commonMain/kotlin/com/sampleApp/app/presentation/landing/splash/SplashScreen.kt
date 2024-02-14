@@ -29,7 +29,7 @@ internal class SplashScreen(
         }
 
         // Binds the permissions controller to the LocalLifecycleOwner lifecycle.
-        BindEffect(viewModel.permissionscontroller)
+        BindEffect(viewModel.permissionsController)
 
         // Render content
         SplashContent(
