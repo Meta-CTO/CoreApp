@@ -105,7 +105,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     fun <T> executeCatching(
         block: suspend () -> T,
         loadingType: LoadingType = defaultLoadingType,
-        errorType: ErrorMessageType = defaultErrorType,
+        errorType: ErrorType = defaultErrorType,
         scope: CoroutineScope = screenModelScope,
         context: CoroutineContext = dispatcherProvider.io,
         debounce: Long = 0,
@@ -244,11 +244,11 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         return loadingCount > 0
     }
 
-    open val defaultErrorType: ErrorMessageType = ErrorMessageType.Popup
+    open val defaultErrorType: ErrorType = ErrorType.Popup
 
     protected fun showError(
         errorRes: StringResource,
-        errorType: ErrorMessageType = defaultErrorType
+        errorType: ErrorType = defaultErrorType
     ) {
         showError(
             error = resourceProvider.getString(errorRes),
@@ -258,22 +258,24 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
     protected fun showError(
         error: String,
-        errorType: ErrorMessageType = defaultErrorType
+        errorType: ErrorType = defaultErrorType
     ) {
         when (errorType) {
-            ErrorMessageType.Popup -> coreGlobalState.messagePopup(
+            ErrorType.Popup -> coreGlobalState.messagePopup(
                 MessagePopupParams(
                     title = resourceProvider.getString(MR.strings.error),
                     body = error
                 )
             )
 
-            ErrorMessageType.SnackBar -> coreGlobalState.snackBar(
+            ErrorType.SnackBar -> coreGlobalState.snackBar(
                 SnackBarParams(
                     message = error,
                     type = SnackBarType.ERROR
                 )
             )
+
+            ErrorType.NoError -> {}
         }
     }
 

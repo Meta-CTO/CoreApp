@@ -1,6 +1,7 @@
 package com.metacto.core.presentation.base
 
-enum class ErrorMessageType {
+enum class ErrorType {
     Popup,
     SnackBar,
+    NoError
 }

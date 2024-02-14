@@ -1,7 +1,7 @@
 package com.sampleApp.app.presentation.components
 
 import com.metacto.core.presentation.base.CoreViewModel
-import com.metacto.core.presentation.base.ErrorMessageType
+import com.metacto.core.presentation.base.ErrorType
 import com.metacto.core.presentation.base.ViewEvent
 import com.metacto.core.presentation.base.ViewSideEffect
 import com.metacto.core.presentation.base.ViewState
@@ -16,5 +16,5 @@ abstract class BaseViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
     override val defaultLoadingType: LoadingType = LoadingType.SecondaryCircularBlocking
 
-    override val defaultErrorType: ErrorMessageType = ErrorMessageType.SnackBar
+    override val defaultErrorType: ErrorType = ErrorType.SnackBar
 }
