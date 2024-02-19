@@ -18,6 +18,7 @@ import com.metacto.coreApp.MR
 import com.swensonhe.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
 import com.swensonhe.strapikmm.errorhandling.AppException
 import com.swensonhe.strapikmm.errorhandling.NetworkErrorMapper
+import com.swensonhe.strapikmm.util.Logger
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import dev.icerock.moko.permissions.PermissionsController
@@ -58,6 +59,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     protected val dispatcherProvider by inject<IDispatchersProvider>()
     protected val navManager by inject<NavManager>()
     protected val resourceProvider by inject<IResourceProvider>()
+    protected val logger by inject<Logger>()
     val permissionsController by inject<PermissionsController>()
 
     abstract fun setInitialState(): S
@@ -102,7 +104,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         screenModelScope.launch { _effect.send(effectValue) }
     }
 
-    fun <T> executeCatching(
+    open fun <T> executeCatching(
         block: suspend () -> T,
         loadingType: LoadingType = defaultLoadingType,
         errorType: ErrorType = defaultErrorType,
@@ -133,6 +135,8 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
             } catch (e: CancellationException) {
                 onError?.invoke(e, null)
             } catch (throwable: Throwable) {
+                logger.log("Error: ${throwable.message}")
+
                 if (isAuthError(throwable)) {
                     handleAuthError()
                     return@launch
@@ -168,7 +172,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         return newJob
     }
 
-    fun <T> executeSilent(
+    open fun <T> executeSilent(
         block: suspend () -> T,
         scope: CoroutineScope = screenModelScope,
         context: CoroutineContext = dispatcherProvider.io,
@@ -189,6 +193,8 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
             try {
                 block.invoke()
             } catch (throwable: Throwable) {
+                logger.log("Error: ${throwable.message}")
+
                 if (isAuthError(throwable)) {
                     handleAuthError()
                     return@launch

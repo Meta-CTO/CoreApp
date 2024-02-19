@@ -1,7 +1,9 @@
 package com.metacto.core.utils
 
 import android.icu.text.SimpleDateFormat
+import android.text.format.DateUtils
 import kotlinx.datetime.Instant
+import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
 
@@ -9,7 +11,11 @@ actual typealias Date = java.util.Date
 
 actual fun Date.toMillis(): Long = this.time
 
-actual object KMMDateFormatter {
+actual fun dateFromTimestamp(timestamp: Long): Date {
+    return Date(timestamp)
+}
+
+actual object DateHelper {
     actual fun format(instant: Instant, format: String): String {
         val timestamp = instant.toEpochMilliseconds()
         val date = Date(timestamp)
@@ -65,5 +71,30 @@ actual object KMMDateFormatter {
         }
 
         return sdf.format(date)
+    }
+
+    @Throws(Throwable::class)
+    actual fun daysInMonth(year: Int, month: Int): Int {
+        val calendar = Calendar.getInstance().apply {
+            // Reset the calendar day to the first day of the month to avoid rolling over to the next month
+            set(Calendar.DAY_OF_MONTH, 1)
+            set(Calendar.MONTH, month)
+            set(Calendar.YEAR, year)
+        }
+
+        return calendar.getActualMaximum(Calendar.DATE)
+    }
+
+    @Throws(Throwable::class)
+    actual fun timestampToReadableDate(timestamp: Long): String {
+        val now = java.util.Date().time
+        val difference = now - timestamp
+
+        return when {
+            difference < DateUtils.MINUTE_IN_MILLIS -> "Just now"
+            else -> DateUtils
+                .getRelativeTimeSpanString(timestamp, now, DateUtils.MINUTE_IN_MILLIS)
+                .toString()
+        }
     }
 }

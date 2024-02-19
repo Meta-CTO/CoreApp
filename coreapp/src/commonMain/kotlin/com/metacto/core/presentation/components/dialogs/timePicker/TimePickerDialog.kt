@@ -14,7 +14,7 @@ import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.IResourceProvider
-import com.metacto.core.utils.extensions.getCurrentTime
+import com.metacto.core.utils.getCurrentTime
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.datetime.LocalTime
 import org.koin.compose.rememberKoinInject

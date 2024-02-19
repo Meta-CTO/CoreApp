@@ -10,9 +10,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.metacto.core.presentation.components.wheelPicker.DefaultWheel
-import com.metacto.core.utils.extensions.get12FormatHour
-import com.metacto.core.utils.extensions.getCurrentTime
-import com.metacto.core.utils.extensions.isAM
+import com.metacto.core.utils.get12FormatHour
+import com.metacto.core.utils.getCurrentTime
+import com.metacto.core.utils.isAM
 import kotlinx.datetime.LocalTime
 
 @Composable

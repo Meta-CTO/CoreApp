@@ -1,9 +1,9 @@
 package com.sampleApp.app.presentation.landing.splash
 
-import com.metacto.core.navigation.NavigateBehaviour
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItem
+import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.sampleApp.app.MR
 import com.sampleApp.app.domain.events.UserEvent
@@ -11,7 +11,6 @@ import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
-import dev.icerock.moko.permissions.Permission
 
 class SplashViewModel(
     private val eventBroadcaster: EventBroadcaster
@@ -84,12 +83,14 @@ class SplashViewModel(
         }
 
         Event.TextClicked -> {
-            navManager.navigate(
-                destination = SplashScreen(
-                    isWelcome = currentState.isWelcome
-                ),
-                behaviour = NavigateBehaviour.KeepIfCurrent
-            )
+            println("Date formatted: " + DateHelper.timestampToReadableDate(1708286230001))
+
+//            navManager.navigate(
+//                destination = SplashScreen(
+//                    isWelcome = currentState.isWelcome
+//                ),
+//                behaviour = NavigateBehaviour.KeepIfCurrent
+//            )
 
 //           executeCatching({
 //               permissionsController.providePermission(Permission.REMOTE_NOTIFICATION)

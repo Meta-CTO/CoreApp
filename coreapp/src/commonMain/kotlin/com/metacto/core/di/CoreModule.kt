@@ -7,6 +7,7 @@ import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.metacto.core.utils.phoneNumber.PhoneNumberManager
 import com.metacto.core.utils.remoteConfigs.FirebaseRemoteConfigs
 import com.metacto.core.utils.remoteConfigs.IRemoteConfigs
+import com.swensonhe.strapikmm.util.Logger
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.ActionCodeSettings
 import dev.gitlive.firebase.auth.auth
@@ -74,5 +75,9 @@ fun coreModule(
             kmmPreference = get(),
             firebaseConfigs = get()
         )
+    }
+
+    single {
+        Logger("")
     }
 }

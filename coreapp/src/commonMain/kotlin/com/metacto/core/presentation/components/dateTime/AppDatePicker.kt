@@ -13,9 +13,9 @@ import androidx.compose.ui.Modifier
 import com.metacto.core.presentation.components.dateTime.DatePickerDefaults.DEFAULT_MAX_DATE
 import com.metacto.core.presentation.components.dateTime.DatePickerDefaults.DEFAULT_MIN_DATE
 import com.metacto.core.presentation.components.wheelPicker.DefaultWheel
+import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.extensions.capitalizeFirstLetter
-import com.metacto.core.utils.extensions.daysInMonth
-import com.metacto.core.utils.extensions.getCurrentDate
+import com.metacto.core.utils.getCurrentDate
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import kotlin.math.min
@@ -62,7 +62,7 @@ fun AppDatePicker(
             if (selectedYear == maxDate.year && selectedMonthIndex == maxDate.monthNumber - 1) {
                 maxDate.dayOfMonth
             } else {
-                daysInMonth(selectedYear, selectedMonthIndex)
+                DateHelper.daysInMonth(selectedYear, selectedMonthIndex)
             }
 
         // Update days list

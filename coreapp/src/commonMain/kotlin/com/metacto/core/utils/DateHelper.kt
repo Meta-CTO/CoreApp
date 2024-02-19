@@ -1,8 +1,6 @@
-package com.metacto.core.utils.extensions
+package com.metacto.core.utils
 
 import com.metacto.core.domain.CoreConstants
-import com.metacto.core.utils.KMMDateFormatter
-import com.metacto.core.utils.toMillis
 import com.swensonhe.strapikmm.util.DatetimeUtil
 import com.swensonhe.strapikmm.util.toLocalDate
 import kotlinx.datetime.Clock
@@ -15,6 +13,37 @@ import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.atTime
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+
+expect object DateHelper {
+    fun format(instant: Instant, format: String): String
+
+    @Throws(Throwable::class)
+    fun stringToDate(string: String, format: String): Date
+
+    @Throws(Throwable::class)
+    fun utcStringToDate(string: String, format: String): Date
+
+    @Throws(Throwable::class)
+    fun dateToString(date: Date, format: String): String
+
+    @Throws(Throwable::class)
+    fun convertDateFormat(date: String, fromFormat: String, toFormat: String): String
+
+    @Throws(Throwable::class)
+    fun dateToUTCString(date: Date, format: String): String
+
+    @Throws(Throwable::class)
+    fun daysInMonth(year: Int, month: Int): Int
+
+    @Throws(Throwable::class)
+    fun timestampToReadableDate(timestamp: Long): String
+}
+
+expect class Date()
+
+expect fun Date.toMillis(): Long
+
+expect fun dateFromTimestamp(timestamp: Long): Date
 
 fun getCurrentDate(): LocalDate {
     return DatetimeUtil.now().toLocalDate()
@@ -76,7 +105,7 @@ fun nowInstant(): Instant {
 }
 
 fun LocalDate.toFormattedDate(format: String): String {
-    return KMMDateFormatter.format(
+    return DateHelper.format(
         instant = this.toInstant(),
         format = format
     )
@@ -89,7 +118,7 @@ fun LocalDate.toServerDate(): String {
 
 fun String.parseServerDate(): LocalDate? {
     return try {
-        KMMDateFormatter.stringToDate(
+        DateHelper.stringToDate(
             string = this,
             format = CoreConstants.SERVER_DATE_FORMAT
         ).toMillis().toLocalDate().date
@@ -100,7 +129,7 @@ fun String.parseServerDate(): LocalDate? {
 
 fun String.parseDate(format: String): LocalDate? {
     return try {
-        KMMDateFormatter.stringToDate(
+        DateHelper.stringToDate(
             string = this,
             format = format
         ).toMillis().toLocalDate().date
@@ -108,7 +137,3 @@ fun String.parseDate(format: String): LocalDate? {
         null
     }
 }
-
-expect fun daysInMonth(year: Int, month: Int): Int
-
-expect fun Long.toReadableDate(): String
