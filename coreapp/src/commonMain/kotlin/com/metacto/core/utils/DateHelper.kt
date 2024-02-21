@@ -37,6 +37,9 @@ expect object DateHelper {
 
     @Throws(Throwable::class)
     fun timestampToReadableDate(timestamp: Long): String
+
+    @Throws(Throwable::class)
+    fun getDayOfMonthSuffix(date: Date): String
 }
 
 expect class Date()

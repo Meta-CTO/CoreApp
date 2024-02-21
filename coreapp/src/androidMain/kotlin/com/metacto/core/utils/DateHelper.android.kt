@@ -97,4 +97,14 @@ actual object DateHelper {
                 .toString()
         }
     }
+
+    @Throws(Throwable::class)
+    actual fun getDayOfMonthSuffix(date: Date): String {
+        return when (dateToString(date, "d").toIntOrNull()) {
+            1 -> "st"
+            2 -> "nd"
+            3 -> "rd"
+            else -> "th"
+        }
+    }
 }
