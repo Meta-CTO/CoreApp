@@ -143,7 +143,7 @@ actual object DateHelper {
         val calendar = NSCalendar.currentCalendar
         val components = NSDateComponents().apply {
             // Reset the calendar day to the first day of the month to avoid rolling over to the next month
-            day = 1.convert()
+            this.day = 1.convert()
             this.month = month.convert()
             this.year = year.convert()
         }
