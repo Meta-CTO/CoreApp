@@ -2,6 +2,8 @@ package com.metacto.core.di
 
 import coil3.PlatformContext
 import com.metacto.core.domain.repos.RepositoriesFactory
+import com.metacto.core.permissions.IPermissionManager
+import com.metacto.core.permissions.PermissionManager
 import com.metacto.core.presentation.base.CommonViewModel
 import com.metacto.core.utils.DispatchersProvider
 import com.metacto.core.utils.IDispatchersProvider
@@ -13,8 +15,6 @@ import com.metacto.core.utils.imagePreloader.Preloader
 import com.metacto.coreApp.MR
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
-import dev.icerock.moko.permissions.ios.PermissionsController
-import dev.icerock.moko.permissions.ios.PermissionsControllerProtocol
 import dev.icerock.moko.resources.utils.loadableBundle
 import org.koin.core.definition.Definition
 import org.koin.core.definition.KoinDefinition
@@ -57,12 +57,10 @@ actual fun corePlatformModule(appStorageName: String) = module {
         Firebase.remoteConfig
     }
 
-    single<PermissionsControllerProtocol> {
-        get<PermissionsController>()
-    }
-
-    single {
-        PermissionsController()
+    single<IPermissionManager> {
+        PermissionManager(
+            delegateFactory = get()
+        )
     }
 }
 
