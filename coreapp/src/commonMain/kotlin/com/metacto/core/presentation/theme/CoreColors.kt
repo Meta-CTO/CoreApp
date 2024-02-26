@@ -60,7 +60,13 @@ data class CoreColors(
     val pickerItem: Color = midnight,
 
     val pullRefreshIndicator: Color = primary,
-    val pullRefreshIndicatorBackground: Color = white
+    val pullRefreshIndicatorBackground: Color = white,
+
+    val switchBtnToggled: Color = primary,
+    val switchBtnNonToggled: Color = tertiary,
+
+    val switchThumbToggled: Color = onPrimary,
+    val switchThumbNonToggled: Color = onTertiary
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

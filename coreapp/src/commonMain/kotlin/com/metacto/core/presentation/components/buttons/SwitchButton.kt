@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.animateAlignmentAsState
@@ -24,16 +25,20 @@ fun SwitchButton(
     modifier: Modifier = Modifier,
     isChecked: Boolean,
     onCheckChanged: (Boolean) -> Unit,
+    btnToggled: Color = CoreTheme.colors.switchBtnToggled,
+    btnNonToggled: Color = CoreTheme.colors.switchBtnNonToggled,
+    thumbToggled: Color = CoreTheme.colors.switchThumbToggled,
+    thumbNonToggled: Color = CoreTheme.colors.switchThumbNonToggled,
     width: Dp = CoreTheme.spacings.switchBtnWidth,
     height: Dp = CoreTheme.spacings.switchBtnHeight,
 ) {
     // Prepare states
     val switchColor by animateColorAsState(
-        targetValue = if (isChecked) CoreTheme.colors.primary else CoreTheme.colors.tertiary,
+        targetValue = if (isChecked) btnToggled else btnNonToggled,
         label = "Switch Color"
     )
     val thumbColor by animateColorAsState(
-        targetValue = if (isChecked) CoreTheme.colors.onPrimary else CoreTheme.colors.onTertiary,
+        targetValue = if (isChecked) thumbToggled else thumbNonToggled,
         label = "Thumb Color"
     )
     val thumbAlign by animateAlignmentAsState(
