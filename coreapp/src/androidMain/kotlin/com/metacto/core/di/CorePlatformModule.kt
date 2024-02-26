@@ -2,6 +2,8 @@ package com.metacto.core.di
 
 import com.google.firebase.messaging.FirebaseMessaging
 import com.metacto.core.domain.repos.RepositoriesFactory
+import com.metacto.core.permissions.IPermissionManager
+import com.metacto.core.permissions.PermissionManager
 import com.metacto.core.presentation.base.CommonViewModel
 import com.metacto.core.utils.DispatchersProvider
 import com.metacto.core.utils.IDispatchersProvider
@@ -16,7 +18,6 @@ import com.metacto.core.utils.pushNotifications.FirebasePushNotificationsManager
 import com.metacto.core.utils.pushNotifications.IPushNotificationsManager
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
-import dev.icerock.moko.permissions.PermissionsController
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.definition.Definition
@@ -68,9 +69,9 @@ actual fun corePlatformModule(appStorageName: String) = module {
         )
     }
 
-    single {
-        PermissionsController(
-            applicationContext = androidContext().applicationContext
+    single<IPermissionManager> {
+        PermissionManager(
+            applicationContext = androidContext()
         )
     }
 }

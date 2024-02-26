@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.metacto.core.navigation.NavManager
+import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.ConfirmationPopupParams
 import com.metacto.core.presentation.globalState.models.LoadingType
@@ -21,7 +22,6 @@ import com.swensonhe.strapikmm.errorhandling.NetworkErrorMapper
 import com.swensonhe.strapikmm.util.Logger
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
-import dev.icerock.moko.permissions.PermissionsController
 import dev.icerock.moko.resources.StringResource
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
@@ -60,7 +60,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     protected val navManager by inject<NavManager>()
     protected val resourceProvider by inject<IResourceProvider>()
     protected val logger by inject<Logger>()
-    val permissionsController by inject<PermissionsController>()
+    val permissionManager by inject<IPermissionManager>()
 
     abstract fun setInitialState(): S
     abstract fun handleEvents(event: E): Any
