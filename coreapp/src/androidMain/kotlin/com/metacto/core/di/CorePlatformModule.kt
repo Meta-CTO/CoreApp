@@ -12,6 +12,8 @@ import com.metacto.core.utils.ResourceProvider
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.metacto.core.utils.imagePreloader.IPreloader
 import com.metacto.core.utils.imagePreloader.Preloader
+import com.metacto.core.utils.launchers.IIntentLauncher
+import com.metacto.core.utils.launchers.IntentLauncher
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.NotificationManager
 import com.metacto.core.utils.pushNotifications.FirebasePushNotificationsManager
@@ -71,6 +73,12 @@ actual fun corePlatformModule(appStorageName: String) = module {
 
     single<IPermissionManager> {
         PermissionManager(
+            applicationContext = androidContext()
+        )
+    }
+
+    single<IIntentLauncher> {
+        IntentLauncher(
             applicationContext = androidContext()
         )
     }

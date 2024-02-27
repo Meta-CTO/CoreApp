@@ -1,12 +1,11 @@
 package com.metacto.core.utils.launchers
 
-import androidx.compose.runtime.Composable
 import io.ktor.http.encodeURLParameter
 import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
 
-actual object EmailLauncher {
-    actual fun launchEmail(email: String, subject: String?, body: String?, options: EmailLauncherOptions) {
+actual class IntentLauncher: IIntentLauncher {
+    actual override fun launchEmail(email: String, subject: String?, body: String?) {
         var urlString = "mailto:$email"
 
         if (subject != null) {
@@ -25,11 +24,14 @@ actual object EmailLauncher {
             UIApplication.sharedApplication.openURL(url)
         }
     }
-}
 
-actual class EmailLauncherOptions
+    actual override fun launchShareText(text: String) {
 
-@Composable
-actual fun rememberEmailLauncherOptions(): EmailLauncherOptions {
-    return EmailLauncherOptions()
+        val application = UIApplication.sharedApplication
+        val rootViewController = application.keyWindow?.rootViewController
+
+        rootViewController?.let { viewController ->
+            ShareLauncherHelper.shareText(text, fromViewController = viewController)
+        }
+    }
 }

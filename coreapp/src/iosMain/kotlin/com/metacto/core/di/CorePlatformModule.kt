@@ -12,6 +12,8 @@ import com.metacto.core.utils.ResourceProvider
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.metacto.core.utils.imagePreloader.IPreloader
 import com.metacto.core.utils.imagePreloader.Preloader
+import com.metacto.core.utils.launchers.IIntentLauncher
+import com.metacto.core.utils.launchers.IntentLauncher
 import com.metacto.coreApp.MR
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
@@ -61,6 +63,10 @@ actual fun corePlatformModule(appStorageName: String) = module {
         PermissionManager(
             delegateFactory = get()
         )
+    }
+
+    single<IIntentLauncher> {
+        IntentLauncher()
     }
 }
 
