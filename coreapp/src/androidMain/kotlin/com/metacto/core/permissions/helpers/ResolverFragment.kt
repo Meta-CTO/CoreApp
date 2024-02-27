@@ -7,10 +7,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.metacto.core.permissions.enums.Permission
-import com.metacto.core.permissions.exceptions.DeniedAlwaysException
-import com.metacto.core.permissions.exceptions.DeniedException
-import com.metacto.core.permissions.exceptions.RequestCanceledException
+import com.metacto.core.permissions.helpers.enums.Permission
+import com.metacto.core.permissions.helpers.exceptions.DeniedAlwaysException
+import com.metacto.core.permissions.helpers.exceptions.DeniedException
+import com.metacto.core.permissions.helpers.exceptions.RequestCanceledException
 import kotlinx.coroutines.launch
 
 internal class ResolverFragment : Fragment() {

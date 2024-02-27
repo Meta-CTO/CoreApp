@@ -1,4 +1,4 @@
-package com.metacto.core.permissions.enums
+package com.metacto.core.permissions.helpers.enums
 
 enum class PermissionState {
     NotDetermined,

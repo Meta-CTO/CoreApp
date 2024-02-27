@@ -1,8 +1,8 @@
 package com.metacto.core.permissions
 
-import com.metacto.core.permissions.enums.Permission
-import com.metacto.core.permissions.enums.PermissionState
-import com.metacto.core.permissions.exceptions.DeniedAlwaysException
+import com.metacto.core.permissions.helpers.enums.Permission
+import com.metacto.core.permissions.helpers.enums.PermissionState
+import com.metacto.core.permissions.helpers.exceptions.DeniedAlwaysException
 import com.metacto.core.permissions.helpers.PermissionDelegate
 import com.metacto.core.permissions.helpers.IPermissionDelegateFactory
 import kotlinx.coroutines.Dispatchers

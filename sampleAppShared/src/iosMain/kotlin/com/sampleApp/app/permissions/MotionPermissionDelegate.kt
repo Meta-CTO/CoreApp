@@ -1,6 +1,6 @@
 package com.sampleApp.app.permissions
 
-import com.metacto.core.permissions.enums.PermissionState
+import com.metacto.core.permissions.helpers.enums.PermissionState
 import com.metacto.core.permissions.helpers.PermissionDelegate
 import platform.CoreMotion.CMAuthorizationStatusAuthorized
 import platform.CoreMotion.CMAuthorizationStatusDenied
