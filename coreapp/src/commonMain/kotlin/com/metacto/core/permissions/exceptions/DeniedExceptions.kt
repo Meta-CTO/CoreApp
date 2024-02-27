@@ -1,6 +1,6 @@
-package com.metacto.core.permissions.helpers.exceptions
+package com.metacto.core.permissions.exceptions
 
-import com.metacto.core.permissions.helpers.enums.Permission
+import com.metacto.core.permissions.enums.Permission
 
 open class DeniedException(
     val permission: Permission,

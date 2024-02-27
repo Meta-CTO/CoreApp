@@ -1,6 +1,6 @@
 package com.sampleApp.app.permissions
 
-import com.metacto.core.permissions.helpers.enums.Permission
+import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.permissions.helpers.AlwaysGrantedPermissionDelegate
 import com.metacto.core.permissions.helpers.IPermissionDelegateFactory
 import com.metacto.core.permissions.helpers.PermissionDelegate

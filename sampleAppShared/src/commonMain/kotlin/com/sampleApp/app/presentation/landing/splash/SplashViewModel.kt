@@ -1,6 +1,6 @@
 package com.sampleApp.app.presentation.landing.splash
 
-import com.metacto.core.permissions.helpers.enums.Permission
+import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItem

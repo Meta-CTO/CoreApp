@@ -1,4 +1,4 @@
-package com.metacto.core.permissions.helpers.enums
+package com.metacto.core.permissions.enums
 
 enum class Permission {
     CAMERA,

@@ -1,7 +1,7 @@
 package com.metacto.core.permissions
 
-import com.metacto.core.permissions.helpers.enums.Permission
-import com.metacto.core.permissions.helpers.enums.PermissionState
+import com.metacto.core.permissions.enums.Permission
+import com.metacto.core.permissions.enums.PermissionState
 
 expect interface IPermissionManager {
     suspend fun requestPermission(permission: Permission)

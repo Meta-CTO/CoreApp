@@ -13,9 +13,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
-import com.metacto.core.permissions.helpers.enums.Permission
-import com.metacto.core.permissions.helpers.enums.PermissionState
-import com.metacto.core.permissions.helpers.exceptions.DeniedAlwaysException
+import com.metacto.core.permissions.enums.Permission
+import com.metacto.core.permissions.enums.PermissionState
+import com.metacto.core.permissions.exceptions.DeniedAlwaysException
 import com.metacto.core.permissions.helpers.ResolverFragment
 import com.metacto.core.permissions.helpers.toPlatformPermission
 import kotlinx.coroutines.Dispatchers

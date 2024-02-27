@@ -2,7 +2,7 @@ package com.metacto.core.permissions.helpers
 
 import android.Manifest
 import android.os.Build
-import com.metacto.core.permissions.helpers.enums.Permission
+import com.metacto.core.permissions.enums.Permission
 
 @Suppress("CyclomaticComplexMethod")
 internal fun Permission.toPlatformPermission(): List<String> {

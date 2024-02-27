@@ -1,9 +1,9 @@
 package com.sampleApp.app.permissions
 
-import com.metacto.core.permissions.helpers.enums.Permission
-import com.metacto.core.permissions.helpers.enums.PermissionState
-import com.metacto.core.permissions.helpers.exceptions.DeniedAlwaysException
-import com.metacto.core.permissions.helpers.exceptions.DeniedException
+import com.metacto.core.permissions.enums.Permission
+import com.metacto.core.permissions.enums.PermissionState
+import com.metacto.core.permissions.exceptions.DeniedAlwaysException
+import com.metacto.core.permissions.exceptions.DeniedException
 import com.metacto.core.permissions.helpers.PermissionDelegate
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.CoreBluetooth.CBCentralManager
