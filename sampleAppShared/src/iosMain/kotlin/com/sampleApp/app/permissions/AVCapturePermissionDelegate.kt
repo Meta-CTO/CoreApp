@@ -4,7 +4,9 @@ import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.permissions.exceptions.DeniedAlwaysException
 import com.metacto.core.permissions.helpers.PermissionDelegate
-import com.metacto.core.utils.extensions.mainContinuation
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import platform.AVFoundation.AVAuthorizationStatus
 import platform.AVFoundation.AVAuthorizationStatusAuthorized
 import platform.AVFoundation.AVAuthorizationStatusDenied
@@ -57,7 +59,9 @@ private fun AVCaptureDevice.Companion.requestAccess(
     type: AVMediaType,
     callback: (isGranted: Boolean) -> Unit
 ) {
-    this.requestAccessForMediaType(type, mainContinuation { isGranted: Boolean ->
-        callback(isGranted)
-    })
+    this.requestAccessForMediaType(type) { isGranted: Boolean ->
+        GlobalScope.launch(Dispatchers.Main) {
+            callback(isGranted)
+        }
+    }
 }
