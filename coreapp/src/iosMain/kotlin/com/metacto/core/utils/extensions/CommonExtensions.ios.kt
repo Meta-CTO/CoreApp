@@ -38,30 +38,4 @@ fun observeKeyboardHeight(
             onKeyboardHidden.invoke()
         }
 }
-
-actual inline fun <T1> mainContinuation(
-    noinline block: (T1) -> Unit
-): (T1) -> Unit = { arg1 ->
-    if (NSThread.isMainThread()) {
-        block.invoke(arg1)
-    } else {
-        Dispatchers.Main.run {
-            block.invoke(arg1)
-        }
-    }
-}
-
-actual inline fun <T1, T2> mainContinuation(
-    noinline block: (T1, T2) -> Unit
-): (T1, T2) -> Unit = { arg1, arg2 ->
-    if (NSThread.isMainThread()) {
-        block.invoke(arg1, arg2)
-    } else {
-        Dispatchers.Main.run {
-            block.invoke(arg1, arg2)
-        }
-    }
-}
-
-
 actual fun randomUUID(): String = NSUUID().UUIDString()
