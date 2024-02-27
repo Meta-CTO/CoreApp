@@ -18,6 +18,7 @@ actual class IntentLauncher(
             if (subject != null) putExtra(Intent.EXTRA_SUBJECT, subject)
             if (body != null) putExtra(Intent.EXTRA_TEXT, body)
         }
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         if (intent.resolveActivity(applicationContext.packageManager) != null) {
             applicationContext.startActivity(intent)
         }
@@ -30,6 +31,7 @@ actual class IntentLauncher(
             type = "text/plain"
         }
         val shareIntent = Intent.createChooser(sendIntent, null)
+        shareIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         applicationContext.startActivity(shareIntent)
     }
 }
