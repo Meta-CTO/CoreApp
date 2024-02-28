@@ -4,9 +4,7 @@ import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.permissions.exceptions.DeniedAlwaysException
 import com.metacto.core.permissions.helpers.PermissionDelegate
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.metacto.core.utils.extensions.mainContinuation
 import platform.UserNotifications.UNAuthorizationOptionAlert
 import platform.UserNotifications.UNAuthorizationOptionBadge
 import platform.UserNotifications.UNAuthorizationOptionSound
@@ -26,15 +24,15 @@ internal class RemoteNotificationPermissionDelegate : PermissionDelegate {
             .currentNotificationCenter()
 
         val status: UNAuthorizationStatus = suspendCoroutine { continuation ->
-            currentCenter.getNotificationSettingsWithCompletionHandler { settings: UNNotificationSettings? ->
-                GlobalScope.launch(Dispatchers.Main) {
+            currentCenter.getNotificationSettingsWithCompletionHandler(
+                mainContinuation { settings: UNNotificationSettings? ->
                     continuation.resumeWith(
                         Result.success(
                             settings?.authorizationStatus ?: UNAuthorizationStatusNotDetermined
                         )
                     )
                 }
-            }
+            )
         }
         when (status) {
             UNAuthorizationStatusAuthorized -> return
@@ -44,16 +42,15 @@ internal class RemoteNotificationPermissionDelegate : PermissionDelegate {
                         .requestAuthorizationWithOptions(
                             UNAuthorizationOptionSound
                                 .or(UNAuthorizationOptionAlert)
-                                .or(UNAuthorizationOptionBadge)
-                        ) { isOk, error ->
-                            GlobalScope.launch(Dispatchers.Main) {
+                                .or(UNAuthorizationOptionBadge),
+                            mainContinuation { isOk, error ->
                                 if (isOk && error == null) {
                                     continuation.resumeWith(Result.success(true))
                                 } else {
                                     continuation.resumeWith(Result.success(false))
                                 }
                             }
-                        }
+                        )
                 }
                 if (isSuccess) {
                     providePermission()
@@ -71,15 +68,14 @@ internal class RemoteNotificationPermissionDelegate : PermissionDelegate {
         val currentCenter = UNUserNotificationCenter.currentNotificationCenter()
 
         val status = suspendCoroutine { continuation ->
-            currentCenter.getNotificationSettingsWithCompletionHandler {
-                GlobalScope.launch(Dispatchers.Main) {
+            currentCenter.getNotificationSettingsWithCompletionHandler(
+                mainContinuation { settings: UNNotificationSettings? ->
                     continuation.resumeWith(
                         Result.success(
-                            it?.authorizationStatus ?: UNAuthorizationStatusNotDetermined
+                            settings?.authorizationStatus ?: UNAuthorizationStatusNotDetermined
                         )
                     )
-                }
-            }
+                })
         }
         return when (status) {
             UNAuthorizationStatusAuthorized,
