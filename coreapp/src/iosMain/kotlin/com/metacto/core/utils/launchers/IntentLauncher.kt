@@ -1,47 +1,40 @@
 package com.metacto.core.utils.launchers
 
-import io.ktor.http.encodeURLParameter
 import platform.Foundation.NSURL
 import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
-import platform.UIKit.UIViewController
 
-actual class IntentLauncher: IIntentLauncher {
-    actual override fun launchEmail(email: String, subject: String?, body: String?) {
-        var urlString = "mailto:$email"
+class IntentLauncher : IIntentLauncher {
+    override fun launchEmail(email: String, subject: String?, body: String?) {
+        // Create the url
+        val urlString = "mailto:$email?subject=${subject.orEmpty()}&body=${body.orEmpty()}"
+        val url = NSURL.URLWithString(urlString) ?: return
 
-        if (subject != null) {
-            urlString += "?subject=$subject"
-            if (body != null) {
-                urlString += "&body=$body"
-            }
-        } else if (body != null) {
-            urlString += "?body=$body"
-        }
+        // Validate can open url
+        if (UIApplication.sharedApplication.canOpenURL(url).not()) return
 
-
-        val url = NSURL.URLWithString(urlString.encodeURLParameter())
-
-        if(url != null && UIApplication.sharedApplication.canOpenURL(url)) {
-            UIApplication.sharedApplication.openURL(url)
-        }
+        // Then open it
+        UIApplication.sharedApplication.openURL(url)
     }
 
-    actual override fun launchShareText(text: String) {
-        val application = UIApplication.sharedApplication
-        val rootViewController = application.keyWindow?.rootViewController
+    override fun launchShareText(text: String) {
+        // Get and validate the root view controller
+        val rootViewController = UIApplication.sharedApplication
+            .keyWindow
+            ?.rootViewController
+            ?: return
 
-        if(rootViewController != null) {
-            shareText(text = text, fromViewController = rootViewController)
-        }
-    }
-
-    private fun shareText(text: String, fromViewController: UIViewController) {
-        val activityViewController = UIActivityViewController(
+        // Create the activity controller
+        val activityController = UIActivityViewController(
             activityItems = listOf(text),
             applicationActivities = null
         )
 
-        fromViewController.presentViewController(activityViewController, animated = true, completion = null)
+        // Then present it
+        rootViewController.presentViewController(
+            viewControllerToPresent = activityController,
+            animated = true,
+            completion = null
+        )
     }
 }

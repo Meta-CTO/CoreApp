@@ -79,7 +79,7 @@ actual fun corePlatformModule(appStorageName: String) = module {
 
     single<IIntentLauncher> {
         IntentLauncher(
-            applicationContext = androidContext()
+            context = androidContext()
         )
     }
 }

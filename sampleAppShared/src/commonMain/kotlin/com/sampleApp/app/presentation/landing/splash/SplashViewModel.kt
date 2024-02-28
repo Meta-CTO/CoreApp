@@ -6,6 +6,7 @@ import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
+import com.metacto.core.utils.launchers.IIntentLauncher
 import com.sampleApp.app.MR
 import com.sampleApp.app.domain.events.UserEvent
 import com.sampleApp.app.presentation.components.BaseViewModel
@@ -14,7 +15,8 @@ import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
 
 class SplashViewModel(
-    private val eventBroadcaster: EventBroadcaster
+    private val eventBroadcaster: EventBroadcaster,
+    private val intentLauncher: IIntentLauncher,
 ) : BaseViewModel<State, Event, Effect>() {
     private var clickCount = 0
 
@@ -93,10 +95,10 @@ class SplashViewModel(
 //                behaviour = NavigateBehaviour.KeepIfCurrent
 //            )
 
-           executeCatching({
-               permissionManager.grantPermission(Permission.CONTACTS)
-               println("Graaaaaanteeeeed")
-           })
+            executeCatching({
+                permissionManager.grantPermission(Permission.CONTACTS)
+                println("Graaaaaanteeeeed")
+            })
 
 //            val options = listOf(
 //                OptionUIModel(
@@ -158,6 +160,18 @@ class SplashViewModel(
 
         Event.AnimClicked -> {
             showLoading(LoadingType.LottieBlocking())
+        }
+
+        Event.SendEmailClicked -> {
+            intentLauncher.launchEmail(
+                email = "shamyyoun@gmail.com",
+                subject = "Subject",
+                body = "Body"
+            )
+        }
+
+        Event.ShareTextClicked -> {
+            intentLauncher.launchShareText("Hello, this is a test text")
         }
     }
 
