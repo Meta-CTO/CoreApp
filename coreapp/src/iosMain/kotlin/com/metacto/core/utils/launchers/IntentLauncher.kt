@@ -2,7 +2,9 @@ package com.metacto.core.utils.launchers
 
 import io.ktor.http.encodeURLParameter
 import platform.Foundation.NSURL
+import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
+import platform.UIKit.UIViewController
 
 actual class IntentLauncher: IIntentLauncher {
     actual override fun launchEmail(email: String, subject: String?, body: String?) {
@@ -26,12 +28,20 @@ actual class IntentLauncher: IIntentLauncher {
     }
 
     actual override fun launchShareText(text: String) {
-
         val application = UIApplication.sharedApplication
         val rootViewController = application.keyWindow?.rootViewController
 
-        rootViewController?.let { viewController ->
-            ShareLauncherHelper.shareText(text, fromViewController = viewController)
+        if(rootViewController != null) {
+            shareText(text = text, fromViewController = rootViewController)
         }
+    }
+
+    private fun shareText(text: String, fromViewController: UIViewController) {
+        val activityViewController = UIActivityViewController(
+            activityItems = listOf(text),
+            applicationActivities = null
+        )
+
+        fromViewController.presentViewController(activityViewController, animated = true, completion = null)
     }
 }
