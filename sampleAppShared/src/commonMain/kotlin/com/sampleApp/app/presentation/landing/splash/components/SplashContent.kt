@@ -45,6 +45,15 @@ internal fun SplashContent(
         )
 
         Text(
+            text = "Phone dial",
+            style = AppTheme.typography.fenwickBold24,
+            color = Color.Red,
+            modifier = modifier.clickable {
+                onEvent(Event.PhoneDialClicked)
+            }
+        )
+
+        Text(
             text = if (state.isWelcome) "Welcome" else "Sample App",
             style = AppTheme.typography.fenwickBold24,
             color = Color.Red,

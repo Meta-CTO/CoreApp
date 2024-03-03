@@ -8,4 +8,6 @@ interface IIntentLauncher {
     )
 
     fun launchShareText(text: String)
+
+    fun launchPhone(phone: String)
 }

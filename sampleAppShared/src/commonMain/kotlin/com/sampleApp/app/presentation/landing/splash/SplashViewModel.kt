@@ -170,6 +170,10 @@ class SplashViewModel(
             )
         }
 
+        Event.PhoneDialClicked -> {
+            intentLauncher.launchPhone("+971526900377")
+        }
+
         Event.ShareTextClicked -> {
             intentLauncher.launchShareText("Hello, this is a test text")
         }

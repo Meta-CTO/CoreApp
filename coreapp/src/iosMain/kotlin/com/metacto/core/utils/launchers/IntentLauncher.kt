@@ -37,4 +37,16 @@ class IntentLauncher : IIntentLauncher {
             completion = null
         )
     }
+
+    override fun launchPhone(phone: String) {
+        // Create the url
+        val urlString = "tel://$phone"
+        val url = NSURL.URLWithString(urlString) ?: return
+
+        // Validate can open url
+        if (UIApplication.sharedApplication.canOpenURL(url).not()) return
+
+        // Then open it
+        UIApplication.sharedApplication.openURL(url)
+    }
 }

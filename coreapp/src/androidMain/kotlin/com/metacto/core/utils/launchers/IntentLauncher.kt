@@ -3,6 +3,9 @@ package com.metacto.core.utils.launchers
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
+import com.metacto.coreApp.MR
+
 
 class IntentLauncher(private val context: Context) : IIntentLauncher {
 
@@ -10,7 +13,7 @@ class IntentLauncher(private val context: Context) : IIntentLauncher {
         email: String,
         subject: String?,
         body: String?
-    ) {
+    ) = try {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
             data = Uri.parse("mailto:")
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -24,9 +27,13 @@ class IntentLauncher(private val context: Context) : IIntentLauncher {
             }
         }
 
-        if (intent.resolveActivity(context.packageManager) != null) {
-            context.startActivity(intent)
-        }
+        context.startActivity(intent)
+    } catch (_: Throwable) {
+        Toast.makeText(
+            context,
+            MR.strings.no_email_apps_found_on_your_device.resourceId,
+            Toast.LENGTH_LONG
+        ).show()
     }
 
     override fun launchShareText(text: String) {
@@ -41,5 +48,19 @@ class IntentLauncher(private val context: Context) : IIntentLauncher {
         }
 
         context.startActivity(shareIntent)
+    }
+
+    override fun launchPhone(phone: String) = try {
+        val intent = Intent(Intent.ACTION_DIAL).apply {
+            data = Uri.parse("tel:$phone")
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+        context.startActivity(intent)
+    } catch (t: Throwable) {
+        Toast.makeText(
+            context,
+            MR.strings.no_phone_apps_found_on_your_device.resourceId,
+            Toast.LENGTH_LONG
+        ).show()
     }
 }
