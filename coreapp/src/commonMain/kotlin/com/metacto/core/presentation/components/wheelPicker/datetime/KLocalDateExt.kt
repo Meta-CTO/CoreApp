@@ -6,21 +6,21 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.math.min
 
-internal fun LocalDate.Companion.now(timeZone: TimeZone = TimeZone.currentSystemDefault()): LocalDate {
+fun LocalDate.Companion.now(timeZone: TimeZone = TimeZone.currentSystemDefault()): LocalDate {
   return Clock.System.now().toLocalDateTime(timeZone).date
 }
 
-internal val LocalDate.Companion.EPOCH: LocalDate get() = LocalDate(1970, 1, 1)
-internal val LocalDate.Companion.CYBER_ERA: LocalDate get() = LocalDate(2077, 12, 31)
+val LocalDate.Companion.EPOCH: LocalDate get() = LocalDate(1970, 1, 1)
+val LocalDate.Companion.CYBER_ERA: LocalDate get() = LocalDate(2077, 12, 31)
 
-internal fun isLeapYear(prolepticYear: Int): Boolean {
+fun isLeapYear(prolepticYear: Int): Boolean {
   return prolepticYear % 4 == 0 && (prolepticYear % 100 != 0 || prolepticYear % 400 == 0)
 }
 
-internal val LocalDate.isLeapYear: Boolean
+val LocalDate.isLeapYear: Boolean
   get() = isLeapYear(year)
 
-internal fun LocalDate.withDayOfMonth(dayOfMonth: Int): LocalDate {
+fun LocalDate.withDayOfMonth(dayOfMonth: Int): LocalDate {
   return if (this.dayOfMonth == dayOfMonth) {
     this
   } else {
@@ -28,7 +28,7 @@ internal fun LocalDate.withDayOfMonth(dayOfMonth: Int): LocalDate {
   }
 }
 
-internal fun LocalDate.withMonthNumber(monthNumber: Int): LocalDate {
+fun LocalDate.withMonthNumber(monthNumber: Int): LocalDate {
   return if (this.monthNumber == monthNumber) {
     this
   } else {
@@ -36,7 +36,7 @@ internal fun LocalDate.withMonthNumber(monthNumber: Int): LocalDate {
   }
 }
 
-internal fun LocalDate.withYear(year: Int): LocalDate {
+fun LocalDate.withYear(year: Int): LocalDate {
   return if (this.year == year) {
     this
   } else {
@@ -44,7 +44,7 @@ internal fun LocalDate.withYear(year: Int): LocalDate {
   }
 }
 
-internal fun resolvePreviousValid(
+fun resolvePreviousValid(
   year: Int,
   monthNumber: Int,
   dayOfMonth: Int

@@ -86,6 +86,10 @@ internal fun DefaultWheelDateTimePicker(
 
           if (!newDateTime.isBefore(minDateTime) && !newDateTime.isAfter(maxDateTime)) {
             snappedDateTime = newDateTime
+          } else if (newDateTime.isBefore(minDateTime)) {
+            snappedDateTime = minDateTime
+          } else if (newDateTime.isAfter(maxDateTime)) {
+            snappedDateTime = maxDateTime
           }
 
           return@DefaultWheelDatePicker when (snappedDate) {

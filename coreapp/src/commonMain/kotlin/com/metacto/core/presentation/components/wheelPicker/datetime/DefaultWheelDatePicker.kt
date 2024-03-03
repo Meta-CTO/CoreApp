@@ -137,6 +137,10 @@ internal fun DefaultWheelDatePicker(
 
             if (!newDate.isBefore(minDate) && !newDate.isAfter(maxDate)) {
               snappedDate = newDate
+            } else if (newDate.isBefore(minDate)) {
+              snappedDate = minDate
+            } else if (newDate.isAfter(maxDate)) {
+              snappedDate = maxDate
             }
 
             dayOfMonths = calculateDayOfMonths(snappedDate.month.number, snappedDate.year)

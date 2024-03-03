@@ -62,6 +62,16 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+private var screenSize: Pair<Int, Int> = 0 to 0
+
+fun getScreenSize(): Pair<Int, Int> {
+    return screenSize
+}
+
+fun setScreenSize(width: Int, height: Int) {
+    screenSize = width to height
+}
+
 @Composable
 fun Dp.toPx(): Float {
     return LocalDensity.current.run { this@toPx.toPx() }

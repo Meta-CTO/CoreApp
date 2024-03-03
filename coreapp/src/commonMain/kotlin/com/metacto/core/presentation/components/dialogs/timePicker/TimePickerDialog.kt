@@ -5,10 +5,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
-import com.metacto.core.presentation.components.dateTime.AppTimePicker
 import com.metacto.core.presentation.components.dialogs.AppDialog
 import com.metacto.core.presentation.components.wheelPicker.datetime.MAX
 import com.metacto.core.presentation.components.wheelPicker.datetime.MIN
+import com.metacto.core.presentation.components.wheelPicker.datetime.WheelTimePicker
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
@@ -111,12 +111,12 @@ internal fun TimePickerDialog(
             modifier = Modifier.padding(CoreTheme.spacings.paddingXLarge)
         ) {
             // Render time picker
-            AppTimePicker(
-                selectedTime = selectedTime,
-                onTimeChanged = { hour, minute, isAm ->
-                    currentHour = hour
-                    currentMinute = minute
-                    isCurrentAm = isAm
+            WheelTimePicker (
+                startTime = selectedTime,
+                onSnappedTime = { snappedTime ->
+                    currentHour = snappedTime.hour
+                    currentMinute = snappedTime.minute
+                    isCurrentAm =  snappedTime.hour < 12
                 },
                 modifier = Modifier
                     .fillMaxWidth()

@@ -4,11 +4,17 @@ import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.wheelPicker.datetime.WheelDatePicker
 import com.metacto.core.presentation.components.wheelPicker.datetime.WheelTimePicker
+import com.metacto.core.presentation.components.wheelPicker.datetime.now
+import com.metacto.core.utils.extensions.getScreenSize
+import com.metacto.core.utils.extensions.toDp
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
+import kotlinx.datetime.LocalDate
 
 @Composable
 internal fun SplashContent(
@@ -22,13 +28,14 @@ internal fun SplashContent(
         isRefreshing = true
     ) {
 
-        WheelDatePicker {date ->
-            println("Selected date: $date")
-            println("Selected date: $date")
+        WheelDatePicker(
+            size = DpSize(getScreenSize().first.toDp(), 128.dp),
+            maxDate = LocalDate.now()
+        ) { date ->
+
         }
 
         WheelTimePicker {
-            println("Selected time: $it")
             println("Selected time: $it")
         }
 
