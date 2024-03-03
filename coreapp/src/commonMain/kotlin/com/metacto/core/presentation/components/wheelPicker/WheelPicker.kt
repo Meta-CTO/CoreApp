@@ -1,265 +1,224 @@
 package com.metacto.core.presentation.components.wheelPicker
 
-import androidx.compose.animation.core.DecayAnimationSpec
-import androidx.compose.animation.core.calculateTargetValue
-import androidx.compose.animation.splineBasedDecay
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.snapshotFlow
+import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
-import androidx.compose.ui.input.nestedscroll.NestedScrollSource
-import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.Velocity
-import com.metacto.core.presentation.theme.CoreTheme
-import kotlin.math.absoluteValue
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
+import kotlin.math.abs
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun WheelPicker(
-    modifier: Modifier,
-    count: Int,
-    state: FWheelPickerState = rememberFWheelPickerState(),
-    key: ((index: Int) -> Any)? = null,
-    itemSize: Dp = CoreTheme.spacings.pickerItemSize,
-    isVertical: Boolean = true,
-    unfocusedCount: Int = 1,
-    reverseLayout: Boolean = false,
-    onIndexChanged: ((index: Int) -> Unit)? = null,
-    focus: @Composable () -> Unit = { FWheelPickerFocusVertical() },
-    contentWrapper: @Composable FWheelPickerContentWrapperScope.(
-        index: Int,
-        state: FWheelPickerState
-    ) -> Unit = DefaultWheelPickerContentWrapper,
-    content: @Composable FWheelPickerContentScope.(index: Int) -> Unit,
-) {
-    require(count >= 0) { "count must be >= 0" }
-    require(unfocusedCount >= 1) { "unfocusedCount must be >= 1" }
-
-    val stateUpdate by rememberUpdatedState(state)
-    LaunchedEffect(state, count) {
-        state.notifyCountChanged(count)
-    }
-
-    val density = LocalDensity.current
-
-    val itemSizePx = remember(density, itemSize) { with(density) { itemSize.roundToPx() } }
-    val totalSizeDp by derivedStateOf {
-        val totalSize = (unfocusedCount * 2 + 1) * itemSizePx
-        with(density) { totalSize.toDp() }
-    }
-
-    val decay = remember(density) { splineBasedDecay<Float>(density) }
-    val nestedScrollConnection: NestedScrollConnection = remember(density, isVertical, reverseLayout) {
-        object : NestedScrollConnection {
-            override fun onPostScroll(
-                consumed: Offset,
-                available: Offset,
-                source: NestedScrollSource
-            ): Offset {
-                stateUpdate.synchronizeCurrentIndexSnapshot()
-                return super.onPostScroll(consumed, available, source)
-            }
-
-            override suspend fun onPreFling(available: Velocity): Velocity {
-                val state = stateUpdate
-                val currentIndex = state.synchronizeCurrentIndexSnapshot()
-                return if (currentIndex >= 0) {
-                    val flingItemCount = available
-                        .percentVelocity(
-                            isVertical = isVertical,
-                            percent = 0.4f,
-                        )
-                        .flingItemCount(
-                            isVertical = isVertical,
-                            itemSize = itemSizePx,
-                            decay = decay,
-                            reverseLayout = reverseLayout,
-                        )
-
-                    if (flingItemCount.absoluteValue > 0) {
-                        state.animateScrollToIndex(currentIndex - flingItemCount)
-                    } else {
-                        state.animateScrollToIndex(currentIndex)
-                    }
-                    available
-                } else {
-                    super.onPreFling(available)
-                }
-            }
-        }
-    }
-
-    val contentScope by remember(state) { mutableStateOf(WheelPickerContentScopeImpl(state)) }
-    val contentUpdate by rememberUpdatedState(content)
-    val contentWrapperScope: FWheelPickerContentWrapperScope = remember(contentScope) {
-        object : FWheelPickerContentWrapperScope {
-            @Composable
-            override fun content(index: Int) {
-                contentScope.contentUpdate(index)
-            }
-        }
-    }
-
-    if (onIndexChanged != null) {
-        val onIndexChangeUpdate by rememberUpdatedState(onIndexChanged)
-        LaunchedEffect(state) {
-            snapshotFlow { state.currentIndex }
-                .collect {
-                    onIndexChangeUpdate(it)
-                }
-        }
-    }
-
-    Box(
-        modifier = modifier
-            .nestedScroll(nestedScrollConnection)
-            .run {
-                if (totalSizeDp > CoreTheme.spacings.noSpacing) {
-                    if (isVertical) {
-                        height(totalSizeDp).widthIn(CoreTheme.spacings.pickerItemSize)
-                    } else {
-                        width(totalSizeDp).heightIn(CoreTheme.spacings.pickerItemSize)
-                    }
-                } else {
-                    this
-                }
-            },
-        contentAlignment = Alignment.Center,
-    ) {
-
-        val lazyListScope: LazyListScope.() -> Unit = {
-            repeat(unfocusedCount) {
-                item {
-                    ItemSizeBox(
-                        isVertical = isVertical,
-                        itemSize = itemSize,
-                    )
-                }
-            }
-
-            items(
-                count = count,
-                key = key,
-            ) { index ->
-                ItemSizeBox(
-                    isVertical = isVertical,
-                    itemSize = itemSize,
-                ) {
-                    contentWrapperScope.contentWrapper(index, stateUpdate)
-                }
-            }
-
-            repeat(unfocusedCount) {
-                item {
-                    ItemSizeBox(
-                        isVertical = isVertical,
-                        itemSize = itemSize,
-                    )
-                }
-            }
-        }
-
-        if (isVertical) {
-            LazyColumn(
-                state = state.lazyListState,
-                horizontalAlignment = Alignment.CenterHorizontally,
-                reverseLayout = reverseLayout,
-                modifier = Modifier.matchParentSize(),
-                content = lazyListScope,
-            )
-        } else {
-            LazyRow(
-                state = state.lazyListState,
-                verticalAlignment = Alignment.CenterVertically,
-                reverseLayout = reverseLayout,
-                modifier = Modifier.matchParentSize(),
-                content = lazyListScope,
-            )
-        }
-
-        ItemSizeBox(
-            modifier = Modifier.align(Alignment.Center),
-            isVertical = isVertical,
-            itemSize = itemSize,
-        ) {
-            focus()
-        }
-    }
-}
-
-@Composable
-private fun ItemSizeBox(
+internal fun WheelPicker(
     modifier: Modifier = Modifier,
-    isVertical: Boolean,
-    itemSize: Dp,
-    content: @Composable () -> Unit = { },
+    startIndex: Int = 0,
+    count: Int,
+    rowCount: Int,
+    size: DpSize = DpSize(128.dp, 128.dp),
+    selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
+    onScrollFinished: (snappedIndex: Int) -> Int? = { null },
+    content: @Composable LazyItemScope.(index: Int) -> Unit,
 ) {
+    val lazyListState = rememberLazyListState(startIndex)
+    val flingBehavior = rememberSnapFlingBehavior(lazyListState)
+    val isScrollInProgress = lazyListState.isScrollInProgress
+
+    LaunchedEffect(isScrollInProgress, count) {
+        if (!isScrollInProgress) {
+            onScrollFinished(calculateSnappedItemIndex(lazyListState))?.let {
+                lazyListState.scrollToItem(it)
+            }
+        }
+    }
+
     Box(
-        modifier
-            .run {
-                if (isVertical) {
-                    height(itemSize)
-                } else {
-                    width(itemSize)
-                }
-            },
-        contentAlignment = Alignment.Center,
+        modifier = modifier,
+        contentAlignment = Alignment.Center
     ) {
-        content()
+        if (selectorProperties.enabled().value) {
+            Surface(
+                modifier = Modifier
+                    .size(size.width, size.height / rowCount),
+                shape = selectorProperties.shape().value,
+                color = selectorProperties.color().value,
+                border = selectorProperties.border().value
+            ) {}
+        }
+        LazyColumn(
+            modifier = Modifier
+                .height(size.height)
+                .width(size.width),
+            state = lazyListState,
+            contentPadding = PaddingValues(vertical = size.height / rowCount * ((rowCount - 1) / 2)),
+            flingBehavior = flingBehavior
+        ) {
+            items(count) { index ->
+                val rotationX = calculateAnimatedRotationX(
+                    lazyListState = lazyListState,
+                    index = index,
+                    rowCount = rowCount
+                )
+                Box(
+                    modifier = Modifier
+                        .height(size.height / rowCount)
+                        .width(size.width)
+                        .alpha(
+                            calculateAnimatedAlpha(
+                                lazyListState = lazyListState,
+                                index = index,
+                                rowCount = rowCount
+                            )
+                        )
+                        .graphicsLayer {
+                            this.rotationX = rotationX
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    content(index)
+                }
+            }
+        }
     }
 }
 
-private fun Velocity.percentVelocity(
-    isVertical: Boolean,
-    percent: Float,
-): Velocity {
-    require(percent > 0 && percent <= 1f)
-    return if (isVertical) {
-        copy(y = (y * percent))
+private fun calculateSnappedItemIndex(lazyListState: LazyListState): Int {
+    var currentItemIndex = lazyListState.firstVisibleItemIndex
+
+    if (lazyListState.firstVisibleItemScrollOffset != 0) {
+        currentItemIndex++
+    }
+    return currentItemIndex
+}
+
+@Composable
+private fun calculateAnimatedAlpha(
+    lazyListState: LazyListState,
+    index: Int,
+    rowCount: Int
+): Float {
+
+    val layoutInfo = remember { derivedStateOf { lazyListState.layoutInfo } }.value
+    val viewPortHeight = layoutInfo.viewportSize.height.toFloat()
+    val singleViewPortHeight = viewPortHeight / rowCount
+
+    val centerIndex = remember { derivedStateOf { lazyListState.firstVisibleItemIndex } }.value
+    val centerIndexOffset = remember { derivedStateOf { lazyListState.firstVisibleItemScrollOffset } }.value
+
+    val distanceToCenterIndex = index - centerIndex
+
+    val distanceToIndexSnap = abs(distanceToCenterIndex) * singleViewPortHeight.toInt() - when {
+        distanceToCenterIndex > 0 -> centerIndexOffset
+        distanceToCenterIndex <= 0 -> -centerIndexOffset
+        else -> 0
+    }
+
+    return if (distanceToIndexSnap in 0..singleViewPortHeight.toInt()) {
+        1.2f - (distanceToIndexSnap / singleViewPortHeight)
     } else {
-        copy(x = (x * percent))
+        0.2f
     }
 }
 
-private fun Velocity.flingItemCount(
-    isVertical: Boolean,
-    itemSize: Int,
-    decay: DecayAnimationSpec<Float>,
-    reverseLayout: Boolean,
-): Int {
-    if (itemSize <= 0) return 0
-    val velocity = if (isVertical) y else x
-    val targetValue = decay.calculateTargetValue(0f, velocity)
-    val flingItemCount = (targetValue / itemSize).toInt()
-    return if (reverseLayout) -flingItemCount else flingItemCount
+@Composable
+private fun calculateAnimatedRotationX(
+    lazyListState: LazyListState,
+    index: Int,
+    rowCount: Int
+): Float {
+
+    val layoutInfo = remember { derivedStateOf { lazyListState.layoutInfo } }.value
+    val viewPortHeight = layoutInfo.viewportSize.height.toFloat()
+    val singleViewPortHeight = viewPortHeight / rowCount
+
+    val centerIndex = remember { derivedStateOf { lazyListState.firstVisibleItemIndex } }.value
+    val centerIndexOffset = remember { derivedStateOf { lazyListState.firstVisibleItemScrollOffset } }.value
+
+    val distanceToCenterIndex = index - centerIndex
+
+    val distanceToIndexSnap = abs(distanceToCenterIndex) * singleViewPortHeight.toInt() - when {
+        distanceToCenterIndex > 0 -> centerIndexOffset
+        distanceToCenterIndex <= 0 -> -centerIndexOffset
+        else -> 0
+    }
+
+    val animatedRotationX = -20f * (distanceToIndexSnap / singleViewPortHeight)
+
+    return if (animatedRotationX.isNaN()) {
+        0f
+    } else {
+        animatedRotationX
+    }
 }
 
-interface FWheelPickerContentScope {
-    val state: FWheelPickerState
-}
-
-private class WheelPickerContentScopeImpl(
-    override val state: FWheelPickerState,
-) : FWheelPickerContentScope
-
-interface FWheelPickerContentWrapperScope {
+object WheelPickerDefaults {
     @Composable
-    fun content(index: Int)
+    fun selectorProperties(
+        enabled: Boolean = true,
+        shape: Shape = RoundedCornerShape(16.dp),
+        color: Color = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+        border: BorderStroke? = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+    ): SelectorProperties = DefaultSelectorProperties(
+        enabled = enabled,
+        shape = shape,
+        color = color,
+        border = border
+    )
+}
+
+interface SelectorProperties {
+    @Composable
+    fun enabled(): State<Boolean>
+
+    @Composable
+    fun shape(): State<Shape>
+
+    @Composable
+    fun color(): State<Color>
+
+    @Composable
+    fun border(): State<BorderStroke?>
+}
+
+@Immutable
+internal class DefaultSelectorProperties(
+    private val enabled: Boolean,
+    private val shape: Shape,
+    private val color: Color,
+    private val border: BorderStroke?
+) : SelectorProperties {
+
+    @Composable
+    override fun enabled(): State<Boolean> {
+        return rememberUpdatedState(enabled)
+    }
+
+    @Composable
+    override fun shape(): State<Shape> {
+        return rememberUpdatedState(shape)
+    }
+
+    @Composable
+    override fun color(): State<Color> {
+        return rememberUpdatedState(color)
+    }
+
+    @Composable
+    override fun border(): State<BorderStroke?> {
+        return rememberUpdatedState(border)
+    }
 }
