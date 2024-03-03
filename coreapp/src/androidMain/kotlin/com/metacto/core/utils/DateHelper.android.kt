@@ -107,4 +107,17 @@ actual object DateHelper {
             else -> "th"
         }
     }
+
+    @Throws(Throwable::class)
+    actual fun getElapsedYears(date: Date): Int {
+        val currentCalendar = Calendar.getInstance()
+        val dateCalendar = Calendar.getInstance().apply {
+            time = date
+        }
+
+        val currentYear = currentCalendar.get(Calendar.YEAR)
+        val dateYear = dateCalendar.get(Calendar.YEAR)
+
+        return currentYear - dateYear
+    }
 }

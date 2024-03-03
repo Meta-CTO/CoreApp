@@ -5,6 +5,7 @@ import kotlinx.cinterop.convert
 import kotlinx.datetime.Instant
 import platform.Foundation.NSCalendar
 import platform.Foundation.NSCalendarIdentifierISO8601
+import platform.Foundation.NSCalendarOptions
 import platform.Foundation.NSCalendarUnitDay
 import platform.Foundation.NSCalendarUnitHour
 import platform.Foundation.NSCalendarUnitMinute
@@ -184,5 +185,18 @@ actual object DateHelper {
             3 -> "rd"
             else -> "th"
         }
+    }
+
+    @Throws(Throwable::class)
+    actual fun getElapsedYears(date: Date): Int {
+        val calendar = NSCalendar.currentCalendar
+        val components = calendar.components(
+            NSCalendarUnitYear,
+            fromDate = date,
+            toDate = NSDate(),
+            options = NSCalendarOptions.MAX_VALUE
+        )
+
+        return components.year.toInt()
     }
 }

@@ -1,11 +1,11 @@
 package com.sampleApp.app.presentation.landing.splash
 
-import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
+import com.metacto.core.utils.launchers.IIntentLauncher
 import com.sampleApp.app.MR
 import com.sampleApp.app.domain.events.UserEvent
 import com.sampleApp.app.presentation.components.BaseViewModel
@@ -14,7 +14,9 @@ import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
 
 class SplashViewModel(
-    private val eventBroadcaster: EventBroadcaster
+    private val eventBroadcaster: EventBroadcaster,
+    private val intentLauncher: IIntentLauncher,
+    private val dateHelper: DateHelper
 ) : BaseViewModel<State, Event, Effect>() {
     private var clickCount = 0
 
@@ -84,7 +86,10 @@ class SplashViewModel(
         }
 
         Event.TextClicked -> {
-            println("Date formatted: " + DateHelper.timestampToReadableDate(1708286230001))
+//            println("Date formatted: " + DateHelper.timestampToReadableDate(1708286230001))
+
+            val date = dateHelper.stringToDate("2006-02-16", "yyyy-MM-dd")
+            println("The years difference: " + dateHelper.getElapsedYears(date))
 
 //            navManager.navigate(
 //                destination = SplashScreen(
@@ -93,10 +98,10 @@ class SplashViewModel(
 //                behaviour = NavigateBehaviour.KeepIfCurrent
 //            )
 
-           executeCatching({
-               permissionManager.grantPermission(Permission.CONTACTS)
-               println("Graaaaaanteeeeed")
-           })
+//            executeCatching({
+//                permissionManager.grantPermission(Permission.CONTACTS)
+//                println("Graaaaaanteeeeed")
+//            })
 
 //            val options = listOf(
 //                OptionUIModel(
@@ -158,6 +163,22 @@ class SplashViewModel(
 
         Event.AnimClicked -> {
             showLoading(LoadingType.LottieBlocking())
+        }
+
+        Event.SendEmailClicked -> {
+            intentLauncher.launchEmail(
+                email = "shamyyoun@gmail.com",
+                subject = "Subject",
+                body = "Body"
+            )
+        }
+
+        Event.PhoneDialClicked -> {
+            intentLauncher.launchPhone("+971526900377")
+        }
+
+        Event.ShareTextClicked -> {
+            intentLauncher.launchShareText("Hello, this is a test text")
         }
     }
 

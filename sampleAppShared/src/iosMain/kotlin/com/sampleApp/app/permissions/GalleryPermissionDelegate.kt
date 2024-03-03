@@ -4,9 +4,7 @@ import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.permissions.exceptions.DeniedAlwaysException
 import com.metacto.core.permissions.helpers.PermissionDelegate
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.metacto.core.utils.extensions.mainContinuation
 import platform.Photos.PHAuthorizationStatus
 import platform.Photos.PHAuthorizationStatusAuthorized
 import platform.Photos.PHAuthorizationStatusDenied
@@ -46,9 +44,7 @@ internal class GalleryPermissionDelegate : PermissionDelegate {
 }
 
 private fun requestGalleryAccess(callback: (PHAuthorizationStatus) -> Unit) {
-    PHPhotoLibrary.requestAuthorization {status: PHAuthorizationStatus ->
-        GlobalScope.launch(Dispatchers.Main) {
-            callback(status)
-        }
-    }
+    PHPhotoLibrary.requestAuthorization(mainContinuation { status: PHAuthorizationStatus ->
+        callback(status)
+    })
 }
