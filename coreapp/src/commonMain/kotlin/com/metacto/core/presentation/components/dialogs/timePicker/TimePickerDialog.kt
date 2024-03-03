@@ -4,8 +4,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.DpSize
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.dialogs.AppDialog
+import com.metacto.core.presentation.components.wheelPicker.SelectorProperties
+import com.metacto.core.presentation.components.wheelPicker.WheelPickerDefaults
 import com.metacto.core.presentation.components.wheelPicker.datetime.MAX
 import com.metacto.core.presentation.components.wheelPicker.datetime.MIN
 import com.metacto.core.presentation.components.wheelPicker.datetime.WheelTimePicker
@@ -14,6 +17,8 @@ import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.IResourceProvider
+import com.metacto.core.utils.extensions.getScreenSize
+import com.metacto.core.utils.extensions.toDp
 import com.metacto.core.utils.getCurrentTime
 import com.metacto.coreApp.MR
 import dev.icerock.moko.resources.compose.stringResource
@@ -28,6 +33,7 @@ internal fun TimePickerDialog(
     selectedTime: LocalTime? = null,
     minTime: LocalTime? = null,
     maxTime: LocalTime? = null,
+    selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onTimePicked: (LocalTime) -> Unit,
     onDismiss: () -> Unit = {}
 ) {
@@ -118,8 +124,11 @@ internal fun TimePickerDialog(
                     currentMinute = snappedTime.minute
                     isCurrentAm =  snappedTime.hour < 12
                 },
+                size = DpSize(getScreenSize().first.toDp(), CoreTheme.spacings.datePickerWheelHeight),
+                selectorProperties = selectorProperties,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .height(CoreTheme.spacings.datePickerHeight)
                     .padding(
                         horizontal = CoreTheme.spacings.paddingXXLarge
                     )
