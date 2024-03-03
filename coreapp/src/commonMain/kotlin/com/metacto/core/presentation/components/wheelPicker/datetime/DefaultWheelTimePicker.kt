@@ -31,7 +31,7 @@ internal fun DefaultWheelTimePicker(
   maxTime: LocalTime = LocalTime.MAX,
   timeFormat: TimeFormat = TimeFormat.HOUR_24,
   size: DpSize = DpSize(CoreTheme.spacings.defaultWheelPickerWidth, CoreTheme.spacings.defaultWheelPickerHeight),
-  rowCount: Int = 3,
+  rowCount: Int = 3, // Number of rows to show
   textStyle: TextStyle = MaterialTheme.typography.titleMedium,
   textColor: Color = LocalContentColor.current,
   selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),

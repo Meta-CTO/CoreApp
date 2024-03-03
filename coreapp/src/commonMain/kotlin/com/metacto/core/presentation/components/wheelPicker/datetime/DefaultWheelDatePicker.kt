@@ -33,7 +33,7 @@ internal fun DefaultWheelDatePicker(
   maxDate: LocalDate = LocalDate.CYBER_ERA,
   yearsRange: IntRange? = IntRange(minDate.year, maxDate.year),
   size: DpSize = DpSize(CoreTheme.spacings.defaultWheelPickerWidth, CoreTheme.spacings.defaultWheelPickerHeight),
-  rowCount: Int = 3, // Number of rows for year, month and day
+  rowCount: Int = 3, // Number of rows to show
   textStyle: TextStyle = MaterialTheme.typography.titleMedium,
   textColor: Color = LocalContentColor.current,
   selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
@@ -90,7 +90,6 @@ internal fun DefaultWheelDatePicker(
         ),
         startIndex = dayOfMonths.find { it.value == startDate.dayOfMonth }?.index ?: 0,
         onScrollFinished = { snappedIndex ->
-
           val newDayOfMonth = dayOfMonths.find { it.index == snappedIndex }?.value
 
           newDayOfMonth?.let {
