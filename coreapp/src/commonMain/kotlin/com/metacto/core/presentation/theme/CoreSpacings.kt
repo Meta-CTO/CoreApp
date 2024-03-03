@@ -65,7 +65,10 @@ data class CoreSpacings(
     val numberSelectorSize: Dp = 44.dp,
 
     val toolbarIconMinSize: Dp = 40.dp,
-    val toolbarHeight: Dp = 62.dp
+    val toolbarHeight: Dp = 62.dp,
+
+    val defaultWheelPickerHeight: Dp = 128.dp,
+    val defaultWheelPickerWidth: Dp = 256.dp,
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }

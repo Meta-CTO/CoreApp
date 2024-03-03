@@ -16,9 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.wheelPicker.SelectorProperties
 import com.metacto.core.presentation.components.wheelPicker.WheelPickerDefaults
+import com.metacto.core.presentation.theme.CoreTheme
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.number
 import kotlin.time.DurationUnit
@@ -31,8 +31,8 @@ internal fun DefaultWheelDateTimePicker(
   maxDateTime: LocalDateTime = LocalDateTime.CYBER_ERA,
   yearsRange: IntRange? = IntRange(minDateTime.year, maxDateTime.year),
   timeFormat: TimeFormat = TimeFormat.HOUR_24,
-  size: DpSize = DpSize(256.dp, 128.dp),
-  rowCount: Int = 3,
+  size: DpSize = DpSize(CoreTheme.spacings.defaultWheelPickerWidth, CoreTheme.spacings.defaultWheelPickerHeight),
+  rowCount: Int = 3, // 3 rows for hour, minute and am/pm
   textStyle: TextStyle = MaterialTheme.typography.titleMedium,
   textColor: Color = LocalContentColor.current,
   selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),

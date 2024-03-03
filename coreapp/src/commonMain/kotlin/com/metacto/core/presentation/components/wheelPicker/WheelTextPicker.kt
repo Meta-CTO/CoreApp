@@ -6,7 +6,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.texts.SingleLineText
 import com.metacto.core.presentation.theme.CoreTheme
 
@@ -14,7 +13,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun WheelTextPicker(
     modifier: Modifier = Modifier,
     startIndex: Int = 0,
-    size: DpSize = DpSize(128.dp, 128.dp),
+    size: DpSize = DpSize(CoreTheme.spacings.defaultWheelPickerWidth, CoreTheme.spacings.defaultWheelPickerHeight),
     texts: List<String>,
     rowCount: Int,
     style: TextStyle = CoreTheme.typography.pickerItem,

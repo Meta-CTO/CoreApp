@@ -7,9 +7,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.wheelPicker.SelectorProperties
 import com.metacto.core.presentation.components.wheelPicker.WheelPickerDefaults
+import com.metacto.core.presentation.theme.CoreTheme
 import kotlinx.datetime.LocalDate
 
 @Composable
@@ -19,7 +19,7 @@ fun WheelDatePicker(
   minDate: LocalDate = LocalDate.EPOCH,
   maxDate: LocalDate = LocalDate.CYBER_ERA,
   yearsRange: IntRange? = IntRange(minDate.year, maxDate.year),
-  size: DpSize = DpSize(256.dp, 128.dp),
+  size: DpSize = DpSize(CoreTheme.spacings.defaultWheelPickerWidth, CoreTheme.spacings.defaultWheelPickerHeight),
   rowCount: Int = 3,
   textStyle: TextStyle = MaterialTheme.typography.titleMedium,
   textColor: Color = LocalContentColor.current,

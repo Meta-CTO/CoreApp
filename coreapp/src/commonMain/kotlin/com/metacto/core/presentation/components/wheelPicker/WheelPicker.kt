@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
@@ -19,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
+import com.metacto.core.presentation.theme.CoreTheme
 import kotlin.math.abs
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -29,7 +28,7 @@ internal fun WheelPicker(
     startIndex: Int = 0,
     count: Int,
     rowCount: Int,
-    size: DpSize = DpSize(128.dp, 128.dp),
+    size: DpSize = DpSize(CoreTheme.spacings.defaultWheelPickerWidth, CoreTheme.spacings.defaultWheelPickerHeight),
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onScrollFinished: (snappedIndex: Int) -> Int? = { null },
     content: @Composable LazyItemScope.(index: Int) -> Unit,
@@ -169,9 +168,9 @@ object WheelPickerDefaults {
     @Composable
     fun selectorProperties(
         enabled: Boolean = true,
-        shape: Shape = RoundedCornerShape(16.dp),
+        shape: Shape = CoreTheme.shapes.xLarge,
         color: Color = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
-        border: BorderStroke? = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
+        border: BorderStroke? = BorderStroke(CoreTheme.spacings.stroke, MaterialTheme.colorScheme.primary),
     ): SelectorProperties = DefaultSelectorProperties(
         enabled = enabled,
         shape = shape,

@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.wheelPicker.SelectorProperties
 import com.metacto.core.presentation.components.wheelPicker.WheelPickerDefaults
 import com.metacto.core.presentation.components.wheelPicker.WheelTextPicker
+import com.metacto.core.presentation.theme.CoreTheme
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import kotlinx.datetime.number
@@ -31,8 +32,8 @@ internal fun DefaultWheelDatePicker(
   minDate: LocalDate = LocalDate.EPOCH,
   maxDate: LocalDate = LocalDate.CYBER_ERA,
   yearsRange: IntRange? = IntRange(minDate.year, maxDate.year),
-  size: DpSize = DpSize(256.dp, 128.dp),
-  rowCount: Int = 3,
+  size: DpSize = DpSize(CoreTheme.spacings.defaultWheelPickerWidth, CoreTheme.spacings.defaultWheelPickerHeight),
+  rowCount: Int = 3, // Number of rows for year, month and day
   textStyle: TextStyle = MaterialTheme.typography.titleMedium,
   textColor: Color = LocalContentColor.current,
   selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
@@ -46,6 +47,7 @@ internal fun DefaultWheelDatePicker(
     val monthName = Month(it).name.lowercase().replaceFirstChar { char -> char.titlecase() }
 
     Month(
+      // Shorten month name if it doesn't fit
       text = if (size.width / 3 < 55.dp) {
         monthName.substring(0, 3)
       } else monthName,
@@ -116,6 +118,7 @@ internal fun DefaultWheelDatePicker(
       //Month
       WheelTextPicker(
         size = DpSize(
+          // If yearsRange is null, divide the width by 2, else divide by 3
           width = if (yearsRange == null) size.width / 2 else size.width / 3,
           height = size.height
         ),

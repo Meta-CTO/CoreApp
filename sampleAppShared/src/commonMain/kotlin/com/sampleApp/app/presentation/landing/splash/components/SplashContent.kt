@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.containers.ScreenColumn
+import com.metacto.core.presentation.components.wheelPicker.datetime.TimeFormat
 import com.metacto.core.presentation.components.wheelPicker.datetime.WheelDatePicker
 import com.metacto.core.presentation.components.wheelPicker.datetime.WheelTimePicker
 import com.metacto.core.presentation.components.wheelPicker.datetime.now
@@ -35,7 +36,10 @@ internal fun SplashContent(
 
         }
 
-        WheelTimePicker {
+        WheelTimePicker(
+            size = DpSize(getScreenSize().first.toDp(), 128.dp),
+            timeFormat = TimeFormat.AM_PM
+        ) {
             println("Selected time: $it")
         }
 
