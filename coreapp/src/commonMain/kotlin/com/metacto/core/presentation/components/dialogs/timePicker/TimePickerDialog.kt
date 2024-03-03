@@ -33,6 +33,7 @@ internal fun TimePickerDialog(
     selectedTime: LocalTime? = null,
     minTime: LocalTime? = null,
     maxTime: LocalTime? = null,
+    rowCount: Int = 5,
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onTimePicked: (LocalTime) -> Unit,
     onDismiss: () -> Unit = {}
@@ -118,13 +119,14 @@ internal fun TimePickerDialog(
         ) {
             // Render time picker
             WheelTimePicker (
+                rowCount = rowCount,
                 startTime = selectedTime,
                 onSnappedTime = { snappedTime ->
                     currentHour = snappedTime.hour
                     currentMinute = snappedTime.minute
                     isCurrentAm =  snappedTime.hour < 12
                 },
-                size = DpSize(getScreenSize().first.toDp(), CoreTheme.spacings.datePickerWheelHeight),
+                size = DpSize(getScreenSize().first.toDp() - CoreTheme.spacings.screenPadding, CoreTheme.spacings.datePickerWheelHeight),
                 selectorProperties = selectorProperties,
                 modifier = Modifier
                     .fillMaxWidth()

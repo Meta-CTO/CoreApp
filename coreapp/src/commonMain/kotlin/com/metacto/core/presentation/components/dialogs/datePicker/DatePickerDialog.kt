@@ -34,6 +34,7 @@ fun DatePickerDialog(
     selectedDate: LocalDate? = null,
     minDate: LocalDate? = null,
     maxDate: LocalDate? = null,
+    rowCount: Int = 5,
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onDatePicked: (LocalDate) -> Unit,
     onDismiss: () -> Unit = {}
@@ -71,6 +72,7 @@ fun DatePickerDialog(
         ) {
             // Render date picker
             WheelDatePicker(
+                rowCount = rowCount,
                 startDate = currentDate ?: LocalDate.now(),
                 minDate = minDate ?: LocalDate.EPOCH,
                 maxDate = maxDate ?: LocalDate.CYBER_ERA,
@@ -78,7 +80,7 @@ fun DatePickerDialog(
                 onSnappedDate = { localDate ->
                     currentDate = localDate
                 },
-                size = DpSize(getScreenSize().first.toDp(), CoreTheme.spacings.datePickerWheelHeight),
+                size = DpSize(getScreenSize().first.toDp() - CoreTheme.spacings.screenPadding, CoreTheme.spacings.datePickerWheelHeight),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(CoreTheme.spacings.datePickerHeight)
