@@ -40,6 +40,9 @@ expect object DateHelper {
 
     @Throws(Throwable::class)
     fun getDayOfMonthSuffix(date: Date): String
+
+    @Throws(Throwable::class)
+    fun getElapsedYears(date: Date): Int
 }
 
 expect class Date()

@@ -3,6 +3,7 @@ package com.metacto.core.di
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.navigation.NavManager
+import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.metacto.core.utils.phoneNumber.PhoneNumberManager
 import com.metacto.core.utils.remoteConfigs.FirebaseRemoteConfigs
@@ -79,5 +80,9 @@ fun coreModule(
 
     single {
         Logger("")
+    }
+
+    single {
+        DateHelper
     }
 }
