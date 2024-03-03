@@ -15,14 +15,12 @@ import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.dialogs.AppDialog
 import com.metacto.core.presentation.components.wheelPicker.datetime.CYBER_ERA
 import com.metacto.core.presentation.components.wheelPicker.datetime.EPOCH
-import com.metacto.core.presentation.components.wheelPicker.datetime.WheelDateTimePicker
+import com.metacto.core.presentation.components.wheelPicker.datetime.WheelDatePicker
 import com.metacto.core.presentation.components.wheelPicker.datetime.now
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.core.utils.toLocalDateTime
 import com.metacto.coreApp.MR
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 
 @Composable
 fun DatePickerDialog(
@@ -66,12 +64,12 @@ fun DatePickerDialog(
             modifier = Modifier.fillMaxWidth()
         ) {
             // Render date picker
-            WheelDateTimePicker(
-                startDateTime = currentDate?.toLocalDateTime() ?: LocalDateTime.now(),
-                minDateTime = minDate?.toLocalDateTime() ?: LocalDateTime.EPOCH,
-                maxDateTime = maxDate?.toLocalDateTime() ?: LocalDateTime.CYBER_ERA,
-                onSnappedDateTime = { localDateTime ->
-                    currentDate = localDateTime.date
+            WheelDatePicker(
+                startDate = currentDate ?: LocalDate.now(),
+                minDate = minDate ?: LocalDate.EPOCH,
+                maxDate = maxDate ?: LocalDate.CYBER_ERA,
+                onSnappedDate = { localDate ->
+                    currentDate = localDate
                 },
                 modifier = Modifier
                     .fillMaxWidth()
