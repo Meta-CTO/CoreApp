@@ -11,13 +11,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.metacto.coreApp.MR
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
-import com.metacto.core.presentation.components.dateTime.AppDatePicker
 import com.metacto.core.presentation.components.dialogs.AppDialog
+import com.metacto.core.presentation.components.wheelPicker.datetime.CYBER_ERA
+import com.metacto.core.presentation.components.wheelPicker.datetime.EPOCH
+import com.metacto.core.presentation.components.wheelPicker.datetime.WheelDateTimePicker
+import com.metacto.core.presentation.components.wheelPicker.datetime.now
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.utils.toLocalDateTime
+import com.metacto.coreApp.MR
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
 
 @Composable
 fun DatePickerDialog(
@@ -61,12 +66,12 @@ fun DatePickerDialog(
             modifier = Modifier.fillMaxWidth()
         ) {
             // Render date picker
-            AppDatePicker(
-                selectedDate = currentDate,
-                minDate = minDate,
-                maxDate = maxDate,
-                onDateChange = {
-                    currentDate = it
+            WheelDateTimePicker(
+                startDateTime = currentDate?.toLocalDateTime() ?: LocalDateTime.now(),
+                minDateTime = minDate?.toLocalDateTime() ?: LocalDateTime.EPOCH,
+                maxDateTime = maxDate?.toLocalDateTime() ?: LocalDateTime.CYBER_ERA,
+                onSnappedDateTime = { localDateTime ->
+                    currentDate = localDateTime.date
                 },
                 modifier = Modifier
                     .fillMaxWidth()

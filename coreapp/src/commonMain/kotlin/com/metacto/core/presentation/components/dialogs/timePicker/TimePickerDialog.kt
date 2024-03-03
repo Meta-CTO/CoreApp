@@ -4,17 +4,18 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.metacto.coreApp.MR
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
-import com.metacto.core.presentation.components.dateTime.AppTimePicker
-import com.metacto.core.presentation.components.dateTime.TimePickerDefaults
 import com.metacto.core.presentation.components.dialogs.AppDialog
+import com.metacto.core.presentation.components.wheelPicker.datetime.MAX
+import com.metacto.core.presentation.components.wheelPicker.datetime.MIN
+import com.metacto.core.presentation.components.wheelPicker.datetime.WheelTimePicker
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.IResourceProvider
 import com.metacto.core.utils.getCurrentTime
+import com.metacto.coreApp.MR
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.datetime.LocalTime
 import org.koin.compose.rememberKoinInject
@@ -36,8 +37,8 @@ internal fun TimePickerDialog(
 
     // Config times
     val selectedTime = selectedTime ?: getCurrentTime()
-    val minTime = minTime ?: TimePickerDefaults.DEFAULT_MIN_TIME
-    val maxTime = maxTime ?: TimePickerDefaults.DEFAULT_MAX_TIME
+    val minTime = minTime ?: LocalTime.MIN
+    val maxTime = maxTime ?: LocalTime.MAX
 
     // Prepare selected time states
     var currentHour by remember {
@@ -110,12 +111,12 @@ internal fun TimePickerDialog(
             modifier = Modifier.padding(CoreTheme.spacings.paddingXLarge)
         ) {
             // Render time picker
-            AppTimePicker(
-                selectedTime = selectedTime,
-                onTimeChanged = { hour, minute, isAm ->
-                    currentHour = hour
-                    currentMinute = minute
-                    isCurrentAm = isAm
+            WheelTimePicker (
+                startTime = selectedTime,
+                onSnappedTime = { snappedTime ->
+                    currentHour = snappedTime.hour
+                    currentMinute = snappedTime.minute
+                    isCurrentAm =  snappedTime.hour < 12
                 },
                 modifier = Modifier
                     .fillMaxWidth()

@@ -4,34 +4,23 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpSize
 import com.metacto.core.presentation.components.bottomSheets.BottomSheetContainer
-import com.metacto.core.presentation.components.wheelPicker.WheelPicker
-import com.metacto.core.presentation.components.wheelPicker.rememberFWheelPickerState
+import com.metacto.core.presentation.components.wheelPicker.WheelTextPicker
 import com.metacto.core.presentation.itemPicker.ItemPickerContract.Event
 import com.metacto.core.presentation.itemPicker.ItemPickerContract.State
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.core.utils.extensions.noRippleClickable
-import kotlinx.coroutines.launch
 
 @Composable
 fun ItemPickerContent(
     state: State,
     onEvent: (Event) -> Unit
 ) {
-    // Prepare main objects
-    val wheelState = rememberFWheelPickerState(state.initialItemIndex)
-    val coroutineScope = rememberCoroutineScope()
 
-    // Scroll to initial index
-    LaunchedEffect(state.initialItemIndex) {
-        wheelState.scrollToIndex(state.initialItemIndex)
-    }
+    var currentSelectedIndex = remember { state.initialItemIndex }
 
     // Bottom sheet container
     BottomSheetContainer(
@@ -43,34 +32,42 @@ fun ItemPickerContent(
         onEndIconClick = {
             onEvent(
                 Event.DoneClicked(
-                    selectedIndex = wheelState.currentIndex
+                    selectedIndex = currentSelectedIndex
                 )
             )
         }
     ) {
-        // Render wheel picker
-        WheelPicker(
+//        // Render wheel picker
+//        WheelPicker(
+//            modifier = Modifier.fillMaxWidth(),
+//            count = state.items.size,
+//            rowCount = 1,
+//            unfocusedCount = state.unfocusedItemsCount,
+//            isVertical = true,
+//            itemSize = CoreTheme.spacings.pickerItemSize
+//        ) { index ->
+//            // Render item title
+//            Text(
+//                text = state.items[index].title,
+//                textAlign = TextAlign.Center,
+//                style = CoreTheme.typography.pickerItem,
+//                color = CoreTheme.colors.pickerItem,
+//                modifier = Modifier.fillMaxWidth()
+//            )
+//        }
+
+        WheelTextPicker(
             modifier = Modifier.fillMaxWidth(),
-            state = wheelState,
-            count = state.items.size,
-            unfocusedCount = state.unfocusedItemsCount,
-            isVertical = true,
-            itemSize = CoreTheme.spacings.pickerItemSize
-        ) { index ->
-            // Render item title
-            Text(
-                text = state.items[index].title,
-                textAlign = TextAlign.Center,
-                style = CoreTheme.typography.pickerItem,
-                color = CoreTheme.colors.pickerItem,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .noRippleClickable {
-                        coroutineScope.launch {
-                            wheelState.animateScrollToIndex(index)
-                        }
-                    }
-            )
-        }
+            startIndex = state.initialItemIndex,
+            size = DpSize(CoreTheme.spacings.pickerItemSize, CoreTheme.spacings.pickerItemSize),
+            texts = state.items.map { it.title },
+            rowCount = 1,
+            style = CoreTheme.typography.pickerItem,
+            color = CoreTheme.colors.pickerItem,
+            onScrollFinished = { index ->
+                currentSelectedIndex = index
+                null
+            }
+        )
     }
 }

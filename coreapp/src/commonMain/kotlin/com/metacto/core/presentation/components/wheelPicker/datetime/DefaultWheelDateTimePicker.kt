@@ -1,0 +1,159 @@
+package com.metacto.core.presentation.components.wheelPicker.datetime
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.DpSize
+import com.metacto.core.presentation.components.wheelPicker.SelectorProperties
+import com.metacto.core.presentation.components.wheelPicker.WheelPickerDefaults
+import com.metacto.core.presentation.theme.CoreTheme
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.number
+import kotlin.time.DurationUnit
+
+@Composable
+internal fun DefaultWheelDateTimePicker(
+  modifier: Modifier = Modifier,
+  startDateTime: LocalDateTime = LocalDateTime.now(),
+  minDateTime: LocalDateTime = LocalDateTime.EPOCH,
+  maxDateTime: LocalDateTime = LocalDateTime.CYBER_ERA,
+  yearsRange: IntRange? = IntRange(minDateTime.year, maxDateTime.year),
+  timeFormat: TimeFormat = TimeFormat.HOUR_24,
+  size: DpSize = DpSize(CoreTheme.spacings.defaultWheelPickerWidth, CoreTheme.spacings.defaultWheelPickerHeight),
+  rowCount: Int = 3, // 3 rows for hour, minute and am/pm
+  textStyle: TextStyle = MaterialTheme.typography.titleMedium,
+  textColor: Color = LocalContentColor.current,
+  selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
+  onSnappedDateTime: (snappedDateTime: SnappedDateTime) -> Int? = { _ -> null }
+) {
+
+  var snappedDateTime by remember { mutableStateOf(startDateTime.truncatedTo(DurationUnit.MINUTES)) }
+
+  val yearTexts = yearsRange?.map { it.toString() } ?: listOf()
+
+  Box(modifier = modifier, contentAlignment = Alignment.Center) {
+    if (selectorProperties.enabled().value) {
+      Surface(
+        modifier = Modifier
+          .size(size.width, size.height / rowCount),
+        shape = selectorProperties.shape().value,
+        color = selectorProperties.color().value,
+        border = selectorProperties.border().value
+      ) {}
+    }
+    Row {
+      //Date
+      DefaultWheelDatePicker(
+        startDate = startDateTime.date,
+        yearsRange = yearsRange,
+        size = DpSize(
+          width = if (yearsRange == null) size.width * 3 / 6 else size.width * 3 / 5,
+          height = size.height
+        ),
+        rowCount = rowCount,
+        textStyle = textStyle,
+        textColor = textColor,
+        selectorProperties = WheelPickerDefaults.selectorProperties(
+          enabled = false
+        ),
+        onSnappedDate = { snappedDate ->
+
+          val newDateTime = when (snappedDate) {
+            is SnappedDate.DayOfMonth -> {
+              snappedDateTime.withDayOfMonth(snappedDate.snappedLocalDate.dayOfMonth)
+            }
+
+            is SnappedDate.Month -> {
+              snappedDateTime.withMonthNumber(snappedDate.snappedLocalDate.monthNumber)
+            }
+
+            is SnappedDate.Year -> {
+              snappedDateTime.withYear(snappedDate.snappedLocalDate.year)
+            }
+          }
+
+          if (!newDateTime.isBefore(minDateTime) && !newDateTime.isAfter(maxDateTime)) {
+            snappedDateTime = newDateTime
+          } else if (newDateTime.isBefore(minDateTime)) {
+            snappedDateTime = minDateTime
+          } else if (newDateTime.isAfter(maxDateTime)) {
+            snappedDateTime = maxDateTime
+          }
+
+          return@DefaultWheelDatePicker when (snappedDate) {
+            is SnappedDate.DayOfMonth -> {
+              onSnappedDateTime(SnappedDateTime.DayOfMonth(snappedDateTime, snappedDateTime.dayOfMonth - 1))
+              snappedDateTime.dayOfMonth - 1
+            }
+
+            is SnappedDate.Month -> {
+              onSnappedDateTime(SnappedDateTime.Month(snappedDateTime, snappedDateTime.month.number - 1))
+              snappedDateTime.month.number - 1
+            }
+
+            is SnappedDate.Year -> {
+              onSnappedDateTime(SnappedDateTime.Year(snappedDateTime, yearTexts.indexOf(snappedDateTime.year.toString())))
+              yearTexts.indexOf(snappedDateTime.year.toString())
+            }
+          }
+        }
+      )
+      //Time
+      DefaultWheelTimePicker(
+        startTime = startDateTime.time,
+        timeFormat = timeFormat,
+        size = DpSize(
+          width = if (yearsRange == null) size.width * 3 / 6 else size.width * 2 / 5,
+          height = size.height
+        ),
+        rowCount = rowCount,
+        textStyle = textStyle,
+        textColor = textColor,
+        selectorProperties = WheelPickerDefaults.selectorProperties(
+          enabled = false
+        ),
+        onSnappedTime = { snappedTime, timeFormat ->
+
+          val newDateTime = when (snappedTime) {
+            is SnappedTime.Hour -> {
+              snappedDateTime.withHour(snappedTime.snappedLocalTime.hour)
+            }
+
+            is SnappedTime.Minute -> {
+              snappedDateTime.withMinute(snappedTime.snappedLocalTime.minute)
+            }
+          }
+
+          if (!newDateTime.isBefore(minDateTime) && !newDateTime.isAfter(maxDateTime)) {
+            snappedDateTime = newDateTime
+          }
+
+          return@DefaultWheelTimePicker when (snappedTime) {
+            is SnappedTime.Hour -> {
+              onSnappedDateTime(SnappedDateTime.Hour(snappedDateTime, snappedDateTime.hour))
+              if (timeFormat == TimeFormat.HOUR_24) snappedDateTime.hour else
+                localTimeToAmPmHour(snappedDateTime.time) - 1
+            }
+
+            is SnappedTime.Minute -> {
+              onSnappedDateTime(SnappedDateTime.Minute(snappedDateTime, snappedDateTime.minute))
+              snappedDateTime.minute
+            }
+          }
+        }
+      )
+    }
+  }
+}
