@@ -80,7 +80,7 @@ fun DatePickerDialog(
                 onSnappedDate = { localDate ->
                     currentDate = localDate
                 },
-                size = DpSize(getScreenSize().first.toDp() - CoreTheme.spacings.screenPadding, CoreTheme.spacings.datePickerWheelHeight),
+                size = DpSize(getScreenSize().first.toDp() - CoreTheme.spacings.pickerPadding, CoreTheme.spacings.datePickerWheelHeight),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(CoreTheme.spacings.datePickerHeight)

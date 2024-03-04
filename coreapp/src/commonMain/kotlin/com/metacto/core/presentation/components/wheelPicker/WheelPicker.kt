@@ -28,7 +28,10 @@ internal fun WheelPicker(
     startIndex: Int = 0,
     count: Int,
     rowCount: Int,
-    size: DpSize = DpSize(CoreTheme.spacings.defaultWheelPickerWidth, CoreTheme.spacings.defaultWheelPickerHeight),
+    size: DpSize = DpSize(
+        CoreTheme.spacings.defaultWheelPickerWidth,
+        CoreTheme.spacings.defaultWheelPickerHeight
+    ),
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onScrollFinished: (snappedIndex: Int) -> Int? = { null },
     content: @Composable LazyItemScope.(index: Int) -> Unit,
@@ -96,12 +99,24 @@ internal fun WheelPicker(
 }
 
 private fun calculateSnappedItemIndex(lazyListState: LazyListState): Int {
-    var currentItemIndex = lazyListState.firstVisibleItemIndex
+    val visibleItemsInfo = lazyListState.layoutInfo.visibleItemsInfo
+    if (visibleItemsInfo.isEmpty()) return 0
 
-    if (lazyListState.firstVisibleItemScrollOffset != 0) {
-        currentItemIndex++
-    }
-    return currentItemIndex
+    // This will give us the offset at the bottom of the viewport
+    val viewportEndOffset =
+        lazyListState.layoutInfo.viewportStartOffset + lazyListState.layoutInfo.viewportSize.height
+
+    // Find the item that has its center closest to the center of the viewport
+    val centeredItemIndex = visibleItemsInfo.minByOrNull { itemInfo ->
+        val itemCenter = itemInfo.offset + itemInfo.size / 2
+        val viewportCenter = (lazyListState.layoutInfo.viewportStartOffset + viewportEndOffset) / 2
+        // We need to return the distance here for the comparison
+        kotlin.math.abs(viewportCenter - itemCenter)
+    }?.index // Get the index of the item
+
+    // Return the index of the item that has its center closest to the center of the viewport
+    // If the centered item is null, we fall back to the first visible item index
+    return centeredItemIndex ?: lazyListState.firstVisibleItemIndex
 }
 
 @Composable
@@ -116,7 +131,8 @@ private fun calculateAnimatedAlpha(
     val singleViewPortHeight = viewPortHeight / rowCount
 
     val centerIndex = remember { derivedStateOf { lazyListState.firstVisibleItemIndex } }.value
-    val centerIndexOffset = remember { derivedStateOf { lazyListState.firstVisibleItemScrollOffset } }.value
+    val centerIndexOffset =
+        remember { derivedStateOf { lazyListState.firstVisibleItemScrollOffset } }.value
 
     val distanceToCenterIndex = index - centerIndex
 
@@ -145,7 +161,8 @@ private fun calculateAnimatedRotationX(
     val singleViewPortHeight = viewPortHeight / rowCount
 
     val centerIndex = remember { derivedStateOf { lazyListState.firstVisibleItemIndex } }.value
-    val centerIndexOffset = remember { derivedStateOf { lazyListState.firstVisibleItemScrollOffset } }.value
+    val centerIndexOffset =
+        remember { derivedStateOf { lazyListState.firstVisibleItemScrollOffset } }.value
 
     val distanceToCenterIndex = index - centerIndex
 
@@ -170,7 +187,10 @@ object WheelPickerDefaults {
         enabled: Boolean = true,
         shape: Shape = CoreTheme.shapes.xLarge,
         color: Color = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
-        border: BorderStroke? = BorderStroke(CoreTheme.spacings.stroke, MaterialTheme.colorScheme.primary),
+        border: BorderStroke? = BorderStroke(
+            CoreTheme.spacings.stroke,
+            MaterialTheme.colorScheme.primary
+        ),
     ): SelectorProperties = DefaultSelectorProperties(
         enabled = enabled,
         shape = shape,

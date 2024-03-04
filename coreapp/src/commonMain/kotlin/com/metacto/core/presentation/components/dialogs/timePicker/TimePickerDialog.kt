@@ -126,7 +126,7 @@ internal fun TimePickerDialog(
                     currentMinute = snappedTime.minute
                     isCurrentAm =  snappedTime.hour < 12
                 },
-                size = DpSize(getScreenSize().first.toDp() - CoreTheme.spacings.screenPadding, CoreTheme.spacings.datePickerWheelHeight),
+                size = DpSize(getScreenSize().first.toDp() - CoreTheme.spacings.pickerPadding, CoreTheme.spacings.datePickerWheelHeight),
                 selectorProperties = selectorProperties,
                 modifier = Modifier
                     .fillMaxWidth()

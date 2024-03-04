@@ -20,6 +20,7 @@ data class CoreSpacings(
     val paddingXXLarge: Dp = 20.dp,
     val paddingXXXLarge: Dp = 24.dp,
     val screenPadding: Dp = 26.dp,
+    val pickerPadding: Dp = 40.dp,
 
     val iconSmall: Dp = 18.dp,
     val iconMedium: Dp = 20.dp,
