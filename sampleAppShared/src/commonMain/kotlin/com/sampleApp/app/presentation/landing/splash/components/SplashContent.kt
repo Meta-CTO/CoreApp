@@ -1,19 +1,21 @@
 package com.sampleApp.app.presentation.landing.splash.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.containers.ScreenColumn
-import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
+import com.metacto.core.presentation.components.wheelPicker.datetime.TimeFormat
+import com.metacto.core.presentation.components.wheelPicker.datetime.WheelDatePicker
+import com.metacto.core.presentation.components.wheelPicker.datetime.WheelTimePicker
+import com.metacto.core.presentation.components.wheelPicker.datetime.now
+import com.metacto.core.utils.extensions.getScreenSize
+import com.metacto.core.utils.extensions.toDp
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
-import com.sampleApp.app.presentation.theme.AppTheme
+import kotlinx.datetime.LocalDate
 
 @Composable
 internal fun SplashContent(
@@ -26,55 +28,46 @@ internal fun SplashContent(
         isRefreshable = true,
         isRefreshing = true
     ) {
-        Text(
-            text = "Share text",
-            style = AppTheme.typography.fenwickBold24,
-            color = Color.Red,
-            modifier = modifier.clickable {
-                onEvent(Event.ShareTextClicked)
-            }
-        )
 
-        Text(
-            text = "Send email",
-            style = AppTheme.typography.fenwickBold24,
-            color = Color.Red,
-            modifier = modifier.clickable {
-                onEvent(Event.SendEmailClicked)
-            }
-        )
+        WheelDatePicker(
+            size = DpSize(getScreenSize().first.toDp(), 128.dp),
+            maxDate = LocalDate.now()
+        ) { date ->
 
-        Text(
-            text = "Phone dial",
-            style = AppTheme.typography.fenwickBold24,
-            color = Color.Red,
-            modifier = modifier.clickable {
-                onEvent(Event.PhoneDialClicked)
-            }
-        )
+        }
 
-        Text(
-            text = if (state.isWelcome) "Welcome" else "Sample App",
-            style = AppTheme.typography.fenwickBold24,
-            color = Color.Red,
-            modifier = modifier
-                .clickable { onEvent(Event.TextClicked) }
-        )
+        WheelTimePicker(
+            size = DpSize(getScreenSize().first.toDp(), 128.dp),
+            timeFormat = TimeFormat.AM_PM
+        ) {
+            println("Selected time: $it")
+        }
 
-        Text(
-            text = "Selected item: ${state.selectedItem}",
-            style = AppTheme.typography.fenwickBold18,
-            color = Color.Red
-        )
 
-        VideoPlayer(
-            url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-            autoPlay = true,
-            modifier = Modifier
-                .background(AppTheme.colors.black)
-                .fillMaxWidth()
-                .height(200.dp)
-        )
+
+
+//        Text(
+//            text = if (state.isWelcome) "Welcome" else "Sample App",
+//            style = AppTheme.typography.fenwickBold24,
+//            color = Color.Red,
+//            modifier = modifier
+//                .clickable { onEvent(Event.TextClicked) }
+//        )
+//
+//        Text(
+//            text = "Selected item: ${state.selectedItem}",
+//            style = AppTheme.typography.fenwickBold18,
+//            color = Color.Red
+//        )
+
+//        VideoPlayer(
+//            url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+//            autoPlay = true,
+//            modifier = Modifier
+//                .background(AppTheme.colors.black)
+//                .fillMaxWidth()
+//                .height(200.dp)
+//        )
     }
 //
 //    // Container column

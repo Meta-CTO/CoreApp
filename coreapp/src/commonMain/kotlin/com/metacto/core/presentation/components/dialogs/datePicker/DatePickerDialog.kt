@@ -11,11 +11,19 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.metacto.coreApp.MR
+import androidx.compose.ui.unit.DpSize
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
-import com.metacto.core.presentation.components.dateTime.AppDatePicker
 import com.metacto.core.presentation.components.dialogs.AppDialog
+import com.metacto.core.presentation.components.wheelPicker.SelectorProperties
+import com.metacto.core.presentation.components.wheelPicker.WheelPickerDefaults
+import com.metacto.core.presentation.components.wheelPicker.datetime.CYBER_ERA
+import com.metacto.core.presentation.components.wheelPicker.datetime.EPOCH
+import com.metacto.core.presentation.components.wheelPicker.datetime.WheelDatePicker
+import com.metacto.core.presentation.components.wheelPicker.datetime.now
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.utils.extensions.getScreenSize
+import com.metacto.core.utils.extensions.toDp
+import com.metacto.coreApp.MR
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.datetime.LocalDate
 
@@ -26,6 +34,8 @@ fun DatePickerDialog(
     selectedDate: LocalDate? = null,
     minDate: LocalDate? = null,
     maxDate: LocalDate? = null,
+    rowCount: Int = 5,
+    selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onDatePicked: (LocalDate) -> Unit,
     onDismiss: () -> Unit = {}
 ) {
@@ -61,13 +71,16 @@ fun DatePickerDialog(
             modifier = Modifier.fillMaxWidth()
         ) {
             // Render date picker
-            AppDatePicker(
-                selectedDate = currentDate,
-                minDate = minDate,
-                maxDate = maxDate,
-                onDateChange = {
-                    currentDate = it
+            WheelDatePicker(
+                rowCount = rowCount,
+                startDate = currentDate ?: LocalDate.now(),
+                minDate = minDate ?: LocalDate.EPOCH,
+                maxDate = maxDate ?: LocalDate.CYBER_ERA,
+                selectorProperties = selectorProperties,
+                onSnappedDate = { localDate ->
+                    currentDate = localDate
                 },
+                size = DpSize(getScreenSize().first.toDp() - CoreTheme.spacings.pickerPadding, CoreTheme.spacings.datePickerWheelHeight),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(CoreTheme.spacings.datePickerHeight)
