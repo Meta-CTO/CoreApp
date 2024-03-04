@@ -1,21 +1,15 @@
 package com.sampleApp.app.presentation.landing.splash.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.DpSize
-import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.containers.ScreenColumn
-import com.metacto.core.presentation.components.wheelPicker.datetime.TimeFormat
-import com.metacto.core.presentation.components.wheelPicker.datetime.WheelDatePicker
-import com.metacto.core.presentation.components.wheelPicker.datetime.WheelTimePicker
-import com.metacto.core.presentation.components.wheelPicker.datetime.now
-import com.metacto.core.utils.extensions.getScreenSize
-import com.metacto.core.utils.extensions.toDp
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
-import kotlinx.datetime.LocalDate
+import com.sampleApp.app.presentation.theme.AppTheme
 
 @Composable
 internal fun SplashContent(
@@ -29,30 +23,30 @@ internal fun SplashContent(
         isRefreshing = true
     ) {
 
-        WheelDatePicker(
-            size = DpSize(getScreenSize().first.toDp(), 128.dp),
-            maxDate = LocalDate.now()
-        ) { date ->
-
-        }
-
-        WheelTimePicker(
-            size = DpSize(getScreenSize().first.toDp(), 128.dp),
-            timeFormat = TimeFormat.AM_PM
-        ) {
-            println("Selected time: $it")
-        }
-
-
+//        WheelDatePicker(
+//            size = DpSize(getScreenSize().first.toDp(), 128.dp),
+//            maxDate = LocalDate.now()
+//        ) { date ->
+//
+//        }
+//
+//        WheelTimePicker(
+//            size = DpSize(getScreenSize().first.toDp(), 128.dp),
+//            timeFormat = TimeFormat.AM_PM
+//        ) {
+//            println("Selected time: $it")
+//        }
 
 
-//        Text(
-//            text = if (state.isWelcome) "Welcome" else "Sample App",
-//            style = AppTheme.typography.fenwickBold24,
-//            color = Color.Red,
-//            modifier = modifier
-//                .clickable { onEvent(Event.TextClicked) }
-//        )
+
+
+        Text(
+            text = if (state.isWelcome) "Welcome" else "Sample App",
+            style = AppTheme.typography.fenwickBold24,
+            color = Color.Red,
+            modifier = modifier
+                .clickable { onEvent(Event.TextClicked) }
+        )
 //
 //        Text(
 //            text = "Selected item: ${state.selectedItem}",

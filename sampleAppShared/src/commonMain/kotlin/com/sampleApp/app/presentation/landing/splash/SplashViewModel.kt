@@ -1,6 +1,8 @@
 package com.sampleApp.app.presentation.landing.splash
 
 import com.metacto.core.presentation.globalState.models.LoadingType
+import com.metacto.core.presentation.globalState.models.SnackBarParams
+import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.utils.DateHelper
@@ -86,6 +88,7 @@ class SplashViewModel(
         }
 
         Event.TextClicked -> {
+            globalState.snackBar(SnackBarParams(message = "Text clicked", type= SnackBarType.SUCCESS))
 //            println("Date formatted: " + DateHelper.timestampToReadableDate(1708286230001))
 
             val date = dateHelper.stringToDate("1993-01-01", "yyyy-MM-dd")
