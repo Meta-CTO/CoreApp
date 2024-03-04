@@ -88,7 +88,7 @@ class SplashViewModel(
         Event.TextClicked -> {
 //            println("Date formatted: " + DateHelper.timestampToReadableDate(1708286230001))
 
-            val date = dateHelper.stringToDate("2006-02-16", "yyyy-MM-dd")
+            val date = dateHelper.stringToDate("1993-01-01", "yyyy-MM-dd")
             println("The years difference: " + dateHelper.getElapsedYears(date))
 
 //            navManager.navigate(
