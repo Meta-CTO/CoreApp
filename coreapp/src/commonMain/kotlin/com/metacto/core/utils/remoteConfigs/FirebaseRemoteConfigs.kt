@@ -1,6 +1,7 @@
 package com.metacto.core.utils.remoteConfigs
 
 import com.metacto.core.domain.CoreConstants.CACHED_REMOTE_CONFIGS
+import com.metacto.core.utils.extensions.putObject
 import com.metacto.core.utils.extensions.toJsonObject
 import com.metacto.core.utils.extensions.toPairs
 import com.swensonhe.strapikmm.sharedpreference.KmmPreference
@@ -9,7 +10,6 @@ import dev.gitlive.firebase.remoteconfig.FirebaseRemoteConfig
 import dev.gitlive.firebase.remoteconfig.get
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonObject
-import com.metacto.core.utils.extensions.putObject
 
 class FirebaseRemoteConfigs(
     private val kmmPreference: KmmPreference,
@@ -71,86 +71,81 @@ class FirebaseRemoteConfigs(
     }
 
     override fun getString(key: String): String? {
-        return try {
-            firebaseConfigs[key]
-        } catch (e: Throwable) {
-            null
-        }
+        return firebaseConfigs.get(key)
     }
 
     @Throws(Throwable::class)
     override suspend fun forceGetString(key: String): String? {
-        return getString(key) ?: run {
+        val value = getString(key)
+        if (value == null || value == DEF_STRING_VALUE) {
             fetchConfigsFromRemote()
-            getString(key)
         }
+
+        return getString(key)
     }
 
     override fun getBoolean(key: String): Boolean? {
-        return try {
-            firebaseConfigs[key]
-        } catch (e: Throwable) {
-            null
-        }
+        return firebaseConfigs[key]
     }
 
     @Throws(Throwable::class)
     override suspend fun forceGetBoolean(key: String): Boolean? {
-        return getBoolean(key) ?: run {
+        val value = getBoolean(key)
+        if (value == null || value == DEF_BOOL_VALUE) {
             fetchConfigsFromRemote()
-            getBoolean(key)
         }
+
+        return getBoolean(key)
     }
 
     override fun getDouble(key: String): Double? {
-        return try {
-            firebaseConfigs[key]
-        } catch (e: Throwable) {
-            null
-        }
+        return firebaseConfigs[key]
     }
 
     @Throws(Throwable::class)
     override suspend fun forceGetDouble(key: String): Double? {
-        return getDouble(key) ?: run {
+        val value = getDouble(key)
+        if (value == null || value == DEF_DOUBLE_VALUE) {
             fetchConfigsFromRemote()
-            getDouble(key)
         }
+
+        return getDouble(key)
     }
 
     override fun getLong(key: String): Long? {
-        return try {
-            firebaseConfigs[key]
-        } catch (e: Throwable) {
-            null
-        }
+        return firebaseConfigs[key]
     }
 
     @Throws(Throwable::class)
     override suspend fun forceGetLong(key: String): Long? {
-        return getLong(key) ?: run {
+        val value = getLong(key)
+        if (value == null || value == DEF_LONG_VALUE) {
             fetchConfigsFromRemote()
-            getLong(key)
         }
+
+        return getLong(key)
     }
 
     override fun getInt(key: String): Int? {
-        return try {
-            firebaseConfigs[key]
-        } catch (e: Throwable) {
-            null
-        }
+        return firebaseConfigs[key]
     }
 
     @Throws(Throwable::class)
     override suspend fun forceGetInt(key: String): Int? {
-        return getInt(key) ?: run {
+        val value = getInt(key)
+        if (value == null || value == DEF_INT_VALUE) {
             fetchConfigsFromRemote()
-            getInt(key)
         }
+
+        return getInt(key)
     }
 
     companion object {
         private const val LOG_TAG = "RemoteConfigs"
+        private const val DEF_STRING_VALUE = ""
+        private const val DEF_BOOL_VALUE = false
+        private const val DEF_DOUBLE_VALUE = 0.0
+        private const val DEF_LONG_VALUE = 0L
+        private val DEF_INT_VALUE: Int? = null
     }
 }

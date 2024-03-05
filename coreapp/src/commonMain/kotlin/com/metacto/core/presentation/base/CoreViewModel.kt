@@ -180,7 +180,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         onCreated: (Job) -> Unit = {},
         onError: (() -> Unit)? = null,
         onComplete: (() -> Unit)? = null
-    ): Job{
+    ): Job {
         // Cancel old job if required
         if (debounce != 0L) oldDebounceJob?.cancel()
 
@@ -285,7 +285,8 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     }
 
     protected inline fun <reified D, reified R> NavManager.collectNavResult(
-        crossinline onResult: (R) -> Unit) {
+        crossinline onResult: (R) -> Unit
+    ) {
         executeSilent({
             // Get nav manager
             val navManager = this@collectNavResult
