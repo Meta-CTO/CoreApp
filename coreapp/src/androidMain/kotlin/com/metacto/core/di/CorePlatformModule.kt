@@ -5,8 +5,6 @@ import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.permissions.PermissionManager
 import com.metacto.core.presentation.base.CommonViewModel
-import com.metacto.core.utils.DispatchersProvider
-import com.metacto.core.utils.IDispatchersProvider
 import com.metacto.core.utils.IResourceProvider
 import com.metacto.core.utils.ResourceProvider
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
@@ -29,10 +27,6 @@ import org.koin.core.qualifier.Qualifier
 import org.koin.dsl.module
 
 actual fun corePlatformModule(appStorageName: String) = module {
-    single<IDispatchersProvider> {
-        DispatchersProvider()
-    }
-
     single {
         RepositoriesFactory(
             context = androidContext(),

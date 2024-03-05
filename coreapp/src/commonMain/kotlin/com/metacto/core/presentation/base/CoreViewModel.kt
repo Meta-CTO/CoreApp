@@ -13,7 +13,6 @@ import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.MessagePopupParams
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
-import com.metacto.core.utils.IDispatchersProvider
 import com.metacto.core.utils.IResourceProvider
 import com.metacto.coreApp.MR
 import com.swensonhe.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
@@ -40,6 +39,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 interface ViewEvent
 
@@ -56,7 +56,6 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
     // Inject main objects
     protected val coreGlobalState by inject<ICoreGlobalState>()
-    protected val dispatcherProvider by inject<IDispatchersProvider>()
     protected val navManager by inject<NavManager>()
     protected val resourceProvider by inject<IResourceProvider>()
     protected val logger by inject<Logger>()
@@ -109,7 +108,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         loadingType: LoadingType = defaultLoadingType,
         errorType: ErrorType = defaultErrorType,
         scope: CoroutineScope = screenModelScope,
-        context: CoroutineContext = dispatcherProvider.io,
+        context: CoroutineContext = EmptyCoroutineContext,
         debounce: Long = 0,
         oldDebounceJob: Job? = null,
         onCreated: (Job) -> Unit = {},
@@ -175,7 +174,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     open fun <T> executeSilent(
         block: suspend () -> T,
         scope: CoroutineScope = screenModelScope,
-        context: CoroutineContext = dispatcherProvider.io,
+        context: CoroutineContext = EmptyCoroutineContext,
         debounce: Long = 0,
         oldDebounceJob: Job? = null,
         onCreated: (Job) -> Unit = {},
