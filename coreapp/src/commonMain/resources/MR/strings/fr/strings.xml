@@ -10,13 +10,13 @@
     <string name="error">Erreur</string>
     <string name="no_internet_connection_check_connection">Pas de connexion internet, veuillez vérifier votre connexion et réessayer.</string>
     <string name="server_taking_too_long">Il semble que le serveur met trop de temps à répondre, veuillez réessayer plus tard.</string>
-    <string name="something_went_wrong_try_again">Quelque chose s'est mal passé, veuillez réessayer plus tard.</string>
+    <string name="something_went_wrong_try_again">Quelque chose s\'est mal passé, veuillez réessayer plus tard.</string>
     <string name="no_results">Aucun Résultat</string>
     <string name="no_results_subtitle">Veuillez vérifier votre\n orthographe et état</string>
     <string name="minimum_allowed_date_is_s">La date minimale autorisée est : %s</string>
     <string name="maximum_allowed_date_is_s">La date maximale autorisée est : %s</string>
-    <string name="minimum_allowed_time_is_s">L'heure minimale autorisée est : %s</string>
-    <string name="maximum_allowed_time_is_s">L'heure maximale autorisée est : %s</string>
+    <string name="minimum_allowed_time_is_s">L\'heure minimale autorisée est : %s</string>
+    <string name="maximum_allowed_time_is_s">L\'heure maximale autorisée est : %s</string>
     <string name="choose_from_library">Choisir depuis la bibliothèque</string>
     <string name="take_photo">Prendre une photo</string>
     <string name="remove_current_photo">Supprimer la photo actuelle</string>
