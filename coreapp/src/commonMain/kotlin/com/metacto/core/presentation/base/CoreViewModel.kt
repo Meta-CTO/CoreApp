@@ -27,6 +27,8 @@ import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.HttpRequestTimeoutException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
@@ -39,7 +41,6 @@ import kotlinx.serialization.json.jsonPrimitive
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 interface ViewEvent
 
@@ -108,7 +109,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         loadingType: LoadingType = defaultLoadingType,
         errorType: ErrorType = defaultErrorType,
         scope: CoroutineScope = screenModelScope,
-        context: CoroutineContext = EmptyCoroutineContext,
+        context: CoroutineContext = defaultDispatcher,
         debounce: Long = 0,
         oldDebounceJob: Job? = null,
         onCreated: (Job) -> Unit = {},
@@ -174,7 +175,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     open fun <T> executeSilent(
         block: suspend () -> T,
         scope: CoroutineScope = screenModelScope,
-        context: CoroutineContext = EmptyCoroutineContext,
+        context: CoroutineContext = defaultDispatcher,
         debounce: Long = 0,
         oldDebounceJob: Job? = null,
         onCreated: (Job) -> Unit = {},
@@ -233,8 +234,6 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         )
     }
 
-    open val defaultLoadingType: LoadingType = LoadingType.LottieBlocking()
-
     open fun showLoading(type: LoadingType = defaultLoadingType) {
         coreGlobalState.loading(type)
         loadingCount++
@@ -248,8 +247,6 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     protected fun isLoading(): Boolean {
         return loadingCount > 0
     }
-
-    open val defaultErrorType: ErrorType = ErrorType.Popup
 
     protected fun showError(
         errorRes: StringResource,
@@ -300,6 +297,12 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         screenModelScope.cancel()
         super.onDispose()
     }
+
+    open val defaultLoadingType: LoadingType = LoadingType.LottieBlocking()
+
+    open val defaultErrorType: ErrorType = ErrorType.Popup
+
+    open val defaultDispatcher: CoroutineContext = Dispatchers.IO
 }
 
 private fun extractErrorCodeAndMessage(jsonString: String): Pair<String, Int> {
