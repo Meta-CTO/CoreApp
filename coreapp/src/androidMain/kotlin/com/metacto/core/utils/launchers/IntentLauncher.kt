@@ -66,7 +66,9 @@ class IntentLauncher(private val context: Context) : IIntentLauncher {
 
     override fun launchBrowser(url: String) {
         try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
             context.startActivity(intent)
         } catch (_: Throwable) {
             Toast.makeText(
