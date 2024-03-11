@@ -49,4 +49,15 @@ class IntentLauncher : IIntentLauncher {
         // Then open it
         UIApplication.sharedApplication.openURL(url)
     }
+
+    override fun launchBrowser(url: String) {
+        // Create the url
+        val nsUrl = NSURL.URLWithString(url) ?: return
+
+        // Validate can open url
+        if (UIApplication.sharedApplication.canOpenURL(nsUrl).not()) return
+
+        // Then open it
+        UIApplication.sharedApplication.openURL(nsUrl)
+    }
 }

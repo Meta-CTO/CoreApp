@@ -63,4 +63,17 @@ class IntentLauncher(private val context: Context) : IIntentLauncher {
             Toast.LENGTH_LONG
         ).show()
     }
+
+    override fun launchBrowser(url: String) {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            context.startActivity(intent)
+        } catch (_: Throwable) {
+            Toast.makeText(
+                context,
+                MR.strings.no_browser_installed.resourceId,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
 }

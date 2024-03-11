@@ -20,4 +20,5 @@
     <string name="choose_from_library">Choose from library</string>
     <string name="take_photo">Take photo</string>
     <string name="remove_current_photo">Remove current photo</string>
+    <string name="no_browser_installed">No browser installed</string>
 </resources>
