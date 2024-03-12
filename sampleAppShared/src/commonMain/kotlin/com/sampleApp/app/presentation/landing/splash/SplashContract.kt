@@ -5,6 +5,7 @@ import com.metacto.core.presentation.base.ViewSideEffect
 import com.metacto.core.presentation.base.ViewState
 import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
+import com.metacto.core.presentation.models.ImageUIModel
 
 class SplashContract {
 
@@ -12,7 +13,8 @@ class SplashContract {
         val isInitialized: Boolean = false,
         val isWelcome: Boolean = false,
         val options: List<PickerItem> = DUMMY_OPTIONS,
-        val selectedItem: PickerItem? = null
+        val selectedItem: PickerItem? = null,
+        val image: ImageUIModel? = null
     ) : ViewState
 
     sealed class Event : ViewEvent {
@@ -23,6 +25,7 @@ class SplashContract {
         data object ShareTextClicked : Event()
         data object SendEmailClicked : Event()
         data object PhoneDialClicked : Event()
+        data object PickImageClicked : Event()
     }
 
     sealed class Effect : ViewSideEffect

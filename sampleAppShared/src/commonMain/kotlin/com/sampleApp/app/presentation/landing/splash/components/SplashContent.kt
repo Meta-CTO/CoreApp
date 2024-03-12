@@ -2,11 +2,14 @@ package com.sampleApp.app.presentation.landing.splash.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.containers.ScreenColumn
+import com.metacto.core.presentation.components.images.WhiteAppImage
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
 import com.sampleApp.app.presentation.theme.AppTheme
@@ -46,6 +49,19 @@ internal fun SplashContent(
             color = Color.Red,
             modifier = modifier
                 .clickable { onEvent(Event.TextClicked) }
+        )
+
+        WhiteAppImage(
+            modifier = Modifier.size(100.dp),
+            image = state.image
+        )
+
+        Text(
+            text = "Pick Image",
+            style = AppTheme.typography.fenwickBold24,
+            color = Color.Red,
+            modifier = modifier
+                .clickable { onEvent(Event.PickImageClicked) }
         )
 //
 //        Text(

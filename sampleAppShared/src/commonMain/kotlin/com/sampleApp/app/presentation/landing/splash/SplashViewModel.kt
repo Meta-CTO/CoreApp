@@ -3,8 +3,11 @@ package com.sampleApp.app.presentation.landing.splash
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
+import com.metacto.core.presentation.imagePicker.ImagePickerSheet
+import com.metacto.core.presentation.imagePicker.models.ImagePickerResult
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItem
+import com.metacto.core.presentation.models.ImageUIModel
 import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.metacto.core.utils.launchers.IIntentLauncher
@@ -46,6 +49,7 @@ class SplashViewModel(
 
         // Observe item picker results
         observeItemPickerResults()
+        observeImagePickerResults()
 
         if (isWelcome.not()) {
             executeSilent({
@@ -182,6 +186,25 @@ class SplashViewModel(
 
         Event.ShareTextClicked -> {
             intentLauncher.launchShareText("Hello, this is a test text")
+        }
+
+        Event.PickImageClicked -> {
+            navManager.navigateToBottomSheet(
+                ImagePickerSheet(
+                    showDeleteAction = true,
+                    enableCropping = true,
+                )
+            )
+        }
+    }
+
+    private fun observeImagePickerResults() {
+        navManager.collectNavResult<ImagePickerSheet, ImagePickerResult> {
+            when(it) {
+                ImagePickerResult.Cancelled -> {}
+                ImagePickerResult.ImageDeleted -> setState { copy(image = null) }
+                is ImagePickerResult.ImagePicked -> setState { copy(image = ImageUIModel(bytes = it.bytes)) }
+            }
         }
     }
 

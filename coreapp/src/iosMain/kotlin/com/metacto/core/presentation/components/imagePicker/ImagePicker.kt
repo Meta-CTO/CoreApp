@@ -18,7 +18,7 @@ import platform.UIKit.UIImageOrientation
 import platform.UIKit.UIImagePickerController
 import platform.UIKit.UIImagePickerControllerDelegateProtocol
 import platform.UIKit.UIImagePickerControllerSourceType
-import platform.UIKit.UIModalPresentationPopover
+import platform.UIKit.UIModalPresentationFullScreen
 import platform.UIKit.UINavigationControllerDelegateProtocol
 import platform.UIKit.UIViewController
 import platform.darwin.NSObject
@@ -86,7 +86,7 @@ actual class ImagePicker(
 
     private fun pickImage(source: UIImagePickerControllerSourceType) {
         imagePickerController.sourceType = source
-        imagePickerController.setModalPresentationStyle(UIModalPresentationPopover)
+        imagePickerController.setModalPresentationStyle(UIModalPresentationFullScreen)
         rootController.presentViewController(imagePickerController, true) {
             imagePickerController.delegate = delegate
         }
