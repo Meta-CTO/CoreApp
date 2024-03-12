@@ -130,10 +130,8 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                 if (hasLoading) showLoading(loadingType)
                 block.invoke()
                 if (hasLoading) hideLoading()
-            } catch (e: kotlin.coroutines.cancellation.CancellationException) {
-                onError?.invoke(e, null)
-            } catch (e: CancellationException) {
-                onError?.invoke(e, null)
+            } catch (_: kotlin.coroutines.cancellation.CancellationException) {
+            } catch (_: CancellationException) {
             } catch (throwable: Throwable) {
                 logger.log("Error: ${throwable.message}")
 
@@ -192,6 +190,8 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
             try {
                 block.invoke()
+            } catch (_: kotlin.coroutines.cancellation.CancellationException) {
+            } catch (_: CancellationException) {
             } catch (throwable: Throwable) {
                 logger.log("Error: ${throwable.message}")
 
