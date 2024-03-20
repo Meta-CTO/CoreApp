@@ -7,7 +7,6 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
@@ -17,7 +16,7 @@ import com.canhub.cropper.CropImageOptions
 import com.github.dhaval2404.imagepicker.ImagePicker as SdkImagePicker
 
 actual class ImagePicker(
-    private val activity: AppCompatActivity,
+    private val activity: Activity,
     actual val enableCropping: Boolean,
     actual val aspectRatioX: Int?,
     actual val aspectRatioY: Int?
@@ -104,7 +103,7 @@ actual fun rememberImagePicker(
     aspectRatioX: Int?,
     aspectRatioY: Int?
 ): ImagePicker {
-    val activity = LocalContext.current as AppCompatActivity
+    val activity = LocalContext.current as Activity
     return remember(activity) {
         ImagePicker(
             activity = activity,
