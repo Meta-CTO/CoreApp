@@ -32,7 +32,7 @@ class PhoneNumberVisualTransformation(
     }
 
     private fun isNonSeparator(c: Char): Boolean {
-        return (c in '0'..'9') || c == '*' || c == '#' || c == '+'
+        return (c in '0'..'9') || c == '*' || c == '#' || c == '+' || c == 'N' || c == ';' || c == ','
     }
 
     private fun reformat(s: CharSequence, cursor: Int): Transformation {
@@ -77,7 +77,7 @@ class PhoneNumberVisualTransformation(
         return Transformation(formatted, originalToTransformed, transformedToOriginal)
     }
 
-    private fun getFormattedNumber(lastNonSeparator: Char, hasCursor: Boolean): String {
+    private fun getFormattedNumber(lastNonSeparator: Char, hasCursor: Boolean): String? {
         return if (hasCursor) {
             phoneNumberFormatter.inputDigitAndRememberPosition(lastNonSeparator)
         } else {

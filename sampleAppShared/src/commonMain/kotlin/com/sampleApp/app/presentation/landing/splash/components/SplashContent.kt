@@ -2,17 +2,30 @@ package com.sampleApp.app.presentation.landing.splash.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.images.WhiteAppImage
+import com.metacto.core.presentation.components.inputFields.TertiaryTextInputField
+import com.metacto.core.utils.PhoneNumberVisualTransformation
+import com.metacto.core.utils.extensions.rememberPhoneNumberUtil
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
 import com.sampleApp.app.presentation.theme.AppTheme
+import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 internal fun SplashContent(
@@ -73,6 +86,28 @@ internal fun SplashContent(
             color = Color.Red,
             modifier = modifier
                 .clickable { onEvent(Event.ShareParrotClub2) }
+        )
+
+        // Phone number field
+        val phoneNumberUtil = rememberPhoneNumberUtil()
+        val phoneVisualTransformation = remember {
+            PhoneNumberVisualTransformation(phoneNumberUtil)
+        }
+        var phoneNumber by remember {
+            mutableStateOf("")
+        }
+        TertiaryTextInputField(
+            text = phoneNumber,
+            requestFocus = true,
+            visualTransformation = phoneVisualTransformation,
+            keyboardType = KeyboardType.Phone,
+            imeAction = ImeAction.Done,
+            onValueChange = {
+                phoneNumber = it
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = AppTheme.spacings.spacing32)
         )
 
 //        WhiteAppImage(
