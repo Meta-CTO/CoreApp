@@ -196,6 +196,16 @@ class SplashViewModel(
                 )
             )
         }
+
+        Event.ShareHelloWorldClicked -> {
+            intentLauncher.launchShareText("Hello World!")
+        }
+        Event.ShareParrotClub1 -> {
+            intentLauncher.launchShareText("https://parrotclub.co")
+        }
+        Event.ShareParrotClub2 -> {
+            intentLauncher.launchShareText("www.parrotclub.co")
+        }
     }
 
     private fun observeImagePickerResults() {

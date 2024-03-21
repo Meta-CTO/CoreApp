@@ -51,18 +51,42 @@ internal fun SplashContent(
                 .clickable { onEvent(Event.TextClicked) }
         )
 
-        WhiteAppImage(
-            modifier = Modifier.size(100.dp),
-            image = state.image
-        )
-
         Text(
-            text = "Pick Image",
+            text = "Share Hello World!",
             style = AppTheme.typography.fenwickBold24,
             color = Color.Red,
             modifier = modifier
-                .clickable { onEvent(Event.PickImageClicked) }
+                .clickable { onEvent(Event.ShareHelloWorldClicked) }
         )
+
+        Text(
+            text = "Share https://parrotclub.co",
+            style = AppTheme.typography.fenwickBold24,
+            color = Color.Red,
+            modifier = modifier
+                .clickable { onEvent(Event.ShareParrotClub1) }
+        )
+
+        Text(
+            text = "Share www.parrotclub.co",
+            style = AppTheme.typography.fenwickBold24,
+            color = Color.Red,
+            modifier = modifier
+                .clickable { onEvent(Event.ShareParrotClub2) }
+        )
+
+//        WhiteAppImage(
+//            modifier = Modifier.size(100.dp),
+//            image = state.image
+//        )
+
+//        Text(
+//            text = "Pick Image",
+//            style = AppTheme.typography.fenwickBold24,
+//            color = Color.Red,
+//            modifier = modifier
+//                .clickable { onEvent(Event.PickImageClicked) }
+//        )
 //
 //        Text(
 //            text = "Selected item: ${state.selectedItem}",
