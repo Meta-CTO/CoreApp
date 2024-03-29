@@ -31,6 +31,8 @@ class SplashContract {
         data object ShareParrotClub2 : Event()
         data object ShowNotificationNow : Event()
         data object ShowNotificationLater : Event()
+        data object ScheduleRepeatingNotification : Event()
+        data object RemoveRepeatingNotification : Event()
         data object RemoveAllNotifications : Event()
     }
 

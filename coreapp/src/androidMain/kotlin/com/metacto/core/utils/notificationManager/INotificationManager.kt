@@ -22,7 +22,7 @@ actual interface INotificationManager {
 
     actual fun removeAll()
 
-    actual fun removeScheduled(id: Int)
+    actual fun cancelScheduled(id: Int)
 
     fun createNotificationsChannel(
         id: String,

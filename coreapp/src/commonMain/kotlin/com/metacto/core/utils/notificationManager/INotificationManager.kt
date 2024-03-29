@@ -13,5 +13,5 @@ expect interface INotificationManager {
 
     fun removeAll()
 
-    fun removeScheduled(id: Int)
+    fun cancelScheduled(id: Int)
 }

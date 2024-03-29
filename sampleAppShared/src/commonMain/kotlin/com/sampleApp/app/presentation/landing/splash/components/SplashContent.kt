@@ -100,6 +100,22 @@ internal fun SplashContent(
         )
 
         Text(
+            text = "Schedule repeating notification",
+            style = AppTheme.typography.fenwickBold24,
+            color = Color.Red,
+            modifier = modifier
+                .clickable { onEvent(Event.ScheduleRepeatingNotification) }
+        )
+
+        Text(
+            text = "Remove repeating notification",
+            style = AppTheme.typography.fenwickBold24,
+            color = Color.Red,
+            modifier = modifier
+                .clickable { onEvent(Event.RemoveRepeatingNotification) }
+        )
+
+        Text(
             text = "Remove all notifications",
             style = AppTheme.typography.fenwickBold24,
             color = Color.Red,

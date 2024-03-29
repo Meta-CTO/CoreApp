@@ -115,7 +115,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
         notificationService.cancelAll()
     }
 
-    override fun removeScheduled(id: Int) {
+    override fun cancelScheduled(id: Int) {
         // Create the receiver intent
         val intent = Intent(context, NotificationsReceiver::class.java)
 

@@ -98,7 +98,7 @@ class NotificationManager(
         UIApplication.sharedApplication.applicationIconBadgeNumber = 0
     }
 
-    override fun removeScheduled(id: Int) {
+    override fun cancelScheduled(id: Int) {
         notificationCenter.removePendingNotificationRequestsWithIdentifiers(listOf(id.toString()))
     }
 }

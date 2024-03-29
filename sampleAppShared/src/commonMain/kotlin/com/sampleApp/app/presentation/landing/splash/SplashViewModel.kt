@@ -8,11 +8,14 @@ import com.metacto.core.presentation.imagePicker.models.ImagePickerResult
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.presentation.models.ImageUIModel
+import com.metacto.core.utils.Date
 import com.metacto.core.utils.DateHelper
+import com.metacto.core.utils.dateFromTimestamp
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.Notification
+import com.metacto.core.utils.toMillis
 import com.sampleApp.app.MR
 import com.sampleApp.app.domain.events.UserEvent
 import com.sampleApp.app.presentation.components.BaseViewModel
@@ -223,13 +226,32 @@ class SplashViewModel(
         }
 
         Event.ShowNotificationLater -> {
-//            val notification = Notification.new(
-//                title = "Later notification title",
-//                description = "Later notification description",
-//            )
-//
-//            val date = dateFromTimestamp(Date().toMillis() + 1000 * 10)
-//            notificationManager.show(notification, date)
+            val notification = Notification.new(
+                id = 5001,
+                title = "Later notification title",
+                description = "Later notification description",
+            )
+
+            val date = dateFromTimestamp(Date().toMillis() + 1000 * 10)
+            notificationManager.schedule(notification, date)
+        }
+
+        Event.ScheduleRepeatingNotification -> {
+            val notification = Notification.new(
+                id = 5001,
+                title = "Scheduelled notification title",
+                description = "Scheduelled notification description",
+            )
+
+            notificationManager.scheduleRepeating(
+                notification = notification,
+                hourOfDay = 23,
+                minute = 54
+            )
+        }
+
+        Event.RemoveRepeatingNotification -> {
+            notificationManager.cancelScheduled(5001)
         }
 
         Event.ShowNotificationNow -> {
