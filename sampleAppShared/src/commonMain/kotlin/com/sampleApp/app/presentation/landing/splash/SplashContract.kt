@@ -29,6 +29,9 @@ class SplashContract {
         data object ShareHelloWorldClicked : Event()
         data object ShareParrotClub1 : Event()
         data object ShareParrotClub2 : Event()
+        data object ShowNotificationNow : Event()
+        data object ShowNotificationLater : Event()
+        data object RemoveAllNotifications : Event()
     }
 
     sealed class Effect : ViewSideEffect

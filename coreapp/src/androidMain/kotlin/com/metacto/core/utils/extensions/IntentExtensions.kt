@@ -1,7 +1,9 @@
 package com.metacto.core.utils.extensions
 
+import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
+import android.os.Parcelable
 import java.io.Serializable
 
 inline fun <reified T : Serializable> Intent.getSerializable(key: String): T? {
@@ -13,4 +15,21 @@ inline fun <reified T : Serializable> Intent.getSerializable(key: String): T? {
     } else {
         getSerializableExtra(key) as? T?
     }
+}
+
+inline fun <reified T : Parcelable> Intent.getParcelable(key: String): T? {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        getParcelableExtra(
+            key,
+            T::class.java
+        )
+    } else {
+        getParcelableExtra(key) as? T?
+    }
+}
+
+fun getPendingIntentFlags() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+    PendingIntent.FLAG_MUTABLE
+} else {
+    PendingIntent.FLAG_ONE_SHOT
 }

@@ -11,12 +11,15 @@ import com.metacto.core.presentation.models.ImageUIModel
 import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.metacto.core.utils.launchers.IIntentLauncher
+import com.metacto.core.utils.notificationManager.INotificationManager
+import com.metacto.core.utils.notificationManager.Notification
 import com.sampleApp.app.MR
 import com.sampleApp.app.domain.events.UserEvent
 import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
+import org.koin.core.component.inject
 
 class SplashViewModel(
     private val eventBroadcaster: EventBroadcaster,
@@ -24,6 +27,7 @@ class SplashViewModel(
     private val dateHelper: DateHelper
 ) : BaseViewModel<State, Event, Effect>() {
     private var clickCount = 0
+    private val notificationManager by inject<INotificationManager>()
 
     fun init(isWelcome: Boolean) {
         // Validate if already initialized
@@ -92,7 +96,12 @@ class SplashViewModel(
         }
 
         Event.TextClicked -> {
-            globalState.snackBar(SnackBarParams(message = "Text clicked", type= SnackBarType.SUCCESS))
+            globalState.snackBar(
+                SnackBarParams(
+                    message = "Text clicked",
+                    type = SnackBarType.SUCCESS
+                )
+            )
 //            println("Date formatted: " + DateHelper.timestampToReadableDate(1708286230001))
 
             val date = dateHelper.stringToDate("1993-01-01", "yyyy-MM-dd")
@@ -200,17 +209,41 @@ class SplashViewModel(
         Event.ShareHelloWorldClicked -> {
             intentLauncher.launchShareText("Hello World!")
         }
+
         Event.ShareParrotClub1 -> {
             intentLauncher.launchShareText("https://parrotclub.co")
         }
+
         Event.ShareParrotClub2 -> {
             intentLauncher.launchShareText("www.parrotclub.co")
+        }
+
+        Event.RemoveAllNotifications -> {
+            notificationManager.removeAll()
+        }
+
+        Event.ShowNotificationLater -> {
+//            val notification = Notification.new(
+//                title = "Later notification title",
+//                description = "Later notification description",
+//            )
+//
+//            val date = dateFromTimestamp(Date().toMillis() + 1000 * 10)
+//            notificationManager.show(notification, date)
+        }
+
+        Event.ShowNotificationNow -> {
+            val notification = Notification.new(
+                title = "Now notification title",
+                description = "Now notification description",
+            )
+            notificationManager.show(notification)
         }
     }
 
     private fun observeImagePickerResults() {
         navManager.collectNavResult<ImagePickerSheet, ImagePickerResult> {
-            when(it) {
+            when (it) {
                 ImagePickerResult.Cancelled -> {}
                 ImagePickerResult.ImageDeleted -> setState { copy(image = null) }
                 is ImagePickerResult.ImagePicked -> setState { copy(image = ImageUIModel(bytes = it.bytes)) }
