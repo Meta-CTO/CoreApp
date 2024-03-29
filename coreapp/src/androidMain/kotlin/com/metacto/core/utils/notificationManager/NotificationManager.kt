@@ -9,12 +9,14 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.metacto.core.utils.Date
+import com.metacto.core.utils.extensions.getAppIconResId
 import com.metacto.core.utils.extensions.getPendingIntentFlags
 import com.metacto.coreApp.MR
 import kotlinx.datetime.Clock
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import android.app.Notification as PlatformNotification
+
 
 class NotificationManager(private val context: Context) : INotificationManager {
 
@@ -37,13 +39,15 @@ class NotificationManager(private val context: Context) : INotificationManager {
 
         // Prepare the notification data
         val notificationId = notification.id ?: Clock.System.now().toEpochMilliseconds().toInt()
-        val notificationIcon = (notification.icon ?: MR.images.ic_default_notifications_icon)
+        val notificationIcon = notification.icon?.drawableResId
+            ?: context.getAppIconResId()
+            ?: MR.images.ic_default_notifications_icon.drawableResId
 
         // Create the notification builder
         val builder = NotificationCompat.Builder(context, channelId)
             .setContentTitle(notification.title)
             .setContentText(notification.description)
-            .setSmallIcon(notificationIcon.drawableResId)
+            .setSmallIcon(notificationIcon)
             .setAutoCancel(notification.autoCancel)
             .setPriority(notification.priority)
             .setContentIntent(notification.pendingIntent)

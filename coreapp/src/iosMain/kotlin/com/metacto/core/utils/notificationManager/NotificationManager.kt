@@ -29,7 +29,6 @@ class NotificationManager(
     }
 
     private fun show(notification: Notification, trigger: UNNotificationTrigger) {
-        // TODO: add image
         val notificationId = notification.id ?: Clock.System.now().toEpochMilliseconds().toInt()
 
         val notificationContent = UNMutableNotificationContent().apply {

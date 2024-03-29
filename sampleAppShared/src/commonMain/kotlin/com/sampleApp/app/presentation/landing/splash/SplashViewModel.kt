@@ -245,8 +245,8 @@ class SplashViewModel(
 
             notificationManager.scheduleRepeating(
                 notification = notification,
-                hourOfDay = 23,
-                minute = 54
+                hourOfDay = 0,
+                minute = 3
             )
         }
 

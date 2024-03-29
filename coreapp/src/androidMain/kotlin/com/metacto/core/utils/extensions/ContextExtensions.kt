@@ -58,3 +58,12 @@ fun Context.getNavigationBarInteractionMode(): Int {
     return if (resourceId > 0) resources.getInteger(resourceId) else NAVIGATION_BAR_INTERACTION_MODE_THREE_BUTTON
 }
 
+
+fun Context.getAppIconResId(): Int? {
+    return try {
+        packageManager.getApplicationInfo(packageName, 0).icon
+    } catch (e: Throwable) {
+        e.printStackTrace()
+        null
+    }
+}
