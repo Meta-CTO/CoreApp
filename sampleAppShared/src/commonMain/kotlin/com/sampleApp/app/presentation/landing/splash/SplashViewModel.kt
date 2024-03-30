@@ -1,5 +1,6 @@
 package com.sampleApp.app.presentation.landing.splash
 
+import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
@@ -11,12 +12,15 @@ import com.metacto.core.presentation.models.ImageUIModel
 import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.metacto.core.utils.launchers.IIntentLauncher
+import com.metacto.core.utils.notificationManager.INotificationManager
+import com.metacto.core.utils.notificationManager.Notification
 import com.sampleApp.app.MR
 import com.sampleApp.app.domain.events.UserEvent
 import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
+import org.koin.core.component.inject
 
 class SplashViewModel(
     private val eventBroadcaster: EventBroadcaster,
@@ -24,6 +28,7 @@ class SplashViewModel(
     private val dateHelper: DateHelper
 ) : BaseViewModel<State, Event, Effect>() {
     private var clickCount = 0
+    private val notificationManager by inject<INotificationManager>()
 
     fun init(isWelcome: Boolean) {
         // Validate if already initialized
@@ -92,7 +97,12 @@ class SplashViewModel(
         }
 
         Event.TextClicked -> {
-            globalState.snackBar(SnackBarParams(message = "Text clicked", type= SnackBarType.SUCCESS))
+            globalState.snackBar(
+                SnackBarParams(
+                    message = "Text clicked",
+                    type = SnackBarType.SUCCESS
+                )
+            )
 //            println("Date formatted: " + DateHelper.timestampToReadableDate(1708286230001))
 
             val date = dateHelper.stringToDate("1993-01-01", "yyyy-MM-dd")
@@ -200,17 +210,56 @@ class SplashViewModel(
         Event.ShareHelloWorldClicked -> {
             intentLauncher.launchShareText("Hello World!")
         }
+
         Event.ShareParrotClub1 -> {
             intentLauncher.launchShareText("https://parrotclub.co")
         }
+
         Event.ShareParrotClub2 -> {
             intentLauncher.launchShareText("www.parrotclub.co")
+        }
+
+        Event.RequestNotificationsPermission -> {
+            executeCatching({
+                permissionManager.grantPermission(Permission.REMOTE_NOTIFICATION)
+            })
+        }
+
+        Event.RemoveAllNotifications -> {
+            notificationManager.removeAllDelivered()
+        }
+
+        Event.ShowNotificationLater -> {
+            val notification = Notification.new(
+                id = 5001,
+                title = "Later notification title",
+                body = "Later notification description",
+            )
+            notificationManager.scheduleRepeating(notification, 1)
+        }
+
+        Event.ScheduleRepeatingNotification -> {
+            val notification = Notification.new(
+                id = 5001,
+                title = "Scheduelled notification title",
+                body = "Scheduelled notification description",
+            )
+
+            notificationManager.scheduleRepeating(
+                notification = notification,
+                hourOfDay = 12,
+                minute = 55
+            )
+        }
+
+        Event.RemoveRepeatingNotification -> {
+            notificationManager.cancelScheduled(5001)
         }
     }
 
     private fun observeImagePickerResults() {
         navManager.collectNavResult<ImagePickerSheet, ImagePickerResult> {
-            when(it) {
+            when (it) {
                 ImagePickerResult.Cancelled -> {}
                 ImagePickerResult.ImageDeleted -> setState { copy(image = null) }
                 is ImagePickerResult.ImagePicked -> setState { copy(image = ImageUIModel(bytes = it.bytes)) }

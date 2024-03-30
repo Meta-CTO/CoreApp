@@ -14,6 +14,8 @@ import com.metacto.core.utils.language.ILanguageManager
 import com.metacto.core.utils.language.LanguageManager
 import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.launchers.IntentLauncher
+import com.metacto.core.utils.notificationManager.INotificationManager
+import com.metacto.core.utils.notificationManager.NotificationManager
 import com.metacto.coreApp.MR
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
@@ -25,6 +27,7 @@ import org.koin.core.qualifier.Qualifier
 import org.koin.dsl.module
 import platform.Foundation.NSBundle
 import platform.Foundation.NSFileManager
+import platform.UserNotifications.UNUserNotificationCenter
 
 actual fun corePlatformModule(appStorageName: String) = module {
     single {
@@ -53,6 +56,12 @@ actual fun corePlatformModule(appStorageName: String) = module {
 
     single {
         Firebase.remoteConfig
+    }
+
+    single<INotificationManager> {
+        NotificationManager(
+            notificationCenter = UNUserNotificationCenter.currentNotificationCenter()
+        )
     }
 
     single<IPermissionManager> {

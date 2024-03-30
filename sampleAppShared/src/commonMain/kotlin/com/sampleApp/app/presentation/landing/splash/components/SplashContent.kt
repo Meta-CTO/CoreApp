@@ -4,8 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -16,16 +14,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.containers.ScreenColumn
-import com.metacto.core.presentation.components.images.WhiteAppImage
 import com.metacto.core.presentation.components.inputFields.TertiaryTextInputField
 import com.metacto.core.utils.PhoneNumberVisualTransformation
 import com.metacto.core.utils.extensions.rememberPhoneNumberUtil
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
 import com.sampleApp.app.presentation.theme.AppTheme
-import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
 internal fun SplashContent(
@@ -86,6 +81,46 @@ internal fun SplashContent(
             color = Color.Red,
             modifier = modifier
                 .clickable { onEvent(Event.ShareParrotClub2) }
+        )
+
+        Text(
+            text = "Request notifications permission",
+            style = AppTheme.typography.fenwickBold24,
+            color = Color.Red,
+            modifier = modifier
+                .clickable { onEvent(Event.RequestNotificationsPermission) }
+        )
+
+        Text(
+            text = "Show notification later",
+            style = AppTheme.typography.fenwickBold24,
+            color = Color.Red,
+            modifier = modifier
+                .clickable { onEvent(Event.ShowNotificationLater) }
+        )
+
+        Text(
+            text = "Schedule repeating notification",
+            style = AppTheme.typography.fenwickBold24,
+            color = Color.Red,
+            modifier = modifier
+                .clickable { onEvent(Event.ScheduleRepeatingNotification) }
+        )
+
+        Text(
+            text = "Remove repeating notification",
+            style = AppTheme.typography.fenwickBold24,
+            color = Color.Red,
+            modifier = modifier
+                .clickable { onEvent(Event.RemoveRepeatingNotification) }
+        )
+
+        Text(
+            text = "Remove all notifications",
+            style = AppTheme.typography.fenwickBold24,
+            color = Color.Red,
+            modifier = modifier
+                .clickable { onEvent(Event.RemoveAllNotifications) }
         )
 
         // Phone number field

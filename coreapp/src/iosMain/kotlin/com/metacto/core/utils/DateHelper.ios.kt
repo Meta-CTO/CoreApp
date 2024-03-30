@@ -10,6 +10,7 @@ import platform.Foundation.NSCalendarUnitDay
 import platform.Foundation.NSCalendarUnitHour
 import platform.Foundation.NSCalendarUnitMinute
 import platform.Foundation.NSCalendarUnitMonth
+import platform.Foundation.NSCalendarUnitSecond
 import platform.Foundation.NSCalendarUnitWeekOfMonth
 import platform.Foundation.NSCalendarUnitYear
 import platform.Foundation.NSDate
@@ -34,6 +35,18 @@ actual fun Date.toMillis(): Long {
 
 actual fun dateFromTimestamp(timestamp: Long): Date {
     return NSDate.dateWithTimeIntervalSince1970(timestamp.div(1000).toDouble())
+}
+
+fun NSDate.toDateComponents(): NSDateComponents {
+    // Create a calendar instance
+    val calendar = NSCalendar.currentCalendar
+
+    // Extract date components from the NSDate
+    return calendar.components(
+        NSCalendarUnitYear or NSCalendarUnitMonth or NSCalendarUnitDay or
+                NSCalendarUnitHour or NSCalendarUnitMinute or NSCalendarUnitSecond,
+        this
+    )
 }
 
 actual object DateHelper {
