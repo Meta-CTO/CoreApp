@@ -1,9 +1,7 @@
 package com.metacto.core.utils.notificationManager
 
 import com.metacto.core.utils.Date
-import com.metacto.core.utils.extensions.orZero
 import com.metacto.core.utils.toDateComponents
-import com.swensonhe.strapikmm.util.Logger
 import kotlinx.datetime.Clock
 import platform.Foundation.NSDateComponents
 import platform.UIKit.UIApplication
@@ -16,36 +14,8 @@ import platform.UserNotifications.UNTimeIntervalNotificationTrigger
 import platform.UserNotifications.UNUserNotificationCenter
 
 class NotificationManager(
-    private val notificationCenter: UNUserNotificationCenter,
+    private val notificationCenter: UNUserNotificationCenter
 ) : INotificationManager {
-
-    private val logger = Logger("NotificationManager")
-
-    override fun show(notification: Notification) {
-        show(
-            notification = notification,
-            trigger = UNTimeIntervalNotificationTrigger.triggerWithTimeInterval(1.0, false)
-        )
-    }
-
-    private fun show(notification: Notification, trigger: UNNotificationTrigger) {
-        val notificationId = notification.id ?: Clock.System.now().toEpochMilliseconds().toInt()
-
-        val notificationContent = UNMutableNotificationContent().apply {
-            setTitle(title)
-            setBody(body)
-            setSound(UNNotificationSound.defaultSound)
-        }
-        val notificationRequest = UNNotificationRequest.requestWithIdentifier(
-            identifier = notificationId.toString(),
-            content = notificationContent,
-            trigger = trigger
-        )
-
-        notificationCenter.addNotificationRequest(notificationRequest) { error ->
-            error?.let { logger.log("Error showing notification: $error") }
-        }
-    }
 
     override fun schedule(notification: Notification, date: Date) {
         val trigger = UNCalendarNotificationTrigger.triggerWithDateMatchingComponents(
@@ -76,28 +46,55 @@ class NotificationManager(
         )
     }
 
-    override fun remove(id: Int) {
-        // Prepare new badge number
-        val currentBadgeNumber = UIApplication.sharedApplication.applicationIconBadgeNumber()
-        val newBadgeNumber = currentBadgeNumber.dec()
-            .takeIf { it > 0 }
-            .orZero()
-
-        // Remove the notification
-        notificationCenter.removeDeliveredNotificationsWithIdentifiers(
-            listOf(id.toString())
+    override fun scheduleRepeating(notification: Notification, intervalMinutes: Int) {
+        val timeInterval = intervalMinutes * 60.0
+        show(
+            notification = notification,
+            trigger = UNTimeIntervalNotificationTrigger.triggerWithTimeInterval(
+                timeInterval = timeInterval,
+                repeats = true
+            )
         )
-
-        // And update badge number
-        UIApplication.sharedApplication.applicationIconBadgeNumber = newBadgeNumber
     }
 
-    override fun removeAll() {
-        notificationCenter.removeAllDeliveredNotifications()
-        UIApplication.sharedApplication.applicationIconBadgeNumber = 0
+    private fun show(notification: Notification, trigger: UNNotificationTrigger) {
+        val notificationId = notification.id ?: Clock.System.now().toEpochMilliseconds().toInt()
+
+        val notificationContent = UNMutableNotificationContent().apply {
+            setTitle(notification.title)
+            setSound(UNNotificationSound.defaultSound)
+            notification.body?.let {
+                setBody(it)
+            }
+        }
+        val notificationRequest = UNNotificationRequest.requestWithIdentifier(
+            identifier = notificationId.toString(),
+            content = notificationContent,
+            trigger = trigger
+        )
+
+        notificationCenter.addNotificationRequest(notificationRequest) { error ->
+            error?.let { println("Error showing notification: $error") }
+        }
     }
 
     override fun cancelScheduled(id: Int) {
-        notificationCenter.removePendingNotificationRequestsWithIdentifiers(listOf(id.toString()))
+        notificationCenter.removePendingNotificationRequestsWithIdentifiers(
+            listOf(id.toString())
+        )
+    }
+
+    override fun removeDelivered(id: Int) {
+        notificationCenter.removeDeliveredNotificationsWithIdentifiers(
+            listOf(id.toString())
+        )
+    }
+
+    override fun removeAllDelivered() {
+        notificationCenter.removeAllDeliveredNotifications()
+    }
+
+    override fun clearBadgeCount() {
+        UIApplication.sharedApplication.applicationIconBadgeNumber = 0
     }
 }

@@ -10,7 +10,7 @@ import dev.icerock.moko.resources.ImageResource
 actual data class Notification constructor(
     actual val id: Int? = null,
     actual val title: String,
-    actual val description: String? = null,
+    actual val body: String? = null,
     actual val icon: ImageResource? = null,
     val autoCancel: Boolean = true,
     val channel: NotificationChannel? = null,
@@ -23,12 +23,12 @@ actual data class Notification constructor(
         actual fun new(
             id: Int?,
             title: String,
-            description: String?,
+            body: String?,
             icon: ImageResource?
         ) = Notification(
             id = id,
             title = title,
-            description = description,
+            body = body,
             icon = icon
         )
     }

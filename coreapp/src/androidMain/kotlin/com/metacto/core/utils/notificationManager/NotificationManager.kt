@@ -46,7 +46,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
         // Create the notification builder
         val builder = NotificationCompat.Builder(context, channelId)
             .setContentTitle(notification.title)
-            .setContentText(notification.description)
+            .setContentText(notification.body)
             .setSmallIcon(notificationIcon)
             .setAutoCancel(notification.autoCancel)
             .setPriority(notification.priority)
@@ -55,6 +55,25 @@ class NotificationManager(private val context: Context) : INotificationManager {
 
         // Then show the notification
         notificationService.notify(notificationId, builder.build())
+    }
+
+    override fun createNotificationsChannel(
+        id: String,
+        name: String,
+        priority: Int
+    ): NotificationChannel? {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return null
+        return when {
+            notificationService.getNotificationChannel(id) == null -> {
+                val channel = NotificationChannel(id, name, priority).apply {
+                    lockscreenVisibility = PlatformNotification.VISIBILITY_PUBLIC
+                }
+                notificationService.createNotificationChannel(channel)
+                channel
+            }
+
+            else -> notificationService.getNotificationChannel(id)
+        }
     }
 
     override fun schedule(notification: Notification, date: Date) {
@@ -79,6 +98,41 @@ class NotificationManager(private val context: Context) : INotificationManager {
     }
 
     override fun scheduleRepeating(notification: Notification, hourOfDay: Int, minute: Int) {
+        // Prepare date and repeat interval
+        val date = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, hourOfDay)
+            set(Calendar.MINUTE, minute)
+        }
+        val repeatInterval = TimeUnit.DAYS.toMillis(1) // Repeated every day
+
+        // Then schedule
+        scheduleRepeating(
+            notification = notification,
+            triggerDate = date,
+            repeatIntervalMillis = repeatInterval
+        )
+    }
+
+    override fun scheduleRepeating(notification: Notification, intervalMinutes: Int) {
+        // Prepare date and repeat interval
+        val date = Calendar.getInstance().apply {
+            add(Calendar.MINUTE, intervalMinutes)
+        }
+        val repeatIntervalMillis = TimeUnit.MINUTES.toMillis(intervalMinutes.toLong())
+
+        // Then schedule
+        scheduleRepeating(
+            notification = notification,
+            triggerDate = date,
+            repeatIntervalMillis = repeatIntervalMillis
+        )
+    }
+
+    private fun scheduleRepeating(
+        notification: Notification,
+        triggerDate: Calendar,
+        repeatIntervalMillis: Long
+    ) {
         // Prepare the notification id
         val notificationId = notification.id ?: Clock.System.now().toEpochMilliseconds().toInt()
 
@@ -95,28 +149,13 @@ class NotificationManager(private val context: Context) : INotificationManager {
             getPendingIntentFlags() or PendingIntent.FLAG_CANCEL_CURRENT
         )
 
-        // Prepare date and repeat interval
-        val date = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, hourOfDay)
-            set(Calendar.MINUTE, minute)
-        }
-        val repeatInterval = TimeUnit.DAYS.toMillis(1) // Repeated every day
-
         // Start the alarm
         alarmService.setInexactRepeating(
             AlarmManager.RTC_WAKEUP,
-            date.timeInMillis,
-            repeatInterval,
+            triggerDate.timeInMillis,
+            repeatIntervalMillis,
             pendingIntent
         )
-    }
-
-    override fun remove(id: Int) {
-        notificationService.cancel(id)
-    }
-
-    override fun removeAll() {
-        notificationService.cancelAll()
     }
 
     override fun cancelScheduled(id: Int) {
@@ -135,22 +174,16 @@ class NotificationManager(private val context: Context) : INotificationManager {
         alarmService.cancel(pendingIntent)
     }
 
-    override fun createNotificationsChannel(
-        id: String,
-        name: String,
-        priority: Int
-    ): NotificationChannel? {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return null
-        return when {
-            notificationService.getNotificationChannel(id) == null -> {
-                val channel = NotificationChannel(id, name, priority).apply {
-                    lockscreenVisibility = PlatformNotification.VISIBILITY_PUBLIC
-                }
-                notificationService.createNotificationChannel(channel)
-                channel
-            }
+    override fun removeDelivered(id: Int) {
+        notificationService.cancel(id)
+    }
 
-            else -> notificationService.getNotificationChannel(id)
-        }
+    override fun removeAllDelivered() {
+        notificationService.cancelAll()
+    }
+
+    override fun clearBadgeCount() {
+        // In Android to clear badge count you have to clear all notifications in the notification center
+        notificationService.cancelAll()
     }
 }

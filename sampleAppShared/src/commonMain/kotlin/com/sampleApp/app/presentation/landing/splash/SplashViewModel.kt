@@ -1,5 +1,6 @@
 package com.sampleApp.app.presentation.landing.splash
 
+import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
@@ -8,14 +9,11 @@ import com.metacto.core.presentation.imagePicker.models.ImagePickerResult
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.presentation.models.ImageUIModel
-import com.metacto.core.utils.Date
 import com.metacto.core.utils.DateHelper
-import com.metacto.core.utils.dateFromTimestamp
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.Notification
-import com.metacto.core.utils.toMillis
 import com.sampleApp.app.MR
 import com.sampleApp.app.domain.events.UserEvent
 import com.sampleApp.app.presentation.components.BaseViewModel
@@ -221,45 +219,41 @@ class SplashViewModel(
             intentLauncher.launchShareText("www.parrotclub.co")
         }
 
+        Event.RequestNotificationsPermission -> {
+            executeCatching({
+                permissionManager.grantPermission(Permission.REMOTE_NOTIFICATION)
+            })
+        }
+
         Event.RemoveAllNotifications -> {
-            notificationManager.removeAll()
+            notificationManager.removeAllDelivered()
         }
 
         Event.ShowNotificationLater -> {
             val notification = Notification.new(
                 id = 5001,
                 title = "Later notification title",
-                description = "Later notification description",
+                body = "Later notification description",
             )
-
-            val date = dateFromTimestamp(Date().toMillis() + 1000 * 10)
-            notificationManager.schedule(notification, date)
+            notificationManager.scheduleRepeating(notification, 1)
         }
 
         Event.ScheduleRepeatingNotification -> {
             val notification = Notification.new(
                 id = 5001,
                 title = "Scheduelled notification title",
-                description = "Scheduelled notification description",
+                body = "Scheduelled notification description",
             )
 
             notificationManager.scheduleRepeating(
                 notification = notification,
-                hourOfDay = 0,
-                minute = 3
+                hourOfDay = 12,
+                minute = 55
             )
         }
 
         Event.RemoveRepeatingNotification -> {
             notificationManager.cancelScheduled(5001)
-        }
-
-        Event.ShowNotificationNow -> {
-            val notification = Notification.new(
-                title = "Now notification title",
-                description = "Now notification description",
-            )
-            notificationManager.show(notification)
         }
     }
 

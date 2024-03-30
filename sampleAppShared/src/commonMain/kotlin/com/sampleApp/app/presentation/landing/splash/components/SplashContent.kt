@@ -84,11 +84,11 @@ internal fun SplashContent(
         )
 
         Text(
-            text = "Show notification now",
+            text = "Request notifications permission",
             style = AppTheme.typography.fenwickBold24,
             color = Color.Red,
             modifier = modifier
-                .clickable { onEvent(Event.ShowNotificationNow) }
+                .clickable { onEvent(Event.RequestNotificationsPermission) }
         )
 
         Text(
