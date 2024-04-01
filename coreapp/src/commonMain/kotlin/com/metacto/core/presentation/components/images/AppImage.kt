@@ -26,7 +26,7 @@ import com.metacto.core.utils.extensions.backgroundIfNotNull
 import com.metacto.core.utils.extensions.borderIfNotNull
 import com.metacto.core.utils.extensions.clipIfNotNull
 import com.metacto.core.utils.extensions.shadowIfNotNull
-import com.swensonhe.strapikmm.util.applyIf
+import com.metacto.strapikmm.util.applyIf
 
 internal const val DEFAULT_IMAGE_CROSS_FADE_DURATION = 200
 

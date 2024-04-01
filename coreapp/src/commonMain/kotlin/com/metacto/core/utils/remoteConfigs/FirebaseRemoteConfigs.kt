@@ -4,8 +4,8 @@ import com.metacto.core.domain.CoreConstants.CACHED_REMOTE_CONFIGS
 import com.metacto.core.utils.extensions.putObject
 import com.metacto.core.utils.extensions.toJsonObject
 import com.metacto.core.utils.extensions.toPairs
-import com.swensonhe.strapikmm.sharedpreference.KmmPreference
-import com.swensonhe.strapikmm.util.Logger
+import com.metacto.strapikmm.sharedpreference.KmmPreference
+import com.metacto.strapikmm.util.Logger
 import dev.gitlive.firebase.remoteconfig.FirebaseRemoteConfig
 import dev.gitlive.firebase.remoteconfig.get
 import kotlinx.serialization.json.Json

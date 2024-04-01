@@ -1,8 +1,8 @@
 package com.metacto.core.utils
 
 import com.metacto.core.domain.CoreConstants
-import com.swensonhe.strapikmm.util.DatetimeUtil
-import com.swensonhe.strapikmm.util.toLocalDate
+import com.metacto.strapikmm.util.DatetimeUtil
+import com.metacto.strapikmm.util.toLocalDate
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate

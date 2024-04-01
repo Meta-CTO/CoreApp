@@ -5,9 +5,9 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.metacto.core.CoreEnvironment
 import com.russhwolf.settings.SharedPreferencesSettings
-import com.swensonhe.strapikmm.datasource.network.KtorClientFactory
-import com.swensonhe.strapikmm.datasource.network.services.strapi.StrapiService
-import com.swensonhe.strapikmm.sharedpreference.KmmPreference
+import com.metacto.strapikmm.datasource.network.KtorClientFactory
+import com.metacto.strapikmm.datasource.network.services.strapi.StrapiService
+import com.metacto.strapikmm.sharedpreference.KmmPreference
 
 actual open class RepositoriesFactory constructor(
     context: Context,

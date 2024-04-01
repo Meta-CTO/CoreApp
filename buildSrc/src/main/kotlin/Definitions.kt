@@ -20,10 +20,10 @@ fun RepositoryHandler.addProjectRepos() {
             password = Configs.SH_PASSWORD
         }
     }
-    maven("https://maven.pkg.github.com/swensonhe/kmm-internal") {
+    maven("https://maven.pkg.github.com/Meta-CTO/strapi-kmm") {
         credentials {
-            username = Configs.SH_USERNAME
-            password = Configs.SH_PASSWORD
+            username = Configs.META_CTO_USERNAME
+            password = Configs.META_CTO_PASSWORD
         }
     }
 }

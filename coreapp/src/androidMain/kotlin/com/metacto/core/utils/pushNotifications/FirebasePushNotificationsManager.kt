@@ -3,8 +3,8 @@ package com.metacto.core.utils.pushNotifications
 import com.google.android.gms.tasks.Task
 import com.google.firebase.messaging.FirebaseMessaging
 import com.metacto.core.utils.extensions.cancelIfActive
-import com.swensonhe.strapikmm.util.exceptionIfActive
-import com.swensonhe.strapikmm.util.resumeIfActive
+import com.metacto.strapikmm.util.exceptionIfActive
+import com.metacto.strapikmm.util.resumeIfActive
 import kotlinx.coroutines.suspendCancellableCoroutine
 
 class FirebasePushNotificationsManager constructor(

@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import com.metacto.core.utils.extensions.getActivity
-import com.swensonhe.strapikmm.auth.AuthOptions
+import com.metacto.strapikmm.auth.AuthOptions
 import dev.gitlive.firebase.auth.PhoneVerificationProvider
 import java.util.concurrent.TimeUnit
 

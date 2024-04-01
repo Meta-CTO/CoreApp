@@ -1,7 +1,7 @@
 package com.sampleApp.app.constants
 
 import com.metacto.core.CoreEnvironment
-import com.swensonhe.strapikmm.datasource.network.NetworkLogLevel
+import com.metacto.strapikmm.datasource.network.NetworkLogLevel
 
 object AppEnvironment {
     fun dev() = CoreEnvironment(

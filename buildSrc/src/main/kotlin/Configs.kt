@@ -13,4 +13,7 @@ object Configs {
     // TODO: move these values to gradle.properties
     const val SH_USERNAME = "developer-swensonhe"
     const val SH_PASSWORD = "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"
+
+    const val META_CTO_USERNAME = "metactoengineer"
+    const val META_CTO_PASSWORD = "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"
 }

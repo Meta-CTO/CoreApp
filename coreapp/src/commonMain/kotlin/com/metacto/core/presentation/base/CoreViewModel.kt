@@ -15,10 +15,10 @@ import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.utils.IResourceProvider
 import com.metacto.coreApp.MR
-import com.swensonhe.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
-import com.swensonhe.strapikmm.errorhandling.AppException
-import com.swensonhe.strapikmm.errorhandling.NetworkErrorMapper
-import com.swensonhe.strapikmm.util.Logger
+import com.metacto.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
+import com.metacto.strapikmm.errorhandling.AppException
+import com.metacto.strapikmm.errorhandling.NetworkErrorMapper
+import com.metacto.strapikmm.util.Logger
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
 import dev.icerock.moko.resources.StringResource

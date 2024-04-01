@@ -1,7 +1,7 @@
 package com.metacto.core.auth
 
 import androidx.compose.runtime.Composable
-import com.swensonhe.strapikmm.auth.AuthOptions
+import com.metacto.strapikmm.auth.AuthOptions
 import androidx.compose.runtime.remember
 import androidx.compose.ui.interop.LocalUIViewController
 import dev.gitlive.firebase.auth.PhoneVerificationProvider

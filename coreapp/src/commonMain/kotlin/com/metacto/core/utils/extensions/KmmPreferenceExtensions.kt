@@ -1,6 +1,6 @@
 package com.metacto.core.utils.extensions
 
-import com.swensonhe.strapikmm.sharedpreference.KmmPreference
+import com.metacto.strapikmm.sharedpreference.KmmPreference
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
