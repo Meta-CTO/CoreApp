@@ -3,37 +3,20 @@ package com.sampleApp.app.presentation.landing.splash
 import com.metacto.core.presentation.base.ViewEvent
 import com.metacto.core.presentation.base.ViewSideEffect
 import com.metacto.core.presentation.base.ViewState
-import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
-import com.metacto.core.presentation.models.ImageUIModel
 
 class SplashContract {
 
     data class State(
         val isInitialized: Boolean = false,
         val isWelcome: Boolean = false,
-        val options: List<PickerItem> = DUMMY_OPTIONS,
-        val selectedItem: PickerItem? = null,
-        val image: ImageUIModel? = null
     ) : ViewState
 
     sealed class Event : ViewEvent {
         data object ScreenAppeared : Event()
         data object ScreenDisposed : Event()
-        data object TextClicked : Event()
-        data object AnimClicked : Event()
-        data object ShareTextClicked : Event()
-        data object SendEmailClicked : Event()
-        data object PhoneDialClicked : Event()
-        data object PickImageClicked : Event()
-        data object ShareHelloWorldClicked : Event()
-        data object ShareParrotClub1 : Event()
-        data object ShareParrotClub2 : Event()
-        data object RequestNotificationsPermission : Event()
-        data object ShowNotificationLater : Event()
         data object ScheduleRepeatingNotification : Event()
-        data object RemoveRepeatingNotification : Event()
-        data object RemoveAllNotifications : Event()
+        data object CancelScheduledNotification : Event()
     }
 
     sealed class Effect : ViewSideEffect

@@ -10,7 +10,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.metacto.core.utils.Date
 import com.metacto.core.utils.extensions.getAppIconResId
-import com.metacto.core.utils.extensions.getPendingIntentFlags
+import com.metacto.core.utils.extensions.getLauncherPendingIntent
 import com.metacto.coreApp.MR
 import kotlinx.datetime.Clock
 import java.util.Calendar
@@ -39,6 +39,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
 
         // Prepare the notification data
         val notificationId = notification.id ?: Clock.System.now().toEpochMilliseconds().toInt()
+        val pendingIntent = notification.pendingIntent ?: context.getLauncherPendingIntent()
         val notificationIcon = notification.icon?.drawableResId
             ?: context.getAppIconResId()
             ?: MR.images.ic_default_notifications_icon.drawableResId
@@ -50,7 +51,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
             .setSmallIcon(notificationIcon)
             .setAutoCancel(notification.autoCancel)
             .setPriority(notification.priority)
-            .setContentIntent(notification.pendingIntent)
+            .setContentIntent(pendingIntent)
             .setDefaults(notification.defaults)
 
         // Then show the notification
@@ -90,7 +91,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
             context,
             notificationId,
             intent,
-            getPendingIntentFlags() or PendingIntent.FLAG_CANCEL_CURRENT
+            PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         // Start the alarm
@@ -146,7 +147,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
             context,
             notificationId,
             intent,
-            getPendingIntentFlags() or PendingIntent.FLAG_CANCEL_CURRENT
+            PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         // Start the alarm
@@ -167,7 +168,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
             context,
             id,
             intent,
-            getPendingIntentFlags() or PendingIntent.FLAG_CANCEL_CURRENT
+            PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_CANCEL_CURRENT
         )
 
         // Then cancel

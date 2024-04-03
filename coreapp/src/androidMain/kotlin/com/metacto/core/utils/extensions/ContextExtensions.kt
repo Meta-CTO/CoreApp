@@ -2,6 +2,7 @@ package com.metacto.core.utils.extensions
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.PendingIntent
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -58,7 +59,6 @@ fun Context.getNavigationBarInteractionMode(): Int {
     return if (resourceId > 0) resources.getInteger(resourceId) else NAVIGATION_BAR_INTERACTION_MODE_THREE_BUTTON
 }
 
-
 fun Context.getAppIconResId(): Int? {
     return try {
         packageManager.getApplicationInfo(packageName, 0).icon
@@ -66,4 +66,14 @@ fun Context.getAppIconResId(): Int? {
         e.printStackTrace()
         null
     }
+}
+
+fun Context.getLauncherPendingIntent(): PendingIntent? {
+    val intent = packageManager.getLaunchIntentForPackage(packageName)
+    return PendingIntent.getActivity(
+        this,
+        0,
+        intent,
+        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+    )
 }
