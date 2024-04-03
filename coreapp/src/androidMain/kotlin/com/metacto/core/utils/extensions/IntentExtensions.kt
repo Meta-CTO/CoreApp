@@ -1,6 +1,5 @@
 package com.metacto.core.utils.extensions
 
-import android.app.PendingIntent
 import android.content.Intent
 import android.os.Build
 import android.os.Parcelable
@@ -26,10 +25,4 @@ inline fun <reified T : Parcelable> Intent.getParcelable(key: String): T? {
     } else {
         getParcelableExtra(key) as? T?
     }
-}
-
-fun getPendingIntentFlags() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-    PendingIntent.FLAG_MUTABLE
-} else {
-    PendingIntent.FLAG_ONE_SHOT
 }
