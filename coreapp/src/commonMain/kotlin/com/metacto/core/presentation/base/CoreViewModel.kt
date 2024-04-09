@@ -17,7 +17,6 @@ import com.metacto.core.utils.IResourceProvider
 import com.metacto.coreApp.MR
 import com.metacto.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
 import com.metacto.strapikmm.errorhandling.AppException
-import com.metacto.strapikmm.errorhandling.NetworkErrorMapper
 import com.metacto.strapikmm.util.Logger
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
@@ -151,7 +150,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                     }
 
                     else -> {
-                        extractErrorCodeAndMessage(NetworkErrorMapper().mapThrowable(throwable).errorMessage).first
+                        extractErrorCodeAndMessage(throwable.message.orEmpty()).first
                     }
                 }
                 if (hasLoading) hideLoading()
