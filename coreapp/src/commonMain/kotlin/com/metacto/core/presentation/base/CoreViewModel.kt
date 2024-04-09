@@ -151,7 +151,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                     }
 
                     else -> {
-                        NetworkErrorMapper().mapThrowable(throwable).errorMessage
+                        extractErrorCodeAndMessage(NetworkErrorMapper().mapThrowable(throwable).errorMessage).first
                     }
                 }
                 if (hasLoading) hideLoading()
