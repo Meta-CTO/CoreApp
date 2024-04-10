@@ -245,6 +245,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
 
     private fun handleNetworkError() {
+        hideLoading()
         coreGlobalState.snackBar(
             SnackBarParams(
                 message = resourceProvider.getString(MR.strings.no_internet_connection_check_connection),
