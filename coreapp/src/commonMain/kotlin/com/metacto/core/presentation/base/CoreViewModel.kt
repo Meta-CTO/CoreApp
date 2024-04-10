@@ -326,8 +326,21 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 }
 
 private fun extractErrorCodeAndMessage(jsonString: String): Pair<String, Int> {
-    val jsonObject = JsonWithIgnoredUnknownKeys.parseToJsonElement(jsonString) as JsonObject
-    val message = jsonObject["message"]?.jsonPrimitive?.content.orEmpty()
-    val code = jsonObject["code"]?.jsonPrimitive?.content?.toInt() ?: 0
-    return message to code
+    if (jsonString.trim().isEmpty()) return "" to -1
+    try {
+        // Parse the JSON string safely
+        val jsonObject = JsonWithIgnoredUnknownKeys.parseToJsonElement(jsonString).let {
+            // Ensure the parsed element is a JsonObject
+            it as? JsonObject ?: return jsonString to -1
+        }
+
+        // Extract the message and code, with default values if not found or in the wrong format
+        val message = jsonObject["message"]?.jsonPrimitive?.content.orEmpty()
+        val code = jsonObject["code"]?.jsonPrimitive?.content?.toIntOrNull() ?: 0
+
+        return message to code
+    } catch (throwable: Throwable) {
+        // Handle parsing errors gracefully
+        return jsonString to -1
+    }
 }
