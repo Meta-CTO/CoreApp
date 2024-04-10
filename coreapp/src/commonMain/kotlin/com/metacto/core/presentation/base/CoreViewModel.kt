@@ -17,6 +17,7 @@ import com.metacto.core.utils.IResourceProvider
 import com.metacto.coreApp.MR
 import com.metacto.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
 import com.metacto.strapikmm.errorhandling.AppException
+import com.metacto.strapikmm.errorhandling.NetworkErrorMapper
 import com.metacto.strapikmm.util.Logger
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
@@ -138,6 +139,11 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                     handleAuthError()
                     return@launch
                 }
+
+                if (isNetworkError(throwable)) {
+                    handleNetworkError()
+                    return@launch
+                }
                 val errorMessage = when (throwable) {
                     is AppException -> {
                         extractErrorCodeAndMessage(throwable.errorMessage).first
@@ -213,6 +219,10 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         return throwable is AppException && throwable.errorCode == 401
     }
 
+    private fun isNetworkError(throwable: Throwable): Boolean {
+        return throwable is AppException && throwable.errorCode == NetworkErrorMapper.NO_INTERNET_CONNECTION
+    }
+
     private fun handleAuthError() {
         coreGlobalState.confirmationPopup(
             ConfirmationPopupParams(
@@ -229,6 +239,16 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                 onNegativeClick = {
                     coreGlobalState.navigateToLogin()
                 }
+            )
+        )
+    }
+
+
+    private fun handleNetworkError() {
+        coreGlobalState.snackBar(
+            SnackBarParams(
+                message = resourceProvider.getString(MR.strings.no_internet_connection_check_connection),
+                type = SnackBarType.ERROR
             )
         )
     }

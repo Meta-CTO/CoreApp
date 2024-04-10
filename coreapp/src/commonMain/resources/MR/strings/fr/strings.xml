@@ -8,7 +8,7 @@
     <string name="session_expired">Session Expirée</string>
     <string name="your_session_expired_login_again">Votre session a expiré, veuillez vous reconnecter.</string>
     <string name="error">Erreur</string>
-    <string name="no_internet_connection_check_connection">Pas de connexion internet, veuillez vérifier votre connexion et réessayer.</string>
+    <string name="no_internet_connection_check_connection">Hmm, il semble y avoir un problème avec ta connexion internet.</string>
     <string name="server_taking_too_long">Il semble que le serveur met trop de temps à répondre, veuillez réessayer plus tard.</string>
     <string name="something_went_wrong_try_again">Quelque chose s\'est mal passé, veuillez réessayer plus tard.</string>
     <string name="no_results">Aucun Résultat</string>

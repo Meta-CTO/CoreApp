@@ -8,7 +8,7 @@
     <string name="session_expired">Sitzung abgelaufen</string>
     <string name="your_session_expired_login_again">Sitzung ist abgelaufen, bitte erneut anmelden.</string>
     <string name="error">Fehler</string>
-    <string name="no_internet_connection_check_connection">Keine Internetverbindung, bitte überprüfe deine Verbindung und versuche es erneut.</string>
+    <string name="no_internet_connection_check_connection">Hmm, es scheint ein Problem mit deiner Internetverbindung zu geben.</string>
     <string name="server_taking_too_long">Es sieht so aus, als ob der Server zu lange zum Antworten braucht, bitte versuche es später noch einmal.</string>
     <string name="something_went_wrong_try_again">Etwas ist schiefgelaufen, bitte versuche es später noch einmal.</string>
     <string name="no_results">Keine Ergebnisse</string>
