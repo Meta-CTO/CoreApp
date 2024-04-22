@@ -184,10 +184,10 @@ android {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = Configs.CORE_APP_ID
-    multiplatformResourcesVisibility = MRVisibility.Internal
-    multiplatformResourcesSourceSet = "commonMain"
-    disableStaticFrameworkWarning = true
+    resourcesPackage.set(Configs.CORE_APP_ID)
+    resourcesVisibility.set(MRVisibility.Public)
+    resourcesClassName.set("MokoResources")
+    resourcesSourceSets.maybeCreate("commonMain")
 }
 
 val javadocJar by tasks.registering(Jar::class) {

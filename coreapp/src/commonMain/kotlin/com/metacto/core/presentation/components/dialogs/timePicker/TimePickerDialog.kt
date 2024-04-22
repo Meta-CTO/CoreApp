@@ -20,7 +20,7 @@ import com.metacto.core.utils.IResourceProvider
 import com.metacto.core.utils.extensions.getScreenSize
 import com.metacto.core.utils.extensions.toDp
 import com.metacto.core.utils.getCurrentTime
-import com.metacto.coreApp.MR
+//import com.metacto.coreApp.MR
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.datetime.LocalTime
 import org.koin.compose.rememberKoinInject

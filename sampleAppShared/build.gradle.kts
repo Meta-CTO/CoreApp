@@ -1,5 +1,4 @@
 @file:Suppress("OPT_IN_USAGE")
-import dev.icerock.gradle.MRVisibility
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 
 plugins {
@@ -133,9 +132,15 @@ android {
     }
 }
 
+//multiplatformResources {
+//    multiplatformResourcesPackage = Configs.SAMPLE_APP_ID
+//    multiplatformResourcesVisibility = MRVisibility.Internal
+//    multiplatformResourcesSourceSet = "commonMain"
+//    disableStaticFrameworkWarning = true
+//}
+
 multiplatformResources {
-    multiplatformResourcesPackage = Configs.SAMPLE_APP_ID
-    multiplatformResourcesVisibility = MRVisibility.Internal
-    multiplatformResourcesSourceSet = "commonMain"
-    disableStaticFrameworkWarning = true
+    resourcesPackage.set(Configs.SAMPLE_APP_ID)
+    resourcesVisibility.set(dev.icerock.gradle.MRVisibility.Internal)
+//    resourcesSourceSets.create("commonMain")
 }
