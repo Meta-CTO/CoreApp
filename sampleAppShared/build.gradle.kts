@@ -79,6 +79,11 @@ kotlin {
             linkOnly = true
         )
 
+        pod("AppsFlyerFramework") {
+            version = "6.11.2"
+            moduleName = "AppsFlyerLib"
+        }
+
         xcodeConfigurationToNativeBuildType["Debug"] = NativeBuildType.RELEASE
     }
 
