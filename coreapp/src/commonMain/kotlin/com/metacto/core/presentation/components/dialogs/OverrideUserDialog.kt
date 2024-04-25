@@ -79,16 +79,18 @@ fun OverrideUserDialog(
                     .padding(top = CoreTheme.spacings.paddingXXXLarge)
             )
 
-            PrimaryStrokedButton(
-                text = stringResource(MR.strings.reset_current_user),
-                isSmall = true,
-                onClick = {
-                    onResetClick?.invoke()
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = CoreTheme.spacings.paddingLarge)
-            )
+            if (onResetClick != null) {
+                PrimaryStrokedButton(
+                    text = stringResource(MR.strings.reset_current_user),
+                    isSmall = true,
+                    onClick = {
+                        onResetClick?.invoke()
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = CoreTheme.spacings.paddingLarge)
+                )
+            }
         }
     }
 }
