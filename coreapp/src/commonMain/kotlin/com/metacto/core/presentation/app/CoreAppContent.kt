@@ -89,9 +89,13 @@ fun CoreAppContent(
             // Handle message popup
             overrideUserParams?.let { params ->
                 OverrideUserDialog(
-                    onPositiveClick = {
+                    onOverrideClick = {
                         globalState.idle()
                         params.onPositiveClick?.invoke(it)
+                    },
+                    onResetClick = {
+                        globalState.idle()
+                        params.onResetClick?.invoke()
                     },
                     onDismiss = {
                         globalState.idle()

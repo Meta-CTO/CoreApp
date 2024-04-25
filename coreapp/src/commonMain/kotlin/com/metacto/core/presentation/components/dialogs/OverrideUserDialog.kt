@@ -21,7 +21,8 @@ import dev.icerock.moko.resources.compose.stringResource
 @Composable
 fun OverrideUserDialog(
     modifier: Modifier = Modifier,
-    onPositiveClick: ((Int?) -> Unit)? = null,
+    onOverrideClick: ((Int?) -> Unit)? = null,
+    onResetClick: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null
 ) {
     val text = remember { mutableStateOf("") }
@@ -66,17 +67,27 @@ fun OverrideUserDialog(
                 }
             )
 
-            // Render ok positive button
             PrimaryStrokedButton(
-                text = stringResource(MR.strings.confirm),
+                text = stringResource(MR.strings.override),
                 isSmall = true,
                 isEnabled = text.value.isNotEmpty(),
                 onClick = {
-                    onPositiveClick?.invoke(text.value.toIntOrNull())
+                    onOverrideClick?.invoke(text.value.toIntOrNull())
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = CoreTheme.spacings.popupSpacingLarge)
+                    .padding(top = CoreTheme.spacings.paddingXXXLarge)
+            )
+
+            PrimaryStrokedButton(
+                text = stringResource(MR.strings.reset_current_user),
+                isSmall = true,
+                onClick = {
+                    onResetClick?.invoke()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = CoreTheme.spacings.paddingLarge)
             )
         }
     }
