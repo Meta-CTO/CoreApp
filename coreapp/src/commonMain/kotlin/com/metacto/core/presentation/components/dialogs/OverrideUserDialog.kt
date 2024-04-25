@@ -43,7 +43,7 @@ fun OverrideUserDialog(
         ) {
             // Render body text
             Text(
-                text = stringResource(MR.strings.override_current_user_confirmation),
+                text = stringResource(MR.strings.override_current_user_message),
                 textAlign = TextAlign.Center,
                 color = CoreTheme.colors.secondary,
                 style = CoreTheme.typography.bodyLarge,
