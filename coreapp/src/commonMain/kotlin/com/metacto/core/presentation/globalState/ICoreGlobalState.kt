@@ -1,12 +1,12 @@
 package com.metacto.core.presentation.globalState
 
 import androidx.compose.runtime.State
-import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.globalState.models.ChoicesPopupParams
 import com.metacto.core.presentation.globalState.models.ConfirmationPopupParams
 import com.metacto.core.presentation.globalState.models.DatePickerParams
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.MessagePopupParams
+import com.metacto.core.presentation.globalState.models.OverrideUserPopupParams
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SuccessPopupParams
 import com.metacto.core.presentation.globalState.models.TimePickerParams
@@ -16,6 +16,7 @@ interface ICoreGlobalState {
     val navigateToLogin: State<Boolean>
     val loadingState: State<LoadingType>
     val messagePopupState: State<MessagePopupParams?>
+    val overrideUserPopupState: State<OverrideUserPopupParams?>
     val successPopupState: State<SuccessPopupParams?>
     val confirmationPopupState: State<ConfirmationPopupParams?>
     val choicesPopupState: State<ChoicesPopupParams?>
@@ -38,6 +39,7 @@ interface ICoreGlobalState {
     fun datePicker(params: DatePickerParams)
     fun timePicker(params: TimePickerParams)
     fun snackBar(params: SnackBarParams)
+    fun overrideUserPopup(params: OverrideUserPopupParams)
     fun hideSnackBar(delay: Long = 0)
     fun dismissKeyboard()
     fun resetDismissKeyboardState()

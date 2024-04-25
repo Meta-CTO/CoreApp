@@ -12,6 +12,7 @@ import com.metacto.core.navigation.NavManager
 import com.metacto.core.presentation.components.dialogs.ChoicesDialog
 import com.metacto.core.presentation.components.dialogs.ConfirmationDialog
 import com.metacto.core.presentation.components.dialogs.MessageDialog
+import com.metacto.core.presentation.components.dialogs.OverrideUserDialog
 import com.metacto.core.presentation.components.dialogs.SuccessDialog
 import com.metacto.core.presentation.components.dialogs.datePicker.DatePickerDialog
 import com.metacto.core.presentation.components.dialogs.timePicker.TimePickerDialog
@@ -41,6 +42,7 @@ fun CoreAppContent(
 ) {
     // Get global states
     val messageParams by globalState.messagePopupState
+    val overrideUserParams by globalState.overrideUserPopupState
     val successParams by globalState.successPopupState
     val confirmationParams by globalState.confirmationPopupState
     val choicesParams by globalState.choicesPopupState
@@ -76,6 +78,20 @@ fun CoreAppContent(
                     onPositiveClick = {
                         globalState.idle()
                         params.onPositiveClick?.invoke()
+                    },
+                    onDismiss = {
+                        globalState.idle()
+                        params.onDismiss?.invoke()
+                    }
+                )
+            }
+
+            // Handle message popup
+            overrideUserParams?.let { params ->
+                OverrideUserDialog(
+                    onPositiveClick = {
+                        globalState.idle()
+                        params.onPositiveClick?.invoke(it)
                     },
                     onDismiss = {
                         globalState.idle()
