@@ -2,13 +2,12 @@
 package com.metacto.core.presentation.globalState
 
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.globalState.models.ChoicesPopupParams
 import com.metacto.core.presentation.globalState.models.ConfirmationPopupParams
 import com.metacto.core.presentation.globalState.models.DatePickerParams
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.MessagePopupParams
+import com.metacto.core.presentation.globalState.models.OverrideUserPopupParams
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SuccessPopupParams
 import com.metacto.core.presentation.globalState.models.TimePickerParams
@@ -24,6 +23,7 @@ open class CoreGlobalState : ICoreGlobalState {
     override val navigateToLogin = mutableStateOf(false)
     override val loadingState = mutableStateOf<LoadingType>(LoadingType.NoLoading)
     override val messagePopupState = mutableStateOf<MessagePopupParams?>(null)
+    override val overrideUserPopupState = mutableStateOf<OverrideUserPopupParams?>(null)
     override val successPopupState = mutableStateOf<SuccessPopupParams?>(null)
     override val confirmationPopupState = mutableStateOf<ConfirmationPopupParams?>(null)
     override val choicesPopupState = mutableStateOf<ChoicesPopupParams?>(null)
@@ -44,6 +44,7 @@ open class CoreGlobalState : ICoreGlobalState {
         choicesPopupState.value = null
         datePickerState.value = null
         timePickerState.value = null
+        overrideUserPopupState.value = null
     }
 
     override fun navigateToLogin() {
@@ -92,6 +93,10 @@ open class CoreGlobalState : ICoreGlobalState {
 
         // Hide snack bar after duration
         hideSnackBar(SNACK_BAR_DURATION)
+    }
+
+    override fun overrideUserPopup(params: OverrideUserPopupParams) {
+        overrideUserPopupState.value = params
     }
 
     override fun hideSnackBar(delay: Long) {

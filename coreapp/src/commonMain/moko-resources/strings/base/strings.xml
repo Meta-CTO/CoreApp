@@ -21,4 +21,8 @@
     <string name="take_photo">Take photo</string>
     <string name="remove_current_photo">Remove current photo</string>
     <string name="no_browser_installed">No browser installed</string>
+    <string name="override_current_user">Override Current User</string>
+    <string name="override_current_user_message">Please enter the user ID you want to override.</string>
+    <string name="reset_current_user">Reset Current User</string>
+    <string name="override">Override</string>
 </resources>
