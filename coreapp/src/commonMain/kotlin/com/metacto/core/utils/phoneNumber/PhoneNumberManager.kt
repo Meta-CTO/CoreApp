@@ -9,7 +9,7 @@ class PhoneNumberManager(
 
     override fun getValidPhoneNumber(
         number: String,
-        countryCode: String
+        countryCode: String?
     ): String? {
         val regex = Regex("[^+0-9]")
 
@@ -43,24 +43,24 @@ class PhoneNumberManager(
         return null
     }
 
-    override fun getFormattedPhoneNumber(number: String, countryCode: String): String? {
+    override fun getFormattedPhoneNumber(number: String, countryCode: String?): String? {
         val phoneNumber = parsePhoneNumber(number, countryCode) ?: return null
         return phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
     }
 
-    override fun getE164FormattedPhoneNumber(number: String, countryCode: String): String? {
+    override fun getE164FormattedPhoneNumber(number: String, countryCode: String?): String? {
         val phoneNumber = parsePhoneNumber(number, countryCode) ?: return null
         return phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.E164)
     }
 
-    override fun isValidPhoneNumber(number: String, countryCode: String): Boolean {
+    override fun isValidPhoneNumber(number: String, countryCode: String?): Boolean {
         val phoneNumber = parsePhoneNumber(number, countryCode) ?: return false
         return phoneNumberUtil.isValidNumber(phoneNumber)
     }
 
     private fun parsePhoneNumber(
         number: String,
-        countryCode: String
+        countryCode: String?
     ): Phonenumber.PhoneNumber? {
         try {
             val phoneNumber = phoneNumberUtil.parse(number, countryCode)

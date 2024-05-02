@@ -5,6 +5,7 @@ import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.Notification
+import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
@@ -14,7 +15,8 @@ import org.koin.core.component.inject
 class SplashViewModel(
     private val eventBroadcaster: EventBroadcaster,
     private val intentLauncher: IIntentLauncher,
-    private val dateHelper: DateHelper
+    private val dateHelper: DateHelper,
+    private val phoneNumberManager: IPhoneNumberManager
 ) : BaseViewModel<State, Event, Effect>() {
     private val notificationManager by inject<INotificationManager>()
 
@@ -28,6 +30,7 @@ class SplashViewModel(
         // Update the flag
         setState { copy(isInitialized = true) }
     }
+
 
     override fun setInitialState() = State()
 
