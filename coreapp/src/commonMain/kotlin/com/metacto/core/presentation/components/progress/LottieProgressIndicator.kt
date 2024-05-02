@@ -19,7 +19,7 @@ import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
 @Composable
 fun LottieProgressIndicator(
     modifier: Modifier = Modifier,
-    lottieRes: AssetResource = MR.assets.loading_indicator_anim,
+    lottieRes: AssetResource = MR.assets.loading_indicator_anim_json,
     isBlocking: Boolean = false
 ) {
     // Prepare composition

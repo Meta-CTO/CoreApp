@@ -70,6 +70,7 @@ kotlin {
                 api(Dependencies.Compose.ANIMATION_GRAPHICS)
                 api(Dependencies.Compose.EXTENDED_ICONS)
                 api(Dependencies.Compose.RESOURCES)
+                api("dev.icerock.moko:parcelize:0.9.0")
 
                 // Voyager
                 api(Dependencies.Voyager.NAVIGATOR)
@@ -155,6 +156,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 api(Dependencies.Compose.MATERIAL)
+                implementation("dev.icerock.moko:parcelize:0.9.0")
             }
         }
     }
