@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import com.metacto.core.presentation.theme.CoreTheme
 
@@ -25,13 +26,17 @@ fun PrimaryCheckableButton(
     ),
     isChecked: Boolean = false,
     shape: RoundedCornerShape = CoreTheme.shapes.small,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    checkedBackgroundColor: Color = CoreTheme.colors.primaryStrongDark,
+    uncheckedBackgroundColor: Color = CoreTheme.colors.primary,
+    checkedTextColor: Color = CoreTheme.colors.onStrongDarkPrimary,
+    uncheckedTextColor: Color = CoreTheme.colors.onPrimary
 ) {
     val bgColor by animateColorAsState(
-        if (isChecked) CoreTheme.colors.primaryStrongDark else CoreTheme.colors.primary
+        if (isChecked) checkedBackgroundColor else uncheckedBackgroundColor
     )
     val textColor by animateColorAsState(
-        if (isChecked) CoreTheme.colors.onStrongDarkPrimary else CoreTheme.colors.onPrimary
+        if (isChecked) checkedTextColor else uncheckedTextColor
     )
 
     // Render text

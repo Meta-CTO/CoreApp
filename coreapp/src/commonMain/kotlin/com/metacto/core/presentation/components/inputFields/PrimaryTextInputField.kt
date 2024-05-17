@@ -51,7 +51,14 @@ fun PrimaryTextInputField(
     textAlign: TextAlign? = null,
     allowDigitsOnly: Boolean = false,
     isStaticLabel: Boolean = false,
-    requestFocus: Boolean = false
+    requestFocus: Boolean = false,
+    backgroundColor: Color = CoreTheme.colors.background,
+    focusedBorderColor: Color = CoreTheme.colors.primaryDark,
+    unFocusedBorderColor: Color = CoreTheme.colors.primary,
+    textColor: Color = CoreTheme.colors.secondary,
+    placeholderTextColor: Color = CoreTheme.colors.placeholder,
+    labelTextColor: Color = CoreTheme.colors.secondary,
+    errorTextColor: Color = CoreTheme.colors.danger,
 ) {
     BaseTextInputField(
         requestFocus = requestFocus,
@@ -86,20 +93,20 @@ fun PrimaryTextInputField(
         shape = shape,
         allowDigitsOnly = allowDigitsOnly,
         isStaticLabel = isStaticLabel,
-        backgroundColor = CoreTheme.colors.background,
-        focusedBorderColor = CoreTheme.colors.primaryDark,
-        unFocusedBorderColor = CoreTheme.colors.primary,
+        backgroundColor = backgroundColor,
+        focusedBorderColor = focusedBorderColor,
+        unFocusedBorderColor = unFocusedBorderColor,
         textStyle = textStyle,
         textAlign = textAlign,
-        textColor = CoreTheme.colors.secondary,
+        textColor = textColor,
         placeholderTextStyle = CoreTheme.typography.labelMedium.copy(
-            color = CoreTheme.colors.placeholder
+            color = placeholderTextColor
         ),
         labelTextStyle = CoreTheme.typography.labelMedium.copy(
-            color = CoreTheme.colors.secondary
+            color = labelTextColor
         ),
         errorTextStyle = CoreTheme.typography.labelMedium.copy(
-            color = CoreTheme.colors.danger
+            color = errorTextColor
         )
     )
 }
