@@ -1,5 +1,6 @@
 package com.metacto.core.utils.notificationManager
 
+import com.metacto.core.domain.CoreConstants
 import com.metacto.core.utils.Date
 import com.metacto.core.utils.toDateComponents
 import kotlinx.datetime.Clock
@@ -66,6 +67,8 @@ class NotificationManager(
             notification.body?.let {
                 setBody(it)
             }
+
+            setUserInfo(mapOf(CoreConstants.KEY_NOTIFICATION_ID to notificationId.toString()))
         }
         val notificationRequest = UNNotificationRequest.requestWithIdentifier(
             identifier = notificationId.toString(),

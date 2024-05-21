@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
+import com.metacto.core.domain.CoreConstants
 import com.metacto.core.utils.Date
 import com.metacto.core.utils.extensions.getAppIconResId
 import com.metacto.core.utils.extensions.getLauncherPendingIntent
@@ -16,7 +17,6 @@ import kotlinx.datetime.Clock
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import android.app.Notification as PlatformNotification
-
 
 class NotificationManager(private val context: Context) : INotificationManager {
 
@@ -39,7 +39,12 @@ class NotificationManager(private val context: Context) : INotificationManager {
 
         // Prepare the notification data
         val notificationId = notification.id ?: Clock.System.now().toEpochMilliseconds().toInt()
-        val pendingIntent = notification.pendingIntent ?: context.getLauncherPendingIntent()
+
+        val extras = mutableMapOf(
+            CoreConstants.KEY_NOTIFICATION_ID to notificationId
+        )
+
+        val pendingIntent = notification.pendingIntent ?: context.getLauncherPendingIntent(extras)
         val notificationIcon = notification.icon?.drawableResId
             ?: context.getAppIconResId()
             ?: MR.images.ic_default_notifications_icon.drawableResId
@@ -98,7 +103,11 @@ class NotificationManager(private val context: Context) : INotificationManager {
         alarmService.set(AlarmManager.RTC_WAKEUP, date.time, pendingIntent)
     }
 
-    override fun scheduleRepeating(notification: Notification, hourOfDay: Int, minute: Int) {
+    override fun scheduleRepeating(
+        notification: Notification,
+        hourOfDay: Int,
+        minute: Int
+    ) {
         // Prepare date and repeat interval
         val date = Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, hourOfDay)
