@@ -9,7 +9,6 @@ Pod::Spec.new do |spec|
     spec.vendored_frameworks      = 'build/cocoapods/framework/sampleAppShared.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target = '14.1'
-    spec.dependency 'AWSS3'
     spec.dependency 'Amplitude'
     spec.dependency 'AppsFlyerFramework', '6.11.2'
     spec.dependency 'CleverTap-iOS-SDK'

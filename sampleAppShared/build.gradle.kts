@@ -74,10 +74,6 @@ kotlin {
             name = Dependencies.Pods.FIREBASE_REMOTE_CONFIG,
             linkOnly = true
         )
-        pod(
-            name = Dependencies.Pods.AWSS3,
-            linkOnly = true
-        )
 
         pod("AppsFlyerFramework") {
             version = "6.11.2"
