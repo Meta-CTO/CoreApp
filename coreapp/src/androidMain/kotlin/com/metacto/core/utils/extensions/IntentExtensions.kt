@@ -26,3 +26,23 @@ inline fun <reified T : Parcelable> Intent.getParcelable(key: String): T? {
         getParcelableExtra(key) as? T?
     }
 }
+
+fun Intent.addExtras(extras: Map<String, Any>) {
+    extras.forEach { (key, value) ->
+        when (value) {
+            is String -> putExtra(key, value)
+            is Int -> putExtra(key, value)
+            is Long -> putExtra(key, value)
+            is Float -> putExtra(key, value)
+            is Double -> putExtra(key, value)
+            is Boolean -> putExtra(key, value)
+            is Short -> putExtra(key, value)
+            is Byte -> putExtra(key, value)
+            is Char -> putExtra(key, value)
+            is CharSequence -> putExtra(key, value)
+            is Serializable -> putExtra(key, value)
+            is Parcelable -> putExtra(key, value)
+            else -> {}
+        }
+    }
+}

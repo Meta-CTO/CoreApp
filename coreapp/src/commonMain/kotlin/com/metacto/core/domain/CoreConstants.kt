@@ -8,4 +8,5 @@ object CoreConstants {
     const val YEAR_MONTH_DAY_DATE_FORMAT = "yyyy-MM-dd"
     const val US_COUNTRY_CODE = "US"
     const val CACHED_REMOTE_CONFIGS = "CACHED_REMOTE_CONFIGS"
+    const val KEY_NOTIFICATION_ID = "KEY_NOTIFICATION_ID"
 }

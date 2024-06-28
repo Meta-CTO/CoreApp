@@ -68,8 +68,11 @@ fun Context.getAppIconResId(): Int? {
     }
 }
 
-fun Context.getLauncherPendingIntent(): PendingIntent? {
+fun Context.getLauncherPendingIntent(
+    extras: Map<String, Any> = emptyMap()
+): PendingIntent? {
     val intent = packageManager.getLaunchIntentForPackage(packageName)
+    intent?.addExtras(extras)
     return PendingIntent.getActivity(
         this,
         0,
