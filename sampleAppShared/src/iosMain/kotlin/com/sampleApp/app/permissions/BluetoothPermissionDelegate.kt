@@ -5,6 +5,7 @@ import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.permissions.exceptions.DeniedAlwaysException
 import com.metacto.core.permissions.exceptions.DeniedException
 import com.metacto.core.permissions.helpers.PermissionDelegate
+import com.sampleApp.app.permissions.utils.openAppSettingsPage
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.CoreBluetooth.CBCentralManager
 import platform.CoreBluetooth.CBCentralManagerDelegateProtocol
@@ -89,4 +90,9 @@ internal class BluetoothPermissionDelegate(
             else -> error("unknown state $state")
         }
     }
+
+    override fun openSettingPage() {
+        openAppSettingsPage()
+    }
+
 }

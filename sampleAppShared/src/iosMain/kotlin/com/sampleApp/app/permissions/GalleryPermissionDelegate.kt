@@ -5,6 +5,7 @@ import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.permissions.exceptions.DeniedAlwaysException
 import com.metacto.core.permissions.helpers.PermissionDelegate
 import com.metacto.core.utils.extensions.mainContinuation
+import com.sampleApp.app.permissions.utils.openAppSettingsPage
 import platform.Photos.PHAuthorizationStatus
 import platform.Photos.PHAuthorizationStatusAuthorized
 import platform.Photos.PHAuthorizationStatusDenied
@@ -41,6 +42,11 @@ internal class GalleryPermissionDelegate : PermissionDelegate {
             else -> error("unknown gallery authorization status $status")
         }
     }
+
+    override fun openSettingPage() {
+        openAppSettingsPage()
+    }
+
 }
 
 private fun requestGalleryAccess(callback: (PHAuthorizationStatus) -> Unit) {

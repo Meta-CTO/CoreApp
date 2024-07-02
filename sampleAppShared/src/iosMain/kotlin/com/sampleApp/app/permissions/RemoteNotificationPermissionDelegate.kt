@@ -5,6 +5,7 @@ import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.permissions.exceptions.DeniedAlwaysException
 import com.metacto.core.permissions.helpers.PermissionDelegate
 import com.metacto.core.utils.extensions.mainContinuation
+import com.sampleApp.app.permissions.utils.openAppSettingsPage
 import platform.UserNotifications.UNAuthorizationOptionAlert
 import platform.UserNotifications.UNAuthorizationOptionBadge
 import platform.UserNotifications.UNAuthorizationOptionSound
@@ -85,5 +86,9 @@ internal class RemoteNotificationPermissionDelegate : PermissionDelegate {
             UNAuthorizationStatusDenied -> PermissionState.DeniedAlways
             else -> error("unknown push authorization status $status")
         }
+    }
+
+    override fun openSettingPage() {
+        openAppSettingsPage()
     }
 }
