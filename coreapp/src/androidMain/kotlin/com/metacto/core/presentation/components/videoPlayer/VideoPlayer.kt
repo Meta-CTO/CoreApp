@@ -10,15 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.C
-import androidx.media3.common.MediaItem
-import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
-import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import com.metacto.core.utils.extensions.OnLifecycleEvent
+import com.metacto.core.utils.extensions.kill
+import com.metacto.core.utils.extensions.setMediaSource
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -41,16 +39,8 @@ actual fun VideoPlayer(
                     false -> C.VIDEO_SCALING_MODE_DEFAULT
                 }
 
-                val defaultDataSourceFactory = DefaultDataSource.Factory(context)
-                val dataSourceFactory = DefaultDataSource.Factory(
-                    context,
-                    defaultDataSourceFactory
-                )
-                val source = ProgressiveMediaSource
-                    .Factory(dataSourceFactory)
-                    .createMediaSource(MediaItem.fromUri(url))
-
-                setMediaSource(source)
+                // Then load media
+                setMediaSource(url)
                 prepare()
             }
     }
@@ -95,9 +85,4 @@ actual fun VideoPlayer(
             exoPlayer.kill()
         }
     )
-}
-
-private fun Player.kill() {
-    stop()
-    release()
 }

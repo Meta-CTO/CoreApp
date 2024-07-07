@@ -14,6 +14,7 @@ object Versions {
     const val MOKO_GRAPHICS = "0.9.0"
     const val GOOGLE_SIGN_IN_POD = "7.0.0"
     const val DATE_TIME = "0.4.0"
+    const val COLLECTIONS = "0.3.7"
     const val STRAPI_KMM = "9.0.31"
     const val KOIN = "3.5.0"
     const val KOIN_COMPOSE = "1.1.0"
@@ -34,6 +35,6 @@ object Versions {
     const val COIL = "3.0.0-alpha02"
     const val COIL_ANDROID = "2.5.0"
     const val COMPOTTIE = "1.1.0"
-    const val EXO_PLAYER = "1.2.1"
+    const val EXO_PLAYER = "1.3.1"
     const val GIT_LIVE = "1.10.4"
 }

@@ -44,7 +44,7 @@ internal fun SplashContent(
             VideoPlayer(
                 url = currentVideo,
                 autoPlay = true,
-                scaleToCrop = true,
+                scaleToCrop = false,
                 modifier = Modifier.fillMaxSize()
             )
         }
@@ -97,6 +97,6 @@ internal fun SplashContent(
 
 private fun videosList() = listOf(
     "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-    "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
-    "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+    "https://storage.sardius.media/1088c54907d9370/archives/f15706391E53Fb46B0B52E92786B/media/playlist.m3u8",
+    "https://storage.sardius.media/1088c54907d9370/archives/f15706391E53Fb46B0B52E92786B/media/playlist.m3u8?feedId=CA8a1f507a"
 )

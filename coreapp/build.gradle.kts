@@ -87,6 +87,7 @@ kotlin {
 
                 // Kotlin
                 api(Dependencies.Kotlin.DATE_TIME)
+                api(Dependencies.Kotlin.COLLECTIONS)
 
                 // Coil
                 api(Dependencies.Coil.CORE)
@@ -137,6 +138,7 @@ kotlin {
 
                 // Exo Player
                 api(Dependencies.ExoPlayer.PLAYER)
+                api(Dependencies.ExoPlayer.HLS)
                 api(Dependencies.ExoPlayer.UI)
 
                 // Others

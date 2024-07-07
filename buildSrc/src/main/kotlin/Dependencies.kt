@@ -37,6 +37,7 @@ object Dependencies {
 
     object Kotlin {
         const val DATE_TIME = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.DATE_TIME}"
+        const val COLLECTIONS = "org.jetbrains.kotlinx:kotlinx-collections-immutable:${Versions.COLLECTIONS}"
     }
 
     object Koin {
@@ -84,6 +85,7 @@ object Dependencies {
 
     object ExoPlayer {
         const val PLAYER = "androidx.media3:media3-exoplayer:${Versions.EXO_PLAYER}"
+        const val HLS = "androidx.media3:media3-exoplayer-hls:${Versions.EXO_PLAYER}"
         const val UI = "androidx.media3:media3-ui:${Versions.EXO_PLAYER}"
     }
 
