@@ -13,6 +13,7 @@ object Dependencies {
         const val FIREBASE_REMOTE_CONFIG = "FirebaseRemoteConfig"
         const val AMPLITUDE = "Amplitude"
         const val AWSS3 = "AWSS3"
+        const val APPS_FLYER = "AppsFlyerFramework"
 
         object CleverTap {
             const val MODULE = "CleverTapSDK"

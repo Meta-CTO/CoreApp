@@ -79,6 +79,10 @@ kotlin {
             name = Dependencies.Pods.AWSS3,
             linkOnly = true
         )
+        pod(
+            name = Dependencies.Pods.APPS_FLYER,
+            linkOnly = true
+        )
 
         xcodeConfigurationToNativeBuildType["Debug"] = NativeBuildType.RELEASE
     }

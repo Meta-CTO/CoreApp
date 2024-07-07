@@ -1,6 +1,7 @@
 package com.metacto.core.presentation.components.videoPlayer
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.UIKitView
@@ -9,6 +10,7 @@ import platform.AVFoundation.AVLayerVideoGravityResizeAspect
 import platform.AVFoundation.AVLayerVideoGravityResizeAspectFill
 import platform.AVFoundation.AVPlayer
 import platform.AVFoundation.AVPlayerLayer
+import platform.AVFoundation.pause
 import platform.AVFoundation.play
 import platform.AVKit.AVPlayerViewController
 import platform.Foundation.NSURL
@@ -58,7 +60,21 @@ actual fun VideoPlayer(
                 addSubview(playerController.view)
             }
         },
-        update = {
+        update = { view ->
+            // Remove current subviews
+            view.subviews().forEach { subView ->
+                (subView as? UIView)?.removeFromSuperview()
+            }
+
+            // Then add the new player view
+            view.addSubview(playerController.view)
+
+            // Resize it
+            playerLayer.setFrame(view.bounds)
+            playerController.view.setFrame(view.bounds)
+            playerController.view.layer.frame = view.bounds
+
+            // Auto play if required
             if (autoPlay) {
                 player.play()
                 playerController.player?.play()
@@ -75,6 +91,17 @@ actual fun VideoPlayer(
 
                 commit()
             }
+        },
+        onRelease = {
+            player.pause()
+            playerController.player?.pause()
         }
     )
+
+    // Pause player when disposed
+    DisposableEffect(player) {
+        onDispose {
+            player.pause()
+        }
+    }
 }

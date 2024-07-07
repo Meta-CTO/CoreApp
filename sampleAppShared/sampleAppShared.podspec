@@ -11,6 +11,7 @@ Pod::Spec.new do |spec|
     spec.ios.deployment_target = '14.1'
     spec.dependency 'AWSS3'
     spec.dependency 'Amplitude'
+    spec.dependency 'AppsFlyerFramework'
     spec.dependency 'CleverTap-iOS-SDK'
     spec.dependency 'FirebaseAuth'
     spec.dependency 'FirebaseCrashlytics'
