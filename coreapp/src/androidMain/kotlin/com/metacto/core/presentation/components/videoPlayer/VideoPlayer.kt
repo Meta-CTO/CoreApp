@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.C
 import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.datasource.DefaultDataSource
 import androidx.media3.exoplayer.ExoPlayer
@@ -29,10 +30,17 @@ actual fun VideoPlayer(
 ) {
     val context = LocalContext.current
 
-    val exoPlayer = remember(url) {
+    val exoPlayer = remember(url, autoPlay, scaleToCrop) {
         ExoPlayer.Builder(context)
             .build()
             .apply {
+                // Configure the player
+                playWhenReady = autoPlay
+                videoScalingMode = when (scaleToCrop) {
+                    true -> C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING
+                    false -> C.VIDEO_SCALING_MODE_DEFAULT
+                }
+
                 val defaultDataSourceFactory = DefaultDataSource.Factory(context)
                 val dataSourceFactory = DefaultDataSource.Factory(
                     context,
@@ -47,26 +55,28 @@ actual fun VideoPlayer(
             }
     }
 
-    if (autoPlay) {
-        exoPlayer.playWhenReady = true
-    }
-    if (scaleToCrop) {
-        exoPlayer.videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING
-    } else {
-        exoPlayer.videoScalingMode = C.VIDEO_SCALING_MODE_DEFAULT
-    }
-
     AndroidView(
         modifier = modifier,
         factory = {
             PlayerView(context).apply {
                 useController = true
                 controllerShowTimeoutMs = 0
-                resizeMode = AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+                resizeMode = when(scaleToCrop) {
+                    true -> AspectRatioFrameLayout.RESIZE_MODE_FILL
+                    false -> AspectRatioFrameLayout.RESIZE_MODE_FIT
+                }
 
                 player = exoPlayer
                 layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
             }
+        },
+        update = {
+            it.player?.kill()
+            it.player = exoPlayer
+        },
+        onRelease = {
+            exoPlayer.kill()
+            it.player?.kill()
         }
     )
 
@@ -82,8 +92,12 @@ actual fun VideoPlayer(
             exoPlayer.pause()
         },
         onDispose = {
-            exoPlayer.pause()
-            exoPlayer.release()
+            exoPlayer.kill()
         }
     )
+}
+
+private fun Player.kill() {
+    stop()
+    release()
 }
