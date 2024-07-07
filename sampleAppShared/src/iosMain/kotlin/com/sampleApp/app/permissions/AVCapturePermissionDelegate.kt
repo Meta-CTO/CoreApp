@@ -5,7 +5,6 @@ import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.permissions.exceptions.DeniedAlwaysException
 import com.metacto.core.permissions.helpers.PermissionDelegate
 import com.metacto.core.utils.extensions.mainContinuation
-import com.sampleApp.app.permissions.utils.openAppSettingsPage
 import platform.AVFoundation.AVAuthorizationStatus
 import platform.AVFoundation.AVAuthorizationStatusAuthorized
 import platform.AVFoundation.AVAuthorizationStatusDenied
@@ -47,10 +46,6 @@ internal class AVCapturePermissionDelegate(
             AVAuthorizationStatusRestricted -> PermissionState.Granted
             else -> error("unknown authorization status $status")
         }
-    }
-
-    override fun openSettingPage() {
-        openAppSettingsPage()
     }
 
     private fun currentAuthorizationStatus(): AVAuthorizationStatus {

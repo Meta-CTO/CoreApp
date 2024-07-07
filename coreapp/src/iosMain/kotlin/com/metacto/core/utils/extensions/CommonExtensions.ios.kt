@@ -8,9 +8,12 @@ import kotlinx.cinterop.useContents
 import kotlinx.coroutines.Dispatchers
 import platform.Foundation.NSNotificationCenter
 import platform.Foundation.NSThread
+import platform.Foundation.NSURL
 import platform.Foundation.NSUUID
 import platform.Foundation.NSValue
 import platform.UIKit.CGRectValue
+import platform.UIKit.UIApplication
+import platform.UIKit.UIApplicationOpenSettingsURLString
 import platform.UIKit.UIKeyboardFrameEndUserInfoKey
 import platform.UIKit.UIKeyboardWillHideNotification
 import platform.UIKit.UIKeyboardWillShowNotification
@@ -63,5 +66,15 @@ inline fun <T1, T2> mainContinuation(
     }
 }
 
+fun openNSUrl(string: String) {
+    val settingsUrl: NSURL = NSURL.URLWithString(string)!!
+    if (UIApplication.sharedApplication.canOpenURL(settingsUrl)) {
+        UIApplication.sharedApplication.openURL(settingsUrl)
+    } else throw Throwable("Cannot open URL: $string")
+}
+
+fun openAppSettingsPage() {
+    openNSUrl(UIApplicationOpenSettingsURLString)
+}
 
 actual fun randomUUID(): String = NSUUID().UUIDString()

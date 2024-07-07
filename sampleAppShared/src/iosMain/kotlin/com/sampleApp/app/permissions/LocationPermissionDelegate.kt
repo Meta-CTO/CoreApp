@@ -4,7 +4,6 @@ import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.permissions.exceptions.DeniedAlwaysException
 import com.metacto.core.permissions.helpers.PermissionDelegate
-import com.sampleApp.app.permissions.utils.openAppSettingsPage
 import platform.CoreLocation.CLAuthorizationStatus
 import platform.CoreLocation.CLLocationManager
 import platform.CoreLocation.kCLAuthorizationStatusAuthorizedAlways
@@ -50,9 +49,5 @@ internal class LocationPermissionDelegate(
             kCLAuthorizationStatusDenied -> throw DeniedAlwaysException(permission)
             else -> error("unknown location authorization status $status")
         }
-    }
-
-    override fun openSettingPage() {
-        openAppSettingsPage()
     }
 }

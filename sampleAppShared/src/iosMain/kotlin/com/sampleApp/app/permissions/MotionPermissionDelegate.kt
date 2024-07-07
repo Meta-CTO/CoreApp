@@ -2,7 +2,6 @@ package com.sampleApp.app.permissions
 
 import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.permissions.helpers.PermissionDelegate
-import com.sampleApp.app.permissions.utils.openAppSettingsPage
 import platform.CoreMotion.CMAuthorizationStatusAuthorized
 import platform.CoreMotion.CMAuthorizationStatusDenied
 import platform.CoreMotion.CMAuthorizationStatusNotDetermined
@@ -34,9 +33,5 @@ internal class MotionPermissionDelegate : PermissionDelegate {
             CMAuthorizationStatusNotDetermined -> PermissionState.NotDetermined
             else -> error("unknown motion authorization status $status")
         }
-    }
-
-    override fun openSettingPage() {
-        openAppSettingsPage()
     }
 }

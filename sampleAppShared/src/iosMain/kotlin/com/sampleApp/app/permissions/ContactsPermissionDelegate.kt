@@ -4,7 +4,6 @@ import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.permissions.exceptions.DeniedAlwaysException
 import com.metacto.core.permissions.helpers.PermissionDelegate
-import com.sampleApp.app.permissions.utils.openAppSettingsPage
 import platform.Contacts.CNAuthorizationStatus
 import platform.Contacts.CNAuthorizationStatusAuthorized
 import platform.Contacts.CNAuthorizationStatusDenied
@@ -63,9 +62,5 @@ internal class ContactsPermissionDelegate(
             CNAuthorizationStatusDenied -> throw DeniedAlwaysException(permission)
             else -> error("unknown location authorization status $status")
         }
-    }
-
-    override fun openSettingPage() {
-        openAppSettingsPage()
     }
 }
