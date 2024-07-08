@@ -101,6 +101,7 @@ kotlin {
                 api(Dependencies.STRAPI_KMM)
                 api(Dependencies.LIB_PHONE_NUMBER)
                 api(Dependencies.COMPOTTIE)
+                api(Dependencies.WEBVIEW)
             }
         }
 
