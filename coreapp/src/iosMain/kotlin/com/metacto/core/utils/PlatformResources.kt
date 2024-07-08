@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalResourceApi::class)
+@file:OptIn(ExperimentalResourceApi::class, InternalResourceApi::class)
 package com.metacto.core.utils
 
 import androidx.compose.runtime.Composable
@@ -7,7 +7,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.compose.resources.ExperimentalResourceApi
-import org.jetbrains.compose.resources.resource
+import org.jetbrains.compose.resources.InternalResourceApi
+import org.jetbrains.compose.resources.readResourceBytes
 import androidx.compose.ui.text.platform.Font as PlatformFont
 
 actual object PlatformResources {
@@ -22,7 +23,7 @@ actual object PlatformResources {
     ): Font? {
         return fontsCache.getOrPut(res) {
             val byteArray = runBlocking {
-                resource("font/$res.ttf").readBytes()
+                readResourceBytes("font/$res.ttf")
             }
 
             PlatformFont(

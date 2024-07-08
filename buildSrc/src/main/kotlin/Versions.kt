@@ -3,8 +3,8 @@ import org.gradle.api.JavaVersion
 object Versions {
     val JVM = JavaVersion.VERSION_17
     const val GRADLE = "8.1.1"
-    const val KOTLIN = "1.9.21"
-    const val COMPOSE = "1.5.11"
+    const val KOTLIN = "1.9.23"
+    const val COMPOSE = "1.6.1"
     const val SWIFT_KLIB = "0.5.1"
     const val COMPOSE_ANDROID = "1.5.4"
     const val BUILD_CONFIGS = "4.1.2"
