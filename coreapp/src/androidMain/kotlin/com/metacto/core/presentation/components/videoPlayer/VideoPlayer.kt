@@ -61,8 +61,10 @@ actual fun VideoPlayer(
             }
         },
         update = {
-            it.player?.kill()
-            it.player = exoPlayer
+            if (it.player != exoPlayer) {
+                it.player?.kill()
+                it.player = exoPlayer
+            }
         },
         onRelease = {
             exoPlayer.kill()
