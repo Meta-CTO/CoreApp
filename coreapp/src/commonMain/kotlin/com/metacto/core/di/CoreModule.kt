@@ -32,6 +32,7 @@ fun <T : SerializableNetworkError> coreModule(
 ) = module {
 
     includes(corePlatformModule(appStorageName, shouldShowActualErrorMessages, errorClass))
+
     includes(coreViewModelsModule)
 
     single {
