@@ -19,16 +19,19 @@ import dev.gitlive.firebase.auth.auth
 import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
 import io.michaelrocks.libphonenumber.kotlin.metadata.defaultMetadataLoader
 import org.koin.dsl.module
+import kotlin.reflect.KClass
 import com.metacto.strapikmm.repos.AuthRepository as StrapiAuthRepository
 import com.metacto.strapikmm.repos.UserRepository as StrapiUserRepository
 
 fun <T : SerializableNetworkError> coreModule(
     environment: CoreEnvironment,
     actionCodeSettings: ActionCodeSettings,
-    appStorageName: String
+    appStorageName: String,
+    shouldShowActualErrorMessages: Boolean,
+    errorClass: KClass<T>
 ) = module {
 
-    includes(corePlatformModule(appStorageName))
+    includes(corePlatformModule(appStorageName, shouldShowActualErrorMessages, errorClass))
     includes(coreViewModelsModule)
 
     single {
