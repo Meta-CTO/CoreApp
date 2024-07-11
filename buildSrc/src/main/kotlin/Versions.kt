@@ -15,7 +15,7 @@ object Versions {
     const val GOOGLE_SIGN_IN_POD = "7.0.0"
     const val DATE_TIME = "0.4.0"
     const val COLLECTIONS = "0.3.7"
-    const val STRAPI_KMM = "9.0.83"
+    const val STRAPI_KMM = "9.0.84"
     const val KOIN = "3.5.0"
     const val KOIN_COMPOSE = "1.1.0"
     const val VOYAGER = "1.1.0-alpha02"
