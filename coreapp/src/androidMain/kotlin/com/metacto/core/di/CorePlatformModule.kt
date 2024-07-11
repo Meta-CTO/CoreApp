@@ -45,6 +45,7 @@ actual fun<T : SerializableNetworkError> corePlatformModule(
         )
     }
 
+
     single<IResourceProvider> {
         ResourceProvider(androidContext())
     }
