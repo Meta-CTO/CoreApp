@@ -4,15 +4,19 @@ import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.metacto.core.CoreEnvironment
-import com.russhwolf.settings.SharedPreferencesSettings
 import com.metacto.strapikmm.datasource.network.KtorClientFactory
 import com.metacto.strapikmm.datasource.network.services.strapi.StrapiService
+import com.metacto.strapikmm.errorhandling.SerializableNetworkError
 import com.metacto.strapikmm.sharedpreference.KmmPreference
+import com.russhwolf.settings.SharedPreferencesSettings
+import kotlin.reflect.KClass
 
-actual open class RepositoriesFactory constructor(
+actual open class RepositoriesFactory<T : SerializableNetworkError> constructor(
     context: Context,
     actual val environment: CoreEnvironment,
-    actual val appStorageName: String
+    actual val appStorageName: String,
+    actual val shouldShowActualErrorMessages: Boolean,
+    actual val errorClass: KClass<T>
 ) {
 
     private val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
@@ -35,11 +39,12 @@ actual open class RepositoriesFactory constructor(
 
     private val ktorClientFactory = KtorClientFactory(
         networkLogLevel = environment.networkLogLevel,
-        preference = sharedPreference
+        preference = sharedPreference,
+        shouldShowActualErrorMessages = shouldShowActualErrorMessages
     )
 
     actual val strapiService = StrapiService(
-        httpClient = ktorClientFactory.build(),
+        httpClient = ktorClientFactory.build(errorClass),
         baseUrl = environment.baseUrl,
         kmmPreference = sharedPreference,
         context = context

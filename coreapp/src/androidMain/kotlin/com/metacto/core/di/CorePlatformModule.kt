@@ -18,6 +18,7 @@ import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.NotificationManager
 import com.metacto.core.utils.pushNotifications.FirebasePushNotificationsManager
 import com.metacto.core.utils.pushNotifications.IPushNotificationsManager
+import com.metacto.strapikmm.errorhandling.SerializableNetworkError
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
 import org.koin.android.ext.koin.androidContext
@@ -27,15 +28,23 @@ import org.koin.core.definition.KoinDefinition
 import org.koin.core.module.Module
 import org.koin.core.qualifier.Qualifier
 import org.koin.dsl.module
+import kotlin.reflect.KClass
 
-actual fun corePlatformModule(appStorageName: String) = module {
+actual fun<T : SerializableNetworkError> corePlatformModule(
+    appStorageName: String,
+    shouldShowActualErrorMessages: Boolean,
+    errorClass: KClass<T>
+) = module {
     single {
-        RepositoriesFactory(
+        RepositoriesFactory<T>(
             context = androidContext(),
             environment = get(),
-            appStorageName = appStorageName
+            appStorageName = appStorageName,
+            shouldShowActualErrorMessages = shouldShowActualErrorMessages,
+            errorClass = errorClass
         )
     }
+
 
     single<IResourceProvider> {
         ResourceProvider(androidContext())

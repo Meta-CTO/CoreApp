@@ -8,6 +8,10 @@ import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.metacto.core.utils.phoneNumber.PhoneNumberManager
 import com.metacto.core.utils.remoteConfigs.FirebaseRemoteConfigs
 import com.metacto.core.utils.remoteConfigs.IRemoteConfigs
+import com.metacto.strapikmm.auth.Authenticator
+import com.metacto.strapikmm.auth.FirebaseAuthenticator
+import com.metacto.strapikmm.errorhandling.SerializableNetworkError
+import com.metacto.strapikmm.repos.LogoutUseCase
 import com.metacto.strapikmm.util.Logger
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.ActionCodeSettings
@@ -15,16 +19,20 @@ import dev.gitlive.firebase.auth.auth
 import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
 import io.michaelrocks.libphonenumber.kotlin.metadata.defaultMetadataLoader
 import org.koin.dsl.module
+import kotlin.reflect.KClass
 import com.metacto.strapikmm.repos.AuthRepository as StrapiAuthRepository
 import com.metacto.strapikmm.repos.UserRepository as StrapiUserRepository
 
-fun coreModule(
+fun <T : SerializableNetworkError> coreModule(
     environment: CoreEnvironment,
     actionCodeSettings: ActionCodeSettings,
-    appStorageName: String
+    appStorageName: String,
+    shouldShowActualErrorMessages: Boolean,
+    errorClass: KClass<T>
 ) = module {
 
-    includes(corePlatformModule(appStorageName))
+    includes(corePlatformModule(appStorageName, shouldShowActualErrorMessages, errorClass))
+
     includes(coreViewModelsModule)
 
     single {
@@ -40,15 +48,26 @@ fun coreModule(
     }
 
     single {
-        get<RepositoriesFactory>().strapiService
+        LogoutUseCase(get())
     }
 
     single {
-        get<RepositoriesFactory>().sharedPreference
+        get<RepositoriesFactory<T>>().strapiService
     }
 
     single {
-        StrapiUserRepository(get(), get())
+        get<RepositoriesFactory<T>>().sharedPreference
+    }
+
+    single {
+        StrapiUserRepository(get(), get(), get())
+    }
+
+    single<Authenticator> {
+        FirebaseAuthenticator(
+            actionCodeSettings = actionCodeSettings,
+            sharedPreference = get()
+        )
     }
 
     single {
@@ -56,7 +75,8 @@ fun coreModule(
             authService = get(),
             userRepository = get(),
             sharedPreference = get(),
-            actionCodeSettings = actionCodeSettings
+            logoutUseCase = get(),
+            authenticator = get()
         )
     }
 

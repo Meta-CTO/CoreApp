@@ -17,6 +17,7 @@ import com.metacto.core.utils.launchers.IntentLauncher
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.NotificationManager
 import com.metacto.coreApp.MR
+import com.metacto.strapikmm.errorhandling.SerializableNetworkError
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
 import dev.icerock.moko.resources.utils.loadableBundle
@@ -28,12 +29,19 @@ import org.koin.dsl.module
 import platform.Foundation.NSBundle
 import platform.Foundation.NSFileManager
 import platform.UserNotifications.UNUserNotificationCenter
+import kotlin.reflect.KClass
 
-actual fun corePlatformModule(appStorageName: String) = module {
+actual fun<T : SerializableNetworkError> corePlatformModule(
+    appStorageName: String,
+    shouldShowActualErrorMessages: Boolean,
+    errorClass: KClass<T>
+) = module {
     single {
-        RepositoriesFactory(
+        RepositoriesFactory<T>(
             environment = get(),
-            appStorageName = appStorageName
+            appStorageName = appStorageName,
+            shouldShowActualErrorMessages = shouldShowActualErrorMessages,
+            errorClass = errorClass
         )
     }
 
