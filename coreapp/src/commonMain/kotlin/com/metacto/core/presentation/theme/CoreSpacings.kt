@@ -10,6 +10,8 @@ data class CoreSpacings(
     val noSpacing: Dp = 0.dp,
     val stroke: Dp = 1.dp,
     val tabIndicatorSize: Dp = 8.dp,
+    val dotIndicatorActiveSize: Dp = 10.dp,
+    val dotIndicatorInActiveSize: Dp = 8.dp,
 
     val paddingXXSmall: Dp = 2.dp,
     val paddingXSmall: Dp = 4.dp,

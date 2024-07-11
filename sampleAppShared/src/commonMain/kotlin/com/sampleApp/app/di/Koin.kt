@@ -2,6 +2,8 @@ package com.sampleApp.app.di
 
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.di.coreModule
+import com.metacto.strapikmm.errorhandling.NetworkError
+import com.sampleApp.app.constants.AppEnvironment
 import dev.gitlive.firebase.auth.ActionCodeSettings
 import dev.gitlive.firebase.auth.AndroidPackageName
 import org.koin.core.context.startKoin
@@ -31,6 +33,8 @@ fun initKoin(
 private fun createCoreModule(environment: CoreEnvironment) = coreModule(
     environment = environment,
     appStorageName = "SampleApp",
+    shouldShowActualErrorMessages = environment != AppEnvironment.prod(),
+    errorClass = NetworkError::class,
     actionCodeSettings = ActionCodeSettings(
         iOSBundleId = "com.sampleApp.app",
         androidPackageName = AndroidPackageName(

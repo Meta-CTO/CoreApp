@@ -1,9 +1,13 @@
 package com.metacto.core.presentation.components.pagerIndicator
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
@@ -25,7 +29,8 @@ fun HorizontalDotsIndicator(
     pagerState: PagerState,
     activeColor: Color = CoreTheme.colors.primary,
     inactiveColor: Color = CoreTheme.colors.onPrimary.copy(alpha = 0.5f),
-    size: Dp = CoreTheme.spacings.tabIndicatorSize,
+    activeSize: Dp = CoreTheme.spacings.dotIndicatorActiveSize,
+    inActiveSize: Dp = CoreTheme.spacings.dotIndicatorInActiveSize,
     spacing: Dp = CoreTheme.spacings.paddingLarge
 ) {
     // Get coroutine scope
@@ -47,6 +52,10 @@ fun HorizontalDotsIndicator(
             val color by animateColorAsState(
                 targetValue = if (isSelected) activeColor else inactiveColor,
                 label = "Horizontal Indicator Dot Color"
+            )
+            val size by animateDpAsState(
+                targetValue = if (isSelected) activeSize else inActiveSize,
+                label = "Horizontal Indicator Dot Size"
             )
 
             // Then render the dot
