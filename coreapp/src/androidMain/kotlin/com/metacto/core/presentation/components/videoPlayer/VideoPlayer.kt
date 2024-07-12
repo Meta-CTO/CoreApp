@@ -24,6 +24,7 @@ actual fun VideoPlayer(
     modifier: Modifier,
     autoPlay: Boolean,
     scaleToCrop: Boolean,
+    enablePip: Boolean,
     url: String
 ) {
     val context = LocalContext.current

@@ -8,5 +8,6 @@ expect fun VideoPlayer(
     modifier: Modifier = Modifier,
     autoPlay: Boolean = false,
     scaleToCrop: Boolean = false,
+    enablePip: Boolean = false,
     url: String
 )

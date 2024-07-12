@@ -2,7 +2,10 @@ package com.metacto.core.presentation.components.videoPlayer
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.UIKitView
 import kotlinx.cinterop.ExperimentalForeignApi
@@ -12,6 +15,7 @@ import platform.AVFoundation.AVPlayer
 import platform.AVFoundation.AVPlayerLayer
 import platform.AVFoundation.pause
 import platform.AVFoundation.play
+import platform.AVKit.AVPictureInPictureController
 import platform.AVKit.AVPlayerViewController
 import platform.Foundation.NSURL
 import platform.QuartzCore.CATransaction
@@ -24,6 +28,7 @@ actual fun VideoPlayer(
     modifier: Modifier,
     autoPlay: Boolean,
     scaleToCrop: Boolean,
+    enablePip: Boolean,
     url: String
 ) {
     val player = remember(url) {
@@ -53,6 +58,10 @@ actual fun VideoPlayer(
         }
     }
 
+    var pipController: AVPictureInPictureController? by remember {
+        mutableStateOf(null)
+    }
+
     UIKitView(
         modifier = modifier,
         factory = {
@@ -74,11 +83,21 @@ actual fun VideoPlayer(
             playerController.view.setFrame(view.bounds)
             playerController.view.layer.frame = view.bounds
 
+            // Initialize PiP controller if required
+            if (enablePip && pipController == null && AVPictureInPictureController.isPictureInPictureSupported()) {
+                pipController = AVPictureInPictureController(playerLayer).apply {
+                    canStartPictureInPictureAutomaticallyFromInline = true
+                }
+            }
+
             // Auto play if required
             if (autoPlay) {
                 player.play()
                 playerController.player?.play()
             }
+
+            // Start PiP if it's not already running
+            pipController.startIfPossible()
         },
         onResize = { view, rect ->
             CATransaction.run {
@@ -95,6 +114,7 @@ actual fun VideoPlayer(
         onRelease = {
             player.pause()
             playerController.player?.pause()
+            pipController.stopIfPossible()
         }
     )
 
@@ -102,6 +122,19 @@ actual fun VideoPlayer(
     DisposableEffect(player) {
         onDispose {
             player.pause()
+            pipController.stopIfPossible()
         }
+    }
+}
+
+private fun AVPictureInPictureController?.startIfPossible() = this?.let {
+    if (!isPictureInPictureActive()) {
+        startPictureInPicture()
+    }
+}
+
+private fun AVPictureInPictureController?.stopIfPossible() = this?.let {
+    if (isPictureInPictureActive()) {
+        stopPictureInPicture()
     }
 }

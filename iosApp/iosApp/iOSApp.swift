@@ -2,13 +2,24 @@ import SwiftUI
 import FirebaseCore
 import GoogleSignIn
 import FirebaseAuth
+import AVFAudio
 
 import sampleAppShared
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+        requestPIPBackgroundMode()
         initialize(application: application)
         return true
+    }
+    
+    private func requestPIPBackgroundMode() {
+        let session = AVAudioSession.sharedInstance()
+        do {
+            try session.setCategory(.playback, mode: .moviePlayback)
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
     
     private func initialize(application: UIApplication) {
