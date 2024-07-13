@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -307,15 +306,12 @@ fun LazyListState.onScroll(
     onScrollDown: (() -> Unit)? = null,
     onScroll: (() -> Unit)? = null,
 ) {
-    // Prepare state
-    val listState = rememberLazyListState()
-
     // State to store the previous scroll position
     var previousIndex by remember { mutableStateOf(0) }
     var previousScrollOffset by remember { mutableStateOf(0) }
 
-    LaunchedEffect(listState) {
-        snapshotFlow { listState.firstVisibleItemIndex to listState.firstVisibleItemScrollOffset }
+    LaunchedEffect(this) {
+        snapshotFlow { firstVisibleItemIndex to firstVisibleItemScrollOffset }
             .distinctUntilChanged()
             .collect { (index, scrollOffset) ->
                 if (index != previousIndex || scrollOffset != previousScrollOffset) {
