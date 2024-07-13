@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -23,7 +24,19 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshState
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -58,6 +71,7 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -283,6 +297,37 @@ fun ScrollState.onScrolling(callback: () -> Unit) {
         snapshotFlow { isScrollInProgress }
             .collect {
                 if (it) callback.invoke()
+            }
+    }
+}
+
+@Composable
+fun LazyListState.onScroll(
+    onScrollUp: (() -> Unit)? = null,
+    onScrollDown: (() -> Unit)? = null,
+    onScroll: (() -> Unit)? = null,
+) {
+    // Prepare state
+    val listState = rememberLazyListState()
+
+    // State to store the previous scroll position
+    var previousIndex by remember { mutableStateOf(0) }
+    var previousScrollOffset by remember { mutableStateOf(0) }
+
+    LaunchedEffect(listState) {
+        snapshotFlow { listState.firstVisibleItemIndex to listState.firstVisibleItemScrollOffset }
+            .distinctUntilChanged()
+            .collect { (index, scrollOffset) ->
+                if (index != previousIndex || scrollOffset != previousScrollOffset) {
+                    if (index > previousIndex || (index == previousIndex && scrollOffset > previousScrollOffset)) {
+                        onScrollDown?.invoke()
+                    } else {
+                        onScrollUp?.invoke()
+                    }
+                    onScroll?.invoke()
+                    previousIndex = index
+                    previousScrollOffset = scrollOffset
+                }
             }
     }
 }
