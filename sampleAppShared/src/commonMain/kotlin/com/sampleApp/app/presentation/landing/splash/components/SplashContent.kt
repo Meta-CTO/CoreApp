@@ -45,6 +45,7 @@ internal fun SplashContent(
                 url = currentVideo,
                 autoPlay = true,
                 scaleToCrop = false,
+                enablePip = true,
                 modifier = Modifier.fillMaxSize()
             )
         }

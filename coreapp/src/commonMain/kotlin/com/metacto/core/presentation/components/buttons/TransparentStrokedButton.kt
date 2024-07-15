@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 
 @Composable
@@ -27,14 +29,22 @@ fun TransparentStrokedButton(
         vertical = CoreTheme.spacings.btnPaddingVertical,
         horizontal = CoreTheme.spacings.btnPaddingHorizontal
     ),
+    textColor: Color = CoreTheme.colors.onPrimary,
+    iconColor: Color = CoreTheme.colors.onPrimary,
+    backgroundColor: Color = CoreTheme.colors.transparent,
+    elevation: Dp = CoreTheme.spacings.noSpacing,
+    border: BorderStroke = BorderStroke(
+        width = CoreTheme.spacings.stroke,
+        color = CoreTheme.colors.onPrimary
+    ),
     onClick: () -> Unit = {}
 ) {
     BaseButton(
         modifier = modifier,
         text = text,
         textStyle = textStyle,
-        textColor = CoreTheme.colors.onPrimary,
-        iconColor = CoreTheme.colors.onPrimary,
+        textColor = textColor,
+        iconColor = iconColor,
         startIconPainter = startIconPainter,
         startIconVector = startIconVector,
         endIconPainter = endIconPainter,
@@ -43,13 +53,10 @@ fun TransparentStrokedButton(
         isDimmed = isDimmed,
         isLoading = isLoading,
         onClick = onClick,
-        backgroundColor = CoreTheme.colors.transparent,
+        backgroundColor = backgroundColor,
         contentAlignment = contentAlignment,
-        elevation = CoreTheme.spacings.noSpacing,
-        border = BorderStroke(
-            width = CoreTheme.spacings.stroke,
-            color = CoreTheme.colors.onPrimary
-        ),
+        elevation = elevation,
+        border = border,
         padding = padding
     )
 }

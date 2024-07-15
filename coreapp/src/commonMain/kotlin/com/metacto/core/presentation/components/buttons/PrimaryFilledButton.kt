@@ -1,12 +1,14 @@
 package com.metacto.core.presentation.components.buttons
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 
 @Composable
@@ -29,6 +31,10 @@ fun PrimaryFilledButton(
         vertical = CoreTheme.spacings.btnPaddingVertical,
         horizontal = CoreTheme.spacings.btnPaddingHorizontal
     ),
+    minHeightSmall: Dp = CoreTheme.spacings.btnMinHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.btnMinHeightNormal,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
     onClick: () -> Unit = {}
 ) {
     BaseButton(
@@ -46,8 +52,8 @@ fun PrimaryFilledButton(
         isDimmed = isDimmed,
         isLoading = isLoading,
         onClick = onClick,
-        minHeight = if (isSmall) CoreTheme.spacings.btnMinHeightSmall else CoreTheme.spacings.btnMinHeightNormal,
-        shape = if (isSmall) CoreTheme.shapes.xSmall else CoreTheme.shapes.small,
+        minHeight = if (isSmall) minHeightSmall else minHeightNormal,
+        shape = if (isSmall) shapeSmall else shapeNormal,
         padding = padding
     )
 }

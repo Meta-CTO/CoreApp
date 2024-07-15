@@ -114,7 +114,6 @@ actual fun VideoPlayer(
         onRelease = {
             player.pause()
             playerController.player?.pause()
-            pipController.stopIfPossible()
         }
     )
 
@@ -122,7 +121,6 @@ actual fun VideoPlayer(
     DisposableEffect(player) {
         onDispose {
             player.pause()
-            pipController.stopIfPossible()
         }
     }
 }

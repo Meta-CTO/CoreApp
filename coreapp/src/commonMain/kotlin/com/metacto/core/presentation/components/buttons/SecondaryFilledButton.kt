@@ -1,12 +1,14 @@
 package com.metacto.core.presentation.components.buttons
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 
 @Composable
@@ -21,21 +23,27 @@ fun SecondaryFilledButton(
     endIconVector: ImageVector? = null,
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
-    isSmallHeight: Boolean = false,
+    isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
         vertical = CoreTheme.spacings.btnPaddingVertical,
         horizontal = CoreTheme.spacings.btnPaddingHorizontal
     ),
+    textColor: Color = CoreTheme.colors.onSecondary,
+    backgroundColor: Color = CoreTheme.colors.secondary,
+    minHeightSmall: Dp = CoreTheme.spacings.btnMinHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.btnMinHeightNormal,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
     onClick: () -> Unit = {}
 ) {
     BaseButton(
         modifier = modifier,
         text = text,
         textStyle = textStyle,
-        textColor = CoreTheme.colors.onSecondary,
+        textColor = textColor,
         iconColor = iconColor,
-        backgroundColor = CoreTheme.colors.secondary,
+        backgroundColor = backgroundColor,
         startIconPainter = startIconPainter,
         startIconVector = startIconVector,
         endIconPainter = endIconPainter,
@@ -44,8 +52,8 @@ fun SecondaryFilledButton(
         isDimmed = isDimmed,
         isLoading = isLoading,
         onClick = onClick,
-        minHeight = if (isSmallHeight) CoreTheme.spacings.btnMinHeightSmall else CoreTheme.spacings.btnMinHeightNormal,
-        shape = if (isSmallHeight) CoreTheme.shapes.xSmall else CoreTheme.shapes.small,
+        minHeight = if (isSmall) minHeightSmall else minHeightNormal,
+        shape = if (isSmall) shapeSmall else shapeNormal,
         padding = padding
     )
 }
