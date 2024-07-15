@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,8 +18,10 @@ import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
+import com.metacto.core.utils.CountDownTimer
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun SplashContent(
@@ -29,6 +32,22 @@ internal fun SplashContent(
     var currentVideo by remember {
         mutableStateOf(videosList()[0])
     }
+
+    val countDownTimer = remember {
+        CountDownTimer(
+            seconds = 10,
+            onTick = {
+                println("Timer ticked: $it")
+            },
+            onStopped = {
+                println("Timer stopped")
+            },
+            onEnded = {
+                println("Timer ended")
+            }
+        )
+    }
+    val coroutineScope = rememberCoroutineScope()
 
     ScreenColumn(
         isRefreshable = true,
@@ -57,7 +76,10 @@ internal fun SplashContent(
                 modifier = Modifier.weight(1f),
                 text = "Video 1",
                 onClick = {
-                    currentVideo = videosList()[0]
+                    //currentVideo = videosList()[0]
+                    coroutineScope.launch {
+                        countDownTimer.start()
+                    }
                 }
             )
 
@@ -65,7 +87,10 @@ internal fun SplashContent(
                 modifier = Modifier.weight(1f),
                 text = "Video 2",
                 onClick = {
-                    currentVideo = videosList()[1]
+//                    currentVideo = videosList()[1]
+                    coroutineScope.launch {
+                        countDownTimer.stop()
+                    }
                 }
             )
 
@@ -73,7 +98,7 @@ internal fun SplashContent(
                 modifier = Modifier.weight(1f),
                 text = "Video 3",
                 onClick = {
-                    currentVideo = videosList()[2]
+//                    currentVideo = videosList()[2]
                 }
             )
         }
