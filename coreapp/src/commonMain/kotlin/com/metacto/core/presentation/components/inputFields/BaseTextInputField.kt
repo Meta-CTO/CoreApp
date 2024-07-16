@@ -70,6 +70,9 @@ fun BaseTextInputField(
     readOnly: Boolean,
     visualTransformation: VisualTransformation,
     textColor: Color,
+    placeholderTextColor: Color,
+    labelTextColor: Color,
+    errorTextColor: Color,
     maxLength: Int,
     maxLines: Int,
     minHeight: Dp,
@@ -173,6 +176,7 @@ fun BaseTextInputField(
             Text(
                 text = placeholder,
                 style = placeholderTextStyle,
+                color = placeholderTextColor,
                 maxLines = placeholderMaxLines,
                 overflow = TextOverflow.Ellipsis
             )
@@ -184,7 +188,8 @@ fun BaseTextInputField(
         {
             Text(
                 text = label,
-                style = labelTextStyle
+                style = labelTextStyle,
+                color = labelTextColor,
             )
         }
     } else null
@@ -235,6 +240,7 @@ fun BaseTextInputField(
             Text(
                 text = label,
                 style = labelTextStyle,
+                color = labelTextColor,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -306,6 +312,7 @@ fun BaseTextInputField(
             Text(
                 text = error.orEmpty(),
                 style = errorTextStyle,
+                color = errorTextColor,
                 maxLines = placeholderMaxLines,
                 overflow = TextOverflow.Ellipsis
             )

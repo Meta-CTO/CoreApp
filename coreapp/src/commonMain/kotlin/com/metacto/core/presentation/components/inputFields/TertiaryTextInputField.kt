@@ -53,15 +53,12 @@ fun TertiaryTextInputField(
     requestFocus: Boolean = false,
     textStyle: TextStyle = CoreTheme.typography.bodyMedium,
     textColor: Color = CoreTheme.colors.black,
-    placeholderTextStyle: TextStyle = CoreTheme.typography.labelMedium.copy(
-        color = CoreTheme.colors.secondaryContainer
-    ),
-    labelTextStyle: TextStyle = CoreTheme.typography.labelMedium.copy(
-        color = CoreTheme.colors.black
-    ),
-    errorTextStyle: TextStyle = CoreTheme.typography.labelMedium.copy(
-        color = CoreTheme.colors.danger
-    )
+    placeholderTextStyle: TextStyle = CoreTheme.typography.labelMedium,
+    placeholderTextColor: Color = CoreTheme.colors.secondaryContainer,
+    labelTextStyle: TextStyle = CoreTheme.typography.labelMedium,
+    labelTextColor: Color = CoreTheme.colors.black,
+    errorTextStyle: TextStyle = CoreTheme.typography.labelMedium,
+    errorTextColor: Color = CoreTheme.colors.danger
 ) {
     BaseTextInputField(
         requestFocus = requestFocus,
@@ -103,7 +100,10 @@ fun TertiaryTextInputField(
         textAlign = textAlign,
         textColor = textColor,
         placeholderTextStyle = placeholderTextStyle,
+        placeholderTextColor = placeholderTextColor,
         labelTextStyle = labelTextStyle,
-        errorTextStyle = errorTextStyle
+        labelTextColor = labelTextColor,
+        errorTextStyle = errorTextStyle,
+        errorTextColor = errorTextColor
     )
 }

@@ -56,8 +56,11 @@ fun PrimaryTextInputField(
     focusedBorderColor: Color = CoreTheme.colors.primaryDark,
     unFocusedBorderColor: Color = CoreTheme.colors.primary,
     textColor: Color = CoreTheme.colors.secondary,
+    placeholderTextStyle: TextStyle = CoreTheme.typography.labelMedium,
     placeholderTextColor: Color = CoreTheme.colors.placeholder,
+    labelTextStyle: TextStyle = CoreTheme.typography.labelMedium,
     labelTextColor: Color = CoreTheme.colors.secondary,
+    errorTextStyle: TextStyle = CoreTheme.typography.labelMedium,
     errorTextColor: Color = CoreTheme.colors.danger,
 ) {
     BaseTextInputField(
@@ -99,14 +102,11 @@ fun PrimaryTextInputField(
         textStyle = textStyle,
         textAlign = textAlign,
         textColor = textColor,
-        placeholderTextStyle = CoreTheme.typography.labelMedium.copy(
-            color = placeholderTextColor
-        ),
-        labelTextStyle = CoreTheme.typography.labelMedium.copy(
-            color = labelTextColor
-        ),
-        errorTextStyle = CoreTheme.typography.labelMedium.copy(
-            color = errorTextColor
-        )
+        placeholderTextStyle = placeholderTextStyle,
+        labelTextStyle = labelTextStyle,
+        errorTextStyle = errorTextStyle,
+        placeholderTextColor = placeholderTextColor,
+        labelTextColor = labelTextColor,
+        errorTextColor = errorTextColor,
     )
 }
