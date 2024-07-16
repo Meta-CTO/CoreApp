@@ -9,7 +9,8 @@ import kotlinx.coroutines.launch
 
 class CountDownTimer(
     seconds: Int,
-    private val onTick: (Int) -> Unit,
+    private val onSecondsTick: ((seconds: Int) -> Unit)? = null,
+    private val onDatePartsTick: ((days: Int, hours: Int, mins: Int, seconds: Int) -> Unit)? = null,
     private val onStarted: ((Int) -> Unit)? = null,
     private val onEnded: (() -> Unit)? = null,
     private val onStopped: (() -> Unit)? = null
@@ -33,7 +34,20 @@ class CountDownTimer(
         while (remainingSeconds > 0) {
             delay(TICK_DURATION)
             remainingSeconds--
-            onTick.invoke(remainingSeconds)
+
+            // Notify onSecondsTick
+            onSecondsTick?.invoke(remainingSeconds)
+
+            // Calculate date parts and invoke onDatePartsTick if needed
+            if (onDatePartsTick != null) {
+                // Calculate days, hours, minutes, and seconds
+                val days = remainingSeconds / (24 * 3600)
+                val hours = (remainingSeconds % (24 * 3600)) / 3600
+                val minutes = (remainingSeconds % 3600) / 60
+                val seconds = remainingSeconds % 60
+
+                onDatePartsTick.invoke(days, hours, minutes, seconds)
+            }
         }
         onEnded?.invoke()
     }

@@ -36,7 +36,7 @@ internal fun SplashContent(
     val countDownTimer = remember {
         CountDownTimer(
             seconds = 10,
-            onTick = {
+            onSecondsTick = {
                 println("Timer ticked: $it")
             },
             onStopped = {
