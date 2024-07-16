@@ -14,9 +14,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
+import com.metacto.core.presentation.components.inputFields.CurrencyAmountInputVisualTransformation
+import com.metacto.core.presentation.components.inputFields.PriceTextInputField
+import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.CountDownTimer
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
@@ -102,6 +106,33 @@ internal fun SplashContent(
                 }
             )
         }
+
+        var price: Int? by remember {
+            mutableStateOf(null)
+        }
+        PriceTextInputField(
+            modifier = Modifier.fillMaxWidth(),
+            price = price,
+            onPriceChange = { price = it }
+        )
+
+        var fieldText by remember {
+            mutableStateOf("")
+        }
+        val visualTransformation = remember {
+            CurrencyAmountInputVisualTransformation()
+        }
+        PrimaryTextInputField(
+            modifier = Modifier.fillMaxWidth(),
+            text = fieldText,
+            onValueChange = {
+                fieldText = it
+            },
+            visualTransformation = visualTransformation,
+            allowDigitsOnly = true,
+            keyboardType = KeyboardType.Number
+        )
+
 
 //        Text(
 //            text = "Schedule repeating",
