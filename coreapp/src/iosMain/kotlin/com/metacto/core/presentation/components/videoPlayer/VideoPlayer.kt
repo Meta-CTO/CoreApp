@@ -24,7 +24,7 @@ import platform.UIKit.UIView
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
-actual fun VideoPlayer(
+actual fun YoutubePlayer(
     modifier: Modifier,
     autoPlay: Boolean,
     scaleToCrop: Boolean,
