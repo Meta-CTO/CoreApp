@@ -38,4 +38,5 @@ object Versions {
     const val WEBVIEW = "1.9.12"
     const val EXO_PLAYER = "1.3.1"
     const val GIT_LIVE = "1.10.4"
+    const val YOUTUBE_PLAYER = "12.1.0"
 }

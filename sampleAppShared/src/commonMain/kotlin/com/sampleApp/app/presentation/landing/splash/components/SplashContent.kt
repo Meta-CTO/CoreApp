@@ -21,6 +21,7 @@ import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.inputFields.CurrencyAmountInputVisualTransformation
 import com.metacto.core.presentation.components.inputFields.PriceTextInputField
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
+import com.metacto.core.presentation.components.videoPlayer.MediaPlayer
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.CountDownTimer
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
@@ -64,13 +65,15 @@ internal fun SplashContent(
                 .background(Color.Red)
         ) {
 
-            VideoPlayer(
-                url = currentVideo,
-                autoPlay = true,
-                scaleToCrop = false,
-                enablePip = true,
-                modifier = Modifier.fillMaxSize()
-            )
+//            VideoPlayer(
+//                url = currentVideo,
+//                autoPlay = true,
+//                scaleToCrop = false,
+//                enablePip = true,
+//                modifier = Modifier.fillMaxSize()
+//            )
+
+            VideoPlayer(modifier = Modifier.fillMaxSize(), url = "https://www.youtube.com/watch?v=oGT3Z7fVNc0")
         }
 
         Row(

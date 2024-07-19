@@ -98,6 +98,7 @@ kotlin {
                 api(Dependencies.GitLive.CONFIG)
 
                 // Others
+                api(Dependencies.YOUTUBE_PLAYER)
                 api(Dependencies.STRAPI_KMM)
                 api(Dependencies.LIB_PHONE_NUMBER)
                 api(Dependencies.COMPOTTIE)

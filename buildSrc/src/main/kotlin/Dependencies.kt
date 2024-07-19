@@ -99,6 +99,7 @@ object Dependencies {
         const val CONFIG = "dev.gitlive:firebase-config:${Versions.GIT_LIVE}"
     }
 
+    const val YOUTUBE_PLAYER = "com.pierfrancescosoffritti.androidyoutubeplayer:core:${Versions.YOUTUBE_PLAYER}"
     const val STRAPI_KMM = "com.metacto:strapi:${Versions.STRAPI_KMM}"
     const val ANDROID_IMAGE_PICKER = "com.github.dhaval2404:imagepicker:${Versions.ANDROID_IMAGE_PICKER}"
     const val LIB_PHONE_NUMBER = "io.github.luca992.libphonenumber-kotlin:libphonenumber:${Versions.LIB_PHONE_NUMBER}"
