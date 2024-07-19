@@ -1,5 +1,7 @@
 package com.sampleApp.app.presentation.landing.splash
 
+import com.metacto.core.presentation.itemPicker.ItemPickerSheet
+import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.metacto.core.utils.launchers.IIntentLauncher
@@ -62,6 +64,22 @@ class SplashViewModel(
 
         Event.CancelScheduledNotification -> {
             notificationManager.cancelScheduled(5001)
+        }
+
+        Event.ClickMeClicked -> {
+            navManager.navigateToBottomSheet(
+                ItemPickerSheet(
+                    items = listOf(
+                        PickerItemUIModel("key1", "title1"),
+                        PickerItemUIModel("key2", "title2"),
+                        PickerItemUIModel("key3", "title3"),
+                        PickerItemUIModel("key4", "title4"),
+                        PickerItemUIModel("key5", "title5"),
+                        PickerItemUIModel("key6", "title6"),
+                        PickerItemUIModel("key7", "title7"),
+                    )
+                )
+            )
         }
     }
 }

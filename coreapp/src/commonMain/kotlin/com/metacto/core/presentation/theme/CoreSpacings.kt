@@ -73,6 +73,10 @@ data class CoreSpacings(
     val defaultWheelPickerHeight: Dp = 128.dp,
     val defaultWheelPickerWidth: Dp = 256.dp,
     val datePickerWheelHeight: Dp = 270.dp,
+    val itemPickerHeight: Dp = 300.dp,
+    val itemPickerWheelHeight: Dp = 270.dp,
+    val wheelPickerItemStroke: Dp = 1.dp,
+    val itemPickerItemStroke: Dp = 0.dp,
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }

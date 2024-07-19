@@ -1,9 +1,9 @@
 package com.metacto.core.presentation.itemPicker
 
 import com.metacto.core.presentation.base.CoreViewModel
-import com.metacto.core.presentation.itemPicker.ItemPickerContract.State
-import com.metacto.core.presentation.itemPicker.ItemPickerContract.Event
 import com.metacto.core.presentation.itemPicker.ItemPickerContract.Effect
+import com.metacto.core.presentation.itemPicker.ItemPickerContract.Event
+import com.metacto.core.presentation.itemPicker.ItemPickerContract.State
 import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.utils.extensions.orZero
 
@@ -15,8 +15,7 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
     override fun handleEvents(event: Event): Any = when (event) {
         is Event.Init -> init(
             items = event.items,
-            selectedItem = event.selectedItem,
-            unfocusedItemsCount = event.unfocusedItemsCount
+            selectedItem = event.selectedItem
         )
 
         Event.CloseClicked -> navManager.goBack()
@@ -25,8 +24,7 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
 
     private fun init(
         items: List<PickerItem>,
-        selectedItem: PickerItem?,
-        unfocusedItemsCount: Int
+        selectedItem: PickerItem?
     ) {
         // Validate if already initialized
         if (currentState.isInitialized) return
@@ -41,8 +39,7 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
         setState {
             copy(
                 items = items,
-                initialItemIndex = initialItemIndex,
-                unfocusedItemsCount = unfocusedItemsCount
+                initialItemIndex = initialItemIndex
             )
         }
 

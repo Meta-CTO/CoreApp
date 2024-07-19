@@ -16,6 +16,8 @@ data class CoreShapes(
     val xxLarge: RoundedCornerShape = RoundedCornerShape(20.dp),
     val xxxLarge: RoundedCornerShape = RoundedCornerShape(24.dp),
     val circle: RoundedCornerShape = CircleShape,
+    val wheelPickerItem: RoundedCornerShape = RoundedCornerShape(16.dp),
+    val itemPickerItem: RoundedCornerShape = RoundedCornerShape(0),
     val sheet: RoundedCornerShape = RoundedCornerShape(
         topStart = 12.dp,
         topEnd = 12.dp
