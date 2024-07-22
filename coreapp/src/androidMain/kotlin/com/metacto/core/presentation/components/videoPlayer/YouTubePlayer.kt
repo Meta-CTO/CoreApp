@@ -32,7 +32,7 @@ actual fun YoutubePlayer(
         url.contains("youtube.com") || url.contains("youtu.be") -> {
             val videoId = extractVideoId(url)
             if (videoId != null) {
-                YoutubeVideoPlayer(youtubeURL = url)
+                YoutubeVideoPlayer(modifier = modifier,youtubeURL = url)
             } else {
                 println("Video Id is Null or Invalid")
             }
@@ -57,18 +57,22 @@ fun YoutubeVideoPlayer(
 
     val context = LocalContext.current
     val activity = context as ComponentActivity
+
+    var screenView  = View(mContext)
     
     playerFragment.addFullscreenListener(object :FullscreenListener{
 
         override fun onEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
+            screenView = fullscreenView
             playerFragment.addView(fullscreenView)
 
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }
 
         override fun onExitFullscreen() {
-            playerFragment.removeAllViews()
+            playerFragment.removeView(screenView)
 
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         }
     })
 

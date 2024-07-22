@@ -53,105 +53,109 @@ internal fun SplashContent(
     }
     val coroutineScope = rememberCoroutineScope()
 
-    ScreenColumn(
-        isRefreshable = true,
-        isRefreshing = false
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(400.dp)
-                .background(Color.Red)
-        ) {
+ScreenColumn (){
+    YoutubePlayer(modifier = Modifier.fillMaxSize(), url = "https://www.youtube.com/watch?v=oGT3Z7fVNc0")
 
-//            VideoPlayer(
-//                url = currentVideo,
-//                autoPlay = true,
-//                scaleToCrop = false,
-//                enablePip = true,
-//                modifier = Modifier.fillMaxSize()
+}
+
+//    ScreenColumn(
+//        isRefreshable = true,
+//        isRefreshing = false
+//    ) {
+//        Box(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(400.dp)
+//                .background(Color.Red)
+//        ) {
+//
+////            VideoPlayer(
+////                url = currentVideo,
+////                autoPlay = true,
+////                scaleToCrop = false,
+////                enablePip = true,
+////                modifier = Modifier.fillMaxSize()
+////            )
+//
+//        }
+//
+//        Row(
+//            modifier = Modifier.fillMaxWidth()
+//        ) {
+//            PrimaryFilledButton(
+//                modifier = Modifier.weight(1f),
+//                text = "Video 1",
+//                onClick = {
+//                    //currentVideo = videosList()[0]
+//                    coroutineScope.launch {
+//                        countDownTimer.start()
+//                    }
+//                }
 //            )
-
-            YoutubePlayer(modifier = Modifier.fillMaxSize(), url = "https://www.youtube.com/watch?v=oGT3Z7fVNc0")
-        }
-
-        Row(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            PrimaryFilledButton(
-                modifier = Modifier.weight(1f),
-                text = "Video 1",
-                onClick = {
-                    //currentVideo = videosList()[0]
-                    coroutineScope.launch {
-                        countDownTimer.start()
-                    }
-                }
-            )
-
-            PrimaryFilledButton(
-                modifier = Modifier.weight(1f),
-                text = "Video 2",
-                onClick = {
-//                    currentVideo = videosList()[1]
-                    coroutineScope.launch {
-                        countDownTimer.stop()
-                    }
-                }
-            )
-
-            PrimaryFilledButton(
-                modifier = Modifier.weight(1f),
-                text = "Video 3",
-                onClick = {
-//                    currentVideo = videosList()[2]
-                }
-            )
-        }
-
-        var price: Int? by remember {
-            mutableStateOf(null)
-        }
-        PriceTextInputField(
-            modifier = Modifier.fillMaxWidth(),
-            price = price,
-            onPriceChange = { price = it }
-        )
-
-        var fieldText by remember {
-            mutableStateOf("")
-        }
-        val visualTransformation = remember {
-            CurrencyAmountInputVisualTransformation()
-        }
-        PrimaryTextInputField(
-            modifier = Modifier.fillMaxWidth(),
-            text = fieldText,
-            onValueChange = {
-                fieldText = it
-            },
-            visualTransformation = visualTransformation,
-            allowDigitsOnly = true,
-            keyboardType = KeyboardType.Number
-        )
-
-
-//        Text(
-//            text = "Schedule repeating",
-//            style = AppTheme.typography.fenwickBold24,
-//            color = Color.Red,
-//            modifier = modifier
-//                .clickable { onEvent(Event.ScheduleRepeatingNotification) }
+//
+//            PrimaryFilledButton(
+//                modifier = Modifier.weight(1f),
+//                text = "Video 2",
+//                onClick = {
+////                    currentVideo = videosList()[1]
+//                    coroutineScope.launch {
+//                        countDownTimer.stop()
+//                    }
+//                }
+//            )
+//
+//            PrimaryFilledButton(
+//                modifier = Modifier.weight(1f),
+//                text = "Video 3",
+//                onClick = {
+////                    currentVideo = videosList()[2]
+//                }
+//            )
+//        }
+//
+//        var price: Int? by remember {
+//            mutableStateOf(null)
+//        }
+//        PriceTextInputField(
+//            modifier = Modifier.fillMaxWidth(),
+//            price = price,
+//            onPriceChange = { price = it }
 //        )
 //
-//        Text(
-//            text = "Cancel scheduled",
-//            style = AppTheme.typography.fenwickBold24,
-//            color = Color.Red,
-//            modifier = modifier
-//                .clickable { onEvent(Event.CancelScheduledNotification) }
+//        var fieldText by remember {
+//            mutableStateOf("")
+//        }
+//        val visualTransformation = remember {
+//            CurrencyAmountInputVisualTransformation()
+//        }
+//        PrimaryTextInputField(
+//            modifier = Modifier.fillMaxWidth(),
+//            text = fieldText,
+//            onValueChange = {
+//                fieldText = it
+//            },
+//            visualTransformation = visualTransformation,
+//            allowDigitsOnly = true,
+//            keyboardType = KeyboardType.Number
 //        )
-    }
+//
+//
+////        Text(
+////            text = "Schedule repeating",
+////            style = AppTheme.typography.fenwickBold24,
+////            color = Color.Red,
+////            modifier = modifier
+////                .clickable { onEvent(Event.ScheduleRepeatingNotification) }
+////        )
+////
+////        Text(
+////            text = "Cancel scheduled",
+////            style = AppTheme.typography.fenwickBold24,
+////            color = Color.Red,
+////            modifier = modifier
+////                .clickable { onEvent(Event.CancelScheduledNotification) }
+////        )
+//    }
 }
 
 private fun videosList() = listOf(
