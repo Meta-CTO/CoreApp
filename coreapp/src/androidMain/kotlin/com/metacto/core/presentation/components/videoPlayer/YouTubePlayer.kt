@@ -1,6 +1,9 @@
 package com.metacto.core.presentation.components.videoPlayer
 
+import android.content.pm.ActivityInfo
 import android.os.Build
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.ComponentActivity
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
@@ -15,6 +18,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.FullscreenListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
@@ -50,6 +54,24 @@ fun YoutubeVideoPlayer(
     val videoId = extractVideoId(youtubeURL)
     var player: com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer? = null
     val playerFragment = YouTubePlayerView(mContext)
+
+    val context = LocalContext.current
+    val activity = context as ComponentActivity
+    
+    playerFragment.addFullscreenListener(object :FullscreenListener{
+
+        override fun onEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
+            playerFragment.addView(fullscreenView)
+
+            activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
+
+        override fun onExitFullscreen() {
+            playerFragment.removeAllViews()
+
+        }
+    })
+
     val playerStateListener = object : AbstractYouTubePlayerListener() {
         override fun onReady(youTubePlayer: com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer) {
             super.onReady(youTubePlayer)
@@ -95,7 +117,7 @@ fun YoutubeVideoPlayer(
     }
     val playerBuilder = IFramePlayerOptions.Builder().apply {
         controls(1)
-        fullscreen(0)
+        fullscreen(1)
         autoplay(1)
         modestBranding(0)
         ccLoadPolicy(1)
@@ -104,6 +126,8 @@ fun YoutubeVideoPlayer(
     AndroidView(
         modifier = modifier.background(Color.DarkGray),
         factory = {
+
+
             playerFragment.apply {
                 enableAutomaticInitialization = false
                 initialize(playerStateListener, playerBuilder.build())
