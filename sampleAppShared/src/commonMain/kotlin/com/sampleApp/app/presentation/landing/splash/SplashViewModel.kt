@@ -12,6 +12,7 @@ import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
+import com.sampleApp.app.presentation.landing.youtube.YoutubeScreen
 import org.koin.core.component.inject
 
 class SplashViewModel(
@@ -80,6 +81,10 @@ class SplashViewModel(
                     )
                 )
             )
+        }
+
+        Event.NavigateToYoutube -> {
+            navManager.navigate(YoutubeScreen())
         }
     }
 }

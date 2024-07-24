@@ -90,6 +90,11 @@ object Dependencies {
         const val UI = "androidx.media3:media3-ui:${Versions.EXO_PLAYER}"
     }
 
+    object YoutubePlayer {
+        const val CORE = "com.pierfrancescosoffritti.androidyoutubeplayer:core:${Versions.YOUTUBE_PLAYER}"
+        const val CUSTOM_UI = "com.pierfrancescosoffritti.androidyoutubeplayer:custom-ui:${Versions.YOUTUBE_PLAYER}"
+    }
+
     object Modules {
         const val CORE_APP = ":coreapp"
         const val SAMPLE_APP_SHARED = ":sampleAppShared"

@@ -143,6 +143,14 @@ internal fun SplashContent(
             keyboardType = KeyboardType.Number
         )
 
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Navigate to Youtube",
+            onClick = {
+                onEvent(Event.NavigateToYoutube)
+            }
+        )
+
 
 //        Text(
 //            text = "Schedule repeating",

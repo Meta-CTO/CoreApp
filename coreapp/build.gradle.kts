@@ -142,6 +142,10 @@ kotlin {
                 api(Dependencies.ExoPlayer.HLS)
                 api(Dependencies.ExoPlayer.UI)
 
+                // Youtube Player
+                api(Dependencies.YoutubePlayer.CORE)
+                api(Dependencies.YoutubePlayer.CUSTOM_UI)
+
                 // Others
                 api(Dependencies.ANDROID_IMAGE_PICKER)
                 api(Dependencies.ANDROID_CROPPER)

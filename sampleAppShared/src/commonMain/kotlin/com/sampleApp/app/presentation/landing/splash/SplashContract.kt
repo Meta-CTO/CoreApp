@@ -18,6 +18,7 @@ class SplashContract {
         data object ScheduleRepeatingNotification : Event()
         data object CancelScheduledNotification : Event()
         data object ClickMeClicked : Event()
+        data object NavigateToYoutube : Event()
     }
 
     sealed class Effect : ViewSideEffect
