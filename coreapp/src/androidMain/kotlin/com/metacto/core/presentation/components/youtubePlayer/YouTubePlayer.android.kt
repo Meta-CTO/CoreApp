@@ -106,14 +106,12 @@ actual fun YouTubePlayer(
     )
 
     // Handle component disposal
-    DisposableEffect(videoId) {
+    DisposableEffect(Unit) {
         onDispose {
-            onDispose {
-                playerFragment.removeYouTubePlayerListener(playerStateListener)
-                playerFragment.release()
-                activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-                player = null
-            }
+            playerFragment.removeYouTubePlayerListener(playerStateListener)
+            playerFragment.release()
+            activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+            player = null
         }
     }
 
