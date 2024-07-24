@@ -98,7 +98,6 @@ kotlin {
                 api(Dependencies.GitLive.CONFIG)
 
                 // Others
-                api(Dependencies.YOUTUBE_PLAYER)
                 api(Dependencies.STRAPI_KMM)
                 api(Dependencies.LIB_PHONE_NUMBER)
                 api(Dependencies.COMPOTTIE)
@@ -142,6 +141,10 @@ kotlin {
                 api(Dependencies.ExoPlayer.PLAYER)
                 api(Dependencies.ExoPlayer.HLS)
                 api(Dependencies.ExoPlayer.UI)
+
+                // Youtube Player
+                api(Dependencies.YoutubePlayer.CORE)
+                api(Dependencies.YoutubePlayer.CUSTOM_UI)
 
                 // Others
                 api(Dependencies.ANDROID_IMAGE_PICKER)

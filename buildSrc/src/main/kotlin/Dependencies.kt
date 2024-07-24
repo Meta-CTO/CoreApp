@@ -90,6 +90,11 @@ object Dependencies {
         const val UI = "androidx.media3:media3-ui:${Versions.EXO_PLAYER}"
     }
 
+    object YoutubePlayer {
+        const val CORE = "com.pierfrancescosoffritti.androidyoutubeplayer:core:${Versions.YOUTUBE_PLAYER}"
+        const val CUSTOM_UI = "com.pierfrancescosoffritti.androidyoutubeplayer:custom-ui:${Versions.YOUTUBE_PLAYER}"
+    }
+
     object Modules {
         const val CORE_APP = ":coreapp"
         const val SAMPLE_APP_SHARED = ":sampleAppShared"
@@ -99,7 +104,6 @@ object Dependencies {
         const val CONFIG = "dev.gitlive:firebase-config:${Versions.GIT_LIVE}"
     }
 
-    const val YOUTUBE_PLAYER = "com.pierfrancescosoffritti.androidyoutubeplayer:core:${Versions.YOUTUBE_PLAYER}"
     const val STRAPI_KMM = "com.metacto:strapi:${Versions.STRAPI_KMM}"
     const val ANDROID_IMAGE_PICKER = "com.github.dhaval2404:imagepicker:${Versions.ANDROID_IMAGE_PICKER}"
     const val LIB_PHONE_NUMBER = "io.github.luca992.libphonenumber-kotlin:libphonenumber:${Versions.LIB_PHONE_NUMBER}"

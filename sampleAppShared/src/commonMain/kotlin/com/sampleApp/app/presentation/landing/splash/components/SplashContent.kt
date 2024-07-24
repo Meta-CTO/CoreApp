@@ -1,11 +1,13 @@
 package com.sampleApp.app.presentation.landing.splash.components
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -14,14 +16,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
-import com.metacto.core.presentation.components.containers.ScreenColumn
-import com.metacto.core.presentation.components.inputFields.CurrencyAmountInputVisualTransformation
-import com.metacto.core.presentation.components.inputFields.PriceTextInputField
-import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
-import com.metacto.core.presentation.components.videoPlayer.YoutubePlayer
+import com.metacto.core.presentation.components.youtubePlayer.SimpleYouTubePlayerOptionsBuilder
+import com.metacto.core.presentation.components.youtubePlayer.YouTubePlayer
+import com.metacto.core.presentation.components.youtubePlayer.YouTubePlayerHostState
+import com.metacto.core.presentation.components.youtubePlayer.YouTubePlayerState
+import com.metacto.core.presentation.components.youtubePlayer.YouTubeVideoId
 import com.metacto.core.utils.CountDownTimer
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
@@ -53,10 +53,63 @@ internal fun SplashContent(
     }
     val coroutineScope = rememberCoroutineScope()
 
-ScreenColumn (){
-    YoutubePlayer(modifier = Modifier.fillMaxSize(), url = "https://www.youtube.com/watch?v=oGT3Z7fVNc0")
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.statusBars)
+            .windowInsetsPadding(WindowInsets.navigationBars)
+    ) {
+//        YoutubePlayer(
+//            videoUrl = "https://www.youtube.com/watch?v=oGT3Z7fVNc0",
+//            modifier = Modifier.fillMaxSize()
+//        )
 
-}
+        val coroutineScope = rememberCoroutineScope()
+        val hostState = remember { YouTubePlayerHostState() }
+
+        when(val state = hostState.currentState) {
+            is YouTubePlayerState.Error -> {
+                //Text(text = "Error: ${state.message}")
+            }
+            YouTubePlayerState.Idle -> {
+                // Do nothing, waiting for initialization
+            }
+            is YouTubePlayerState.Playing -> {
+                // Update UI button states
+            }
+            YouTubePlayerState.Ready -> coroutineScope.launch {
+                hostState.loadVideo(YouTubeVideoId("M7lc1UVf-VE"))
+            }
+        }
+
+        YouTubePlayer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(1f)
+//                .gesturesDisabled()
+            ,
+            hostState = hostState,
+            options = SimpleYouTubePlayerOptionsBuilder.builder {
+                autoplay(true)
+                controls(true)
+                rel(false)
+                ivLoadPolicy(false)
+                ccLoadPolicy(false)
+                fullscreen(true)
+                fullscreen = true
+            },
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "FullScreen",
+            onClick = {
+                coroutineScope.launch {
+                    hostState.toggleFullScreen()
+                }
+            }
+        )
+    }
 
 //    ScreenColumn(
 //        isRefreshable = true,

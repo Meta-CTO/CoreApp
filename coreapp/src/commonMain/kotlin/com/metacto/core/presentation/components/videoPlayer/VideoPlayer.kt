@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
 @Composable
-expect fun YoutubePlayer(
+expect fun VideoPlayer(
     modifier: Modifier = Modifier,
     autoPlay: Boolean = false,
     scaleToCrop: Boolean = false,

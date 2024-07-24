@@ -20,7 +20,7 @@ import com.metacto.core.utils.extensions.setMediaSource
 
 @OptIn(UnstableApi::class)
 @Composable
-actual fun YoutubePlayer(
+actual fun VideoPlayer(
     modifier: Modifier,
     autoPlay: Boolean,
     scaleToCrop: Boolean,
