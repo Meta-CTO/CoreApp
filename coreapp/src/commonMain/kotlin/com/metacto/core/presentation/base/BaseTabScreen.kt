@@ -6,4 +6,7 @@ abstract class BaseTabScreen<T : CoreViewModel<*, *, *>> : BaseScreen<T>() {
     open val tabTitle: String = ""
     open val tabIconRes: String? = null
     open val tabIconVector: ImageVector? = null
+
+    open fun onDisplayed() {
+    }
 }
