@@ -3,14 +3,23 @@ package com.metacto.core.presentation.components.wheelPicker
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -185,11 +194,11 @@ object WheelPickerDefaults {
     @Composable
     fun selectorProperties(
         enabled: Boolean = true,
-        shape: Shape = CoreTheme.shapes.xLarge,
-        color: Color = MaterialTheme.colorScheme.primary.copy(alpha = 0.05f),
+        shape: Shape = CoreTheme.shapes.wheelPickerItem,
+        color: Color = CoreTheme.colors.wheelPickerItemBg,
         border: BorderStroke? = BorderStroke(
-            CoreTheme.spacings.stroke,
-            MaterialTheme.colorScheme.primary
+            width = CoreTheme.spacings.wheelPickerItemStroke,
+            color = CoreTheme.colors.wheelPickerItemStroke
         ),
     ): SelectorProperties = DefaultSelectorProperties(
         enabled = enabled,

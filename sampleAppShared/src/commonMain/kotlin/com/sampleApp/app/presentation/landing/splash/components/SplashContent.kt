@@ -55,8 +55,18 @@ internal fun SplashContent(
 
     ScreenColumn(
         isRefreshable = true,
-        isRefreshing = false
+        isRefreshing = false,
+        enableSafeInsets = true,
+        topPadding = 4.dp
     ) {
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Click Me!",
+            onClick = {
+                onEvent(Event.ClickMeClicked)
+            }
+        )
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()

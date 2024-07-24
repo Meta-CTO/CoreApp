@@ -9,7 +9,6 @@ class ItemPickerContract {
 
     data class State(
         val isInitialized: Boolean = false,
-        val unfocusedItemsCount: Int = DEFAULT_UNFOCUSED_ITEMS_COUNT,
         val items: List<PickerItem> = emptyList(),
         val initialItemIndex: Int = 0
     ) : ViewState
@@ -17,8 +16,7 @@ class ItemPickerContract {
     sealed class Event : ViewEvent {
         data class Init(
             val items: List<PickerItem>,
-            val selectedItem: PickerItem?,
-            val unfocusedItemsCount: Int
+            val selectedItem: PickerItem?
         ) : Event()
 
         data object CloseClicked : Event()
@@ -26,8 +24,4 @@ class ItemPickerContract {
     }
 
     sealed class Effect : ViewSideEffect
-
-    companion object {
-        const val DEFAULT_UNFOCUSED_ITEMS_COUNT = 4
-    }
 }

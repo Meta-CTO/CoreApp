@@ -66,7 +66,12 @@ data class CoreColors(
     val switchBtnNonToggled: Color = tertiary,
 
     val switchThumbToggled: Color = onPrimary,
-    val switchThumbNonToggled: Color = onTertiary
+    val switchThumbNonToggled: Color = onTertiary,
+
+    val wheelPickerItemBg: Color = primary.copy(alpha = 0.5f),
+    val wheelPickerItemStroke: Color = primary,
+    val itemPickerItemBg: Color = primary.copy(alpha = 0.3f),
+    val itemPickerItemStroke: Color = primary,
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

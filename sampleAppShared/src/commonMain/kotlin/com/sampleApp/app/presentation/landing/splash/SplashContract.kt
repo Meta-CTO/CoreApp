@@ -17,6 +17,7 @@ class SplashContract {
         data object ScreenDisposed : Event()
         data object ScheduleRepeatingNotification : Event()
         data object CancelScheduledNotification : Event()
+        data object ClickMeClicked : Event()
         data object NavigateToYoutube : Event()
     }
 
