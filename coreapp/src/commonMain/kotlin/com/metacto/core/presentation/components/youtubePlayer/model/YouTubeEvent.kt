@@ -5,7 +5,7 @@ import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
-sealed class YouTubeEvent {
+internal sealed class YouTubeEvent {
     data object Ready : YouTubeEvent()
     data class PlaybackQualityChange(
         val quality: Quality

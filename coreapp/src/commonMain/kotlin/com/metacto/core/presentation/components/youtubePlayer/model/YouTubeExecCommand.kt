@@ -3,7 +3,7 @@ package com.metacto.core.presentation.components.youtubePlayer.model
 import com.metacto.core.presentation.components.youtubePlayer.YouTubeVideoId
 import kotlin.time.Duration
 
-sealed interface YouTubeExecCommand {
+internal sealed interface YouTubeExecCommand {
     fun command(): String
 
     data class LoadVideo(

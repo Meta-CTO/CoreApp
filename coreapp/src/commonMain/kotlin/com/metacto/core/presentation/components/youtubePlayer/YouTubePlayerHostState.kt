@@ -16,7 +16,7 @@ import kotlin.time.Duration
 /**
  * YouTube player state defines actual youtube player state on the screen
  * */
-sealed class YouTubePlayerState {
+internal sealed class YouTubePlayerState {
     /**
      * Idle state means that player is not initialized yet
      * */
@@ -52,9 +52,9 @@ sealed class YouTubePlayerState {
 }
 
 @Stable
-class YouTubePlayerHostState {
+internal class YouTubePlayerHostState {
     /**
-     * Only one [YouTubePlayer] can be shown at a time.
+     * Only one [CommonYouTubePlayer] can be shown at a time.
      * Since a suspending Mutex is a fair queue, this manages our message
      * queue and we don't have to maintain one.
      */

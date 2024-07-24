@@ -1,3 +1,3 @@
 package com.metacto.core.presentation.components.youtubePlayer
 
-data class YouTubeVideoId(val id: String)
+internal data class YouTubeVideoId(val id: String)

@@ -4,10 +4,10 @@ import com.metacto.core.presentation.components.youtubePlayer.model.YouTubeEvent
 import com.metacto.core.presentation.components.youtubePlayer.model.YouTubeOperation
 import com.metacto.strapikmm.util.Logger
 
-object YouTubeActionHandler {
+internal object YouTubeActionHandler {
 
     private val REGEX = "ytplayer://([A-z]+)(\\?data=([A-z\\d.]+))*".toRegex()
-    private val logger = Logger("YouTubeActionHandler")
+    private val logger = Logger("YoutubePlayer")
 
     fun handleAction(url: String?): YouTubeEvent? {
         val result = REGEX.matchEntire(url.orEmpty())

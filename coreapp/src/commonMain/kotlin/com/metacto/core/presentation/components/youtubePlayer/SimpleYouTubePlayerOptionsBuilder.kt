@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
-class SimpleYouTubePlayerOptionsBuilder : YouTubePlayerOptionsBuilder {
+internal class SimpleYouTubePlayerOptionsBuilder : YouTubePlayerOptionsBuilder {
 
     override var autoplay: Boolean = false
     override var controls: Boolean = true

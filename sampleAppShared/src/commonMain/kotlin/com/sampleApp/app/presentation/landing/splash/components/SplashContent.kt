@@ -16,16 +16,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
-import com.metacto.core.presentation.components.youtubePlayer.SimpleYouTubePlayerOptionsBuilder
 import com.metacto.core.presentation.components.youtubePlayer.YouTubePlayer
-import com.metacto.core.presentation.components.youtubePlayer.YouTubePlayerHostState
-import com.metacto.core.presentation.components.youtubePlayer.YouTubePlayerState
-import com.metacto.core.presentation.components.youtubePlayer.YouTubeVideoId
 import com.metacto.core.utils.CountDownTimer
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun SplashContent(
@@ -59,55 +53,11 @@ internal fun SplashContent(
             .windowInsetsPadding(WindowInsets.statusBars)
             .windowInsetsPadding(WindowInsets.navigationBars)
     ) {
-//        YoutubePlayer(
-//            videoUrl = "https://www.youtube.com/watch?v=oGT3Z7fVNc0",
-//            modifier = Modifier.fillMaxSize()
-//        )
-
-        val coroutineScope = rememberCoroutineScope()
-        val hostState = remember { YouTubePlayerHostState() }
-
-        when(val state = hostState.currentState) {
-            is YouTubePlayerState.Error -> {
-                //Text(text = "Error: ${state.message}")
-            }
-            YouTubePlayerState.Idle -> {
-                // Do nothing, waiting for initialization
-            }
-            is YouTubePlayerState.Playing -> {
-                // Update UI button states
-            }
-            YouTubePlayerState.Ready -> coroutineScope.launch {
-                hostState.loadVideo(YouTubeVideoId("M7lc1UVf-VE"))
-            }
-        }
-
         YouTubePlayer(
+            videoId = "Gmhk7mWG050",
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-//                .gesturesDisabled()
-            ,
-            hostState = hostState,
-            options = SimpleYouTubePlayerOptionsBuilder.builder {
-                autoplay(true)
-                controls(true)
-                rel(false)
-                ivLoadPolicy(false)
-                ccLoadPolicy(false)
-                fullscreen(true)
-                fullscreen = true
-            },
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "FullScreen",
-            onClick = {
-                coroutineScope.launch {
-                    hostState.toggleFullScreen()
-                }
-            }
         )
     }
 

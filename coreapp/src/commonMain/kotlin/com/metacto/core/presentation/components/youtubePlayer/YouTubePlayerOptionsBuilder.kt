@@ -4,7 +4,7 @@ package com.metacto.core.presentation.components.youtubePlayer
  * YouTube player options builder.
  * See all parameters [here](https://developers.google.com/youtube/player_parameters#Parameters)
  * */
-interface YouTubePlayerOptionsBuilder {
+internal interface YouTubePlayerOptionsBuilder {
 
     /**
      * This parameter specifies whether the initial video will automatically start to play when

@@ -1,14 +1,35 @@
 package com.metacto.core.presentation.components.youtubePlayer
 
-import com.metacto.core.presentation.components.youtubePlayer.model.YouTubeExecCommand
-import com.metacto.core.utils.extensions.format
-import com.multiplatform.webview.web.WebViewNavigator
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import kotlinx.coroutines.launch
 
-private const val COMMAND_EXECUTOR_PATTERN = "javascript:%s"
-
-internal actual fun executeCommand(
-    navigator: WebViewNavigator,
-    execCommand: YouTubeExecCommand
+@Composable
+actual fun YouTubePlayer(
+    modifier: Modifier,
+    videoId: String
 ) {
-    navigator.loadUrl(COMMAND_EXECUTOR_PATTERN.format(execCommand.command()))
+    val hostState = remember { YouTubePlayerHostState() }
+    val coroutineScope = rememberCoroutineScope()
+
+    if (hostState.currentState == YouTubePlayerState.Ready) {
+        coroutineScope.launch {
+            hostState.loadVideo(YouTubeVideoId(videoId))
+        }
+    }
+
+    CommonYouTubePlayer(
+        modifier = modifier,
+        hostState = hostState,
+        options = SimpleYouTubePlayerOptionsBuilder.builder {
+            autoplay(true)
+            controls(true)
+            rel(false)
+            ivLoadPolicy(false)
+            ccLoadPolicy(false)
+            fullscreen(true)
+        }
+    )
 }
