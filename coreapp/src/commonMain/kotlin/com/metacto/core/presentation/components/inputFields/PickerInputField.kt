@@ -1,6 +1,7 @@
 package com.metacto.core.presentation.components.inputFields
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.runtime.Composable
@@ -24,15 +25,13 @@ fun PickerInputField(
     iconTintColor: Color = CoreTheme.colors.secondary,
     textStyle: TextStyle = CoreTheme.typography.bodyMedium,
     textColor: Color = CoreTheme.colors.black,
-    placeholderTextStyle: TextStyle = CoreTheme.typography.labelMedium.copy(
-        color = CoreTheme.colors.secondaryContainer
-    ),
-    labelTextStyle: TextStyle = CoreTheme.typography.labelMedium.copy(
-        color = CoreTheme.colors.black
-    ),
-    errorTextStyle: TextStyle = CoreTheme.typography.labelMedium.copy(
-        color = CoreTheme.colors.danger
-    )
+    placeholderTextStyle: TextStyle = CoreTheme.typography.labelMedium,
+    placeholderTextColor: Color = CoreTheme.colors.secondaryContainer,
+    labelTextStyle: TextStyle = CoreTheme.typography.labelMedium,
+    labelTextColor: Color = CoreTheme.colors.black,
+    errorTextStyle: TextStyle = CoreTheme.typography.labelMedium,
+    errorTextColor: Color = CoreTheme.colors.danger,
+    shape: RoundedCornerShape = CoreTheme.shapes.small
 ) {
     TertiaryTextInputField(
         text = text,
@@ -46,8 +45,12 @@ fun PickerInputField(
         textStyle = textStyle,
         textColor = textColor,
         placeholderTextStyle = placeholderTextStyle,
+        placeholderTextColor = placeholderTextColor,
         labelTextStyle = labelTextStyle,
+        labelTextColor = labelTextColor,
         errorTextStyle = errorTextStyle,
+        errorTextColor = errorTextColor,
+        shape = shape,
         modifier = Modifier
             .fillMaxWidth()
             .noRippleClickable {
