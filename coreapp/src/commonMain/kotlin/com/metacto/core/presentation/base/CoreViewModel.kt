@@ -17,7 +17,7 @@ import com.metacto.core.utils.IResourceProvider
 import com.metacto.coreApp.MR
 import com.metacto.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
 import com.metacto.strapikmm.errorhandling.AppException
-import com.metacto.strapikmm.errorhandling.NetworkErrorMapper
+import com.metacto.strapikmm.errorhandling.NetworkMapperConstants
 import com.metacto.strapikmm.util.Logger
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.auth
@@ -146,7 +146,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                 }
                 val errorMessage = when (throwable) {
                     is AppException -> {
-                        extractErrorCodeAndMessage(throwable.errorMessage).first
+                        throwable.getErrorMessage().orEmpty()
                     }
 
                     is SocketTimeoutException,
@@ -156,7 +156,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                     }
 
                     else -> {
-                        extractErrorCodeAndMessage(throwable.message.orEmpty()).first
+                        throwable.message.orEmpty()
                     }
                 }
                 if (hasLoading) hideLoading()
@@ -216,11 +216,11 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     }
 
     private fun isAuthError(throwable: Throwable): Boolean {
-        return throwable is AppException && throwable.errorCode == 401
+        return throwable is AppException && throwable.getHttpErrorCode() == 401
     }
 
     private fun isNetworkError(throwable: Throwable): Boolean {
-        return throwable is AppException && throwable.errorCode == NetworkErrorMapper.NO_INTERNET_CONNECTION
+        return throwable is AppException && throwable.getErrorCode() == NetworkMapperConstants.NO_INTERNET_CONNECTION
     }
 
     private fun handleAuthError() {
@@ -344,3 +344,7 @@ private fun extractErrorCodeAndMessage(jsonString: String): Pair<String, Int> {
         return jsonString to -1
     }
 }
+
+expect fun AppException.getHttpErrorCode(): Int?
+expect fun AppException.getErrorCode(): Int?
+expect fun AppException.getErrorMessage(): String?
