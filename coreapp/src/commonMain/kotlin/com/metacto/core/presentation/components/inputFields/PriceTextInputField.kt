@@ -16,12 +16,12 @@ import com.metacto.core.presentation.theme.CoreTheme
 @Composable
 fun PriceTextInputField(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = CoreTheme.colors.white,
+    backgroundColor: Color = CoreTheme.colors.priceTextInputFieldBg,
     backgroundShape: Shape = CoreTheme.shapes.xSmall,
     priceFieldModifier: Modifier = Modifier,
     price: Int? = null,
     placeholder: String? = null,
-    textColor: Color = CoreTheme.colors.black,
+    textColor: Color = CoreTheme.colors.priceTextInputFieldTextColor,
     textStyle: TextStyle = CoreTheme.typography.bodyMedium.copy(color = textColor),
     visualTransformationSpanStyle: SpanStyle? = null,
     readOnly: Boolean = false,

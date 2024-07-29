@@ -72,6 +72,156 @@ data class CoreColors(
     val wheelPickerItemStroke: Color = primary,
     val itemPickerItemBg: Color = primary.copy(alpha = 0.3f),
     val itemPickerItemStroke: Color = primary,
+
+    // PrimaryFilledButton
+    val primaryBtnBg: Color = primary,
+    val primaryBtnTextColor: Color = onPrimary,
+    val primaryBtnIconColor: Color = onPrimary,
+
+    // DangerFilledButton
+    val dangerBtnBg: Color = danger,
+    val dangerBtnTextColor: Color = onPrimary,
+    val dangerBtnIconColor: Color = onPrimary,
+
+    // FloatingButton
+    val floatingBtnBg: Color = onSecondary,
+    val floatingBtnTextColor: Color = secondary,
+    val floatingBtnIconColor: Color = secondary,
+
+    // PrimaryCheckableButton
+    val checkedBtnBg: Color = primaryStrongDark,
+    val uncheckedBtnBg: Color = primary,
+    val checkedBtnTextColor: Color = onStrongDarkPrimary,
+    val uncheckedBtnTextColor: Color = onPrimary,
+
+    // PrimaryStrokedButton
+    val strokedBtnBg: Color = background,
+    val strokedBtnStrokeColor: Color = primary,
+    val strokedBtnTextColor: Color = primary,
+    val strokedBtnIconColor: Color = primary,
+
+    // PrimaryTextButton
+    val primaryTextBtnTextColor: Color = primary,
+    val primaryTextBtnIconColor: Color = primary,
+
+    // SecondaryFilledButton
+    val secondaryFilledBtnBg: Color = secondary,
+    val secondaryFilledBtnTextColor: Color = onSecondary,
+    val secondaryFilledBtnIconColor: Color = onSecondary,
+
+    // SecondaryStrokedButton
+    val secondaryStrokedBtnBg: Color = background,
+    val secondaryStrokedBtnStrokeColor: Color = secondary,
+    val secondaryStrokedBtnTextColor: Color = secondary,
+    val secondaryStrokedBtnIconColor: Color = secondary,
+
+    // SecondaryTextButton
+    val secondaryTextBtnTextColor: Color = secondary,
+    val secondaryTextBtnIconColor: Color = secondary,
+
+    // SocialButton
+    val socialBtnBg: Color = black,
+    val socialBtnTextColor: Color = onPrimary,
+    val socialBtnStrokeColor: Color = onPrimary,
+
+    // TertiaryFilledButton
+    val tertiaryFilledBtnBg: Color = tertiary,
+    val tertiaryFilledBtnTextColor: Color = onTertiary,
+    val tertiaryFilledBtnIconColor: Color = onTertiary,
+
+    // TertiaryStrokedButton
+    val tertiaryStrokedBtnBg: Color = background,
+    val tertiaryStrokedBtnStrokeColor: Color = tertiary,
+    val tertiaryStrokedBtnTextColor: Color = tertiary,
+    val tertiaryStrokedBtnIconColor: Color = tertiary,
+
+    // TertiaryTextButton
+    val tertiaryTextBtnTextColor: Color = tertiary,
+    val tertiaryTextBtnIconColor: Color = tertiary,
+
+    // TransparentStrokedButton
+    val transparentStrokedBtnBg: Color = transparent,
+    val transparentStrokedBtnStrokeColor: Color = onPrimary,
+    val transparentStrokedBtnTextColor: Color = onPrimary,
+    val transparentStrokedBtnIconColor: Color = onPrimary,
+
+    // Divider
+    val dividerColor: Color = outline,
+
+    // InlineInputField
+    val inlineInputFieldTextColor: Color = black,
+    val inlineInputFieldPlaceholderColor: Color = gray,
+
+    // LinedOtpInputField
+    val linedOtpInputFieldTextColor: Color = secondary,
+    val linedOtpInputFieldBorderColor: Color = primary,
+
+    // OutlinedOtpInputField
+    val outlinedOtpInputFieldTextColor: Color = primary,
+    val outlinedOtpInputFieldBackgroundColor: Color = tertiary,
+
+    // PickerInputField
+    val pickerInputFieldTextColor: Color = black,
+    val pickerInputFieldIconColor: Color = secondary,
+    val pickerInputFieldPlaceholderColor: Color = secondaryContainer,
+    val pickerInputFieldLabelColor: Color = black,
+    val pickerInputFieldErrorColor: Color = danger,
+
+    // PriceTextInputField
+    val priceTextInputFieldBg: Color = white,
+    val priceTextInputFieldTextColor: Color = black,
+
+    // PrimaryTextInputField
+    val primaryTextInputFieldIconColor: Color = secondary,
+    val primaryTextInputFieldBg: Color = background,
+    val primaryTextInputFieldFocusedBorderColor: Color = primaryDark,
+    val primaryTextInputFieldUnFocusedBorderColor: Color = primary,
+    val primaryTextInputFieldTextColor: Color = secondary,
+    val primaryTextInputFieldPlaceholderColor: Color = placeholder,
+    val primaryTextInputFieldLabelColor: Color = secondary,
+    val primaryTextInputFieldErrorColor: Color = danger,
+
+    // TertiaryTextInputField
+    val tertiaryTextInputFieldIconColor: Color = tertiary,
+    val tertiaryTextInputFieldBg: Color = background,
+    val tertiaryTextInputFieldFocusedBorderColor: Color = tertiaryBorder,
+    val tertiaryTextInputFieldUnFocusedBorderColor: Color = tertiaryBorder,
+    val tertiaryTextInputFieldTextColor: Color = black,
+    val tertiaryTextInputFieldPlaceholderColor: Color = secondaryContainer,
+    val tertiaryTextInputFieldLabelColor: Color = black,
+    val tertiaryTextInputFieldErrorColor: Color = danger,
+
+    // PrimaryProgressIndicator
+    val primaryProgressColor: Color = primary,
+
+    // SecondaryProgressIndicator
+    val secondaryProgressColor: Color = secondary,
+
+    // SmallProgressIndicator
+    val smallProgressColor: Color = primary,
+
+    // SuccessSnackBar
+    val successSnackBarColor: Color = success,
+    val successSnackBarBgColor: Color = successContainer,
+
+    // ErrorSnackBar
+    val errorSnackBarColor: Color = danger,
+    val errorSnackBarBgColor: Color = dangerContainer,
+
+    // SecondaryStepBar
+    val secondaryStepBarColor: Color = secondary,
+    val secondaryStepBarBorderColor: Color = secondary,
+
+    // IconText
+    val iconTextColor: Color = tertiary,
+
+    // TextDivider
+    val textDividerColor:Color = divider,
+
+    // Toolbar
+    val toolbarStartIconColor:Color = secondary,
+    val toolbarEndIconColor:Color = secondary,
+    val toolbarTitleTextColor : Color = secondary
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

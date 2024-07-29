@@ -28,9 +28,9 @@ fun DangerFilledButton(
         vertical = CoreTheme.spacings.btnPaddingVertical,
         horizontal = CoreTheme.spacings.btnPaddingHorizontal
     ),
-    textColor: Color = CoreTheme.colors.onPrimary,
-    iconColor: Color = CoreTheme.colors.onPrimary,
-    backgroundColor: Color = CoreTheme.colors.danger,
+    textColor: Color = CoreTheme.colors.dangerBtnTextColor,
+    iconColor: Color = CoreTheme.colors.dangerBtnIconColor,
+    backgroundColor: Color = CoreTheme.colors.dangerBtnBg,
     minHeightSmall: Dp = CoreTheme.spacings.btnMinHeightSmall,
     minHeightNormal: Dp = CoreTheme.spacings.btnMinHeightNormal,
     shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,

@@ -18,7 +18,9 @@ fun SecondaryStepBar(
     modifier: Modifier = Modifier,
     stepsCount: Int,
     currentStep: Int,
-    height: Dp = CoreTheme.spacings.stepBarHeight
+    height: Dp = CoreTheme.spacings.stepBarHeight,
+    color: Color = CoreTheme.colors.secondaryStepBarColor,
+    borderColor: Color = CoreTheme.colors.secondaryStepBarBorderColor
 ) {
     // Prepare progress
     val progress by animateFloatAsState(
@@ -27,8 +29,8 @@ fun SecondaryStepBar(
 
     // Render indicator
     LinearProgressIndicator(
-        progress = if(progress.isNaN()) 0f else progress,
-        color = CoreTheme.colors.secondary,
+        progress = if (progress.isNaN()) 0f else progress,
+        color = color,
         trackColor = Color.Transparent,
         strokeCap = StrokeCap.Round,
         modifier = modifier
@@ -36,7 +38,7 @@ fun SecondaryStepBar(
             .height(height)
             .border(
                 width = CoreTheme.spacings.stepBarStroke,
-                color = CoreTheme.colors.secondary,
+                color = borderColor,
                 shape = CoreTheme.shapes.large
             )
     )

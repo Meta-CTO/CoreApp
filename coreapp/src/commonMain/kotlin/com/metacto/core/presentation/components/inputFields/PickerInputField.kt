@@ -22,15 +22,15 @@ fun PickerInputField(
     enabled: Boolean = true,
     showTrailingIcon: Boolean = true,
     trailingIcon: ImageVector? = Icons.Default.ExpandMore,
-    iconTintColor: Color = CoreTheme.colors.secondary,
+    iconTintColor: Color = CoreTheme.colors.pickerInputFieldIconColor,
     textStyle: TextStyle = CoreTheme.typography.bodyMedium,
-    textColor: Color = CoreTheme.colors.black,
+    textColor: Color = CoreTheme.colors.pickerInputFieldTextColor,
     placeholderTextStyle: TextStyle = CoreTheme.typography.labelMedium,
-    placeholderTextColor: Color = CoreTheme.colors.secondaryContainer,
+    placeholderTextColor: Color = CoreTheme.colors.pickerInputFieldPlaceholderColor,
     labelTextStyle: TextStyle = CoreTheme.typography.labelMedium,
-    labelTextColor: Color = CoreTheme.colors.black,
+    labelTextColor: Color = CoreTheme.colors.pickerInputFieldLabelColor,
     errorTextStyle: TextStyle = CoreTheme.typography.labelMedium,
-    errorTextColor: Color = CoreTheme.colors.danger,
+    errorTextColor: Color = CoreTheme.colors.pickerInputFieldErrorColor,
     shape: RoundedCornerShape = CoreTheme.shapes.small
 ) {
     TertiaryTextInputField(

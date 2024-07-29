@@ -39,8 +39,8 @@ fun LinedOtpInputField(
     text: String = "",
     onValueChange: ((String) -> Unit)? = null,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    textColor: Color = CoreTheme.colors.secondary,
-    borderColor: Color = CoreTheme.colors.primary,
+    textColor: Color = CoreTheme.colors.linedOtpInputFieldTextColor,
+    borderColor: Color = CoreTheme.colors.linedOtpInputFieldBorderColor,
     textStyle: TextStyle = CoreTheme.typography.headline,
     requestFocus: Boolean = false,
     requestFocusDelay: Long = DEF_REQUEST_FOCUS_DELAY

@@ -14,7 +14,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 @Composable
 fun SmallProgressIndicator(
     modifier: Modifier = Modifier,
-    color: Color = CoreTheme.colors.primary
+    color: Color = CoreTheme.colors.smallProgressColor
 ) {
     Box(
         contentAlignment = Alignment.Center,

@@ -17,8 +17,8 @@ fun PrimaryStrokedButton(
     modifier: Modifier = Modifier,
     text: String? = null,
     textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
-    textColor: Color = CoreTheme.colors.primary,
-    iconColor: Color? = CoreTheme.colors.primary,
+    textColor: Color = CoreTheme.colors.strokedBtnTextColor,
+    iconColor: Color? = CoreTheme.colors.strokedBtnIconColor,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
@@ -31,14 +31,14 @@ fun PrimaryStrokedButton(
         vertical = CoreTheme.spacings.btnPaddingVertical,
         horizontal = CoreTheme.spacings.btnPaddingHorizontal
     ),
-    backgroundColor: Color = CoreTheme.colors.background,
+    backgroundColor: Color = CoreTheme.colors.strokedBtnBg,
     minHeightSmall: Dp = CoreTheme.spacings.btnMinHeightSmall,
     minHeightNormal: Dp = CoreTheme.spacings.btnMinHeightNormal,
     shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
     shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
     border: BorderStroke = BorderStroke(
         width = CoreTheme.spacings.stroke,
-        color = CoreTheme.colors.primary
+        color = CoreTheme.colors.strokedBtnStrokeColor
     ),
     onClick: () -> Unit = {}
 ) {

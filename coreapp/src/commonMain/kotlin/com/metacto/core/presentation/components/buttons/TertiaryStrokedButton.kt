@@ -17,7 +17,7 @@ fun TertiaryStrokedButton(
     modifier: Modifier = Modifier,
     text: String? = null,
     textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
-    iconColor: Color? = CoreTheme.colors.tertiary,
+    iconColor: Color? = CoreTheme.colors.tertiaryStrokedBtnIconColor,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
@@ -30,15 +30,15 @@ fun TertiaryStrokedButton(
         vertical = CoreTheme.spacings.btnPaddingVertical,
         horizontal = CoreTheme.spacings.btnPaddingHorizontal
     ),
-    textColor: Color = CoreTheme.colors.tertiary,
-    backgroundColor: Color = CoreTheme.colors.background,
+    textColor: Color = CoreTheme.colors.tertiaryStrokedBtnTextColor,
+    backgroundColor: Color = CoreTheme.colors.tertiaryStrokedBtnBg,
     minHeightSmall: Dp = CoreTheme.spacings.btnMinHeightSmall,
     minHeightNormal: Dp = CoreTheme.spacings.btnMinHeightNormal,
     shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
     shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
     border: BorderStroke = BorderStroke(
         width = CoreTheme.spacings.stroke,
-        color = CoreTheme.colors.tertiary
+        color = CoreTheme.colors.tertiaryStrokedBtnStrokeColor
     ),
     onClick: () -> Unit = {}
 ) {
