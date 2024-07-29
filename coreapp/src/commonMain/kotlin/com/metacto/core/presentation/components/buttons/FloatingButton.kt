@@ -28,7 +28,7 @@ fun FloatingButton(
     backgroundColor: Color = CoreTheme.colors.onSecondary,
     minHeight: Dp = CoreTheme.spacings.floatingBtnMinHeight,
     contentSpacing: Dp = CoreTheme.spacings.floatingBtnContentSpacing,
-    shape: RoundedCornerShape = CoreTheme.shapes.xxxLarge,
+    shape: RoundedCornerShape = CoreTheme.shapes.floatingBtnShape,
     elevation: Dp = CoreTheme.spacings.floatingBtnElevation,
     onClick: () -> Unit = {}
 ) {

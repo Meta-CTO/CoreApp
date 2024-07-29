@@ -32,7 +32,7 @@ fun HorizontalPagerIndicator(
     indicatorHeight: Dp = CoreTheme.spacings.tabIndicatorSize,
     indicatorWidth: Dp = CoreTheme.spacings.tabIndicatorSize,
     spacing: Dp = CoreTheme.spacings.horizontalPagerIndicatorSpacing,
-    indicatorShape: Shape = CircleShape,
+    indicatorShape: Shape = CoreTheme.shapes.horizontalPagerIndicatorShape,
     activeBorder: BorderStroke? = null,
     inActiveBorder: BorderStroke? = null
 ) {

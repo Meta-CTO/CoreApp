@@ -21,7 +21,80 @@ data class CoreShapes(
     val sheet: RoundedCornerShape = RoundedCornerShape(
         topStart = 12.dp,
         topEnd = 12.dp
-    )
+    ),
+
+    // PrimaryFilledButton
+    val primaryFilledBtnShapeSmall: RoundedCornerShape = xSmall,
+    val primaryFilledBtnShapeNormal: RoundedCornerShape = small,
+
+    // DangerFilledButton
+    val dangerFilledButtonShapeSmall: RoundedCornerShape = xSmall,
+    val dangerFilledButtonShapeNormal: RoundedCornerShape = small,
+
+    // FloatingButton
+    val floatingBtnShape: RoundedCornerShape = xxxLarge,
+
+    // OnSecondaryTransparentFilledButton
+    val onSecondaryTransparentFilledBtnShape: RoundedCornerShape = small,
+
+    // PrimaryCheckableButton
+    val primaryCheckableBtnShape: RoundedCornerShape = small,
+
+    // PrimaryStrokedButton
+    val primaryStrokedBtnShapeSmall: RoundedCornerShape = xSmall,
+    val primaryStrokedBtnShapeNormal: RoundedCornerShape = small,
+
+    // SecondaryFilledButton
+    val secondaryFilledBtnShapeSmall: RoundedCornerShape = xSmall,
+    val secondaryFilledBtnShapeNormal: RoundedCornerShape = small,
+
+    // SecondaryStrokedButton
+    val secondaryStrokedBtnShapeSmall: RoundedCornerShape = xSmall,
+    val secondaryStrokedBtnShapeNormal: RoundedCornerShape = small,
+
+    // SwitchButton
+    val switchBtnShape :RoundedCornerShape = circle,
+
+    // tertiaryFilledButton
+    val tertiaryFilledBtnShapeSmall :RoundedCornerShape = xSmall,
+    val tertiaryFilledBtnShapeNormal :RoundedCornerShape = small,
+
+    // TertiaryStrokedButton
+    val tertiaryStrokedBtnShapeSmall :RoundedCornerShape = xSmall,
+    val tertiaryStrokedBtnShapeNormal :RoundedCornerShape = small,
+
+    // AppDialog
+    val appDialogShape :RoundedCornerShape = xLarge,
+
+    // OtpDigit
+    val otpDigitShape :RoundedCornerShape = xLarge,
+
+    // PickerInputField
+    val pickerInputFieldShape :RoundedCornerShape = small,
+
+    // PriceTextInputField
+    val priceTextInputFieldBgShape :RoundedCornerShape = xSmall,
+
+    // PrimaryTextInputField
+    val primaryTextInputFieldShape :RoundedCornerShape = small,
+
+    // TertiaryTextInputField
+    val tertiaryTextInputFieldShape :RoundedCornerShape = small,
+
+    // NumberItem
+    val numberItemShape :RoundedCornerShape = circle,
+
+    // Dot
+    val dotShape :RoundedCornerShape = circle,
+
+    // HorizontalPagerIndicator
+    val horizontalPagerIndicatorShape :RoundedCornerShape = circle,
+
+    // HorizontalPagerTabItem
+    val horizontalPagerTabItemShape :RoundedCornerShape = medium,
+
+    // SecondaryStepBar
+    val secondaryStepBarProgressShape :RoundedCornerShape = large
 )
 
 val LocalCoreShapes = staticCompositionLocalOf { CoreShapes() }

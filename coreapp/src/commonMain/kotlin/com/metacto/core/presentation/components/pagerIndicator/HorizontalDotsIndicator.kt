@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -77,12 +78,13 @@ private fun Dot(
     modifier: Modifier = Modifier,
     color: Color,
     size: Dp,
+    shape: RoundedCornerShape = CoreTheme.shapes.dotShape,
     onClick: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
             .size(size)
-            .clip(CircleShape)
+            .clip(shape)
             .background(color)
             .noRippleClickable(onClick = onClick)
     )

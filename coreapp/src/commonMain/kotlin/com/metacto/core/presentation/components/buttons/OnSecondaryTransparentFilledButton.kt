@@ -32,7 +32,7 @@ fun OnSecondaryTransparentFilledButton(
     iconColor: Color = CoreTheme.colors.onSecondaryTransparentFilledBtnIconColor,
     elevation: Dp = CoreTheme.spacings.onSecondaryTransparentFilledBtnElevation,
     minHeight: Dp = CoreTheme.spacings.onSecondaryTransparentFilledBtnMinHeight,
-    shape: RoundedCornerShape = CoreTheme.shapes.small,
+    shape: RoundedCornerShape = CoreTheme.shapes.onSecondaryTransparentFilledBtnShape,
     onClick: () -> Unit = {}
 ) {
     BaseButton(

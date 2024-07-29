@@ -33,8 +33,8 @@ fun SecondaryFilledButton(
     backgroundColor: Color = CoreTheme.colors.secondaryFilledBtnBg,
     minHeightSmall: Dp = CoreTheme.spacings.secondaryFilledBtnMinHeightSmall,
     minHeightNormal: Dp = CoreTheme.spacings.secondaryFilledBtnMinHeightNormal,
-    shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
-    shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.secondaryFilledBtnShapeSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.secondaryFilledBtnShapeNormal,
     onClick: () -> Unit = {}
 ) {
     BaseButton(

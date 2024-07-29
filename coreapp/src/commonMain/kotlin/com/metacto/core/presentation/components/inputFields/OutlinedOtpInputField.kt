@@ -3,8 +3,10 @@ package com.metacto.core.presentation.components.inputFields
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -131,7 +133,9 @@ private fun OtpDigit(
     digit: Char,
     textStyle: TextStyle,
     textColor: Color,
-    backgroundColor: Color
+    backgroundColor: Color,
+    shape: RoundedCornerShape = CoreTheme.shapes.otpDigitShape,
+    paddingValues: PaddingValues = PaddingValues(vertical = CoreTheme.spacings.otpDigitPaddingVertical)
 ) {
     // Render digit text
     Text(
@@ -140,8 +144,8 @@ private fun OtpDigit(
         color = textColor,
         textAlign = TextAlign.Center,
         modifier = modifier
-            .clip(CoreTheme.shapes.xLarge)
+            .clip(shape)
             .background(backgroundColor)
-            .padding(vertical = CoreTheme.spacings.paddingXLarge)
+            .padding(paddingValues)
     )
 }

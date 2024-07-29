@@ -237,6 +237,9 @@ data class CoreSpacings(
     val dialogToolbarHorizontalPadding :Dp = paddingXLarge,
     val dialogToolbarTopPadding :Dp = iconMedium,
     val dialogToolbarBottomPadding :Dp = paddingMedium,
+
+    // OtpDigit
+    val otpDigitPaddingVertical:Dp  = paddingXLarge,
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }

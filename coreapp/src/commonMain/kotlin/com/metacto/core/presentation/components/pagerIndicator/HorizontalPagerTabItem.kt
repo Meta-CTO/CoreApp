@@ -25,7 +25,7 @@ fun HorizontalPagerTabItem(
     textColor: Color = CoreTheme.colors.onPrimaryContainer,
     inActiveBgColor: Color = CoreTheme.colors.background,
     inActiveTextColor: Color = CoreTheme.colors.tertiary,
-    shape: Shape = CoreTheme.shapes.medium,
+    shape: Shape = CoreTheme.shapes.horizontalPagerTabItemShape,
     textStyle: TextStyle = CoreTheme.typography.bodySmall,
     textPadding: PaddingValues = PaddingValues(
         vertical = CoreTheme.spacings.horizontalPagerTabItemTextPaddingVertical,

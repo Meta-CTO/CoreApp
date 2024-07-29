@@ -34,8 +34,8 @@ fun TertiaryStrokedButton(
     backgroundColor: Color = CoreTheme.colors.tertiaryStrokedBtnBg,
     minHeightSmall: Dp = CoreTheme.spacings.tertiaryStrokedBtnMinHeightSmall,
     minHeightNormal: Dp = CoreTheme.spacings.tertiaryStrokedBtnMinHeightNormal,
-    shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
-    shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.tertiaryStrokedBtnShapeSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.tertiaryStrokedBtnShapeNormal,
     border: BorderStroke = BorderStroke(
         width = CoreTheme.spacings.tertiaryStrokedBtnStrokeWidth,
         color = CoreTheme.colors.tertiaryStrokedBtnStrokeColor

@@ -34,8 +34,8 @@ fun PrimaryStrokedButton(
     backgroundColor: Color = CoreTheme.colors.strokedBtnBg,
     minHeightSmall: Dp = CoreTheme.spacings.primaryStrokedBtnMinHeightSmall,
     minHeightNormal: Dp = CoreTheme.spacings.primaryStrokedBtnMinHeightNormal,
-    shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
-    shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.primaryStrokedBtnShapeSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.primaryStrokedBtnShapeNormal,
     border: BorderStroke = BorderStroke(
         width = CoreTheme.spacings.primaryStrokedBtnStrokeWidth,
         color = CoreTheme.colors.strokedBtnStrokeColor

@@ -33,8 +33,8 @@ fun TertiaryFilledButton(
     backgroundColor: Color = CoreTheme.colors.tertiaryFilledBtnBg,
     minHeightSmall: Dp = CoreTheme.spacings.tertiaryFilledBtnMinHeightSmall,
     minHeightNormal: Dp = CoreTheme.spacings.tertiaryFilledBtnMinHeightNormal,
-    shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
-    shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.tertiaryFilledBtnShapeSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.tertiaryFilledBtnShapeNormal,
     onClick: () -> Unit = {}
 ) {
     BaseButton(

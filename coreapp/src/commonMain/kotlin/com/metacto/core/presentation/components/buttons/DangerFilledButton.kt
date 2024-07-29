@@ -33,8 +33,8 @@ fun DangerFilledButton(
     backgroundColor: Color = CoreTheme.colors.dangerBtnBg,
     minHeightSmall: Dp = CoreTheme.spacings.dangerFilledBtnMinHeightSmall,
     minHeightNormal: Dp = CoreTheme.spacings.dangerFilledBtnMinHeightNormal,
-    shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
-    shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.dangerFilledButtonShapeSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.dangerFilledButtonShapeNormal,
     onClick: () -> Unit = {}
 ) {
     BaseButton(

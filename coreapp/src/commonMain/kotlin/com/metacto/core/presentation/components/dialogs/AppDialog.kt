@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,6 +23,7 @@ fun AppDialog(
     onDismiss: (() -> Unit)? = null,
     padding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContentPadding),
     containerPadding : PaddingValues = PaddingValues(CoreTheme.spacings.popupPadding),
+    shape: RoundedCornerShape = CoreTheme.shapes.appDialogShape,
     content: @Composable () -> Unit
 ) {
     // Render dialog
@@ -39,7 +41,7 @@ fun AppDialog(
         Column(
             modifier = modifier
                 .padding(containerPadding)
-                .clip(CoreTheme.shapes.xLarge)
+                .clip(shape)
                 .background(CoreTheme.colors.background)
         ) {
             // Render toolbar if required

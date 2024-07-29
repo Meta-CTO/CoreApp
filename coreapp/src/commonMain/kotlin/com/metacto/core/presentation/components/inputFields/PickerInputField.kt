@@ -31,7 +31,7 @@ fun PickerInputField(
     labelTextColor: Color = CoreTheme.colors.pickerInputFieldLabelColor,
     errorTextStyle: TextStyle = CoreTheme.typography.labelMedium,
     errorTextColor: Color = CoreTheme.colors.pickerInputFieldErrorColor,
-    shape: RoundedCornerShape = CoreTheme.shapes.small
+    shape: RoundedCornerShape = CoreTheme.shapes.pickerInputFieldShape
 ) {
     TertiaryTextInputField(
         text = text,
