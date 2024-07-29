@@ -26,15 +26,15 @@ fun TransparentStrokedButton(
     isLoading: Boolean = false,
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.btnPaddingVertical,
-        horizontal = CoreTheme.spacings.btnPaddingHorizontal
+        vertical = CoreTheme.spacings.transparentStrokedBtnPaddingVertical,
+        horizontal = CoreTheme.spacings.transparentStrokedBtnPaddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.transparentStrokedBtnTextColor,
     iconColor: Color = CoreTheme.colors.transparentStrokedBtnIconColor,
     backgroundColor: Color = CoreTheme.colors.transparentStrokedBtnBg,
-    elevation: Dp = CoreTheme.spacings.noSpacing,
+    elevation: Dp = CoreTheme.spacings.transparentStrokedBtnElevation,
     border: BorderStroke = BorderStroke(
-        width = CoreTheme.spacings.stroke,
+        width = CoreTheme.spacings.transparentStrokedBtnStrokeWidth,
         color = CoreTheme.colors.transparentStrokedBtnStrokeColor
     ),
     onClick: () -> Unit = {}

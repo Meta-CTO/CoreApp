@@ -88,6 +88,11 @@ data class CoreColors(
     val floatingBtnTextColor: Color = secondary,
     val floatingBtnIconColor: Color = secondary,
 
+    // OnSecondaryTransparentFilledButton
+    val onSecondaryTransparentFilledBtnBg: Color = onSecondary.copy(alpha = 0.1f),
+    val onSecondaryTransparentFilledBtnTextColor: Color = onSecondary.copy(alpha = 0.9f),
+    val onSecondaryTransparentFilledBtnIconColor: Color = onSecondary,
+
     // PrimaryCheckableButton
     val checkedBtnBg: Color = primaryStrongDark,
     val uncheckedBtnBg: Color = primary,
@@ -216,12 +221,15 @@ data class CoreColors(
     val iconTextColor: Color = tertiary,
 
     // TextDivider
-    val textDividerColor:Color = divider,
+    val textDividerColor: Color = divider,
 
     // Toolbar
-    val toolbarStartIconColor:Color = secondary,
-    val toolbarEndIconColor:Color = secondary,
-    val toolbarTitleTextColor : Color = secondary
+    val toolbarStartIconColor: Color = secondary,
+    val toolbarEndIconColor: Color = secondary,
+    val toolbarTitleTextColor: Color = secondary,
+
+    // OptionItem
+    val optionItemDefaultColor :Color = secondary,
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

@@ -28,16 +28,16 @@ fun PrimaryStrokedButton(
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.btnPaddingVertical,
-        horizontal = CoreTheme.spacings.btnPaddingHorizontal
+        vertical = CoreTheme.spacings.primaryStrokedBtnPaddingVertical,
+        horizontal = CoreTheme.spacings.primaryStrokedBtnPaddingHorizontal
     ),
     backgroundColor: Color = CoreTheme.colors.strokedBtnBg,
-    minHeightSmall: Dp = CoreTheme.spacings.btnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.btnMinHeightNormal,
+    minHeightSmall: Dp = CoreTheme.spacings.primaryStrokedBtnMinHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.primaryStrokedBtnMinHeightNormal,
     shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
     shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
     border: BorderStroke = BorderStroke(
-        width = CoreTheme.spacings.stroke,
+        width = CoreTheme.spacings.primaryStrokedBtnStrokeWidth,
         color = CoreTheme.colors.strokedBtnStrokeColor
     ),
     onClick: () -> Unit = {}

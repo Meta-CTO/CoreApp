@@ -27,17 +27,17 @@ fun TertiaryStrokedButton(
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.btnPaddingVertical,
-        horizontal = CoreTheme.spacings.btnPaddingHorizontal
+        vertical = CoreTheme.spacings.tertiaryStrokedBtnPaddingVertical,
+        horizontal = CoreTheme.spacings.tertiaryStrokedBtnPaddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.tertiaryStrokedBtnTextColor,
     backgroundColor: Color = CoreTheme.colors.tertiaryStrokedBtnBg,
-    minHeightSmall: Dp = CoreTheme.spacings.btnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.btnMinHeightNormal,
+    minHeightSmall: Dp = CoreTheme.spacings.tertiaryStrokedBtnMinHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.tertiaryStrokedBtnMinHeightNormal,
     shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
     shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
     border: BorderStroke = BorderStroke(
-        width = CoreTheme.spacings.stroke,
+        width = CoreTheme.spacings.tertiaryStrokedBtnStrokeWidth,
         color = CoreTheme.colors.tertiaryStrokedBtnStrokeColor
     ),
     onClick: () -> Unit = {}

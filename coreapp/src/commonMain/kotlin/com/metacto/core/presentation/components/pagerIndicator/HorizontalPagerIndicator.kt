@@ -31,7 +31,7 @@ fun HorizontalPagerIndicator(
     inactiveColor: Color = activeColor.copy(alpha = 0.3f),
     indicatorHeight: Dp = CoreTheme.spacings.tabIndicatorSize,
     indicatorWidth: Dp = CoreTheme.spacings.tabIndicatorSize,
-    spacing: Dp = CoreTheme.spacings.paddingMedium,
+    spacing: Dp = CoreTheme.spacings.horizontalPagerIndicatorSpacing,
     indicatorShape: Shape = CircleShape,
     activeBorder: BorderStroke? = null,
     inActiveBorder: BorderStroke? = null

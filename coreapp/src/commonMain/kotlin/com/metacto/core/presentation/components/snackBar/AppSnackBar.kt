@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.noRippleClickable
 
@@ -29,9 +30,11 @@ fun AppSnackBar(
     text: String,
     icon: ImageVector,
     paddingValues: PaddingValues = PaddingValues(
-        horizontal = CoreTheme.spacings.paddingXXXLarge,
-        vertical = CoreTheme.spacings.paddingXXLarge
+        horizontal = CoreTheme.spacings.appSnackBarPaddingHorizontal,
+        vertical = CoreTheme.spacings.appSnackBarPaddingVertical
     ),
+    iconSize: Dp = CoreTheme.spacings.appSnackBarIconSize,
+    horizontalSpacing: Dp = CoreTheme.spacings.appSnackBarHorizontalSpacing,
     addStatusBarPadding: Boolean = false,
     onClick: (() -> Unit)? = null
 ) {
@@ -45,7 +48,7 @@ fun AppSnackBar(
     // Container row
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(CoreTheme.spacings.paddingMedium),
+        horizontalArrangement = Arrangement.spacedBy(horizontalSpacing),
         modifier = modifier
             .fillMaxWidth()
             .background(background)
@@ -58,7 +61,7 @@ fun AppSnackBar(
             imageVector = icon,
             contentDescription = null,
             colorFilter = ColorFilter.tint(color),
-            modifier = Modifier.size(CoreTheme.spacings.iconLarge)
+            modifier = Modifier.size(iconSize)
         )
 
         // Message text

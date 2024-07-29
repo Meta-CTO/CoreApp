@@ -33,8 +33,8 @@ fun IconText(
     isSingleLine: Boolean = false,
     color: Color = CoreTheme.colors.iconTextColor,
     iconTint: Color? = color,
-    iconSize: Dp = CoreTheme.spacings.paddingXLarge,
-    iconSpacing: Dp = CoreTheme.spacings.paddingMedium,
+    iconSize: Dp = CoreTheme.spacings.iconTextIconSize,
+    iconSpacing: Dp = CoreTheme.spacings.iconTextIconSpacing,
     style: TextStyle = CoreTheme.typography.bodySmall,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     textAlign: TextAlign = TextAlign.Center

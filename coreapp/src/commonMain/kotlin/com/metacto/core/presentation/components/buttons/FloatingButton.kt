@@ -24,10 +24,10 @@ fun FloatingButton(
     isLoading: Boolean = false,
     textColor: Color = CoreTheme.colors.floatingBtnTextColor,
     iconColor: Color = CoreTheme.colors.floatingBtnIconColor,
-    iconSize: Dp = CoreTheme.spacings.iconSmall,
+    iconSize: Dp = CoreTheme.spacings.floatingBtnIconSize,
     backgroundColor: Color = CoreTheme.colors.onSecondary,
-    minHeight: Dp = CoreTheme.spacings.btnMinHeightSmall,
-    contentSpacing: Dp = CoreTheme.spacings.paddingSmall,
+    minHeight: Dp = CoreTheme.spacings.floatingBtnMinHeight,
+    contentSpacing: Dp = CoreTheme.spacings.floatingBtnContentSpacing,
     shape: RoundedCornerShape = CoreTheme.shapes.xxxLarge,
     elevation: Dp = CoreTheme.spacings.floatingBtnElevation,
     onClick: () -> Unit = {}

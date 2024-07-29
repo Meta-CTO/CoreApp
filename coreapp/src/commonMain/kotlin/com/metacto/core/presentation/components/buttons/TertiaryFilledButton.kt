@@ -26,13 +26,13 @@ fun TertiaryFilledButton(
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.btnPaddingVertical,
-        horizontal = CoreTheme.spacings.btnPaddingHorizontal
+        vertical = CoreTheme.spacings.tertiaryFilledBtnPaddingVertical,
+        horizontal = CoreTheme.spacings.tertiaryFilledBtnPaddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.tertiaryFilledBtnTextColor,
     backgroundColor: Color = CoreTheme.colors.tertiaryFilledBtnBg,
-    minHeightSmall: Dp = CoreTheme.spacings.btnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.btnMinHeightNormal,
+    minHeightSmall: Dp = CoreTheme.spacings.tertiaryFilledBtnMinHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.tertiaryFilledBtnMinHeightNormal,
     shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
     shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
     onClick: () -> Unit = {}

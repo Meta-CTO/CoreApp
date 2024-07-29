@@ -24,14 +24,14 @@ fun OnSecondaryTransparentFilledButton(
     isDimmed: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.btnPaddingVertical,
-        horizontal = CoreTheme.spacings.btnPaddingHorizontal
+        vertical = CoreTheme.spacings.onSecondaryTransparentFilledBtnPaddingVertical,
+        horizontal = CoreTheme.spacings.onSecondaryTransparentFilledBtnPaddingHorizontal
     ),
-    backgroundColor: Color = CoreTheme.colors.onSecondary.copy(alpha = 0.1f),
-    textColor: Color = CoreTheme.colors.onSecondary.copy(alpha = 0.9f),
-    iconColor: Color = CoreTheme.colors.onSecondary,
-    elevation: Dp = CoreTheme.spacings.noSpacing,
-    minHeight: Dp = CoreTheme.spacings.btnMinHeightSmall,
+    backgroundColor: Color = CoreTheme.colors.onSecondaryTransparentFilledBtnBg,
+    textColor: Color = CoreTheme.colors.onSecondaryTransparentFilledBtnTextColor,
+    iconColor: Color = CoreTheme.colors.onSecondaryTransparentFilledBtnIconColor,
+    elevation: Dp = CoreTheme.spacings.onSecondaryTransparentFilledBtnElevation,
+    minHeight: Dp = CoreTheme.spacings.onSecondaryTransparentFilledBtnMinHeight,
     shape: RoundedCornerShape = CoreTheme.shapes.small,
     onClick: () -> Unit = {}
 ) {

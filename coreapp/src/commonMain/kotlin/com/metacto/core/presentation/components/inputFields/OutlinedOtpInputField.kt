@@ -42,7 +42,7 @@ fun OutlinedOtpInputField(
     textColor: Color = CoreTheme.colors.outlinedOtpInputFieldTextColor,
     backgroundColor: Color = CoreTheme.colors.outlinedOtpInputFieldBackgroundColor,
     textStyle: TextStyle = CoreTheme.typography.labelSmall,
-    horizontalSpacing: Dp = CoreTheme.spacings.paddingLarge,
+    horizontalSpacing: Dp = CoreTheme.spacings.outlinedOtpInputFieldPinSpacing,
     requestFocus: Boolean = false,
     requestFocusDelay: Long = DEF_REQUEST_FOCUS_DELAY
 ) {

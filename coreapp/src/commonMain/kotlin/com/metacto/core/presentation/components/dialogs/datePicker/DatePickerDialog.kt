@@ -37,7 +37,11 @@ fun DatePickerDialog(
     rowCount: Int = 5,
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onDatePicked: (LocalDate) -> Unit,
-    onDismiss: () -> Unit = {}
+    onDismiss: () -> Unit = {},
+    padding:PaddingValues = PaddingValues(
+        vertical = CoreTheme.spacings.datePickerDialogPaddingVertical,
+        horizontal = CoreTheme.spacings.datePickerDialogPaddingHorizontal
+    )
 ) {
     var currentDate by remember {
         mutableStateOf(selectedDate)
@@ -61,10 +65,7 @@ fun DatePickerDialog(
         onDismiss = onDismiss,
         isCancellable = isCancellable,
         showToolbar = false,
-        padding = PaddingValues(
-            vertical = CoreTheme.spacings.paddingXLarge,
-            horizontal = CoreTheme.spacings.noSpacing
-        )
+        padding = padding
     ) {
         // Container column
         Column(

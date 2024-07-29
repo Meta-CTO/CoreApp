@@ -2,6 +2,7 @@ package com.metacto.core.presentation.components.dialogs
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -13,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.noRippleClickable
 
@@ -21,17 +23,20 @@ fun DialogToolbar(
     modifier: Modifier = Modifier,
     title: String? = null,
     showClose: Boolean = false,
-    onCloseClicked: () -> Unit = {}
+    onCloseClicked: () -> Unit = {},
+    closeSize: Dp = CoreTheme.spacings.dialogToolbarCloseSize,
+    paddingHorizontal: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.dialogToolbarHorizontalPadding),
+    paddingVertical: PaddingValues = PaddingValues(
+        top = CoreTheme.spacings.dialogToolbarTopPadding,
+        bottom = CoreTheme.spacings.dialogToolbarBottomPadding
+    )
 ) {
-    val closeSize = CoreTheme.spacings.paddingXLarge
-
     // Toolbar
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = CoreTheme.spacings.paddingXLarge)
-            .padding(top = CoreTheme.spacings.iconMedium)
-            .padding(bottom = CoreTheme.spacings.paddingMedium)
+            .padding(paddingHorizontal)
+            .padding(paddingVertical)
     ) {
         // Render close icon if required
         if (showClose) {

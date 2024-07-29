@@ -19,6 +19,7 @@ fun SecondaryStepBar(
     stepsCount: Int,
     currentStep: Int,
     height: Dp = CoreTheme.spacings.stepBarHeight,
+    strokeWidth: Dp = CoreTheme.spacings.stepBarStroke,
     color: Color = CoreTheme.colors.secondaryStepBarColor,
     borderColor: Color = CoreTheme.colors.secondaryStepBarBorderColor
 ) {
@@ -37,7 +38,7 @@ fun SecondaryStepBar(
             .fillMaxWidth()
             .height(height)
             .border(
-                width = CoreTheme.spacings.stepBarStroke,
+                width = strokeWidth,
                 color = borderColor,
                 shape = CoreTheme.shapes.large
             )

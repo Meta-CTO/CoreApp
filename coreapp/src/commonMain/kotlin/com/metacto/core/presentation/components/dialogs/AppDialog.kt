@@ -20,7 +20,8 @@ fun AppDialog(
     title: String? = null,
     isCancellable: Boolean = true,
     onDismiss: (() -> Unit)? = null,
-    padding: PaddingValues = PaddingValues(CoreTheme.spacings.paddingXLarge),
+    padding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContentPadding),
+    containerPadding : PaddingValues = PaddingValues(CoreTheme.spacings.popupPadding),
     content: @Composable () -> Unit
 ) {
     // Render dialog
@@ -37,7 +38,7 @@ fun AppDialog(
         // Container column
         Column(
             modifier = modifier
-                .padding(CoreTheme.spacings.popupPadding)
+                .padding(containerPadding)
                 .clip(CoreTheme.shapes.xLarge)
                 .background(CoreTheme.colors.background)
         ) {

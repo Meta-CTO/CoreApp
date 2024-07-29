@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 
 @Composable
@@ -24,6 +25,7 @@ internal fun NumberItem(
     selectedBackgroundColor: Color,
     unSelectedTextColor: Color,
     unSelectedBackgroundColor: Color,
+    size: Dp = CoreTheme.spacings.numberSelectorSize,
     onClick: () -> Unit
 ) {
     // Prepare colors
@@ -38,7 +40,7 @@ internal fun NumberItem(
     Box(
         contentAlignment = Alignment.Center,
         modifier = modifier
-            .size(CoreTheme.spacings.numberSelectorSize)
+            .size(size)
             .clip(CoreTheme.shapes.circle)
             .clickable(onClick = onClick)
             .background(backgroundColor)

@@ -3,6 +3,7 @@ package com.metacto.core.presentation.components.options
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,7 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.options.models.OptionUIModel
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.toColor
@@ -23,10 +26,19 @@ import dev.icerock.moko.resources.compose.painterResource
 fun OptionItem(
     modifier: Modifier = Modifier,
     option: OptionUIModel,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    padding: PaddingValues = PaddingValues(
+        vertical = CoreTheme.spacings.optionItemPaddingVertical,
+        horizontal = CoreTheme.spacings.optionItemPaddingHorizontal
+    ),
+    iconSize: Dp = CoreTheme.spacings.optionItemPaddingIconSize,
+    textSpacing: Dp = CoreTheme.spacings.optionItemPaddingTextSpacing,
+    arrowSize: Dp = CoreTheme.spacings.optionItemPaddingArrowSize,
+    defaultColor: Color = CoreTheme.colors.optionItemDefaultColor,
+    optionColor: Color = CoreTheme.colors.optionsArrow
 ) {
     // Prepare the color
-    val color = option.color.toColor() ?: CoreTheme.colors.secondary
+    val color = option.color.toColor() ?: defaultColor
 
     // Container row
     Row(
@@ -35,8 +47,7 @@ fun OptionItem(
         modifier = modifier
             .fillMaxWidth()
             .clickable(onClick = onClick)
-            .padding(vertical = CoreTheme.spacings.paddingXXLarge)
-            .padding(horizontal = CoreTheme.spacings.paddingXXXLarge)
+            .padding(padding)
     ) {
         // Render icon if possible
         if (option.icon != null) {
@@ -44,7 +55,7 @@ fun OptionItem(
                 painter = painterResource(option.icon),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(color),
-                modifier = Modifier.size(CoreTheme.spacings.iconLarge)
+                modifier = Modifier.size(iconSize)
             )
         }
 
@@ -55,7 +66,7 @@ fun OptionItem(
             style = CoreTheme.typography.bodyLarge,
             modifier = Modifier
                 .weight(1f)
-                .padding(start = CoreTheme.spacings.paddingXLarge)
+                .padding(start = textSpacing)
         )
 
         // Render arrow if required
@@ -63,8 +74,8 @@ fun OptionItem(
             Image(
                 imageVector = Icons.Default.ArrowForwardIos,
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(CoreTheme.colors.optionsArrow),
-                modifier = Modifier.size(CoreTheme.spacings.iconMedium)
+                colorFilter = ColorFilter.tint(optionColor),
+                modifier = Modifier.size(arrowSize)
             )
         }
     }
