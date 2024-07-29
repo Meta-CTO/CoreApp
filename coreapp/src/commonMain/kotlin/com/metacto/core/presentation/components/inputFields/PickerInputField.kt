@@ -25,6 +25,7 @@ fun PickerInputField(
     iconTintColor: Color = CoreTheme.colors.secondary,
     textStyle: TextStyle = CoreTheme.typography.bodyMedium,
     textColor: Color = CoreTheme.colors.black,
+    isStaticLabel: Boolean = false,
     placeholderTextStyle: TextStyle = CoreTheme.typography.labelMedium,
     placeholderTextColor: Color = CoreTheme.colors.secondaryContainer,
     labelTextStyle: TextStyle = CoreTheme.typography.labelMedium,
@@ -50,6 +51,7 @@ fun PickerInputField(
         labelTextColor = labelTextColor,
         errorTextStyle = errorTextStyle,
         errorTextColor = errorTextColor,
+        isStaticLabel = isStaticLabel,
         shape = shape,
         modifier = Modifier
             .fillMaxWidth()
