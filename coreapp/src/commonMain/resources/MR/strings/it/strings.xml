@@ -21,4 +21,5 @@
     <string name="take_photo">Scatta foto</string>
     <string name="remove_current_photo">Rimuovi foto attuale</string>
     <string name="no_browser_installed">Nessun browser installato</string>
+    <string name="search_here">Cerca qui...</string>
 </resources>

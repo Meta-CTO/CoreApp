@@ -25,4 +25,5 @@
     <string name="override_current_user_message">Please enter the user ID you want to override.</string>
     <string name="reset_current_user">Reset Current User</string>
     <string name="override">Override</string>
+    <string name="search_here">Search here...</string>
 </resources>

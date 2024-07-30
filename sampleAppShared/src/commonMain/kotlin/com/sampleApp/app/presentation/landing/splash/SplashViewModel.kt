@@ -76,6 +76,7 @@ class SplashViewModel(
             navManager.navigateToBottomSheet(
                 ItemPickerSheet(
                     selectedItem = selectedPickerItem,
+                    canSearch = true,
                     items = listOf(
                         PickerItemUIModel("key1", "title1"),
                         PickerItemUIModel("key2", "title2"),

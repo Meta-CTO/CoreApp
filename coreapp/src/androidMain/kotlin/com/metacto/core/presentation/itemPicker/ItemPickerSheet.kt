@@ -11,7 +11,8 @@ import com.metacto.core.presentation.itemPicker.models.PickerItem
 
 actual class ItemPickerSheet actual constructor(
     actual val items: List<PickerItem>,
-    actual val selectedItem: PickerItem?
+    actual val selectedItem: PickerItem?,
+    actual val canSearch: Boolean
 ) : BaseSheet<ItemPickerViewModel>() {
 
     @Composable
@@ -23,7 +24,8 @@ actual class ItemPickerSheet actual constructor(
             viewModel.setEvent(
                 Event.Init(
                     items = items,
-                    selectedItem = selectedItem
+                    selectedItem = selectedItem,
+                    canSearch = canSearch
                 )
             )
         }
