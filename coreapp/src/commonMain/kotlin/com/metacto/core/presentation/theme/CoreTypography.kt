@@ -198,6 +198,9 @@ data class CoreTypography(
     // WheelTextPicker
     val wheelTextPickerTextStyle: TextStyle = pickerItem,
 
+    // ItemPickerContent
+    val itemPickerWheelTextStyle: TextStyle = pickerItem,
+
 
 )
 

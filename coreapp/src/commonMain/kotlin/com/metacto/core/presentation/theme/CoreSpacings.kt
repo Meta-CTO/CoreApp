@@ -279,7 +279,12 @@ data class CoreSpacings(
     val priceTextInputFieldMinHeight: Dp = noSpacing,
 
     // Dot
-    val dotElevation :Dp = noSpacing,
+    val dotElevation: Dp = noSpacing,
+
+    // ItemPickerContent
+    val itemPickerContentTextSearchInputFieldPadding: Dp = paddingXLarge,
+    val itemPickerContentSelectorBorderWidth: Dp = itemPickerItemStroke,
+    val itemPickerContentWheelHeight: Dp = itemPickerWheelHeight
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }

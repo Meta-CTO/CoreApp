@@ -94,7 +94,10 @@ data class CoreShapes(
     val horizontalPagerTabItemShape :RoundedCornerShape = medium,
 
     // SecondaryStepBar
-    val secondaryStepBarProgressShape :RoundedCornerShape = large
+    val secondaryStepBarProgressShape :RoundedCornerShape = large,
+
+    // ItemPickerContent
+    val itemPickerContentShape :RoundedCornerShape = itemPickerItem,
 )
 
 val LocalCoreShapes = staticCompositionLocalOf { CoreShapes() }
