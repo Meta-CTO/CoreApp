@@ -240,6 +240,17 @@ data class CoreSpacings(
 
     // OtpDigit
     val otpDigitPaddingVertical:Dp  = paddingXLarge,
+
+    // MessageDialog
+    val messageDialogBodyNoTitlePadding :Dp =noSpacing,
+    val messageDialogBodyTitlePadding:Dp = paddingXLarge,
+
+    // OverrideUserDialog
+    val overrideUserDialogMsgSpacing :Dp = paddingXLarge,
+    val overrideUserDialogOverrideBtnPadding :Dp = paddingXXXLarge,
+    val overrideUserDialogResetBtnPadding :Dp = paddingLarge,
+    val overrideUserDialogIdTextPadding :Dp = paddingLarge,
+
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }

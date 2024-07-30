@@ -19,7 +19,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun PrimaryCheckableButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
+    textStyle: TextStyle = CoreTheme.typography.primaryCheckableBtnTextStyle,
     padding: PaddingValues = PaddingValues(
         vertical = CoreTheme.spacings.btnCheckablePaddingVertical,
         horizontal = CoreTheme.spacings.btnCheckablePaddingHorizontal

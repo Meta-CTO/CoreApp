@@ -17,7 +17,7 @@ fun PrimaryTextButton(
     isEnabled: Boolean = true,
     color: Color = CoreTheme.colors.primaryTextBtnTextColor,
     disabledColor: Color = color.copy(alpha = 0.3f),
-    textStyle: TextStyle = CoreTheme.typography.btnLabelSmall,
+    textStyle: TextStyle = CoreTheme.typography.primaryTextBtnTextStyle,
     iconSize: Dp = CoreTheme.spacings.primaryTextBtnIconSize,
     iconColor: Color? = CoreTheme.colors.primaryTextBtnIconColor,
     spacing: Dp = CoreTheme.spacings.primaryTextBtnSpacing,

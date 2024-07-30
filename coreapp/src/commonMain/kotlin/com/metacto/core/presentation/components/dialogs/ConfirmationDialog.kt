@@ -9,6 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import com.metacto.coreApp.MR
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
@@ -26,7 +28,9 @@ fun ConfirmationDialog(
     negativeButtonText: String? = null,
     onPositiveClick: (() -> Unit)? = null,
     onNegativeClick: (() -> Unit)? = null,
-    onDismiss: (() -> Unit)? = null
+    onDismiss: (() -> Unit)? = null,
+    bodyTextStyle:TextStyle = CoreTheme.typography.confirmationDialogBodyTextStyle,
+    bodyTextColor:Color = CoreTheme.colors.confirmationDialogBodyColor
 ) {
     // Prepare spacings
     val msgSpacing = if (title?.isNotEmpty() == true)
@@ -51,8 +55,8 @@ fun ConfirmationDialog(
             Text(
                 text = body.orEmpty(),
                 textAlign = TextAlign.Center,
-                color = CoreTheme.colors.secondary,
-                style = CoreTheme.typography.bodyLarge,
+                color = bodyTextColor,
+                style = bodyTextStyle,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = msgSpacing)

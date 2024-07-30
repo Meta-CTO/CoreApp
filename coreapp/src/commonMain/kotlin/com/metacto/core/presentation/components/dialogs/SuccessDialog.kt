@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import com.metacto.coreApp.MR
 import com.metacto.core.presentation.components.buttons.PrimaryStrokedButton
@@ -27,7 +28,8 @@ fun SuccessDialog(
     body: String? = null,
     buttonText: String? = null,
     onPositiveClick: (() -> Unit)? = null,
-    onDismiss: (() -> Unit)? = null
+    onDismiss: (() -> Unit)? = null,
+    bodyTextStyle:TextStyle = CoreTheme.typography.successDialogBodyTextStyle
 ) {
     // Render app dialog
     AppDialog(
@@ -58,7 +60,7 @@ fun SuccessDialog(
                 text = body.orEmpty(),
                 textAlign = TextAlign.Center,
                 color = CoreTheme.colors.secondary,
-                style = CoreTheme.typography.bodyLarge,
+                style = bodyTextStyle,
                 modifier = Modifier.padding(
                     top = CoreTheme.spacings.popupSpacingMedium
                 )

@@ -15,7 +15,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun SocialButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
+    textStyle: TextStyle = CoreTheme.typography.socialBtnTextStyle,
     iconPainter: Painter? = null,
     iconVector: ImageVector? = null,
     isEnabled: Boolean = true,

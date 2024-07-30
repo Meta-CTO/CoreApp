@@ -15,7 +15,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun OnSecondaryTransparentFilledButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.btnLabelSmall,
+    textStyle: TextStyle = CoreTheme.typography.onSecondaryTransparentFilledBtnTextStyle,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,

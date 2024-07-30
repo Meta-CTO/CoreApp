@@ -12,7 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
@@ -25,6 +27,9 @@ fun DialogToolbar(
     showClose: Boolean = false,
     onCloseClicked: () -> Unit = {},
     closeSize: Dp = CoreTheme.spacings.dialogToolbarCloseSize,
+    closeColor: Color = CoreTheme.colors.dialogToolbarCloseColor,
+    textColor: Color = CoreTheme.colors.dialogToolbarTextColor,
+    textStyle: TextStyle = CoreTheme.typography.dialogToolbarTextStyle,
     paddingHorizontal: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.dialogToolbarHorizontalPadding),
     paddingVertical: PaddingValues = PaddingValues(
         top = CoreTheme.spacings.dialogToolbarTopPadding,
@@ -42,7 +47,7 @@ fun DialogToolbar(
         if (showClose) {
             Image(
                 imageVector = Icons.Filled.Close,
-                colorFilter = ColorFilter.tint(CoreTheme.colors.secondary),
+                colorFilter = ColorFilter.tint(closeColor),
                 contentDescription = null,
                 modifier = Modifier
                     .size(closeSize)
@@ -55,8 +60,8 @@ fun DialogToolbar(
         Text(
             text = title.orEmpty(),
             textAlign = TextAlign.Center,
-            color = CoreTheme.colors.secondary,
-            style = CoreTheme.typography.bodyMedium,
+            color = textColor,
+            style = textStyle,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = closeSize)

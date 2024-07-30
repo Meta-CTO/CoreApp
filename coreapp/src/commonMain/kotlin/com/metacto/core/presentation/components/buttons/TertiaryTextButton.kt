@@ -17,7 +17,7 @@ fun TertiaryTextButton(
     isEnabled: Boolean = true,
     color: Color = CoreTheme.colors.tertiaryTextBtnTextColor,
     disabledColor: Color = color.copy(alpha = 0.3f),
-    textStyle: TextStyle = CoreTheme.typography.btnLabelSmall,
+    textStyle: TextStyle = CoreTheme.typography.tertiaryTextBtnTextStyle,
     iconSize: Dp = CoreTheme.spacings.tertiaryTextBtnIconSize,
     iconColor: Color? = CoreTheme.colors.tertiaryTextBtnIconColor,
     spacing: Dp = CoreTheme.spacings.tertiaryTextBtnSpacing,

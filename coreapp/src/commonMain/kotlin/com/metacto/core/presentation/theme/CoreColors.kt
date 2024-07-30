@@ -229,7 +229,21 @@ data class CoreColors(
     val toolbarTitleTextColor: Color = secondary,
 
     // OptionItem
-    val optionItemDefaultColor :Color = secondary,
-)
+    val optionItemDefaultColor: Color = secondary,
+
+    // ConfirmationDialog
+    val confirmationDialogBodyColor: Color = secondary,
+
+    // DialogToolbar
+    val dialogToolbarCloseColor: Color = secondary,
+    val dialogToolbarTextColor: Color = secondary,
+
+    // MessageDialog
+    val messageDialogBodyTextColor: Color = secondary,
+
+    // OverrideUserDialog
+    val overrideUserDialogBodyTextColor :Color = secondary,
+
+    )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

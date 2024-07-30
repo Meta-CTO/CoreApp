@@ -80,6 +80,66 @@ data class CoreTypography(
     val pickerItem: TextStyle = primaryMedium.copy(
         fontSize = 20.sp
     ),
+
+    // PrimaryFilledButton
+    val primaryFilledBtnTextStyle: TextStyle = btnLabelMedium,
+
+    // PrimaryCheckableButton
+    val primaryCheckableBtnTextStyle: TextStyle = btnLabelMedium,
+
+    // OnSecondaryTransparentFilledButton
+    val onSecondaryTransparentFilledBtnTextStyle: TextStyle = btnLabelSmall,
+
+    // FloatingButton
+    val floatingBtnTextStyle: TextStyle = btnLabelMedium,
+
+    // DangerFilledButton
+    val dangerFilledBtnTextStyle: TextStyle = btnLabelMedium,
+
+    // PrimaryStrokedButton
+    val primaryStrokedBtnTextStyle: TextStyle = btnLabelMedium,
+
+    // PrimaryTextButton
+    val primaryTextBtnTextStyle: TextStyle = btnLabelSmall,
+
+    // SecondaryFilledButton
+    val secondaryFilledBtnTextStyle: TextStyle = btnLabelMedium,
+
+    // SecondaryStrokedBtn
+    val secondaryStrokedBtnTextStyle: TextStyle = btnLabelMedium,
+
+    // SecondaryTextButton
+    val secondaryTextBtnTextStyle: TextStyle = btnLabelSmall,
+
+    // SocialButton
+    val socialBtnTextStyle: TextStyle = btnLabelMedium,
+
+    // TertiaryFilledButton
+    val tertiaryFilledBtnTextStyle: TextStyle = btnLabelMedium,
+
+    // TertiaryStrokedButton
+    val tertiaryStrokedBtnTextStyle: TextStyle = btnLabelMedium,
+
+    // TertiaryTextButton
+    val tertiaryTextBtnTextStyle: TextStyle = btnLabelSmall,
+
+    // TransparentStrokedButton
+    val transparentStrokedBtn: TextStyle = btnLabelMedium,
+
+    // ConfirmationDialog
+    val confirmationDialogBodyTextStyle: TextStyle = bodyLarge,
+
+    // DialogToolbar
+    val dialogToolbarTextStyle: TextStyle = bodyMedium,
+
+    // MessageDialog
+    val messageDialogBodyTextStyle: TextStyle = bodyLarge,
+
+    // OverrideUserDialog
+    val overrideUserDialogBodyTextStyle:TextStyle = bodyLarge,
+
+    // SuccessDialog
+    val successDialogBodyTextStyle : TextStyle = bodyLarge
 )
 
 val LocalCoreTypography = staticCompositionLocalOf { CoreTypography() }

@@ -15,7 +15,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun TertiaryFilledButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
+    textStyle: TextStyle = CoreTheme.typography.tertiaryFilledBtnTextStyle,
     iconColor: Color? = CoreTheme.colors.tertiaryFilledBtnIconColor,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
