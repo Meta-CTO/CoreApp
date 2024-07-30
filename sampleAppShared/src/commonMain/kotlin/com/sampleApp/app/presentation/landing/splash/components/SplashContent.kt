@@ -154,7 +154,7 @@ internal fun SplashContent(
                 placeholder = "test",
                 text = "Ahmed",
                 shape = CoreTheme.shapes.xLarge,
-                onClick = {}
+                onClick = { onEvent(Event.ClickMeClicked) }
             )
         }
 
