@@ -143,3 +143,7 @@ multiplatformResources {
     multiplatformResourcesSourceSet = "commonMain"
     disableStaticFrameworkWarning = true
 }
+
+tasks.named("syncPodComposeResourcesForIos") {
+    dependsOn("generateMRiosSimulatorArm64Main")
+}
