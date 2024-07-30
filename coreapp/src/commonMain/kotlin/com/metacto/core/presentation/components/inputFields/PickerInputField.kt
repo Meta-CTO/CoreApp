@@ -40,7 +40,7 @@ fun PickerInputField(
     TertiaryTextInputField(
         text = text,
         label = label,
-        enabled = true,
+        enabled = false,
         readOnly = true,
         error = error,
         endIconVector = if (showTrailingIcon) trailingIcon else null,
