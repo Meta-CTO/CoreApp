@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.dialogs.AppDialog
@@ -36,6 +37,12 @@ internal fun TimePickerDialog(
     rowCount: Int = 5,
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onTimePicked: (LocalTime) -> Unit,
+    padding: PaddingValues = PaddingValues(CoreTheme.spacings.timePickerDialogPadding),
+    wheelPadding: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.timePickerWheelPaddingHorizontal),
+    okBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.timePickerOkBtnPaddingTop),
+    height: Dp = CoreTheme.spacings.timePickerHeight,
+    pickerPadding: Dp = CoreTheme.spacings.timePickerPickerPadding,
+    wheelHeight: Dp = CoreTheme.spacings.timePickerWheelHeight,
     onDismiss: () -> Unit = {}
 ) {
     // Get main objects
@@ -115,25 +122,26 @@ internal fun TimePickerDialog(
     ) {
         // Container column
         Column(
-            modifier = Modifier.padding(CoreTheme.spacings.paddingXLarge)
+            modifier = Modifier.padding(padding)
         ) {
             // Render time picker
-            WheelTimePicker (
+            WheelTimePicker(
                 rowCount = rowCount,
                 startTime = selectedTime,
                 onSnappedTime = { snappedTime ->
                     currentHour = snappedTime.hour
                     currentMinute = snappedTime.minute
-                    isCurrentAm =  snappedTime.hour < 12
+                    isCurrentAm = snappedTime.hour < 12
                 },
-                size = DpSize(getScreenSize().first.toDp() - CoreTheme.spacings.pickerPadding, CoreTheme.spacings.datePickerWheelHeight),
+                size = DpSize(
+                    getScreenSize().first.toDp() - pickerPadding,
+                    wheelHeight
+                ),
                 selectorProperties = selectorProperties,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(CoreTheme.spacings.datePickerHeight)
-                    .padding(
-                        horizontal = CoreTheme.spacings.paddingXXLarge
-                    )
+                    .height(height)
+                    .padding(wheelPadding)
             )
 
             // Ok button
@@ -142,9 +150,7 @@ internal fun TimePickerDialog(
                 onClick = ::handleOkClick,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(
-                        top = CoreTheme.spacings.paddingXXXLarge
-                    )
+                    .padding(okBtnPadding)
             )
         }
     }

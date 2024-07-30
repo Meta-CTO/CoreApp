@@ -10,6 +10,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.metacto.core.presentation.theme.CoreTheme
@@ -22,8 +23,9 @@ fun AppDialog(
     isCancellable: Boolean = true,
     onDismiss: (() -> Unit)? = null,
     contentPadding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContentPadding),
-    containerPadding : PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContainerPadding),
+    containerPadding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContainerPadding),
     shape: RoundedCornerShape = CoreTheme.shapes.appDialogShape,
+    containerBackground: Color = CoreTheme.colors.appDialogContainerBg,
     content: @Composable () -> Unit
 ) {
     // Render dialog
@@ -42,7 +44,7 @@ fun AppDialog(
             modifier = modifier
                 .padding(containerPadding)
                 .clip(shape)
-                .background(CoreTheme.colors.background)
+                .background(containerBackground)
         ) {
             // Render toolbar if required
             if (showToolbar) {

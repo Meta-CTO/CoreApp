@@ -157,22 +157,22 @@ data class CoreTypography(
     val pickerInputFieldPlaceholderTextStyle: TextStyle = labelMedium,
 
     // PriceTextInputField
-    val priceTextInputFieldTextStyle: TextStyle = bodyMedium,
-    val priceTextInputFieldLabelTextStyle: TextStyle = labelMedium,
-    val priceTextInputFieldErrorTextStyle: TextStyle = labelMedium,
-    val priceTextInputFieldPlaceholderTextStyle: TextStyle = labelMedium,
+    val priceFieldTextStyle: TextStyle = bodyMedium,
+    val priceFieldLabelTextStyle: TextStyle = labelMedium,
+    val priceFieldErrorTextStyle: TextStyle = labelMedium,
+    val priceFieldPlaceholderTextStyle: TextStyle = labelMedium,
 
     // PrimaryTextInputField
-    val primaryTextInputFieldTextStyle: TextStyle = inputFieldText,
-    val primaryTextInputFieldLabelTextStyle: TextStyle = labelMedium,
-    val primaryTextInputFieldErrorTextStyle: TextStyle = labelMedium,
-    val primaryTextInputFieldPlaceholderTextStyle: TextStyle = labelMedium,
+    val primaryInputFieldTextStyle: TextStyle = inputFieldText,
+    val primaryInputFieldLabelTextStyle: TextStyle = labelMedium,
+    val primaryInputFieldErrorTextStyle: TextStyle = labelMedium,
+    val primaryInputFieldPlaceholderTextStyle: TextStyle = labelMedium,
 
     // TertiaryTextInputField
-    val tertiaryTextInputFieldTextStyle: TextStyle = bodyMedium,
-    val tertiaryTextInputFieldLabelTextStyle: TextStyle = labelMedium,
-    val tertiaryTextInputFieldErrorTextStyle: TextStyle = labelMedium,
-    val tertiaryTextInputFieldPlaceholderTextStyle: TextStyle = labelMedium,
+    val tertiaryInputFieldTextStyle: TextStyle = bodyMedium,
+    val tertiaryInputFieldLabelTextStyle: TextStyle = labelMedium,
+    val tertiaryInputFieldErrorTextStyle: TextStyle = labelMedium,
+    val tertiaryInputFieldPlaceholderTextStyle: TextStyle = labelMedium,
 
     // NumberItem
     val numberItemTextStyle: TextStyle = numberSelector,
@@ -201,7 +201,8 @@ data class CoreTypography(
     // ItemPickerContent
     val itemPickerWheelTextStyle: TextStyle = pickerItem,
 
-
-)
+    // Toolbar
+    val toolbarTitleStyle: TextStyle = titleBold,
+    )
 
 val LocalCoreTypography = staticCompositionLocalOf { CoreTypography() }

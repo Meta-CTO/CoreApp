@@ -4,6 +4,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 
 @Immutable
@@ -73,13 +74,13 @@ data class CoreShapes(
     val pickerInputFieldShape :RoundedCornerShape = small,
 
     // PriceTextInputField
-    val priceTextInputFieldBgShape :RoundedCornerShape = small,
+    val priceInputFieldBgShape :RoundedCornerShape = small,
 
     // PrimaryTextInputField
-    val primaryTextInputFieldShape :RoundedCornerShape = small,
+    val primaryInputFieldShape :RoundedCornerShape = small,
 
     // TertiaryTextInputField
-    val tertiaryTextInputFieldShape :RoundedCornerShape = small,
+    val tertiaryInputFieldShape :RoundedCornerShape = small,
 
     // NumberItem
     val numberItemShape :RoundedCornerShape = circle,
@@ -98,6 +99,9 @@ data class CoreShapes(
 
     // ItemPickerContent
     val itemPickerContentShape :RoundedCornerShape = itemPickerItem,
+
+    // SelectorProperties
+    val selectorPropertiesShape :RoundedCornerShape = wheelPickerItem,
 )
 
 val LocalCoreShapes = staticCompositionLocalOf { CoreShapes() }

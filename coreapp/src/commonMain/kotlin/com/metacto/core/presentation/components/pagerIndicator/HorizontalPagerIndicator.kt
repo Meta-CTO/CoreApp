@@ -104,6 +104,7 @@ private fun Dot(
     color: Color,
     width: Dp,
     height: Dp,
+    dotElevation: Dp = CoreTheme.spacings.dotElevation,
     onClick: () -> Unit = {}
 ) {
     Card(
@@ -118,7 +119,7 @@ private fun Dot(
         modifier = modifier
             .width(width)
             .height(height)
-            .shadow(CoreTheme.spacings.dotElevation)
+            .shadow(dotElevation)
             .noRippleClickable(onClick = onClick)
     ) {
     }

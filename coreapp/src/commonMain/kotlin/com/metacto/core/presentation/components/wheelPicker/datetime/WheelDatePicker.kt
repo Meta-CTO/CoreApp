@@ -19,7 +19,7 @@ fun WheelDatePicker(
   minDate: LocalDate = LocalDate.EPOCH,
   maxDate: LocalDate = LocalDate.CYBER_ERA,
   yearsRange: IntRange? = IntRange(minDate.year, maxDate.year),
-  size: DpSize = DpSize(CoreTheme.spacings.defaultWheelPickerWidth, CoreTheme.spacings.defaultWheelPickerHeight),
+  size: DpSize = DpSize(CoreTheme.spacings.wheelDatePickerWidth, CoreTheme.spacings.wheelDatePickerHeight),
   rowCount: Int = 3, // Number of rows to show
   textStyle: TextStyle = MaterialTheme.typography.titleMedium,
   textColor: Color = LocalContentColor.current,

@@ -173,34 +173,34 @@ data class CoreColors(
     val pickerInputFieldErrorColor: Color = danger,
 
     // PriceTextInputField
-    val priceTextInputFieldBg: Color = white,
-    val priceTextInputFieldTextColor: Color = black,
-    val priceTextInputFieldPlaceholderColor: Color = placeholder,
-    val priceTextInputFieldLabelColor: Color = secondary,
-    val priceTextInputFieldErrorColor: Color = danger,
-    val priceTextInputFieldIconColor: Color = tertiary,
-    val priceTextInputFieldFocusedBorderColor: Color = primaryDark,
-    val priceTextInputFieldUnFocusedBorderColor: Color = primary,
+    val priceFieldBg: Color = white,
+    val priceFieldTextColor: Color = black,
+    val priceFieldPlaceholderColor: Color = placeholder,
+    val priceFieldLabelColor: Color = secondary,
+    val priceFieldErrorColor: Color = danger,
+    val priceFieldIconColor: Color = tertiary,
+    val priceFieldFocusedBorderColor: Color = primaryDark,
+    val priceFieldUnFocusedBorderColor: Color = primary,
 
     // PrimaryTextInputField
-    val primaryTextInputFieldIconColor: Color = secondary,
-    val primaryTextInputFieldBg: Color = background,
-    val primaryTextInputFieldFocusedBorderColor: Color = primaryDark,
-    val primaryTextInputFieldUnFocusedBorderColor: Color = primary,
-    val primaryTextInputFieldTextColor: Color = secondary,
-    val primaryTextInputFieldPlaceholderColor: Color = placeholder,
-    val primaryTextInputFieldLabelColor: Color = secondary,
-    val primaryTextInputFieldErrorColor: Color = danger,
+    val primaryInputFieldIconColor: Color = secondary,
+    val primaryInputFieldBg: Color = background,
+    val primaryInputFieldFocusedBorderColor: Color = primaryDark,
+    val primaryInputFieldUnFocusedBorderColor: Color = primary,
+    val primaryInputFieldTextColor: Color = secondary,
+    val primaryInputFieldPlaceholderColor: Color = placeholder,
+    val primaryInputFieldLabelColor: Color = secondary,
+    val primaryInputFieldErrorColor: Color = danger,
 
     // TertiaryTextInputField
-    val tertiaryTextInputFieldIconColor: Color = tertiary,
-    val tertiaryTextInputFieldBg: Color = background,
-    val tertiaryTextInputFieldFocusedBorderColor: Color = tertiaryBorder,
-    val tertiaryTextInputFieldUnFocusedBorderColor: Color = tertiaryBorder,
-    val tertiaryTextInputFieldTextColor: Color = black,
-    val tertiaryTextInputFieldPlaceholderColor: Color = secondaryContainer,
-    val tertiaryTextInputFieldLabelColor: Color = black,
-    val tertiaryTextInputFieldErrorColor: Color = danger,
+    val tertiaryInputFieldIconColor: Color = tertiary,
+    val tertiaryInputFieldBg: Color = background,
+    val tertiaryInputFieldFocusedBorderColor: Color = tertiaryBorder,
+    val tertiaryInputFieldUnFocusedBorderColor: Color = tertiaryBorder,
+    val tertiaryInputFieldTextColor: Color = black,
+    val tertiaryInputFieldPlaceholderColor: Color = secondaryContainer,
+    val tertiaryInputFieldLabelColor: Color = black,
+    val tertiaryInputFieldErrorColor: Color = danger,
 
     // PrimaryProgressIndicator
     val primaryProgressColor: Color = primary,
@@ -248,13 +248,28 @@ data class CoreColors(
     val messageDialogBodyTextColor: Color = secondary,
 
     // OverrideUserDialog
-    val overrideUserDialogBodyTextColor :Color = secondary,
+    val overrideUserDialogBodyTextColor: Color = secondary,
 
     // ItemPickerContent
-    val itemPickerContentWheelTextColor:Color = pickerItem,
-    val itemPickerContentSelectorColor:Color = itemPickerItemBg,
-    val itemPickerContentSelectorBorderColor:Color = itemPickerItemStroke,
+    val itemPickerContentWheelTextColor: Color = pickerItem,
+    val itemPickerContentSelectorColor: Color = itemPickerItemBg,
+    val itemPickerContentSelectorBorderColor: Color = itemPickerItemStroke,
 
-)
+    // AppDialog
+    val appDialogContainerBg: Color = background,
+
+    // SecondaryNumberItem
+    val secondaryNumberItemSelectedTextColor: Color = onSecondary,
+    val secondaryNumberItemSelectedBgColor: Color = secondary,
+    val secondaryNumberItemUnSelectedTextColor: Color = secondary,
+    val secondaryNumberItemUnSelectedBgColor: Color = secondaryContainer,
+
+    // WheelTextPicker
+    val wheelTextPickerTextColor: Color = pickerItem,
+
+    // SelectorProperties
+    val selectorPropertiesColor : Color = wheelPickerItemBg,
+    val selectorPropertiesBorderColor : Color = wheelPickerItemStroke,
+    )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

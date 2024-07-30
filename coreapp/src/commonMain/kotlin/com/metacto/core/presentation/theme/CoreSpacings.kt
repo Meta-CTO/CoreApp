@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.metacto.core.presentation.components.wheelPicker.SelectorProperties
 
 @Immutable
 data class CoreSpacings(
@@ -68,13 +69,11 @@ data class CoreSpacings(
     val numberSelectorSize: Dp = 44.dp,
 
     val toolbarIconMinSize: Dp = 40.dp,
-    val toolbarHeight: Dp = 62.dp,
 
     val defaultWheelPickerHeight: Dp = 128.dp,
     val defaultWheelPickerWidth: Dp = 256.dp,
     val datePickerWheelHeight: Dp = 270.dp,
     val itemPickerHeight: Dp = 300.dp,
-    val itemPickerWheelHeight: Dp = 270.dp,
     val wheelPickerItemStroke: Dp = 1.dp,
     val itemPickerItemStroke: Dp = 0.dp,
 
@@ -163,6 +162,18 @@ data class CoreSpacings(
     // DatePickerDialog
     val datePickerDialogPaddingVertical: Dp = paddingXLarge,
     val datePickerDialogPaddingHorizontal: Dp = noSpacing,
+    val datePickerDialogOkBtnPaddingHorizontal: Dp = paddingXLarge,
+    val datePickerDialogOkBtnPaddingTop: Dp = paddingXXXLarge,
+    val datePickerDialogWheelHeight: Dp = datePickerHeight,
+    val datePickerDialogPadding: Dp = pickerPadding,
+
+    // TimePickerDialog
+    val timePickerDialogPadding: Dp = paddingXLarge,
+    val timePickerWheelPaddingHorizontal: Dp = paddingXXLarge,
+    val timePickerOkBtnPaddingTop: Dp = paddingXXXLarge,
+    val timePickerWheelHeight: Dp = datePickerWheelHeight,
+    val timePickerPickerPadding: Dp = pickerPadding,
+    val timePickerHeight: Dp = datePickerHeight,
 
     // IconText
     val iconTextIconSize: Dp = paddingXLarge,
@@ -188,14 +199,14 @@ data class CoreSpacings(
     val outlinedOtpInputFieldPinSpacing: Dp = paddingLarge,
 
     // PrimaryTextInputField
-    val primaryTextInputFieldMinHeight: Dp = noSpacing,
-    val primaryTextInputFieldEndIconSize: Dp = iconSmall,
-    val primaryTextInputFieldStartIconSize: Dp = iconSmall,
+    val primaryInputFieldMinHeight: Dp = noSpacing,
+    val primaryInputFieldEndIconSize: Dp = iconSmall,
+    val primaryInputFieldStartIconSize: Dp = iconSmall,
 
     // TertiaryTextInputField
-    val tertiaryTextInputFieldMinHeight: Dp = noSpacing,
-    val tertiaryTextInputFieldEndIconSize: Dp = iconSmall,
-    val tertiaryTextInputFieldStartIconSize: Dp = iconSmall,
+    val tertiaryInputFieldMinHeight: Dp = noSpacing,
+    val tertiaryInputFieldEndIconSize: Dp = iconSmall,
+    val tertiaryInputFieldStartIconSize: Dp = iconSmall,
 
     // OptionItem
     val optionItemPaddingVertical: Dp = paddingXXXLarge,
@@ -274,17 +285,60 @@ data class CoreSpacings(
     val successDialogBtnPaddingTop: Dp = popupSpacingLarge,
 
     // PriceTextInputField
-    val priceTextInputFieldStartIconSize: Dp = iconSmall,
-    val priceTextInputFieldEndIconSize: Dp = iconSmall,
-    val priceTextInputFieldMinHeight: Dp = noSpacing,
+    val priceFieldStartIconSize: Dp = iconSmall,
+    val priceFieldEndIconSize: Dp = iconSmall,
+    val priceFieldMinHeight: Dp = noSpacing,
 
     // Dot
     val dotElevation: Dp = noSpacing,
 
     // ItemPickerContent
-    val itemPickerContentTextSearchInputFieldPadding: Dp = paddingXLarge,
-    val itemPickerContentSelectorBorderWidth: Dp = itemPickerItemStroke,
-    val itemPickerContentWheelHeight: Dp = itemPickerWheelHeight
+    val itemPickerSearchFieldPadding: Dp = paddingXLarge,
+    val itemPickerSelectorBorderWidth: Dp = itemPickerItemStroke,
+    val itemPickerWheelHeight: Dp = 270.dp,
+
+    // Toolbar
+    val toolbarHeight: Dp = 62.dp,
+    val toolbarContainerPaddingStart: Dp = paddingMedium,
+    val toolbarStartIconMinHeight: Dp = toolbarIconMinSize,
+    val toolbarStartIconMinWidth: Dp = toolbarIconMinSize,
+    val toolbarEndIconMinHeight: Dp = toolbarIconMinSize,
+    val toolbarEndIconMinWidth: Dp = toolbarIconMinSize,
+
+    // WheelTextPicker
+    val wheelTextPickerWidth: Dp = defaultWheelPickerWidth,
+    val wheelTextPickerHeight: Dp = defaultWheelPickerHeight,
+
+    // WheelPicker
+    val wheelPickerWidth: Dp = defaultWheelPickerWidth,
+    val wheelPickerHeight: Dp = defaultWheelPickerHeight,
+
+    // SelectorProperties
+    val selectorPropertiesBorderWidth: Dp = wheelPickerItemStroke,
+
+    // WheelTimePicker
+    val wheelTimePickerHeight: Dp = defaultWheelPickerHeight,
+    val wheelTimePickerWidth: Dp = defaultWheelPickerWidth,
+
+    // WheelDateTimePicker
+    val wheelDateTimePickerHeight: Dp = defaultWheelPickerHeight,
+    val wheelDateTimePickerWidth: Dp = defaultWheelPickerWidth,
+
+    // WheelDatePicker
+    val wheelDatePickerWidth:Dp = defaultWheelPickerWidth,
+    val wheelDatePickerHeight:Dp = defaultWheelPickerHeight,
+
+    // DefaultWheelTimePicker
+    val defaultWheelTimePickerHeight :Dp = defaultWheelPickerHeight,
+    val defaultWheelTimePickerWidth :Dp = defaultWheelPickerWidth,
+
+    // DefaultWheelDateTimePicker
+    val defaultWheelDateTimePickerHeight :Dp = defaultWheelPickerHeight,
+    val defaultWheelDateTimePickerWidth :Dp = defaultWheelPickerWidth,
+
+    // DefaultWheelDatePicker
+    val defaultWheelDatePickerHeight :Dp = defaultWheelPickerHeight,
+    val defaultWheelDatePickerWidth :Dp = defaultWheelPickerWidth,
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }
