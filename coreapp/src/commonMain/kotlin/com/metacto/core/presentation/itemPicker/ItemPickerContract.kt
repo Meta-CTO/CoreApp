@@ -4,23 +4,32 @@ import com.metacto.core.presentation.base.ViewEvent
 import com.metacto.core.presentation.base.ViewSideEffect
 import com.metacto.core.presentation.base.ViewState
 import com.metacto.core.presentation.itemPicker.models.PickerItem
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 
 class ItemPickerContract {
 
     data class State(
         val isInitialized: Boolean = false,
-        val items: List<PickerItem> = emptyList(),
-        val initialItemIndex: Int = 0
+        val items: ImmutableList<PickerItem> = persistentListOf(),
+        val displayedItems: ImmutableList<PickerItem> = persistentListOf(),
+        val initialItemIndex: Int = 0,
+        val canSearch: Boolean = false,
+        val searchTerm: String = ""
     ) : ViewState
 
     sealed class Event : ViewEvent {
         data class Init(
             val items: List<PickerItem>,
-            val selectedItem: PickerItem?
+            val selectedItem: PickerItem?,
+            val canSearch: Boolean
         ) : Event()
 
         data object CloseClicked : Event()
         data class DoneClicked(val selectedIndex: Int) : Event()
+        data class SearchTermChanged(val value: String) : Event()
+        data object ClearSearchClicked : Event()
+        data object SearchClicked : Event()
     }
 
     sealed class Effect : ViewSideEffect

@@ -17,6 +17,7 @@ fun PickerInputField(
     modifier: Modifier = Modifier,
     text: String,
     label: String? = null,
+    error: String? = null,
     placeholder: String? = null,
     onClick: () -> Unit,
     enabled: Boolean = true,
@@ -25,6 +26,9 @@ fun PickerInputField(
     iconTintColor: Color = CoreTheme.colors.pickerInputFieldIconColor,
     textStyle: TextStyle = CoreTheme.typography.bodyMedium,
     textColor: Color = CoreTheme.colors.pickerInputFieldTextColor,
+    isStaticLabel: Boolean = false,
+    maxLines: Int = Int.MAX_VALUE,
+    singleLine: Boolean = false,
     placeholderTextStyle: TextStyle = CoreTheme.typography.labelMedium,
     placeholderTextColor: Color = CoreTheme.colors.pickerInputFieldPlaceholderColor,
     labelTextStyle: TextStyle = CoreTheme.typography.labelMedium,
@@ -36,8 +40,9 @@ fun PickerInputField(
     TertiaryTextInputField(
         text = text,
         label = label,
-        enabled = false,
+        enabled = true,
         readOnly = true,
+        error = error,
         endIconVector = if (showTrailingIcon) trailingIcon else null,
         iconTintColor = iconTintColor,
         onValueChange = {},
@@ -50,6 +55,9 @@ fun PickerInputField(
         labelTextColor = labelTextColor,
         errorTextStyle = errorTextStyle,
         errorTextColor = errorTextColor,
+        maxLines = maxLines,
+        singleLine = singleLine,
+        isStaticLabel = isStaticLabel,
         shape = shape,
         modifier = Modifier
             .fillMaxWidth()

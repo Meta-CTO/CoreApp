@@ -448,6 +448,11 @@ fun Modifier.pullRefreshIf(
     return if (condition && state != null) this.pullRefresh(state) else this
 }
 
+fun Color.isDark(): Boolean {
+    val darkness = 1 - (0.299 * red + 0.587 * green + 0.114 * blue)
+    return darkness >= 0.5
+}
+
 @Composable
 expect fun openUrlInBrowser(url: String)
 

@@ -5,9 +5,11 @@ import com.metacto.core.presentation.itemPicker.models.PickerItem
 
 expect class ItemPickerSheet(
     items: List<PickerItem>,
-    selectedItem: PickerItem? = null
+    selectedItem: PickerItem? = null,
+    canSearch: Boolean = false
 ) : BaseSheet<ItemPickerViewModel> {
 
     val items: List<PickerItem>
     val selectedItem: PickerItem?
+    val canSearch: Boolean
 }

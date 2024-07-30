@@ -22,6 +22,7 @@ class SplashViewModel(
     private val phoneNumberManager: IPhoneNumberManager
 ) : BaseViewModel<State, Event, Effect>() {
     private val notificationManager by inject<INotificationManager>()
+    private var selectedPickerItem: PickerItemUIModel? = null
 
     fun init(isWelcome: Boolean) {
         // Validate if already initialized
@@ -29,6 +30,10 @@ class SplashViewModel(
 
         // Init
         setState { copy(isWelcome = isWelcome) }
+
+        navManager.collectNavResult<ItemPickerSheet, PickerItemUIModel> { pickedItem ->
+            selectedPickerItem = pickedItem
+        }
 
         // Update the flag
         setState { copy(isInitialized = true) }
@@ -70,6 +75,8 @@ class SplashViewModel(
         Event.ClickMeClicked -> {
             navManager.navigateToBottomSheet(
                 ItemPickerSheet(
+                    selectedItem = selectedPickerItem,
+                    canSearch = true,
                     items = listOf(
                         PickerItemUIModel("key1", "title1"),
                         PickerItemUIModel("key2", "title2"),

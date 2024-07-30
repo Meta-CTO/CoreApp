@@ -49,6 +49,10 @@ internal fun WheelPicker(
     val flingBehavior = rememberSnapFlingBehavior(lazyListState)
     val isScrollInProgress = lazyListState.isScrollInProgress
 
+    LaunchedEffect(startIndex) {
+        lazyListState.scrollToItem(startIndex)
+    }
+
     LaunchedEffect(isScrollInProgress, count) {
         if (!isScrollInProgress) {
             onScrollFinished(calculateSnappedItemIndex(lazyListState))?.let {
