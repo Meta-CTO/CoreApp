@@ -20,7 +20,7 @@ fun TextDivider(
     color: Color = CoreTheme.colors.textDividerColor,
     horizontalPadding: Dp = CoreTheme.spacings.textDividerHorizontalPadding,
     strokeWidth: Dp = CoreTheme.spacings.textDividerStrokeWidth,
-    textStyle: TextStyle = CoreTheme.typography.labelLarge,
+    textStyle: TextStyle = CoreTheme.typography.textDividerTextStyle,
     text: String
 ) {
     // Container

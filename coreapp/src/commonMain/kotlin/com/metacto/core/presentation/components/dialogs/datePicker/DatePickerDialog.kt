@@ -65,7 +65,7 @@ fun DatePickerDialog(
         onDismiss = onDismiss,
         isCancellable = isCancellable,
         showToolbar = false,
-        padding = padding
+        contentPadding = padding
     ) {
         // Container column
         Column(

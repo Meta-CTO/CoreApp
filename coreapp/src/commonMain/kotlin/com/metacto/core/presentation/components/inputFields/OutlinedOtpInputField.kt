@@ -43,7 +43,7 @@ fun OutlinedOtpInputField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     textColor: Color = CoreTheme.colors.outlinedOtpInputFieldTextColor,
     backgroundColor: Color = CoreTheme.colors.outlinedOtpInputFieldBackgroundColor,
-    textStyle: TextStyle = CoreTheme.typography.labelSmall,
+    textStyle: TextStyle = CoreTheme.typography.outlinedOtpInputFieldTextStyle,
     horizontalSpacing: Dp = CoreTheme.spacings.outlinedOtpInputFieldPinSpacing,
     requestFocus: Boolean = false,
     requestFocusDelay: Long = DEF_REQUEST_FOCUS_DELAY

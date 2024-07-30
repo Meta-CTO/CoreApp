@@ -73,7 +73,7 @@ data class CoreShapes(
     val pickerInputFieldShape :RoundedCornerShape = small,
 
     // PriceTextInputField
-    val priceTextInputFieldBgShape :RoundedCornerShape = xSmall,
+    val priceTextInputFieldBgShape :RoundedCornerShape = small,
 
     // PrimaryTextInputField
     val primaryTextInputFieldShape :RoundedCornerShape = small,

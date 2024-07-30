@@ -42,7 +42,7 @@ fun LinedOtpInputField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     textColor: Color = CoreTheme.colors.linedOtpInputFieldTextColor,
     borderColor: Color = CoreTheme.colors.linedOtpInputFieldBorderColor,
-    textStyle: TextStyle = CoreTheme.typography.headline,
+    textStyle: TextStyle = CoreTheme.typography.linedOtpInputFieldTextStyle,
     requestFocus: Boolean = false,
     requestFocusDelay: Long = DEF_REQUEST_FOCUS_DELAY,
     horizontalSpacing: Dp = CoreTheme.spacings.linedOtpInputFieldPinSpacing
@@ -132,7 +132,8 @@ private fun OtpDigit(
     digit: Char,
     textStyle: TextStyle,
     textColor: Color,
-    borderColor: Color
+    borderColor: Color,
+    lineSize: Dp = CoreTheme.spacings.otpDigitLineSize,
 ) {
     // Container column
     Column(
@@ -152,7 +153,7 @@ private fun OtpDigit(
         Box(
             modifier = Modifier
                 .background(borderColor)
-                .height(CoreTheme.spacings.stroke)
+                .height(lineSize)
                 .fillMaxWidth()
         )
     }

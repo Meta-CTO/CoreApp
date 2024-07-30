@@ -2,6 +2,7 @@ package com.metacto.core.presentation.components.dialogs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import com.metacto.coreApp.MR
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.PrimaryStrokedButton
@@ -29,14 +31,18 @@ fun ConfirmationDialog(
     onPositiveClick: (() -> Unit)? = null,
     onNegativeClick: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
-    bodyTextStyle:TextStyle = CoreTheme.typography.confirmationDialogBodyTextStyle,
-    bodyTextColor:Color = CoreTheme.colors.confirmationDialogBodyColor
+    bodyTextStyle: TextStyle = CoreTheme.typography.confirmationDialogBodyTextStyle,
+    bodyTextColor: Color = CoreTheme.colors.confirmationDialogBodyColor,
+    noTitlePadding: Dp = CoreTheme.spacings.confirmationDialogNoTitlePadding,
+    titlePadding: Dp = CoreTheme.spacings.confirmationDialogTitlePadding,
+    buttonsSpacings: Dp = CoreTheme.spacings.confirmationDialogButtonsSpacings,
+    buttonsPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.confirmationDialogButtonsTopPadding)
 ) {
     // Prepare spacings
     val msgSpacing = if (title?.isNotEmpty() == true)
-        CoreTheme.spacings.paddingXLarge
+        titlePadding
     else
-        CoreTheme.spacings.noSpacing
+        noTitlePadding
 
     // Render app dialog
     AppDialog(
@@ -64,10 +70,10 @@ fun ConfirmationDialog(
 
             // Render buttons
             Row(
-                horizontalArrangement = Arrangement.spacedBy(CoreTheme.spacings.paddingXLarge),
+                horizontalArrangement = Arrangement.spacedBy(buttonsSpacings),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = CoreTheme.spacings.popupSpacingLarge)
+                    .padding(buttonsPadding)
             ) {
                 // Negative button
                 PrimaryStrokedButton(

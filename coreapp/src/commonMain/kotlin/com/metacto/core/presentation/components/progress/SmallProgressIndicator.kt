@@ -17,6 +17,7 @@ fun SmallProgressIndicator(
     modifier: Modifier = Modifier,
     color: Color = CoreTheme.colors.smallProgressColor,
     padding: Dp = CoreTheme.spacings.smallProgressIndicator,
+    progressSize: Dp = CoreTheme.spacings.progressSizeSmall
 ) {
     Box(
         contentAlignment = Alignment.Center,
@@ -25,7 +26,7 @@ fun SmallProgressIndicator(
             .padding(padding)
     ) {
         CircularProgressIndicator(
-            modifier = Modifier.size(CoreTheme.spacings.progressSizeSmall),
+            modifier = Modifier.size(progressSize),
             color = color
         )
     }

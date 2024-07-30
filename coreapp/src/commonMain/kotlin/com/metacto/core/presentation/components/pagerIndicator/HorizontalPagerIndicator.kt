@@ -2,9 +2,13 @@ package com.metacto.core.presentation.components.pagerIndicator
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.PagerState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
@@ -114,7 +118,7 @@ private fun Dot(
         modifier = modifier
             .width(width)
             .height(height)
-            .shadow(CoreTheme.spacings.noSpacing)
+            .shadow(CoreTheme.spacings.dotElevation)
             .noRippleClickable(onClick = onClick)
     ) {
     }

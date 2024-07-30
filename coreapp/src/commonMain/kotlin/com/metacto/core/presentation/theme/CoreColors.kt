@@ -175,6 +175,12 @@ data class CoreColors(
     // PriceTextInputField
     val priceTextInputFieldBg: Color = white,
     val priceTextInputFieldTextColor: Color = black,
+    val priceTextInputFieldPlaceholderColor: Color = placeholder,
+    val priceTextInputFieldLabelColor: Color = secondary,
+    val priceTextInputFieldErrorColor: Color = danger,
+    val priceTextInputFieldIconColor: Color = tertiary,
+    val priceTextInputFieldFocusedBorderColor: Color = primaryDark,
+    val priceTextInputFieldUnFocusedBorderColor: Color = primary,
 
     // PrimaryTextInputField
     val primaryTextInputFieldIconColor: Color = secondary,

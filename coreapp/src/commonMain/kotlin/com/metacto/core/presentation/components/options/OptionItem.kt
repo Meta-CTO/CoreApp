@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.options.models.OptionUIModel
 import com.metacto.core.presentation.theme.CoreTheme
@@ -35,7 +36,8 @@ fun OptionItem(
     textSpacing: Dp = CoreTheme.spacings.optionItemPaddingTextSpacing,
     arrowSize: Dp = CoreTheme.spacings.optionItemPaddingArrowSize,
     defaultColor: Color = CoreTheme.colors.optionItemDefaultColor,
-    optionColor: Color = CoreTheme.colors.optionsArrow
+    optionColor: Color = CoreTheme.colors.optionsArrow,
+    textStyle :TextStyle = CoreTheme.typography.optionItemTextStyle
 ) {
     // Prepare the color
     val color = option.color.toColor() ?: defaultColor
@@ -63,7 +65,7 @@ fun OptionItem(
         Text(
             text = option.title,
             color = color,
-            style = CoreTheme.typography.bodyLarge,
+            style = textStyle,
             modifier = Modifier
                 .weight(1f)
                 .padding(start = textSpacing)

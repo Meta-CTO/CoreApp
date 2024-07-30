@@ -56,11 +56,11 @@ fun PrimaryTextInputField(
     focusedBorderColor: Color = CoreTheme.colors.primaryTextInputFieldFocusedBorderColor,
     unFocusedBorderColor: Color = CoreTheme.colors.primaryTextInputFieldUnFocusedBorderColor,
     textColor: Color = CoreTheme.colors.primaryTextInputFieldTextColor,
-    placeholderTextStyle: TextStyle = CoreTheme.typography.labelMedium,
+    placeholderTextStyle: TextStyle = CoreTheme.typography.primaryTextInputFieldPlaceholderTextStyle,
     placeholderTextColor: Color = CoreTheme.colors.primaryTextInputFieldPlaceholderColor,
-    labelTextStyle: TextStyle = CoreTheme.typography.labelMedium,
+    labelTextStyle: TextStyle = CoreTheme.typography.primaryTextInputFieldLabelTextStyle,
     labelTextColor: Color = CoreTheme.colors.primaryTextInputFieldLabelColor,
-    errorTextStyle: TextStyle = CoreTheme.typography.labelMedium,
+    errorTextStyle: TextStyle = CoreTheme.typography.primaryTextInputFieldErrorTextStyle,
     errorTextColor: Color = CoreTheme.colors.primaryTextInputFieldErrorColor,
 ) {
     BaseTextInputField(

@@ -218,39 +218,68 @@ data class CoreSpacings(
     val horizontalPagerTabsHorizontalSpacing: Dp = paddingXLarge,
 
     // SmallProgressIndicator
-    val smallProgressIndicator: Dp =paddingLarge,
+    val smallProgressIndicator: Dp = paddingLarge,
 
     // AppSnackBar
-    val appSnackBarPaddingVertical :Dp = paddingXXLarge,
-    val appSnackBarPaddingHorizontal :Dp = paddingXXXLarge,
-    val appSnackBarIconSize :Dp = iconLarge,
-    val appSnackBarHorizontalSpacing:Dp = paddingMedium,
+    val appSnackBarPaddingVertical: Dp = paddingXXLarge,
+    val appSnackBarPaddingHorizontal: Dp = paddingXXXLarge,
+    val appSnackBarIconSize: Dp = iconLarge,
+    val appSnackBarHorizontalSpacing: Dp = paddingMedium,
 
     // AppDialog
-    val appDialogContentPadding :Dp = paddingXLarge,
+    val appDialogContentPadding: Dp = paddingXLarge,
+    val appDialogContainerPadding: Dp = popupPadding,
 
     // ChoicesDialog
-    val choicesDialogVerticalSpacing :Dp = paddingSmall,
+    val choicesDialogVerticalSpacing: Dp = paddingSmall,
 
     // DialogToolbar
-    val dialogToolbarCloseSize :Dp = paddingXLarge,
-    val dialogToolbarHorizontalPadding :Dp = paddingXLarge,
-    val dialogToolbarTopPadding :Dp = iconMedium,
-    val dialogToolbarBottomPadding :Dp = paddingMedium,
+    val dialogToolbarCloseSize: Dp = paddingXLarge,
+    val dialogToolbarHorizontalPadding: Dp = paddingXLarge,
+    val dialogToolbarTopPadding: Dp = iconMedium,
+    val dialogToolbarBottomPadding: Dp = paddingMedium,
 
     // OtpDigit
-    val otpDigitPaddingVertical:Dp  = paddingXLarge,
+    val otpDigitPaddingVertical: Dp = paddingXLarge,
+    val otpDigitLineSize: Dp = stroke,
+
 
     // MessageDialog
-    val messageDialogBodyNoTitlePadding :Dp =noSpacing,
-    val messageDialogBodyTitlePadding:Dp = paddingXLarge,
+    val messageDialogBodyNoTitlePadding: Dp = noSpacing,
+    val messageDialogBodyTitlePadding: Dp = paddingXLarge,
+    val messageDialogButtonPaddingTop: Dp = popupSpacingLarge,
 
     // OverrideUserDialog
-    val overrideUserDialogMsgSpacing :Dp = paddingXLarge,
-    val overrideUserDialogOverrideBtnPadding :Dp = paddingXXXLarge,
-    val overrideUserDialogResetBtnPadding :Dp = paddingLarge,
-    val overrideUserDialogIdTextPadding :Dp = paddingLarge,
+    val overrideUserDialogMsgSpacing: Dp = paddingXLarge,
+    val overrideUserDialogOverrideBtnPadding: Dp = paddingXXXLarge,
+    val overrideUserDialogResetBtnPadding: Dp = paddingLarge,
+    val overrideUserDialogIdTextPadding: Dp = paddingLarge,
 
+    // BottomSheetToolbar
+    val bottomSheetToolbarIconSize: Dp = iconLarge,
+    val bottomSheetToolbarBoxPadding: Dp = paddingXLarge,
+    val bottomSheetToolbarStartIconPadding: Dp = paddingXXSmall,
+    val bottomSheetToolbarEndIconPadding: Dp = paddingXXSmall,
+    val bottomSheetToolbarTitlePadding: Dp = paddingLarge,
+
+    // ConfirmationDialog
+    val confirmationDialogNoTitlePadding: Dp = noSpacing,
+    val confirmationDialogTitlePadding: Dp = paddingXLarge,
+    val confirmationDialogButtonsSpacings: Dp = paddingXLarge,
+    val confirmationDialogButtonsTopPadding: Dp = popupSpacingLarge,
+
+    // SuccessDialog
+    val successDialog: Dp = popupIconLarge,
+    val successDialogBodyPaddingTop: Dp = popupSpacingMedium,
+    val successDialogBtnPaddingTop: Dp = popupSpacingLarge,
+
+    // PriceTextInputField
+    val priceTextInputFieldStartIconSize: Dp = iconSmall,
+    val priceTextInputFieldEndIconSize: Dp = iconSmall,
+    val priceTextInputFieldMinHeight: Dp = noSpacing,
+
+    // Dot
+    val dotElevation :Dp = noSpacing,
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }

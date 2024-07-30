@@ -35,7 +35,7 @@ fun IconText(
     iconTint: Color? = color,
     iconSize: Dp = CoreTheme.spacings.iconTextIconSize,
     iconSpacing: Dp = CoreTheme.spacings.iconTextIconSpacing,
-    style: TextStyle = CoreTheme.typography.bodySmall,
+    style: TextStyle = CoreTheme.typography.iconTextTextStyle,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     textAlign: TextAlign = TextAlign.Center
 ) {

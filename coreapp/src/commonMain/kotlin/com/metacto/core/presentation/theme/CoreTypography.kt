@@ -136,10 +136,69 @@ data class CoreTypography(
     val messageDialogBodyTextStyle: TextStyle = bodyLarge,
 
     // OverrideUserDialog
-    val overrideUserDialogBodyTextStyle:TextStyle = bodyLarge,
+    val overrideUserDialogBodyTextStyle: TextStyle = bodyLarge,
 
     // SuccessDialog
-    val successDialogBodyTextStyle : TextStyle = bodyLarge
+    val successDialogBodyTextStyle: TextStyle = bodyLarge,
+
+    // InlineInputField
+    val inlineInputFieldTextStyle: TextStyle = bodyMedium,
+
+    // LinedOtpInputField
+    val linedOtpInputFieldTextStyle: TextStyle = headline,
+
+    // OutlinedOtpInputField
+    val outlinedOtpInputFieldTextStyle: TextStyle = labelSmall,
+
+    // PickerInputField
+    val pickerInputFieldTextStyle: TextStyle = bodyMedium,
+    val pickerInputFieldLabelTextStyle: TextStyle = labelMedium,
+    val pickerInputFieldErrorTextStyle: TextStyle = labelMedium,
+    val pickerInputFieldPlaceholderTextStyle: TextStyle = labelMedium,
+
+    // PriceTextInputField
+    val priceTextInputFieldTextStyle: TextStyle = bodyMedium,
+    val priceTextInputFieldLabelTextStyle: TextStyle = labelMedium,
+    val priceTextInputFieldErrorTextStyle: TextStyle = labelMedium,
+    val priceTextInputFieldPlaceholderTextStyle: TextStyle = labelMedium,
+
+    // PrimaryTextInputField
+    val primaryTextInputFieldTextStyle: TextStyle = inputFieldText,
+    val primaryTextInputFieldLabelTextStyle: TextStyle = labelMedium,
+    val primaryTextInputFieldErrorTextStyle: TextStyle = labelMedium,
+    val primaryTextInputFieldPlaceholderTextStyle: TextStyle = labelMedium,
+
+    // TertiaryTextInputField
+    val tertiaryTextInputFieldTextStyle: TextStyle = bodyMedium,
+    val tertiaryTextInputFieldLabelTextStyle: TextStyle = labelMedium,
+    val tertiaryTextInputFieldErrorTextStyle: TextStyle = labelMedium,
+    val tertiaryTextInputFieldPlaceholderTextStyle: TextStyle = labelMedium,
+
+    // NumberItem
+    val numberItemTextStyle: TextStyle = numberSelector,
+
+    // OptionItem
+    val optionItemTextStyle: TextStyle = bodyLarge,
+
+    // HorizontalPagerTabItem
+    val horizontalPagerTabItemTextStyle: TextStyle = bodySmall,
+
+    // AppSnackBar
+    val appSnackBarTextStyle: TextStyle = snackBarMsg,
+
+    // IconText
+    val iconTextTextStyle: TextStyle = bodySmall,
+
+    // SingleLineText
+    val singleLineTextStyle: TextStyle = bodyMedium,
+
+    // TextDivider
+    val textDividerTextStyle: TextStyle = labelLarge,
+
+    // WheelTextPicker
+    val wheelTextPickerTextStyle: TextStyle = pickerItem,
+
+
 )
 
 val LocalCoreTypography = staticCompositionLocalOf { CoreTypography() }

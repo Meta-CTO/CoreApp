@@ -16,7 +16,7 @@ fun WheelTextPicker(
     size: DpSize = DpSize(CoreTheme.spacings.defaultWheelPickerWidth, CoreTheme.spacings.defaultWheelPickerHeight),
     texts: List<String>,
     rowCount: Int,
-    style: TextStyle = CoreTheme.typography.pickerItem,
+    style: TextStyle = CoreTheme.typography.wheelTextPickerTextStyle,
     color: Color = CoreTheme.colors.pickerItem,
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onScrollFinished: (snappedIndex: Int) -> Int? = { null },

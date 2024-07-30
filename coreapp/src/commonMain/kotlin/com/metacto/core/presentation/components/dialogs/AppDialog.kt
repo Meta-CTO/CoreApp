@@ -21,8 +21,8 @@ fun AppDialog(
     title: String? = null,
     isCancellable: Boolean = true,
     onDismiss: (() -> Unit)? = null,
-    padding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContentPadding),
-    containerPadding : PaddingValues = PaddingValues(CoreTheme.spacings.popupPadding),
+    contentPadding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContentPadding),
+    containerPadding : PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContainerPadding),
     shape: RoundedCornerShape = CoreTheme.shapes.appDialogShape,
     content: @Composable () -> Unit
 ) {
@@ -58,7 +58,7 @@ fun AppDialog(
 
             // Render content
             Box(
-                modifier = Modifier.padding(padding)
+                modifier = Modifier.padding(contentPadding)
             ) {
                 content()
             }
