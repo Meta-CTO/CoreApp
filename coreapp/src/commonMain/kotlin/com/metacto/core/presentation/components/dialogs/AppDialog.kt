@@ -6,11 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.metacto.core.presentation.theme.CoreTheme
@@ -22,10 +20,7 @@ fun AppDialog(
     title: String? = null,
     isCancellable: Boolean = true,
     onDismiss: (() -> Unit)? = null,
-    contentPadding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContentPadding),
-    containerPadding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContainerPadding),
-    shape: RoundedCornerShape = CoreTheme.shapes.appDialogShape,
-    containerBackground: Color = CoreTheme.colors.appDialogContainerBg,
+    padding: PaddingValues = PaddingValues(CoreTheme.spacings.paddingXLarge),
     content: @Composable () -> Unit
 ) {
     // Render dialog
@@ -42,9 +37,9 @@ fun AppDialog(
         // Container column
         Column(
             modifier = modifier
-                .padding(containerPadding)
-                .clip(shape)
-                .background(containerBackground)
+                .padding(CoreTheme.spacings.popupPadding)
+                .clip(CoreTheme.shapes.xLarge)
+                .background(CoreTheme.colors.background)
         ) {
             // Render toolbar if required
             if (showToolbar) {
@@ -60,7 +55,7 @@ fun AppDialog(
 
             // Render content
             Box(
-                modifier = Modifier.padding(contentPadding)
+                modifier = Modifier.padding(padding)
             ) {
                 content()
             }

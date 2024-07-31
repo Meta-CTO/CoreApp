@@ -4,7 +4,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ThumbUpOffAlt
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.metacto.core.presentation.theme.CoreTheme
 
@@ -13,14 +12,12 @@ fun SuccessSnackBar(
     modifier: Modifier = Modifier,
     text: String,
     icon: ImageVector = Icons.Default.ThumbUpOffAlt,
-    onClick: (() -> Unit)? = null,
-    backgroundColor: Color = CoreTheme.colors.successSnackBarBgColor,
-    color: Color = CoreTheme.colors.successSnackBarColor
+    onClick: (() -> Unit)? = null
 ) {
     AppSnackBar(
         modifier = modifier,
-        background = backgroundColor,
-        color = color,
+        background = CoreTheme.colors.successContainer,
+        color = CoreTheme.colors.success,
         text = text,
         icon = icon,
         addStatusBarPadding = true,

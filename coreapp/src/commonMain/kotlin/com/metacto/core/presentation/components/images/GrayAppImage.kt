@@ -34,7 +34,7 @@ fun GrayAppImage(
     contentScale: ContentScale = ContentScale.Crop,
     shape: Shape? = null,
     border: BorderStroke? = null,
-    elevation: Dp = CoreTheme.spacings.grayAppImageElevation,
+    elevation: Dp = CoreTheme.spacings.noSpacing,
     bgColor: Color? = null,
     quality: FilterQuality = FilterQuality.Medium,
     crossFade: Boolean = true,

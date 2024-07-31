@@ -15,7 +15,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun OnSecondaryTransparentFilledButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.onSecondaryTransparentFilledBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.btnLabelSmall,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
@@ -24,15 +24,15 @@ fun OnSecondaryTransparentFilledButton(
     isDimmed: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.onSecondaryTransparentFilledBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.onSecondaryTransparentFilledBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.btnPaddingVertical,
+        horizontal = CoreTheme.spacings.btnPaddingHorizontal
     ),
-    backgroundColor: Color = CoreTheme.colors.onSecondaryTransparentFilledBtnBg,
-    textColor: Color = CoreTheme.colors.onSecondaryTransparentFilledBtnTextColor,
-    iconColor: Color = CoreTheme.colors.onSecondaryTransparentFilledBtnIconColor,
-    elevation: Dp = CoreTheme.spacings.onSecondaryTransparentFilledBtnElevation,
-    minHeight: Dp = CoreTheme.spacings.onSecondaryTransparentFilledBtnMinHeight,
-    shape: RoundedCornerShape = CoreTheme.shapes.onSecondaryTransparentFilledBtnShape,
+    backgroundColor: Color = CoreTheme.colors.onSecondary.copy(alpha = 0.1f),
+    textColor: Color = CoreTheme.colors.onSecondary.copy(alpha = 0.9f),
+    iconColor: Color = CoreTheme.colors.onSecondary,
+    elevation: Dp = CoreTheme.spacings.noSpacing,
+    minHeight: Dp = CoreTheme.spacings.btnMinHeightSmall,
+    shape: RoundedCornerShape = CoreTheme.shapes.small,
     onClick: () -> Unit = {}
 ) {
     BaseButton(
