@@ -1,10 +1,9 @@
-package com.metacto.core.presentation.components.toolbar
+package com.metacto.core.presentation.toolbar
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,12 +19,10 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.dividers.VerticalDivider
 import com.metacto.core.presentation.components.texts.SingleLineText
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.noRippleClickable
-
 @Composable
 fun Toolbar(
     modifier: Modifier = Modifier,
@@ -34,16 +31,10 @@ fun Toolbar(
     endIcon: ImageVector = Icons.Default.Close,
     showStartIcon: Boolean = false,
     showEndIcon: Boolean = false,
-    startIconTintColor: Color = CoreTheme.colors.toolbarStartIconColor,
-    endIconTintColor: Color = CoreTheme.colors.toolbarEndIconColor,
-    titleColor: Color = CoreTheme.colors.toolbarTitleTextColor,
-    titleStyle: TextStyle = CoreTheme.typography.toolbarTitleStyle,
-    height: Dp = CoreTheme.spacings.toolbarHeight,
-    containerPadding: PaddingValues = PaddingValues(start = CoreTheme.spacings.toolbarContainerPaddingStart),
-    startIconMinHeight: Dp = CoreTheme.spacings.toolbarStartIconMinHeight,
-    startIconMinWidth: Dp = CoreTheme.spacings.toolbarStartIconMinWidth,
-    endIconMinHeight: Dp = CoreTheme.spacings.toolbarEndIconMinHeight,
-    endIconMinWidth: Dp = CoreTheme.spacings.toolbarEndIconMinWidth,
+    startIconTintColor: Color = CoreTheme.colors.secondary,
+    endIconTintColor: Color = CoreTheme.colors.secondary,
+    titleColor: Color = CoreTheme.colors.secondary,
+    titleStyle: TextStyle = CoreTheme.typography.titleBold,
     backgroundColor: Color = Color.Transparent,
     onStartIconClick: () -> Unit = {},
     onEndIconClick: () -> Unit = {},
@@ -53,7 +44,7 @@ fun Toolbar(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .height(height)
+            .height(CoreTheme.spacings.toolbarHeight)
             .background(backgroundColor)
     ) {
         // Container box
@@ -61,7 +52,7 @@ fun Toolbar(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)
-                .padding(containerPadding)
+                .padding(start = CoreTheme.spacings.paddingMedium)
         ) {
             // show the title if exists
             if (title != null) {
@@ -80,8 +71,8 @@ fun Toolbar(
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .defaultMinSize(
-                            minHeight = startIconMinHeight,
-                            minWidth = startIconMinWidth
+                            minHeight = CoreTheme.spacings.toolbarIconMinSize,
+                            minWidth = CoreTheme.spacings.toolbarIconMinSize
                         )
                         .noRippleClickable(onClick = onStartIconClick)
                 ) {
@@ -101,8 +92,8 @@ fun Toolbar(
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
                         .defaultMinSize(
-                            minHeight = endIconMinHeight,
-                            minWidth = endIconMinWidth
+                            minHeight = CoreTheme.spacings.toolbarIconMinSize,
+                            minWidth = CoreTheme.spacings.toolbarIconMinSize
                         )
                         .noRippleClickable(onClick = onEndIconClick)
                 ) {

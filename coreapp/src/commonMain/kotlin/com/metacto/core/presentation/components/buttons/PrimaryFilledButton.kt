@@ -15,10 +15,10 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun PrimaryFilledButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textColor: Color = CoreTheme.colors.primaryBtnTextColor,
-    iconColor: Color? = CoreTheme.colors.primaryBtnIconColor,
-    backgroundColor: Color = CoreTheme.colors.primaryBtnBg,
-    textStyle: TextStyle = CoreTheme.typography.primaryFilledBtnTextStyle,
+    textColor: Color = CoreTheme.colors.onPrimary,
+    iconColor: Color? = CoreTheme.colors.onPrimary,
+    backgroundColor: Color = CoreTheme.colors.primary,
+    textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
@@ -28,13 +28,13 @@ fun PrimaryFilledButton(
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.primaryFilledBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.primaryFilledBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.btnPaddingVertical,
+        horizontal = CoreTheme.spacings.btnPaddingHorizontal
     ),
-    minHeightSmall: Dp = CoreTheme.spacings.primaryFilledBtnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.primaryFilledBtnMinHeightNormal,
-    shapeSmall: RoundedCornerShape = CoreTheme.shapes.primaryFilledBtnShapeSmall,
-    shapeNormal: RoundedCornerShape = CoreTheme.shapes.primaryFilledBtnShapeNormal,
+    minHeightSmall: Dp = CoreTheme.spacings.btnMinHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.btnMinHeightNormal,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
     onClick: () -> Unit = {}
 ) {
     BaseButton(

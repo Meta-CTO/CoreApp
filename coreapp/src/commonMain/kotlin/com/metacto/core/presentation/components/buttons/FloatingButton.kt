@@ -14,7 +14,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun FloatingButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.floatingBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
@@ -22,13 +22,13 @@ fun FloatingButton(
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isLoading: Boolean = false,
-    textColor: Color = CoreTheme.colors.floatingBtnTextColor,
-    iconColor: Color = CoreTheme.colors.floatingBtnIconColor,
-    iconSize: Dp = CoreTheme.spacings.floatingBtnIconSize,
+    textColor: Color = CoreTheme.colors.secondary,
+    iconColor: Color = CoreTheme.colors.secondary,
+    iconSize: Dp = CoreTheme.spacings.iconSmall,
     backgroundColor: Color = CoreTheme.colors.onSecondary,
-    minHeight: Dp = CoreTheme.spacings.floatingBtnMinHeight,
-    contentSpacing: Dp = CoreTheme.spacings.floatingBtnContentSpacing,
-    shape: RoundedCornerShape = CoreTheme.shapes.floatingBtnShape,
+    minHeight: Dp = CoreTheme.spacings.btnMinHeightSmall,
+    contentSpacing: Dp = CoreTheme.spacings.paddingSmall,
+    shape: RoundedCornerShape = CoreTheme.shapes.xxxLarge,
     elevation: Dp = CoreTheme.spacings.floatingBtnElevation,
     onClick: () -> Unit = {}
 ) {

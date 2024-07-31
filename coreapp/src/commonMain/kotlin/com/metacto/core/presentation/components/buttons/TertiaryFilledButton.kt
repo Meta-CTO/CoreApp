@@ -15,8 +15,8 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun TertiaryFilledButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.tertiaryFilledBtnTextStyle,
-    iconColor: Color? = CoreTheme.colors.tertiaryFilledBtnIconColor,
+    textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
+    iconColor: Color? = CoreTheme.colors.onTertiary,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
@@ -26,15 +26,15 @@ fun TertiaryFilledButton(
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.tertiaryFilledBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.tertiaryFilledBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.btnPaddingVertical,
+        horizontal = CoreTheme.spacings.btnPaddingHorizontal
     ),
-    textColor: Color = CoreTheme.colors.tertiaryFilledBtnTextColor,
-    backgroundColor: Color = CoreTheme.colors.tertiaryFilledBtnBg,
-    minHeightSmall: Dp = CoreTheme.spacings.tertiaryFilledBtnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.tertiaryFilledBtnMinHeightNormal,
-    shapeSmall: RoundedCornerShape = CoreTheme.shapes.tertiaryFilledBtnShapeSmall,
-    shapeNormal: RoundedCornerShape = CoreTheme.shapes.tertiaryFilledBtnShapeNormal,
+    textColor: Color = CoreTheme.colors.onTertiary,
+    backgroundColor: Color = CoreTheme.colors.tertiary,
+    minHeightSmall: Dp = CoreTheme.spacings.btnMinHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.btnMinHeightNormal,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
     onClick: () -> Unit = {}
 ) {
     BaseButton(

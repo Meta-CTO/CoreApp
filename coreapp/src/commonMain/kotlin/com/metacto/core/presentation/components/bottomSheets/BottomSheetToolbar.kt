@@ -3,7 +3,6 @@ package com.metacto.core.presentation.components.bottomSheets
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -15,7 +14,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.dividers.VerticalDivider
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.noRippleClickable
@@ -29,13 +27,10 @@ fun BottomSheetToolbar(
     onStartIconClick: (() -> Unit)? = null,
     endIcon: ImageVector? = null,
     onEndIconClick: (() -> Unit)? = null,
-    iconSize:Dp = CoreTheme.spacings.bottomSheetToolbarIconSize,
-    boxPadding:Dp = CoreTheme.spacings.bottomSheetToolbarBoxPadding,
-    startIconPadding:Dp = CoreTheme.spacings.bottomSheetToolbarStartIconPadding,
-    endIconPadding:Dp = CoreTheme.spacings.bottomSheetToolbarEndIconPadding,
-    textPadding:PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.bottomSheetToolbarTitlePadding),
     showDivider: Boolean = true
 ) {
+    // Prepare sizes
+    val iconSize = CoreTheme.spacings.iconLarge
 
     // Container column
     Column(
@@ -47,7 +42,7 @@ fun BottomSheetToolbar(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(boxPadding)
+                .padding(CoreTheme.spacings.paddingXLarge)
         ) {
             // Render start icon if required
             if (startIcon != null) {
@@ -57,7 +52,7 @@ fun BottomSheetToolbar(
                     colorFilter = ColorFilter.tint(CoreTheme.colors.sheetPrimary),
                     modifier = Modifier
                         .size(iconSize)
-                        .padding(startIconPadding)
+                        .padding(CoreTheme.spacings.paddingXXSmall)
                         .align(Alignment.CenterStart)
                         .noRippleClickable(onClick = onStartIconClick)
                 )
@@ -73,7 +68,7 @@ fun BottomSheetToolbar(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = iconSize)
-                        .padding(textPadding)
+                        .padding(horizontal = CoreTheme.spacings.paddingLarge)
                 )
             }
 
@@ -85,7 +80,7 @@ fun BottomSheetToolbar(
                     colorFilter = ColorFilter.tint(CoreTheme.colors.sheetPrimary),
                     modifier = Modifier
                         .size(iconSize)
-                        .padding(endIconPadding)
+                        .padding(CoreTheme.spacings.paddingXXSmall)
                         .align(Alignment.CenterEnd)
                         .noRippleClickable(onClick = onEndIconClick)
                 )

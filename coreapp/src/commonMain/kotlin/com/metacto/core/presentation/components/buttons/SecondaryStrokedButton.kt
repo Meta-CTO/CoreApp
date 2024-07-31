@@ -16,8 +16,8 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun SecondaryStrokedButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.secondaryStrokedBtnTextStyle,
-    iconColor: Color? = CoreTheme.colors.secondaryStrokedBtnIconColor,
+    textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
+    iconColor: Color? = CoreTheme.colors.secondary,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
@@ -27,18 +27,18 @@ fun SecondaryStrokedButton(
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.secondaryStrokedBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.secondaryStrokedBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.btnPaddingVertical,
+        horizontal = CoreTheme.spacings.btnPaddingHorizontal
     ),
-    textColor: Color = CoreTheme.colors.secondaryStrokedBtnTextColor,
-    backgroundColor: Color = CoreTheme.colors.secondaryStrokedBtnBg,
-    minHeightSmall: Dp = CoreTheme.spacings.secondaryStrokedBtnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.secondaryStrokedBtnMinHeightNormal,
-    shapeSmall: RoundedCornerShape = CoreTheme.shapes.secondaryStrokedBtnShapeSmall,
-    shapeNormal: RoundedCornerShape = CoreTheme.shapes.secondaryStrokedBtnShapeNormal,
+    textColor: Color = CoreTheme.colors.secondary,
+    backgroundColor: Color = CoreTheme.colors.background,
+    minHeightSmall: Dp = CoreTheme.spacings.btnMinHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.btnMinHeightNormal,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
     border: BorderStroke = BorderStroke(
-        width = CoreTheme.spacings.secondaryStrokedBtnStrokeWidth,
-        color = CoreTheme.colors.secondaryStrokedBtnStrokeColor
+        width = CoreTheme.spacings.stroke,
+        color = CoreTheme.colors.secondary
     ),
     onClick: () -> Unit = {}
 ) {

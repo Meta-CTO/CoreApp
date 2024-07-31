@@ -1,7 +1,6 @@
 package com.metacto.core.presentation.components.pagerIndicator
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -25,14 +24,10 @@ fun HorizontalPagerTabItem(
     textColor: Color = CoreTheme.colors.onPrimaryContainer,
     inActiveBgColor: Color = CoreTheme.colors.background,
     inActiveTextColor: Color = CoreTheme.colors.tertiary,
-    shape: Shape = CoreTheme.shapes.horizontalPagerTabItemShape,
-    textStyle: TextStyle = CoreTheme.typography.horizontalPagerTabItemTextStyle,
-    textPadding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.horizontalPagerTabItemTextPaddingVertical,
-        horizontal = CoreTheme.spacings.horizontalPagerTabItemTextPaddingHorizontal
-    ),
+    shape: Shape = CoreTheme.shapes.medium,
+    textStyle: TextStyle = CoreTheme.typography.bodySmall,
     isSelected: Boolean,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     // Prepare text color
     val bgColorState by animateColorAsState(
@@ -61,7 +56,9 @@ fun HorizontalPagerTabItem(
             style = textStyle,
             textAlign = TextAlign.Center,
             color = textColorState,
-            modifier = Modifier.padding(textPadding)
+            modifier = Modifier
+                .padding(horizontal = CoreTheme.spacings.paddingXLarge)
+                .padding(vertical = CoreTheme.spacings.paddingMedium)
         )
     }
 }

@@ -2,7 +2,6 @@ package com.metacto.core.presentation.components.dialogs
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,9 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import com.metacto.coreApp.MR
 import com.metacto.core.presentation.components.buttons.PrimaryStrokedButton
 import com.metacto.core.presentation.theme.CoreTheme
@@ -30,11 +27,7 @@ fun SuccessDialog(
     body: String? = null,
     buttonText: String? = null,
     onPositiveClick: (() -> Unit)? = null,
-    onDismiss: (() -> Unit)? = null,
-    iconSize: Dp = CoreTheme.spacings.successDialog,
-    bodyPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.successDialogBodyPaddingTop),
-    buttonPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.successDialogBtnPaddingTop),
-    bodyTextStyle: TextStyle = CoreTheme.typography.successDialogBodyTextStyle
+    onDismiss: (() -> Unit)? = null
 ) {
     // Render app dialog
     AppDialog(
@@ -55,7 +48,9 @@ fun SuccessDialog(
                 contentDescription = null,
                 contentScale = ContentScale.FillWidth,
                 colorFilter = ColorFilter.tint(CoreTheme.colors.success),
-                modifier = Modifier.size(iconSize)
+                modifier = Modifier.size(
+                    CoreTheme.spacings.popupIconLarge
+                )
             )
 
             // Render body text
@@ -63,8 +58,10 @@ fun SuccessDialog(
                 text = body.orEmpty(),
                 textAlign = TextAlign.Center,
                 color = CoreTheme.colors.secondary,
-                style = bodyTextStyle,
-                modifier = Modifier.padding(bodyPadding)
+                style = CoreTheme.typography.bodyLarge,
+                modifier = Modifier.padding(
+                    top = CoreTheme.spacings.popupSpacingMedium
+                )
             )
 
             // Render ok positive button
@@ -76,7 +73,7 @@ fun SuccessDialog(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(buttonPadding)
+                    .padding(top = CoreTheme.spacings.popupSpacingLarge)
             )
         }
     }
