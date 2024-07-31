@@ -17,10 +17,10 @@ import com.metacto.core.presentation.theme.CoreTheme
 @Composable
 fun TextDivider(
     modifier: Modifier = Modifier,
-    color: Color = CoreTheme.colors.divider,
-    horizontalPadding: Dp = CoreTheme.spacings.paddingXLarge,
-    strokeWidth: Dp = CoreTheme.spacings.stroke,
-    textStyle: TextStyle = CoreTheme.typography.labelLarge,
+    color: Color = CoreTheme.colors.textDividerColor,
+    horizontalPadding: Dp = CoreTheme.spacings.textDividerHorizontalPadding,
+    strokeWidth: Dp = CoreTheme.spacings.textDividerStrokeWidth,
+    textStyle: TextStyle = CoreTheme.typography.textDividerTextStyle,
     text: String
 ) {
     // Container

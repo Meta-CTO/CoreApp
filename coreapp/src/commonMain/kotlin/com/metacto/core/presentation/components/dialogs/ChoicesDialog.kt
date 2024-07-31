@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.theme.CoreTheme
 
@@ -17,7 +18,8 @@ fun ChoicesDialog(
     title: String? = null,
     choices: List<String>,
     onChoiceSelected: (String, Int) -> Unit,
-    onDismiss: (() -> Unit)? = null
+    onDismiss: (() -> Unit)? = null,
+    verticalSpacing: Dp = CoreTheme.spacings.choicesDialogVerticalSpacing
 ) {
     // Render app dialog
     AppDialog(
@@ -30,7 +32,7 @@ fun ChoicesDialog(
         // Render choices
         LazyColumn(
             horizontalAlignment = Alignment.End,
-            verticalArrangement = Arrangement.spacedBy(CoreTheme.spacings.paddingSmall),
+            verticalArrangement = Arrangement.spacedBy(verticalSpacing),
             modifier = Modifier.fillMaxWidth()
         ) {
             itemsIndexed(

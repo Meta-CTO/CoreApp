@@ -53,9 +53,9 @@ fun InlineInputField(
     lazyState: LazyGridState? = null,
     columnThreshold: Int = 8,
     focused: Boolean = false,
-    textColor: Color = CoreTheme.colors.black,
-    textStyle: TextStyle = CoreTheme.typography.bodyMedium.copy(color = textColor),
-    placeholderTextColor: Color = CoreTheme.colors.gray,
+    textColor: Color = CoreTheme.colors.inlineInputFieldTextColor,
+    textStyle: TextStyle = CoreTheme.typography.inlineInputFieldTextStyle.copy(color = textColor),
+    placeholderTextColor: Color = CoreTheme.colors.inlineInputFieldPlaceholderColor,
     capitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     visualTransformation: VisualTransformation = FontsTransformation(textStyle),
@@ -71,7 +71,7 @@ fun InlineInputField(
             color = Color.Transparent
         )
     var lineCount by remember { mutableStateOf(1) }
-    val lineHeight = CoreTheme.typography.bodyMedium.lineHeight.value * 4
+    val lineHeight = textStyle.lineHeight.value * 4
 
     var textFieldValueState by remember {
         mutableStateOf(
