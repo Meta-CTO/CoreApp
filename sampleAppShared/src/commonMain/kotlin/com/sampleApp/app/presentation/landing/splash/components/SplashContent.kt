@@ -82,6 +82,7 @@ internal fun SplashContent(
                 autoPlay = true,
                 scaleToCrop = false,
                 enablePip = true,
+                isPlaying = state.isVideoPlaying,
                 modifier = Modifier.fillMaxSize()
             )
         }

@@ -25,6 +25,7 @@ actual fun VideoPlayer(
     autoPlay: Boolean,
     scaleToCrop: Boolean,
     enablePip: Boolean,
+    isPlaying: Boolean,
     url: String
 ) {
     val context = LocalContext.current
@@ -52,7 +53,7 @@ actual fun VideoPlayer(
             PlayerView(context).apply {
                 useController = true
                 controllerShowTimeoutMs = 0
-                resizeMode = when(scaleToCrop) {
+                resizeMode = when (scaleToCrop) {
                     true -> AspectRatioFrameLayout.RESIZE_MODE_FILL
                     false -> AspectRatioFrameLayout.RESIZE_MODE_FIT
                 }
@@ -77,6 +78,13 @@ actual fun VideoPlayer(
         onDispose {
             exoPlayer.release()
         }
+    }
+
+    // handle the playing action
+    if (isPlaying) {
+        exoPlayer.play()
+    } else {
+        exoPlayer.pause()
     }
 
     // Handle lifecycle

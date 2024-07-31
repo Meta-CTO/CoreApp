@@ -29,6 +29,7 @@ actual fun VideoPlayer(
     autoPlay: Boolean,
     scaleToCrop: Boolean,
     enablePip: Boolean,
+    isPlaying: Boolean,
     url: String
 ) {
     val player = remember(url) {
@@ -67,7 +68,14 @@ actual fun VideoPlayer(
         factory = {
             UIView().apply {
                 addSubview(playerController.view)
+
+                // Auto play if required
+                if (autoPlay) {
+                    player.play()
+                    playerController.player?.play()
+                }
             }
+
         },
         update = { view ->
             // Remove current subviews
@@ -89,11 +97,13 @@ actual fun VideoPlayer(
                     canStartPictureInPictureAutomaticallyFromInline = true
                 }
             }
-
             // Auto play if required
-            if (autoPlay) {
+            if (isPlaying) {
                 player.play()
                 playerController.player?.play()
+            } else {
+                player.pause()
+                playerController.player?.pause()
             }
 
             // Start PiP if it's not already running

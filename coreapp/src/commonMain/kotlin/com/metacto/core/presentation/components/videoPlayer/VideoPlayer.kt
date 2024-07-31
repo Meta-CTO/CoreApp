@@ -9,5 +9,6 @@ expect fun VideoPlayer(
     autoPlay: Boolean = false,
     scaleToCrop: Boolean = false,
     enablePip: Boolean = false,
+    isPlaying:Boolean = autoPlay,
     url: String
 )

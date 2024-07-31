@@ -73,6 +73,9 @@ class SplashViewModel(
         }
 
         Event.ClickMeClicked -> {
+
+            setState { copy(isVideoPlaying = isVideoPlaying.not()) }
+
             navManager.navigateToBottomSheet(
                 ItemPickerSheet(
                     selectedItem = selectedPickerItem,
