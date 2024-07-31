@@ -250,10 +250,10 @@ data class CoreColors(
     // OverrideUserDialog
     val overrideUserDialogBodyTextColor: Color = secondary,
 
-    // ItemPickerContent
-    val itemPickerContentWheelTextColor: Color = pickerItem,
-    val itemPickerContentSelectorColor: Color = itemPickerItemBg,
-    val itemPickerContentSelectorBorderColor: Color = itemPickerItemStroke,
+    // ItemPicker
+    val itemPickerWheelTextColor: Color = pickerItem,
+    val itemPickerSelectorColor: Color = itemPickerItemBg,
+    val itemPickerSelectorBorderColor: Color = itemPickerItemStroke,
 
     // AppDialog
     val appDialogContainerBg: Color = background,
@@ -268,8 +268,8 @@ data class CoreColors(
     val wheelTextPickerTextColor: Color = pickerItem,
 
     // SelectorProperties
-    val selectorPropertiesColor : Color = wheelPickerItemBg,
-    val selectorPropertiesBorderColor : Color = wheelPickerItemStroke,
-    )
+    val selectorPropertiesColor: Color = wheelPickerItemBg,
+    val selectorPropertiesBorderColor: Color = wheelPickerItemStroke
+)
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

@@ -292,7 +292,7 @@ data class CoreSpacings(
     // Dot
     val dotElevation: Dp = noSpacing,
 
-    // ItemPickerContent
+    // ItemPicker
     val itemPickerSearchFieldPadding: Dp = paddingXLarge,
     val itemPickerSelectorBorderWidth: Dp = itemPickerItemStroke,
     val itemPickerWheelHeight: Dp = 270.dp,
@@ -325,20 +325,20 @@ data class CoreSpacings(
     val wheelDateTimePickerWidth: Dp = defaultWheelPickerWidth,
 
     // WheelDatePicker
-    val wheelDatePickerWidth:Dp = defaultWheelPickerWidth,
-    val wheelDatePickerHeight:Dp = defaultWheelPickerHeight,
+    val wheelDatePickerWidth: Dp = defaultWheelPickerWidth,
+    val wheelDatePickerHeight: Dp = defaultWheelPickerHeight,
 
     // DefaultWheelTimePicker
-    val defaultWheelTimePickerHeight :Dp = defaultWheelPickerHeight,
-    val defaultWheelTimePickerWidth :Dp = defaultWheelPickerWidth,
+    val defaultWheelTimePickerHeight: Dp = defaultWheelPickerHeight,
+    val defaultWheelTimePickerWidth: Dp = defaultWheelPickerWidth,
 
     // DefaultWheelDateTimePicker
-    val defaultWheelDateTimePickerHeight :Dp = defaultWheelPickerHeight,
-    val defaultWheelDateTimePickerWidth :Dp = defaultWheelPickerWidth,
+    val defaultWheelDateTimePickerHeight: Dp = defaultWheelPickerHeight,
+    val defaultWheelDateTimePickerWidth: Dp = defaultWheelPickerWidth,
 
     // DefaultWheelDatePicker
-    val defaultWheelDatePickerHeight :Dp = defaultWheelPickerHeight,
-    val defaultWheelDatePickerWidth :Dp = defaultWheelPickerWidth,
+    val defaultWheelDatePickerHeight: Dp = defaultWheelPickerHeight,
+    val defaultWheelDatePickerWidth: Dp = defaultWheelPickerWidth,
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }

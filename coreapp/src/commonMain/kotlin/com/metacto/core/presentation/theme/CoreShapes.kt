@@ -4,7 +4,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
 
 @Immutable
@@ -54,54 +53,54 @@ data class CoreShapes(
     val secondaryStrokedBtnShapeNormal: RoundedCornerShape = small,
 
     // SwitchButton
-    val switchBtnShape :RoundedCornerShape = circle,
+    val switchBtnShape: RoundedCornerShape = circle,
 
     // tertiaryFilledButton
-    val tertiaryFilledBtnShapeSmall :RoundedCornerShape = xSmall,
-    val tertiaryFilledBtnShapeNormal :RoundedCornerShape = small,
+    val tertiaryFilledBtnShapeSmall: RoundedCornerShape = xSmall,
+    val tertiaryFilledBtnShapeNormal: RoundedCornerShape = small,
 
     // TertiaryStrokedButton
-    val tertiaryStrokedBtnShapeSmall :RoundedCornerShape = xSmall,
-    val tertiaryStrokedBtnShapeNormal :RoundedCornerShape = small,
+    val tertiaryStrokedBtnShapeSmall: RoundedCornerShape = xSmall,
+    val tertiaryStrokedBtnShapeNormal: RoundedCornerShape = small,
 
     // AppDialog
-    val appDialogShape :RoundedCornerShape = xLarge,
+    val appDialogShape: RoundedCornerShape = xLarge,
 
     // OtpDigit
-    val otpDigitShape :RoundedCornerShape = xLarge,
+    val otpDigitShape: RoundedCornerShape = xLarge,
 
     // PickerInputField
-    val pickerInputFieldShape :RoundedCornerShape = small,
+    val pickerInputFieldShape: RoundedCornerShape = small,
 
     // PriceTextInputField
-    val priceInputFieldBgShape :RoundedCornerShape = small,
+    val priceInputFieldBgShape: RoundedCornerShape = small,
 
     // PrimaryTextInputField
-    val primaryInputFieldShape :RoundedCornerShape = small,
+    val primaryInputFieldShape: RoundedCornerShape = small,
 
     // TertiaryTextInputField
-    val tertiaryInputFieldShape :RoundedCornerShape = small,
+    val tertiaryInputFieldShape: RoundedCornerShape = small,
 
     // NumberItem
-    val numberItemShape :RoundedCornerShape = circle,
+    val numberItemShape: RoundedCornerShape = circle,
 
     // Dot
-    val dotShape :RoundedCornerShape = circle,
+    val dotShape: RoundedCornerShape = circle,
 
     // HorizontalPagerIndicator
-    val horizontalPagerIndicatorShape :RoundedCornerShape = circle,
+    val horizontalPagerIndicatorShape: RoundedCornerShape = circle,
 
     // HorizontalPagerTabItem
-    val horizontalPagerTabItemShape :RoundedCornerShape = medium,
+    val horizontalPagerTabItemShape: RoundedCornerShape = medium,
 
     // SecondaryStepBar
-    val secondaryStepBarProgressShape :RoundedCornerShape = large,
+    val secondaryStepBarProgressShape: RoundedCornerShape = large,
 
-    // ItemPickerContent
-    val itemPickerContentShape :RoundedCornerShape = itemPickerItem,
+    // ItemPicker
+    val itemPickerShape: RoundedCornerShape = itemPickerItem,
 
     // SelectorProperties
-    val selectorPropertiesShape :RoundedCornerShape = wheelPickerItem,
+    val selectorPropertiesShape: RoundedCornerShape = wheelPickerItem,
 )
 
 val LocalCoreShapes = staticCompositionLocalOf { CoreShapes() }

@@ -198,11 +198,11 @@ data class CoreTypography(
     // WheelTextPicker
     val wheelTextPickerTextStyle: TextStyle = pickerItem,
 
-    // ItemPickerContent
+    // ItemPicker
     val itemPickerWheelTextStyle: TextStyle = pickerItem,
 
     // Toolbar
-    val toolbarTitleStyle: TextStyle = titleBold,
-    )
+    val toolbarTitleStyle: TextStyle = titleBold
+)
 
 val LocalCoreTypography = staticCompositionLocalOf { CoreTypography() }
