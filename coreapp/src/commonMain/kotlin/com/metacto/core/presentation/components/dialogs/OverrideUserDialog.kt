@@ -1,6 +1,7 @@
 package com.metacto.core.presentation.components.dialogs
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -9,9 +10,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.buttons.PrimaryStrokedButton
 import com.metacto.core.presentation.components.inputFields.TertiaryTextInputField
 import com.metacto.core.presentation.theme.CoreTheme
@@ -23,11 +27,17 @@ fun OverrideUserDialog(
     modifier: Modifier = Modifier,
     onOverrideClick: ((Int?) -> Unit)? = null,
     onResetClick: (() -> Unit)? = null,
-    onDismiss: (() -> Unit)? = null
+    onDismiss: (() -> Unit)? = null,
+    msgSpacing: Dp = CoreTheme.spacings.overrideUserDialogMsgSpacing,
+    overrideBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialogOverrideBtnPadding),
+    resetBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialogResetBtnPadding),
+    idTextPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialogIdTextPadding),
+    bodyTextColor: Color = CoreTheme.colors.overrideUserDialogBodyTextColor,
+    bodyTextStyle: TextStyle = CoreTheme.typography.bodyLarge
+
 ) {
     val text = remember { mutableStateOf("") }
     // Prepare spacings
-    val msgSpacing = CoreTheme.spacings.paddingXLarge
 
     // Render app dialog
     AppDialog(
@@ -46,8 +56,8 @@ fun OverrideUserDialog(
             Text(
                 text = stringResource(MR.strings.override_current_user_message),
                 textAlign = TextAlign.Center,
-                color = CoreTheme.colors.secondary,
-                style = CoreTheme.typography.bodyLarge,
+                color = bodyTextColor,
+                style = bodyTextStyle,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = msgSpacing)
@@ -57,7 +67,7 @@ fun OverrideUserDialog(
             // Id field
             TertiaryTextInputField(
                 modifier = Modifier.fillMaxWidth()
-                    .padding(top = CoreTheme.spacings.paddingLarge),
+                    .padding(idTextPadding),
                 text = text.value,
                 requestFocus = true,
                 imeAction = ImeAction.Done,
@@ -76,7 +86,7 @@ fun OverrideUserDialog(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = CoreTheme.spacings.paddingXXXLarge)
+                    .padding(overrideBtnPadding)
             )
 
             if (onResetClick != null) {
@@ -88,7 +98,7 @@ fun OverrideUserDialog(
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = CoreTheme.spacings.paddingLarge)
+                        .padding(resetBtnPadding)
                 )
             }
         }

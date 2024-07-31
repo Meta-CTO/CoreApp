@@ -31,7 +31,7 @@ internal fun DefaultWheelDateTimePicker(
   maxDateTime: LocalDateTime = LocalDateTime.CYBER_ERA,
   yearsRange: IntRange? = IntRange(minDateTime.year, maxDateTime.year),
   timeFormat: TimeFormat = TimeFormat.HOUR_24,
-  size: DpSize = DpSize(CoreTheme.spacings.defaultWheelPickerWidth, CoreTheme.spacings.defaultWheelPickerHeight),
+  size: DpSize = DpSize(CoreTheme.spacings.defaultWheelDateTimePickerWidth, CoreTheme.spacings.defaultWheelDateTimePickerHeight),
   rowCount: Int = 3, // Number of rows to show
   textStyle: TextStyle = MaterialTheme.typography.titleMedium,
   textColor: Color = LocalContentColor.current,

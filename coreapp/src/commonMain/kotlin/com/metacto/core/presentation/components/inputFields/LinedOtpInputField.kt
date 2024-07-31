@@ -24,6 +24,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.DelayedLaunchedEffect
 import com.metacto.core.utils.extensions.focusRequesterIfNotNull
@@ -39,11 +40,12 @@ fun LinedOtpInputField(
     text: String = "",
     onValueChange: ((String) -> Unit)? = null,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
-    textColor: Color = CoreTheme.colors.secondary,
-    borderColor: Color = CoreTheme.colors.primary,
-    textStyle: TextStyle = CoreTheme.typography.headline,
+    textColor: Color = CoreTheme.colors.linedOtpInputFieldTextColor,
+    borderColor: Color = CoreTheme.colors.linedOtpInputFieldBorderColor,
+    textStyle: TextStyle = CoreTheme.typography.linedOtpInputFieldTextStyle,
     requestFocus: Boolean = false,
-    requestFocusDelay: Long = DEF_REQUEST_FOCUS_DELAY
+    requestFocusDelay: Long = DEF_REQUEST_FOCUS_DELAY,
+    horizontalSpacing: Dp = CoreTheme.spacings.linedOtpInputFieldPinSpacing
 ) {
     // Prepare text value state
     var textState by remember {
@@ -104,7 +106,7 @@ fun LinedOtpInputField(
                 // Container row
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(
-                        space = CoreTheme.spacings.paddingSmall,
+                        space = horizontalSpacing,
                         alignment = Alignment.CenterHorizontally
                     )
                 ) {
@@ -130,7 +132,8 @@ private fun OtpDigit(
     digit: Char,
     textStyle: TextStyle,
     textColor: Color,
-    borderColor: Color
+    borderColor: Color,
+    lineSize: Dp = CoreTheme.spacings.otpDigitLineSize,
 ) {
     // Container column
     Column(
@@ -150,7 +153,7 @@ private fun OtpDigit(
         Box(
             modifier = Modifier
                 .background(borderColor)
-                .height(CoreTheme.spacings.stroke)
+                .height(lineSize)
                 .fillMaxWidth()
         )
     }
