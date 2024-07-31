@@ -85,7 +85,6 @@ kotlin {
                 // Moko
                 api(Dependencies.Moko.RESOURCES)
                 api(Dependencies.Moko.RESOURCES_COMPOSE)
-                implementation(Dependencies.Moko.PARCELIZE)
 
                 // Kotlin
                 api(Dependencies.Kotlin.DATE_TIME)
@@ -194,10 +193,10 @@ android {
 }
 
 multiplatformResources {
-    resourcesPackage.set(Configs.CORE_APP_ID) // required
-    resourcesVisibility.set(MRVisibility.Internal) // optional, default Public
-    iosBaseLocalizationRegion.set("en") // optional, default "en"
-    iosMinimalDeploymentTarget.set("11.0")
+    resourcesPackage.set(Configs.CORE_APP_ID)
+    resourcesVisibility.set(MRVisibility.Internal)
+    iosBaseLocalizationRegion.set("en")
+    iosMinimalDeploymentTarget.set("14.1")
 }
 
 val javadocJar by tasks.registering(Jar::class) {
