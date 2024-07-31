@@ -1,4 +1,5 @@
 @file:Suppress("OPT_IN_USAGE")
+
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import dev.icerock.gradle.MRVisibility
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
@@ -102,6 +103,7 @@ kotlin {
                 api(Dependencies.LIB_PHONE_NUMBER)
                 api(Dependencies.COMPOTTIE)
                 api(Dependencies.WEBVIEW)
+
             }
         }
 
@@ -191,10 +193,10 @@ android {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = Configs.CORE_APP_ID
-    multiplatformResourcesVisibility = MRVisibility.Internal
-    multiplatformResourcesSourceSet = "commonMain"
-    disableStaticFrameworkWarning = true
+    resourcesPackage.set(Configs.CORE_APP_ID)
+    resourcesVisibility.set(MRVisibility.Internal)
+    iosBaseLocalizationRegion.set("en")
+    iosMinimalDeploymentTarget.set("14.1")
 }
 
 val javadocJar by tasks.registering(Jar::class) {

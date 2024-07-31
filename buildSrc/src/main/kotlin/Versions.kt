@@ -10,7 +10,7 @@ object Versions {
     const val BUILD_CONFIGS = "4.1.2"
     const val KT_LINT = "10.3.0"
     const val DETEKT = "1.19.0"
-    const val MOKO_RESOURCES = "0.23.0"
+    const val MOKO_RESOURCES = "0.24.1"
     const val MOKO_GRAPHICS = "0.9.0"
     const val GOOGLE_SIGN_IN_POD = "7.0.0"
     const val DATE_TIME = "0.4.0"
