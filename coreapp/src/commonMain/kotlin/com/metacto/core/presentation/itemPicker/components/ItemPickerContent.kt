@@ -1,7 +1,6 @@
 package com.metacto.core.presentation.itemPicker.components
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -16,12 +15,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
 import com.metacto.core.presentation.components.bottomSheets.BottomSheetContainer
@@ -38,14 +33,6 @@ import dev.icerock.moko.resources.compose.stringResource
 @Composable
 fun ItemPickerContent(
     state: State,
-    textSearchInputFieldPadding: PaddingValues = PaddingValues(CoreTheme.spacings.itemPickerSearchFieldPadding),
-    wheelTextStyle: TextStyle = CoreTheme.typography.itemPickerWheelTextStyle,
-    wheelTextColor: Color = CoreTheme.colors.itemPickerWheelTextColor,
-    selectorShape: Shape = CoreTheme.shapes.itemPickerShape,
-    selectorColor: Color = CoreTheme.colors.itemPickerSelectorColor,
-    selectorBorderWidth: Dp = CoreTheme.spacings.itemPickerSelectorBorderWidth,
-    selectorBorderColor: Color = CoreTheme.colors.itemPickerSelectorBorderColor,
-    wheelHeight: Dp = CoreTheme.spacings.itemPickerWheelHeight,
     onEvent: (Event) -> Unit
 ) {
     var currentSelectedIndex = remember { state.initialItemIndex }
@@ -93,7 +80,7 @@ fun ItemPickerContent(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(textSearchInputFieldPadding)
+                    .padding(CoreTheme.spacings.paddingXLarge)
             )
         }
 
@@ -102,14 +89,14 @@ fun ItemPickerContent(
             startIndex = state.initialItemIndex,
             texts = itemTitles,
             rowCount = 5,
-            style = wheelTextStyle,
-            color = wheelTextColor,
+            style = CoreTheme.typography.pickerItem,
+            color = CoreTheme.colors.pickerItem,
             selectorProperties = WheelPickerDefaults.selectorProperties(
-                shape = selectorShape,
-                color = selectorColor,
+                shape = CoreTheme.shapes.itemPickerItem,
+                color = CoreTheme.colors.itemPickerItemBg,
                 border = BorderStroke(
-                    width = selectorBorderWidth,
-                    color = selectorBorderColor
+                    width = CoreTheme.spacings.itemPickerItemStroke,
+                    color = CoreTheme.colors.itemPickerItemStroke
                 ),
             ),
             onScrollFinished = { index ->
@@ -118,11 +105,11 @@ fun ItemPickerContent(
             },
             size = DpSize(
                 width = sheetSize.width.toDp(),
-                height = wheelHeight
+                height = CoreTheme.spacings.itemPickerWheelHeight
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(wheelHeight),
+                .height(CoreTheme.spacings.itemPickerHeight),
         )
     }
 }

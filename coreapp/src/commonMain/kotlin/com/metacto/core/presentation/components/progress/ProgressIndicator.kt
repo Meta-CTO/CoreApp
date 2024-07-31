@@ -8,7 +8,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.noRippleClickable
 
@@ -16,9 +15,7 @@ import com.metacto.core.utils.extensions.noRippleClickable
 fun ProgressIndicator(
     modifier: Modifier = Modifier,
     color: Color,
-    isBlocking: Boolean,
-    size: Dp = CoreTheme.spacings.progressSizeNormal,
-    strokeWidth: Dp = CoreTheme.spacings.progressStrokeNormal
+    isBlocking: Boolean
 ) {
     // Prepare clickable modifier
     val clickableModifier = if (isBlocking) Modifier.noRippleClickable {} else Modifier
@@ -31,8 +28,8 @@ fun ProgressIndicator(
             .then(clickableModifier)
     ) {
         CircularProgressIndicator(
-            modifier = Modifier.size(size),
-            strokeWidth = strokeWidth,
+            modifier = Modifier.size(CoreTheme.spacings.progressSizeNormal),
+            strokeWidth = CoreTheme.spacings.progressStrokeNormal,
             color = color
         )
     }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 import kotlinx.coroutines.launch
 
@@ -19,8 +18,7 @@ fun HorizontalPagerTabs(
     modifier: Modifier = Modifier,
     tabTitles: List<String>,
     pagerState: PagerState,
-    onTabClicked: ((Int) -> Unit)? = null,
-    horizontalSpacing: Dp = CoreTheme.spacings.horizontalPagerTabsHorizontalSpacing
+    onTabClicked: ((Int) -> Unit)? = null
 ) {
     // Get main objects
     val scrollState = rememberScrollState()
@@ -28,7 +26,7 @@ fun HorizontalPagerTabs(
 
     // Render tabs
     Row(
-        horizontalArrangement = Arrangement.spacedBy(horizontalSpacing),
+        horizontalArrangement = Arrangement.spacedBy(CoreTheme.spacings.paddingXLarge),
         modifier = modifier
             .horizontalScroll(scrollState)
             .fillMaxWidth()

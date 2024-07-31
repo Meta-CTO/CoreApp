@@ -15,21 +15,21 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun SocialButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.socialBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
     iconPainter: Painter? = null,
     iconVector: ImageVector? = null,
     isEnabled: Boolean = true,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.socialBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.socialBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.btnPaddingVertical,
+        horizontal = CoreTheme.spacings.btnPaddingHorizontal
     ),
-    textColor: Color = CoreTheme.colors.socialBtnTextColor,
-    backgroundColor: Color = CoreTheme.colors.socialBtnBg,
+    textColor: Color = CoreTheme.colors.onPrimary,
+    backgroundColor: Color = CoreTheme.colors.black,
     contentAlignment: Alignment.Horizontal = Alignment.Start,
     border: BorderStroke = BorderStroke(
-        width = CoreTheme.spacings.socialBtnStrokeWidth,
-        color = CoreTheme.colors.socialBtnStrokeColor
+        width = CoreTheme.spacings.stroke,
+        color = CoreTheme.colors.onPrimary
     ),
     onClick: () -> Unit = {}
 ) {

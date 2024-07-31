@@ -16,9 +16,9 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun PrimaryStrokedButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.primaryStrokedBtnTextStyle,
-    textColor: Color = CoreTheme.colors.strokedBtnTextColor,
-    iconColor: Color? = CoreTheme.colors.strokedBtnIconColor,
+    textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
+    textColor: Color = CoreTheme.colors.primary,
+    iconColor: Color? = CoreTheme.colors.primary,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
@@ -28,17 +28,17 @@ fun PrimaryStrokedButton(
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.primaryStrokedBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.primaryStrokedBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.btnPaddingVertical,
+        horizontal = CoreTheme.spacings.btnPaddingHorizontal
     ),
-    backgroundColor: Color = CoreTheme.colors.strokedBtnBg,
-    minHeightSmall: Dp = CoreTheme.spacings.primaryStrokedBtnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.primaryStrokedBtnMinHeightNormal,
-    shapeSmall: RoundedCornerShape = CoreTheme.shapes.primaryStrokedBtnShapeSmall,
-    shapeNormal: RoundedCornerShape = CoreTheme.shapes.primaryStrokedBtnShapeNormal,
+    backgroundColor: Color = CoreTheme.colors.background,
+    minHeightSmall: Dp = CoreTheme.spacings.btnMinHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.btnMinHeightNormal,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.xSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.small,
     border: BorderStroke = BorderStroke(
-        width = CoreTheme.spacings.primaryStrokedBtnStrokeWidth,
-        color = CoreTheme.colors.strokedBtnStrokeColor
+        width = CoreTheme.spacings.stroke,
+        color = CoreTheme.colors.primary
     ),
     onClick: () -> Unit = {}
 ) {

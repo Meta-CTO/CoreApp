@@ -2,13 +2,9 @@ package com.metacto.core.presentation.components.pagerIndicator
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
@@ -35,8 +31,8 @@ fun HorizontalPagerIndicator(
     inactiveColor: Color = activeColor.copy(alpha = 0.3f),
     indicatorHeight: Dp = CoreTheme.spacings.tabIndicatorSize,
     indicatorWidth: Dp = CoreTheme.spacings.tabIndicatorSize,
-    spacing: Dp = CoreTheme.spacings.horizontalPagerIndicatorSpacing,
-    indicatorShape: Shape = CoreTheme.shapes.horizontalPagerIndicatorShape,
+    spacing: Dp = CoreTheme.spacings.paddingMedium,
+    indicatorShape: Shape = CircleShape,
     activeBorder: BorderStroke? = null,
     inActiveBorder: BorderStroke? = null
 ) {
@@ -104,7 +100,6 @@ private fun Dot(
     color: Color,
     width: Dp,
     height: Dp,
-    dotElevation: Dp = CoreTheme.spacings.dotElevation,
     onClick: () -> Unit = {}
 ) {
     Card(
@@ -119,7 +114,7 @@ private fun Dot(
         modifier = modifier
             .width(width)
             .height(height)
-            .shadow(dotElevation)
+            .shadow(CoreTheme.spacings.noSpacing)
             .noRippleClickable(onClick = onClick)
     ) {
     }

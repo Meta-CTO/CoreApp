@@ -2,7 +2,6 @@ package com.metacto.core.presentation.components.dialogs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,10 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import com.metacto.coreApp.MR
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.PrimaryStrokedButton
@@ -30,19 +26,13 @@ fun ConfirmationDialog(
     negativeButtonText: String? = null,
     onPositiveClick: (() -> Unit)? = null,
     onNegativeClick: (() -> Unit)? = null,
-    onDismiss: (() -> Unit)? = null,
-    bodyTextStyle: TextStyle = CoreTheme.typography.confirmationDialogBodyTextStyle,
-    bodyTextColor: Color = CoreTheme.colors.confirmationDialogBodyColor,
-    noTitlePadding: Dp = CoreTheme.spacings.confirmationDialogNoTitlePadding,
-    titlePadding: Dp = CoreTheme.spacings.confirmationDialogTitlePadding,
-    buttonsSpacings: Dp = CoreTheme.spacings.confirmationDialogButtonsSpacings,
-    buttonsPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.confirmationDialogButtonsTopPadding)
+    onDismiss: (() -> Unit)? = null
 ) {
     // Prepare spacings
     val msgSpacing = if (title?.isNotEmpty() == true)
-        titlePadding
+        CoreTheme.spacings.paddingXLarge
     else
-        noTitlePadding
+        CoreTheme.spacings.noSpacing
 
     // Render app dialog
     AppDialog(
@@ -61,8 +51,8 @@ fun ConfirmationDialog(
             Text(
                 text = body.orEmpty(),
                 textAlign = TextAlign.Center,
-                color = bodyTextColor,
-                style = bodyTextStyle,
+                color = CoreTheme.colors.secondary,
+                style = CoreTheme.typography.bodyLarge,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = msgSpacing)
@@ -70,10 +60,10 @@ fun ConfirmationDialog(
 
             // Render buttons
             Row(
-                horizontalArrangement = Arrangement.spacedBy(buttonsSpacings),
+                horizontalArrangement = Arrangement.spacedBy(CoreTheme.spacings.paddingXLarge),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(buttonsPadding)
+                    .padding(top = CoreTheme.spacings.popupSpacingLarge)
             ) {
                 // Negative button
                 PrimaryStrokedButton(

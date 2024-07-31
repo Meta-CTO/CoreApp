@@ -4,16 +4,14 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material3.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import com.metacto.core.presentation.theme.CoreTheme
 
 @Composable
 fun HorizontalDivider(
-    modifier: Modifier = Modifier,
-    color: Color = CoreTheme.colors.dividerColor
+    modifier: Modifier = Modifier
 ) {
     Divider(
-        color = color,
+        color = CoreTheme.colors.outline,
         modifier = modifier.fillMaxHeight()
     )
 }

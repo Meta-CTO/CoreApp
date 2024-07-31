@@ -4,7 +4,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,11 +18,7 @@ fun SecondaryStepBar(
     modifier: Modifier = Modifier,
     stepsCount: Int,
     currentStep: Int,
-    height: Dp = CoreTheme.spacings.stepBarHeight,
-    strokeWidth: Dp = CoreTheme.spacings.stepBarStroke,
-    color: Color = CoreTheme.colors.secondaryStepBarColor,
-    borderColor: Color = CoreTheme.colors.secondaryStepBarBorderColor,
-    progressShape: RoundedCornerShape = CoreTheme.shapes.secondaryStepBarProgressShape
+    height: Dp = CoreTheme.spacings.stepBarHeight
 ) {
     // Prepare progress
     val progress by animateFloatAsState(
@@ -32,17 +27,17 @@ fun SecondaryStepBar(
 
     // Render indicator
     LinearProgressIndicator(
-        progress = if (progress.isNaN()) 0f else progress,
-        color = color,
+        progress = if(progress.isNaN()) 0f else progress,
+        color = CoreTheme.colors.secondary,
         trackColor = Color.Transparent,
         strokeCap = StrokeCap.Round,
         modifier = modifier
             .fillMaxWidth()
             .height(height)
             .border(
-                width = strokeWidth,
-                color = borderColor,
-                shape = progressShape
+                width = CoreTheme.spacings.stepBarStroke,
+                color = CoreTheme.colors.secondary,
+                shape = CoreTheme.shapes.large
             )
     )
 }
