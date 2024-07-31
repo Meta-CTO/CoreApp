@@ -1,4 +1,5 @@
 @file:Suppress("OPT_IN_USAGE")
+
 import dev.icerock.gradle.MRVisibility
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 
@@ -138,10 +139,10 @@ android {
 }
 
 multiplatformResources {
-    multiplatformResourcesPackage = Configs.SAMPLE_APP_ID
-    multiplatformResourcesVisibility = MRVisibility.Internal
-    multiplatformResourcesSourceSet = "commonMain"
-    disableStaticFrameworkWarning = true
+    resourcesPackage.set(Configs.SAMPLE_APP_ID) // required
+    resourcesVisibility.set(MRVisibility.Internal) // optional, default Public
+    iosBaseLocalizationRegion.set("en") // optional, default "en"
+    iosMinimalDeploymentTarget.set("11.0")
 }
 
 tasks.named("syncPodComposeResourcesForIos") {

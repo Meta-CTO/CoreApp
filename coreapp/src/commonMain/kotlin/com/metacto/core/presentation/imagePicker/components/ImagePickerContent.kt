@@ -10,6 +10,7 @@ import com.metacto.core.presentation.options.models.OptionUIModel
 import com.metacto.core.presentation.imagePicker.ImagePickerContract.Event
 import com.metacto.core.presentation.imagePicker.ImagePickerContract.State
 import com.metacto.core.presentation.theme.CoreTheme
+import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable

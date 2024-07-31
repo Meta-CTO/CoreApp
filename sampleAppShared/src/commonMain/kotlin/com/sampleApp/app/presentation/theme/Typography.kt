@@ -14,20 +14,20 @@ import dev.icerock.moko.resources.compose.asFont
 // Define font families
 @Composable
 fun getFenwickFontFamily() = FontFamily(
-    MR.fonts.fenwick.bold.asFont(FontWeight.Bold),
-    MR.fonts.fenwick.regular.asFont(FontWeight.Normal),
-    MR.fonts.fenwick.light.asFont(FontWeight.Light)
+    MR.fonts.fenwick_bold.asFont(FontWeight.Bold),
+    MR.fonts.fenwick_regular.asFont(FontWeight.Normal),
+    MR.fonts.fenwick_light.asFont(FontWeight.Light)
 )
 
 @Composable
 fun getQuasimodaFontFamily() = FontFamily(
-    MR.fonts.quasimoda.black.asFont(FontWeight.Black),
-    MR.fonts.quasimoda.bold.asFont(FontWeight.Bold),
-    MR.fonts.quasimoda.semibold.asFont(FontWeight.SemiBold),
-    MR.fonts.quasimoda.medium.asFont(FontWeight.Medium),
-    MR.fonts.quasimoda.regular.asFont(FontWeight.Normal),
-    MR.fonts.quasimoda.light.asFont(FontWeight.Light),
-    MR.fonts.quasimoda.thin.asFont(FontWeight.Thin),
+    MR.fonts.quasimoda_black.asFont(FontWeight.Black),
+    MR.fonts.quasimoda_bold.asFont(FontWeight.Bold),
+    MR.fonts.quasimoda_semibold.asFont(FontWeight.SemiBold),
+    MR.fonts.quasimoda_medium.asFont(FontWeight.Medium),
+    MR.fonts.quasimoda_regular.asFont(FontWeight.Normal),
+    MR.fonts.quasimoda_light.asFont(FontWeight.Light),
+    MR.fonts.quasimoda_thin.asFont(FontWeight.Thin),
 )
 
 // Create app typography

@@ -5,13 +5,14 @@ import androidx.core.app.NotificationCompat
 import com.metacto.core.utils.CommonParcelable
 import com.metacto.core.utils.CommonParcelize
 import dev.icerock.moko.resources.ImageResource
+import kotlinx.parcelize.RawValue
 
 @CommonParcelize
 actual data class Notification constructor(
     actual val id: Int? = null,
     actual val title: String,
     actual val body: String? = null,
-    actual val icon: ImageResource? = null,
+    actual val icon: @RawValue ImageResource? = null,
     val autoCancel: Boolean = true,
     val channel: NotificationChannel? = null,
     val priority: Int = NotificationCompat.PRIORITY_DEFAULT,
