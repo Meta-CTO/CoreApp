@@ -68,12 +68,6 @@ actual fun VideoPlayer(
         factory = {
             UIView().apply {
                 addSubview(playerController.view)
-
-                // Auto play if required
-                if (autoPlay) {
-                    player.play()
-                    playerController.player?.play()
-                }
             }
 
         },
@@ -97,6 +91,12 @@ actual fun VideoPlayer(
                     canStartPictureInPictureAutomaticallyFromInline = true
                 }
             }
+            // Auto play if required
+            if (autoPlay) {
+                player.play()
+                playerController.player?.play()
+            }
+
             // Auto play if required
             if (isPlaying) {
                 player.play()

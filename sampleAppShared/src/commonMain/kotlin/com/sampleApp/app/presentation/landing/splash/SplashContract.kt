@@ -10,7 +10,7 @@ class SplashContract {
     data class State(
         val isInitialized: Boolean = false,
         val isWelcome: Boolean = false,
-        val isVideoPlaying: Boolean = false
+        val isVideoPlaying: Boolean = true
     ) : ViewState
 
     sealed class Event : ViewEvent {
