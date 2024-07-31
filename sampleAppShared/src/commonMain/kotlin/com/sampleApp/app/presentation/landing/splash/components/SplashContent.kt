@@ -66,7 +66,7 @@ internal fun SplashContent(
             modifier = Modifier.fillMaxWidth(),
             text = "Click Me!",
             onClick = {
-                onEvent(Event.ClickMeClicked)
+                onEvent(Event.PlayerActionClicked)
             }
         )
 
