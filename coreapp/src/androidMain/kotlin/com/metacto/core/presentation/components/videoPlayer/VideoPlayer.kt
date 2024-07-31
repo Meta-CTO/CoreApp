@@ -5,6 +5,7 @@ import android.widget.FrameLayout
 import androidx.annotation.OptIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -25,11 +26,12 @@ actual fun VideoPlayer(
     autoPlay: Boolean,
     scaleToCrop: Boolean,
     enablePip: Boolean,
-    isPlaying: Boolean,
+    onPlayerCreated: ((VideoPlayerController) -> Unit)?,
     url: String
 ) {
     val context = LocalContext.current
 
+    // Create exo player
     val exoPlayer = remember(url, autoPlay, scaleToCrop) {
         ExoPlayer.Builder(context)
             .build()
@@ -45,6 +47,24 @@ actual fun VideoPlayer(
                 setMediaSource(url)
                 prepare()
             }
+    }
+
+    // Create the player controller
+    val playerController = remember(exoPlayer) {
+        object : VideoPlayerController {
+            override fun play() {
+                exoPlayer.play()
+            }
+
+            override fun pause() {
+                exoPlayer.pause()
+            }
+        }
+    }
+
+    // Launched effect to invoke player created
+    LaunchedEffect(playerController, onPlayerCreated) {
+        onPlayerCreated?.invoke(playerController)
     }
 
     AndroidView(
@@ -78,13 +98,6 @@ actual fun VideoPlayer(
         onDispose {
             exoPlayer.release()
         }
-    }
-
-    // handle the playing action
-    if (isPlaying) {
-        exoPlayer.play()
-    } else {
-        exoPlayer.pause()
     }
 
     // Handle lifecycle

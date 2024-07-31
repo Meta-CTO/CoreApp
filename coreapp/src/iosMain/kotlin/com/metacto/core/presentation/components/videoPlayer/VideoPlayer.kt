@@ -2,6 +2,7 @@ package com.metacto.core.presentation.components.videoPlayer
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,7 +30,7 @@ actual fun VideoPlayer(
     autoPlay: Boolean,
     scaleToCrop: Boolean,
     enablePip: Boolean,
-    isPlaying: Boolean,
+    onPlayerCreated: ((VideoPlayerController) -> Unit)?,
     url: String
 ) {
     val player = remember(url) {
@@ -61,6 +62,24 @@ actual fun VideoPlayer(
 
     var pipController: AVPictureInPictureController? by remember {
         mutableStateOf(null)
+    }
+
+    // Create the player controller
+    val videoPlayerController = remember(player) {
+        object : VideoPlayerController {
+            override fun play() {
+                player.play()
+            }
+
+            override fun pause() {
+                player.pause()
+            }
+        }
+    }
+
+    // Launched effect to invoke player created
+    LaunchedEffect(videoPlayerController, onPlayerCreated) {
+        onPlayerCreated?.invoke(videoPlayerController)
     }
 
     UIKitView(
@@ -95,15 +114,6 @@ actual fun VideoPlayer(
             if (autoPlay) {
                 player.play()
                 playerController.player?.play()
-            }
-
-            // Auto play if required
-            if (isPlaying) {
-                player.play()
-                playerController.player?.play()
-            } else {
-                player.pause()
-                playerController.player?.pause()
             }
 
             // Start PiP if it's not already running
