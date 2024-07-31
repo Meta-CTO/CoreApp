@@ -16,7 +16,7 @@ import com.metacto.core.utils.extensions.noRippleClickable
 fun SingleLineText(
     modifier: Modifier = Modifier,
     text: String,
-    style: TextStyle = CoreTheme.typography.bodyMedium,
+    style: TextStyle = CoreTheme.typography.singleLineTextStyle,
     color: Color = Color.Unspecified,
     textAlign: TextAlign? = null,
     isUnderlined: Boolean = false,

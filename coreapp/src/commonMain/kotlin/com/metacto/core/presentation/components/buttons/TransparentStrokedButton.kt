@@ -16,7 +16,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun TransparentStrokedButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
+    textStyle: TextStyle = CoreTheme.typography.transparentStrokedBtn,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
@@ -26,16 +26,16 @@ fun TransparentStrokedButton(
     isLoading: Boolean = false,
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.btnPaddingVertical,
-        horizontal = CoreTheme.spacings.btnPaddingHorizontal
+        vertical = CoreTheme.spacings.transparentStrokedBtnPaddingVertical,
+        horizontal = CoreTheme.spacings.transparentStrokedBtnPaddingHorizontal
     ),
-    textColor: Color = CoreTheme.colors.onPrimary,
-    iconColor: Color = CoreTheme.colors.onPrimary,
-    backgroundColor: Color = CoreTheme.colors.transparent,
-    elevation: Dp = CoreTheme.spacings.noSpacing,
+    textColor: Color = CoreTheme.colors.transparentStrokedBtnTextColor,
+    iconColor: Color = CoreTheme.colors.transparentStrokedBtnIconColor,
+    backgroundColor: Color = CoreTheme.colors.transparentStrokedBtnBg,
+    elevation: Dp = CoreTheme.spacings.transparentStrokedBtnElevation,
     border: BorderStroke = BorderStroke(
-        width = CoreTheme.spacings.stroke,
-        color = CoreTheme.colors.onPrimary
+        width = CoreTheme.spacings.transparentStrokedBtnStrokeWidth,
+        color = CoreTheme.colors.transparentStrokedBtnStrokeColor
     ),
     onClick: () -> Unit = {}
 ) {

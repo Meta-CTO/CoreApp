@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.noRippleClickable
 import com.metacto.core.utils.extensions.rememberLottieComposition
@@ -20,7 +21,8 @@ import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
 fun LottieProgressIndicator(
     modifier: Modifier = Modifier,
     lottieRes: AssetResource = MR.assets.loading_indicator_anim,
-    isBlocking: Boolean = false
+    isBlocking: Boolean = false,
+    progressSize: Dp = CoreTheme.spacings.lottieProgressSize
 ) {
     // Prepare composition
     val composition by rememberLottieComposition(lottieRes)
@@ -42,9 +44,7 @@ fun LottieProgressIndicator(
         LottieAnimation(
             composition = composition,
             progress = { progress.value },
-            modifier = Modifier.size(
-                CoreTheme.spacings.lottieProgressSize
-            )
+            modifier = Modifier.size(progressSize)
         )
     }
 }

@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.dialogs.AppDialog
@@ -37,7 +38,15 @@ fun DatePickerDialog(
     rowCount: Int = 5,
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onDatePicked: (LocalDate) -> Unit,
-    onDismiss: () -> Unit = {}
+    onDismiss: () -> Unit = {},
+    okButtonPaddingHorizontal: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.datePickerDialogOkBtnPaddingHorizontal),
+    okButtonPaddingTop: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.datePickerDialogOkBtnPaddingTop),
+    wheelHeight: Dp = CoreTheme.spacings.datePickerDialogWheelHeight,
+    pickerPadding: Dp = CoreTheme.spacings.datePickerDialogPadding,
+    padding: PaddingValues = PaddingValues(
+        vertical = CoreTheme.spacings.datePickerDialogPaddingVertical,
+        horizontal = CoreTheme.spacings.datePickerDialogPaddingHorizontal
+    )
 ) {
     var currentDate by remember {
         mutableStateOf(selectedDate)
@@ -61,10 +70,7 @@ fun DatePickerDialog(
         onDismiss = onDismiss,
         isCancellable = isCancellable,
         showToolbar = false,
-        padding = PaddingValues(
-            vertical = CoreTheme.spacings.paddingXLarge,
-            horizontal = CoreTheme.spacings.noSpacing
-        )
+        contentPadding = padding
     ) {
         // Container column
         Column(
@@ -80,10 +86,13 @@ fun DatePickerDialog(
                 onSnappedDate = { localDate ->
                     currentDate = localDate
                 },
-                size = DpSize(getScreenSize().first.toDp() - CoreTheme.spacings.pickerPadding, CoreTheme.spacings.datePickerWheelHeight),
+                size = DpSize(
+                    getScreenSize().first.toDp() - pickerPadding,
+                    wheelHeight
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(CoreTheme.spacings.datePickerHeight)
+                    .height(wheelHeight)
             )
 
             // Ok button
@@ -92,8 +101,8 @@ fun DatePickerDialog(
                 onClick = ::handleOkClick,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = CoreTheme.spacings.paddingXXXLarge)
-                    .padding(horizontal = CoreTheme.spacings.paddingXLarge)
+                    .padding(okButtonPaddingTop)
+                    .padding(okButtonPaddingHorizontal)
             )
         }
     }
