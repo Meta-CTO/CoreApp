@@ -10,7 +10,7 @@ import com.metacto.core.presentation.options.models.OptionUIModel
 import com.metacto.core.presentation.imagePicker.ImagePickerContract.Event
 import com.metacto.core.presentation.imagePicker.ImagePickerContract.State
 import com.metacto.core.presentation.theme.CoreTheme
-import dev.icerock.moko.resources.compose.painterResource
+import com.metacto.core.utils.asCommon
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
@@ -30,7 +30,7 @@ fun ImagePickerContent(
             OptionItem(
                 option = OptionUIModel(
                     title = stringResource(MR.strings.choose_from_library),
-                    icon = MR.images.ic_photo_library
+                    icon = MR.images.ic_photo_library.asCommon()
                 ),
                 onClick = {
                     onEvent(Event.PickFromGalleryClicked)
@@ -43,7 +43,7 @@ fun ImagePickerContent(
             OptionItem(
                 option = OptionUIModel(
                     title = stringResource(MR.strings.take_photo),
-                    icon = MR.images.ic_camera
+                    icon = MR.images.ic_camera.asCommon()
                 ),
                 onClick = {
                     onEvent(Event.CaptureUsingCameraClicked)
@@ -56,7 +56,7 @@ fun ImagePickerContent(
             OptionItem(
                 option = OptionUIModel(
                     title = stringResource(MR.strings.remove_current_photo),
-                    icon = MR.images.ic_delete,
+                    icon = MR.images.ic_delete.asCommon(),
                     color = CoreTheme.colors.danger.value
                 ),
                 onClick = {
