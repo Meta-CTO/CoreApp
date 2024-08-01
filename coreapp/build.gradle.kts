@@ -210,10 +210,8 @@ publishing {
             maven("https://maven.pkg.github.com/Meta-CTO/CoreApp") {
                 name = "Github"
                 credentials {
-                    username =
-                        gradleLocalProperties(rootDir).getProperty("PUBLISH_REPO_USER") as String
-                    password =
-                        gradleLocalProperties(rootDir).getProperty("PUBLISH_REPO_TOKEN") as String
+                    username = gradleLocalProperties(rootDir).getProperty("PUBLISH_REPO_USER") as String
+                    password = gradleLocalProperties(rootDir).getProperty("PUBLISH_REPO_TOKEN") as String
                 }
             }
         }
