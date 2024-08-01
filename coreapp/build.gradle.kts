@@ -164,6 +164,7 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 api(Dependencies.Compose.MATERIAL)
+                api(Dependencies.Moko.PARCELIZE)
             }
         }
     }

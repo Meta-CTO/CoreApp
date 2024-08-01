@@ -2,6 +2,7 @@ object Dependencies {
     object Moko {
         const val RESOURCES = "dev.icerock.moko:resources:${Versions.MOKO_RESOURCES}"
         const val RESOURCES_COMPOSE = "dev.icerock.moko:resources-compose:${Versions.MOKO_RESOURCES}"
+        const val PARCELIZE = "dev.icerock.moko:parcelize:${Versions.MOKO_PARCELIZE}"
         const val GRAPHICS = "dev.icerock.moko:graphics:${Versions.MOKO_GRAPHICS}"
     }
 
