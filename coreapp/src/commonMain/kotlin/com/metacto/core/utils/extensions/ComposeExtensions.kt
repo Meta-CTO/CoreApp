@@ -62,8 +62,8 @@ import dev.icerock.moko.resources.AssetResource
 import dev.icerock.moko.resources.compose.readTextAsState
 import io.github.alexzhirkevich.compottie.LottieCompositionResult
 import io.github.alexzhirkevich.compottie.LottieCompositionSpec
+import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
 import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
-import io.michaelrocks.libphonenumber.kotlin.metadata.defaultMetadataLoader
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -379,12 +379,12 @@ fun IOLaunchedEffect(key: Any? = null, callback: suspend () -> Unit) {
     }
 }
 
-
 @Composable
 fun rememberPhoneNumberUtil(): PhoneNumberUtil {
+    val metadataLoader = defaultMetadataLoader()
     return remember {
         PhoneNumberUtil.Companion.createInstance(
-            metadataLoader = defaultMetadataLoader()
+            metadataLoader = metadataLoader
         )
     }
 }
@@ -452,6 +452,9 @@ fun Color.isDark(): Boolean {
     val darkness = 1 - (0.299 * red + 0.587 * green + 0.114 * blue)
     return darkness >= 0.5
 }
+
+@Composable
+expect fun defaultMetadataLoader(): MetadataLoader
 
 @Composable
 expect fun openUrlInBrowser(url: String)

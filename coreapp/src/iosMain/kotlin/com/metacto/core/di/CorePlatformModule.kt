@@ -21,6 +21,8 @@ import com.metacto.strapikmm.errorhandling.SerializableNetworkError
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
 import dev.icerock.moko.resources.utils.loadableBundle
+import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
+import io.michaelrocks.libphonenumber.kotlin.metadata.init.MokoAssetResourceMetadataLoader
 import org.koin.core.definition.Definition
 import org.koin.core.definition.KoinDefinition
 import org.koin.core.module.Module
@@ -84,6 +86,10 @@ actual fun<T : SerializableNetworkError> corePlatformModule(
 
     single<ILanguageManager> {
         LanguageManager()
+    }
+
+    single<MetadataLoader> {
+        MokoAssetResourceMetadataLoader()
     }
 }
 

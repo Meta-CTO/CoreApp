@@ -17,7 +17,6 @@ import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.ActionCodeSettings
 import dev.gitlive.firebase.auth.auth
 import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
-import io.michaelrocks.libphonenumber.kotlin.metadata.defaultMetadataLoader
 import org.koin.dsl.module
 import kotlin.reflect.KClass
 import com.metacto.strapikmm.repos.AuthRepository as StrapiAuthRepository
@@ -85,10 +84,7 @@ fun <T : SerializableNetworkError> coreModule(
     }
 
     single {
-        val metadataLoader = defaultMetadataLoader()
-        PhoneNumberUtil.createInstance(
-            metadataLoader = metadataLoader
-        )
+        PhoneNumberUtil.createInstance(get())
     }
 
     single<IRemoteConfigs> {
