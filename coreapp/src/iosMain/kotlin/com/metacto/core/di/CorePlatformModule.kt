@@ -16,11 +16,9 @@ import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.launchers.IntentLauncher
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.NotificationManager
-import com.metacto.coreApp.MR
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
-import dev.icerock.moko.resources.utils.loadableBundle
 import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
 import io.michaelrocks.libphonenumber.kotlin.metadata.init.MokoAssetResourceMetadataLoader
 import org.koin.core.definition.Definition
@@ -49,7 +47,7 @@ actual fun<T : SerializableNetworkError> corePlatformModule(
 
     single<IResourceProvider> {
         ResourceProvider(
-            bundle = NSBundle.loadableBundle(MR::class.qualifiedName.orEmpty()),
+            bundle = NSBundle.mainBundle,
             fileManager = NSFileManager.defaultManager()
         )
     }
