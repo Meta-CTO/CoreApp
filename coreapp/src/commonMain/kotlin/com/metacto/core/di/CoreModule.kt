@@ -4,6 +4,8 @@ import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.navigation.NavManager
 import com.metacto.core.utils.DateHelper
+import com.metacto.core.utils.deepLink.DeepLinkManager
+import com.metacto.core.utils.deepLink.IDeepLinkManager
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.metacto.core.utils.phoneNumber.PhoneNumberManager
 import com.metacto.core.utils.remoteConfigs.FirebaseRemoteConfigs
@@ -100,5 +102,9 @@ fun <T : SerializableNetworkError> coreModule(
 
     single {
         DateHelper
+    }
+
+    single<IDeepLinkManager> {
+        DeepLinkManager
     }
 }
