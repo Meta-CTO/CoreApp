@@ -4,8 +4,9 @@ import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.navigation.NavManager
 import com.metacto.core.utils.DateHelper
-import com.metacto.core.utils.deepLink.DeepLinkRegistry
-import com.metacto.core.utils.deepLink.IDeepLinkRegistry
+import com.metacto.core.utils.deepLink.DeepLinkManager
+import com.metacto.core.utils.deepLink.DeepLinkParser
+import com.metacto.core.utils.deepLink.IDeepLinkManager
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.metacto.core.utils.phoneNumber.PhoneNumberManager
 import com.metacto.core.utils.remoteConfigs.FirebaseRemoteConfigs
@@ -29,7 +30,8 @@ fun <T : SerializableNetworkError> coreModule(
     actionCodeSettings: ActionCodeSettings,
     appStorageName: String,
     shouldShowActualErrorMessages: Boolean,
-    errorClass: KClass<T>
+    errorClass: KClass<T>,
+    deepLinkParsers: Map<String, DeepLinkParser> = emptyMap()
 ) = module {
 
     includes(corePlatformModule(appStorageName, shouldShowActualErrorMessages, errorClass))
@@ -104,7 +106,11 @@ fun <T : SerializableNetworkError> coreModule(
         DateHelper
     }
 
-    single<IDeepLinkRegistry> {
-        DeepLinkRegistry
+    single<IDeepLinkManager> {
+        DeepLinkManager(
+            environment = get(),
+            appLogger = get(),
+            parsers = deepLinkParsers
+        )
     }
 }
