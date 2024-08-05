@@ -12,13 +12,13 @@ import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.metacto.core.presentation.components.inputFields.OutlinedOtpInputField
-import com.metacto.core.utils.deepLink.IDeepLinkManager
+import com.metacto.core.utils.deepLink.IDeepLinkRegistry
 import com.sampleApp.app.presentation.MainView
 import org.koin.android.ext.android.inject
 
 
 class MainActivity : AppCompatActivity() {
-    private val deepLinkManager by inject<IDeepLinkManager>()
+    private val deepLinkManager by inject<IDeepLinkRegistry>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkDeepLink(intent: Intent) {
         intent.dataString?.let {
-            deepLinkManager.handleDeepLink(it)
+            deepLinkManager.emitDeepLink(it)
         }
     }
 }

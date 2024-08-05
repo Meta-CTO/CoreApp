@@ -1,6 +1,6 @@
 package com.sampleApp.app.presentation.app.app
 
-import com.metacto.core.utils.deepLink.IDeepLinkManager
+import com.metacto.core.utils.deepLink.IDeepLinkRegistry
 import com.sampleApp.app.presentation.app.app.AppContract.Effect
 import com.sampleApp.app.presentation.app.app.AppContract.Event
 import com.sampleApp.app.presentation.app.app.AppContract.State
@@ -8,7 +8,7 @@ import com.sampleApp.app.presentation.components.BaseViewModel
 import org.koin.core.component.inject
 
 class AppViewModel : BaseViewModel<State, Event, Effect>() {
-    private val deepLinksManager by inject<IDeepLinkManager>()
+    private val deepLinksManager by inject<IDeepLinkRegistry>()
 
     init {
         handleDeepLinks()
@@ -21,7 +21,7 @@ class AppViewModel : BaseViewModel<State, Event, Effect>() {
     }
 
     private fun handleDeepLinks() = executeSilent({
-        deepLinksManager.onReceiveLink {
+        deepLinksManager.observeDeepLinks {
             showError("Received deep link: $it")
         }
     })
