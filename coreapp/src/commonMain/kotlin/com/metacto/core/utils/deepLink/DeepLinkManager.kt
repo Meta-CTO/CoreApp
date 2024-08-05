@@ -39,10 +39,10 @@ internal class DeepLinkManager(
             val deepLinkParser = parsers[path] ?: return
             val deepLink = deepLinkParser.parse(url)
 
-            // Emit it
-            deepLinksFlow.tryEmit(deepLink)
-
-            // Parse the deeplink
+            // Emit it if possible
+            if (deepLink != null) {
+                deepLinksFlow.tryEmit(deepLink)
+            }
         } catch (e: Exception) {
             appLogger.log("Failed to parse deep link: $url - Error: ${e.message}")
         }
