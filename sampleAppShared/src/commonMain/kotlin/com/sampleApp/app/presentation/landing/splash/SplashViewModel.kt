@@ -1,5 +1,6 @@
 package com.sampleApp.app.presentation.landing.splash
 
+import com.metacto.core.presentation.imagePicker.ImagePickerSheet
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.utils.DateHelper
@@ -77,8 +78,15 @@ class SplashViewModel(
         }
 
         Event.ClickMeClicked -> {
-            val isValid = phoneNumberManager.isValidPhoneNumber("01121980284", "EG")
-            showError("Is valid: $isValid")
+            navManager.navigateToBottomSheet(
+                ImagePickerSheet(
+                    enableCropping = true,
+                    aspectRatioX = 1,
+                    aspectRatioY = 1
+                )
+            )
+//            val isValid = phoneNumberManager.isValidPhoneNumber("01121980284", "EG")
+//            showError("Is valid: $isValid")
 
 //            navManager.navigateToBottomSheet(
 //                ItemPickerSheet(

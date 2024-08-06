@@ -61,7 +61,8 @@ internal fun SplashContent(
         isRefreshable = true,
         isRefreshing = false,
         enableSafeInsets = true,
-        topPadding = 4.dp
+        topPadding = 4.dp,
+        isScrollable = true
     ) {
         PrimaryFilledButton(
             modifier = Modifier.fillMaxWidth(),
