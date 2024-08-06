@@ -72,6 +72,10 @@ class SplashViewModel(
             notificationManager.cancelScheduled(5001)
         }
 
+        Event.PlayerActionClicked -> {
+            setState { copy(isVideoPlaying = isVideoPlaying.not()) }
+        }
+
         Event.ClickMeClicked -> {
             val isValid = phoneNumberManager.isValidPhoneNumber("01121980284", "EG")
             showError("Is valid: $isValid")

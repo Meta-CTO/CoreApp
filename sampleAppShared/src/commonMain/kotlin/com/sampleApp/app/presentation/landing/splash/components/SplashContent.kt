@@ -23,12 +23,12 @@ import com.metacto.core.presentation.components.inputFields.CurrencyAmountInputV
 import com.metacto.core.presentation.components.inputFields.PickerInputField
 import com.metacto.core.presentation.components.inputFields.PriceTextInputField
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
+import com.metacto.core.presentation.components.videoPlayer.VideoPlayerController
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.CountDownTimer
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
-import kotlinx.coroutines.launch
 
 @Composable
 internal fun SplashContent(
@@ -39,6 +39,7 @@ internal fun SplashContent(
     var currentVideo by remember {
         mutableStateOf(videosList()[0])
     }
+    var playerController: VideoPlayerController? = remember { null }
 
     val countDownTimer = remember {
         CountDownTimer(
@@ -64,9 +65,17 @@ internal fun SplashContent(
     ) {
         PrimaryFilledButton(
             modifier = Modifier.fillMaxWidth(),
-            text = "Click Me!",
+            text = "Play Video",
             onClick = {
-                onEvent(Event.ClickMeClicked)
+                playerController?.play()
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Pause Video",
+            onClick = {
+                playerController?.pause()
             }
         )
 
@@ -82,7 +91,11 @@ internal fun SplashContent(
                 autoPlay = true,
                 scaleToCrop = false,
                 enablePip = true,
-                modifier = Modifier.fillMaxSize()
+                //isPlaying = { isVideoPlaying},
+                modifier = Modifier.fillMaxSize(),
+                onPlayerCreated = {
+                    playerController = it
+                },
             )
         }
 
@@ -93,10 +106,10 @@ internal fun SplashContent(
                 modifier = Modifier.weight(1f),
                 text = "Video 1",
                 onClick = {
-                    //currentVideo = videosList()[0]
-                    coroutineScope.launch {
-                        countDownTimer.start()
-                    }
+                    currentVideo = videosList()[0]
+//                    coroutineScope.launch {
+//                        countDownTimer.start()
+//                    }
                 }
             )
 
@@ -104,10 +117,10 @@ internal fun SplashContent(
                 modifier = Modifier.weight(1f),
                 text = "Video 2",
                 onClick = {
-//                    currentVideo = videosList()[1]
-                    coroutineScope.launch {
-                        countDownTimer.stop()
-                    }
+                    currentVideo = videosList()[1]
+//                    coroutineScope.launch {
+//                        countDownTimer.stop()
+//                    }
                 }
             )
 
@@ -115,7 +128,7 @@ internal fun SplashContent(
                 modifier = Modifier.weight(1f),
                 text = "Video 3",
                 onClick = {
-//                    currentVideo = videosList()[2]
+                    currentVideo = videosList()[2]
                 }
             )
         }
