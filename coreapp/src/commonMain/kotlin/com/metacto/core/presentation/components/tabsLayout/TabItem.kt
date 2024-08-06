@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,13 +20,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.dividers.VerticalDivider
 import com.metacto.core.presentation.components.texts.SingleLineText
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.CommonImageResource
 import com.metacto.core.utils.extensions.noRippleClickable
 import com.metacto.core.utils.painterResource
-import dev.icerock.moko.resources.ImageResource
 
 @Composable
 fun TabItem(
@@ -120,6 +121,7 @@ fun TabItem(
                 color = indicatorColor,
                 modifier = Modifier
                     .fillMaxWidth()
+                    .defaultMinSize(minWidth = CoreTheme.spacings.tabItemMinWidth)
                     .height(tabIndicatorThickness)
             )
         }
