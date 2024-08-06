@@ -45,7 +45,7 @@ class NotificationManager(private val context: Context) : INotificationManager {
         )
 
         val pendingIntent = notification.pendingIntent ?: context.getLauncherPendingIntent(extras)
-        val notificationIcon = notification.icon?.drawableResId
+        val notificationIcon = notification.icon
             ?: context.getAppIconResId()
             ?: MR.images.ic_default_notifications_icon.drawableResId
 

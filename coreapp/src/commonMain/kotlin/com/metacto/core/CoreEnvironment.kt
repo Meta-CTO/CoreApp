@@ -3,7 +3,8 @@ package com.metacto.core
 import com.metacto.strapikmm.datasource.network.NetworkLogLevel
 
 open class CoreEnvironment(
-    val title: String,
-    val baseUrl: String,
-    val networkLogLevel: NetworkLogLevel
+    open val title: String,
+    open val baseUrl: String,
+    open val networkLogLevel: NetworkLogLevel,
+    open val deepLinkDomains: List<String> = emptyList()
 )

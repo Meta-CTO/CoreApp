@@ -54,7 +54,7 @@ fun BaseButton(
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isLoading: Boolean = false,
-    loadingAnimRes: AssetResource = MR.assets.loading_indicator_anim,
+    loadingAnimRes: AssetResource = MR.assets.loading_indicator_anim_json,
     contentSpacing: Dp = CoreTheme.spacings.paddingXLarge,
     elevation: Dp = CoreTheme.spacings.btnElevation,
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,

@@ -1,0 +1,25 @@
+<resources>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm">Confirmar</string>
+    <string name="ok">Ok</string>
+    <string name="no_email_apps_found_on_your_device">No hay aplicaciones de correo instaladas en tu dispositivo</string>
+    <string name="can_not_find_a_suitable_app_to_preform_that_action">No se encontró una aplicación adecuada para realizar esa acción</string>
+    <string name="no_phone_apps_found_on_your_device">No hay aplicaciones de teléfono instaladas en tu dispositivo</string>
+    <string name="session_expired">Sesión Expirada</string>
+    <string name="your_session_expired_login_again">Tu sesión ha expirado, por favor inicia sesión de nuevo.</string>
+    <string name="error">Error</string>
+    <string name="no_internet_connection_check_connection">Hmm, parece haber un problema con tu conexión a internet.</string>
+    <string name="server_taking_too_long">Parece que el servidor está tardando demasiado en responder, por favor intenta de nuevo más tarde.</string>
+    <string name="something_went_wrong_try_again">Algo salió mal, por favor intenta de nuevo más tarde.</string>
+    <string name="no_results">Sin Resultados</string>
+    <string name="no_results_subtitle">Por favor revisa tu\n ortografía y estado</string>
+    <string name="minimum_allowed_date_is_s">La fecha mínima permitida es: %s</string>
+    <string name="maximum_allowed_date_is_s">La fecha máxima permitida es: %s</string>
+    <string name="minimum_allowed_time_is_s">La hora mínima permitida es: %s</string>
+    <string name="maximum_allowed_time_is_s">La hora máxima permitida es: %s</string>
+    <string name="choose_from_library">Elegir de la biblioteca</string>
+    <string name="take_photo">Tomar foto</string>
+    <string name="remove_current_photo">Eliminar foto actual</string>
+    <string name="no_browser_installed">No hay navegador instalado</string>
+    <string name="search_here">Buscar aquí...</string>
+</resources>

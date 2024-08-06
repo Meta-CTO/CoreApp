@@ -77,22 +77,24 @@ class SplashViewModel(
         }
 
         Event.ClickMeClicked -> {
+            val isValid = phoneNumberManager.isValidPhoneNumber("01121980284", "EG")
+            showError("Is valid: $isValid")
 
-            navManager.navigateToBottomSheet(
-                ItemPickerSheet(
-                    selectedItem = selectedPickerItem,
-                    canSearch = true,
-                    items = listOf(
-                        PickerItemUIModel("key1", "title1"),
-                        PickerItemUIModel("key2", "title2"),
-                        PickerItemUIModel("key3", "title3"),
-                        PickerItemUIModel("key4", "title4"),
-                        PickerItemUIModel("key5", "title5"),
-                        PickerItemUIModel("key6", "title6"),
-                        PickerItemUIModel("key7", "title7"),
-                    )
-                )
-            )
+//            navManager.navigateToBottomSheet(
+//                ItemPickerSheet(
+//                    selectedItem = selectedPickerItem,
+//                    canSearch = true,
+//                    items = listOf(
+//                        PickerItemUIModel("key1", "title1"),
+//                        PickerItemUIModel("key2", "title2"),
+//                        PickerItemUIModel("key3", "title3"),
+//                        PickerItemUIModel("key4", "title4"),
+//                        PickerItemUIModel("key5", "title5"),
+//                        PickerItemUIModel("key6", "title6"),
+//                        PickerItemUIModel("key7", "title7"),
+//                    )
+//                )
+//            )
         }
 
         Event.NavigateToYoutube -> {

@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import com.metacto.core.presentation.options.models.OptionUIModel
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.toColor
-import dev.icerock.moko.resources.compose.painterResource
+import com.metacto.core.utils.painterResource
 
 @Composable
 fun OptionItem(

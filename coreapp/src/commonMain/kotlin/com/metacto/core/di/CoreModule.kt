@@ -4,6 +4,9 @@ import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.navigation.NavManager
 import com.metacto.core.utils.DateHelper
+import com.metacto.core.utils.deepLink.DeepLinkManager
+import com.metacto.core.utils.deepLink.DeepLinkParser
+import com.metacto.core.utils.deepLink.IDeepLinkManager
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.metacto.core.utils.phoneNumber.PhoneNumberManager
 import com.metacto.core.utils.remoteConfigs.FirebaseRemoteConfigs
@@ -17,7 +20,6 @@ import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.auth.ActionCodeSettings
 import dev.gitlive.firebase.auth.auth
 import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
-import io.michaelrocks.libphonenumber.kotlin.metadata.defaultMetadataLoader
 import org.koin.dsl.module
 import kotlin.reflect.KClass
 import com.metacto.strapikmm.repos.AuthRepository as StrapiAuthRepository
@@ -28,7 +30,8 @@ fun <T : SerializableNetworkError> coreModule(
     actionCodeSettings: ActionCodeSettings,
     appStorageName: String,
     shouldShowActualErrorMessages: Boolean,
-    errorClass: KClass<T>
+    errorClass: KClass<T>,
+    deepLinkParsers: Map<String, DeepLinkParser> = emptyMap()
 ) = module {
 
     includes(corePlatformModule(appStorageName, shouldShowActualErrorMessages, errorClass))
@@ -85,10 +88,7 @@ fun <T : SerializableNetworkError> coreModule(
     }
 
     single {
-        val metadataLoader = defaultMetadataLoader()
-        PhoneNumberUtil.createInstance(
-            metadataLoader = metadataLoader
-        )
+        PhoneNumberUtil.createInstance(get())
     }
 
     single<IRemoteConfigs> {
@@ -104,5 +104,13 @@ fun <T : SerializableNetworkError> coreModule(
 
     single {
         DateHelper
+    }
+
+    single<IDeepLinkManager> {
+        DeepLinkManager(
+            environment = get(),
+            appLogger = get(),
+            parsers = deepLinkParsers
+        )
     }
 }

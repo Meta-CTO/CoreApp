@@ -7,7 +7,7 @@ import com.sampleApp.app.presentation.landing.youtube.YoutubeViewModel
 import org.koin.dsl.module
 
 val viewModelsModule = module {
-    commonViewModel { AppViewModel() }
+    single { AppViewModel() }
     commonViewModel { SplashViewModel(get(), get(), get(), get()) }
     commonViewModel { YoutubeViewModel() }
 }
