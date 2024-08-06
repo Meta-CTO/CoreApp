@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 
 internal class DeepLinkManager(
-    private val environment: CoreEnvironment,
     private val appLogger: Logger,
     private val parsers: Map<String, DeepLinkParser>
 ) : IDeepLinkManager {
@@ -27,12 +26,6 @@ internal class DeepLinkManager(
     private fun validAndParseDeepLink(url: String) {
         try {
             val parsedUrl = Url(url)
-
-            // Validate domain
-            val isAllowedDomain = environment.deepLinkDomains.contains(parsedUrl.host)
-            if (isAllowedDomain.not()) {
-                return
-            }
 
             // Extract path and parse the deep link
             val path = parsedUrl.encodedPath

@@ -6,5 +6,4 @@ open class CoreEnvironment(
     open val title: String,
     open val baseUrl: String,
     open val networkLogLevel: NetworkLogLevel,
-    open val deepLinkDomains: List<String> = emptyList()
 )
