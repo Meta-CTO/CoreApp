@@ -1,28 +1,24 @@
 package com.metacto.core.presentation.components.tabsLayout
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.metacto.core.presentation.theme.CoreTheme
-import kotlinx.coroutines.launch
+import kotlinx.collections.immutable.ImmutableList
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TabLayoutView(
+fun TabLayout(
     modifier: Modifier = Modifier,
-    tabTitles: List<TabItemModel>,
-    pagerState: PagerState,
+    tabTitles: ImmutableList<TabItemModel>,
+    currentPage: Int,
     showIndicator: Boolean = false,
-    tabsHorizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
-    tabHorizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
+    horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
+    tabItemHorizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
         space = CoreTheme.spacings.tabTextPadding,
         alignment = Alignment.CenterHorizontally
     ),
@@ -30,11 +26,10 @@ fun TabLayoutView(
 ) {
     // Get main objects
     val scrollState = rememberScrollState()
-    val coroutinesScope = rememberCoroutineScope()
 
     // Render tabs
     Row(
-        horizontalArrangement = tabsHorizontalArrangement,
+        horizontalArrangement = horizontalArrangement,
         modifier = modifier
             .horizontalScroll(scrollState)
             .fillMaxWidth()
@@ -46,12 +41,9 @@ fun TabLayoutView(
                 activeIcon = tab.activeIcon,
                 inActiveIcon = tab.inactiveIcon,
                 showIndicator = showIndicator,
-                horizontalArrangement = tabHorizontalArrangement,
-                isSelected = index == pagerState.currentPage,
+                horizontalArrangement = tabItemHorizontalArrangement,
+                isSelected = index == currentPage,
                 onClick = {
-                    // Change pager page
-                    coroutinesScope.launch { pagerState.animateScrollToPage(index) }
-
                     // Notify the listener
                     onTabClicked?.invoke(index)
                 }

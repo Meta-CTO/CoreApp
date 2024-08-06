@@ -21,6 +21,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.dividers.VerticalDivider
+import com.metacto.core.presentation.components.texts.SingleLineText
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.noRippleClickable
 import dev.icerock.moko.resources.ImageResource
@@ -30,40 +31,40 @@ import dev.icerock.moko.resources.compose.painterResource
 fun TabItem(
     modifier: Modifier = Modifier,
     title: String,
-    bgColor: Color = CoreTheme.colors.primaryContainer,
-    textColor: Color = CoreTheme.colors.onPrimaryContainer,
-    inActiveBgColor: Color = CoreTheme.colors.background,
-    inActiveTextColor: Color = CoreTheme.colors.tertiary,
-    indicatorColor: Color = CoreTheme.colors.onPrimaryContainer,
-    inActiveIndicatorColor: Color = CoreTheme.colors.tertiary,
+    activeBgColor: Color = CoreTheme.colors.tebActiveBgColor,
+    inactiveBgColor: Color = CoreTheme.colors.tabInactiveBgColor,
+    activeTextColor: Color = CoreTheme.colors.tabActiveTextColor,
+    inactiveTextColor: Color = CoreTheme.colors.tabInactiveTextColor,
+    activeIndicatorColor: Color = CoreTheme.colors.tabActiveIndicatorColor,
+    inactiveIndicatorColor: Color = CoreTheme.colors.tabInactiveIndicatorColor,
     textStyle: TextStyle = CoreTheme.typography.tabText,
     showIndicator: Boolean = false,
     activeIcon: ImageResource? = null,
     inActiveIcon: ImageResource? = null,
     iconSize: Dp = CoreTheme.spacings.tabIconSize,
+    isSelected: Boolean,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
         space = CoreTheme.spacings.tabTextPadding,
         alignment = Alignment.CenterHorizontally
     ),
-    isSelected: Boolean,
     onClick: () -> Unit
 ) {
 
     // Prepare bg color
-    val bgColorState by animateColorAsState(
-        targetValue = if (isSelected) bgColor else inActiveBgColor,
+    val bgColor by animateColorAsState(
+        targetValue = if (isSelected) activeBgColor else inactiveBgColor,
         label = "Tab BG Color State"
     )
 
     // Prepare text color
-    val textColorState by animateColorAsState(
-        targetValue = if (isSelected) textColor else inActiveTextColor,
+    val textColor by animateColorAsState(
+        targetValue = if (isSelected) activeTextColor else inactiveTextColor,
         label = "Tab Text Color State"
     )
 
     // Prepare indicator color
-    val indicatorColorState by animateColorAsState(
-        targetValue = if (isSelected) indicatorColor else inActiveIndicatorColor,
+    val indicatorColor by animateColorAsState(
+        targetValue = if (isSelected) activeIndicatorColor else inactiveIndicatorColor,
         label = "Tab indicator Color State"
     )
 
@@ -78,12 +79,13 @@ fun TabItem(
         if (isSelected) CoreTheme.spacings.tabActiveIndicatorThickness
         else CoreTheme.spacings.tabInactiveIndicatorThickness
 
-    // Tab card
-
+    // Tab item
     Column(
-        modifier = modifier.noRippleClickable(onClick = onClick).background(bgColorState),
         verticalArrangement = Arrangement.SpaceBetween,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+            .noRippleClickable(onClick = onClick)
+            .background(bgColor)
     ) {
         Row(
             modifier = Modifier.weight(1f).fillMaxHeight(),
@@ -101,19 +103,18 @@ fun TabItem(
             }
 
             // show the title
-            Text(
+            SingleLineText(
                 text = title,
                 style = textStyle,
                 textAlign = TextAlign.Center,
-                maxLines = 1,
-                color = textColorState,
+                color = textColor,
                 modifier = Modifier.wrapContentSize()
             )
         }
 
         if (showIndicator) {
             VerticalDivider(
-                color = indicatorColorState,
+                color = indicatorColor,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(tabIndicatorThickness)

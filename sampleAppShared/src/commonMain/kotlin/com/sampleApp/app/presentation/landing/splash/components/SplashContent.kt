@@ -27,15 +27,15 @@ import com.metacto.core.presentation.components.inputFields.CurrencyAmountInputV
 import com.metacto.core.presentation.components.inputFields.PickerInputField
 import com.metacto.core.presentation.components.inputFields.PriceTextInputField
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
-import com.metacto.core.presentation.components.pagerIndicator.HorizontalPagerTabs
 import com.metacto.core.presentation.components.tabsLayout.TabItemModel
-import com.metacto.core.presentation.components.tabsLayout.TabLayoutView
+import com.metacto.core.presentation.components.tabsLayout.TabLayout
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.CountDownTimer
 import com.sampleApp.app.MR
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -90,13 +90,18 @@ internal fun SplashContent(
     ) {
 
         // Community search tabs
-        TabLayoutView(
-            tabTitles = tabs,
-            pagerState = pagerState,
+        TabLayout(
+            tabTitles = tabs.toImmutableList(),
+            currentPage = pagerState.currentPage,
             showIndicator = true,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(40.dp)
+                .height(40.dp),
+            onTabClicked = { index ->
+                coroutineScope.launch {
+                    pagerState.animateScrollToPage(index)
+                }
+            }
         )
         // Screens pager
         HorizontalPager(
