@@ -12,9 +12,9 @@ import com.metacto.core.presentation.theme.CoreTheme
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
-fun TabLayout(
+fun TabsLayout(
     modifier: Modifier = Modifier,
-    tabTitles: ImmutableList<TabItemModel>,
+    tabModels: ImmutableList<TabItemModel>,
     currentPage: Int,
     showIndicator: Boolean = false,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
@@ -24,17 +24,14 @@ fun TabLayout(
     ),
     onTabClicked: ((Int) -> Unit)? = null
 ) {
-    // Get main objects
-    val scrollState = rememberScrollState()
-
-    // Render tabs
+    // Container row
     Row(
         horizontalArrangement = horizontalArrangement,
         modifier = modifier
-            .horizontalScroll(scrollState)
+            .horizontalScroll(rememberScrollState())
             .fillMaxWidth()
     ) {
-        tabTitles.forEachIndexed { index, tab ->
+        tabModels.forEachIndexed { index, tab ->
             TabItem(
                 modifier = Modifier.weight(1f),
                 title = tab.title,

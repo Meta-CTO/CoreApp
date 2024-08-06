@@ -73,7 +73,7 @@ data class CoreColors(
     val itemPickerItemBg: Color = primary.copy(alpha = 0.3f),
     val itemPickerItemStroke: Color = primary,
 
-    val tebActiveBgColor:Color = primaryContainer,
+    val tabActiveBgColor:Color = primaryContainer,
     val tabInactiveBgColor:Color = background,
     val tabActiveTextColor:Color = onPrimaryContainer,
     val tabInactiveTextColor:Color = tertiary,

@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -23,15 +22,16 @@ import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.dividers.VerticalDivider
 import com.metacto.core.presentation.components.texts.SingleLineText
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.utils.CommonImageResource
 import com.metacto.core.utils.extensions.noRippleClickable
+import com.metacto.core.utils.painterResource
 import dev.icerock.moko.resources.ImageResource
-import dev.icerock.moko.resources.compose.painterResource
 
 @Composable
 fun TabItem(
     modifier: Modifier = Modifier,
     title: String,
-    activeBgColor: Color = CoreTheme.colors.tebActiveBgColor,
+    activeBgColor: Color = CoreTheme.colors.tabActiveBgColor,
     inactiveBgColor: Color = CoreTheme.colors.tabInactiveBgColor,
     activeTextColor: Color = CoreTheme.colors.tabActiveTextColor,
     inactiveTextColor: Color = CoreTheme.colors.tabInactiveTextColor,
@@ -39,8 +39,8 @@ fun TabItem(
     inactiveIndicatorColor: Color = CoreTheme.colors.tabInactiveIndicatorColor,
     textStyle: TextStyle = CoreTheme.typography.tabText,
     showIndicator: Boolean = false,
-    activeIcon: ImageResource? = null,
-    inActiveIcon: ImageResource? = null,
+    activeIcon: CommonImageResource? = null,
+    inActiveIcon: CommonImageResource? = null,
     iconSize: Dp = CoreTheme.spacings.tabIconSize,
     isSelected: Boolean,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
@@ -68,16 +68,19 @@ fun TabItem(
         label = "Tab indicator Color State"
     )
 
-    // prepare the icon
-    val tabIconState = if (activeIcon != null && inActiveIcon != null) {
+    // Prepare the icon
+    val tabIcon = if (activeIcon != null && inActiveIcon != null) {
         if (isSelected) activeIcon else inActiveIcon
     } else {
         null
     }
 
-    val tabIndicatorThickness =
-        if (isSelected) CoreTheme.spacings.tabActiveIndicatorThickness
-        else CoreTheme.spacings.tabInactiveIndicatorThickness
+    // Tab indicator thickness
+    val tabIndicatorThickness = if (isSelected) {
+        CoreTheme.spacings.tabActiveIndicatorThickness
+    } else {
+        CoreTheme.spacings.tabInactiveIndicatorThickness
+    }
 
     // Tab item
     Column(
@@ -94,9 +97,9 @@ fun TabItem(
         ) {
 
             // show the icon in case of available
-            if (tabIconState != null) {
+            if (tabIcon != null) {
                 Image(
-                    painter = painterResource(tabIconState),
+                    painter = painterResource(tabIcon),
                     contentDescription = title,
                     modifier = Modifier.size(iconSize)
                 )

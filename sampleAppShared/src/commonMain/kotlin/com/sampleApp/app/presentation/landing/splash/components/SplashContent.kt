@@ -28,10 +28,11 @@ import com.metacto.core.presentation.components.inputFields.PickerInputField
 import com.metacto.core.presentation.components.inputFields.PriceTextInputField
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
 import com.metacto.core.presentation.components.tabsLayout.TabItemModel
-import com.metacto.core.presentation.components.tabsLayout.TabLayout
+import com.metacto.core.presentation.components.tabsLayout.TabsLayout
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.CountDownTimer
+import com.metacto.core.utils.asCommon
 import com.sampleApp.app.MR
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
@@ -51,13 +52,53 @@ internal fun SplashContent(
     val tabs = listOf(
         TabItemModel(
             title = "Ahmed",
-            activeIcon = MR.images.ic_star_filled,
-            inactiveIcon = MR.images.ic_star_empty
+            activeIcon = MR.images.ic_star_filled.asCommon(),
+            inactiveIcon = MR.images.ic_star_empty.asCommon()
         ),
         TabItemModel(
             title = "Shamy",
-            activeIcon = MR.images.ic_star_filled,
-            inactiveIcon = MR.images.ic_star_empty
+            activeIcon = MR.images.ic_star_filled.asCommon(),
+            inactiveIcon = MR.images.ic_star_empty.asCommon()
+        ),
+        TabItemModel(
+            title = "Shamy",
+            activeIcon = MR.images.ic_star_filled.asCommon(),
+            inactiveIcon = MR.images.ic_star_empty.asCommon()
+        ),
+        TabItemModel(
+            title = "Shamy",
+            activeIcon = MR.images.ic_star_filled.asCommon(),
+            inactiveIcon = MR.images.ic_star_empty.asCommon()
+        ),
+        TabItemModel(
+            title = "Shamy",
+            activeIcon = MR.images.ic_star_filled.asCommon(),
+            inactiveIcon = MR.images.ic_star_empty.asCommon()
+        ),
+        TabItemModel(
+            title = "Shamy",
+            activeIcon = MR.images.ic_star_filled.asCommon(),
+            inactiveIcon = MR.images.ic_star_empty.asCommon()
+        ),
+        TabItemModel(
+            title = "Shamy",
+            activeIcon = MR.images.ic_star_filled.asCommon(),
+            inactiveIcon = MR.images.ic_star_empty.asCommon()
+        ),
+        TabItemModel(
+            title = "Shamy",
+            activeIcon = MR.images.ic_star_filled.asCommon(),
+            inactiveIcon = MR.images.ic_star_empty.asCommon()
+        ),
+        TabItemModel(
+            title = "Shamy",
+            activeIcon = MR.images.ic_star_filled.asCommon(),
+            inactiveIcon = MR.images.ic_star_empty.asCommon()
+        ),
+        TabItemModel(
+            title = "Shamy",
+            activeIcon = MR.images.ic_star_filled.asCommon(),
+            inactiveIcon = MR.images.ic_star_empty.asCommon()
         ),
     )
     val pagerState = rememberPagerState(pageCount = { tabs.size })
@@ -90,8 +131,8 @@ internal fun SplashContent(
     ) {
 
         // Community search tabs
-        TabLayout(
-            tabTitles = tabs.toImmutableList(),
+        TabsLayout(
+            tabModels = tabs.toImmutableList(),
             currentPage = pagerState.currentPage,
             showIndicator = true,
             modifier = Modifier
