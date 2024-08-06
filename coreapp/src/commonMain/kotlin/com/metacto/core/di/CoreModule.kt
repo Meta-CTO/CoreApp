@@ -108,7 +108,6 @@ fun <T : SerializableNetworkError> coreModule(
 
     single<IDeepLinkManager> {
         DeepLinkManager(
-            environment = get(),
             appLogger = get(),
             parsers = deepLinkParsers
         )
