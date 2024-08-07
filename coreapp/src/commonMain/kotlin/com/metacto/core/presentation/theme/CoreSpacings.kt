@@ -77,6 +77,12 @@ data class CoreSpacings(
     val itemPickerWheelHeight: Dp = 270.dp,
     val wheelPickerItemStroke: Dp = 1.dp,
     val itemPickerItemStroke: Dp = 0.dp,
+
+    val tabActiveIndicatorThickness: Dp = 3.dp,
+    val tabInactiveIndicatorThickness: Dp = 1.dp,
+    val tabTextPadding: Dp = 4.dp,
+    val tabIconSize: Dp = 24.dp,
+    val tabItemMinWidth :Dp = 120.dp,
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }

@@ -80,6 +80,9 @@ data class CoreTypography(
     val pickerItem: TextStyle = primaryMedium.copy(
         fontSize = 20.sp
     ),
+    val tabText: TextStyle = primaryBold.copy(
+        fontSize = 14.sp
+    ),
 )
 
 val LocalCoreTypography = staticCompositionLocalOf { CoreTypography() }
