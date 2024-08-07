@@ -3,7 +3,7 @@ package com.metacto.core.utils.deepLink
 val Class = IDeepLinkManager::class
 
 interface IDeepLinkManager {
-    fun handleDeepLink(link: String)
-    fun handleDynamicLink(link: String)
-    suspend fun onReceiveLink(callback: (String) -> Unit)
+    fun emitDeepLink(link: String)
+    fun emitDynamicLink(link: String)
+    suspend fun observeDeepLinks(callback: (DeepLink) -> Unit)
 }

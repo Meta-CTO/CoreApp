@@ -10,6 +10,7 @@ class SplashContract {
     data class State(
         val isInitialized: Boolean = false,
         val isWelcome: Boolean = false,
+        val isVideoPlaying: Boolean = true
     ) : ViewState
 
     sealed class Event : ViewEvent {
@@ -18,6 +19,7 @@ class SplashContract {
         data object ScheduleRepeatingNotification : Event()
         data object CancelScheduledNotification : Event()
         data object ClickMeClicked : Event()
+        data object PlayerActionClicked : Event()
         data object NavigateToYoutube : Event()
     }
 
