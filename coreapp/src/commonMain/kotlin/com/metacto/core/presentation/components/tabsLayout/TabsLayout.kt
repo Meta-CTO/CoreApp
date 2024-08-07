@@ -33,7 +33,6 @@ fun TabsLayout(
     ),
     onTabClicked: ((Int) -> Unit)? = null
 ) {
-
     val tabsCounts = tabModels.size
     val isRequiredScroll = tabsCounts > tabsScrollMinCount
 

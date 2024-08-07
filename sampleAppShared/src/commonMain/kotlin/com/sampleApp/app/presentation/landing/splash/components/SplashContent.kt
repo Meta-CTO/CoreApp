@@ -60,26 +60,26 @@ internal fun SplashContent(
             activeIcon = MR.images.ic_star_filled.asCommon(),
             inactiveIcon = MR.images.ic_star_empty.asCommon()
         ),
-        TabItemModel(
-            title = "Shamy",
-            activeIcon = MR.images.ic_star_filled.asCommon(),
-            inactiveIcon = MR.images.ic_star_empty.asCommon()
-        ),
-        TabItemModel(
-            title = "Shamy",
-            activeIcon = MR.images.ic_star_filled.asCommon(),
-            inactiveIcon = MR.images.ic_star_empty.asCommon()
-        ),
-        TabItemModel(
-            title = "Shamy",
-            activeIcon = MR.images.ic_star_filled.asCommon(),
-            inactiveIcon = MR.images.ic_star_empty.asCommon()
-        ),
-        TabItemModel(
-            title = "Shamy",
-            activeIcon = MR.images.ic_star_filled.asCommon(),
-            inactiveIcon = MR.images.ic_star_empty.asCommon()
-        ),
+//        TabItemModel(
+//            title = "Shamy",
+//            activeIcon = MR.images.ic_star_filled.asCommon(),
+//            inactiveIcon = MR.images.ic_star_empty.asCommon()
+//        ),
+//        TabItemModel(
+//            title = "Shamy",
+//            activeIcon = MR.images.ic_star_filled.asCommon(),
+//            inactiveIcon = MR.images.ic_star_empty.asCommon()
+//        ),
+//        TabItemModel(
+//            title = "Shamy",
+//            activeIcon = MR.images.ic_star_filled.asCommon(),
+//            inactiveIcon = MR.images.ic_star_empty.asCommon()
+//        ),
+//        TabItemModel(
+//            title = "Shamy",
+//            activeIcon = MR.images.ic_star_filled.asCommon(),
+//            inactiveIcon = MR.images.ic_star_empty.asCommon()
+//        ),
     )
     val pagerState = rememberPagerState(pageCount = { tabs.size })
 

@@ -92,11 +92,12 @@ fun TabItem(
             .background(bgColor)
     ) {
         Row(
-            modifier = Modifier.weight(1f).fillMaxHeight(),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = horizontalArrangement
+            horizontalArrangement = horizontalArrangement,
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxHeight()
         ) {
-
             // show the icon in case of available
             if (tabIcon != null) {
                 Image(
