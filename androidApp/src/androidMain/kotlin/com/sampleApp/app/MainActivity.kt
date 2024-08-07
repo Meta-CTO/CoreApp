@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkDeepLink(intent: Intent) {
         intent.dataString?.let {
-            deepLinkManager.handleDeepLink(it)
+            deepLinkManager.emitDeepLink(it)
         }
     }
 }

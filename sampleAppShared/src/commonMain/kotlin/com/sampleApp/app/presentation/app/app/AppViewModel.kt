@@ -21,7 +21,7 @@ class AppViewModel : BaseViewModel<State, Event, Effect>() {
     }
 
     private fun handleDeepLinks() = executeSilent({
-        deepLinksManager.onReceiveLink {
+        deepLinksManager.observeDeepLinks {
             showError("Received deep link: $it")
         }
     })
