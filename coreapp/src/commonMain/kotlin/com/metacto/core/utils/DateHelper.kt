@@ -2,8 +2,11 @@ package com.metacto.core.utils
 
 import com.metacto.core.domain.CoreConstants
 import com.metacto.strapikmm.util.DatetimeUtil
+import com.metacto.strapikmm.util.minusDays
+import com.metacto.strapikmm.util.plusDays
 import com.metacto.strapikmm.util.toLocalDate
 import kotlinx.datetime.Clock
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
@@ -11,6 +14,7 @@ import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.atTime
+import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
@@ -43,6 +47,15 @@ expect object DateHelper {
 
     @Throws(Throwable::class)
     fun getElapsedYears(date: Date): Int
+
+    @Throws(Throwable::class)
+    fun getCurrentLocalDate(timeZone: TimeZone = TimeZone.currentSystemDefault()): LocalDate
+
+    @Throws(Throwable::class)
+    fun getMondayOfWeek(date: LocalDate): LocalDate
+
+    @Throws(Throwable::class)
+    fun getFridayOfWeek(date: LocalDate): LocalDate
 }
 
 expect class Date()
@@ -142,4 +155,18 @@ fun String.parseDate(format: String): LocalDate? {
     } catch (_: Throwable) {
         null
     }
+}
+
+fun Clock.getCurrentLocalDate(timeZone: TimeZone = TimeZone.currentSystemDefault()): LocalDate {
+    return this.now().toLocalDateTime(timeZone).date
+}
+
+fun LocalDate.getMondayOfWeek(): LocalDate {
+    val dayOfWeek = this.dayOfWeek
+    return this.minusDays((dayOfWeek.isoDayNumber - DayOfWeek.MONDAY.isoDayNumber))
+}
+
+fun LocalDate.getFridayOfWeek(): LocalDate {
+    val dayOfWeek = this.dayOfWeek
+    return this.plusDays((DayOfWeek.FRIDAY.isoDayNumber - dayOfWeek.isoDayNumber))
 }

@@ -2,7 +2,10 @@ package com.metacto.core.utils
 
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.convert
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
 import platform.Foundation.NSCalendar
 import platform.Foundation.NSCalendarIdentifierISO8601
 import platform.Foundation.NSCalendarOptions
@@ -211,5 +214,20 @@ actual object DateHelper {
         )
 
         return components.year.toInt()
+    }
+
+    @Throws(Throwable::class)
+    actual fun getCurrentLocalDate(timeZone: TimeZone): LocalDate {
+        return Clock.System.getCurrentLocalDate(timeZone)
+    }
+
+    @Throws(Throwable::class)
+    actual fun getMondayOfWeek(date: LocalDate): LocalDate {
+        return date.getMondayOfWeek()
+    }
+
+    @Throws(Throwable::class)
+    actual fun getFridayOfWeek(date: LocalDate): LocalDate {
+        return date.getFridayOfWeek()
     }
 }
