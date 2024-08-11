@@ -108,5 +108,7 @@ class SplashViewModel(
         Event.NavigateToYoutube -> {
             navManager.navigate(YoutubeScreen())
         }
+
+        is Event.OnFullScreenChanged -> setState { copy(isFullScreen = event.isFullScreen) }
     }
 }

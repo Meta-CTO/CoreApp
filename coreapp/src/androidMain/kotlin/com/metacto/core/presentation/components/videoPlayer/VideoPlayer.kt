@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.components.videoPlayer
 
+import android.content.pm.ActivityInfo
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.annotation.OptIn
@@ -18,6 +19,7 @@ import androidx.media3.ui.PlayerView
 import com.metacto.core.utils.extensions.OnLifecycleEvent
 import com.metacto.core.utils.extensions.kill
 import com.metacto.core.utils.extensions.setMediaSource
+import com.metacto.core.utils.extensions.setScreenOrientation
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -27,6 +29,7 @@ actual fun VideoPlayer(
     scaleToCrop: Boolean,
     enablePip: Boolean,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?,
+    onFullscreenToggle: (Boolean) -> Unit,
     url: String
 ) {
     val context = LocalContext.current
@@ -71,6 +74,16 @@ actual fun VideoPlayer(
         modifier = modifier,
         factory = {
             PlayerView(context).apply {
+                setFullscreenButtonClickListener { isFullscreen ->
+                    with(context) {
+                        if (isFullscreen) {
+                            setScreenOrientation(orientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+                        } else {
+                            setScreenOrientation(orientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                        }
+                    }
+                    onFullscreenToggle(isFullscreen)
+                }
                 useController = true
                 controllerShowTimeoutMs = 0
                 resizeMode = when (scaleToCrop) {

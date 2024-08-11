@@ -31,6 +31,7 @@ actual fun VideoPlayer(
     scaleToCrop: Boolean,
     enablePip: Boolean,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?,
+    onFullscreenToggle: (Boolean) -> Unit,
     url: String
 ) {
     val player = remember(url) {

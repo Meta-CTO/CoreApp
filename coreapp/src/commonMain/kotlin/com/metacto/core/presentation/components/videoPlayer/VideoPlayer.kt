@@ -15,5 +15,6 @@ expect fun VideoPlayer(
     scaleToCrop: Boolean = false,
     enablePip: Boolean = false,
     onPlayerCreated: ((VideoPlayerController) -> Unit)? = null,
+    onFullscreenToggle: (Boolean) -> Unit,
     url: String
 )

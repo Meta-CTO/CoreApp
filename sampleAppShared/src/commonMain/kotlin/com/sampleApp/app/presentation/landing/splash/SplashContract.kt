@@ -10,7 +10,8 @@ class SplashContract {
     data class State(
         val isInitialized: Boolean = false,
         val isWelcome: Boolean = false,
-        val isVideoPlaying: Boolean = true
+        val isVideoPlaying: Boolean = true,
+        val isFullScreen: Boolean = false,
     ) : ViewState
 
     sealed class Event : ViewEvent {
@@ -21,6 +22,7 @@ class SplashContract {
         data object ClickMeClicked : Event()
         data object PlayerActionClicked : Event()
         data object NavigateToYoutube : Event()
+        data class OnFullScreenChanged(val isFullScreen: Boolean) : Event()
     }
 
     sealed class Effect : ViewSideEffect

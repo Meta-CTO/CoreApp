@@ -6,9 +6,13 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 
 
 fun Context.getActivity(): Activity? {
@@ -79,4 +83,9 @@ fun Context.getLauncherPendingIntent(
         intent,
         PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
     )
+}
+
+fun Context.setScreenOrientation(orientation: Int) {
+    val activity = this.getActivity() ?: return
+    activity.requestedOrientation = orientation
 }
