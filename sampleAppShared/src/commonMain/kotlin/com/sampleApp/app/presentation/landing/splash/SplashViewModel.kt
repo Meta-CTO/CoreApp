@@ -5,6 +5,7 @@ import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
+import com.metacto.core.utils.getDayOfWeek
 import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.Notification
@@ -14,6 +15,7 @@ import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
 import com.sampleApp.app.presentation.landing.youtube.YoutubeScreen
+import kotlinx.datetime.DayOfWeek
 import org.koin.core.component.inject
 
 class SplashViewModel(
@@ -31,6 +33,13 @@ class SplashViewModel(
 
         // Init
         setState { copy(isWelcome = isWelcome) }
+        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.SUNDAY)}")
+        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.MONDAY)}")
+        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.TUESDAY)}")
+        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.WEDNESDAY)}")
+        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.THURSDAY)}")
+        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.FRIDAY)}")
+        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.SATURDAY)}")
 
         navManager.collectNavResult<ItemPickerSheet, PickerItemUIModel> { pickedItem ->
             selectedPickerItem = pickedItem

@@ -3,6 +3,7 @@ package com.metacto.core.utils
 import android.icu.text.SimpleDateFormat
 import android.text.format.DateUtils
 import kotlinx.datetime.Clock
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -125,11 +126,11 @@ actual object DateHelper {
 
     @Throws(Throwable::class)
     actual fun getMondayOfWeek(date: LocalDate): LocalDate {
-        return date.getMondayOfWeek()
+        return date.getDayOfWeek(DayOfWeek.MONDAY)
     }
 
     @Throws(Throwable::class)
-    actual fun getFridayOfWeek(date: LocalDate): LocalDate {
-        return date.getFridayOfWeek()
+    actual fun getSundayOfWeek(date: LocalDate): LocalDate {
+        return date.getDayOfWeek(DayOfWeek.SUNDAY)
     }
 }
