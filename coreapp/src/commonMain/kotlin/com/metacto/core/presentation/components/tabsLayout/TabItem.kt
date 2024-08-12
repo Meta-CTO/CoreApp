@@ -20,8 +20,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.dividers.VerticalDivider
+import com.metacto.core.presentation.components.images.AppImage
 import com.metacto.core.presentation.components.texts.SingleLineText
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.CommonImageResource
@@ -42,6 +42,8 @@ fun TabItem(
     showIndicator: Boolean = false,
     activeIcon: CommonImageResource? = null,
     inActiveIcon: CommonImageResource? = null,
+    activeRemoteIcon: String? = null,
+    inActiveRemoteIcon: String? = null,
     iconSize: Dp = CoreTheme.spacings.tabIconSize,
     isSelected: Boolean,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
@@ -76,6 +78,13 @@ fun TabItem(
         null
     }
 
+    // prepare the remote icon
+    val remoteIcon = if (activeRemoteIcon != null && inActiveRemoteIcon != null) {
+        if (isSelected) activeRemoteIcon else inActiveRemoteIcon
+    } else {
+        null
+    }
+
     // Tab indicator thickness
     val tabIndicatorThickness = if (isSelected) {
         CoreTheme.spacings.tabActiveIndicatorThickness
@@ -102,6 +111,15 @@ fun TabItem(
             if (tabIcon != null) {
                 Image(
                     painter = painterResource(tabIcon),
+                    contentDescription = title,
+                    modifier = Modifier.size(iconSize)
+                )
+            }
+
+            // show the remote icon in case of available
+            if (remoteIcon != null) {
+                AppImage(
+                    url = remoteIcon,
                     contentDescription = title,
                     modifier = Modifier.size(iconSize)
                 )

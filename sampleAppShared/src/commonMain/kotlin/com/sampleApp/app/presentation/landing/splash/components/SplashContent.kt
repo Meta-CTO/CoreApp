@@ -52,13 +52,13 @@ internal fun SplashContent(
     val tabs = listOf(
         TabItemModel(
             title = "Ahmed",
-            activeIcon = MR.images.ic_star_filled.asCommon(),
-            inactiveIcon = MR.images.ic_star_empty.asCommon()
+            activeRemoteIcon = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Circle-icons-phone.svg/1200px-Circle-icons-phone.svg.png",
+            inactiveRemoteIcon = "https://cdn-icons-png.freepik.com/256/455/455705.png?semt=ais_hybrid"
         ),
         TabItemModel(
             title = "Shamy",
-            activeIcon = MR.images.ic_star_filled.asCommon(),
-            inactiveIcon = MR.images.ic_star_empty.asCommon()
+            activeRemoteIcon = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Circle-icons-phone.svg/1200px-Circle-icons-phone.svg.png",
+            inactiveRemoteIcon = "https://cdn-icons-png.freepik.com/256/455/455705.png?semt=ais_hybrid"
         ),
 //        TabItemModel(
 //            title = "Shamy",

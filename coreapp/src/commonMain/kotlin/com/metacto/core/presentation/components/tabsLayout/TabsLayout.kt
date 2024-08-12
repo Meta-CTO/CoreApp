@@ -6,14 +6,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.theme.CoreTheme
 import kotlinx.collections.immutable.ImmutableList
 
@@ -65,6 +61,8 @@ fun TabsLayout(
                 title = tab.title,
                 activeIcon = tab.activeIcon,
                 inActiveIcon = tab.inactiveIcon,
+                activeRemoteIcon = tab.activeRemoteIcon,
+                inActiveRemoteIcon = tab.inactiveRemoteIcon,
                 showIndicator = showIndicator,
                 horizontalArrangement = tabItemHorizontalArrangement,
                 isSelected = index == currentPage,
