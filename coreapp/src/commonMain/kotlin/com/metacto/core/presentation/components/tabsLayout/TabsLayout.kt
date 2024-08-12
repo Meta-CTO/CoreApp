@@ -61,8 +61,6 @@ fun TabsLayout(
                 title = tab.title,
                 activeIcon = tab.activeIcon,
                 inActiveIcon = tab.inactiveIcon,
-                activeRemoteIcon = tab.activeRemoteIcon,
-                inActiveRemoteIcon = tab.inactiveRemoteIcon,
                 showIndicator = showIndicator,
                 horizontalArrangement = tabItemHorizontalArrangement,
                 isSelected = index == currentPage,
