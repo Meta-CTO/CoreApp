@@ -202,7 +202,12 @@ data class CoreTypography(
     val itemPickerWheelTextStyle: TextStyle = pickerItem,
 
     // Toolbar
-    val toolbarTitleStyle: TextStyle = titleBold
+    val toolbarTitleStyle: TextStyle = titleBold,
+
+    // TabItem
+    val tabText: TextStyle = primaryBold.copy(
+        fontSize = 14.sp
+    ),
 )
 
 val LocalCoreTypography = staticCompositionLocalOf { CoreTypography() }

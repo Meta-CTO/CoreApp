@@ -270,6 +270,14 @@ data class CoreColors(
     // SelectorProperties
     val selectorPropertiesColor: Color = wheelPickerItemBg,
     val selectorPropertiesBorderColor: Color = wheelPickerItemStroke
+
+    // TabItem
+    val tabActiveBgColor:Color = primaryContainer,
+    val tabInactiveBgColor:Color = background,
+    val tabActiveTextColor:Color = onPrimaryContainer,
+    val tabInactiveTextColor:Color = tertiary,
+    val tabActiveIndicatorColor:Color = onPrimaryContainer,
+    val tabInactiveIndicatorColor:Color = tertiary,
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

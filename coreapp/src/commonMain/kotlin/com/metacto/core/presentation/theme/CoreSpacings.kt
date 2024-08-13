@@ -339,6 +339,13 @@ data class CoreSpacings(
     // DefaultWheelDatePicker
     val defaultWheelDatePickerHeight: Dp = defaultWheelPickerHeight,
     val defaultWheelDatePickerWidth: Dp = defaultWheelPickerWidth,
+
+    // TabItem
+    val tabActiveIndicatorThickness: Dp = 3.dp,
+    val tabInactiveIndicatorThickness: Dp = 1.dp,
+    val tabTextPadding: Dp = 4.dp,
+    val tabIconSize: Dp = 24.dp,
+    val tabItemMinWidth :Dp = 120.dp,
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }

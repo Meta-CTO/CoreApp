@@ -216,13 +216,13 @@ fun CoreAppContent(
 
                 is LoadingType.Lottie -> LottieProgressIndicator(
                     lottieRes = (loadingType as? LoadingType.Lottie)?.anim
-                        ?: MR.assets.loading_indicator_anim,
+                        ?: MR.assets.loading_indicator_anim_json,
                     isBlocking = false
                 )
 
                 is LoadingType.LottieBlocking -> LottieProgressIndicator(
                     lottieRes = (loadingType as LoadingType.LottieBlocking).anim
-                        ?: MR.assets.loading_indicator_anim,
+                        ?: MR.assets.loading_indicator_anim_json,
                     isBlocking = true
                 )
 

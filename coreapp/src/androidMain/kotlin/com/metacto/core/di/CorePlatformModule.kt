@@ -21,6 +21,9 @@ import com.metacto.core.utils.pushNotifications.IPushNotificationsManager
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
+import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
+import io.michaelrocks.libphonenumber.kotlin.metadata.source.AssetsMetadataLoader
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.definition.Definition
@@ -90,6 +93,10 @@ actual fun<T : SerializableNetworkError> corePlatformModule(
 
     single<ILanguageManager> {
         LanguageManager()
+    }
+
+    single<MetadataLoader> {
+        AssetsMetadataLoader(androidApplication().assets)
     }
 }
 

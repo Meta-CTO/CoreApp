@@ -2,10 +2,14 @@ package com.metacto.core.utils
 
 import android.icu.text.SimpleDateFormat
 import android.text.format.DateUtils
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
 import java.util.Calendar
 import java.util.Locale
-import java.util.TimeZone
+import java.util.TimeZone as JavaTimeZone
 
 actual typealias Date = java.util.Date
 
@@ -39,7 +43,7 @@ actual object DateHelper {
         format: String
     ): Date {
         val sdf = java.text.SimpleDateFormat(format, Locale.getDefault()).apply {
-            timeZone = TimeZone.getTimeZone("UTC")
+            timeZone = JavaTimeZone.getTimeZone("UTC")
         }
 
         return sdf.parse(string) ?: throw Throwable("Can't convert $string using format ($format)")
@@ -67,7 +71,7 @@ actual object DateHelper {
     @Throws(Throwable::class)
     actual fun dateToUTCString(date: Date, format: String): String {
         val sdf = java.text.SimpleDateFormat(format, Locale.getDefault()).apply {
-            timeZone = TimeZone.getTimeZone("UTC")
+            timeZone = JavaTimeZone.getTimeZone("UTC")
         }
 
         return sdf.format(date)
@@ -113,5 +117,20 @@ actual object DateHelper {
         val millisInYear = 31536000000L
         val millisDiff = Date().toMillis() - date.toMillis()
         return (millisDiff.toDouble() / millisInYear.toDouble()).toInt()
+    }
+
+    @Throws(Throwable::class)
+    actual fun getCurrentLocalDate(timeZone: TimeZone): LocalDate {
+        return Clock.System.getCurrentLocalDate(timeZone)
+    }
+
+    @Throws(Throwable::class)
+    actual fun getMondayOfWeek(date: LocalDate): LocalDate {
+        return date.getDayOfWeek(DayOfWeek.MONDAY)
+    }
+
+    @Throws(Throwable::class)
+    actual fun getSundayOfWeek(date: LocalDate): LocalDate {
+        return date.getDayOfWeek(DayOfWeek.SUNDAY)
     }
 }

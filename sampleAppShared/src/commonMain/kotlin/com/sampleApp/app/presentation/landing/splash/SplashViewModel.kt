@@ -1,9 +1,11 @@
 package com.sampleApp.app.presentation.landing.splash
 
+import com.metacto.core.presentation.imagePicker.ImagePickerSheet
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
+import com.metacto.core.utils.getDayOfWeek
 import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.Notification
@@ -13,6 +15,7 @@ import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
 import com.sampleApp.app.presentation.landing.youtube.YoutubeScreen
+import kotlinx.datetime.DayOfWeek
 import org.koin.core.component.inject
 
 class SplashViewModel(
@@ -30,6 +33,13 @@ class SplashViewModel(
 
         // Init
         setState { copy(isWelcome = isWelcome) }
+        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.SUNDAY)}")
+        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.MONDAY)}")
+        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.TUESDAY)}")
+        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.WEDNESDAY)}")
+        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.THURSDAY)}")
+        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.FRIDAY)}")
+        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.SATURDAY)}")
 
         navManager.collectNavResult<ItemPickerSheet, PickerItemUIModel> { pickedItem ->
             selectedPickerItem = pickedItem
@@ -72,22 +82,36 @@ class SplashViewModel(
             notificationManager.cancelScheduled(5001)
         }
 
+        Event.PlayerActionClicked -> {
+            setState { copy(isVideoPlaying = isVideoPlaying.not()) }
+        }
+
         Event.ClickMeClicked -> {
             navManager.navigateToBottomSheet(
-                ItemPickerSheet(
-                    selectedItem = selectedPickerItem,
-                    canSearch = true,
-                    items = listOf(
-                        PickerItemUIModel("key1", "title1"),
-                        PickerItemUIModel("key2", "title2"),
-                        PickerItemUIModel("key3", "title3"),
-                        PickerItemUIModel("key4", "title4"),
-                        PickerItemUIModel("key5", "title5"),
-                        PickerItemUIModel("key6", "title6"),
-                        PickerItemUIModel("key7", "title7"),
-                    )
+                ImagePickerSheet(
+                    enableCropping = true,
+                    aspectRatioX = 1,
+                    aspectRatioY = 1
                 )
             )
+//            val isValid = phoneNumberManager.isValidPhoneNumber("01121980284", "EG")
+//            showError("Is valid: $isValid")
+
+//            navManager.navigateToBottomSheet(
+//                ItemPickerSheet(
+//                    selectedItem = selectedPickerItem,
+//                    canSearch = true,
+//                    items = listOf(
+//                        PickerItemUIModel("key1", "title1"),
+//                        PickerItemUIModel("key2", "title2"),
+//                        PickerItemUIModel("key3", "title3"),
+//                        PickerItemUIModel("key4", "title4"),
+//                        PickerItemUIModel("key5", "title5"),
+//                        PickerItemUIModel("key6", "title6"),
+//                        PickerItemUIModel("key7", "title7"),
+//                    )
+//                )
+//            )
         }
 
         Event.NavigateToYoutube -> {
