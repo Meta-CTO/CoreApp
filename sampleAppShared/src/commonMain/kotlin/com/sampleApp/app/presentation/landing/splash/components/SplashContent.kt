@@ -30,6 +30,7 @@ import com.metacto.core.presentation.components.inputFields.PrimaryTextInputFiel
 import com.metacto.core.presentation.components.tabsLayout.TabItemModel
 import com.metacto.core.presentation.components.tabsLayout.TabsLayout
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
+import com.metacto.core.presentation.models.ImageUIModel
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.CountDownTimer
 import com.metacto.core.utils.asCommon
@@ -52,13 +53,13 @@ internal fun SplashContent(
     val tabs = listOf(
         TabItemModel(
             title = "Ahmed",
-            activeIcon = MR.images.ic_star_filled.asCommon(),
-            inactiveIcon = MR.images.ic_star_empty.asCommon()
+            activeIcon = ImageUIModel(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Circle-icons-phone.svg/1200px-Circle-icons-phone.svg.png"),
+            inactiveIcon = ImageUIModel(url = "https://cdn-icons-png.freepik.com/256/455/455705.png?semt=ais_hybrid")
         ),
         TabItemModel(
             title = "Shamy",
-            activeIcon = MR.images.ic_star_filled.asCommon(),
-            inactiveIcon = MR.images.ic_star_empty.asCommon()
+            activeIcon = ImageUIModel(resource = MR.images.ic_star_filled.asCommon()),
+            inactiveIcon = ImageUIModel(resource = MR.images.ic_star_empty.asCommon())
         ),
 //        TabItemModel(
 //            title = "Shamy",

@@ -1,7 +1,6 @@
 package com.metacto.core.presentation.components.tabsLayout
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,13 +19,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.dividers.VerticalDivider
+import com.metacto.core.presentation.components.images.AppImage
 import com.metacto.core.presentation.components.texts.SingleLineText
+import com.metacto.core.presentation.models.ImageUIModel
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.core.utils.CommonImageResource
 import com.metacto.core.utils.extensions.noRippleClickable
-import com.metacto.core.utils.painterResource
 
 @Composable
 fun TabItem(
@@ -40,8 +38,8 @@ fun TabItem(
     inactiveIndicatorColor: Color = CoreTheme.colors.tabInactiveIndicatorColor,
     textStyle: TextStyle = CoreTheme.typography.tabText,
     showIndicator: Boolean = false,
-    activeIcon: CommonImageResource? = null,
-    inActiveIcon: CommonImageResource? = null,
+    activeIcon: ImageUIModel? = null,
+    inActiveIcon: ImageUIModel? = null,
     iconSize: Dp = CoreTheme.spacings.tabIconSize,
     isSelected: Boolean,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
@@ -100,8 +98,8 @@ fun TabItem(
         ) {
             // show the icon in case of available
             if (tabIcon != null) {
-                Image(
-                    painter = painterResource(tabIcon),
+                AppImage(
+                    image = tabIcon,
                     contentDescription = title,
                     modifier = Modifier.size(iconSize)
                 )
