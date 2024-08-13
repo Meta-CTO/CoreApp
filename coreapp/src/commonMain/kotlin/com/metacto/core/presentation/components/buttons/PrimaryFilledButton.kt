@@ -15,9 +15,9 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun PrimaryFilledButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textColor: Color = CoreTheme.colors.primaryBtnTextColor,
-    iconColor: Color? = CoreTheme.colors.primaryBtnIconColor,
-    backgroundColor: Color = CoreTheme.colors.primaryBtnBg,
+    textColor: Color = CoreTheme.colors.primaryFilledButton.textColor,
+    iconColor: Color? = CoreTheme.colors.primaryFilledButton.iconColor,
+    backgroundColor: Color = CoreTheme.colors.primaryFilledButton.bgColor,
     textStyle: TextStyle = CoreTheme.typography.primaryFilledBtnTextStyle,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,

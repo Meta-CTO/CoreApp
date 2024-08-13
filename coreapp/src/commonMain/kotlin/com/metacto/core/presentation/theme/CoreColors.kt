@@ -74,9 +74,10 @@ data class CoreColors(
     val itemPickerItemStroke: Color = primary,
 
     // PrimaryFilledButton
-    val primaryBtnBg: Color = primary,
-    val primaryBtnTextColor: Color = onPrimary,
-    val primaryBtnIconColor: Color = onPrimary,
+    val primaryFilledButton: PrimaryFilledButtonColors = PrimaryFilledButtonColors(
+        primary = primary,
+        onPrimary = onPrimary
+    ),
 
     // DangerFilledButton
     val dangerBtnBg: Color = danger,
@@ -269,7 +270,7 @@ data class CoreColors(
 
     // SelectorProperties
     val selectorPropertiesColor: Color = wheelPickerItemBg,
-    val selectorPropertiesBorderColor: Color = wheelPickerItemStroke
+    val selectorPropertiesBorderColor: Color = wheelPickerItemStroke,
 
     // TabItem
     val tabActiveBgColor:Color = primaryContainer,
@@ -278,6 +279,15 @@ data class CoreColors(
     val tabInactiveTextColor:Color = tertiary,
     val tabActiveIndicatorColor:Color = onPrimaryContainer,
     val tabInactiveIndicatorColor:Color = tertiary,
+)
+
+// PrimaryFilledButton
+data class PrimaryFilledButtonColors(
+    private val primary: Color,
+    private val onPrimary: Color,
+    val bgColor: Color = primary,
+    val textColor: Color = onPrimary,
+    val iconColor: Color = onPrimary,
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }
