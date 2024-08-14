@@ -180,3 +180,8 @@ fun String.isValidCardNumber(): Boolean {
     // return if the card number matches the regex
     return this.matches(creditCardRegex)
 }
+
+fun String.isValidUrl(): Boolean {
+    val pattern = "^(https?|ftp)://[a-zA-Z0-9\\-._~:/?#\\[\\]@!$&'()*+,;=%]+$"
+    return Regex(pattern).matches(this)
+}
