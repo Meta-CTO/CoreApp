@@ -13,7 +13,10 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun WheelTextPicker(
     modifier: Modifier = Modifier,
     startIndex: Int = 0,
-    size: DpSize = DpSize(CoreTheme.spacings.defaultWheelPickerWidth, CoreTheme.spacings.defaultWheelPickerHeight),
+    size: DpSize = DpSize(
+        CoreTheme.spacings.defaultWheelPickerWidth,
+        CoreTheme.spacings.defaultWheelPickerHeight
+    ),
     texts: List<String>,
     rowCount: Int,
     style: TextStyle = CoreTheme.typography.pickerItem,

@@ -4,13 +4,15 @@ import com.metacto.core.presentation.base.ViewEvent
 import com.metacto.core.presentation.base.ViewSideEffect
 import com.metacto.core.presentation.base.ViewState
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
+import kotlinx.datetime.LocalDate
 
 class SplashContract {
 
     data class State(
         val isInitialized: Boolean = false,
         val isWelcome: Boolean = false,
-        val isVideoPlaying: Boolean = true
+        val isVideoPlaying: Boolean = true,
+        val selectedDate: LocalDate? = null,
     ) : ViewState
 
     sealed class Event : ViewEvent {

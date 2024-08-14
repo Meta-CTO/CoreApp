@@ -14,32 +14,35 @@ import kotlinx.datetime.LocalDate
 
 @Composable
 fun WheelDatePicker(
-  modifier: Modifier = Modifier,
-  startDate: LocalDate = LocalDate.now(),
-  minDate: LocalDate = LocalDate.EPOCH,
-  maxDate: LocalDate = LocalDate.CYBER_ERA,
-  yearsRange: IntRange? = IntRange(minDate.year, maxDate.year),
-  size: DpSize = DpSize(CoreTheme.spacings.defaultWheelPickerWidth, CoreTheme.spacings.defaultWheelPickerHeight),
-  rowCount: Int = 3, // Number of rows to show
-  textStyle: TextStyle = MaterialTheme.typography.titleMedium,
-  textColor: Color = LocalContentColor.current,
-  selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
-  onSnappedDate: (snappedDate: LocalDate) -> Unit = {}
+    modifier: Modifier = Modifier,
+    startDate: LocalDate = LocalDate.now(),
+    minDate: LocalDate = LocalDate.EPOCH,
+    maxDate: LocalDate = LocalDate.CYBER_ERA,
+    yearsRange: IntRange? = IntRange(minDate.year, maxDate.year),
+    size: DpSize = DpSize(
+        CoreTheme.spacings.defaultWheelPickerWidth,
+        CoreTheme.spacings.defaultWheelPickerHeight
+    ),
+    rowCount: Int = 3, // Number of rows to show
+    textStyle: TextStyle = MaterialTheme.typography.titleMedium,
+    textColor: Color = LocalContentColor.current,
+    selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
+    onSnappedDate: (snappedDate: LocalDate) -> Unit = {}
 ) {
-  DefaultWheelDatePicker(
-    modifier,
-    startDate,
-    minDate,
-    maxDate,
-    yearsRange,
-    size,
-    rowCount,
-    textStyle,
-    textColor,
-    selectorProperties,
-    onSnappedDate = { snappedDate ->
-      onSnappedDate(snappedDate.snappedLocalDate)
-      snappedDate.snappedIndex
-    }
-  )
+    DefaultWheelDatePicker(
+        modifier = modifier,
+        startDate = startDate,
+        minDate = minDate,
+        maxDate = maxDate,
+        yearsRange = yearsRange,
+        size = size,
+        rowCount = rowCount,
+        textStyle = textStyle,
+        textColor = textColor,
+        selectorProperties = selectorProperties,
+        onSnappedDate = { snappedDate ->
+            onSnappedDate(snappedDate.snappedLocalDate)
+            snappedDate.snappedIndex
+        }
+    )
 }
