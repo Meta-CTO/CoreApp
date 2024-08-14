@@ -1,6 +1,5 @@
 package com.metacto.core.utils.extensions
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
 
@@ -165,17 +164,6 @@ private fun String?.containsAny(
     }
 
     return false
-}
-
-fun String.toColor(): Color {
-    val colorString = this.removePrefix("#")
-    val colorInt = colorString.toLong(16)
-
-    return if (colorString.length == 8) {
-        Color(colorInt)
-    } else {
-        Color(colorInt or 0xFF000000)
-    }
 }
 
 fun String.isValidCardNumber(): Boolean {
