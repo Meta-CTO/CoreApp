@@ -30,6 +30,8 @@ import com.metacto.core.presentation.components.inputFields.PrimaryTextInputFiel
 import com.metacto.core.presentation.components.tabsLayout.TabItemModel
 import com.metacto.core.presentation.components.tabsLayout.TabsLayout
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
+import com.metacto.core.presentation.components.wheelPicker.datetime.WheelDatePicker
+import com.metacto.core.presentation.components.wheelPicker.datetime.now
 import com.metacto.core.presentation.models.ImageUIModel
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.CountDownTimer
@@ -39,6 +41,7 @@ import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDate
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -125,145 +128,67 @@ internal fun SplashContent(
                 }
             }
         )
-        // Screens pager
-        HorizontalPager(
-            state = pagerState,
-            userScrollEnabled = true,
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Click Me!",
+            onClick = {
+                onEvent(Event.ClickMeClicked)
+            }
+        )
+
+        WheelDatePicker(
+            startDate = state.selectedDate ?: LocalDate.now(),
+        )
+
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .weight(1f)
-                .padding(top = 20.dp)
-        ) { page ->
-            when (page) {
-                1 -> {
-                    PrimaryFilledButton(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = "Click Me!",
-                        onClick = {
-                            onEvent(Event.ClickMeClicked)
-                        }
-                    )
+                .height(400.dp)
+                .background(Color.Red)
+        ) {
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(400.dp)
-                            .background(Color.Red)
-                    ) {
+            VideoPlayer(
+                url = currentVideo,
+                autoPlay = true,
+                scaleToCrop = false,
+                enablePip = true,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
 
-                        VideoPlayer(
-                            url = currentVideo,
-                            autoPlay = true,
-                            scaleToCrop = false,
-                            enablePip = true,
-                            modifier = Modifier.fillMaxSize()
-                        )
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            PrimaryFilledButton(
+                modifier = Modifier.weight(1f),
+                text = "Video 1",
+                onClick = {
+                    //currentVideo = videosList()[0]
+                    coroutineScope.launch {
+                        countDownTimer.start()
                     }
+                }
+            )
 
-                    Row(
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        PrimaryFilledButton(
-                            modifier = Modifier.weight(1f),
-                            text = "Video 1",
-                            onClick = {
-                                //currentVideo = videosList()[0]
-                                coroutineScope.launch {
-                                    countDownTimer.start()
-                                }
-                            }
-                        )
-
-                        PrimaryFilledButton(
-                            modifier = Modifier.weight(1f),
-                            text = "Video 2",
-                            onClick = {
+            PrimaryFilledButton(
+                modifier = Modifier.weight(1f),
+                text = "Video 2",
+                onClick = {
 //                    currentVideo = videosList()[1]
-                                coroutineScope.launch {
-                                    countDownTimer.stop()
-                                }
-                            }
-                        )
+                    coroutineScope.launch {
+                        countDownTimer.stop()
+                    }
+                }
+            )
 
-                        PrimaryFilledButton(
-                            modifier = Modifier.weight(1f),
-                            text = "Video 3",
-                            onClick = {
+            PrimaryFilledButton(
+                modifier = Modifier.weight(1f),
+                text = "Video 3",
+                onClick = {
 //                    currentVideo = videosList()[2]
-                            }
-                        )
-                    }
                 }
-
-                2 -> {
-                    var price: Int? by remember {
-                        mutableStateOf(null)
-                    }
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.Red)
-                            .padding(16.dp)
-                    ) {
-
-                        PriceTextInputField(
-                            modifier = Modifier.fillMaxWidth(),
-                            price = price,
-                            isStaticLabel = false,
-                            label = "Hello Ahmed",
-                            placeholder = "test",
-                            onPriceChange = { price = it }
-                        )
-                    }
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.Red)
-                            .padding(16.dp)
-                    ) {
-                        PickerInputField(
-                            modifier = Modifier.fillMaxWidth(),
-                            isStaticLabel = true,
-                            label = "Test Picker",
-                            placeholder = "test",
-                            text = "Ahmed",
-                            shape = CoreTheme.shapes.xLarge,
-                            onClick = { onEvent(Event.ClickMeClicked) }
-                        )
-                    }
-
-                }
-
-                else -> {
-                    var fieldText by remember {
-                        mutableStateOf("")
-                    }
-                    val visualTransformation = remember {
-                        CurrencyAmountInputVisualTransformation()
-                    }
-                    PrimaryTextInputField(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = fieldText,
-                        onValueChange = {
-                            fieldText = it
-                        },
-                        visualTransformation = visualTransformation,
-                        allowDigitsOnly = true,
-                        keyboardType = KeyboardType.Number
-                    )
-
-                    PrimaryFilledButton(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = "Navigate to Youtube",
-                        onClick = {
-                            onEvent(Event.NavigateToYoutube)
-                        }
-                    )
-                }
-            }
-
+            )
         }
     }
 }

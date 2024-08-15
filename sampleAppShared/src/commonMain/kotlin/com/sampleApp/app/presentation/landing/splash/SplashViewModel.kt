@@ -9,6 +9,7 @@ import com.metacto.core.utils.getDayOfWeek
 import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.Notification
+import com.metacto.core.utils.parseDate
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
@@ -40,6 +41,8 @@ class SplashViewModel(
         println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.THURSDAY)}")
         println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.FRIDAY)}")
         println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.SATURDAY)}")
+
+        setState { copy(selectedDate = "1993-09-09".parseDate("yyyy-MM-dd")) }
 
         navManager.collectNavResult<ItemPickerSheet, PickerItemUIModel> { pickedItem ->
             selectedPickerItem = pickedItem
@@ -87,13 +90,15 @@ class SplashViewModel(
         }
 
         Event.ClickMeClicked -> {
-            navManager.navigateToBottomSheet(
-                ImagePickerSheet(
-                    enableCropping = true,
-                    aspectRatioX = 1,
-                    aspectRatioY = 1
-                )
-            )
+            setState { copy(selectedDate = "1993-09-09".parseDate("yyyy-MM-dd")) }
+
+//            navManager.navigateToBottomSheet(
+//                ImagePickerSheet(
+//                    enableCropping = true,
+//                    aspectRatioX = 1,
+//                    aspectRatioY = 1
+//                )
+//            )
 //            val isValid = phoneNumberManager.isValidPhoneNumber("01121980284", "EG")
 //            showError("Is valid: $isValid")
 

@@ -1,6 +1,5 @@
 package com.metacto.core.utils.extensions
 
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
 
@@ -167,17 +166,6 @@ private fun String?.containsAny(
     return false
 }
 
-fun String.toColor(): Color {
-    val colorString = this.removePrefix("#")
-    val colorInt = colorString.toLong(16)
-
-    return if (colorString.length == 8) {
-        Color(colorInt)
-    } else {
-        Color(colorInt or 0xFF000000)
-    }
-}
-
 fun String.isValidCardNumber(): Boolean {
     // credit card regex
     val creditCardRegex = Regex(
@@ -191,4 +179,9 @@ fun String.isValidCardNumber(): Boolean {
 
     // return if the card number matches the regex
     return this.matches(creditCardRegex)
+}
+
+fun String.isValidUrl(): Boolean {
+    val pattern = "^(https?|ftp)://[a-zA-Z0-9\\-._~:/?#\\[\\]@!$&'()*+,;=%]+$"
+    return Regex(pattern).matches(this)
 }
