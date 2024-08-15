@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material3.Icon
@@ -31,6 +32,7 @@ fun SwitchButton(
     thumbNonToggled: Color = CoreTheme.colors.switchThumbNonToggled,
     width: Dp = CoreTheme.spacings.switchBtnWidth,
     height: Dp = CoreTheme.spacings.switchBtnHeight,
+    shape:RoundedCornerShape = CoreTheme.shapes.switchBtnShape
 ) {
     // Prepare states
     val switchColor by animateColorAsState(
@@ -50,7 +52,7 @@ fun SwitchButton(
         modifier = modifier
             .width(width)
             .height(height)
-            .clip(shape = CircleShape)
+            .clip(shape = shape)
             .background(switchColor)
             .noRippleClickable {
                 onCheckChanged.invoke(!isChecked)

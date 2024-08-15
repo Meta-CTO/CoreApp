@@ -31,11 +31,11 @@ fun IconText(
     endIconPainter: Painter? = null,
     isUnderlined: Boolean = false,
     isSingleLine: Boolean = false,
-    color: Color = CoreTheme.colors.tertiary,
+    color: Color = CoreTheme.colors.iconText.color,
     iconTint: Color? = color,
-    iconSize: Dp = CoreTheme.spacings.paddingXLarge,
-    iconSpacing: Dp = CoreTheme.spacings.paddingMedium,
-    style: TextStyle = CoreTheme.typography.bodySmall,
+    iconSize: Dp = CoreTheme.spacings.iconTextIconSize,
+    iconSpacing: Dp = CoreTheme.spacings.iconTextIconSpacing,
+    style: TextStyle = CoreTheme.typography.iconTextTextStyle,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     textAlign: TextAlign = TextAlign.Center
 ) {

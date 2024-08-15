@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.metacto.core.presentation.components.wheelPicker.SelectorProperties
 
 @Immutable
 data class CoreSpacings(
@@ -68,16 +69,277 @@ data class CoreSpacings(
     val numberSelectorSize: Dp = 44.dp,
 
     val toolbarIconMinSize: Dp = 40.dp,
-    val toolbarHeight: Dp = 62.dp,
 
     val defaultWheelPickerHeight: Dp = 128.dp,
     val defaultWheelPickerWidth: Dp = 256.dp,
     val datePickerWheelHeight: Dp = 270.dp,
     val itemPickerHeight: Dp = 300.dp,
-    val itemPickerWheelHeight: Dp = 270.dp,
     val wheelPickerItemStroke: Dp = 1.dp,
     val itemPickerItemStroke: Dp = 0.dp,
 
+    // PrimaryFilledButton
+    val primaryFilledBtnPaddingHorizontal: Dp = btnPaddingHorizontal,
+    val primaryFilledBtnPaddingVertical: Dp = btnPaddingVertical,
+    val primaryFilledBtnMinHeightNormal: Dp = btnMinHeightNormal,
+    val primaryFilledBtnMinHeightSmall: Dp = btnMinHeightSmall,
+
+    // DangerFilledButton
+    val dangerFilledBtnPaddingHorizontal: Dp = btnPaddingHorizontal,
+    val dangerFilledBtnPaddingVertical: Dp = btnPaddingVertical,
+    val dangerFilledBtnMinHeightNormal: Dp = btnMinHeightNormal,
+    val dangerFilledBtnMinHeightSmall: Dp = btnMinHeightSmall,
+
+    // FloatingButton
+    val floatingBtnIconSize: Dp = iconSmall,
+    val floatingBtnMinHeight: Dp = btnMinHeightSmall,
+    val floatingBtnContentSpacing: Dp = paddingSmall,
+
+    // OnSecondaryTransparentFilledButton
+    val onSecondaryTransparentFilledBtnPaddingHorizontal: Dp = btnPaddingHorizontal,
+    val onSecondaryTransparentFilledBtnPaddingVertical: Dp = btnPaddingVertical,
+    val onSecondaryTransparentFilledBtnMinHeight: Dp = btnMinHeightSmall,
+    val onSecondaryTransparentFilledBtnElevation: Dp = noSpacing,
+
+    // PrimaryStrokedButton
+    val primaryStrokedBtnPaddingVertical: Dp = btnPaddingVertical,
+    val primaryStrokedBtnPaddingHorizontal: Dp = btnPaddingHorizontal,
+    val primaryStrokedBtnMinHeightSmall: Dp = btnMinHeightSmall,
+    val primaryStrokedBtnMinHeightNormal: Dp = btnMinHeightNormal,
+    val primaryStrokedBtnStrokeWidth: Dp = stroke,
+
+    // PrimaryTextButton
+    val primaryTextBtnIconSize: Dp = iconMedium,
+    val primaryTextBtnSpacing: Dp = textBtnSpacing,
+    val primaryTextBtnPaddingVertical: Dp = btnPaddingVertical,
+
+    // SecondaryFilledButton
+    val secondaryFilledBtnPaddingVertical: Dp = btnPaddingVertical,
+    val secondaryFilledBtnPaddingHorizontal: Dp = btnPaddingHorizontal,
+    val secondaryFilledBtnMinHeightSmall: Dp = btnMinHeightSmall,
+    val secondaryFilledBtnMinHeightNormal: Dp = btnMinHeightNormal,
+
+    // SecondaryStrokedButton
+    val secondaryStrokedBtnPaddingVertical: Dp = btnPaddingVertical,
+    val secondaryStrokedBtnPaddingHorizontal: Dp = btnPaddingHorizontal,
+    val secondaryStrokedBtnMinHeightSmall: Dp = btnMinHeightSmall,
+    val secondaryStrokedBtnMinHeightNormal: Dp = btnMinHeightNormal,
+    val secondaryStrokedBtnStrokeWidth: Dp = stroke,
+
+    // SecondaryTextButton
+    val secondaryTextBtnIconSize: Dp = iconMedium,
+    val secondaryTextBtnSpacing: Dp = textBtnSpacing,
+    val secondaryTextBtnPaddingVertical: Dp = btnPaddingVertical,
+
+    // SocialButton
+    val socialBtnPaddingVertical: Dp = btnPaddingVertical,
+    val socialBtnPaddingHorizontal: Dp = btnPaddingHorizontal,
+    val socialBtnStrokeWidth: Dp = stroke,
+
+    // TertiaryFilledButton
+    val tertiaryFilledBtnPaddingHorizontal: Dp = btnPaddingHorizontal,
+    val tertiaryFilledBtnPaddingVertical: Dp = btnPaddingVertical,
+    val tertiaryFilledBtnMinHeightNormal: Dp = btnMinHeightNormal,
+    val tertiaryFilledBtnMinHeightSmall: Dp = btnMinHeightSmall,
+
+    // TertiaryStrokedButton
+    val tertiaryStrokedBtnPaddingVertical: Dp = btnPaddingVertical,
+    val tertiaryStrokedBtnPaddingHorizontal: Dp = btnPaddingHorizontal,
+    val tertiaryStrokedBtnMinHeightSmall: Dp = btnMinHeightSmall,
+    val tertiaryStrokedBtnMinHeightNormal: Dp = btnMinHeightNormal,
+    val tertiaryStrokedBtnStrokeWidth: Dp = stroke,
+
+    // TertiaryTextButton
+    val tertiaryTextBtnIconSize: Dp = iconMedium,
+    val tertiaryTextBtnSpacing: Dp = textBtnSpacing,
+    val tertiaryTextBtnPaddingVertical: Dp = btnPaddingVertical,
+
+    // TransparentStrokedButton
+    val transparentStrokedBtnPaddingVertical: Dp = btnPaddingVertical,
+    val transparentStrokedBtnPaddingHorizontal: Dp = btnPaddingHorizontal,
+    val transparentStrokedBtnElevation: Dp = noSpacing,
+    val transparentStrokedBtnStrokeWidth: Dp = stroke,
+
+    // DatePickerDialog
+    val datePickerDialogPaddingVertical: Dp = paddingXLarge,
+    val datePickerDialogPaddingHorizontal: Dp = noSpacing,
+    val datePickerDialogOkBtnPaddingHorizontal: Dp = paddingXLarge,
+    val datePickerDialogOkBtnPaddingTop: Dp = paddingXXXLarge,
+    val datePickerDialogWheelHeight: Dp = datePickerHeight,
+    val datePickerDialogPadding: Dp = pickerPadding,
+
+    // TimePickerDialog
+    val timePickerDialogPadding: Dp = paddingXLarge,
+    val timePickerWheelPaddingHorizontal: Dp = paddingXXLarge,
+    val timePickerOkBtnPaddingTop: Dp = paddingXXXLarge,
+    val timePickerWheelHeight: Dp = datePickerWheelHeight,
+    val timePickerPickerPadding: Dp = pickerPadding,
+    val timePickerHeight: Dp = datePickerHeight,
+
+    // IconText
+    val iconTextIconSize: Dp = paddingXLarge,
+    val iconTextIconSpacing: Dp = paddingMedium,
+
+    // TextDivider
+    val textDividerHorizontalPadding: Dp = paddingXLarge,
+    val textDividerStrokeWidth: Dp = stroke,
+
+    // AppImage
+    val appImageElevation: Dp = noSpacing,
+
+    // GrayAppImage
+    val grayAppImageElevation: Dp = noSpacing,
+
+    // WhiteAppImage
+    val whiteAppImageElevation: Dp = noSpacing,
+
+    // LinedOtpInputField
+    val linedOtpInputFieldPinSpacing: Dp = paddingSmall,
+
+    // OutlinedOtpInputField
+    val outlinedOtpInputFieldPinSpacing: Dp = paddingLarge,
+
+    // PrimaryTextInputField
+    val primaryInputFieldMinHeight: Dp = noSpacing,
+    val primaryInputFieldEndIconSize: Dp = iconSmall,
+    val primaryInputFieldStartIconSize: Dp = iconSmall,
+
+    // TertiaryTextInputField
+    val tertiaryInputFieldMinHeight: Dp = noSpacing,
+    val tertiaryInputFieldEndIconSize: Dp = iconSmall,
+    val tertiaryInputFieldStartIconSize: Dp = iconSmall,
+
+    // OptionItem
+    val optionItemPaddingVertical: Dp = paddingXXXLarge,
+    val optionItemPaddingHorizontal: Dp = paddingXXXLarge,
+    val optionItemPaddingTextSpacing: Dp = paddingXLarge,
+    val optionItemPaddingIconSize: Dp = iconLarge,
+    val optionItemPaddingArrowSize: Dp = iconMedium,
+
+    // HorizontalDotsIndicator
+    val horizontalDotsIndicatorSpacing: Dp = paddingLarge,
+
+    // HorizontalPagerIndicator
+    val horizontalPagerIndicatorSpacing: Dp = paddingMedium,
+
+    // HorizontalPagerTabItem
+    val horizontalPagerTabItemTextPaddingVertical: Dp = paddingMedium,
+    val horizontalPagerTabItemTextPaddingHorizontal: Dp = paddingXLarge,
+
+    // HorizontalPagerTabs
+    val horizontalPagerTabsHorizontalSpacing: Dp = paddingXLarge,
+
+    // SmallProgressIndicator
+    val smallProgressIndicator: Dp = paddingLarge,
+
+    // AppSnackBar
+    val appSnackBarPaddingVertical: Dp = paddingXXLarge,
+    val appSnackBarPaddingHorizontal: Dp = paddingXXXLarge,
+    val appSnackBarIconSize: Dp = iconLarge,
+    val appSnackBarHorizontalSpacing: Dp = paddingMedium,
+
+    // AppDialog
+    val appDialogContentPadding: Dp = paddingXLarge,
+    val appDialogContainerPadding: Dp = popupPadding,
+
+    // ChoicesDialog
+    val choicesDialogVerticalSpacing: Dp = paddingSmall,
+
+    // DialogToolbar
+    val dialogToolbarCloseSize: Dp = paddingXLarge,
+    val dialogToolbarHorizontalPadding: Dp = paddingXLarge,
+    val dialogToolbarTopPadding: Dp = iconMedium,
+    val dialogToolbarBottomPadding: Dp = paddingMedium,
+
+    // OtpDigit
+    val otpDigitPaddingVertical: Dp = paddingXLarge,
+    val otpDigitLineSize: Dp = stroke,
+
+    // MessageDialog
+    val messageDialogBodyNoTitlePadding: Dp = noSpacing,
+    val messageDialogBodyTitlePadding: Dp = paddingXLarge,
+    val messageDialogButtonPaddingTop: Dp = popupSpacingLarge,
+
+    // OverrideUserDialog
+    val overrideUserDialogMsgSpacing: Dp = paddingXLarge,
+    val overrideUserDialogOverrideBtnPadding: Dp = paddingXXXLarge,
+    val overrideUserDialogResetBtnPadding: Dp = paddingLarge,
+    val overrideUserDialogIdTextPadding: Dp = paddingLarge,
+
+    // BottomSheetToolbar
+    val bottomSheetToolbarIconSize: Dp = iconLarge,
+    val bottomSheetToolbarBoxPadding: Dp = paddingXLarge,
+    val bottomSheetToolbarStartIconPadding: Dp = paddingXXSmall,
+    val bottomSheetToolbarEndIconPadding: Dp = paddingXXSmall,
+    val bottomSheetToolbarTitlePadding: Dp = paddingLarge,
+
+    // ConfirmationDialog
+    val confirmationDialogNoTitlePadding: Dp = noSpacing,
+    val confirmationDialogTitlePadding: Dp = paddingXLarge,
+    val confirmationDialogButtonsSpacings: Dp = paddingXLarge,
+    val confirmationDialogButtonsTopPadding: Dp = popupSpacingLarge,
+
+    // SuccessDialog
+    val successDialog: Dp = popupIconLarge,
+    val successDialogBodyPaddingTop: Dp = popupSpacingMedium,
+    val successDialogBtnPaddingTop: Dp = popupSpacingLarge,
+
+    // PriceTextInputField
+    val priceFieldStartIconSize: Dp = iconSmall,
+    val priceFieldEndIconSize: Dp = iconSmall,
+    val priceFieldMinHeight: Dp = noSpacing,
+
+    // Dot
+    val dotElevation: Dp = noSpacing,
+
+    // ItemPicker
+    val itemPickerSearchFieldPadding: Dp = paddingXLarge,
+    val itemPickerSelectorBorderWidth: Dp = itemPickerItemStroke,
+    val itemPickerWheelHeight: Dp = 270.dp,
+
+    // Toolbar
+    val toolbarHeight: Dp = 62.dp,
+    val toolbarContainerPaddingStart: Dp = paddingMedium,
+    val toolbarStartIconMinHeight: Dp = toolbarIconMinSize,
+    val toolbarStartIconMinWidth: Dp = toolbarIconMinSize,
+    val toolbarEndIconMinHeight: Dp = toolbarIconMinSize,
+    val toolbarEndIconMinWidth: Dp = toolbarIconMinSize,
+
+    // WheelTextPicker
+    val wheelTextPickerWidth: Dp = defaultWheelPickerWidth,
+    val wheelTextPickerHeight: Dp = defaultWheelPickerHeight,
+
+    // WheelPicker
+    val wheelPickerWidth: Dp = defaultWheelPickerWidth,
+    val wheelPickerHeight: Dp = defaultWheelPickerHeight,
+
+    // SelectorProperties
+    val selectorPropertiesBorderWidth: Dp = wheelPickerItemStroke,
+
+    // WheelTimePicker
+    val wheelTimePickerHeight: Dp = defaultWheelPickerHeight,
+    val wheelTimePickerWidth: Dp = defaultWheelPickerWidth,
+
+    // WheelDateTimePicker
+    val wheelDateTimePickerHeight: Dp = defaultWheelPickerHeight,
+    val wheelDateTimePickerWidth: Dp = defaultWheelPickerWidth,
+
+    // WheelDatePicker
+    val wheelDatePickerWidth: Dp = defaultWheelPickerWidth,
+    val wheelDatePickerHeight: Dp = defaultWheelPickerHeight,
+
+    // DefaultWheelTimePicker
+    val defaultWheelTimePickerHeight: Dp = defaultWheelPickerHeight,
+    val defaultWheelTimePickerWidth: Dp = defaultWheelPickerWidth,
+
+    // DefaultWheelDateTimePicker
+    val defaultWheelDateTimePickerHeight: Dp = defaultWheelPickerHeight,
+    val defaultWheelDateTimePickerWidth: Dp = defaultWheelPickerWidth,
+
+    // DefaultWheelDatePicker
+    val defaultWheelDatePickerHeight: Dp = defaultWheelPickerHeight,
+    val defaultWheelDatePickerWidth: Dp = defaultWheelPickerWidth,
+
+    // TabItem
     val tabActiveIndicatorThickness: Dp = 3.dp,
     val tabInactiveIndicatorThickness: Dp = 1.dp,
     val tabTextPadding: Dp = 4.dp,

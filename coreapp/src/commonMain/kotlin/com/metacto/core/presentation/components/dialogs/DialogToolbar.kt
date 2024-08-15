@@ -2,6 +2,7 @@ package com.metacto.core.presentation.components.dialogs
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -11,8 +12,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.noRippleClickable
 
@@ -21,23 +25,29 @@ fun DialogToolbar(
     modifier: Modifier = Modifier,
     title: String? = null,
     showClose: Boolean = false,
-    onCloseClicked: () -> Unit = {}
+    onCloseClicked: () -> Unit = {},
+    closeSize: Dp = CoreTheme.spacings.dialogToolbarCloseSize,
+    closeColor: Color = CoreTheme.colors.dialogToolbar.closeColor,
+    textColor: Color = CoreTheme.colors.dialogToolbar.textColor,
+    textStyle: TextStyle = CoreTheme.typography.dialogToolbarTextStyle,
+    paddingHorizontal: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.dialogToolbarHorizontalPadding),
+    paddingVertical: PaddingValues = PaddingValues(
+        top = CoreTheme.spacings.dialogToolbarTopPadding,
+        bottom = CoreTheme.spacings.dialogToolbarBottomPadding
+    )
 ) {
-    val closeSize = CoreTheme.spacings.paddingXLarge
-
     // Toolbar
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = CoreTheme.spacings.paddingXLarge)
-            .padding(top = CoreTheme.spacings.iconMedium)
-            .padding(bottom = CoreTheme.spacings.paddingMedium)
+            .padding(paddingHorizontal)
+            .padding(paddingVertical)
     ) {
         // Render close icon if required
         if (showClose) {
             Image(
                 imageVector = Icons.Filled.Close,
-                colorFilter = ColorFilter.tint(CoreTheme.colors.secondary),
+                colorFilter = ColorFilter.tint(closeColor),
                 contentDescription = null,
                 modifier = Modifier
                     .size(closeSize)
@@ -50,8 +60,8 @@ fun DialogToolbar(
         Text(
             text = title.orEmpty(),
             textAlign = TextAlign.Center,
-            color = CoreTheme.colors.secondary,
-            style = CoreTheme.typography.bodyMedium,
+            color = textColor,
+            style = textStyle,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = closeSize)

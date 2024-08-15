@@ -19,18 +19,18 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun PrimaryCheckableButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
+    textStyle: TextStyle = CoreTheme.typography.primaryCheckableBtnTextStyle,
     padding: PaddingValues = PaddingValues(
         vertical = CoreTheme.spacings.btnCheckablePaddingVertical,
         horizontal = CoreTheme.spacings.btnCheckablePaddingHorizontal
     ),
     isChecked: Boolean = false,
-    shape: RoundedCornerShape = CoreTheme.shapes.small,
+    shape: RoundedCornerShape = CoreTheme.shapes.primaryCheckableBtnShape,
     onClick: () -> Unit = {},
-    checkedBackgroundColor: Color = CoreTheme.colors.primaryStrongDark,
-    uncheckedBackgroundColor: Color = CoreTheme.colors.primary,
-    checkedTextColor: Color = CoreTheme.colors.onStrongDarkPrimary,
-    uncheckedTextColor: Color = CoreTheme.colors.onPrimary
+    checkedBackgroundColor: Color = CoreTheme.colors.primaryCheckableButton.checkedBgColor,
+    uncheckedBackgroundColor: Color = CoreTheme.colors.primaryCheckableButton.uncheckedBgColor,
+    checkedTextColor: Color = CoreTheme.colors.primaryCheckableButton.checkedTextColor,
+    uncheckedTextColor: Color = CoreTheme.colors.primaryCheckableButton.uncheckedTextColor
 ) {
     val bgColor by animateColorAsState(
         if (isChecked) checkedBackgroundColor else uncheckedBackgroundColor

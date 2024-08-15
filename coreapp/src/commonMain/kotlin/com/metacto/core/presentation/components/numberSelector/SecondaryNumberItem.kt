@@ -2,6 +2,7 @@ package com.metacto.core.presentation.components.numberSelector
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.metacto.core.presentation.theme.CoreTheme
 
 @Composable
@@ -9,16 +10,20 @@ fun SecondaryNumberItem(
     modifier: Modifier = Modifier,
     number: Int,
     isSelected: Boolean,
+    selectedTextColor: Color = CoreTheme.colors.secondaryNumberItem.selectedTextColor,
+    selectedBackgroundColor: Color = CoreTheme.colors.secondaryNumberItem.selectedBgColor,
+    unSelectedTextColor: Color = CoreTheme.colors.secondaryNumberItem.unSelectedTextColor,
+    unSelectedBackgroundColor: Color = CoreTheme.colors.secondaryNumberItem.unSelectedBgColor,
     onClick: () -> Unit
 ) {
     NumberItem(
         modifier = modifier,
         number = number,
         isSelected = isSelected,
-        selectedTextColor = CoreTheme.colors.onSecondary,
-        selectedBackgroundColor = CoreTheme.colors.secondary,
-        unSelectedTextColor = CoreTheme.colors.secondary,
-        unSelectedBackgroundColor = CoreTheme.colors.secondaryContainer,
+        selectedTextColor = selectedTextColor,
+        selectedBackgroundColor = selectedBackgroundColor,
+        unSelectedTextColor = unSelectedTextColor,
+        unSelectedBackgroundColor = unSelectedBackgroundColor,
         onClick = onClick
     )
 }
