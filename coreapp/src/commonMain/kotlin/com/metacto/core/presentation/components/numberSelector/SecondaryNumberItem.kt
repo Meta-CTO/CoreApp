@@ -10,10 +10,10 @@ fun SecondaryNumberItem(
     modifier: Modifier = Modifier,
     number: Int,
     isSelected: Boolean,
-    selectedTextColor: Color = CoreTheme.colors.secondaryNumberItemSelectedTextColor,
-    selectedBackgroundColor: Color = CoreTheme.colors.secondaryNumberItemSelectedBgColor,
-    unSelectedTextColor: Color = CoreTheme.colors.secondaryNumberItemUnSelectedTextColor,
-    unSelectedBackgroundColor: Color = CoreTheme.colors.secondaryNumberItemUnSelectedBgColor,
+    selectedTextColor: Color = CoreTheme.colors.secondaryNumberItem.selectedTextColor,
+    selectedBackgroundColor: Color = CoreTheme.colors.secondaryNumberItem.selectedBgColor,
+    unSelectedTextColor: Color = CoreTheme.colors.secondaryNumberItem.unSelectedTextColor,
+    unSelectedBackgroundColor: Color = CoreTheme.colors.secondaryNumberItem.unSelectedBgColor,
     onClick: () -> Unit
 ) {
     NumberItem(

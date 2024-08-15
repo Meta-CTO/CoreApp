@@ -17,7 +17,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 @Composable
 fun TextDivider(
     modifier: Modifier = Modifier,
-    color: Color = CoreTheme.colors.textDividerColor,
+    color: Color = CoreTheme.colors.textDivider.dividerColor,
     horizontalPadding: Dp = CoreTheme.spacings.textDividerHorizontalPadding,
     strokeWidth: Dp = CoreTheme.spacings.textDividerStrokeWidth,
     textStyle: TextStyle = CoreTheme.typography.textDividerTextStyle,

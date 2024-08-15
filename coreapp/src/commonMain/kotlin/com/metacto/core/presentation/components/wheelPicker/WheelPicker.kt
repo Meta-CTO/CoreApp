@@ -199,10 +199,10 @@ object WheelPickerDefaults {
     fun selectorProperties(
         enabled: Boolean = true,
         shape: Shape = CoreTheme.shapes.selectorPropertiesShape,
-        color: Color = CoreTheme.colors.selectorPropertiesColor,
+        color: Color = CoreTheme.colors.selectorProperties.color,
         border: BorderStroke? = BorderStroke(
             width = CoreTheme.spacings.selectorPropertiesBorderWidth,
-            color = CoreTheme.colors.selectorPropertiesBorderColor
+            color = CoreTheme.colors.selectorProperties.strokeColor
         ),
     ): SelectorProperties = DefaultSelectorProperties(
         enabled = enabled,

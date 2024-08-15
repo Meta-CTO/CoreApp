@@ -27,8 +27,8 @@ fun DialogToolbar(
     showClose: Boolean = false,
     onCloseClicked: () -> Unit = {},
     closeSize: Dp = CoreTheme.spacings.dialogToolbarCloseSize,
-    closeColor: Color = CoreTheme.colors.dialogToolbarCloseColor,
-    textColor: Color = CoreTheme.colors.dialogToolbarTextColor,
+    closeColor: Color = CoreTheme.colors.dialogToolbar.closeColor,
+    textColor: Color = CoreTheme.colors.dialogToolbar.textColor,
     textStyle: TextStyle = CoreTheme.typography.dialogToolbarTextStyle,
     paddingHorizontal: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.dialogToolbarHorizontalPadding),
     paddingVertical: PaddingValues = PaddingValues(

@@ -17,8 +17,8 @@ fun PrimaryStrokedButton(
     modifier: Modifier = Modifier,
     text: String? = null,
     textStyle: TextStyle = CoreTheme.typography.primaryStrokedBtnTextStyle,
-    textColor: Color = CoreTheme.colors.strokedBtnTextColor,
-    iconColor: Color? = CoreTheme.colors.strokedBtnIconColor,
+    textColor: Color = CoreTheme.colors.primaryStrokedButton.textColor,
+    iconColor: Color? = CoreTheme.colors.primaryStrokedButton.iconColor,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
@@ -31,14 +31,14 @@ fun PrimaryStrokedButton(
         vertical = CoreTheme.spacings.primaryStrokedBtnPaddingVertical,
         horizontal = CoreTheme.spacings.primaryStrokedBtnPaddingHorizontal
     ),
-    backgroundColor: Color = CoreTheme.colors.strokedBtnBg,
+    backgroundColor: Color = CoreTheme.colors.primaryStrokedButton.bgColor,
     minHeightSmall: Dp = CoreTheme.spacings.primaryStrokedBtnMinHeightSmall,
     minHeightNormal: Dp = CoreTheme.spacings.primaryStrokedBtnMinHeightNormal,
     shapeSmall: RoundedCornerShape = CoreTheme.shapes.primaryStrokedBtnShapeSmall,
     shapeNormal: RoundedCornerShape = CoreTheme.shapes.primaryStrokedBtnShapeNormal,
     border: BorderStroke = BorderStroke(
         width = CoreTheme.spacings.primaryStrokedBtnStrokeWidth,
-        color = CoreTheme.colors.strokedBtnStrokeColor
+        color = CoreTheme.colors.primaryStrokedButton.strokeColor
     ),
     onClick: () -> Unit = {}
 ) {

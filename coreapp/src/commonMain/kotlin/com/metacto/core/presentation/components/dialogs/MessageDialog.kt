@@ -28,7 +28,7 @@ fun MessageDialog(
     onDismiss: (() -> Unit)? = null,
     buttonPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.messageDialogButtonPaddingTop),
     bodyTextStyle: TextStyle = CoreTheme.typography.messageDialogBodyTextStyle,
-    bodyTextColor: Color = CoreTheme.colors.messageDialogBodyTextColor,
+    bodyTextColor: Color = CoreTheme.colors.messageDialog.bodyTextColor,
     bodyNoTitlePadding: Dp = CoreTheme.spacings.messageDialogBodyNoTitlePadding,
     bodyTitlePadding: Dp = CoreTheme.spacings.messageDialogBodyTitlePadding
 

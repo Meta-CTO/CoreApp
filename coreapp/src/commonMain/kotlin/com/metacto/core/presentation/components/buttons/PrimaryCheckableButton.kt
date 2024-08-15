@@ -27,10 +27,10 @@ fun PrimaryCheckableButton(
     isChecked: Boolean = false,
     shape: RoundedCornerShape = CoreTheme.shapes.primaryCheckableBtnShape,
     onClick: () -> Unit = {},
-    checkedBackgroundColor: Color = CoreTheme.colors.checkedBtnBg,
-    uncheckedBackgroundColor: Color = CoreTheme.colors.uncheckedBtnBg,
-    checkedTextColor: Color = CoreTheme.colors.checkedBtnTextColor,
-    uncheckedTextColor: Color = CoreTheme.colors.uncheckedBtnTextColor
+    checkedBackgroundColor: Color = CoreTheme.colors.primaryCheckableButton.checkedBgColor,
+    uncheckedBackgroundColor: Color = CoreTheme.colors.primaryCheckableButton.uncheckedBgColor,
+    checkedTextColor: Color = CoreTheme.colors.primaryCheckableButton.checkedTextColor,
+    uncheckedTextColor: Color = CoreTheme.colors.primaryCheckableButton.uncheckedTextColor
 ) {
     val bgColor by animateColorAsState(
         if (isChecked) checkedBackgroundColor else uncheckedBackgroundColor

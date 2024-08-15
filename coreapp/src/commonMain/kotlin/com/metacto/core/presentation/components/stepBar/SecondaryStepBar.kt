@@ -21,8 +21,8 @@ fun SecondaryStepBar(
     currentStep: Int,
     height: Dp = CoreTheme.spacings.stepBarHeight,
     strokeWidth: Dp = CoreTheme.spacings.stepBarStroke,
-    color: Color = CoreTheme.colors.secondaryStepBarColor,
-    borderColor: Color = CoreTheme.colors.secondaryStepBarBorderColor,
+    color: Color = CoreTheme.colors.secondaryStepBar.color,
+    borderColor: Color = CoreTheme.colors.secondaryStepBar.borderColor,
     progressShape: RoundedCornerShape = CoreTheme.shapes.secondaryStepBarProgressShape
 ) {
     // Prepare progress

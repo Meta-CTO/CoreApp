@@ -9,7 +9,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun SecondaryProgressIndicator(
     modifier: Modifier = Modifier,
     isBlocking: Boolean = false,
-    color: Color = CoreTheme.colors.secondaryProgressColor
+    color: Color = CoreTheme.colors.secondaryProgressIndicator.progressColor
 ) {
     ProgressIndicator(
         modifier = modifier,

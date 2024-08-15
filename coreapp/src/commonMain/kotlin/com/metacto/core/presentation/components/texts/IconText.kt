@@ -31,7 +31,7 @@ fun IconText(
     endIconPainter: Painter? = null,
     isUnderlined: Boolean = false,
     isSingleLine: Boolean = false,
-    color: Color = CoreTheme.colors.iconTextColor,
+    color: Color = CoreTheme.colors.iconText.color,
     iconTint: Color? = color,
     iconSize: Dp = CoreTheme.spacings.iconTextIconSize,
     iconSpacing: Dp = CoreTheme.spacings.iconTextIconSpacing,

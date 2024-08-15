@@ -23,18 +23,18 @@ fun PickerInputField(
     enabled: Boolean = true,
     showTrailingIcon: Boolean = true,
     trailingIcon: ImageVector? = Icons.Default.ExpandMore,
-    iconTintColor: Color = CoreTheme.colors.pickerInputFieldIconColor,
+    iconTintColor: Color = CoreTheme.colors.pickerInputField.iconColor,
     textStyle: TextStyle = CoreTheme.typography.pickerInputFieldTextStyle,
-    textColor: Color = CoreTheme.colors.pickerInputFieldTextColor,
+    textColor: Color = CoreTheme.colors.pickerInputField.textColor,
     isStaticLabel: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
     singleLine: Boolean = false,
     placeholderTextStyle: TextStyle = CoreTheme.typography.pickerInputFieldPlaceholderTextStyle,
-    placeholderTextColor: Color = CoreTheme.colors.pickerInputFieldPlaceholderColor,
+    placeholderTextColor: Color = CoreTheme.colors.pickerInputField.placeholderColor,
     labelTextStyle: TextStyle = CoreTheme.typography.pickerInputFieldLabelTextStyle,
-    labelTextColor: Color = CoreTheme.colors.pickerInputFieldLabelColor,
+    labelTextColor: Color = CoreTheme.colors.pickerInputField.labelColor,
     errorTextStyle: TextStyle = CoreTheme.typography.pickerInputFieldErrorTextStyle,
-    errorTextColor: Color = CoreTheme.colors.pickerInputFieldErrorColor,
+    errorTextColor: Color = CoreTheme.colors.pickerInputField.errorColor,
     shape: RoundedCornerShape = CoreTheme.shapes.pickerInputFieldShape
 ) {
     TertiaryTextInputField(

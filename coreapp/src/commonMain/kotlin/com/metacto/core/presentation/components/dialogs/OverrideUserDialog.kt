@@ -32,7 +32,7 @@ fun OverrideUserDialog(
     overrideBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialogOverrideBtnPadding),
     resetBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialogResetBtnPadding),
     idTextPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialogIdTextPadding),
-    bodyTextColor: Color = CoreTheme.colors.overrideUserDialogBodyTextColor,
+    bodyTextColor: Color = CoreTheme.colors.overrideUserDialog.bodyTextColor,
     bodyTextStyle: TextStyle = CoreTheme.typography.bodyLarge
 
 ) {

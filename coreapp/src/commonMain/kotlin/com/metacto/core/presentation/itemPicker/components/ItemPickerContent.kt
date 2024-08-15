@@ -40,11 +40,11 @@ fun ItemPickerContent(
     state: State,
     textSearchInputFieldPadding: PaddingValues = PaddingValues(CoreTheme.spacings.itemPickerSearchFieldPadding),
     wheelTextStyle: TextStyle = CoreTheme.typography.itemPickerWheelTextStyle,
-    wheelTextColor: Color = CoreTheme.colors.itemPickerWheelTextColor,
+    wheelTextColor: Color = CoreTheme.colors.itemPicker.textColor,
     selectorShape: Shape = CoreTheme.shapes.itemPickerShape,
-    selectorColor: Color = CoreTheme.colors.itemPickerSelectorColor,
+    selectorColor: Color = CoreTheme.colors.itemPicker.selectorColor,
     selectorBorderWidth: Dp = CoreTheme.spacings.itemPickerSelectorBorderWidth,
-    selectorBorderColor: Color = CoreTheme.colors.itemPickerSelectorBorderColor,
+    selectorBorderColor: Color = CoreTheme.colors.itemPicker.selectorBorderColor,
     wheelHeight: Dp = CoreTheme.spacings.itemPickerWheelHeight,
     onEvent: (Event) -> Unit
 ) {

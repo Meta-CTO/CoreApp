@@ -14,8 +14,8 @@ fun ErrorSnackBar(
     text: String,
     icon: ImageVector = Icons.Default.ErrorOutline,
     onClick: (() -> Unit)? = null,
-    backgroundColor: Color = CoreTheme.colors.errorSnackBarBgColor,
-    color: Color = CoreTheme.colors.errorSnackBarColor
+    backgroundColor: Color = CoreTheme.colors.errorSnackBar.bgColor,
+    color: Color = CoreTheme.colors.errorSnackBar.color
 ) {
     AppSnackBar(
         modifier = modifier,

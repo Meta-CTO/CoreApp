@@ -24,12 +24,12 @@ fun SocialButton(
         vertical = CoreTheme.spacings.socialBtnPaddingVertical,
         horizontal = CoreTheme.spacings.socialBtnPaddingHorizontal
     ),
-    textColor: Color = CoreTheme.colors.socialBtnTextColor,
-    backgroundColor: Color = CoreTheme.colors.socialBtnBg,
+    textColor: Color = CoreTheme.colors.socialButton.textColor,
+    backgroundColor: Color = CoreTheme.colors.socialButton.bgColor,
     contentAlignment: Alignment.Horizontal = Alignment.Start,
     border: BorderStroke = BorderStroke(
         width = CoreTheme.spacings.socialBtnStrokeWidth,
-        color = CoreTheme.colors.socialBtnStrokeColor
+        color = CoreTheme.colors.socialButton.strokeColor
     ),
     onClick: () -> Unit = {}
 ) {

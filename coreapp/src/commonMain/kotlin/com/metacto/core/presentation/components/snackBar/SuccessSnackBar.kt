@@ -14,8 +14,8 @@ fun SuccessSnackBar(
     text: String,
     icon: ImageVector = Icons.Default.ThumbUpOffAlt,
     onClick: (() -> Unit)? = null,
-    backgroundColor: Color = CoreTheme.colors.successSnackBarBgColor,
-    color: Color = CoreTheme.colors.successSnackBarColor
+    backgroundColor: Color = CoreTheme.colors.successSnackBar.bgColor,
+    color: Color = CoreTheme.colors.successSnackBar.color
 ) {
     AppSnackBar(
         modifier = modifier,

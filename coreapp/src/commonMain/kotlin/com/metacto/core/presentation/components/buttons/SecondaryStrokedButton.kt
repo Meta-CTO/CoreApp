@@ -17,7 +17,7 @@ fun SecondaryStrokedButton(
     modifier: Modifier = Modifier,
     text: String? = null,
     textStyle: TextStyle = CoreTheme.typography.secondaryStrokedBtnTextStyle,
-    iconColor: Color? = CoreTheme.colors.secondaryStrokedBtnIconColor,
+    iconColor: Color? = CoreTheme.colors.secondaryStrokedButton.iconColor,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
@@ -30,15 +30,15 @@ fun SecondaryStrokedButton(
         vertical = CoreTheme.spacings.secondaryStrokedBtnPaddingVertical,
         horizontal = CoreTheme.spacings.secondaryStrokedBtnPaddingHorizontal
     ),
-    textColor: Color = CoreTheme.colors.secondaryStrokedBtnTextColor,
-    backgroundColor: Color = CoreTheme.colors.secondaryStrokedBtnBg,
+    textColor: Color = CoreTheme.colors.secondaryStrokedButton.textColor,
+    backgroundColor: Color = CoreTheme.colors.secondaryStrokedButton.bgColor,
     minHeightSmall: Dp = CoreTheme.spacings.secondaryStrokedBtnMinHeightSmall,
     minHeightNormal: Dp = CoreTheme.spacings.secondaryStrokedBtnMinHeightNormal,
     shapeSmall: RoundedCornerShape = CoreTheme.shapes.secondaryStrokedBtnShapeSmall,
     shapeNormal: RoundedCornerShape = CoreTheme.shapes.secondaryStrokedBtnShapeNormal,
     border: BorderStroke = BorderStroke(
         width = CoreTheme.spacings.secondaryStrokedBtnStrokeWidth,
-        color = CoreTheme.colors.secondaryStrokedBtnStrokeColor
+        color = CoreTheme.colors.secondaryStrokedButton.strokeColor
     ),
     onClick: () -> Unit = {}
 ) {

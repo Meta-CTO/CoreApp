@@ -10,7 +10,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 @Composable
 fun HorizontalDivider(
     modifier: Modifier = Modifier,
-    color: Color = CoreTheme.colors.dividerColor
+    color: Color = CoreTheme.colors.horizontalDivider.dividerColor
 ) {
     Divider(
         color = color,

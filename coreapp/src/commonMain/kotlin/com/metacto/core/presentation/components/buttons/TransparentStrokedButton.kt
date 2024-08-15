@@ -29,13 +29,13 @@ fun TransparentStrokedButton(
         vertical = CoreTheme.spacings.transparentStrokedBtnPaddingVertical,
         horizontal = CoreTheme.spacings.transparentStrokedBtnPaddingHorizontal
     ),
-    textColor: Color = CoreTheme.colors.transparentStrokedBtnTextColor,
-    iconColor: Color = CoreTheme.colors.transparentStrokedBtnIconColor,
-    backgroundColor: Color = CoreTheme.colors.transparentStrokedBtnBg,
+    textColor: Color = CoreTheme.colors.transparentStrokedButton.textColor,
+    iconColor: Color = CoreTheme.colors.transparentStrokedButton.iconColor,
+    backgroundColor: Color = CoreTheme.colors.transparentStrokedButton.bgColor,
     elevation: Dp = CoreTheme.spacings.transparentStrokedBtnElevation,
     border: BorderStroke = BorderStroke(
         width = CoreTheme.spacings.transparentStrokedBtnStrokeWidth,
-        color = CoreTheme.colors.transparentStrokedBtnStrokeColor
+        color = CoreTheme.colors.transparentStrokedButton.strokeColor
     ),
     onClick: () -> Unit = {}
 ) {

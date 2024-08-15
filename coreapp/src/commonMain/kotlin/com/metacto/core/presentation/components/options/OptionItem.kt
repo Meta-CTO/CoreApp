@@ -35,9 +35,9 @@ fun OptionItem(
     iconSize: Dp = CoreTheme.spacings.optionItemPaddingIconSize,
     textSpacing: Dp = CoreTheme.spacings.optionItemPaddingTextSpacing,
     arrowSize: Dp = CoreTheme.spacings.optionItemPaddingArrowSize,
-    defaultColor: Color = CoreTheme.colors.optionItemDefaultColor,
+    defaultColor: Color = CoreTheme.colors.optionItem.defaultColor,
     optionColor: Color = CoreTheme.colors.optionsArrow,
-    textStyle :TextStyle = CoreTheme.typography.optionItemTextStyle
+    textStyle: TextStyle = CoreTheme.typography.optionItemTextStyle
 ) {
     // Prepare the color
     val color = option.color.toColor() ?: defaultColor

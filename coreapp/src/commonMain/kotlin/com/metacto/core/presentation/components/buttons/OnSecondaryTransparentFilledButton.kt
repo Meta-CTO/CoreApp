@@ -27,9 +27,9 @@ fun OnSecondaryTransparentFilledButton(
         vertical = CoreTheme.spacings.onSecondaryTransparentFilledBtnPaddingVertical,
         horizontal = CoreTheme.spacings.onSecondaryTransparentFilledBtnPaddingHorizontal
     ),
-    backgroundColor: Color = CoreTheme.colors.onSecondaryTransparentFilledBtnBg,
-    textColor: Color = CoreTheme.colors.onSecondaryTransparentFilledBtnTextColor,
-    iconColor: Color = CoreTheme.colors.onSecondaryTransparentFilledBtnIconColor,
+    backgroundColor: Color = CoreTheme.colors.onSecondaryTransparentFilledButton.bgColor,
+    textColor: Color = CoreTheme.colors.onSecondaryTransparentFilledButton.textColor,
+    iconColor: Color = CoreTheme.colors.onSecondaryTransparentFilledButton.iconColor,
     elevation: Dp = CoreTheme.spacings.onSecondaryTransparentFilledBtnElevation,
     minHeight: Dp = CoreTheme.spacings.onSecondaryTransparentFilledBtnMinHeight,
     shape: RoundedCornerShape = CoreTheme.shapes.onSecondaryTransparentFilledBtnShape,

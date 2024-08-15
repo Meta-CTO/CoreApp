@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 fun PrimaryProgressIndicator(
     modifier: Modifier = Modifier,
     isBlocking: Boolean = false,
-    color: Color = CoreTheme.colors.primaryProgressColor
+    color: Color = CoreTheme.colors.primaryProgressIndicator.progressColor
 ) {
     ProgressIndicator(
         modifier = modifier,

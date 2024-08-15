@@ -25,7 +25,7 @@ fun AppDialog(
     contentPadding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContentPadding),
     containerPadding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContainerPadding),
     shape: RoundedCornerShape = CoreTheme.shapes.appDialogShape,
-    containerBackground: Color = CoreTheme.colors.appDialogContainerBg,
+    containerBackground: Color = CoreTheme.colors.appDialog.containerBgColor,
     content: @Composable () -> Unit
 ) {
     // Render dialog

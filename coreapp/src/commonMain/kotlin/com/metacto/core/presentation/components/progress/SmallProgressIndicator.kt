@@ -15,7 +15,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 @Composable
 fun SmallProgressIndicator(
     modifier: Modifier = Modifier,
-    color: Color = CoreTheme.colors.smallProgressColor,
+    color: Color = CoreTheme.colors.smallProgressIndicator.progressColor,
     padding: Dp = CoreTheme.spacings.smallProgressIndicator,
     progressSize: Dp = CoreTheme.spacings.progressSizeSmall
 ) {
