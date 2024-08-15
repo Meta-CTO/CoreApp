@@ -727,7 +727,4 @@ data class TapItemColors(
     val inactiveIndicatorColor: Color = tertiary,
 )
 
-// DefaultWheelDatePicker
-
-
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

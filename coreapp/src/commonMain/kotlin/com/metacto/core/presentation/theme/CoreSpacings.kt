@@ -254,7 +254,6 @@ data class CoreSpacings(
     val otpDigitPaddingVertical: Dp = paddingXLarge,
     val otpDigitLineSize: Dp = stroke,
 
-
     // MessageDialog
     val messageDialogBodyNoTitlePadding: Dp = noSpacing,
     val messageDialogBodyTitlePadding: Dp = paddingXLarge,
