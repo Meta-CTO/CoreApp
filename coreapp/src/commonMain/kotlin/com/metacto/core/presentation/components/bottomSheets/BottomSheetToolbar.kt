@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
@@ -29,11 +30,14 @@ fun BottomSheetToolbar(
     onStartIconClick: (() -> Unit)? = null,
     endIcon: ImageVector? = null,
     onEndIconClick: (() -> Unit)? = null,
-    iconSize:Dp = CoreTheme.spacings.bottomSheetToolbarIconSize,
-    boxPadding:Dp = CoreTheme.spacings.bottomSheetToolbarBoxPadding,
-    startIconPadding:Dp = CoreTheme.spacings.bottomSheetToolbarStartIconPadding,
-    endIconPadding:Dp = CoreTheme.spacings.bottomSheetToolbarEndIconPadding,
-    textPadding:PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.bottomSheetToolbarTitlePadding),
+    startIconColor: Color = CoreTheme.colors.bottomSheetToolbar.startIconColor,
+    endIconColor: Color = CoreTheme.colors.bottomSheetToolbar.endIconColor,
+    titleColor: Color = CoreTheme.colors.bottomSheetToolbar.titleColor,
+    iconSize: Dp = CoreTheme.spacings.bottomSheetToolbarIconSize,
+    boxPadding: Dp = CoreTheme.spacings.bottomSheetToolbarBoxPadding,
+    startIconPadding: Dp = CoreTheme.spacings.bottomSheetToolbarStartIconPadding,
+    endIconPadding: Dp = CoreTheme.spacings.bottomSheetToolbarEndIconPadding,
+    textPadding: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.bottomSheetToolbarTitlePadding),
     showDivider: Boolean = true
 ) {
 
@@ -54,7 +58,7 @@ fun BottomSheetToolbar(
                 Image(
                     imageVector = startIcon,
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(CoreTheme.colors.sheetPrimary),
+                    colorFilter = ColorFilter.tint(startIconColor),
                     modifier = Modifier
                         .size(iconSize)
                         .padding(startIconPadding)
@@ -68,7 +72,7 @@ fun BottomSheetToolbar(
                 Text(
                     text = title,
                     style = titleStyle,
-                    color = CoreTheme.colors.sheetPrimary,
+                    color = titleColor,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -82,7 +86,7 @@ fun BottomSheetToolbar(
                 Image(
                     imageVector = endIcon,
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(CoreTheme.colors.sheetPrimary),
+                    colorFilter = ColorFilter.tint(endIconColor),
                     modifier = Modifier
                         .size(iconSize)
                         .padding(endIconPadding)

@@ -337,6 +337,11 @@ data class CoreColors(
         background = background,
         onPrimaryContainer = onPrimaryContainer,
         tertiary = tertiary
+    ),
+
+    // BottomSheetToolbar
+    val bottomSheetToolbar: BottomSheetToolbarColors = BottomSheetToolbarColors(
+        sheetPrimary = sheetPrimary
     )
 )
 
@@ -725,6 +730,14 @@ data class TapItemColors(
     val inactiveTextColor: Color = tertiary,
     val activeIndicatorColor: Color = onPrimaryContainer,
     val inactiveIndicatorColor: Color = tertiary,
+)
+
+// BottomSheetToolbar
+data class BottomSheetToolbarColors(
+    private val sheetPrimary: Color,
+    val startIconColor: Color = sheetPrimary,
+    val endIconColor: Color = sheetPrimary,
+    val titleColor: Color = sheetPrimary
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }
