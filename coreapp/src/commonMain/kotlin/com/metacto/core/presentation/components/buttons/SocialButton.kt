@@ -21,14 +21,14 @@ fun SocialButton(
     isEnabled: Boolean = true,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.socialBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.socialBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.socialButton.paddingVertical,
+        horizontal = CoreTheme.spacings.socialButton.paddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.socialButton.textColor,
     backgroundColor: Color = CoreTheme.colors.socialButton.bgColor,
     contentAlignment: Alignment.Horizontal = Alignment.Start,
     border: BorderStroke = BorderStroke(
-        width = CoreTheme.spacings.socialBtnStrokeWidth,
+        width = CoreTheme.spacings.socialButton.strokeWidth,
         color = CoreTheme.colors.socialButton.strokeColor
     ),
     onClick: () -> Unit = {}

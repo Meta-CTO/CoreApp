@@ -33,8 +33,8 @@ internal fun DefaultWheelDatePicker(
     maxDate: LocalDate = LocalDate.CYBER_ERA,
     yearsRange: IntRange? = IntRange(minDate.year, maxDate.year),
     size: DpSize = DpSize(
-        CoreTheme.spacings.defaultWheelPickerWidth,
-        CoreTheme.spacings.defaultWheelPickerHeight
+        width = CoreTheme.spacings.defaultWheelDatePicker.pickerWidth,
+        height = CoreTheme.spacings.defaultWheelDatePicker.pickerHeight
     ),
     rowCount: Int = 3, // Number of rows to show
     textStyle: TextStyle = MaterialTheme.typography.titleMedium,

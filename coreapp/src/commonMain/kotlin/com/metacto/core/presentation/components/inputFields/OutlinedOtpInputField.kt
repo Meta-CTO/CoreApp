@@ -44,7 +44,7 @@ fun OutlinedOtpInputField(
     textColor: Color = CoreTheme.colors.outlinedOtpInputField.textColor,
     backgroundColor: Color = CoreTheme.colors.outlinedOtpInputField.bgColor,
     textStyle: TextStyle = CoreTheme.typography.outlinedOtpInputField.textStyle,
-    horizontalSpacing: Dp = CoreTheme.spacings.outlinedOtpInputFieldPinSpacing,
+    horizontalSpacing: Dp = CoreTheme.spacings.outlinedOtpInputField.horizontalSpacing,
     requestFocus: Boolean = false,
     requestFocusDelay: Long = DEF_REQUEST_FOCUS_DELAY
 ) {
@@ -135,7 +135,7 @@ private fun OtpDigit(
     textColor: Color,
     backgroundColor: Color,
     shape: RoundedCornerShape = CoreTheme.shapes.otpDigit.shape,
-    paddingValues: PaddingValues = PaddingValues(vertical = CoreTheme.spacings.otpDigitPaddingVertical)
+    paddingValues: PaddingValues = PaddingValues(vertical = CoreTheme.spacings.otpDigit.paddingVertical)
 ) {
     // Render digit text
     Text(

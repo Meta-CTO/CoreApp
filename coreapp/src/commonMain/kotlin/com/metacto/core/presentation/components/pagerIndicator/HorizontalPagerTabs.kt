@@ -20,7 +20,7 @@ fun HorizontalPagerTabs(
     tabTitles: List<String>,
     pagerState: PagerState,
     onTabClicked: ((Int) -> Unit)? = null,
-    horizontalSpacing: Dp = CoreTheme.spacings.horizontalPagerTabsHorizontalSpacing
+    horizontalSpacing: Dp = CoreTheme.spacings.horizontalPagerTabs.horizontalSpacing
 ) {
     // Get main objects
     val scrollState = rememberScrollState()

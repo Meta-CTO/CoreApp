@@ -26,11 +26,11 @@ fun MessageDialog(
     buttonText: String? = null,
     onPositiveClick: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
-    buttonPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.messageDialogButtonPaddingTop),
+    buttonPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.messageDialog.btnPaddingTop),
     bodyTextStyle: TextStyle = CoreTheme.typography.messageDialog.textStyle,
     bodyTextColor: Color = CoreTheme.colors.messageDialog.bodyTextColor,
-    bodyNoTitlePadding: Dp = CoreTheme.spacings.messageDialogBodyNoTitlePadding,
-    bodyTitlePadding: Dp = CoreTheme.spacings.messageDialogBodyTitlePadding
+    bodyNoTitlePadding: Dp = CoreTheme.spacings.messageDialog.noTitlePadding,
+    bodyTitlePadding: Dp = CoreTheme.spacings.messageDialog.titlePadding
 
 ) {
     // Prepare spacings

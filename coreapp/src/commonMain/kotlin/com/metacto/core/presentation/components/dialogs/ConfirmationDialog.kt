@@ -33,10 +33,10 @@ fun ConfirmationDialog(
     onDismiss: (() -> Unit)? = null,
     bodyTextStyle: TextStyle = CoreTheme.typography.confirmationDialog.textStyle,
     bodyTextColor: Color = CoreTheme.colors.confirmationDialog.bodyTextColor,
-    noTitlePadding: Dp = CoreTheme.spacings.confirmationDialogNoTitlePadding,
-    titlePadding: Dp = CoreTheme.spacings.confirmationDialogTitlePadding,
-    buttonsSpacings: Dp = CoreTheme.spacings.confirmationDialogButtonsSpacings,
-    buttonsPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.confirmationDialogButtonsTopPadding)
+    noTitlePadding: Dp = CoreTheme.spacings.confirmationDialog.noTitlePadding,
+    titlePadding: Dp = CoreTheme.spacings.confirmationDialog.titlePadding,
+    buttonsSpacings: Dp = CoreTheme.spacings.confirmationDialog.buttonsSpacings,
+    buttonsPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.confirmationDialog.buttonsTopPadding)
 ) {
     // Prepare spacings
     val msgSpacing = if (title?.isNotEmpty() == true)

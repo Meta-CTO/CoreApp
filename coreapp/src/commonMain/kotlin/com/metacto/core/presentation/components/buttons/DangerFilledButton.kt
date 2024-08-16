@@ -25,14 +25,14 @@ fun DangerFilledButton(
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.dangerFilledBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.dangerFilledBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.dangerFilledButton.paddingVertical,
+        horizontal = CoreTheme.spacings.dangerFilledButton.paddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.dangerFilledButton.textColor,
     iconColor: Color = CoreTheme.colors.dangerFilledButton.iconColor,
     backgroundColor: Color = CoreTheme.colors.dangerFilledButton.bgColor,
-    minHeightSmall: Dp = CoreTheme.spacings.dangerFilledBtnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.dangerFilledBtnMinHeightNormal,
+    minHeightSmall: Dp = CoreTheme.spacings.dangerFilledButton.minHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.dangerFilledButton.minHeightNormal,
     shapeSmall: RoundedCornerShape = CoreTheme.shapes.dangerFilledButton.shapeSmall,
     shapeNormal: RoundedCornerShape = CoreTheme.shapes.dangerFilledButton.shapeNormal,
     onClick: () -> Unit = {}

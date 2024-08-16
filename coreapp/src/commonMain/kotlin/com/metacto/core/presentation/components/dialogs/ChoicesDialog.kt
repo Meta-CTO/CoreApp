@@ -19,7 +19,7 @@ fun ChoicesDialog(
     choices: List<String>,
     onChoiceSelected: (String, Int) -> Unit,
     onDismiss: (() -> Unit)? = null,
-    verticalSpacing: Dp = CoreTheme.spacings.choicesDialogVerticalSpacing
+    verticalSpacing: Dp = CoreTheme.spacings.choicesDialog.verticalSpacing
 ) {
     // Render app dialog
     AppDialog(

@@ -27,17 +27,17 @@ fun SecondaryStrokedButton(
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.secondaryStrokedBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.secondaryStrokedBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.secondaryStrokedButton.paddingVertical,
+        horizontal = CoreTheme.spacings.secondaryStrokedButton.paddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.secondaryStrokedButton.textColor,
     backgroundColor: Color = CoreTheme.colors.secondaryStrokedButton.bgColor,
-    minHeightSmall: Dp = CoreTheme.spacings.secondaryStrokedBtnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.secondaryStrokedBtnMinHeightNormal,
+    minHeightSmall: Dp = CoreTheme.spacings.secondaryStrokedButton.minHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.secondaryStrokedButton.minHeightNormal,
     shapeSmall: RoundedCornerShape = CoreTheme.shapes.secondaryStrokedButton.shapeSmall,
     shapeNormal: RoundedCornerShape = CoreTheme.shapes.secondaryStrokedButton.shapeNormal,
     border: BorderStroke = BorderStroke(
-        width = CoreTheme.spacings.secondaryStrokedBtnStrokeWidth,
+        width = CoreTheme.spacings.secondaryStrokedButton.strokeWidth,
         color = CoreTheme.colors.secondaryStrokedButton.strokeColor
     ),
     onClick: () -> Unit = {}

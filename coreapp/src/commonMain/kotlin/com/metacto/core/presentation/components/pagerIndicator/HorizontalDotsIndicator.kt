@@ -32,7 +32,7 @@ fun HorizontalDotsIndicator(
     inactiveColor: Color = CoreTheme.colors.onPrimary.copy(alpha = 0.5f),
     activeSize: Dp = CoreTheme.spacings.dotIndicatorActiveSize,
     inActiveSize: Dp = CoreTheme.spacings.dotIndicatorInActiveSize,
-    spacing: Dp = CoreTheme.spacings.horizontalDotsIndicatorSpacing
+    spacing: Dp = CoreTheme.spacings.horizontalDotsIndicator.spacing
 ) {
     // Get coroutine scope
     val coroutineScope = rememberCoroutineScope()

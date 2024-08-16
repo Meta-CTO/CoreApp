@@ -26,13 +26,13 @@ fun SecondaryFilledButton(
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.secondaryFilledBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.secondaryFilledBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.secondaryFilledButton.paddingVertical,
+        horizontal = CoreTheme.spacings.secondaryFilledButton.paddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.secondaryFilledButton.textColor,
     backgroundColor: Color = CoreTheme.colors.secondaryFilledButton.bgColor,
-    minHeightSmall: Dp = CoreTheme.spacings.secondaryFilledBtnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.secondaryFilledBtnMinHeightNormal,
+    minHeightSmall: Dp = CoreTheme.spacings.secondaryFilledButton.minHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.secondaryFilledButton.minHeightNormal,
     shapeSmall: RoundedCornerShape = CoreTheme.shapes.secondaryFilledButton.shapeSmall,
     shapeNormal: RoundedCornerShape = CoreTheme.shapes.secondaryFilledButton.shapeNormal,
     onClick: () -> Unit = {}

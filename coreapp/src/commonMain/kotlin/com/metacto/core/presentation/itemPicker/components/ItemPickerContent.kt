@@ -38,14 +38,14 @@ import dev.icerock.moko.resources.compose.stringResource
 @Composable
 fun ItemPickerContent(
     state: State,
-    textSearchInputFieldPadding: PaddingValues = PaddingValues(CoreTheme.spacings.itemPickerSearchFieldPadding),
+    textSearchInputFieldPadding: PaddingValues = PaddingValues(CoreTheme.spacings.itemPicker.searchFieldPadding),
     wheelTextStyle: TextStyle = CoreTheme.typography.itemPicker.textStyle,
     wheelTextColor: Color = CoreTheme.colors.itemPicker.textColor,
     selectorShape: Shape = CoreTheme.shapes.itemPicker.selectorShape,
     selectorColor: Color = CoreTheme.colors.itemPicker.selectorColor,
-    selectorBorderWidth: Dp = CoreTheme.spacings.itemPickerSelectorBorderWidth,
+    selectorBorderWidth: Dp = CoreTheme.spacings.itemPicker.selectorBorderWidth,
     selectorBorderColor: Color = CoreTheme.colors.itemPicker.selectorBorderColor,
-    wheelHeight: Dp = CoreTheme.spacings.itemPickerWheelHeight,
+    wheelHeight: Dp = CoreTheme.spacings.itemPicker.wheelHeight,
     onEvent: (Event) -> Unit
 ) {
     var currentSelectedIndex = remember { state.initialItemIndex }

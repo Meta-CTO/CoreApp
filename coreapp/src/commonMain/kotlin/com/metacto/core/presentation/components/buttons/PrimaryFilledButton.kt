@@ -28,11 +28,11 @@ fun PrimaryFilledButton(
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.primaryFilledBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.primaryFilledBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.primaryFilledButton.paddingVertical,
+        horizontal = CoreTheme.spacings.primaryFilledButton.paddingHorizontal
     ),
-    minHeightSmall: Dp = CoreTheme.spacings.primaryFilledBtnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.primaryFilledBtnMinHeightNormal,
+    minHeightSmall: Dp = CoreTheme.spacings.primaryFilledButton.minHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.primaryFilledButton.minHeightNormal,
     shapeSmall: RoundedCornerShape = CoreTheme.shapes.primaryFilledButton.shapeSmall,
     shapeNormal: RoundedCornerShape = CoreTheme.shapes.primaryFilledButton.shapeNormal,
     onClick: () -> Unit = {}

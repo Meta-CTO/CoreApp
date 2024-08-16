@@ -28,10 +28,10 @@ fun OverrideUserDialog(
     onOverrideClick: ((Int?) -> Unit)? = null,
     onResetClick: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
-    msgSpacing: Dp = CoreTheme.spacings.overrideUserDialogMsgSpacing,
-    overrideBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialogOverrideBtnPadding),
-    resetBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialogResetBtnPadding),
-    idTextPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialogIdTextPadding),
+    msgSpacing: Dp = CoreTheme.spacings.overrideUserDialog.msgSpacing,
+    overrideBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialog.overrideBtnPadding),
+    resetBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialog.resetBtnPadding),
+    idTextPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialog.idTextPadding),
     bodyTextColor: Color = CoreTheme.colors.overrideUserDialog.bodyTextColor,
     bodyTextStyle: TextStyle = CoreTheme.typography.overrideUserDialog.bodyTextStyle
 

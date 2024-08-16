@@ -33,11 +33,11 @@ fun BottomSheetToolbar(
     startIconColor: Color = CoreTheme.colors.bottomSheetToolbar.startIconColor,
     endIconColor: Color = CoreTheme.colors.bottomSheetToolbar.endIconColor,
     titleColor: Color = CoreTheme.colors.bottomSheetToolbar.titleColor,
-    iconSize: Dp = CoreTheme.spacings.bottomSheetToolbarIconSize,
-    boxPadding: Dp = CoreTheme.spacings.bottomSheetToolbarBoxPadding,
-    startIconPadding: Dp = CoreTheme.spacings.bottomSheetToolbarStartIconPadding,
-    endIconPadding: Dp = CoreTheme.spacings.bottomSheetToolbarEndIconPadding,
-    textPadding: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.bottomSheetToolbarTitlePadding),
+    iconSize: Dp = CoreTheme.spacings.bottomSheetToolbar.iconSize,
+    boxPadding: Dp = CoreTheme.spacings.bottomSheetToolbar.boxPadding,
+    startIconPadding: Dp = CoreTheme.spacings.bottomSheetToolbar.startIconPadding,
+    endIconPadding: Dp = CoreTheme.spacings.bottomSheetToolbar.endIconPadding,
+    textPadding: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.bottomSheetToolbar.titlePadding),
     showDivider: Boolean = true
 ) {
 

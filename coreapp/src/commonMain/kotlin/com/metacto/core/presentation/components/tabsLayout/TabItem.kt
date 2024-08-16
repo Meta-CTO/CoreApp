@@ -40,10 +40,13 @@ fun TabItem(
     showIndicator: Boolean = false,
     activeIcon: ImageUIModel? = null,
     inActiveIcon: ImageUIModel? = null,
-    iconSize: Dp = CoreTheme.spacings.tabIconSize,
+    iconSize: Dp = CoreTheme.spacings.tabItem.iconSize,
     isSelected: Boolean,
+    activeIndicatorThickness: Dp = CoreTheme.spacings.tabItem.activeIndicatorThickness,
+    inActiveIndicatorThickness: Dp = CoreTheme.spacings.tabItem.inactiveIndicatorThickness,
+    itemMinWidth: Dp = CoreTheme.spacings.tabItem.itemMinWidth,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
-        space = CoreTheme.spacings.tabTextPadding,
+        space = CoreTheme.spacings.tabItem.textPadding,
         alignment = Alignment.CenterHorizontally
     ),
     onClick: () -> Unit
@@ -76,9 +79,9 @@ fun TabItem(
 
     // Tab indicator thickness
     val tabIndicatorThickness = if (isSelected) {
-        CoreTheme.spacings.tabActiveIndicatorThickness
+        activeIndicatorThickness
     } else {
-        CoreTheme.spacings.tabInactiveIndicatorThickness
+        inActiveIndicatorThickness
     }
 
     // Tab item
@@ -120,7 +123,7 @@ fun TabItem(
                 color = indicatorColor,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .defaultMinSize(minWidth = CoreTheme.spacings.tabItemMinWidth)
+                    .defaultMinSize(minWidth = itemMinWidth)
                     .height(tabIndicatorThickness)
             )
         }

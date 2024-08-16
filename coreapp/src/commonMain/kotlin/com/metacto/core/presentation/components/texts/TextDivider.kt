@@ -18,8 +18,8 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun TextDivider(
     modifier: Modifier = Modifier,
     color: Color = CoreTheme.colors.textDivider.dividerColor,
-    horizontalPadding: Dp = CoreTheme.spacings.textDividerHorizontalPadding,
-    strokeWidth: Dp = CoreTheme.spacings.textDividerStrokeWidth,
+    horizontalPadding: Dp = CoreTheme.spacings.textDivider.paddingHorizontal,
+    strokeWidth: Dp = CoreTheme.spacings.textDivider.strokeWidth,
     textStyle: TextStyle = CoreTheme.typography.textDivider.textStyle,
     text: String
 ) {

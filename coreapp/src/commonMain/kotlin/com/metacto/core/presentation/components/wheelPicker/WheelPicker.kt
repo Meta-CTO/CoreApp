@@ -38,8 +38,8 @@ internal fun WheelPicker(
     count: Int,
     rowCount: Int,
     size: DpSize = DpSize(
-        CoreTheme.spacings.wheelPickerWidth,
-        CoreTheme.spacings.wheelPickerHeight
+        CoreTheme.spacings.wheelPicker.pickerWidth,
+        CoreTheme.spacings.wheelPicker.pickerHeight
     ),
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onScrollFinished: (snappedIndex: Int) -> Int? = { null },
@@ -201,7 +201,7 @@ object WheelPickerDefaults {
         shape: Shape = CoreTheme.shapes.selectorProperties.shape,
         color: Color = CoreTheme.colors.selectorProperties.color,
         border: BorderStroke? = BorderStroke(
-            width = CoreTheme.spacings.selectorPropertiesBorderWidth,
+            width = CoreTheme.spacings.selectorProperties.borderWidth,
             color = CoreTheme.colors.selectorProperties.strokeColor
         ),
     ): SelectorProperties = DefaultSelectorProperties(

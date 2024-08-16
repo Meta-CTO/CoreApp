@@ -31,11 +31,11 @@ fun AppSnackBar(
     text: String,
     icon: ImageVector,
     paddingValues: PaddingValues = PaddingValues(
-        horizontal = CoreTheme.spacings.appSnackBarPaddingHorizontal,
-        vertical = CoreTheme.spacings.appSnackBarPaddingVertical
+        horizontal = CoreTheme.spacings.appSnackBar.paddingHorizontal,
+        vertical = CoreTheme.spacings.appSnackBar.paddingVertical
     ),
-    iconSize: Dp = CoreTheme.spacings.appSnackBarIconSize,
-    horizontalSpacing: Dp = CoreTheme.spacings.appSnackBarHorizontalSpacing,
+    iconSize: Dp = CoreTheme.spacings.appSnackBar.iconSize,
+    horizontalSpacing: Dp = CoreTheme.spacings.appSnackBar.horizontalSpacing,
     addStatusBarPadding: Boolean = false,
     textStyle: TextStyle = CoreTheme.typography.appSnackBar.textStyle,
     onClick: (() -> Unit)? = null

@@ -31,9 +31,9 @@ fun SuccessDialog(
     buttonText: String? = null,
     onPositiveClick: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
-    iconSize: Dp = CoreTheme.spacings.successDialog,
-    bodyPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.successDialogBodyPaddingTop),
-    buttonPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.successDialogBtnPaddingTop),
+    iconSize: Dp = CoreTheme.spacings.successDialog.iconSize,
+    bodyPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.successDialog.bodyPaddingTop),
+    buttonPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.successDialog.btnPaddingTop),
     bodyTextStyle: TextStyle = CoreTheme.typography.successDialog.bodyTextStyle
 ) {
     // Render app dialog

@@ -14,32 +14,35 @@ import kotlinx.datetime.LocalTime
 
 @Composable
 fun WheelTimePicker(
-  modifier: Modifier = Modifier,
-  startTime: LocalTime = LocalTime.now(),
-  minTime: LocalTime = LocalTime.MIN,
-  maxTime: LocalTime = LocalTime.MAX,
-  timeFormat: TimeFormat = TimeFormat.HOUR_24,
-  size: DpSize = DpSize(CoreTheme.spacings.wheelTimePickerWidth, CoreTheme.spacings.wheelTimePickerHeight),
-  rowCount: Int = 3, // Number of rows to show
-  textStyle: TextStyle = MaterialTheme.typography.titleMedium,
-  textColor: Color = LocalContentColor.current,
-  selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
-  onSnappedTime: (snappedTime: LocalTime) -> Unit = {},
+    modifier: Modifier = Modifier,
+    startTime: LocalTime = LocalTime.now(),
+    minTime: LocalTime = LocalTime.MIN,
+    maxTime: LocalTime = LocalTime.MAX,
+    timeFormat: TimeFormat = TimeFormat.HOUR_24,
+    size: DpSize = DpSize(
+        width = CoreTheme.spacings.wheelTimePicker.pickerWidth,
+        height = CoreTheme.spacings.wheelTimePicker.pickerHeight
+    ),
+    rowCount: Int = 3, // Number of rows to show
+    textStyle: TextStyle = MaterialTheme.typography.titleMedium,
+    textColor: Color = LocalContentColor.current,
+    selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
+    onSnappedTime: (snappedTime: LocalTime) -> Unit = {},
 ) {
-  DefaultWheelTimePicker(
-    modifier,
-    startTime,
-    minTime,
-    maxTime,
-    timeFormat,
-    size,
-    rowCount,
-    textStyle,
-    textColor,
-    selectorProperties,
-    onSnappedTime = { snappedTime, _ ->
-      onSnappedTime(snappedTime.snappedLocalTime)
-      null
-    }
-  )
+    DefaultWheelTimePicker(
+        modifier,
+        startTime,
+        minTime,
+        maxTime,
+        timeFormat,
+        size,
+        rowCount,
+        textStyle,
+        textColor,
+        selectorProperties,
+        onSnappedTime = { snappedTime, _ ->
+            onSnappedTime(snappedTime.snappedLocalTime)
+            null
+        }
+    )
 }
