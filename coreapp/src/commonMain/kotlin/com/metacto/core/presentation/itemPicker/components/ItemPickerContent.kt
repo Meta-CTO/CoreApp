@@ -39,7 +39,7 @@ import dev.icerock.moko.resources.compose.stringResource
 fun ItemPickerContent(
     state: State,
     textSearchInputFieldPadding: PaddingValues = PaddingValues(CoreTheme.spacings.itemPickerSearchFieldPadding),
-    wheelTextStyle: TextStyle = CoreTheme.typography.itemPickerWheelTextStyle,
+    wheelTextStyle: TextStyle = CoreTheme.typography.itemPicker.textStyle,
     wheelTextColor: Color = CoreTheme.colors.itemPicker.textColor,
     selectorShape: Shape = CoreTheme.shapes.itemPickerShape,
     selectorColor: Color = CoreTheme.colors.itemPicker.selectorColor,

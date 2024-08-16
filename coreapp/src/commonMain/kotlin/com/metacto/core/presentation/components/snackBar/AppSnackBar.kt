@@ -37,7 +37,7 @@ fun AppSnackBar(
     iconSize: Dp = CoreTheme.spacings.appSnackBarIconSize,
     horizontalSpacing: Dp = CoreTheme.spacings.appSnackBarHorizontalSpacing,
     addStatusBarPadding: Boolean = false,
-    textStyle: TextStyle = CoreTheme.typography.appSnackBarTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.appSnackBar.textStyle,
     onClick: (() -> Unit)? = null
 ) {
     // Prepare status bar padding

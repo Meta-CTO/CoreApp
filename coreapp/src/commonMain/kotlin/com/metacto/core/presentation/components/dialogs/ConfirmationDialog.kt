@@ -31,7 +31,7 @@ fun ConfirmationDialog(
     onPositiveClick: (() -> Unit)? = null,
     onNegativeClick: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
-    bodyTextStyle: TextStyle = CoreTheme.typography.confirmationDialogBodyTextStyle,
+    bodyTextStyle: TextStyle = CoreTheme.typography.confirmationDialog.textStyle,
     bodyTextColor: Color = CoreTheme.colors.confirmationDialog.bodyTextColor,
     noTitlePadding: Dp = CoreTheme.spacings.confirmationDialogNoTitlePadding,
     titlePadding: Dp = CoreTheme.spacings.confirmationDialogTitlePadding,

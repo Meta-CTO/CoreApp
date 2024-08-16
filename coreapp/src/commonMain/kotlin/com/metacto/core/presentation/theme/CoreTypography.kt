@@ -82,132 +82,444 @@ data class CoreTypography(
     ),
 
     // PrimaryFilledButton
-    val primaryFilledBtnTextStyle: TextStyle = btnLabelMedium,
+    val primaryFilledButton: PrimaryFilledButtonTypography = PrimaryFilledButtonTypography(
+        btnLabelMedium = btnLabelMedium
+    ),
 
     // PrimaryCheckableButton
-    val primaryCheckableBtnTextStyle: TextStyle = btnLabelMedium,
+    val primaryCheckableButton: PrimaryCheckableButtonTypography = PrimaryCheckableButtonTypography(
+        btnLabelMedium = btnLabelMedium
+    ),
 
     // OnSecondaryTransparentFilledButton
-    val onSecondaryTransparentFilledBtnTextStyle: TextStyle = btnLabelSmall,
+    val onSecondaryTransparentFilledButton: OnSecondaryTransparentFilledButtonTypography = OnSecondaryTransparentFilledButtonTypography(
+        btnLabelSmall = btnLabelSmall
+    ),
 
     // FloatingButton
-    val floatingBtnTextStyle: TextStyle = btnLabelMedium,
+    val floatingButton: FloatingButtonTypography = FloatingButtonTypography(
+        btnLabelMedium = btnLabelMedium,
+    ),
 
     // DangerFilledButton
-    val dangerFilledBtnTextStyle: TextStyle = btnLabelMedium,
+    val dangerFilledButton: DangerFilledButtonTypography = DangerFilledButtonTypography(
+        btnLabelMedium = btnLabelMedium
+    ),
 
     // PrimaryStrokedButton
-    val primaryStrokedBtnTextStyle: TextStyle = btnLabelMedium,
+    val primaryStrokedButton: PrimaryStrokedButtonTypography = PrimaryStrokedButtonTypography(
+        btnLabelMedium = btnLabelMedium
+    ),
 
     // PrimaryTextButton
-    val primaryTextBtnTextStyle: TextStyle = btnLabelSmall,
+    val primaryTextButton: PrimaryTextButtonTypography = PrimaryTextButtonTypography(
+        btnLabelSmall = btnLabelSmall
+    ),
 
     // SecondaryFilledButton
-    val secondaryFilledBtnTextStyle: TextStyle = btnLabelMedium,
+    val secondaryFilledButton: SecondaryFilledButtonTypography = SecondaryFilledButtonTypography(
+        btnLabelMedium = btnLabelMedium
+    ),
 
     // SecondaryStrokedBtn
-    val secondaryStrokedBtnTextStyle: TextStyle = btnLabelMedium,
+    val secondaryStrokedBtn: SecondaryStrokedBtnTypography = SecondaryStrokedBtnTypography(
+        btnLabelMedium = btnLabelMedium
+    ),
 
     // SecondaryTextButton
-    val secondaryTextBtnTextStyle: TextStyle = btnLabelSmall,
+    val secondaryTextButton: SecondaryTextButtonTypography = SecondaryTextButtonTypography(
+        btnLabelSmall = btnLabelSmall
+    ),
 
     // SocialButton
-    val socialBtnTextStyle: TextStyle = btnLabelMedium,
+    val socialButton: SocialButtonTypography = SocialButtonTypography(
+        btnLabelMedium = btnLabelMedium
+    ),
 
     // TertiaryFilledButton
-    val tertiaryFilledBtnTextStyle: TextStyle = btnLabelMedium,
+    val tertiaryFilledButton: TertiaryFilledButtonTypography = TertiaryFilledButtonTypography(
+        btnLabelMedium = btnLabelMedium
+    ),
 
     // TertiaryStrokedButton
-    val tertiaryStrokedBtnTextStyle: TextStyle = btnLabelMedium,
+    val tertiaryStrokedButton: TertiaryStrokedButtonTypography = TertiaryStrokedButtonTypography(
+        btnLabelMedium = btnLabelMedium
+    ),
 
     // TertiaryTextButton
-    val tertiaryTextBtnTextStyle: TextStyle = btnLabelSmall,
+    val tertiaryTextButton: TertiaryTextButtonTypography = TertiaryTextButtonTypography(
+        btnLabelSmall = btnLabelSmall
+    ),
 
     // TransparentStrokedButton
-    val transparentStrokedBtn: TextStyle = btnLabelMedium,
+    val transparentStrokedButton: TransparentStrokedButtonTypography = TransparentStrokedButtonTypography(
+        btnLabelMedium = btnLabelMedium
+    ),
 
     // ConfirmationDialog
-    val confirmationDialogBodyTextStyle: TextStyle = bodyLarge,
+    val confirmationDialog: ConfirmationDialogTypography = ConfirmationDialogTypography(
+        bodyLarge = bodyLarge
+    ),
 
     // DialogToolbar
-    val dialogToolbarTextStyle: TextStyle = bodyMedium,
+    val dialogToolbar: DialogToolbarTypography = DialogToolbarTypography(
+        bodyMedium = bodyMedium
+    ),
 
     // MessageDialog
-    val messageDialogBodyTextStyle: TextStyle = bodyLarge,
+    val messageDialog: MessageDialogTypography = MessageDialogTypography(
+        bodyLarge = bodyLarge
+    ),
 
     // OverrideUserDialog
-    val overrideUserDialogBodyTextStyle: TextStyle = bodyLarge,
+    val overrideUserDialog: OverrideUserDialogTypography = OverrideUserDialogTypography(
+        bodyLarge = bodyLarge
+    ),
 
     // SuccessDialog
-    val successDialogBodyTextStyle: TextStyle = bodyLarge,
+    val successDialog: SuccessDialogTypography = SuccessDialogTypography(
+        bodyLarge = bodyLarge
+    ),
 
     // InlineInputField
-    val inlineInputFieldTextStyle: TextStyle = bodyMedium,
+    val inlineInputField: InlineInputFieldTypography = InlineInputFieldTypography(
+        bodyMedium = bodyMedium
+    ),
 
     // LinedOtpInputField
-    val linedOtpInputFieldTextStyle: TextStyle = headline,
+    val linedOtpInputField: LinedOtpInputFieldTypography = LinedOtpInputFieldTypography(
+        headline = headline
+    ),
 
     // OutlinedOtpInputField
-    val outlinedOtpInputFieldTextStyle: TextStyle = labelSmall,
+    val outlinedOtpInputField: OutlinedOtpInputFieldTypography = OutlinedOtpInputFieldTypography(
+        labelSmall = labelSmall
+    ),
 
     // PickerInputField
-    val pickerInputFieldTextStyle: TextStyle = bodyMedium,
-    val pickerInputFieldLabelTextStyle: TextStyle = labelMedium,
-    val pickerInputFieldErrorTextStyle: TextStyle = labelMedium,
-    val pickerInputFieldPlaceholderTextStyle: TextStyle = labelMedium,
+    val pickerInputField: PickerInputFieldTypography = PickerInputFieldTypography(
+        bodyMedium = bodyMedium,
+        labelMedium = labelMedium
+    ),
 
     // PriceTextInputField
-    val priceFieldTextStyle: TextStyle = bodyMedium,
-    val priceFieldLabelTextStyle: TextStyle = labelMedium,
-    val priceFieldErrorTextStyle: TextStyle = labelMedium,
-    val priceFieldPlaceholderTextStyle: TextStyle = labelMedium,
+    val priceTextInputField: PriceTextInputFieldTypography = PriceTextInputFieldTypography(
+        bodyMedium = bodyMedium,
+        labelMedium = labelMedium
+    ),
 
     // PrimaryTextInputField
-    val primaryInputFieldTextStyle: TextStyle = inputFieldText,
-    val primaryInputFieldLabelTextStyle: TextStyle = labelMedium,
-    val primaryInputFieldErrorTextStyle: TextStyle = labelMedium,
-    val primaryInputFieldPlaceholderTextStyle: TextStyle = labelMedium,
+    val primaryTextInputField: PrimaryTextInputFieldTypography = PrimaryTextInputFieldTypography(
+        inputFieldText = inputFieldText,
+        labelMedium = labelMedium
+    ),
 
     // TertiaryTextInputField
-    val tertiaryInputFieldTextStyle: TextStyle = bodyMedium,
-    val tertiaryInputFieldLabelTextStyle: TextStyle = labelMedium,
-    val tertiaryInputFieldErrorTextStyle: TextStyle = labelMedium,
-    val tertiaryInputFieldPlaceholderTextStyle: TextStyle = labelMedium,
+    val tertiaryTextInputField: TertiaryTextInputFieldTypography = TertiaryTextInputFieldTypography(
+        bodyMedium = bodyMedium,
+        labelMedium = labelMedium
+    ),
 
     // NumberItem
-    val numberItemTextStyle: TextStyle = numberSelector,
+    val numberItem: NumberItemTypography = NumberItemTypography(
+        numberSelector = numberSelector
+    ),
 
     // OptionItem
-    val optionItemTextStyle: TextStyle = bodyLarge,
+    val optionItem: OptionItemTypography = OptionItemTypography(
+        bodyLarge = bodyLarge
+    ),
 
     // HorizontalPagerTabItem
-    val horizontalPagerTabItemTextStyle: TextStyle = bodySmall,
+    val horizontalPagerTabItem: HorizontalPagerTabItemTypography = HorizontalPagerTabItemTypography(
+        bodySmall = bodySmall
+    ),
 
     // AppSnackBar
-    val appSnackBarTextStyle: TextStyle = snackBarMsg,
+    val appSnackBar: AppSnackBarTypography = AppSnackBarTypography(
+        snackBarMsg = snackBarMsg
+    ),
 
     // IconText
-    val iconTextTextStyle: TextStyle = bodySmall,
+    val iconText: IconTextTypography = IconTextTypography(
+        bodySmall = bodySmall
+    ),
 
     // SingleLineText
-    val singleLineTextStyle: TextStyle = bodyMedium,
+    val singleLineText: SingleLineTextTypography = SingleLineTextTypography(
+        bodyMedium = bodyMedium
+    ),
 
     // TextDivider
-    val textDividerTextStyle: TextStyle = labelLarge,
+    val textDivider: TextDividerTypography = TextDividerTypography(
+        labelLarge = labelLarge
+    ),
 
     // WheelTextPicker
-    val wheelTextPickerTextStyle: TextStyle = pickerItem,
+    val wheelTextPicker: WheelTextPickerTypography = WheelTextPickerTypography(
+        pickerItem = pickerItem
+    ),
 
     // ItemPicker
-    val itemPickerWheelTextStyle: TextStyle = pickerItem,
+    val itemPicker: ItemPickerTypography = ItemPickerTypography(
+        pickerItem = pickerItem
+    ),
 
     // Toolbar
-    val toolbarTitleStyle: TextStyle = titleBold,
+    val toolbar: ToolbarTypography = ToolbarTypography(
+        titleBold = titleBold
+    ),
 
     // TabItem
-    val tabText: TextStyle = primaryBold.copy(
-        fontSize = 14.sp
-    ),
+    val tabItem: TabItemTypography = TabItemTypography(
+        primaryBold = primaryBold.copy(
+            fontSize = 14.sp
+        )
+    )
+)
+
+// PrimaryFilledButton
+data class PrimaryFilledButtonTypography(
+    private val btnLabelMedium: TextStyle,
+    val textStyle: TextStyle = btnLabelMedium
+)
+
+// PrimaryCheckableButton
+data class PrimaryCheckableButtonTypography(
+    private val btnLabelMedium: TextStyle,
+    val textStyle: TextStyle = btnLabelMedium
+)
+
+// OnSecondaryTransparentFilledButton
+data class OnSecondaryTransparentFilledButtonTypography(
+    private val btnLabelSmall: TextStyle,
+    val textStyle: TextStyle = btnLabelSmall
+)
+
+// FloatingButton
+data class FloatingButtonTypography(
+    private val btnLabelMedium: TextStyle,
+    val textStyle: TextStyle = btnLabelMedium
+)
+
+// DangerFilledButton
+data class DangerFilledButtonTypography(
+    private val btnLabelMedium: TextStyle,
+    val textStyle: TextStyle = btnLabelMedium
+)
+
+// PrimaryStrokedButton
+data class PrimaryStrokedButtonTypography(
+    private val btnLabelMedium: TextStyle,
+    val textStyle: TextStyle = btnLabelMedium
+)
+
+// PrimaryTextButton
+data class PrimaryTextButtonTypography(
+    private val btnLabelSmall: TextStyle,
+    val textStyle: TextStyle = btnLabelSmall
+)
+
+// SecondaryFilledButton
+data class SecondaryFilledButtonTypography(
+    private val btnLabelMedium: TextStyle,
+    val textStyle: TextStyle = btnLabelMedium
+)
+
+// SecondaryStrokedBtn
+data class SecondaryStrokedBtnTypography(
+    private val btnLabelMedium: TextStyle,
+    val textStyle: TextStyle = btnLabelMedium
+)
+
+// SecondaryTextButton
+data class SecondaryTextButtonTypography(
+    private val btnLabelSmall: TextStyle,
+    val textStyle: TextStyle = btnLabelSmall
+)
+
+// SocialButton
+data class SocialButtonTypography(
+    private val btnLabelMedium: TextStyle,
+    val textStyle: TextStyle = btnLabelMedium
+)
+
+// TertiaryFilledButton
+data class TertiaryFilledButtonTypography(
+    private val btnLabelMedium: TextStyle,
+    val textStyle: TextStyle = btnLabelMedium
+)
+
+// TertiaryStrokedButton
+data class TertiaryStrokedButtonTypography(
+    private val btnLabelMedium: TextStyle,
+    val textStyle: TextStyle = btnLabelMedium
+)
+
+// TertiaryTextButton
+data class TertiaryTextButtonTypography(
+    private val btnLabelSmall: TextStyle,
+    val textStyle: TextStyle = btnLabelSmall
+)
+
+// TransparentStrokedButton
+data class TransparentStrokedButtonTypography(
+    private val btnLabelMedium: TextStyle,
+    val textStyle: TextStyle = btnLabelMedium
+)
+
+// ConfirmationDialog
+data class ConfirmationDialogTypography(
+    private val bodyLarge: TextStyle,
+    val textStyle: TextStyle = bodyLarge
+)
+
+// DialogToolbar
+data class DialogToolbarTypography(
+    private val bodyMedium: TextStyle,
+    val textStyle: TextStyle = bodyMedium
+)
+
+// MessageDialog
+data class MessageDialogTypography(
+    private val bodyLarge: TextStyle,
+    val textStyle: TextStyle = bodyLarge
+)
+
+// OverrideUserDialog
+data class OverrideUserDialogTypography(
+    private val bodyLarge: TextStyle,
+    val bodyTextStyle: TextStyle = bodyLarge
+)
+
+// SuccessDialog
+data class SuccessDialogTypography(
+    private val bodyLarge: TextStyle,
+    val bodyTextStyle: TextStyle = bodyLarge
+)
+
+// InlineInputField
+data class InlineInputFieldTypography(
+    private val bodyMedium: TextStyle,
+    val textStyle: TextStyle = bodyMedium
+)
+
+// LinedOtpInputField
+data class LinedOtpInputFieldTypography(
+    private val headline: TextStyle,
+    val textStyle: TextStyle = headline
+)
+
+// OutlinedOtpInputField
+data class OutlinedOtpInputFieldTypography(
+    private val labelSmall: TextStyle,
+    val textStyle: TextStyle = labelSmall
+)
+
+// PickerInputField
+data class PickerInputFieldTypography(
+    private val bodyMedium: TextStyle,
+    private val labelMedium: TextStyle,
+    val textStyle: TextStyle = bodyMedium,
+    val labelTextStyle: TextStyle = labelMedium,
+    val errorTextStyle: TextStyle = labelMedium,
+    val placeholderTextStyle: TextStyle = labelMedium
+)
+
+// PriceTextInputField
+data class PriceTextInputFieldTypography(
+    private val bodyMedium: TextStyle,
+    private val labelMedium: TextStyle,
+    val textStyle: TextStyle = bodyMedium,
+    val labelTextStyle: TextStyle = labelMedium,
+    val errorTextStyle: TextStyle = labelMedium,
+    val placeholderTextStyle: TextStyle = labelMedium
+)
+
+// PrimaryTextInputField
+data class PrimaryTextInputFieldTypography(
+    private val inputFieldText: TextStyle,
+    private val labelMedium: TextStyle,
+    val textStyle: TextStyle = inputFieldText,
+    val labelTextStyle: TextStyle = labelMedium,
+    val errorTextStyle: TextStyle = labelMedium,
+    val placeholderTextStyle: TextStyle = labelMedium
+)
+
+// TertiaryTextInputField
+data class TertiaryTextInputFieldTypography(
+    private val bodyMedium: TextStyle,
+    private val labelMedium: TextStyle,
+    val textStyle: TextStyle = bodyMedium,
+    val labelTextStyle: TextStyle = labelMedium,
+    val errorTextStyle: TextStyle = labelMedium,
+    val placeholderTextStyle: TextStyle = labelMedium
+)
+
+// NumberItem
+data class NumberItemTypography(
+    private val numberSelector: TextStyle,
+    val textStyle: TextStyle = numberSelector
+)
+
+// OptionItem
+data class OptionItemTypography(
+    private val bodyLarge: TextStyle,
+    val textStyle: TextStyle = bodyLarge
+)
+
+// HorizontalPagerTabItem
+data class HorizontalPagerTabItemTypography(
+    private val bodySmall: TextStyle,
+    val textStyle: TextStyle = bodySmall
+)
+
+// AppSnackBar
+data class AppSnackBarTypography(
+    private val snackBarMsg: TextStyle,
+    val textStyle: TextStyle = snackBarMsg
+)
+
+// IconText
+data class IconTextTypography(
+    private val bodySmall: TextStyle,
+    val textStyle: TextStyle = bodySmall
+)
+
+// SingleLineText
+data class SingleLineTextTypography(
+    val bodyMedium: TextStyle,
+    val textStyle: TextStyle = bodyMedium
+)
+
+// TextDivider
+data class TextDividerTypography(
+    private val labelLarge: TextStyle,
+    val textStyle: TextStyle = labelLarge
+)
+
+// WheelTextPicker
+data class WheelTextPickerTypography(
+    private val pickerItem: TextStyle,
+    val textStyle: TextStyle = pickerItem
+)
+
+// ItemPicker
+data class ItemPickerTypography(
+    private val pickerItem: TextStyle,
+    val textStyle: TextStyle = pickerItem
+)
+
+// Toolbar
+data class ToolbarTypography(
+    private val titleBold: TextStyle,
+    val titleStyle: TextStyle = titleBold
+)
+
+// TabItem
+data class TabItemTypography(
+    private val primaryBold: TextStyle,
+    val textStyle: TextStyle = primaryBold
 )
 
 val LocalCoreTypography = staticCompositionLocalOf { CoreTypography() }

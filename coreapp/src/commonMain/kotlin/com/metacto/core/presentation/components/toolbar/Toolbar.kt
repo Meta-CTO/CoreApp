@@ -37,7 +37,7 @@ fun Toolbar(
     startIconTintColor: Color = CoreTheme.colors.toolbar.startIconColor,
     endIconTintColor: Color = CoreTheme.colors.toolbar.endIconColor,
     titleColor: Color = CoreTheme.colors.toolbar.titleTextColor,
-    titleStyle: TextStyle = CoreTheme.typography.toolbarTitleStyle,
+    titleStyle: TextStyle = CoreTheme.typography.toolbar.titleStyle,
     height: Dp = CoreTheme.spacings.toolbarHeight,
     containerPadding: PaddingValues = PaddingValues(start = CoreTheme.spacings.toolbarContainerPaddingStart),
     startIconMinHeight: Dp = CoreTheme.spacings.toolbarStartIconMinHeight,

@@ -14,7 +14,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun FloatingButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.floatingBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.floatingButton.textStyle,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,

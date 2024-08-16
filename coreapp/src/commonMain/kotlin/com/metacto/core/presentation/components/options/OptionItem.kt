@@ -37,7 +37,7 @@ fun OptionItem(
     arrowSize: Dp = CoreTheme.spacings.optionItemPaddingArrowSize,
     defaultColor: Color = CoreTheme.colors.optionItem.defaultColor,
     optionColor: Color = CoreTheme.colors.optionsArrow,
-    textStyle: TextStyle = CoreTheme.typography.optionItemTextStyle
+    textStyle: TextStyle = CoreTheme.typography.optionItem.textStyle
 ) {
     // Prepare the color
     val color = option.color.toColor() ?: defaultColor

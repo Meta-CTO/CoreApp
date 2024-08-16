@@ -19,7 +19,7 @@ fun WheelTextPicker(
     ),
     texts: List<String>,
     rowCount: Int,
-    style: TextStyle = CoreTheme.typography.wheelTextPickerTextStyle,
+    style: TextStyle = CoreTheme.typography.wheelTextPicker.textStyle,
     color: Color = CoreTheme.colors.wheelTextPicker.textColor,
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onScrollFinished: (snappedIndex: Int) -> Int? = { null },

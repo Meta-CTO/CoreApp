@@ -29,7 +29,7 @@ internal fun NumberItem(
     unSelectedBackgroundColor: Color,
     size: Dp = CoreTheme.spacings.numberSelectorSize,
     shape:RoundedCornerShape = CoreTheme.shapes.numberItemShape,
-    textStyle :TextStyle = CoreTheme.typography.numberItemTextStyle,
+    textStyle :TextStyle = CoreTheme.typography.numberItem.textStyle,
     onClick: () -> Unit
 ) {
     // Prepare colors

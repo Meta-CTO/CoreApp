@@ -17,7 +17,7 @@ fun SecondaryTextButton(
     isEnabled: Boolean = true,
     color: Color = CoreTheme.colors.secondaryTextButton.textColor,
     disabledColor: Color = color.copy(alpha = 0.3f),
-    textStyle: TextStyle = CoreTheme.typography.secondaryTextBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.secondaryTextButton.textStyle,
     iconSize: Dp = CoreTheme.spacings.secondaryTextBtnIconSize,
     iconColor: Color? = CoreTheme.colors.secondaryTextButton.iconColor,
     spacing: Dp = CoreTheme.spacings.secondaryTextBtnSpacing,

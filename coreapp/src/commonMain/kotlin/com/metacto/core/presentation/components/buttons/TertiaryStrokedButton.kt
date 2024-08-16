@@ -16,7 +16,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun TertiaryStrokedButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.tertiaryStrokedBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.tertiaryStrokedButton.textStyle,
     iconColor: Color? = CoreTheme.colors.tertiaryStrokedButton.iconColor,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,

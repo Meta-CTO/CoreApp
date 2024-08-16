@@ -35,7 +35,7 @@ fun PrimaryTextInputField(
     maxLines: Int = Int.MAX_VALUE,
     minHeight: Dp = CoreTheme.spacings.primaryInputFieldMinHeight,
     error: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.inputFieldText,
+    textStyle: TextStyle = CoreTheme.typography.primaryTextInputField.textStyle,
     endIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
     endIconSize: Dp = CoreTheme.spacings.primaryInputFieldEndIconSize,
@@ -56,11 +56,11 @@ fun PrimaryTextInputField(
     focusedBorderColor: Color = CoreTheme.colors.primaryTextInputField.focusedBorderColor,
     unFocusedBorderColor: Color = CoreTheme.colors.primaryTextInputField.unFocusedBorderColor,
     textColor: Color = CoreTheme.colors.primaryTextInputField.textColor,
-    placeholderTextStyle: TextStyle = CoreTheme.typography.primaryInputFieldPlaceholderTextStyle,
+    placeholderTextStyle: TextStyle = CoreTheme.typography.primaryTextInputField.placeholderTextStyle,
     placeholderTextColor: Color = CoreTheme.colors.primaryTextInputField.placeholderColor,
-    labelTextStyle: TextStyle = CoreTheme.typography.primaryInputFieldLabelTextStyle,
+    labelTextStyle: TextStyle = CoreTheme.typography.primaryTextInputField.labelTextStyle,
     labelTextColor: Color = CoreTheme.colors.primaryTextInputField.labelColor,
-    errorTextStyle: TextStyle = CoreTheme.typography.primaryInputFieldErrorTextStyle,
+    errorTextStyle: TextStyle = CoreTheme.typography.primaryTextInputField.errorTextStyle,
     errorTextColor: Color = CoreTheme.colors.primaryTextInputField.errorColor,
 ) {
     BaseTextInputField(

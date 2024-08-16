@@ -15,7 +15,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun SecondaryFilledButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.secondaryFilledBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.secondaryFilledButton.textStyle,
     iconColor: Color? = CoreTheme.colors.secondaryFilledButton.iconColor,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,

@@ -15,7 +15,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun DangerFilledButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.dangerFilledBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.dangerFilledButton.textStyle,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,

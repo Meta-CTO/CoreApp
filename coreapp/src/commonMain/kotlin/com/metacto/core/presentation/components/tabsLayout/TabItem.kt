@@ -36,7 +36,7 @@ fun TabItem(
     inactiveTextColor: Color = CoreTheme.colors.tapItem.inactiveTextColor,
     activeIndicatorColor: Color = CoreTheme.colors.tapItem.activeIndicatorColor,
     inactiveIndicatorColor: Color = CoreTheme.colors.tapItem.inactiveIndicatorColor,
-    textStyle: TextStyle = CoreTheme.typography.tabText,
+    textStyle: TextStyle = CoreTheme.typography.tabItem.textStyle,
     showIndicator: Boolean = false,
     activeIcon: ImageUIModel? = null,
     inActiveIcon: ImageUIModel? = null,

@@ -16,7 +16,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun TransparentStrokedButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.transparentStrokedBtn,
+    textStyle: TextStyle = CoreTheme.typography.transparentStrokedButton.textStyle,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,

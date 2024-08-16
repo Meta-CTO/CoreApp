@@ -42,7 +42,7 @@ fun LinedOtpInputField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     textColor: Color = CoreTheme.colors.linedOtpInputField.textColor,
     borderColor: Color = CoreTheme.colors.linedOtpInputField.borderColor,
-    textStyle: TextStyle = CoreTheme.typography.linedOtpInputFieldTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.linedOtpInputField.textStyle,
     requestFocus: Boolean = false,
     requestFocusDelay: Long = DEF_REQUEST_FOCUS_DELAY,
     horizontalSpacing: Dp = CoreTheme.spacings.linedOtpInputFieldPinSpacing

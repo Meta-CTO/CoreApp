@@ -18,7 +18,7 @@ fun PrimaryFilledButton(
     textColor: Color = CoreTheme.colors.primaryFilledButton.textColor,
     iconColor: Color? = CoreTheme.colors.primaryFilledButton.iconColor,
     backgroundColor: Color = CoreTheme.colors.primaryFilledButton.bgColor,
-    textStyle: TextStyle = CoreTheme.typography.primaryFilledBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.primaryFilledButton.textStyle,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
