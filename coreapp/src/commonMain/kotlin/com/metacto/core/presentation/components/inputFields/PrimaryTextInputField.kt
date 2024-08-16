@@ -47,7 +47,7 @@ fun PrimaryTextInputField(
     iconTintColor: Color = CoreTheme.colors.primaryTextInputField.iconColor,
     placeholder: String? = null,
     placeholderMaxLines: Int = 1,
-    shape: RoundedCornerShape = CoreTheme.shapes.primaryInputFieldShape,
+    shape: RoundedCornerShape = CoreTheme.shapes.primaryTextInputField.shape,
     textAlign: TextAlign? = null,
     allowDigitsOnly: Boolean = false,
     isStaticLabel: Boolean = false,

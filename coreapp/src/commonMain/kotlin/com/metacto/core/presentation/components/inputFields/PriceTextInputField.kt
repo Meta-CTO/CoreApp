@@ -20,7 +20,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun PriceTextInputField(
     modifier: Modifier = Modifier,
     backgroundColor: Color = CoreTheme.colors.priceTextInputField.bgColor,
-    backgroundShape: RoundedCornerShape = CoreTheme.shapes.priceInputFieldBgShape,
+    backgroundShape: RoundedCornerShape = CoreTheme.shapes.priceTextInputField.shape,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     imeAction: ImeAction = ImeAction.Next,
     price: Int? = null,

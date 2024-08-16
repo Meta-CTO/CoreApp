@@ -33,8 +33,8 @@ fun PrimaryFilledButton(
     ),
     minHeightSmall: Dp = CoreTheme.spacings.primaryFilledBtnMinHeightSmall,
     minHeightNormal: Dp = CoreTheme.spacings.primaryFilledBtnMinHeightNormal,
-    shapeSmall: RoundedCornerShape = CoreTheme.shapes.primaryFilledBtnShapeSmall,
-    shapeNormal: RoundedCornerShape = CoreTheme.shapes.primaryFilledBtnShapeNormal,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.primaryFilledButton.shapeSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.primaryFilledButton.shapeNormal,
     onClick: () -> Unit = {}
 ) {
     BaseButton(

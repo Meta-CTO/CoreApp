@@ -198,7 +198,7 @@ object WheelPickerDefaults {
     @Composable
     fun selectorProperties(
         enabled: Boolean = true,
-        shape: Shape = CoreTheme.shapes.selectorPropertiesShape,
+        shape: Shape = CoreTheme.shapes.selectorProperties.shape,
         color: Color = CoreTheme.colors.selectorProperties.color,
         border: BorderStroke? = BorderStroke(
             width = CoreTheme.spacings.selectorPropertiesBorderWidth,

@@ -46,7 +46,7 @@ fun TertiaryTextInputField(
     iconTintColor: Color = CoreTheme.colors.tertiaryTextInputField.iconColor,
     placeholder: String? = null,
     placeholderMaxLines: Int = 1,
-    shape: RoundedCornerShape = CoreTheme.shapes.tertiaryInputFieldShape,
+    shape: RoundedCornerShape = CoreTheme.shapes.tertiaryTextInputField.shape,
     textAlign: TextAlign? = null,
     allowDigitsOnly: Boolean = false,
     isStaticLabel: Boolean = false,

@@ -25,7 +25,7 @@ fun PrimaryCheckableButton(
         horizontal = CoreTheme.spacings.btnCheckablePaddingHorizontal
     ),
     isChecked: Boolean = false,
-    shape: RoundedCornerShape = CoreTheme.shapes.primaryCheckableBtnShape,
+    shape: RoundedCornerShape = CoreTheme.shapes.primaryCheckableButton.shape,
     onClick: () -> Unit = {},
     checkedBackgroundColor: Color = CoreTheme.colors.primaryCheckableButton.checkedBgColor,
     uncheckedBackgroundColor: Color = CoreTheme.colors.primaryCheckableButton.uncheckedBgColor,

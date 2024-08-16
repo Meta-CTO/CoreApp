@@ -78,7 +78,7 @@ private fun Dot(
     modifier: Modifier = Modifier,
     color: Color,
     size: Dp,
-    shape: RoundedCornerShape = CoreTheme.shapes.dotShape,
+    shape: RoundedCornerShape = CoreTheme.shapes.dot.shape,
     onClick: () -> Unit = {}
 ) {
     Box(

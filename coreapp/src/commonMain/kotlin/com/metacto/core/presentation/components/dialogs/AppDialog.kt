@@ -24,7 +24,7 @@ fun AppDialog(
     onDismiss: (() -> Unit)? = null,
     contentPadding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContentPadding),
     containerPadding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContainerPadding),
-    shape: RoundedCornerShape = CoreTheme.shapes.appDialogShape,
+    shape: RoundedCornerShape = CoreTheme.shapes.appDialog.shape,
     containerBackground: Color = CoreTheme.colors.appDialog.containerBgColor,
     content: @Composable () -> Unit
 ) {

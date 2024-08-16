@@ -41,7 +41,7 @@ fun ItemPickerContent(
     textSearchInputFieldPadding: PaddingValues = PaddingValues(CoreTheme.spacings.itemPickerSearchFieldPadding),
     wheelTextStyle: TextStyle = CoreTheme.typography.itemPicker.textStyle,
     wheelTextColor: Color = CoreTheme.colors.itemPicker.textColor,
-    selectorShape: Shape = CoreTheme.shapes.itemPickerShape,
+    selectorShape: Shape = CoreTheme.shapes.itemPicker.selectorShape,
     selectorColor: Color = CoreTheme.colors.itemPicker.selectorColor,
     selectorBorderWidth: Dp = CoreTheme.spacings.itemPickerSelectorBorderWidth,
     selectorBorderColor: Color = CoreTheme.colors.itemPicker.selectorBorderColor,

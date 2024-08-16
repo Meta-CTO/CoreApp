@@ -23,7 +23,7 @@ fun SecondaryStepBar(
     strokeWidth: Dp = CoreTheme.spacings.stepBarStroke,
     color: Color = CoreTheme.colors.secondaryStepBar.color,
     borderColor: Color = CoreTheme.colors.secondaryStepBar.borderColor,
-    progressShape: RoundedCornerShape = CoreTheme.shapes.secondaryStepBarProgressShape
+    progressShape: RoundedCornerShape = CoreTheme.shapes.secondaryStepBar.progressShape
 ) {
     // Prepare progress
     val progress by animateFloatAsState(

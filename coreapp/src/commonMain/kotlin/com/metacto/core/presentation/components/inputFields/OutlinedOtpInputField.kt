@@ -134,7 +134,7 @@ private fun OtpDigit(
     textStyle: TextStyle,
     textColor: Color,
     backgroundColor: Color,
-    shape: RoundedCornerShape = CoreTheme.shapes.otpDigitShape,
+    shape: RoundedCornerShape = CoreTheme.shapes.otpDigit.shape,
     paddingValues: PaddingValues = PaddingValues(vertical = CoreTheme.spacings.otpDigitPaddingVertical)
 ) {
     // Render digit text
