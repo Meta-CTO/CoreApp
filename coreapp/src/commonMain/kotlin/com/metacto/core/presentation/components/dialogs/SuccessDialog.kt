@@ -12,11 +12,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.coreApp.MR
 import com.metacto.core.presentation.components.buttons.PrimaryStrokedButton
 import com.metacto.core.presentation.theme.CoreTheme
@@ -32,6 +34,9 @@ fun SuccessDialog(
     onPositiveClick: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
     iconSize: Dp = CoreTheme.spacings.successDialog.iconSize,
+    btnBgColor: Color = CoreTheme.colors.successDialog.btnBgColor,
+    btnTextColor: Color = CoreTheme.colors.successDialog.btnTextColor,
+    btnTextStyle: TextStyle = CoreTheme.typography.successDialog.btnTextStyle,
     bodyPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.successDialog.bodyPaddingTop),
     buttonPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.successDialog.btnPaddingTop),
     bodyTextStyle: TextStyle = CoreTheme.typography.successDialog.bodyTextStyle
@@ -68,8 +73,11 @@ fun SuccessDialog(
             )
 
             // Render ok positive button
-            PrimaryStrokedButton(
+            PrimaryFilledButton(
                 text = buttonText ?: stringResource(MR.strings.ok),
+                textColor = btnTextColor,
+                textStyle = btnTextStyle,
+                backgroundColor = btnBgColor,
                 isSmall = true,
                 onClick = {
                     onPositiveClick?.invoke()

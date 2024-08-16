@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.coreApp.MR
 import com.metacto.core.presentation.components.buttons.PrimaryStrokedButton
 import com.metacto.core.presentation.theme.CoreTheme
@@ -29,6 +30,9 @@ fun MessageDialog(
     buttonPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.messageDialog.btnPaddingTop),
     bodyTextStyle: TextStyle = CoreTheme.typography.messageDialog.textStyle,
     bodyTextColor: Color = CoreTheme.colors.messageDialog.bodyTextColor,
+    btnTextStyle: TextStyle = CoreTheme.typography.messageDialog.btnTextStyle,
+    btnBgColor: Color = CoreTheme.colors.messageDialog.btnBgColor,
+    btnTextColor: Color = CoreTheme.colors.messageDialog.btnTextColor,
     bodyNoTitlePadding: Dp = CoreTheme.spacings.messageDialog.noTitlePadding,
     bodyTitlePadding: Dp = CoreTheme.spacings.messageDialog.titlePadding
 
@@ -64,8 +68,11 @@ fun MessageDialog(
             )
 
             // Render ok positive button
-            PrimaryStrokedButton(
+            PrimaryFilledButton(
                 text = buttonText ?: stringResource(MR.strings.ok),
+                textColor = btnTextColor,
+                textStyle = btnTextStyle,
+                backgroundColor = btnBgColor,
                 isSmall = true,
                 onClick = {
                     onPositiveClick?.invoke()

@@ -158,7 +158,8 @@ data class CoreTypography(
 
     // ConfirmationDialog
     val confirmationDialog: ConfirmationDialogTypography = ConfirmationDialogTypography(
-        bodyLarge = bodyLarge
+        bodyLarge = bodyLarge,
+        btnLabelMedium = btnLabelMedium
     ),
 
     // DialogToolbar
@@ -168,17 +169,20 @@ data class CoreTypography(
 
     // MessageDialog
     val messageDialog: MessageDialogTypography = MessageDialogTypography(
+        btnLabelMedium = btnLabelMedium,
         bodyLarge = bodyLarge
     ),
 
     // OverrideUserDialog
     val overrideUserDialog: OverrideUserDialogTypography = OverrideUserDialogTypography(
+        btnLabelMedium = btnLabelMedium,
         bodyLarge = bodyLarge
     ),
 
     // SuccessDialog
     val successDialog: SuccessDialogTypography = SuccessDialogTypography(
-        bodyLarge = bodyLarge
+        bodyLarge = bodyLarge,
+        btnLabelMedium = btnLabelMedium,
     ),
 
     // InlineInputField
@@ -275,6 +279,11 @@ data class CoreTypography(
         primaryBold = primaryBold.copy(
             fontSize = 14.sp
         )
+    ),
+
+    // ChoicesDialog
+    val choicesDialog: ChoicesDialogTypography = ChoicesDialogTypography(
+        btnLabelMedium = btnLabelMedium
     )
 )
 
@@ -371,7 +380,10 @@ data class TransparentStrokedButtonTypography(
 // ConfirmationDialog
 data class ConfirmationDialogTypography(
     private val bodyLarge: TextStyle,
-    val textStyle: TextStyle = bodyLarge
+    private val btnLabelMedium: TextStyle,
+    val textStyle: TextStyle = bodyLarge,
+    val positiveBtnTextStyle: TextStyle = btnLabelMedium,
+    val negativeBtnTextStyle: TextStyle = btnLabelMedium
 )
 
 // DialogToolbar
@@ -383,19 +395,26 @@ data class DialogToolbarTypography(
 // MessageDialog
 data class MessageDialogTypography(
     private val bodyLarge: TextStyle,
-    val textStyle: TextStyle = bodyLarge
+    private val btnLabelMedium: TextStyle,
+    val textStyle: TextStyle = bodyLarge,
+    val btnTextStyle: TextStyle = btnLabelMedium
 )
 
 // OverrideUserDialog
 data class OverrideUserDialogTypography(
     private val bodyLarge: TextStyle,
-    val bodyTextStyle: TextStyle = bodyLarge
+    private val btnLabelMedium: TextStyle,
+    val bodyTextStyle: TextStyle = bodyLarge,
+    val overrideTextStyle: TextStyle = btnLabelMedium,
+    val resetTextStyle: TextStyle = btnLabelMedium
 )
 
 // SuccessDialog
 data class SuccessDialogTypography(
     private val bodyLarge: TextStyle,
-    val bodyTextStyle: TextStyle = bodyLarge
+    private val btnLabelMedium: TextStyle,
+    val bodyTextStyle: TextStyle = bodyLarge,
+    val btnTextStyle: TextStyle = btnLabelMedium
 )
 
 // InlineInputField
@@ -521,5 +540,12 @@ data class TabItemTypography(
     private val primaryBold: TextStyle,
     val textStyle: TextStyle = primaryBold
 )
+
+// choicesDialog
+data class ChoicesDialogTypography(
+    private val btnLabelMedium: TextStyle,
+    val btnTextStyle: TextStyle = btnLabelMedium
+)
+
 
 val LocalCoreTypography = staticCompositionLocalOf { CoreTypography() }

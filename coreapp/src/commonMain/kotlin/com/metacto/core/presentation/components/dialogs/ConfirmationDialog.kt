@@ -31,6 +31,12 @@ fun ConfirmationDialog(
     onPositiveClick: (() -> Unit)? = null,
     onNegativeClick: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
+    positiveBtnTextStyle: TextStyle = CoreTheme.typography.confirmationDialog.positiveBtnTextStyle,
+    positiveBtnTextColor: Color = CoreTheme.colors.confirmationDialog.positiveBtnTextColor,
+    positiveBtnBgColor: Color = CoreTheme.colors.confirmationDialog.positiveBtnBgColor,
+    negativeBtnTextStyle: TextStyle = CoreTheme.typography.confirmationDialog.negativeBtnTextStyle,
+    negativeBtnTextColor: Color = CoreTheme.colors.confirmationDialog.negativeBtnTextColor,
+    negativeBtnBgColor: Color = CoreTheme.colors.confirmationDialog.negativeBtnBgColor,
     bodyTextStyle: TextStyle = CoreTheme.typography.confirmationDialog.textStyle,
     bodyTextColor: Color = CoreTheme.colors.confirmationDialog.bodyTextColor,
     noTitlePadding: Dp = CoreTheme.spacings.confirmationDialog.noTitlePadding,
@@ -78,6 +84,9 @@ fun ConfirmationDialog(
                 // Negative button
                 PrimaryStrokedButton(
                     text = negativeButtonText ?: stringResource(MR.strings.cancel),
+                    textStyle = negativeBtnTextStyle,
+                    textColor = negativeBtnTextColor,
+                    backgroundColor = negativeBtnBgColor,
                     isSmall = true,
                     onClick = {
                         onNegativeClick?.invoke()
@@ -88,6 +97,9 @@ fun ConfirmationDialog(
                 // Positive button
                 PrimaryFilledButton(
                     text = positiveButtonText ?: stringResource(MR.strings.confirm),
+                    textStyle = positiveBtnTextStyle,
+                    textColor = positiveBtnTextColor,
+                    backgroundColor = positiveBtnBgColor,
                     isSmall = true,
                     onClick = {
                         onPositiveClick?.invoke()

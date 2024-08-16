@@ -7,6 +7,8 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.theme.CoreTheme
@@ -16,6 +18,9 @@ fun ChoicesDialog(
     modifier: Modifier = Modifier,
     isCancellable: Boolean = true,
     title: String? = null,
+    btnTextStyle: TextStyle = CoreTheme.typography.choicesDialog.btnTextStyle,
+    btnBgColor: Color = CoreTheme.colors.choicesDialog.btnBgColor,
+    btnTextColor: Color = CoreTheme.colors.choicesDialog.btnTextColor,
     choices: List<String>,
     onChoiceSelected: (String, Int) -> Unit,
     onDismiss: (() -> Unit)? = null,
@@ -40,6 +45,9 @@ fun ChoicesDialog(
             ) { index, item ->
                 PrimaryFilledButton(
                     modifier = Modifier.fillMaxWidth(),
+                    textStyle = btnTextStyle,
+                    backgroundColor = btnBgColor,
+                    textColor = btnTextColor,
                     text = item,
                     isSmall = true,
                     onClick = {
