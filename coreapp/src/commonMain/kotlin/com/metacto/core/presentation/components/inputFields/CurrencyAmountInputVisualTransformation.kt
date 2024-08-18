@@ -9,18 +9,26 @@ import com.metacto.core.utils.extensions.addList
 import com.metacto.core.utils.extensions.formatToCurrency
 import com.metacto.core.utils.extensions.orZero
 
-class CurrencyAmountInputVisualTransformation(private val style: SpanStyle? = null) :
-    VisualTransformation {
+class CurrencyAmountInputVisualTransformation(
+    private val style: SpanStyle? = null,
+    private val currency: String = "$",
+    private val addSpaceToFormattedCurrency: Boolean = true
+) : VisualTransformation {
 
     override fun filter(text: AnnotatedString): TransformedText {
         val inputText = text.text
-        val formattedNumber = inputText.toFloatOrNull()?.formatToCurrency()
+        val formattedNumber = inputText.toFloatOrNull()?.formatToCurrency(
+            currency = currency,
+            addSpace = addSpaceToFormattedCurrency
+        )
 
         val newText = AnnotatedString(
             text = formattedNumber.orEmpty(),
-            spanStyles = if (style == null) text.spanStyles else listOf(
-                AnnotatedString.Range(style, start = 0, end = 1)
-            ).addList(text.spanStyles),
+            spanStyles = if (style == null) {
+                text.spanStyles
+            } else {
+                listOf(AnnotatedString.Range(style, start = 0, end = 1)).addList(text.spanStyles)
+            },
             paragraphStyles = text.paragraphStyles
         )
 
