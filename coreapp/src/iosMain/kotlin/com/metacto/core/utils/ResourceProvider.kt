@@ -17,7 +17,7 @@ class ResourceProvider(
 ) : IResourceProvider {
 
     override fun getString(res: StringResource, vararg args: Any): String {
-        return res.format(args).localized()
+        return res.format(*args).localized()
     }
 
     override fun getString(resName: String) = try {

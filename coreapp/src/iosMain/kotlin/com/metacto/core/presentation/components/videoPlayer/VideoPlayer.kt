@@ -22,6 +22,10 @@ import platform.Foundation.NSURL
 import platform.QuartzCore.CATransaction
 import platform.QuartzCore.kCATransactionDisableActions
 import platform.UIKit.UIView
+import platform.AVFAudio.AVAudioSession
+import platform.AVFAudio.AVAudioSessionCategoryPlayback
+import platform.AVFAudio.AVAudioSessionModeMoviePlayback
+import platform.AVFAudio.setActive
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
@@ -30,6 +34,8 @@ actual fun VideoPlayer(
     autoPlay: Boolean,
     scaleToCrop: Boolean,
     enablePip: Boolean,
+    handleLifecyclePause: Boolean,
+    controllerShowTimeoutMs: Int,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?,
     url: String
 ) {
@@ -62,6 +68,17 @@ actual fun VideoPlayer(
 
     var pipController: AVPictureInPictureController? by remember {
         mutableStateOf(null)
+    }
+
+    // Activate the audio session if required
+    LaunchedEffect(enablePip, handleLifecyclePause) {
+        if (enablePip || handleLifecyclePause.not()) {
+            AVAudioSession.sharedInstance().apply {
+                setCategory(AVAudioSessionCategoryPlayback, null)
+                setMode(AVAudioSessionModeMoviePlayback, null)
+                setActive(true, null)
+            }
+        }
     }
 
     // Create the player controller

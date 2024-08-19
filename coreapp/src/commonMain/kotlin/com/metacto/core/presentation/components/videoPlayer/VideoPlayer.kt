@@ -14,6 +14,8 @@ expect fun VideoPlayer(
     autoPlay: Boolean = false,
     scaleToCrop: Boolean = false,
     enablePip: Boolean = false,
+    handleLifecyclePause: Boolean = true,
+    controllerShowTimeoutMs: Int = 0,
     onPlayerCreated: ((VideoPlayerController) -> Unit)? = null,
     url: String
 )

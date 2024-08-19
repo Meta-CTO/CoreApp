@@ -72,12 +72,6 @@ fun Int.isMoreThanOne() = this > 1
 
 fun Dp?.orZero() = this ?: 0.dp
 
-expect fun Double.formatToMaxOneDecimal(): String
-
-expect fun Double.formatToMaxTwoDecimals(): String
-
-expect fun Double.formatToComma(): String
-
 fun Double.truncate(decimalsCount: Int): Double {
     val multiplier = 10.0.pow(decimalsCount.toDouble())
     return (this * multiplier).toInt() / multiplier
@@ -88,14 +82,46 @@ fun Float.truncate(decimalsCount: Int): Float {
     return (this * multiplier).toInt() / multiplier.toFloat()
 }
 
-expect fun Double.formatToCurrency(): String
+fun Float.formatToMaxOneDecimal(): String {
+    return this.toDouble().formatToMaxOneDecimal()
+}
 
-expect fun Float.formatToMaxOneDecimal(): String
+fun Float.formatToMaxTwoDecimals(): String {
+    return this.toDouble().formatToMaxTwoDecimals()
+}
 
-expect fun Float.formatToMaxTwoDecimals(): String
+fun Float.formatToComma(): String {
+    return this.toDouble().formatToComma()
+}
 
-expect fun Float.formatToComma(): String
+fun Float.formatToCurrency(currency: String = "$", addSpace: Boolean = true): String {
+    return this.toDouble().formatToCurrency(
+        currency = currency,
+        addSpace = addSpace
+    )
+}
 
-expect fun Float.formatToCurrency(): String
-expect fun Float.format(decimalsCount: Int): String
+fun Float.format(decimalsCount: Int): String {
+    return this.toDouble().format(decimalsCount)
+}
+
+fun Double.formatToMaxOneDecimal(): String {
+    return this.format(decimalsCount = 1)
+}
+
+fun Double.formatToMaxTwoDecimals(): String {
+    return this.format(decimalsCount = 2)
+}
+
+fun Double.formatToCurrency(currency: String = "$", addSpace: Boolean = true): String {
+    val formattedAmount = this.formatToMaxTwoDecimals()
+    return if (addSpace) {
+        "$currency $formattedAmount"
+    } else {
+        "$currency$formattedAmount"
+    }
+}
+
 expect fun Double.format(decimalsCount: Int): String
+
+expect fun Double.formatToComma(): String

@@ -149,10 +149,12 @@ internal fun SplashContent(
         ) {
 
             VideoPlayer(
-                url = currentVideo,
+                url = "https://storage.sardius.media/1088c54907d9370/archives/f15706391E53Fb46B0B52E92786B/media/playlist.m3u8",
                 autoPlay = true,
                 scaleToCrop = false,
                 enablePip = true,
+                handleLifecyclePause = false,
+                controllerShowTimeoutMs = 2000,
                 modifier = Modifier.fillMaxSize()
             )
         }

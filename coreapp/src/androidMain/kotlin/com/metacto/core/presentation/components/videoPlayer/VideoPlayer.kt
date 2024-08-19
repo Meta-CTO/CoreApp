@@ -26,6 +26,8 @@ actual fun VideoPlayer(
     autoPlay: Boolean,
     scaleToCrop: Boolean,
     enablePip: Boolean,
+    handleLifecyclePause: Boolean,
+    controllerShowTimeoutMs: Int,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?,
     url: String
 ) {
@@ -72,7 +74,7 @@ actual fun VideoPlayer(
         factory = {
             PlayerView(context).apply {
                 useController = true
-                controllerShowTimeoutMs = 0
+                this.controllerShowTimeoutMs = controllerShowTimeoutMs
                 resizeMode = when (scaleToCrop) {
                     true -> AspectRatioFrameLayout.RESIZE_MODE_FILL
                     false -> AspectRatioFrameLayout.RESIZE_MODE_FIT
@@ -103,7 +105,9 @@ actual fun VideoPlayer(
     // Handle lifecycle
     OnLifecycleEvent(
         onPause = {
-            exoPlayer.pause()
+            if (handleLifecyclePause) {
+                exoPlayer.pause()
+            }
         },
         onDispose = {
             exoPlayer.kill()
