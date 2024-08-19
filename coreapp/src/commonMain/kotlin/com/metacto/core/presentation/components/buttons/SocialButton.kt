@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 
 @Composable
@@ -20,6 +21,7 @@ fun SocialButton(
     iconVector: ImageVector? = null,
     isEnabled: Boolean = true,
     isLoading: Boolean = false,
+    iconSize: Dp = CoreTheme.spacings.iconLarge,
     padding: PaddingValues = PaddingValues(
         vertical = CoreTheme.spacings.socialButton.paddingVertical,
         horizontal = CoreTheme.spacings.socialButton.paddingHorizontal
@@ -40,6 +42,7 @@ fun SocialButton(
         textStyle = textStyle,
         startIconPainter = iconPainter,
         startIconVector = iconVector,
+        iconSize = iconSize,
         backgroundColor = backgroundColor,
         isEnabled = isEnabled,
         isLoading = isLoading,
