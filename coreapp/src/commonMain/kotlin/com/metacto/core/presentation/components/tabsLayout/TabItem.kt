@@ -22,14 +22,14 @@ import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.dividers.VerticalDivider
 import com.metacto.core.presentation.components.images.AppImage
 import com.metacto.core.presentation.components.texts.SingleLineText
-import com.metacto.core.presentation.models.ImageUIModel
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.noRippleClickable
+import com.metacto.core.utils.extensions.toColor
 
 @Composable
 fun TabItem(
     modifier: Modifier = Modifier,
-    title: String,
+    tabItemModel: TabItemModel,
     activeBgColor: Color = CoreTheme.colors.tapItem.activeBgColor,
     inactiveBgColor: Color = CoreTheme.colors.tapItem.inactiveBgColor,
     activeTextColor: Color = CoreTheme.colors.tapItem.activeTextColor,
@@ -38,8 +38,6 @@ fun TabItem(
     inactiveIndicatorColor: Color = CoreTheme.colors.tapItem.inactiveIndicatorColor,
     textStyle: TextStyle = CoreTheme.typography.tabItem.textStyle,
     showIndicator: Boolean = false,
-    activeIcon: ImageUIModel? = null,
-    inActiveIcon: ImageUIModel? = null,
     iconSize: Dp = CoreTheme.spacings.tabItem.iconSize,
     isSelected: Boolean,
     activeIndicatorThickness: Dp = CoreTheme.spacings.tabItem.activeIndicatorThickness,
@@ -60,19 +58,27 @@ fun TabItem(
 
     // Prepare text color
     val textColor by animateColorAsState(
-        targetValue = if (isSelected) activeTextColor else inactiveTextColor,
+        targetValue = if (isSelected) {
+            tabItemModel.activeColor.toColor() ?: activeTextColor
+        } else {
+            tabItemModel.inactiveColor.toColor() ?: inactiveTextColor
+        },
         label = "Tab Text Color State"
     )
 
     // Prepare indicator color
     val indicatorColor by animateColorAsState(
-        targetValue = if (isSelected) activeIndicatorColor else inactiveIndicatorColor,
+        targetValue = if (isSelected) {
+            tabItemModel.activeColor.toColor() ?: activeIndicatorColor
+        } else {
+            tabItemModel.inactiveColor.toColor() ?: inactiveIndicatorColor
+        },
         label = "Tab indicator Color State"
     )
 
     // Prepare the icon
-    val tabIcon = if (activeIcon != null && inActiveIcon != null) {
-        if (isSelected) activeIcon else inActiveIcon
+    val tabIcon = if (tabItemModel.activeIcon != null && tabItemModel.inactiveIcon != null) {
+        if (isSelected) tabItemModel.activeIcon else tabItemModel.activeIcon
     } else {
         null
     }
@@ -103,14 +109,14 @@ fun TabItem(
             if (tabIcon != null) {
                 AppImage(
                     image = tabIcon,
-                    contentDescription = title,
+                    contentDescription = tabItemModel.title,
                     modifier = Modifier.size(iconSize)
                 )
             }
 
             // show the title
             SingleLineText(
-                text = title,
+                text = tabItemModel.title,
                 style = textStyle,
                 textAlign = TextAlign.Center,
                 color = textColor,
