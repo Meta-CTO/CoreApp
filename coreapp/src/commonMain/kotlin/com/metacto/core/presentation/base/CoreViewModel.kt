@@ -15,7 +15,9 @@ import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.MessagePopupParams
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
+import com.metacto.core.utils.CommonImageResource
 import com.metacto.core.utils.IResourceProvider
+import com.metacto.core.utils.asCommon
 import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.coreApp.MR
 import com.metacto.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
@@ -321,6 +323,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     suspend fun checkAppUpdates(
         showTitle: Boolean = true,
         title: String? = null,
+        image: CommonImageResource? = null,
         onUpdateClick: (() -> Unit)? = null,
         onIgnoreClick: (() -> Unit)? = null,
         onProceedAction: () -> Unit
@@ -337,6 +340,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                         isRequired = isRequired,
                         title = forceUpdateTitle,
                         body = message,
+                        image = image ?: MR.images.ic_upgrade.asCommon(),
                         updateButtonText = resourceProvider.getString(MR.strings.update_button),
                         ignoreUpdateButtonText = resourceProvider.getString(MR.strings.ignore_button),
                         onDismiss = {
