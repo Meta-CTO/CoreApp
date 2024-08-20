@@ -2,6 +2,7 @@ package com.metacto.core.presentation.theme
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -649,7 +650,8 @@ data class DatePickerDialogSpacings(
     val btnPaddingHorizontal: Dp = paddingXLarge,
     val btnPaddingTop: Dp = paddingXXXLarge,
     val wheelHeight: Dp = datePickerHeight,
-    val padding: Dp = pickerPadding
+    val padding: Dp = pickerPadding,
+    val showToolbar: Boolean = false
 )
 
 // TimePickerDialog
@@ -660,6 +662,7 @@ data class TimePickerDialogSpacings(
     private val datePickerWheelHeight: Dp,
     private val pickerPadding: Dp,
     private val datePickerHeight: Dp,
+    val showToolbar: Boolean = false,
     val padding: Dp = paddingXLarge,
     val wheelPaddingHorizontal: Dp = paddingXXLarge,
     val btnPaddingTop: Dp = paddingXXXLarge,
@@ -800,7 +803,8 @@ data class AppDialogSpacings(
 // ChoicesDialog
 data class ChoicesDialogSpacings(
     private val paddingSmall: Dp,
-    val verticalSpacing: Dp = paddingSmall
+    val verticalSpacing: Dp = paddingSmall,
+    val showToolbar: Boolean = true
 )
 
 // DialogToolbar
@@ -829,7 +833,9 @@ data class MessageDialogSpacings(
     private val popupSpacingLarge: Dp,
     val noTitlePadding: Dp = noSpacing,
     val titlePadding: Dp = paddingXLarge,
-    val btnPaddingTop: Dp = popupSpacingLarge
+    val btnPaddingTop: Dp = popupSpacingLarge,
+    val showToolbar: Boolean = true,
+    val bodyTextAlign: TextAlign = TextAlign.Center
 )
 
 // OverrideUserDialog
@@ -840,7 +846,9 @@ data class OverrideUserDialogSpacings(
     val msgSpacing: Dp = paddingXLarge,
     val overrideBtnPadding: Dp = paddingXXXLarge,
     val resetBtnPadding: Dp = paddingLarge,
-    val idTextPadding: Dp = paddingLarge
+    val idTextPadding: Dp = paddingLarge,
+    val showToolbar: Boolean = true,
+    val bodyTextAlign: TextAlign = TextAlign.Center
 )
 
 // BottomSheetToolbar
@@ -864,7 +872,9 @@ data class ConfirmationDialogSpacings(
     val noTitlePadding: Dp = noSpacing,
     val titlePadding: Dp = paddingXLarge,
     val buttonsSpacings: Dp = paddingXLarge,
-    val buttonsTopPadding: Dp = popupSpacingLarge
+    val buttonsTopPadding: Dp = popupSpacingLarge,
+    val showToolbar: Boolean = true,
+    val bodyTextAlign: TextAlign = TextAlign.Center
 )
 
 // SuccessDialog
@@ -874,7 +884,9 @@ data class SuccessDialogSpacings(
     private val popupSpacingLarge: Dp,
     val iconSize: Dp = popupIconLarge,
     val bodyPaddingTop: Dp = popupSpacingMedium,
-    val btnPaddingTop: Dp = popupSpacingLarge
+    val btnPaddingTop: Dp = popupSpacingLarge,
+    val showToolbar: Boolean = true,
+    val bodyTextAlign: TextAlign = TextAlign.Center
 )
 
 // PriceTextInputField

@@ -37,6 +37,7 @@ internal fun TimePickerDialog(
     rowCount: Int = 5,
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onTimePicked: (LocalTime) -> Unit,
+    showToolbar: Boolean = CoreTheme.spacings.timePickerDialog.showToolbar,
     padding: PaddingValues = PaddingValues(CoreTheme.spacings.timePickerDialog.padding),
     wheelPadding: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.timePickerDialog.wheelPaddingHorizontal),
     okBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.timePickerDialog.btnPaddingTop),
@@ -118,7 +119,7 @@ internal fun TimePickerDialog(
         modifier = modifier,
         onDismiss = onDismiss,
         isCancellable = isCancellable,
-        showToolbar = false
+        showToolbar = showToolbar
     ) {
         // Container column
         Column(

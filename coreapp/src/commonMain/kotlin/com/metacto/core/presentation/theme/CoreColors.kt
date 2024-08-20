@@ -697,7 +697,7 @@ data class MessageDialogColors(
     private val primary: Color,
     private val onPrimary: Color,
     val btnBgColor: Color = primary,
-    val btnTextColor: Color = primary,
+    val btnTextColor: Color = onPrimary,
     val bodyTextColor: Color = secondary
 )
 
@@ -707,9 +707,9 @@ data class OverrideUserDialogColors(
     private val primary: Color,
     private val onPrimary: Color,
     val overrideBtnBgColor: Color = primary,
-    val overrideBtnTextColor: Color = primary,
+    val overrideBtnTextColor: Color = onPrimary,
     val resetBtnBgColor: Color = primary,
-    val resetBtnTextColor: Color = primary,
+    val resetBtnTextColor: Color = onPrimary,
     val bodyTextColor: Color = secondary
 )
 
@@ -781,7 +781,7 @@ data class SuccessDialogColors(
     private val primary: Color,
     private val onPrimary: Color,
     val btnBgColor: Color = primary,
-    val btnTextColor: Color = primary
+    val btnTextColor: Color = onPrimary
 )
 
 // ChoicesDialog
@@ -789,7 +789,7 @@ data class ChoicesDialogColors(
     private val primary: Color,
     private val onPrimary: Color,
     val btnBgColor: Color = primary,
-    val btnTextColor: Color = primary
+    val btnTextColor: Color = onPrimary
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }
