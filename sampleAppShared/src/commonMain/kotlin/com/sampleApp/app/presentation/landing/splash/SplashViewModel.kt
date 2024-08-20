@@ -53,7 +53,6 @@ class SplashViewModel(
         }
 
         checkForUpdates()
-        intentLauncher.launchAppStore(appId = appEnvironment.iOSAppId)
         // Update the flag
         setState { copy(isInitialized = true) }
     }
@@ -130,13 +129,14 @@ class SplashViewModel(
 
     private fun checkForUpdates() = executeSilent({
         checkAppUpdates(
+            isFromRemoteConfigs = true,
             title = "Ahmed",
             showTitle = true,
             onProceedAction = {
                 // TODO will navigate to next screen
             },
             onUpdateClick = {
-                // in case of need to handle any analytics events or other action
+                intentLauncher.launchAppStore(appId = appEnvironment.iOSAppId)
             })
     })
 }

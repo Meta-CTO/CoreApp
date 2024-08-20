@@ -18,16 +18,17 @@ class ForceUpdateRepository(
 
     @Throws(Throwable::class)
     suspend fun checkForceUpdate(
+        isFromRemoteConfigs: Boolean,
         onUpdateRequired: (message: String, isRequired: Boolean, iOSAppVersion: String) -> Unit,
         onProceed: () -> Unit
     ) {
 
-        // fetch the remote config
-        val forceUpdateRemoteConfig =
-            remoteConfigs.forceGetString(appEnvironment.updateRemoteConfigKey)
-
         // check if the remote config has
-        val appUpdateResult = if (forceUpdateRemoteConfig.isNullOrEmpty().not()) {
+        val appUpdateResult = if (isFromRemoteConfigs) {
+            // fetch the remote config
+            val forceUpdateRemoteConfig =
+                remoteConfigs.forceGetString(appEnvironment.updateRemoteConfigKey)
+
             // start handle the force update from remote config
             val forceUpdate =
                 forceUpdateRemoteConfig?.let { Json.decodeFromString<List<AppVersion>>(it) }

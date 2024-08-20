@@ -33,9 +33,9 @@ fun ForceUpdateDialog(
     body: String? = null,
     title: String? = null,
     updateButtonText: String? = null,
-    ignoreUpdateButtonText: String? = null,
+    skipUpdateButtonText: String? = null,
     onUpdateClick: (() -> Unit)? = null,
-    onIgnoreClick: (() -> Unit)? = null,
+    onSkipUpdateClicked: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
     image: CommonImageResource = MR.images.ic_upgrade.asCommon(),
     bodyTextStyle: TextStyle = CoreTheme.typography.forceUpdateDialogBodyTextStyle,
@@ -102,9 +102,9 @@ fun ForceUpdateDialog(
                 if (isRequired.not()) {
                     // Negative button
                     PrimaryTextButton(
-                        text = ignoreUpdateButtonText ?: stringResource(MR.strings.cancel),
+                        text = skipUpdateButtonText ?: stringResource(MR.strings.skip_update_button),
                         onClick = {
-                            onIgnoreClick?.invoke()
+                            onSkipUpdateClicked?.invoke()
                         },
                         modifier = Modifier.wrapContentSize()
                     )

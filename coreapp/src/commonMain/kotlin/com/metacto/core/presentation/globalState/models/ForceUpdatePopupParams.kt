@@ -10,8 +10,8 @@ data class ForceUpdatePopupParams(
     val body: String? = null,
     val image: CommonImageResource = MR.images.ic_upgrade.asCommon(),
     val updateButtonText: String? = null,
-    val ignoreUpdateButtonText: String? = null,
+    val skipUpdateButtonText: String? = null,
     val onUpdateClick: (() -> Unit)? = null,
-    val onIgnoreClick: (() -> Unit)? = null,
+    val onSkipUpdateClicked: (() -> Unit)? = null,
     val onDismiss: (() -> Unit)? = null
 )

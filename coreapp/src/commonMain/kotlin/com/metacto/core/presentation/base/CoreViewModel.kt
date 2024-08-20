@@ -321,11 +321,12 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     }
 
     suspend fun checkAppUpdates(
+        isFromRemoteConfigs: Boolean,
         showTitle: Boolean = true,
         title: String? = null,
         image: CommonImageResource? = null,
         onUpdateClick: (() -> Unit)? = null,
-        onIgnoreClick: (() -> Unit)? = null,
+        onSkipUpdateClicked: (() -> Unit)? = null,
         onProceedAction: () -> Unit
     ) {
         // check if the title is enabled and handle the title
@@ -334,6 +335,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
         // check for app updates first
         forceUpdateRepository.checkForceUpdate(
+            isFromRemoteConfigs = isFromRemoteConfigs,
             onUpdateRequired = { message, isRequired, iOSAppVersion ->
                 coreGlobalState.forceUpdatePopup(
                     params = ForceUpdatePopupParams(
@@ -342,7 +344,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                         body = message,
                         image = image ?: MR.images.ic_upgrade.asCommon(),
                         updateButtonText = resourceProvider.getString(MR.strings.update_button),
-                        ignoreUpdateButtonText = resourceProvider.getString(MR.strings.ignore_button),
+                        skipUpdateButtonText = resourceProvider.getString(MR.strings.skip_update_button),
                         onDismiss = {
                             if (isRequired.not()) {
                                 onProceedAction.invoke()
@@ -355,8 +357,8 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                                 intentLauncher.launchAppStore(iOSAppVersion)
                             }
                         },
-                        onIgnoreClick = {
-                            onIgnoreClick?.invoke()
+                        onSkipUpdateClicked = {
+                            onSkipUpdateClicked?.invoke()
                         }
                     )
                 )

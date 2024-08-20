@@ -155,13 +155,13 @@ fun CoreAppContent(
                     title = params.title,
                     image = params.image,
                     updateButtonText = params.updateButtonText,
-                    ignoreUpdateButtonText = params.ignoreUpdateButtonText,
+                    skipUpdateButtonText = params.skipUpdateButtonText,
                     onUpdateClick = {
                         params.onUpdateClick?.invoke()
                     },
-                    onIgnoreClick = {
+                    onSkipUpdateClicked = {
                         globalState.idle()
-                        params.onIgnoreClick?.invoke()
+                        params.onSkipUpdateClicked?.invoke()
                     },
                     onDismiss = {
                         globalState.idle()

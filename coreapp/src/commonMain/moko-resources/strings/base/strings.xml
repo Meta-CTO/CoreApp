@@ -30,5 +30,5 @@
     // force update
     <string name="force_update_title">Update Required</string>
     <string name="update_button">Update now</string>
-    <string name="ignore_button">Update now</string>
+    <string name="skip_update_button">Skip update</string>
 </resources>
