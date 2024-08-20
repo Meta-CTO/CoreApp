@@ -129,6 +129,9 @@ data class CoreTypography(
     // ConfirmationDialog
     val confirmationDialogBodyTextStyle: TextStyle = bodyLarge,
 
+    // ConfirmationDialog
+    val forceUpdateDialogBodyTextStyle: TextStyle = bodyLarge,
+
     // DialogToolbar
     val dialogToolbarTextStyle: TextStyle = bodyMedium,
 

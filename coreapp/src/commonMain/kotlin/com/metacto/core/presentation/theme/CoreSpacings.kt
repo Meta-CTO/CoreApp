@@ -278,6 +278,13 @@ data class CoreSpacings(
     val confirmationDialogButtonsSpacings: Dp = paddingXLarge,
     val confirmationDialogButtonsTopPadding: Dp = popupSpacingLarge,
 
+    // force update Dialog
+    val forceUpdateDialogImageSize: Dp = 120.dp,
+    val forceUpdateDialogTextPadding: Dp = paddingXLarge,
+    val forceUpdateDialogPadding: Dp = paddingXLarge,
+    val forceUpdateDialogSpacings: Dp = paddingXLarge,
+    val forceUpdateDialogButtonsPadding: Dp = popupSpacingLarge,
+
     // SuccessDialog
     val successDialog: Dp = popupIconLarge,
     val successDialogBodyPaddingTop: Dp = popupSpacingMedium,
@@ -344,7 +351,7 @@ data class CoreSpacings(
     val tabInactiveIndicatorThickness: Dp = 1.dp,
     val tabTextPadding: Dp = 4.dp,
     val tabIconSize: Dp = 24.dp,
-    val tabItemMinWidth :Dp = 120.dp,
+    val tabItemMinWidth: Dp = 120.dp,
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }

@@ -14,6 +14,7 @@ import com.metacto.core.utils.remoteConfigs.IRemoteConfigs
 import com.metacto.strapikmm.auth.Authenticator
 import com.metacto.strapikmm.auth.FirebaseAuthenticator
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
+import com.metacto.strapikmm.repos.AppConfigurationRepository
 import com.metacto.strapikmm.repos.LogoutUseCase
 import com.metacto.strapikmm.util.Logger
 import dev.gitlive.firebase.Firebase
@@ -68,8 +69,7 @@ fun <T : SerializableNetworkError> coreModule(
 
     single<Authenticator> {
         FirebaseAuthenticator(
-            actionCodeSettings = actionCodeSettings,
-            sharedPreference = get()
+            actionCodeSettings = actionCodeSettings, sharedPreference = get()
         )
     }
 
@@ -79,7 +79,7 @@ fun <T : SerializableNetworkError> coreModule(
             userRepository = get(),
             sharedPreference = get(),
             logoutUseCase = get(),
-            authenticator = get()
+            authenticator = get(),
         )
     }
 
@@ -93,8 +93,7 @@ fun <T : SerializableNetworkError> coreModule(
 
     single<IRemoteConfigs> {
         FirebaseRemoteConfigs(
-            kmmPreference = get(),
-            firebaseConfigs = get()
+            kmmPreference = get(), firebaseConfigs = get()
         )
     }
 
@@ -108,8 +107,7 @@ fun <T : SerializableNetworkError> coreModule(
 
     single<IDeepLinkManager> {
         DeepLinkManager(
-            appLogger = get(),
-            parsers = deepLinkParsers
+            appLogger = get(), parsers = deepLinkParsers
         )
     }
 }

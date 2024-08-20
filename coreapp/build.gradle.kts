@@ -1,6 +1,5 @@
 @file:Suppress("OPT_IN_USAGE")
 
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import dev.icerock.gradle.MRVisibility
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 
@@ -210,8 +209,8 @@ publishing {
             maven("https://maven.pkg.github.com/Meta-CTO/CoreApp") {
                 name = "Github"
                 credentials {
-                    username = gradleLocalProperties(rootDir).getProperty("PUBLISH_REPO_USER") as String
-                    password = gradleLocalProperties(rootDir).getProperty("PUBLISH_REPO_TOKEN") as String
+                    username = "metactoengineer"
+                    password = "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"
                 }
             }
         }
@@ -220,7 +219,7 @@ publishing {
     publications.withType<MavenPublication> {
         artifact(javadocJar)
         groupId = "com.metacto"
-        version = gradleLocalProperties(rootDir).getProperty("PUBLISH_VERSION") as String
+        version = "1.3.0"
 
         pom {
             name.set("coreApp")

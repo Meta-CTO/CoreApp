@@ -1,6 +1,7 @@
 package com.metacto.core.di
 
 import coil3.PlatformContext
+import com.metacto.core.domain.repos.ForceUpdateRepository
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.permissions.PermissionManager
@@ -17,6 +18,7 @@ import com.metacto.core.utils.launchers.IntentLauncher
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.NotificationManager
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
+import com.metacto.strapikmm.repos.AppConfigurationRepository
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
 import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
@@ -31,7 +33,7 @@ import platform.Foundation.NSFileManager
 import platform.UserNotifications.UNUserNotificationCenter
 import kotlin.reflect.KClass
 
-actual fun<T : SerializableNetworkError> corePlatformModule(
+actual fun <T : SerializableNetworkError> corePlatformModule(
     appStorageName: String,
     shouldShowActualErrorMessages: Boolean,
     errorClass: KClass<T>
@@ -88,6 +90,18 @@ actual fun<T : SerializableNetworkError> corePlatformModule(
 
     single<MetadataLoader> {
         MokoAssetResourceMetadataLoader()
+    }
+
+    single<ForceUpdateRepository> {
+        ForceUpdateRepository(
+            appEnvironment = get(),
+            appConfigurationRepository = AppConfigurationRepository(
+                appConfigurationService = get(),
+                sharedPreference = get(),
+                appConfigurationExpirationInMinutes = 1
+            ),
+            remoteConfigs = get(),
+        )
     }
 }
 

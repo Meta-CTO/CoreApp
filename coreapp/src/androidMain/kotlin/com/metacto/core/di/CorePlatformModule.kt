@@ -1,6 +1,7 @@
 package com.metacto.core.di
 
 import com.google.firebase.messaging.FirebaseMessaging
+import com.metacto.core.domain.repos.ForceUpdateRepository
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.permissions.PermissionManager
@@ -19,6 +20,7 @@ import com.metacto.core.utils.notificationManager.NotificationManager
 import com.metacto.core.utils.pushNotifications.FirebasePushNotificationsManager
 import com.metacto.core.utils.pushNotifications.IPushNotificationsManager
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
+import com.metacto.strapikmm.repos.AppConfigurationRepository
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
 import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
@@ -33,7 +35,7 @@ import org.koin.core.qualifier.Qualifier
 import org.koin.dsl.module
 import kotlin.reflect.KClass
 
-actual fun<T : SerializableNetworkError> corePlatformModule(
+actual fun <T : SerializableNetworkError> corePlatformModule(
     appStorageName: String,
     shouldShowActualErrorMessages: Boolean,
     errorClass: KClass<T>
@@ -47,7 +49,6 @@ actual fun<T : SerializableNetworkError> corePlatformModule(
             errorClass = errorClass
         )
     }
-
 
     single<IResourceProvider> {
         ResourceProvider(androidContext())
@@ -97,6 +98,20 @@ actual fun<T : SerializableNetworkError> corePlatformModule(
 
     single<MetadataLoader> {
         AssetsMetadataLoader(androidApplication().assets)
+    }
+
+    single<ForceUpdateRepository> {
+        ForceUpdateRepository(
+            appEnvironment = get(),
+            applicationContext = androidContext(),
+            appConfigurationRepository = AppConfigurationRepository(
+                applicationContext = androidContext(),
+                appConfigurationService = get(),
+                sharedPreference = get(),
+                appConfigurationExpirationInMinutes = 1
+            ),
+            remoteConfigs = get(),
+        )
     }
 }
 

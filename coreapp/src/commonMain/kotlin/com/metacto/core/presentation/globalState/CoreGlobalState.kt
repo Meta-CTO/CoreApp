@@ -1,10 +1,12 @@
 @file:OptIn(DelicateCoroutinesApi::class)
+
 package com.metacto.core.presentation.globalState
 
 import androidx.compose.runtime.mutableStateOf
 import com.metacto.core.presentation.globalState.models.ChoicesPopupParams
 import com.metacto.core.presentation.globalState.models.ConfirmationPopupParams
 import com.metacto.core.presentation.globalState.models.DatePickerParams
+import com.metacto.core.presentation.globalState.models.ForceUpdatePopupParams
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.MessagePopupParams
 import com.metacto.core.presentation.globalState.models.OverrideUserPopupParams
@@ -26,6 +28,7 @@ open class CoreGlobalState : ICoreGlobalState {
     override val overrideUserPopupState = mutableStateOf<OverrideUserPopupParams?>(null)
     override val successPopupState = mutableStateOf<SuccessPopupParams?>(null)
     override val confirmationPopupState = mutableStateOf<ConfirmationPopupParams?>(null)
+    override val forceUpdatePopupState = mutableStateOf<ForceUpdatePopupParams?>(null)
     override val choicesPopupState = mutableStateOf<ChoicesPopupParams?>(null)
     override val datePickerState = mutableStateOf<DatePickerParams?>(null)
     override val timePickerState = mutableStateOf<TimePickerParams?>(null)
@@ -41,6 +44,7 @@ open class CoreGlobalState : ICoreGlobalState {
         messagePopupState.value = null
         successPopupState.value = null
         confirmationPopupState.value = null
+        forceUpdatePopupState.value = null
         choicesPopupState.value = null
         datePickerState.value = null
         timePickerState.value = null
@@ -73,6 +77,10 @@ open class CoreGlobalState : ICoreGlobalState {
 
     override fun confirmationPopup(params: ConfirmationPopupParams) {
         confirmationPopupState.value = params
+    }
+
+    override fun forceUpdatePopup(params: ForceUpdatePopupParams) {
+        forceUpdatePopupState.value = params
     }
 
     override fun choicesPopup(params: ChoicesPopupParams) {

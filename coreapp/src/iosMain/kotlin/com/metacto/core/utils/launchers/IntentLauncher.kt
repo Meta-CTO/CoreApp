@@ -17,6 +17,17 @@ class IntentLauncher : IIntentLauncher {
         UIApplication.sharedApplication.openURL(url)
     }
 
+    override fun launchAppStore(appId: String) {
+
+        val urlString = "itms-apps://itunes.apple.com/app/$appId"
+        val url = NSURL.URLWithString(urlString) ?: return
+        // Validate can open url
+        if (UIApplication.sharedApplication.canOpenURL(url).not()) return
+
+        // Then open it
+        UIApplication.sharedApplication.openURL(url)
+    }
+
     override fun launchShareText(text: String) {
         // Get and validate the root view controller
         val rootViewController = UIApplication.sharedApplication

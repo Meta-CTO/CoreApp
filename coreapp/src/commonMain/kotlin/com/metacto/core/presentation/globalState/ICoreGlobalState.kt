@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import com.metacto.core.presentation.globalState.models.ChoicesPopupParams
 import com.metacto.core.presentation.globalState.models.ConfirmationPopupParams
 import com.metacto.core.presentation.globalState.models.DatePickerParams
+import com.metacto.core.presentation.globalState.models.ForceUpdatePopupParams
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.MessagePopupParams
 import com.metacto.core.presentation.globalState.models.OverrideUserPopupParams
@@ -19,10 +20,11 @@ interface ICoreGlobalState {
     val overrideUserPopupState: State<OverrideUserPopupParams?>
     val successPopupState: State<SuccessPopupParams?>
     val confirmationPopupState: State<ConfirmationPopupParams?>
+    val forceUpdatePopupState: State<ForceUpdatePopupParams?>
     val choicesPopupState: State<ChoicesPopupParams?>
     val datePickerState: State<DatePickerParams?>
     val timePickerState: State<TimePickerParams?>
-    val snackBarState:  State<SnackBarParams>
+    val snackBarState: State<SnackBarParams>
     val dismissKeyboardState: State<Boolean>
     val isStatusBarDarkState: State<Boolean>
     val isNavigationBarDarkState: State<Boolean>
@@ -35,6 +37,7 @@ interface ICoreGlobalState {
     fun messagePopup(params: MessagePopupParams)
     fun successPopup(params: SuccessPopupParams)
     fun confirmationPopup(params: ConfirmationPopupParams)
+    fun forceUpdatePopup(params: ForceUpdatePopupParams)
     fun choicesPopup(params: ChoicesPopupParams)
     fun datePicker(params: DatePickerParams)
     fun timePicker(params: TimePickerParams)
