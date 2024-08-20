@@ -360,11 +360,10 @@ data class CoreSpacings(
     ),
 
     // force update Dialog
-    val forceUpdateDialogImageSize: Dp = 120.dp,
-    val forceUpdateDialogTextPadding: Dp = paddingXLarge,
-    val forceUpdateDialogPadding: Dp = paddingXLarge,
-    val forceUpdateDialogSpacings: Dp = paddingXLarge,
-    val forceUpdateDialogButtonsPadding: Dp = popupSpacingLarge,
+    val forceUpdateDialog: ForceUpdateDialogSpacings = ForceUpdateDialogSpacings(
+        paddingXLarge = paddingXLarge,
+        popupSpacingLarge = popupSpacingLarge
+    ),
 
     // SuccessDialog
     val successDialog: SuccessDialogSpacings = SuccessDialogSpacings(
@@ -450,14 +449,8 @@ data class CoreSpacings(
     ),
 
     // TabItem
-    val tabActiveIndicatorThickness: Dp = 3.dp,
-    val tabInactiveIndicatorThickness: Dp = 1.dp,
-    val tabTextPadding: Dp = 4.dp,
-    val tabIconSize: Dp = 24.dp,
-    val tabItemMinWidth: Dp = 120.dp,
     val tabItem: TabItemSpacings = TabItemSpacings()
 )
-
 
 // PrimaryFilledButton
 data class PrimaryFilledButtonSpacings(
@@ -871,6 +864,17 @@ data class ConfirmationDialogSpacings(
     val titlePadding: Dp = paddingXLarge,
     val buttonsSpacings: Dp = paddingXLarge,
     val buttonsTopPadding: Dp = popupSpacingLarge
+)
+
+// ForceUpdateDialog
+data class ForceUpdateDialogSpacings(
+    private val paddingXLarge: Dp,
+    private val popupSpacingLarge: Dp,
+    val forceUpdateDialogImageSize: Dp = 120.dp,
+    val forceUpdateDialogTextPadding: Dp = paddingXLarge,
+    val forceUpdateDialogPadding: Dp = paddingXLarge,
+    val forceUpdateDialogSpacings: Dp = paddingXLarge,
+    val forceUpdateDialogButtonsPadding: Dp = popupSpacingLarge,
 )
 
 // SuccessDialog

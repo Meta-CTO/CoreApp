@@ -40,16 +40,14 @@ fun ForceUpdateDialog(
     image: CommonImageResource = MR.images.ic_upgrade.asCommon(),
     bodyTextStyle: TextStyle = CoreTheme.typography.forceUpdateDialogBodyTextStyle,
     bodyTextColor: Color = CoreTheme.colors.forceUpdateDialog.bodyTextColor,
-    textPadding: Dp = CoreTheme.spacings.forceUpdateDialogTextPadding,
-    dialogPadding: Dp = CoreTheme.spacings.forceUpdateDialogPadding,
-    dialogSpacings: Dp = CoreTheme.spacings.forceUpdateDialogSpacings,
-    buttonsPadding: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.forceUpdateDialogButtonsPadding)
+    textPadding: Dp = CoreTheme.spacings.forceUpdateDialog.forceUpdateDialogTextPadding,
+    dialogPadding: Dp = CoreTheme.spacings.forceUpdateDialog.forceUpdateDialogPadding,
+    dialogSpacings: Dp = CoreTheme.spacings.forceUpdateDialog.forceUpdateDialogSpacings,
+    buttonsPadding: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.forceUpdateDialog.forceUpdateDialogButtonsPadding)
 ) {
     // Prepare spacings
-    val msgSpacing = if (title?.isNotEmpty() == true)
-        CoreTheme.spacings.paddingXLarge
-    else
-        0.dp
+    val msgSpacing = if (title?.isNotEmpty() == true) CoreTheme.spacings.paddingXLarge
+    else 0.dp
 
     // Render app dialog
     AppDialog(
@@ -63,17 +61,14 @@ fun ForceUpdateDialog(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(dialogSpacings),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(dialogPadding)
+            modifier = Modifier.fillMaxWidth().padding(dialogPadding)
         ) {
 
             // top image
             Image(
                 painter = painterResource(image),
                 contentDescription = "force update",
-                modifier = Modifier
-                    .size(CoreTheme.spacings.forceUpdateDialogImageSize)
+                modifier = Modifier.size(CoreTheme.spacings.forceUpdateDialog.forceUpdateDialogImageSize)
                     .padding(top = msgSpacing)
             )
 
@@ -83,18 +78,14 @@ fun ForceUpdateDialog(
                 textAlign = TextAlign.Center,
                 color = bodyTextColor,
                 style = bodyTextStyle,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = textPadding)
+                modifier = Modifier.fillMaxWidth().padding(top = textPadding)
             )
 
             // Render buttons
             Column(
                 verticalArrangement = Arrangement.spacedBy(dialogSpacings),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(buttonsPadding)
+                modifier = Modifier.fillMaxWidth().padding(buttonsPadding)
             ) {
 
                 // Positive button
