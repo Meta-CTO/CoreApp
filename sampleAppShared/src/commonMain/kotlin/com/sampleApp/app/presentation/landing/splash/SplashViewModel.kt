@@ -136,7 +136,7 @@ class SplashViewModel(
                 // TODO will navigate to next screen
             },
             onUpdateClick = {
-                intentLauncher.launchAppStore(appId = appEnvironment.iOSAppId)
+                intentLauncher.launchAppStore(appId = appEnvironment.storeAppId)
             })
     })
 }
