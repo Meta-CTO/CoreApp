@@ -36,6 +36,7 @@ fun DatePickerDialog(
     minDate: LocalDate? = null,
     maxDate: LocalDate? = null,
     rowCount: Int = 5,
+    showToolbar: Boolean = CoreTheme.spacings.datePickerDialog.showToolbar,
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onDatePicked: (LocalDate) -> Unit,
     onDismiss: () -> Unit = {},
@@ -69,7 +70,7 @@ fun DatePickerDialog(
         modifier = modifier,
         onDismiss = onDismiss,
         isCancellable = isCancellable,
-        showToolbar = false,
+        showToolbar = showToolbar,
         contentPadding = padding
     ) {
         // Container column

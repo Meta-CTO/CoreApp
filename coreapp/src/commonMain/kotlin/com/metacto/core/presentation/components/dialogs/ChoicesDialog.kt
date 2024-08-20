@@ -22,6 +22,7 @@ fun ChoicesDialog(
     btnBgColor: Color = CoreTheme.colors.choicesDialog.btnBgColor,
     btnTextColor: Color = CoreTheme.colors.choicesDialog.btnTextColor,
     choices: List<String>,
+    showToolbar: Boolean = CoreTheme.spacings.choicesDialog.showToolbar,
     onChoiceSelected: (String, Int) -> Unit,
     onDismiss: (() -> Unit)? = null,
     verticalSpacing: Dp = CoreTheme.spacings.choicesDialog.verticalSpacing
@@ -30,7 +31,7 @@ fun ChoicesDialog(
     AppDialog(
         modifier = modifier,
         title = title,
-        showToolbar = true,
+        showToolbar = showToolbar,
         onDismiss = onDismiss,
         isCancellable = isCancellable,
     ) {
