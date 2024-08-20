@@ -27,7 +27,7 @@ class ForceUpdateRepository(
         val appUpdateResult = if (appUpdateSource == AppUpdateSource.REMOTE_CONFIGS) {
             // fetch the remote config
             val forceUpdateRemoteConfig =
-                remoteConfigs.forceGetString(appEnvironment.updateRemoteConfigKey)
+                remoteConfigs.forceGetString(appEnvironment.forceUpdateRemoteConfigKey)
 
             // start handle the force update from remote config
             val forceUpdate =
@@ -49,7 +49,7 @@ class ForceUpdateRepository(
             UpdateType.REQUIRED, UpdateType.OPTIONAL -> onUpdateRequired(
                 appUpdateResult.message,
                 appUpdateResult.updateType == UpdateType.REQUIRED,
-                appEnvironment.iOSAppId
+                appEnvironment.storeAppId
             )
 
             UpdateType.NONE -> onProceed()
