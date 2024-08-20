@@ -28,7 +28,9 @@ fun OverrideUserDialog(
     onOverrideClick: ((Int?) -> Unit)? = null,
     onResetClick: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
+    showToolbar: Boolean = CoreTheme.spacings.overrideUserDialog.showToolbar,
     msgSpacing: Dp = CoreTheme.spacings.overrideUserDialog.msgSpacing,
+    bodyTextAlign: TextAlign = CoreTheme.spacings.overrideUserDialog.bodyTextAlign,
     overrideBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialog.overrideBtnPadding),
     resetBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialog.resetBtnPadding),
     idTextPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialog.idTextPadding),
@@ -48,7 +50,7 @@ fun OverrideUserDialog(
     AppDialog(
         modifier = modifier,
         title = stringResource(MR.strings.override_current_user),
-        showToolbar = true,
+        showToolbar = showToolbar,
         onDismiss = onDismiss,
         isCancellable = true,
     ) {
@@ -60,7 +62,7 @@ fun OverrideUserDialog(
             // Render body text
             Text(
                 text = stringResource(MR.strings.override_current_user_message),
-                textAlign = TextAlign.Center,
+                textAlign = bodyTextAlign,
                 color = bodyTextColor,
                 style = bodyTextStyle,
                 modifier = Modifier

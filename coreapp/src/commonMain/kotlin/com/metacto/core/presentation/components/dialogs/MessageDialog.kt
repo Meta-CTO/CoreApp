@@ -13,9 +13,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
-import com.metacto.coreApp.MR
-import com.metacto.core.presentation.components.buttons.PrimaryStrokedButton
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.coreApp.MR
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
@@ -27,6 +26,8 @@ fun MessageDialog(
     buttonText: String? = null,
     onPositiveClick: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
+    bodyTextAlign: TextAlign = CoreTheme.spacings.messageDialog.bodyTextAlign,
+    showToolbar: Boolean = CoreTheme.spacings.messageDialog.showToolbar,
     buttonPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.messageDialog.btnPaddingTop),
     bodyTextStyle: TextStyle = CoreTheme.typography.messageDialog.textStyle,
     bodyTextColor: Color = CoreTheme.colors.messageDialog.bodyTextColor,
@@ -47,7 +48,7 @@ fun MessageDialog(
     AppDialog(
         modifier = modifier,
         title = title,
-        showToolbar = true,
+        showToolbar = showToolbar,
         onDismiss = onDismiss,
         isCancellable = isCancellable,
     ) {
@@ -59,7 +60,7 @@ fun MessageDialog(
             // Render body text
             Text(
                 text = body,
-                textAlign = TextAlign.Center,
+                textAlign = bodyTextAlign,
                 color = bodyTextColor,
                 style = bodyTextStyle,
                 modifier = Modifier
