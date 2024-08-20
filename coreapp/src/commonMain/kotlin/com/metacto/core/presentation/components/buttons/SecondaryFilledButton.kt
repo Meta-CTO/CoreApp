@@ -15,26 +15,27 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun SecondaryFilledButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.secondaryFilledBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.secondaryFilledButton.textStyle,
     iconColor: Color? = CoreTheme.colors.secondaryFilledButton.iconColor,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
     endIconVector: ImageVector? = null,
+    iconSize: Dp = CoreTheme.spacings.iconLarge,
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.secondaryFilledBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.secondaryFilledBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.secondaryFilledButton.paddingVertical,
+        horizontal = CoreTheme.spacings.secondaryFilledButton.paddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.secondaryFilledButton.textColor,
     backgroundColor: Color = CoreTheme.colors.secondaryFilledButton.bgColor,
-    minHeightSmall: Dp = CoreTheme.spacings.secondaryFilledBtnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.secondaryFilledBtnMinHeightNormal,
-    shapeSmall: RoundedCornerShape = CoreTheme.shapes.secondaryFilledBtnShapeSmall,
-    shapeNormal: RoundedCornerShape = CoreTheme.shapes.secondaryFilledBtnShapeNormal,
+    minHeightSmall: Dp = CoreTheme.spacings.secondaryFilledButton.minHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.secondaryFilledButton.minHeightNormal,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.secondaryFilledButton.shapeSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.secondaryFilledButton.shapeNormal,
     onClick: () -> Unit = {}
 ) {
     BaseButton(
@@ -43,6 +44,7 @@ fun SecondaryFilledButton(
         textStyle = textStyle,
         textColor = textColor,
         iconColor = iconColor,
+        iconSize = iconSize,
         backgroundColor = backgroundColor,
         startIconPainter = startIconPainter,
         startIconVector = startIconVector,

@@ -26,14 +26,14 @@ fun DialogToolbar(
     title: String? = null,
     showClose: Boolean = false,
     onCloseClicked: () -> Unit = {},
-    closeSize: Dp = CoreTheme.spacings.dialogToolbarCloseSize,
+    closeSize: Dp = CoreTheme.spacings.dialogToolbar.closeSize,
     closeColor: Color = CoreTheme.colors.dialogToolbar.closeColor,
     textColor: Color = CoreTheme.colors.dialogToolbar.textColor,
-    textStyle: TextStyle = CoreTheme.typography.dialogToolbarTextStyle,
-    paddingHorizontal: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.dialogToolbarHorizontalPadding),
+    textStyle: TextStyle = CoreTheme.typography.dialogToolbar.textStyle,
+    paddingHorizontal: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.dialogToolbar.paddingHorizontal),
     paddingVertical: PaddingValues = PaddingValues(
-        top = CoreTheme.spacings.dialogToolbarTopPadding,
-        bottom = CoreTheme.spacings.dialogToolbarBottomPadding
+        top = CoreTheme.spacings.dialogToolbar.paddingTop,
+        bottom = CoreTheme.spacings.dialogToolbar.paddingBottom
     )
 ) {
     // Toolbar

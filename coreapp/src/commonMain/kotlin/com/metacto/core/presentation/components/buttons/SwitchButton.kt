@@ -32,7 +32,7 @@ fun SwitchButton(
     thumbNonToggled: Color = CoreTheme.colors.switchThumbNonToggled,
     width: Dp = CoreTheme.spacings.switchBtnWidth,
     height: Dp = CoreTheme.spacings.switchBtnHeight,
-    shape:RoundedCornerShape = CoreTheme.shapes.switchBtnShape
+    shape: RoundedCornerShape = CoreTheme.shapes.switchButton.shape
 ) {
     // Prepare states
     val switchColor by animateColorAsState(

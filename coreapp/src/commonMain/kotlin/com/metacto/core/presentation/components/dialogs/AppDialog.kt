@@ -22,9 +22,9 @@ fun AppDialog(
     title: String? = null,
     isCancellable: Boolean = true,
     onDismiss: (() -> Unit)? = null,
-    contentPadding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContentPadding),
-    containerPadding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialogContainerPadding),
-    shape: RoundedCornerShape = CoreTheme.shapes.appDialogShape,
+    contentPadding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialog.contentPadding),
+    containerPadding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialog.containerPadding),
+    shape: RoundedCornerShape = CoreTheme.shapes.appDialog.shape,
     containerBackground: Color = CoreTheme.colors.appDialog.containerBgColor,
     content: @Composable () -> Unit
 ) {

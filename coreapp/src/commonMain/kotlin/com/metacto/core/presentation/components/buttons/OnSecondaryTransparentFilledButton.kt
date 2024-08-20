@@ -15,24 +15,25 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun OnSecondaryTransparentFilledButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.onSecondaryTransparentFilledBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.onSecondaryTransparentFilledButton.textStyle,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
     endIconVector: ImageVector? = null,
+    iconSize: Dp = CoreTheme.spacings.iconLarge,
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.onSecondaryTransparentFilledBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.onSecondaryTransparentFilledBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.onSecondaryTransparentFilledButton.paddingVertical,
+        horizontal = CoreTheme.spacings.onSecondaryTransparentFilledButton.paddingHorizontal
     ),
     backgroundColor: Color = CoreTheme.colors.onSecondaryTransparentFilledButton.bgColor,
     textColor: Color = CoreTheme.colors.onSecondaryTransparentFilledButton.textColor,
     iconColor: Color = CoreTheme.colors.onSecondaryTransparentFilledButton.iconColor,
-    elevation: Dp = CoreTheme.spacings.onSecondaryTransparentFilledBtnElevation,
-    minHeight: Dp = CoreTheme.spacings.onSecondaryTransparentFilledBtnMinHeight,
-    shape: RoundedCornerShape = CoreTheme.shapes.onSecondaryTransparentFilledBtnShape,
+    elevation: Dp = CoreTheme.spacings.onSecondaryTransparentFilledButton.elevation,
+    minHeight: Dp = CoreTheme.spacings.onSecondaryTransparentFilledButton.minHeight,
+    shape: RoundedCornerShape = CoreTheme.shapes.onSecondaryTransparentFilledButton.shape,
     onClick: () -> Unit = {}
 ) {
     BaseButton(
@@ -48,6 +49,7 @@ fun OnSecondaryTransparentFilledButton(
         startIconVector = startIconVector,
         endIconPainter = endIconPainter,
         endIconVector = endIconVector,
+        iconSize = iconSize,
         isEnabled = isEnabled,
         isDimmed = isDimmed,
         isLoading = isLoading,

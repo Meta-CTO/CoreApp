@@ -16,7 +16,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun SmallProgressIndicator(
     modifier: Modifier = Modifier,
     color: Color = CoreTheme.colors.smallProgressIndicator.progressColor,
-    padding: Dp = CoreTheme.spacings.smallProgressIndicator,
+    padding: Dp = CoreTheme.spacings.smallProgressIndicator.padding,
     progressSize: Dp = CoreTheme.spacings.progressSizeSmall
 ) {
     Box(

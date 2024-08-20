@@ -37,12 +37,12 @@ internal fun TimePickerDialog(
     rowCount: Int = 5,
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onTimePicked: (LocalTime) -> Unit,
-    padding: PaddingValues = PaddingValues(CoreTheme.spacings.timePickerDialogPadding),
-    wheelPadding: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.timePickerWheelPaddingHorizontal),
-    okBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.timePickerOkBtnPaddingTop),
-    height: Dp = CoreTheme.spacings.timePickerHeight,
-    pickerPadding: Dp = CoreTheme.spacings.timePickerPickerPadding,
-    wheelHeight: Dp = CoreTheme.spacings.timePickerWheelHeight,
+    padding: PaddingValues = PaddingValues(CoreTheme.spacings.timePickerDialog.padding),
+    wheelPadding: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.timePickerDialog.wheelPaddingHorizontal),
+    okBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.timePickerDialog.btnPaddingTop),
+    height: Dp = CoreTheme.spacings.timePickerDialog.height,
+    pickerPadding: Dp = CoreTheme.spacings.timePickerDialog.pickPadding,
+    wheelHeight: Dp = CoreTheme.spacings.timePickerDialog.wheelHeight,
     onDismiss: () -> Unit = {}
 ) {
     // Get main objects

@@ -24,83 +24,289 @@ data class CoreShapes(
     ),
 
     // PrimaryFilledButton
-    val primaryFilledBtnShapeSmall: RoundedCornerShape = xSmall,
-    val primaryFilledBtnShapeNormal: RoundedCornerShape = small,
+    val primaryFilledButton: PrimaryFilledButtonShapes = PrimaryFilledButtonShapes(
+        xSmall = xSmall,
+        small = small
+    ),
 
     // DangerFilledButton
-    val dangerFilledButtonShapeSmall: RoundedCornerShape = xSmall,
-    val dangerFilledButtonShapeNormal: RoundedCornerShape = small,
+    val dangerFilledButton: DangerFilledButtonShapes = DangerFilledButtonShapes(
+        xSmall = xSmall,
+        small = small
+    ),
 
     // FloatingButton
-    val floatingBtnShape: RoundedCornerShape = xxxLarge,
+    val floatingButton: FloatingButtonShapes = FloatingButtonShapes(
+        xxxLarge = xxxLarge
+    ),
 
     // OnSecondaryTransparentFilledButton
-    val onSecondaryTransparentFilledBtnShape: RoundedCornerShape = small,
+    val onSecondaryTransparentFilledButton: OnSecondaryTransparentFilledButtonShapes = OnSecondaryTransparentFilledButtonShapes(
+        small = small
+    ),
 
     // PrimaryCheckableButton
-    val primaryCheckableBtnShape: RoundedCornerShape = small,
+    val primaryCheckableButton: PrimaryCheckableButtonShapes = PrimaryCheckableButtonShapes(
+        small = small
+    ),
 
     // PrimaryStrokedButton
-    val primaryStrokedBtnShapeSmall: RoundedCornerShape = xSmall,
-    val primaryStrokedBtnShapeNormal: RoundedCornerShape = small,
+    val primaryStrokedButton: PrimaryStrokedButtonShapes = PrimaryStrokedButtonShapes(
+        xSmall = xSmall,
+        small = small
+    ),
 
     // SecondaryFilledButton
-    val secondaryFilledBtnShapeSmall: RoundedCornerShape = xSmall,
-    val secondaryFilledBtnShapeNormal: RoundedCornerShape = small,
+    val secondaryFilledButton: SecondaryFilledButtonShapes = SecondaryFilledButtonShapes(
+        xSmall = xSmall,
+        small = small
+    ),
 
     // SecondaryStrokedButton
-    val secondaryStrokedBtnShapeSmall: RoundedCornerShape = xSmall,
-    val secondaryStrokedBtnShapeNormal: RoundedCornerShape = small,
+    val secondaryStrokedButton: SecondaryStrokedButtonShapes = SecondaryStrokedButtonShapes(
+        xSmall = xSmall,
+        small = small
+    ),
 
     // SwitchButton
-    val switchBtnShape: RoundedCornerShape = circle,
+    val switchButton: SwitchButtonShapes = SwitchButtonShapes(
+        circle = circle
+    ),
 
-    // tertiaryFilledButton
-    val tertiaryFilledBtnShapeSmall: RoundedCornerShape = xSmall,
-    val tertiaryFilledBtnShapeNormal: RoundedCornerShape = small,
+    // TertiaryFilledButton
+    val tertiaryFilledButton: TertiaryFilledButtonShapes = TertiaryFilledButtonShapes(
+        xSmall = xSmall,
+        small = small
+    ),
 
     // TertiaryStrokedButton
-    val tertiaryStrokedBtnShapeSmall: RoundedCornerShape = xSmall,
-    val tertiaryStrokedBtnShapeNormal: RoundedCornerShape = small,
+    val tertiaryStrokedButton: TertiaryStrokedButtonShapes = TertiaryStrokedButtonShapes(
+        xSmall = xSmall,
+        small = small
+    ),
 
     // AppDialog
-    val appDialogShape: RoundedCornerShape = xLarge,
+    val appDialog: AppDialogShapes = AppDialogShapes(
+        xLarge = xLarge
+    ),
 
     // OtpDigit
-    val otpDigitShape: RoundedCornerShape = xLarge,
+    val otpDigit: OtpDigitShapes = OtpDigitShapes(
+        xLarge = xLarge
+    ),
 
     // PickerInputField
-    val pickerInputFieldShape: RoundedCornerShape = small,
+    val pickerInputField: PickerInputFieldShapes = PickerInputFieldShapes(
+        small = small
+    ),
 
     // PriceTextInputField
-    val priceInputFieldBgShape: RoundedCornerShape = small,
+    val priceTextInputField: PriceTextInputFieldShapes = PriceTextInputFieldShapes(
+        small = small
+    ),
 
     // PrimaryTextInputField
-    val primaryInputFieldShape: RoundedCornerShape = small,
+    val primaryTextInputField: PrimaryTextInputFieldShapes = PrimaryTextInputFieldShapes(
+        small = small
+    ),
 
     // TertiaryTextInputField
-    val tertiaryInputFieldShape: RoundedCornerShape = small,
+    val tertiaryTextInputField: TertiaryTextInputFieldShapes = TertiaryTextInputFieldShapes(
+        small = small
+    ),
 
     // NumberItem
-    val numberItemShape: RoundedCornerShape = circle,
+    val numberItem: NumberItemShapes = NumberItemShapes(
+        circle = circle
+    ),
 
     // Dot
-    val dotShape: RoundedCornerShape = circle,
+    val dot: DotShapes = DotShapes(
+        circle = circle
+    ),
 
     // HorizontalPagerIndicator
-    val horizontalPagerIndicatorShape: RoundedCornerShape = circle,
+    val horizontalPagerIndicator: HorizontalPagerIndicatorShapes = HorizontalPagerIndicatorShapes(
+        circle = circle
+    ),
 
     // HorizontalPagerTabItem
-    val horizontalPagerTabItemShape: RoundedCornerShape = medium,
+    val horizontalPagerTabItem: HorizontalPagerTabItemShapes = HorizontalPagerTabItemShapes(
+        medium = medium
+    ),
 
     // SecondaryStepBar
-    val secondaryStepBarProgressShape: RoundedCornerShape = large,
+    val secondaryStepBar: SecondaryStepBarShapes = SecondaryStepBarShapes(
+        large = large
+    ),
 
     // ItemPicker
-    val itemPickerShape: RoundedCornerShape = itemPickerItem,
+    val itemPicker: ItemPickerShapes = ItemPickerShapes(
+        itemPickerItem = itemPickerItem
+    ),
 
     // SelectorProperties
-    val selectorPropertiesShape: RoundedCornerShape = wheelPickerItem,
+    val selectorProperties: SelectorPropertiesShapes = SelectorPropertiesShapes(
+        wheelPickerItem = wheelPickerItem
+    )
+)
+
+// PrimaryFilledButton
+data class PrimaryFilledButtonShapes(
+    private val xSmall: RoundedCornerShape,
+    private val small: RoundedCornerShape,
+    val shapeSmall: RoundedCornerShape = xSmall,
+    val shapeNormal: RoundedCornerShape = small
+)
+
+// DangerFilledButton
+data class DangerFilledButtonShapes(
+    private val xSmall: RoundedCornerShape,
+    private val small: RoundedCornerShape,
+    val shapeSmall: RoundedCornerShape = xSmall,
+    val shapeNormal: RoundedCornerShape = small
+)
+
+// FloatingButton
+data class FloatingButtonShapes(
+    private val xxxLarge: RoundedCornerShape,
+    val shape: RoundedCornerShape = xxxLarge
+)
+
+// OnSecondaryTransparentFilledButton
+data class OnSecondaryTransparentFilledButtonShapes(
+    private val small: RoundedCornerShape,
+    val shape: RoundedCornerShape = small
+)
+
+// PrimaryCheckableButton
+data class PrimaryCheckableButtonShapes(
+    private val small: RoundedCornerShape,
+    val shape: RoundedCornerShape = small
+)
+
+// PrimaryStrokedButton
+data class PrimaryStrokedButtonShapes(
+    private val xSmall: RoundedCornerShape,
+    private val small: RoundedCornerShape,
+    val shapeSmall: RoundedCornerShape = xSmall,
+    val shapeNormal: RoundedCornerShape = small
+)
+
+// SecondaryFilledButton
+data class SecondaryFilledButtonShapes(
+    private val xSmall: RoundedCornerShape,
+    private val small: RoundedCornerShape,
+    val shapeSmall: RoundedCornerShape = xSmall,
+    val shapeNormal: RoundedCornerShape = small
+)
+
+// SecondaryStrokedButton
+data class SecondaryStrokedButtonShapes(
+    private val xSmall: RoundedCornerShape,
+    private val small: RoundedCornerShape,
+    val shapeSmall: RoundedCornerShape = xSmall,
+    val shapeNormal: RoundedCornerShape = small
+)
+
+// SwitchButton
+data class SwitchButtonShapes(
+    private val circle: RoundedCornerShape,
+    val shape: RoundedCornerShape = circle
+)
+
+// tertiaryFilledButton
+data class TertiaryFilledButtonShapes(
+    private val xSmall: RoundedCornerShape,
+    private val small: RoundedCornerShape,
+    val shapeSmall: RoundedCornerShape = xSmall,
+    val shapeNormal: RoundedCornerShape = small
+)
+
+// TertiaryStrokedButton
+data class TertiaryStrokedButtonShapes(
+    private val xSmall: RoundedCornerShape,
+    private val small: RoundedCornerShape,
+    val shapeSmall: RoundedCornerShape = xSmall,
+    val shapeNormal: RoundedCornerShape = small
+)
+
+// AppDialog
+data class AppDialogShapes(
+    private val xLarge: RoundedCornerShape,
+    val shape: RoundedCornerShape = xLarge
+)
+
+// OtpDigit
+data class OtpDigitShapes(
+    private val xLarge: RoundedCornerShape,
+    val shape: RoundedCornerShape = xLarge
+)
+
+// PickerInputField
+data class PickerInputFieldShapes(
+    private val small: RoundedCornerShape,
+    val shape: RoundedCornerShape = small
+)
+
+// PriceTextInputField
+data class PriceTextInputFieldShapes(
+    private val small: RoundedCornerShape,
+    val shape: RoundedCornerShape = small
+)
+
+// PrimaryTextInputField
+data class PrimaryTextInputFieldShapes(
+    private val small: RoundedCornerShape,
+    val shape: RoundedCornerShape = small
+)
+
+// TertiaryTextInputField
+data class TertiaryTextInputFieldShapes(
+    private val small: RoundedCornerShape,
+    val shape: RoundedCornerShape = small
+)
+
+// NumberItem
+data class NumberItemShapes(
+    private val circle: RoundedCornerShape,
+    val shape: RoundedCornerShape = circle
+)
+
+// Dot
+data class DotShapes(
+    private val circle: RoundedCornerShape,
+    val shape: RoundedCornerShape = circle
+)
+
+// HorizontalPagerIndicator
+data class HorizontalPagerIndicatorShapes(
+    private val circle: RoundedCornerShape,
+    val indicatorShape: RoundedCornerShape = circle
+)
+
+// HorizontalPagerTabItem
+data class HorizontalPagerTabItemShapes(
+    private val medium: RoundedCornerShape,
+    val shape: RoundedCornerShape = medium
+)
+
+// SecondaryStepBar
+data class SecondaryStepBarShapes(
+    private val large: RoundedCornerShape,
+    val progressShape: RoundedCornerShape = large
+)
+
+// ItemPicker
+data class ItemPickerShapes(
+    private val itemPickerItem: RoundedCornerShape,
+    val selectorShape: RoundedCornerShape = itemPickerItem
+)
+
+// SelectorProperties
+data class SelectorPropertiesShapes(
+    private val wheelPickerItem: RoundedCornerShape,
+    val shape: RoundedCornerShape = wheelPickerItem
 )
 
 val LocalCoreShapes = staticCompositionLocalOf { CoreShapes() }

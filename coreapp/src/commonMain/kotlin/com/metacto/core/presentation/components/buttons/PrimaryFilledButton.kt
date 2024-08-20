@@ -18,23 +18,24 @@ fun PrimaryFilledButton(
     textColor: Color = CoreTheme.colors.primaryFilledButton.textColor,
     iconColor: Color? = CoreTheme.colors.primaryFilledButton.iconColor,
     backgroundColor: Color = CoreTheme.colors.primaryFilledButton.bgColor,
-    textStyle: TextStyle = CoreTheme.typography.primaryFilledBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.primaryFilledButton.textStyle,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
     endIconVector: ImageVector? = null,
+    iconSize: Dp = CoreTheme.spacings.iconLarge,
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.primaryFilledBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.primaryFilledBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.primaryFilledButton.paddingVertical,
+        horizontal = CoreTheme.spacings.primaryFilledButton.paddingHorizontal
     ),
-    minHeightSmall: Dp = CoreTheme.spacings.primaryFilledBtnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.primaryFilledBtnMinHeightNormal,
-    shapeSmall: RoundedCornerShape = CoreTheme.shapes.primaryFilledBtnShapeSmall,
-    shapeNormal: RoundedCornerShape = CoreTheme.shapes.primaryFilledBtnShapeNormal,
+    minHeightSmall: Dp = CoreTheme.spacings.primaryFilledButton.minHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.primaryFilledButton.minHeightNormal,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.primaryFilledButton.shapeSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.primaryFilledButton.shapeNormal,
     onClick: () -> Unit = {}
 ) {
     BaseButton(
@@ -43,6 +44,7 @@ fun PrimaryFilledButton(
         textStyle = textStyle,
         textColor = textColor,
         iconColor = iconColor,
+        iconSize = iconSize,
         backgroundColor = backgroundColor,
         startIconPainter = startIconPainter,
         startIconVector = startIconVector,

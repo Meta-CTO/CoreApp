@@ -16,28 +16,29 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun TertiaryStrokedButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.tertiaryStrokedBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.tertiaryStrokedButton.textStyle,
     iconColor: Color? = CoreTheme.colors.tertiaryStrokedButton.iconColor,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
     endIconVector: ImageVector? = null,
+    iconSize: Dp = CoreTheme.spacings.iconLarge,
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.tertiaryStrokedBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.tertiaryStrokedBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.tertiaryStrokedButton.paddingVertical,
+        horizontal = CoreTheme.spacings.tertiaryStrokedButton.paddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.tertiaryStrokedButton.textColor,
     backgroundColor: Color = CoreTheme.colors.tertiaryStrokedButton.bgColor,
-    minHeightSmall: Dp = CoreTheme.spacings.tertiaryStrokedBtnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.tertiaryStrokedBtnMinHeightNormal,
-    shapeSmall: RoundedCornerShape = CoreTheme.shapes.tertiaryStrokedBtnShapeSmall,
-    shapeNormal: RoundedCornerShape = CoreTheme.shapes.tertiaryStrokedBtnShapeNormal,
+    minHeightSmall: Dp = CoreTheme.spacings.tertiaryStrokedButton.minHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.tertiaryStrokedButton.minHeightNormal,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.tertiaryStrokedButton.shapeSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.tertiaryStrokedButton.shapeNormal,
     border: BorderStroke = BorderStroke(
-        width = CoreTheme.spacings.tertiaryStrokedBtnStrokeWidth,
+        width = CoreTheme.spacings.tertiaryStrokedButton.strokeWidth,
         color = CoreTheme.colors.tertiaryStrokedButton.strokeColor
     ),
     onClick: () -> Unit = {}
@@ -48,6 +49,7 @@ fun TertiaryStrokedButton(
         textStyle = textStyle,
         textColor = textColor,
         iconColor = iconColor,
+        iconSize = iconSize,
         startIconPainter = startIconPainter,
         startIconVector = startIconVector,
         endIconPainter = endIconPainter,

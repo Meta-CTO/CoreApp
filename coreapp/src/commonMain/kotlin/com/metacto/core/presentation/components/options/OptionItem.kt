@@ -29,15 +29,15 @@ fun OptionItem(
     option: OptionUIModel,
     onClick: () -> Unit,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.optionItemPaddingVertical,
-        horizontal = CoreTheme.spacings.optionItemPaddingHorizontal
+        vertical = CoreTheme.spacings.optionItem.paddingVertical,
+        horizontal = CoreTheme.spacings.optionItem.paddingHorizontal
     ),
-    iconSize: Dp = CoreTheme.spacings.optionItemPaddingIconSize,
-    textSpacing: Dp = CoreTheme.spacings.optionItemPaddingTextSpacing,
-    arrowSize: Dp = CoreTheme.spacings.optionItemPaddingArrowSize,
+    iconSize: Dp = CoreTheme.spacings.optionItem.iconSize,
+    textSpacing: Dp = CoreTheme.spacings.optionItem.textSpacing,
+    arrowSize: Dp = CoreTheme.spacings.optionItem.arrowSize,
     defaultColor: Color = CoreTheme.colors.optionItem.defaultColor,
     optionColor: Color = CoreTheme.colors.optionsArrow,
-    textStyle: TextStyle = CoreTheme.typography.optionItemTextStyle
+    textStyle: TextStyle = CoreTheme.typography.optionItem.textStyle
 ) {
     // Prepare the color
     val color = option.color.toColor() ?: defaultColor

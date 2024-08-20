@@ -48,7 +48,7 @@ fun AppImage(
     colorFilter: ColorFilter? = null,
     shape: Shape? = null,
     border: BorderStroke? = null,
-    elevation: Dp = CoreTheme.spacings.appImageElevation,
+    elevation: Dp = CoreTheme.spacings.appImage.elevation,
     bgColor: Color? = null,
     quality: FilterQuality = FilterQuality.Medium,
     crossFade: Boolean = true,
