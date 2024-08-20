@@ -20,7 +20,7 @@ fun OnSecondaryTransparentFilledButton(
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
     endIconVector: ImageVector? = null,
-    iconSize: Dp = CoreTheme.spacings.iconLarge,
+    iconSize: Dp = CoreTheme.spacings.onSecondaryTransparentFilledButton.iconSize,
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isLoading: Boolean = false,

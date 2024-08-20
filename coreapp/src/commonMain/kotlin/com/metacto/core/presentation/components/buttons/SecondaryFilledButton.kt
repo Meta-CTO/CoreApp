@@ -21,7 +21,7 @@ fun SecondaryFilledButton(
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
     endIconVector: ImageVector? = null,
-    iconSize: Dp = CoreTheme.spacings.iconLarge,
+    iconSize: Dp = CoreTheme.spacings.secondaryFilledButton.iconSize,
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isSmall: Boolean = false,

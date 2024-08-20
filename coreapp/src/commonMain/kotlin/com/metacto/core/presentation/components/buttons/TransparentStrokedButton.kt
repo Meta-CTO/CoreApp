@@ -22,7 +22,7 @@ fun TransparentStrokedButton(
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
     endIconVector: ImageVector? = null,
-    iconSize: Dp = CoreTheme.spacings.iconLarge,
+    iconSize: Dp = CoreTheme.spacings.transparentStrokedButton.iconSize,
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isLoading: Boolean = false,
