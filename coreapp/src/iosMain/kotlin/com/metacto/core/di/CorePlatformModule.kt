@@ -1,7 +1,7 @@
 package com.metacto.core.di
 
 import coil3.PlatformContext
-import com.metacto.core.domain.repos.ForceUpdateRepository
+import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.permissions.PermissionManager

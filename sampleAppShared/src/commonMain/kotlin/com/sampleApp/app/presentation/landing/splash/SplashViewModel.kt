@@ -1,6 +1,7 @@
 package com.sampleApp.app.presentation.landing.splash
 
 import com.metacto.core.CoreEnvironment
+import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.utils.DateHelper
@@ -10,7 +11,6 @@ import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.Notification
 import com.metacto.core.utils.parseDate
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
-import com.metacto.strapikmm.util.Logger
 import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
@@ -129,7 +129,7 @@ class SplashViewModel(
 
     private fun checkForUpdates() = executeSilent({
         checkAppUpdates(
-            isFromRemoteConfigs = true,
+            appUpdateSource = AppUpdateSource.STRAPI_CONFIGS,
             title = "Ahmed",
             showTitle = true,
             onProceedAction = {

@@ -5,7 +5,8 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
-import com.metacto.core.domain.repos.ForceUpdateRepository
+import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource
+import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
 import com.metacto.core.navigation.NavManager
 import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.presentation.globalState.ICoreGlobalState
@@ -321,7 +322,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     }
 
     suspend fun checkAppUpdates(
-        isFromRemoteConfigs: Boolean,
+        appUpdateSource: AppUpdateSource,
         showTitle: Boolean = true,
         title: String? = null,
         image: CommonImageResource? = null,
@@ -335,7 +336,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
         // check for app updates first
         forceUpdateRepository.checkForceUpdate(
-            isFromRemoteConfigs = isFromRemoteConfigs,
+            appUpdateSource = appUpdateSource,
             onUpdateRequired = { message, isRequired, iOSAppVersion ->
                 coreGlobalState.forceUpdatePopup(
                     params = ForceUpdatePopupParams(

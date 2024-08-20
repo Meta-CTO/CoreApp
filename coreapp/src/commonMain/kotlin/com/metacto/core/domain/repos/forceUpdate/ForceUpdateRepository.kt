@@ -1,4 +1,4 @@
-package com.metacto.core.domain.repos
+package com.metacto.core.domain.repos.forceUpdate
 
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.utils.remoteConfigs.IRemoteConfigs
@@ -18,13 +18,13 @@ class ForceUpdateRepository(
 
     @Throws(Throwable::class)
     suspend fun checkForceUpdate(
-        isFromRemoteConfigs: Boolean,
+        appUpdateSource: AppUpdateSource,
         onUpdateRequired: (message: String, isRequired: Boolean, iOSAppVersion: String) -> Unit,
         onProceed: () -> Unit
     ) {
 
         // check if the remote config has
-        val appUpdateResult = if (isFromRemoteConfigs) {
+        val appUpdateResult = if (appUpdateSource == AppUpdateSource.REMOTE_CONFIGS) {
             // fetch the remote config
             val forceUpdateRemoteConfig =
                 remoteConfigs.forceGetString(appEnvironment.updateRemoteConfigKey)
