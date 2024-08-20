@@ -193,7 +193,9 @@ data class CoreSpacings(
         btnPaddingHorizontal = btnPaddingHorizontal,
         noSpacing = noSpacing,
         stroke = stroke,
-        iconLarge = iconLarge
+        iconLarge = iconLarge,
+        btnMinHeightNormal = btnMinHeightNormal,
+        btnMinHeightSmall = btnMinHeightSmall
     ),
 
     // DatePickerDialog
@@ -624,6 +626,10 @@ data class TransparentStrokedButtonSpacings(
     private val noSpacing: Dp,
     private val stroke: Dp,
     private val iconLarge: Dp,
+    private val btnMinHeightNormal: Dp,
+    private val btnMinHeightSmall: Dp,
+    val minHeightSmall: Dp = btnMinHeightSmall,
+    val minHeightNormal: Dp = btnMinHeightNormal,
     val paddingVertical: Dp = btnPaddingVertical,
     val paddingHorizontal: Dp = btnPaddingHorizontal,
     val elevation: Dp = noSpacing,
