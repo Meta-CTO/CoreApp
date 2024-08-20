@@ -92,14 +92,18 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
         MokoAssetResourceMetadataLoader()
     }
 
+    single<AppConfigurationRepository> {
+        AppConfigurationRepository(
+            appConfigurationService = get(),
+            sharedPreference = get(),
+            appConfigurationExpirationInMinutes = 1
+        )
+    }
+
     single<ForceUpdateRepository> {
         ForceUpdateRepository(
             appEnvironment = get(),
-            appConfigurationRepository = AppConfigurationRepository(
-                appConfigurationService = get(),
-                sharedPreference = get(),
-                appConfigurationExpirationInMinutes = 1
-            ),
+            appConfigurationRepository = get(),
             remoteConfigs = get(),
         )
     }
