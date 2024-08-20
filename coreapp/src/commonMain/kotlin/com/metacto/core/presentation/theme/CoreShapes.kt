@@ -29,6 +29,12 @@ data class CoreShapes(
         small = small
     ),
 
+    // TransparentStrokedButton
+    val transparentStrokedButton: TransparentStrokedButtonShapes = TransparentStrokedButtonShapes(
+        xSmall = xSmall,
+        small = small
+    ),
+
     // DangerFilledButton
     val dangerFilledButton: DangerFilledButtonShapes = DangerFilledButtonShapes(
         xSmall = xSmall,
@@ -153,6 +159,14 @@ data class CoreShapes(
 
 // PrimaryFilledButton
 data class PrimaryFilledButtonShapes(
+    private val xSmall: RoundedCornerShape,
+    private val small: RoundedCornerShape,
+    val shapeSmall: RoundedCornerShape = xSmall,
+    val shapeNormal: RoundedCornerShape = small
+)
+
+// TransparentStrokedButton
+data class TransparentStrokedButtonShapes(
     private val xSmall: RoundedCornerShape,
     private val small: RoundedCornerShape,
     val shapeSmall: RoundedCornerShape = xSmall,
