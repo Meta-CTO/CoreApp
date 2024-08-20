@@ -14,12 +14,12 @@ fun WheelTextPicker(
     modifier: Modifier = Modifier,
     startIndex: Int = 0,
     size: DpSize = DpSize(
-        CoreTheme.spacings.wheelTextPickerWidth,
-        CoreTheme.spacings.wheelTextPickerHeight
+        width = CoreTheme.spacings.wheelTextPicker.pickerWidth,
+        height = CoreTheme.spacings.wheelTextPicker.pickerHeight
     ),
     texts: List<String>,
     rowCount: Int,
-    style: TextStyle = CoreTheme.typography.wheelTextPickerTextStyle,
+    style: TextStyle = CoreTheme.typography.wheelTextPicker.textStyle,
     color: Color = CoreTheme.colors.wheelTextPicker.textColor,
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onScrollFinished: (snappedIndex: Int) -> Int? = { null },

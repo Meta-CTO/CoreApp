@@ -15,26 +15,27 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun DangerFilledButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.dangerFilledBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.dangerFilledButton.textStyle,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
     endIconVector: ImageVector? = null,
+    iconSize: Dp = CoreTheme.spacings.iconLarge,
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.dangerFilledBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.dangerFilledBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.dangerFilledButton.paddingVertical,
+        horizontal = CoreTheme.spacings.dangerFilledButton.paddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.dangerFilledButton.textColor,
     iconColor: Color = CoreTheme.colors.dangerFilledButton.iconColor,
     backgroundColor: Color = CoreTheme.colors.dangerFilledButton.bgColor,
-    minHeightSmall: Dp = CoreTheme.spacings.dangerFilledBtnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.dangerFilledBtnMinHeightNormal,
-    shapeSmall: RoundedCornerShape = CoreTheme.shapes.dangerFilledButtonShapeSmall,
-    shapeNormal: RoundedCornerShape = CoreTheme.shapes.dangerFilledButtonShapeNormal,
+    minHeightSmall: Dp = CoreTheme.spacings.dangerFilledButton.minHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.dangerFilledButton.minHeightNormal,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.dangerFilledButton.shapeSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.dangerFilledButton.shapeNormal,
     onClick: () -> Unit = {}
 ) {
     BaseButton(
@@ -43,6 +44,7 @@ fun DangerFilledButton(
         textStyle = textStyle,
         textColor = textColor,
         iconColor = iconColor,
+        iconSize = iconSize,
         backgroundColor = backgroundColor,
         startIconPainter = startIconPainter,
         startIconVector = startIconVector,

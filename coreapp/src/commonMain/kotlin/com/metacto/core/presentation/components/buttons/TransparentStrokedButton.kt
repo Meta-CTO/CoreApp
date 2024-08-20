@@ -16,25 +16,26 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun TransparentStrokedButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.transparentStrokedBtn,
+    textStyle: TextStyle = CoreTheme.typography.transparentStrokedButton.textStyle,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
     endIconVector: ImageVector? = null,
+    iconSize: Dp = CoreTheme.spacings.iconLarge,
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isLoading: Boolean = false,
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.transparentStrokedBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.transparentStrokedBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.transparentStrokedButton.paddingVertical,
+        horizontal = CoreTheme.spacings.transparentStrokedButton.paddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.transparentStrokedButton.textColor,
     iconColor: Color = CoreTheme.colors.transparentStrokedButton.iconColor,
     backgroundColor: Color = CoreTheme.colors.transparentStrokedButton.bgColor,
-    elevation: Dp = CoreTheme.spacings.transparentStrokedBtnElevation,
+    elevation: Dp = CoreTheme.spacings.transparentStrokedButton.elevation,
     border: BorderStroke = BorderStroke(
-        width = CoreTheme.spacings.transparentStrokedBtnStrokeWidth,
+        width = CoreTheme.spacings.transparentStrokedButton.strokeWidth,
         color = CoreTheme.colors.transparentStrokedButton.strokeColor
     ),
     onClick: () -> Unit = {}
@@ -49,6 +50,7 @@ fun TransparentStrokedButton(
         startIconVector = startIconVector,
         endIconPainter = endIconPainter,
         endIconVector = endIconVector,
+        iconSize = iconSize,
         isEnabled = isEnabled,
         isDimmed = isDimmed,
         isLoading = isLoading,

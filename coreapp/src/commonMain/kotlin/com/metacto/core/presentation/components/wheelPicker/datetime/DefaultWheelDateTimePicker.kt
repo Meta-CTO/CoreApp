@@ -32,8 +32,8 @@ internal fun DefaultWheelDateTimePicker(
     yearsRange: IntRange? = IntRange(minDateTime.year, maxDateTime.year),
     timeFormat: TimeFormat = TimeFormat.HOUR_24,
     size: DpSize = DpSize(
-        CoreTheme.spacings.defaultWheelDateTimePickerWidth,
-        CoreTheme.spacings.defaultWheelDateTimePickerHeight
+        width = CoreTheme.spacings.defaultWheelDateTimePicker.pickerWidth,
+        height = CoreTheme.spacings.defaultWheelDateTimePicker.pickerHeight
     ),
     rowCount: Int = 3, // Number of rows to show
     textStyle: TextStyle = MaterialTheme.typography.titleMedium,

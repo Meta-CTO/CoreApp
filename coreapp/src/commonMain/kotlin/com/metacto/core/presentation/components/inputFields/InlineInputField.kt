@@ -54,7 +54,7 @@ fun InlineInputField(
     columnThreshold: Int = 8,
     focused: Boolean = false,
     textColor: Color = CoreTheme.colors.inlineInputField.textColor,
-    textStyle: TextStyle = CoreTheme.typography.inlineInputFieldTextStyle.copy(color = textColor),
+    textStyle: TextStyle = CoreTheme.typography.inlineInputField.textStyle.copy(color = textColor),
     placeholderTextColor: Color = CoreTheme.colors.inlineInputField.placeholderColor,
     capitalization: KeyboardCapitalization = KeyboardCapitalization.Sentences,
     keyboardActions: KeyboardActions = KeyboardActions.Default,

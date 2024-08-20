@@ -9,26 +9,28 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 
 @Composable
 fun SocialButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.socialBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.socialButton.textStyle,
     iconPainter: Painter? = null,
     iconVector: ImageVector? = null,
     isEnabled: Boolean = true,
     isLoading: Boolean = false,
+    iconSize: Dp = CoreTheme.spacings.iconLarge,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.socialBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.socialBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.socialButton.paddingVertical,
+        horizontal = CoreTheme.spacings.socialButton.paddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.socialButton.textColor,
     backgroundColor: Color = CoreTheme.colors.socialButton.bgColor,
     contentAlignment: Alignment.Horizontal = Alignment.Start,
     border: BorderStroke = BorderStroke(
-        width = CoreTheme.spacings.socialBtnStrokeWidth,
+        width = CoreTheme.spacings.socialButton.strokeWidth,
         color = CoreTheme.colors.socialButton.strokeColor
     ),
     onClick: () -> Unit = {}
@@ -40,6 +42,7 @@ fun SocialButton(
         textStyle = textStyle,
         startIconPainter = iconPainter,
         startIconVector = iconVector,
+        iconSize = iconSize,
         backgroundColor = backgroundColor,
         isEnabled = isEnabled,
         isLoading = isLoading,

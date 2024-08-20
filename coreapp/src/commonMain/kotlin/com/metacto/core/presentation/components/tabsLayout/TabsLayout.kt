@@ -24,7 +24,7 @@ fun TabsLayout(
     tabsScrollMinCount: Int = TABS_SCROLL_MIN_COUNT,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     tabItemHorizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
-        space = CoreTheme.spacings.tabTextPadding,
+        space = CoreTheme.spacings.tabItem.textPadding,
         alignment = Alignment.CenterHorizontally
     ),
     onTabClicked: ((Int) -> Unit)? = null
@@ -50,7 +50,7 @@ fun TabsLayout(
         val tabItemModifier = if (isRequiredScroll) {
             modifier
                 .fillMaxHeight()
-                .defaultMinSize(minWidth = CoreTheme.spacings.tabItemMinWidth)
+                .defaultMinSize(minWidth = CoreTheme.spacings.tabItem.itemMinWidth)
         } else {
             Modifier.weight(1f)
         }

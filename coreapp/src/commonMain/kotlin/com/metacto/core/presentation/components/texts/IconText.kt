@@ -33,9 +33,9 @@ fun IconText(
     isSingleLine: Boolean = false,
     color: Color = CoreTheme.colors.iconText.color,
     iconTint: Color? = color,
-    iconSize: Dp = CoreTheme.spacings.iconTextIconSize,
-    iconSpacing: Dp = CoreTheme.spacings.iconTextIconSpacing,
-    style: TextStyle = CoreTheme.typography.iconTextTextStyle,
+    iconSize: Dp = CoreTheme.spacings.iconText.iconSize,
+    iconSpacing: Dp = CoreTheme.spacings.iconText.iconSpacing,
+    style: TextStyle = CoreTheme.typography.iconText.textStyle,
     horizontalArrangement: Arrangement.Horizontal = Arrangement.Start,
     textAlign: TextAlign = TextAlign.Center
 ) {

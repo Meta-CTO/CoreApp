@@ -39,13 +39,13 @@ fun DatePickerDialog(
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onDatePicked: (LocalDate) -> Unit,
     onDismiss: () -> Unit = {},
-    okButtonPaddingHorizontal: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.datePickerDialogOkBtnPaddingHorizontal),
-    okButtonPaddingTop: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.datePickerDialogOkBtnPaddingTop),
-    wheelHeight: Dp = CoreTheme.spacings.datePickerDialogWheelHeight,
-    pickerPadding: Dp = CoreTheme.spacings.datePickerDialogPadding,
+    okButtonPaddingHorizontal: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.datePickerDialog.btnPaddingHorizontal),
+    okButtonPaddingTop: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.datePickerDialog.btnPaddingTop),
+    wheelHeight: Dp = CoreTheme.spacings.datePickerDialog.wheelHeight,
+    pickerPadding: Dp = CoreTheme.spacings.datePickerDialog.padding,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.datePickerDialogPaddingVertical,
-        horizontal = CoreTheme.spacings.datePickerDialogPaddingHorizontal
+        vertical = CoreTheme.spacings.datePickerDialog.paddingVertical,
+        horizontal = CoreTheme.spacings.datePickerDialog.paddingHorizontal
     )
 ) {
     var currentDate by remember {

@@ -35,8 +35,8 @@ fun HorizontalPagerIndicator(
     inactiveColor: Color = activeColor.copy(alpha = 0.3f),
     indicatorHeight: Dp = CoreTheme.spacings.tabIndicatorSize,
     indicatorWidth: Dp = CoreTheme.spacings.tabIndicatorSize,
-    spacing: Dp = CoreTheme.spacings.horizontalPagerIndicatorSpacing,
-    indicatorShape: Shape = CoreTheme.shapes.horizontalPagerIndicatorShape,
+    spacing: Dp = CoreTheme.spacings.horizontalPagerIndicator.spacing,
+    indicatorShape: Shape = CoreTheme.shapes.horizontalPagerIndicator.indicatorShape,
     activeBorder: BorderStroke? = null,
     inActiveBorder: BorderStroke? = null
 ) {
@@ -104,7 +104,7 @@ private fun Dot(
     color: Color,
     width: Dp,
     height: Dp,
-    dotElevation: Dp = CoreTheme.spacings.dotElevation,
+    dotElevation: Dp = CoreTheme.spacings.dot.elevation,
     onClick: () -> Unit = {}
 ) {
     Card(

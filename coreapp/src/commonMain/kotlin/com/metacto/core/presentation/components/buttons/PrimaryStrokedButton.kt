@@ -16,28 +16,29 @@ import com.metacto.core.presentation.theme.CoreTheme
 fun PrimaryStrokedButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.primaryStrokedBtnTextStyle,
+    textStyle: TextStyle = CoreTheme.typography.primaryStrokedButton.textStyle,
     textColor: Color = CoreTheme.colors.primaryStrokedButton.textColor,
     iconColor: Color? = CoreTheme.colors.primaryStrokedButton.iconColor,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
     endIconVector: ImageVector? = null,
+    iconSize: Dp = CoreTheme.spacings.iconLarge,
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isSmall: Boolean = false,
     isLoading: Boolean = false,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.primaryStrokedBtnPaddingVertical,
-        horizontal = CoreTheme.spacings.primaryStrokedBtnPaddingHorizontal
+        vertical = CoreTheme.spacings.primaryStrokedButton.paddingVertical,
+        horizontal = CoreTheme.spacings.primaryStrokedButton.paddingHorizontal
     ),
     backgroundColor: Color = CoreTheme.colors.primaryStrokedButton.bgColor,
-    minHeightSmall: Dp = CoreTheme.spacings.primaryStrokedBtnMinHeightSmall,
-    minHeightNormal: Dp = CoreTheme.spacings.primaryStrokedBtnMinHeightNormal,
-    shapeSmall: RoundedCornerShape = CoreTheme.shapes.primaryStrokedBtnShapeSmall,
-    shapeNormal: RoundedCornerShape = CoreTheme.shapes.primaryStrokedBtnShapeNormal,
+    minHeightSmall: Dp = CoreTheme.spacings.primaryStrokedButton.minHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.primaryStrokedButton.minHeightNormal,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.primaryStrokedButton.shapeSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.primaryStrokedButton.shapeNormal,
     border: BorderStroke = BorderStroke(
-        width = CoreTheme.spacings.primaryStrokedBtnStrokeWidth,
+        width = CoreTheme.spacings.primaryStrokedButton.strokeWidth,
         color = CoreTheme.colors.primaryStrokedButton.strokeColor
     ),
     onClick: () -> Unit = {}
@@ -48,6 +49,7 @@ fun PrimaryStrokedButton(
         textStyle = textStyle,
         textColor = textColor,
         iconColor = iconColor,
+        iconSize = iconSize,
         startIconPainter = startIconPainter,
         startIconVector = startIconVector,
         endIconPainter = endIconPainter,

@@ -283,7 +283,10 @@ data class CoreColors(
 
     // ConfirmationDialog
     val confirmationDialog: ConfirmationDialogColors = ConfirmationDialogColors(
-        secondary = secondary
+        secondary = secondary,
+        primary = primary,
+        onPrimary = onPrimary,
+        background = background
     ),
 
     // DialogToolbar
@@ -293,12 +296,16 @@ data class CoreColors(
 
     // MessageDialog
     val messageDialog: MessageDialogColors = MessageDialogColors(
-        secondary = secondary
+        secondary = secondary,
+        primary = primary,
+        onPrimary = onPrimary
     ),
 
     // OverrideUserDialog
     val overrideUserDialog: OverrideUserDialogColors = OverrideUserDialogColors(
-        secondary = secondary
+        secondary = secondary,
+        primary = primary,
+        onPrimary = onPrimary
     ),
 
     // ItemPicker
@@ -342,6 +349,18 @@ data class CoreColors(
     // BottomSheetToolbar
     val bottomSheetToolbar: BottomSheetToolbarColors = BottomSheetToolbarColors(
         sheetPrimary = sheetPrimary
+    ),
+
+    // SuccessDialog
+    val successDialog: SuccessDialogColors = SuccessDialogColors(
+        primary = primary,
+        onPrimary = onPrimary
+    ),
+
+    // ChoicesDialog
+    val choicesDialog: ChoicesDialogColors = ChoicesDialogColors(
+        primary = primary,
+        onPrimary = onPrimary
     )
 )
 
@@ -655,7 +674,14 @@ data class OptionItemColors(
 // ConfirmationDialog
 data class ConfirmationDialogColors(
     private val secondary: Color,
-    val bodyTextColor: Color = secondary
+    private val primary: Color,
+    private val onPrimary: Color,
+    private val background: Color,
+    val bodyTextColor: Color = secondary,
+    val positiveBtnTextColor: Color = onPrimary,
+    val positiveBtnBgColor: Color = primary,
+    val negativeBtnTextColor: Color = primary,
+    val negativeBtnBgColor: Color = background
 )
 
 // DialogToolbar
@@ -668,12 +694,22 @@ data class DialogToolbarColors(
 // MessageDialog
 data class MessageDialogColors(
     private val secondary: Color,
+    private val primary: Color,
+    private val onPrimary: Color,
+    val btnBgColor: Color = primary,
+    val btnTextColor: Color = primary,
     val bodyTextColor: Color = secondary
 )
 
 // OverrideUserDialog
 data class OverrideUserDialogColors(
     private val secondary: Color,
+    private val primary: Color,
+    private val onPrimary: Color,
+    val overrideBtnBgColor: Color = primary,
+    val overrideBtnTextColor: Color = primary,
+    val resetBtnBgColor: Color = primary,
+    val resetBtnTextColor: Color = primary,
     val bodyTextColor: Color = secondary
 )
 
@@ -738,6 +774,22 @@ data class BottomSheetToolbarColors(
     val startIconColor: Color = sheetPrimary,
     val endIconColor: Color = sheetPrimary,
     val titleColor: Color = sheetPrimary
+)
+
+// SuccessDialog
+data class SuccessDialogColors(
+    private val primary: Color,
+    private val onPrimary: Color,
+    val btnBgColor: Color = primary,
+    val btnTextColor: Color = primary
+)
+
+// ChoicesDialog
+data class ChoicesDialogColors(
+    private val primary: Color,
+    private val onPrimary: Color,
+    val btnBgColor: Color = primary,
+    val btnTextColor: Color = primary
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

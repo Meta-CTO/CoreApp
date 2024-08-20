@@ -16,7 +16,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import com.metacto.core.presentation.components.buttons.PrimaryStrokedButton
+import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.inputFields.TertiaryTextInputField
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.coreApp.MR
@@ -28,13 +28,18 @@ fun OverrideUserDialog(
     onOverrideClick: ((Int?) -> Unit)? = null,
     onResetClick: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
-    msgSpacing: Dp = CoreTheme.spacings.overrideUserDialogMsgSpacing,
-    overrideBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialogOverrideBtnPadding),
-    resetBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialogResetBtnPadding),
-    idTextPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialogIdTextPadding),
+    msgSpacing: Dp = CoreTheme.spacings.overrideUserDialog.msgSpacing,
+    overrideBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialog.overrideBtnPadding),
+    resetBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialog.resetBtnPadding),
+    idTextPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.overrideUserDialog.idTextPadding),
+    overriderBtnTextStyle: TextStyle = CoreTheme.typography.overrideUserDialog.overrideTextStyle,
+    overriderBtnBgColor: Color = CoreTheme.colors.overrideUserDialog.overrideBtnBgColor,
+    overrideBtnTextColor: Color = CoreTheme.colors.overrideUserDialog.overrideBtnTextColor,
+    resetBtnTextStyle: TextStyle = CoreTheme.typography.overrideUserDialog.resetTextStyle,
+    resetBtnBgColor: Color = CoreTheme.colors.overrideUserDialog.resetBtnBgColor,
+    resetBtnTextColor: Color = CoreTheme.colors.overrideUserDialog.resetBtnTextColor,
     bodyTextColor: Color = CoreTheme.colors.overrideUserDialog.bodyTextColor,
-    bodyTextStyle: TextStyle = CoreTheme.typography.bodyLarge
-
+    bodyTextStyle: TextStyle = CoreTheme.typography.overrideUserDialog.bodyTextStyle
 ) {
     val text = remember { mutableStateOf("") }
     // Prepare spacings
@@ -77,8 +82,11 @@ fun OverrideUserDialog(
                 }
             )
 
-            PrimaryStrokedButton(
+            PrimaryFilledButton(
                 text = stringResource(MR.strings.override),
+                textColor = overrideBtnTextColor,
+                textStyle = overriderBtnTextStyle,
+                backgroundColor = overriderBtnBgColor,
                 isSmall = true,
                 isEnabled = text.value.isNotEmpty(),
                 onClick = {
@@ -90,8 +98,11 @@ fun OverrideUserDialog(
             )
 
             if (onResetClick != null) {
-                PrimaryStrokedButton(
+                PrimaryFilledButton(
                     text = stringResource(MR.strings.reset_current_user),
+                    textColor = resetBtnTextColor,
+                    textStyle = resetBtnTextStyle,
+                    backgroundColor = resetBtnBgColor,
                     isSmall = true,
                     onClick = {
                         onResetClick?.invoke()
