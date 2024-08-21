@@ -6,6 +6,6 @@ open class CoreEnvironment(
     open val title: String,
     open val baseUrl: String,
     open val networkLogLevel: NetworkLogLevel,
-    open val storeAppId: String,
+    open val iosAppStoreId: String,
     open val forceUpdateRemoteConfigKey: String,
 )

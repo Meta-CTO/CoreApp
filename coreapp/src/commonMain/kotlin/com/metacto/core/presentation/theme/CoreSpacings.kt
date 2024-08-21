@@ -886,11 +886,11 @@ data class ConfirmationDialogSpacings(
 data class ForceUpdateDialogSpacings(
     private val paddingXLarge: Dp,
     private val popupSpacingLarge: Dp,
-    val forceUpdateDialogImageSize: Dp = 120.dp,
-    val forceUpdateDialogTextPadding: Dp = paddingXLarge,
-    val forceUpdateDialogPadding: Dp = paddingXLarge,
-    val forceUpdateDialogSpacings: Dp = paddingXLarge,
-    val forceUpdateDialogButtonsPadding: Dp = popupSpacingLarge,
+    val imageSize: Dp = 120.dp,
+    val textPadding: Dp = paddingXLarge,
+    val dialogPadding: Dp = paddingXLarge,
+    val dialogSpacings: Dp = paddingXLarge,
+    val horizontalButtonsPadding: Dp = popupSpacingLarge,
 )
 
 // SuccessDialog

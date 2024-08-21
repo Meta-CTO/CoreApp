@@ -36,7 +36,9 @@ import org.koin.dsl.module
 import kotlin.reflect.KClass
 
 actual fun <T : SerializableNetworkError> corePlatformModule(
-    appStorageName: String, shouldShowActualErrorMessages: Boolean, errorClass: KClass<T>
+    appStorageName: String,
+    shouldShowActualErrorMessages: Boolean,
+    errorClass: KClass<T>
 ) = module {
     single {
         RepositoriesFactory<T>(
@@ -118,7 +120,8 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
 }
 
 actual inline fun <reified T : CommonViewModel> Module.commonViewModel(
-    qualifier: Qualifier?, noinline definition: Definition<T>
+    qualifier: Qualifier?,
+    noinline definition: Definition<T>
 ): KoinDefinition<T> {
     return viewModel(qualifier, definition)
 }

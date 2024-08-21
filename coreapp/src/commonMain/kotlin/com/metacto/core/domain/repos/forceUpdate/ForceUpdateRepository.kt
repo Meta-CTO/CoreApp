@@ -1,6 +1,7 @@
 package com.metacto.core.domain.repos.forceUpdate
 
 import com.metacto.core.CoreEnvironment
+import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource.*
 import com.metacto.core.utils.remoteConfigs.IRemoteConfigs
 import com.metacto.strapikmm.appconfigversion.AppConfigurationVersion
 import com.metacto.strapikmm.appconfigversion.AppVersion
@@ -15,44 +16,51 @@ class ForceUpdateRepository(
     private val remoteConfigs: IRemoteConfigs,
     private val applicationContext: Any? = null,
 ) {
-
     @Throws(Throwable::class)
     suspend fun checkForceUpdate(
         appUpdateSource: AppUpdateSource,
-        onUpdateRequired: (message: String, isRequired: Boolean, iOSAppVersion: String) -> Unit,
+        onUpdateRequired: (message: String, isRequired: Boolean, iosAppStoreId: String) -> Unit,
         onProceed: () -> Unit
     ) {
+        val appUpdateResult = when (appUpdateSource) {
+            REMOTE_CONFIGS -> {
+                // fetch the remote config
+                val forceUpdateRemoteConfig = remoteConfigs.forceGetString(
+                    appEnvironment.forceUpdateRemoteConfigKey
+                )
 
-        // check if the remote config has
-        val appUpdateResult = if (appUpdateSource == AppUpdateSource.REMOTE_CONFIGS) {
-            // fetch the remote config
-            val forceUpdateRemoteConfig =
-                remoteConfigs.forceGetString(appEnvironment.forceUpdateRemoteConfigKey)
+                // start handle the force update from remote config
+                val forceUpdate = forceUpdateRemoteConfig?.let {
+                    Json.decodeFromString<List<AppVersion>>(it)
+                }
 
-            // start handle the force update from remote config
-            val forceUpdate =
-                forceUpdateRemoteConfig?.let { Json.decodeFromString<List<AppVersion>>(it) }
+                // return the validation
+                AppVersionValidator.checkRequiredUpdate(forceUpdate.orEmpty(), applicationContext)
+            }
 
-            // return the validation
-            AppVersionValidator.checkRequiredUpdate(forceUpdate.orEmpty(), applicationContext)
-
-        } else {
-            // check the app versions from the app config
-            appConfigurationRepository.checkAppUpdates<AppConfigurationVersion>(
-                appConfigurationQueryBuilder = { populate("*") },
-                1
-            )
+            STRAPI_CONFIGS -> {
+                appConfigurationRepository.checkAppUpdates<AppConfigurationVersion>(
+                    appConfigurationQueryBuilder = { populate("*") },
+                    currentAppConfigurationVersion = 1
+                )
+            }
         }
 
-        // check the force update type and return the required action
+        // Check the force update type and return the required action
         when (appUpdateResult.updateType) {
-            UpdateType.REQUIRED, UpdateType.OPTIONAL -> onUpdateRequired(
-                appUpdateResult.message,
-                appUpdateResult.updateType == UpdateType.REQUIRED,
-                appEnvironment.storeAppId
-            )
+            UpdateType.REQUIRED,
+            UpdateType.OPTIONAL -> {
+                val isRequired = appUpdateResult.updateType == UpdateType.REQUIRED
+                onUpdateRequired.invoke(
+                    appUpdateResult.message,
+                    isRequired,
+                    appEnvironment.iosAppStoreId
+                )
+            }
 
-            UpdateType.NONE -> onProceed()
+            UpdateType.NONE -> {
+                onProceed.invoke()
+            }
         }
     }
 }

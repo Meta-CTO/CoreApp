@@ -327,7 +327,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         title: String? = null,
         image: CommonImageResource? = null,
         onUpdateClick: (() -> Unit)? = null,
-        onSkipUpdateClicked: (() -> Unit)? = null,
+        onSkipUpdateClick: (() -> Unit)? = null,
         onProceedAction: () -> Unit
     ) {
         // check if the title is enabled and handle the title
@@ -337,7 +337,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         // check for app updates first
         forceUpdateRepository.checkForceUpdate(
             appUpdateSource = appUpdateSource,
-            onUpdateRequired = { message, isRequired, iOSAppVersion ->
+            onUpdateRequired = { message, isRequired, iosAppStoreId ->
                 coreGlobalState.forceUpdatePopup(
                     params = ForceUpdatePopupParams(
                         isRequired = isRequired,
@@ -355,11 +355,11 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                             if (onUpdateClick != null) {
                                 onUpdateClick.invoke()
                             } else {
-                                intentLauncher.launchAppStore(iOSAppVersion)
+                                intentLauncher.launchAppStore(iosAppStoreId)
                             }
                         },
                         onSkipUpdateClicked = {
-                            onSkipUpdateClicked?.invoke()
+                            onSkipUpdateClick?.invoke()
                         }
                     )
                 )

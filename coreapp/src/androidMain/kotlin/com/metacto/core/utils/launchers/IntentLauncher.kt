@@ -4,10 +4,9 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.widget.Toast
+import com.metacto.core.utils.extensions.openUrlInBrowser
 import com.metacto.coreApp.MR
-
 
 class IntentLauncher(private val context: Context) : IIntentLauncher {
 
@@ -41,19 +40,15 @@ class IntentLauncher(private val context: Context) : IIntentLauncher {
     override fun launchAppStore(appId: String) {
         val packageName = context.packageName
         try {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("market://details?id=$packageName")
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
             context.startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("market://details?id=$packageName")
-                ).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                intent
             )
         } catch (e: ActivityNotFoundException) {
-            context.startActivity(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
-                ).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            )
+            launchBrowser("https://play.google.com/store/apps/details?id=$packageName")
         }
     }
 

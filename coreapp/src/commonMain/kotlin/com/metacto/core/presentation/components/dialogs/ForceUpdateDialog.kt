@@ -40,14 +40,15 @@ fun ForceUpdateDialog(
     image: CommonImageResource = MR.images.ic_upgrade.asCommon(),
     bodyTextStyle: TextStyle = CoreTheme.typography.forceUpdateDialogBodyTextStyle,
     bodyTextColor: Color = CoreTheme.colors.forceUpdateDialog.bodyTextColor,
-    textPadding: Dp = CoreTheme.spacings.forceUpdateDialog.forceUpdateDialogTextPadding,
-    dialogPadding: Dp = CoreTheme.spacings.forceUpdateDialog.forceUpdateDialogPadding,
-    dialogSpacings: Dp = CoreTheme.spacings.forceUpdateDialog.forceUpdateDialogSpacings,
-    buttonsPadding: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.forceUpdateDialog.forceUpdateDialogButtonsPadding)
+    textPadding: Dp = CoreTheme.spacings.forceUpdateDialog.textPadding,
+    dialogPadding: Dp = CoreTheme.spacings.forceUpdateDialog.dialogPadding,
+    dialogSpacings: Dp = CoreTheme.spacings.forceUpdateDialog.dialogSpacings,
+    buttonsPadding: PaddingValues = PaddingValues(
+        horizontal = CoreTheme.spacings.forceUpdateDialog.horizontalButtonsPadding
+    )
 ) {
     // Prepare spacings
-    val msgSpacing = if (title?.isNotEmpty() == true) CoreTheme.spacings.paddingXLarge
-    else 0.dp
+    val msgSpacing = if (title?.isNotEmpty() == true) CoreTheme.spacings.paddingXLarge else 0.dp
 
     // Render app dialog
     AppDialog(
@@ -68,7 +69,8 @@ fun ForceUpdateDialog(
             Image(
                 painter = painterResource(image),
                 contentDescription = "force update",
-                modifier = Modifier.size(CoreTheme.spacings.forceUpdateDialog.forceUpdateDialogImageSize)
+                modifier = Modifier
+                    .size(CoreTheme.spacings.forceUpdateDialog.imageSize)
                     .padding(top = msgSpacing)
             )
 
@@ -78,35 +80,38 @@ fun ForceUpdateDialog(
                 textAlign = TextAlign.Center,
                 color = bodyTextColor,
                 style = bodyTextStyle,
-                modifier = Modifier.fillMaxWidth().padding(top = textPadding)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = textPadding)
             )
 
             // Render buttons
             Column(
                 verticalArrangement = Arrangement.spacedBy(dialogSpacings),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth().padding(buttonsPadding)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(buttonsPadding)
             ) {
-
                 // Positive button
                 PrimaryFilledButton(
+                    modifier = Modifier.fillMaxWidth(),
                     text = updateButtonText ?: stringResource(MR.strings.confirm),
                     isSmall = true,
                     onClick = {
                         onUpdateClick?.invoke()
-                    },
-                    modifier = Modifier.fillMaxWidth()
+                    }
                 )
 
                 // show the negative button if update is not required
                 if (isRequired.not()) {
                     // Negative button
                     PrimaryTextButton(
+                        modifier = Modifier.wrapContentSize(),
                         text = skipUpdateButtonText ?: stringResource(MR.strings.skip_update_button),
                         onClick = {
                             onSkipUpdateClicked?.invoke()
-                        },
-                        modifier = Modifier.wrapContentSize()
+                        }
                     )
                 }
             }

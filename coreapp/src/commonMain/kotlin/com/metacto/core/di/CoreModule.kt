@@ -69,7 +69,8 @@ fun <T : SerializableNetworkError> coreModule(
 
     single<Authenticator> {
         FirebaseAuthenticator(
-            actionCodeSettings = actionCodeSettings, sharedPreference = get()
+            actionCodeSettings = actionCodeSettings,
+            sharedPreference = get()
         )
     }
 
@@ -93,7 +94,8 @@ fun <T : SerializableNetworkError> coreModule(
 
     single<IRemoteConfigs> {
         FirebaseRemoteConfigs(
-            kmmPreference = get(), firebaseConfigs = get()
+            kmmPreference = get(),
+            firebaseConfigs = get()
         )
     }
 
@@ -107,7 +109,8 @@ fun <T : SerializableNetworkError> coreModule(
 
     single<IDeepLinkManager> {
         DeepLinkManager(
-            appLogger = get(), parsers = deepLinkParsers
+            appLogger = get(),
+            parsers = deepLinkParsers
         )
     }
 }
