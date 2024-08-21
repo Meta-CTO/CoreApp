@@ -1,6 +1,7 @@
 package com.sampleApp.app.presentation.landing.splash
 
-import com.metacto.core.presentation.imagePicker.ImagePickerSheet
+import com.metacto.core.presentation.components.calenderEvent.ICalenderEvent
+import com.metacto.core.presentation.components.wheelPicker.datetime.now
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.utils.DateHelper
@@ -11,17 +12,20 @@ import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.Notification
 import com.metacto.core.utils.parseDate
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
+import com.metacto.core.utils.toEpochMilliseconds
 import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
 import com.sampleApp.app.presentation.landing.youtube.YoutubeScreen
 import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.LocalDate
 import org.koin.core.component.inject
 
 class SplashViewModel(
     private val eventBroadcaster: EventBroadcaster,
     private val intentLauncher: IIntentLauncher,
+    private val iCalenderEvent: ICalenderEvent,
     private val dateHelper: DateHelper,
     private val phoneNumberManager: IPhoneNumberManager
 ) : BaseViewModel<State, Event, Effect>() {
@@ -37,7 +41,11 @@ class SplashViewModel(
         println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.SUNDAY)}")
         println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.MONDAY)}")
         println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.TUESDAY)}")
-        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.WEDNESDAY)}")
+        println(
+            "Day of week: ${
+                dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.WEDNESDAY)
+            }"
+        )
         println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.THURSDAY)}")
         println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.FRIDAY)}")
         println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.SATURDAY)}")
@@ -48,9 +56,22 @@ class SplashViewModel(
             selectedPickerItem = pickedItem
         }
 
+        sendCalenderEvent()
+
         // Update the flag
         setState { copy(isInitialized = true) }
     }
+
+    private fun sendCalenderEvent() = executeCatching({
+        val calenderTime = LocalDate.now().toEpochMilliseconds()
+
+        iCalenderEvent.addEventToCalender(
+            eventTitle = "Test title ",
+            eventDescription = "test description",
+            eventStartTime = calenderTime,
+            eventEndTime = calenderTime + (60 * 60 * 1000)
+        )
+    })
 
 
     override fun setInitialState() = State()

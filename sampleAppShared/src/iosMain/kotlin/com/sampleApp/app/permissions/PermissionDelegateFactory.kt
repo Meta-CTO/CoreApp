@@ -46,6 +46,7 @@ class PermissionDelegateFactory : IPermissionDelegateFactory {
             Permission.GALLERY -> GalleryPermissionDelegate()
             Permission.STORAGE, Permission.WRITE_STORAGE -> AlwaysGrantedPermissionDelegate()
             Permission.MOTION -> MotionPermissionDelegate()
+            Permission.CALENDER -> AlwaysGrantedPermissionDelegate()
         }
     }
 }

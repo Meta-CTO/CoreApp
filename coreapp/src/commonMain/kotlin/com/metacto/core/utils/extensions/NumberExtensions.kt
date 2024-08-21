@@ -23,6 +23,8 @@ fun Double?.orZero() = this ?: 0.toDouble()
 
 fun Long?.orZero() = this ?: 0L
 
+fun Long?.orOne() = this ?: 1L
+
 fun Float.half() = this.div(2)
 
 fun Float.quarter() = this.div(2)

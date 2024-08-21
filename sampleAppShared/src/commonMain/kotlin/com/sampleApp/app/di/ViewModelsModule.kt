@@ -8,6 +8,6 @@ import org.koin.dsl.module
 
 val viewModelsModule = module {
     single { AppViewModel() }
-    commonViewModel { SplashViewModel(get(), get(), get(), get()) }
+    commonViewModel { SplashViewModel(get(), get(), get(), get(), get()) }
     commonViewModel { YoutubeViewModel() }
 }
