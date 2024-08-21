@@ -50,7 +50,7 @@ class CalendarManager : ICalendarManager {
         return status
     }
 
-    private fun checkEventExists(
+    private fun isEventExist(
         eventStore: EKEventStore,
         title: String,
         startTime: Long,

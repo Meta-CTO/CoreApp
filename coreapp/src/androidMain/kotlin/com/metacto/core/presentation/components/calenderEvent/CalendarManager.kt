@@ -11,7 +11,7 @@ import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.utils.extensions.orOne
-import java.util.TimeZone
+import kotlinx.datetime.TimeZone
 
 
 class CalendarManager(
@@ -107,7 +107,7 @@ class CalendarManager(
             put(Events.TITLE, title)
             put(Events.DESCRIPTION, description)
             put(Events.CALENDAR_ID, calenderId)
-            put(Events.EVENT_TIMEZONE, TimeZone.getDefault().id)
+            put(Events.EVENT_TIMEZONE, TimeZone.currentSystemDefault().id)
         }
         val updateUri: Uri? = contentResolver.insert(Events.CONTENT_URI, values)
     }
