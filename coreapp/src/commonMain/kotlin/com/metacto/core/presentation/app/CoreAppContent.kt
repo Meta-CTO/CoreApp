@@ -11,6 +11,7 @@ import com.metacto.core.navigation.CoreAppNavigator
 import com.metacto.core.navigation.NavManager
 import com.metacto.core.presentation.components.dialogs.ChoicesDialog
 import com.metacto.core.presentation.components.dialogs.ConfirmationDialog
+import com.metacto.core.presentation.components.dialogs.ForceUpdateDialog
 import com.metacto.core.presentation.components.dialogs.MessageDialog
 import com.metacto.core.presentation.components.dialogs.OverrideUserDialog
 import com.metacto.core.presentation.components.dialogs.SuccessDialog
@@ -45,6 +46,7 @@ fun CoreAppContent(
     val overrideUserParams by globalState.overrideUserPopupState
     val successParams by globalState.successPopupState
     val confirmationParams by globalState.confirmationPopupState
+    val forceUpdateParams by globalState.forceUpdatePopupState
     val choicesParams by globalState.choicesPopupState
     val datePickerParams by globalState.datePickerState
     val timePickerParams by globalState.timePickerState
@@ -137,6 +139,29 @@ fun CoreAppContent(
                     onNegativeClick = {
                         globalState.idle()
                         params.onNegativeClick?.invoke()
+                    },
+                    onDismiss = {
+                        globalState.idle()
+                        params.onDismiss?.invoke()
+                    }
+                )
+            }
+
+            // Handle force update popup
+            forceUpdateParams?.let { params ->
+                ForceUpdateDialog(
+                    isRequired = params.isRequired,
+                    body = params.body,
+                    title = params.title,
+                    image = params.image,
+                    updateButtonText = params.updateButtonText,
+                    skipUpdateButtonText = params.skipUpdateButtonText,
+                    onUpdateClick = {
+                        params.onUpdateClick?.invoke()
+                    },
+                    onSkipUpdateClicked = {
+                        globalState.idle()
+                        params.onSkipUpdateClicked?.invoke()
                     },
                     onDismiss = {
                         globalState.idle()

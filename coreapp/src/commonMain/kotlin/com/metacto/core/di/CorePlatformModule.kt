@@ -1,5 +1,6 @@
 package com.metacto.core.di
 
+import com.metacto.core.CoreEnvironment
 import com.metacto.core.presentation.base.CommonViewModel
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
 import org.koin.core.definition.Definition
@@ -10,6 +11,7 @@ import kotlin.reflect.KClass
 
 expect fun<T : SerializableNetworkError> corePlatformModule(
     appStorageName: String,
+    coreEnvironment: CoreEnvironment,
     shouldShowActualErrorMessages: Boolean,
     errorClass: KClass<T>
 ): Module

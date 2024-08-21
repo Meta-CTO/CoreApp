@@ -289,6 +289,11 @@ data class CoreColors(
         background = background
     ),
 
+    // forceUpdateDialog
+    val forceUpdateDialog: ForceUpdateDialogColors = ForceUpdateDialogColors(
+        secondary = secondary
+    ),
+
     // DialogToolbar
     val dialogToolbar: DialogToolbarColors = DialogToolbarColors(
         secondary = secondary
@@ -694,6 +699,12 @@ data class ConfirmationDialogColors(
     val positiveBtnBgColor: Color = primary,
     val negativeBtnTextColor: Color = primary,
     val negativeBtnBgColor: Color = background
+)
+
+// forceUpdateDialog
+data class ForceUpdateDialogColors(
+    private val secondary: Color,
+    val bodyTextColor: Color = secondary
 )
 
 // DialogToolbar

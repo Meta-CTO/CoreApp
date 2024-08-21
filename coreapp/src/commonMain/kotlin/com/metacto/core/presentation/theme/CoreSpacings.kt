@@ -362,6 +362,12 @@ data class CoreSpacings(
         popupSpacingLarge = popupSpacingLarge
     ),
 
+    // force update Dialog
+    val forceUpdateDialog: ForceUpdateDialogSpacings = ForceUpdateDialogSpacings(
+        paddingXLarge = paddingXLarge,
+        popupSpacingLarge = popupSpacingLarge
+    ),
+
     // SuccessDialog
     val successDialog: SuccessDialogSpacings = SuccessDialogSpacings(
         popupIconLarge = popupIconLarge,
@@ -448,7 +454,6 @@ data class CoreSpacings(
     // TabItem
     val tabItem: TabItemSpacings = TabItemSpacings()
 )
-
 
 // PrimaryFilledButton
 data class PrimaryFilledButtonSpacings(
@@ -875,6 +880,17 @@ data class ConfirmationDialogSpacings(
     val buttonsTopPadding: Dp = popupSpacingLarge,
     val showToolbar: Boolean = true,
     val bodyTextAlign: TextAlign = TextAlign.Center
+)
+
+// ForceUpdateDialog
+data class ForceUpdateDialogSpacings(
+    private val paddingXLarge: Dp,
+    private val popupSpacingLarge: Dp,
+    val imageSize: Dp = 120.dp,
+    val textPadding: Dp = paddingXLarge,
+    val dialogPadding: Dp = paddingXLarge,
+    val dialogSpacings: Dp = paddingXLarge,
+    val horizontalButtonsPadding: Dp = popupSpacingLarge,
 )
 
 // SuccessDialog

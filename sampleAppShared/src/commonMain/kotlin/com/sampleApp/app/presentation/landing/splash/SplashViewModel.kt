@@ -1,12 +1,12 @@
 package com.sampleApp.app.presentation.landing.splash
 
-import com.metacto.core.presentation.imagePicker.ImagePickerSheet
+import com.metacto.core.CoreEnvironment
+import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.metacto.core.utils.getDayOfWeek
-import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.Notification
 import com.metacto.core.utils.parseDate
@@ -21,9 +21,9 @@ import org.koin.core.component.inject
 
 class SplashViewModel(
     private val eventBroadcaster: EventBroadcaster,
-    private val intentLauncher: IIntentLauncher,
     private val dateHelper: DateHelper,
-    private val phoneNumberManager: IPhoneNumberManager
+    private val phoneNumberManager: IPhoneNumberManager,
+    private val appEnvironment: CoreEnvironment
 ) : BaseViewModel<State, Event, Effect>() {
     private val notificationManager by inject<INotificationManager>()
     private var selectedPickerItem: PickerItemUIModel? = null
@@ -37,7 +37,11 @@ class SplashViewModel(
         println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.SUNDAY)}")
         println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.MONDAY)}")
         println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.TUESDAY)}")
-        println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.WEDNESDAY)}")
+        println(
+            "Day of week: ${
+                dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.WEDNESDAY)
+            }"
+        )
         println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.THURSDAY)}")
         println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.FRIDAY)}")
         println("Day of week: ${dateHelper.getCurrentLocalDate().getDayOfWeek(DayOfWeek.SATURDAY)}")
@@ -48,10 +52,10 @@ class SplashViewModel(
             selectedPickerItem = pickedItem
         }
 
+        checkForUpdates()
         // Update the flag
         setState { copy(isInitialized = true) }
     }
-
 
     override fun setInitialState() = State()
 
@@ -76,8 +80,7 @@ class SplashViewModel(
 //            )
 
             notificationManager.scheduleRepeating(
-                notification = notification,
-                intervalMinutes = 1
+                notification = notification, intervalMinutes = 1
             )
         }
 
@@ -123,4 +126,20 @@ class SplashViewModel(
             navManager.navigate(YoutubeScreen())
         }
     }
+
+    private fun checkForUpdates() = executeSilent({
+        checkAppUpdates(
+            appUpdateSource = AppUpdateSource.STRAPI_CONFIGS,
+            title = "Ahmed",
+            showTitle = true,
+            onProceedAction = {
+                // TODO will navigate to next screen
+            },
+            onSkipUpdateClick = {
+                // to handle the skip update action if needed
+            },
+            onUpdateClick = {
+                intentLauncher.launchStore(appId = appEnvironment.iosAppStoreId)
+            })
+    })
 }

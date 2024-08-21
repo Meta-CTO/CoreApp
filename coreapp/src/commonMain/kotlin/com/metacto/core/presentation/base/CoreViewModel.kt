@@ -5,15 +5,21 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource
+import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
 import com.metacto.core.navigation.NavManager
 import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.ConfirmationPopupParams
+import com.metacto.core.presentation.globalState.models.ForceUpdatePopupParams
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.MessagePopupParams
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
+import com.metacto.core.utils.CommonImageResource
 import com.metacto.core.utils.IResourceProvider
+import com.metacto.core.utils.asCommon
+import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.coreApp.MR
 import com.metacto.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
 import com.metacto.strapikmm.errorhandling.AppException
@@ -60,6 +66,8 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     protected val navManager by inject<NavManager>()
     protected val resourceProvider by inject<IResourceProvider>()
     protected val logger by inject<Logger>()
+    protected val forceUpdateRepository by inject<ForceUpdateRepository>()
+    protected val intentLauncher by inject<IIntentLauncher>()
     val permissionManager by inject<IPermissionManager>()
 
     abstract fun setInitialState(): S
@@ -311,6 +319,53 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
             // Collect results with view model scope
             navManager.onNavResult<D, R>(callback = onResult)
         })
+    }
+
+    suspend fun checkAppUpdates(
+        appUpdateSource: AppUpdateSource,
+        showTitle: Boolean = true,
+        title: String? = null,
+        image: CommonImageResource? = null,
+        onUpdateClick: (() -> Unit)? = null,
+        onSkipUpdateClick: (() -> Unit)? = null,
+        onProceedAction: () -> Unit
+    ) {
+        // check if the title is enabled and handle the title
+        val forceUpdateTitle = if (showTitle) title
+            ?: resourceProvider.getString(MR.strings.force_update_title) else null
+
+        // check for app updates first
+        val response = forceUpdateRepository.checkForceUpdate(appUpdateSource = appUpdateSource)
+
+        if (response != null) {
+            coreGlobalState.forceUpdatePopup(
+                params = ForceUpdatePopupParams(
+                    isRequired = response.isRequired,
+                    title = forceUpdateTitle,
+                    body = response.message,
+                    image = image ?: MR.images.ic_upgrade.asCommon(),
+                    updateButtonText = resourceProvider.getString(MR.strings.update_button),
+                    skipUpdateButtonText = resourceProvider.getString(MR.strings.skip_update_button),
+                    onDismiss = {
+                        if (response.isRequired.not()) {
+                            onProceedAction.invoke()
+                        }
+                    },
+                    onUpdateClick = {
+                        if (onUpdateClick != null) {
+                            onUpdateClick.invoke()
+                        } else {
+                            intentLauncher.launchStore(response.iosAppStoreId)
+                        }
+                    },
+                    onSkipUpdateClicked = {
+                        onSkipUpdateClick?.invoke()
+                    }
+                )
+            )
+        } else {
+            onProceedAction()
+        }
     }
 
     override fun onDispose() {

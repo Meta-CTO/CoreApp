@@ -162,6 +162,12 @@ data class CoreTypography(
         btnLabelMedium = btnLabelMedium
     ),
 
+    // forceUpdateDialog
+    val forceUpdateDialog: ForceUpdateDialogTypography = ForceUpdateDialogTypography(
+        bodyLarge = bodyLarge,
+        btnLabelMedium = btnLabelMedium
+    ),
+
     // DialogToolbar
     val dialogToolbar: DialogToolbarTypography = DialogToolbarTypography(
         bodyMedium = bodyMedium
@@ -389,6 +395,15 @@ data class TransparentStrokedButtonTypography(
 
 // ConfirmationDialog
 data class ConfirmationDialogTypography(
+    private val bodyLarge: TextStyle,
+    private val btnLabelMedium: TextStyle,
+    val textStyle: TextStyle = bodyLarge,
+    val positiveBtnTextStyle: TextStyle = btnLabelMedium,
+    val negativeBtnTextStyle: TextStyle = btnLabelMedium
+)
+
+// forceUpdateDialog
+data class ForceUpdateDialogTypography(
     private val bodyLarge: TextStyle,
     private val btnLabelMedium: TextStyle,
     val textStyle: TextStyle = bodyLarge,

@@ -1,11 +1,11 @@
 package com.metacto.core.utils.launchers
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
 import com.metacto.coreApp.MR
-
 
 class IntentLauncher(private val context: Context) : IIntentLauncher {
 
@@ -34,6 +34,21 @@ class IntentLauncher(private val context: Context) : IIntentLauncher {
             MR.strings.no_email_apps_found_on_your_device.resourceId,
             Toast.LENGTH_LONG
         ).show()
+    }
+
+    override fun launchStore(appId: String) {
+        val packageName = context.packageName
+        try {
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("market://details?id=$packageName")
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+            context.startActivity(
+                intent
+            )
+        } catch (e: ActivityNotFoundException) {
+            launchBrowser("https://play.google.com/store/apps/details?id=$packageName")
+        }
     }
 
     override fun launchShareText(text: String) {
