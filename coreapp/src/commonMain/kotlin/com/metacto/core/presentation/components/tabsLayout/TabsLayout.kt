@@ -58,9 +58,7 @@ fun TabsLayout(
         tabModels.forEachIndexed { index, tab ->
             TabItem(
                 modifier = tabItemModifier,
-                title = tab.title,
-                activeIcon = tab.activeIcon,
-                inActiveIcon = tab.inactiveIcon,
+                tabItemModel = tab,
                 showIndicator = showIndicator,
                 horizontalArrangement = tabItemHorizontalArrangement,
                 isSelected = index == currentPage,

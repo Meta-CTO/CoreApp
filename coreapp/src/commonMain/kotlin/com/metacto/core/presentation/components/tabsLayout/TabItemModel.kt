@@ -9,4 +9,6 @@ class TabItemModel(
     val title: String,
     val activeIcon: ImageUIModel? = null,
     val inactiveIcon: ImageUIModel? = null,
+    val activeColor: ULong? = null,
+    val inactiveColor: ULong? = null,
 ) : CommonParcelable

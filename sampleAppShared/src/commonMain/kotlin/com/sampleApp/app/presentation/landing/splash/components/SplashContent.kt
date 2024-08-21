@@ -57,12 +57,14 @@ internal fun SplashContent(
         TabItemModel(
             title = "Ahmed",
             activeIcon = ImageUIModel(url = "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Circle-icons-phone.svg/1200px-Circle-icons-phone.svg.png"),
-            inactiveIcon = ImageUIModel(url = "https://cdn-icons-png.freepik.com/256/455/455705.png?semt=ais_hybrid")
+            inactiveIcon = ImageUIModel(url = "https://cdn-icons-png.freepik.com/256/455/455705.png?semt=ais_hybrid"),
+            activeColor = Color.Red.value
         ),
         TabItemModel(
             title = "Shamy",
             activeIcon = ImageUIModel(resource = MR.images.ic_star_filled.asCommon()),
-            inactiveIcon = ImageUIModel(resource = MR.images.ic_star_empty.asCommon())
+            inactiveIcon = ImageUIModel(resource = MR.images.ic_star_empty.asCommon()),
+            activeColor = Color.Blue.value
         ),
 //        TabItemModel(
 //            title = "Shamy",
@@ -117,7 +119,7 @@ internal fun SplashContent(
         // Community search tabs
         TabsLayout(
             tabModels = tabs.toImmutableList(),
-            currentPage = pagerState.currentPage,
+            currentPage = 1,
             showIndicator = true,
             modifier = Modifier
                 .fillMaxWidth()
