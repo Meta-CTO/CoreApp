@@ -1,7 +1,9 @@
 package com.sampleApp.app.presentation.landing.splash
 
+import com.metacto.core.presentation.components.calenderEvent.CalenderEventStatus
 import com.metacto.core.presentation.components.calenderEvent.ICalendarManager
 import com.metacto.core.presentation.components.wheelPicker.datetime.now
+import com.metacto.core.presentation.globalState.models.SuccessPopupParams
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.utils.DateHelper
@@ -13,13 +15,19 @@ import com.metacto.core.utils.notificationManager.Notification
 import com.metacto.core.utils.parseDate
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.metacto.core.utils.toEpochMilliseconds
+import com.metacto.core.utils.toInstant
 import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
 import com.sampleApp.app.presentation.landing.youtube.YoutubeScreen
+import kotlinx.coroutines.delay
+import kotlinx.datetime.Clock
 import kotlinx.datetime.DayOfWeek
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.koin.core.component.inject
 
 class SplashViewModel(
@@ -61,14 +69,27 @@ class SplashViewModel(
     }
 
     private fun sendCalenderEvent() = executeCatching({
-        val calenderTime = LocalDate.now().toEpochMilliseconds()
+        val calenderTime = Clock.System.now().toLocalDateTime(
+            TimeZone.currentSystemDefault()
+        ).toInstant().toEpochMilliseconds()
 
-        iCalendarManager.addEventToCalender(
-            eventTitle = "Test title ",
-            eventDescription = "test description",
+        val addedCalender = iCalendarManager.addEventToCalender(
+            eventTitle = "New Event Title ",
+            eventDescription = "new Event description",
             eventStartTime = calenderTime,
             eventEndTime = calenderTime + (60 * 60 * 1000)
         )
+
+        delay(2000)
+        if (addedCalender == CalenderEventStatus.EVENT_ADDED) {
+            globalState.successPopup(
+                params =
+                SuccessPopupParams(
+                    title = "Event Added",
+                    body = "Event Added Successfully"
+                )
+            )
+        }
     })
 
 
