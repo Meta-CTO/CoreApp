@@ -1,7 +1,8 @@
 package com.metacto.core.domain.repos.forceUpdate
 
 import com.metacto.core.CoreEnvironment
-import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource.*
+import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource.REMOTE_CONFIGS
+import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource.STRAPI_CONFIGS
 import com.metacto.core.utils.remoteConfigs.IRemoteConfigs
 import com.metacto.strapikmm.appconfigversion.AppConfigurationVersion
 import com.metacto.strapikmm.appconfigversion.AppVersion
@@ -17,16 +18,12 @@ class ForceUpdateRepository(
     private val applicationContext: Any? = null,
 ) {
     @Throws(Throwable::class)
-    suspend fun checkForceUpdate(
-        appUpdateSource: AppUpdateSource,
-        onUpdateRequired: (message: String, isRequired: Boolean, iosAppStoreId: String) -> Unit,
-        onProceed: () -> Unit
-    ) {
+    suspend fun checkForceUpdate(appUpdateSource: AppUpdateSource): ForceUpdateResponse? {
         val appUpdateResult = when (appUpdateSource) {
             REMOTE_CONFIGS -> {
                 // fetch the remote config
                 val forceUpdateRemoteConfig = remoteConfigs.forceGetString(
-                    appEnvironment.forceUpdateRemoteConfigKey
+                    appEnvironment.forceUpdateRemoteConfigKey.orEmpty()
                 )
 
                 // start handle the force update from remote config
@@ -41,17 +38,17 @@ class ForceUpdateRepository(
             STRAPI_CONFIGS -> {
                 appConfigurationRepository.checkAppUpdates<AppConfigurationVersion>(
                     appConfigurationQueryBuilder = { populate("*") },
-                    currentAppConfigurationVersion = 1
+                    currentAppConfigurationVersion = appEnvironment.currentAppConfigurationVersion
                 )
             }
         }
 
         // Check the force update type and return the required action
-        when (appUpdateResult.updateType) {
+        return when (appUpdateResult.updateType) {
             UpdateType.REQUIRED,
             UpdateType.OPTIONAL -> {
                 val isRequired = appUpdateResult.updateType == UpdateType.REQUIRED
-                onUpdateRequired.invoke(
+                ForceUpdateResponse(
                     appUpdateResult.message,
                     isRequired,
                     appEnvironment.iosAppStoreId
@@ -59,7 +56,7 @@ class ForceUpdateRepository(
             }
 
             UpdateType.NONE -> {
-                onProceed.invoke()
+                null
             }
         }
     }

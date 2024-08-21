@@ -335,37 +335,37 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
             ?: resourceProvider.getString(MR.strings.force_update_title) else null
 
         // check for app updates first
-        forceUpdateRepository.checkForceUpdate(
-            appUpdateSource = appUpdateSource,
-            onUpdateRequired = { message, isRequired, iosAppStoreId ->
-                coreGlobalState.forceUpdatePopup(
-                    params = ForceUpdatePopupParams(
-                        isRequired = isRequired,
-                        title = forceUpdateTitle,
-                        body = message,
-                        image = image ?: MR.images.ic_upgrade.asCommon(),
-                        updateButtonText = resourceProvider.getString(MR.strings.update_button),
-                        skipUpdateButtonText = resourceProvider.getString(MR.strings.skip_update_button),
-                        onDismiss = {
-                            if (isRequired.not()) {
-                                onProceedAction.invoke()
-                            }
-                        },
-                        onUpdateClick = {
-                            if (onUpdateClick != null) {
-                                onUpdateClick.invoke()
-                            } else {
-                                intentLauncher.launchAppStore(iosAppStoreId)
-                            }
-                        },
-                        onSkipUpdateClicked = {
-                            onSkipUpdateClick?.invoke()
+        val response = forceUpdateRepository.checkForceUpdate(appUpdateSource = appUpdateSource)
+
+        if (response != null) {
+            coreGlobalState.forceUpdatePopup(
+                params = ForceUpdatePopupParams(
+                    isRequired = response.isRequired,
+                    title = forceUpdateTitle,
+                    body = response.message,
+                    image = image ?: MR.images.ic_upgrade.asCommon(),
+                    updateButtonText = resourceProvider.getString(MR.strings.update_button),
+                    skipUpdateButtonText = resourceProvider.getString(MR.strings.skip_update_button),
+                    onDismiss = {
+                        if (response.isRequired.not()) {
+                            onProceedAction.invoke()
                         }
-                    )
+                    },
+                    onUpdateClick = {
+                        if (onUpdateClick != null) {
+                            onUpdateClick.invoke()
+                        } else {
+                            intentLauncher.launchStore(response.iosAppStoreId)
+                        }
+                    },
+                    onSkipUpdateClicked = {
+                        onSkipUpdateClick?.invoke()
+                    }
                 )
-            },
-            onProceed = onProceedAction
-        )
+            )
+        } else {
+            onProceedAction()
+        }
     }
 
     override fun onDispose() {

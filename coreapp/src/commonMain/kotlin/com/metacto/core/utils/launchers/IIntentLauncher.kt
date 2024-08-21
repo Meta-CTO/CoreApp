@@ -7,7 +7,7 @@ interface IIntentLauncher {
         body: String? = null
     )
 
-    fun launchAppStore(appId: String)
+    fun launchStore(appId: String)
 
     fun launchShareText(text: String)
 

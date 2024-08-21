@@ -26,8 +26,6 @@
     <string name="reset_current_user">Reset Current User</string>
     <string name="override">Override</string>
     <string name="search_here">Search here...</string>
-
-    // force update
     <string name="force_update_title">Update Required</string>
     <string name="update_button">Update now</string>
     <string name="skip_update_button">Skip update</string>

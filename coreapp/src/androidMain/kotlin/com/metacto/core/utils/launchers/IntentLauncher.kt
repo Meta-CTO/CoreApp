@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
-import com.metacto.core.utils.extensions.openUrlInBrowser
 import com.metacto.coreApp.MR
 
 class IntentLauncher(private val context: Context) : IIntentLauncher {
@@ -37,7 +36,7 @@ class IntentLauncher(private val context: Context) : IIntentLauncher {
         ).show()
     }
 
-    override fun launchAppStore(appId: String) {
+    override fun launchStore(appId: String) {
         val packageName = context.packageName
         try {
             val intent = Intent(Intent.ACTION_VIEW).apply {

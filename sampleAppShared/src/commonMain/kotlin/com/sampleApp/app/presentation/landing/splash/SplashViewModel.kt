@@ -135,8 +135,11 @@ class SplashViewModel(
             onProceedAction = {
                 // TODO will navigate to next screen
             },
+            onSkipUpdateClick = {
+                // to handle the skip update action if needed
+            },
             onUpdateClick = {
-                intentLauncher.launchAppStore(appId = appEnvironment.iosAppStoreId)
+                intentLauncher.launchStore(appId = appEnvironment.iosAppStoreId)
             })
     })
 }

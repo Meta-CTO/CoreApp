@@ -38,7 +38,7 @@ fun ForceUpdateDialog(
     onSkipUpdateClicked: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
     image: CommonImageResource = MR.images.ic_upgrade.asCommon(),
-    bodyTextStyle: TextStyle = CoreTheme.typography.forceUpdateDialogBodyTextStyle,
+    bodyTextStyle: TextStyle = CoreTheme.typography.forceUpdateDialog.textStyle,
     bodyTextColor: Color = CoreTheme.colors.forceUpdateDialog.bodyTextColor,
     textPadding: Dp = CoreTheme.spacings.forceUpdateDialog.textPadding,
     dialogPadding: Dp = CoreTheme.spacings.forceUpdateDialog.dialogPadding,
@@ -98,6 +98,7 @@ fun ForceUpdateDialog(
                 // Positive button
                 PrimaryFilledButton(
                     modifier = Modifier.fillMaxWidth(),
+                    textStyle =  CoreTheme.typography.forceUpdateDialog.positiveBtnTextStyle,
                     text = updateButtonText ?: stringResource(MR.strings.confirm),
                     isSmall = true,
                     onClick = {
@@ -110,6 +111,7 @@ fun ForceUpdateDialog(
                     // Negative button
                     PrimaryTextButton(
                         modifier = Modifier.wrapContentSize(),
+                        textStyle =  CoreTheme.typography.forceUpdateDialog.negativeBtnTextStyle,
                         text = skipUpdateButtonText ?: stringResource(MR.strings.skip_update_button),
                         onClick = {
                             onSkipUpdateClicked?.invoke()

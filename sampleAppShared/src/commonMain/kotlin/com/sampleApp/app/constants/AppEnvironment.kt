@@ -9,8 +9,9 @@ object AppEnvironment {
         title = "DEV",
         networkLogLevel = NetworkLogLevel.ALL,
         iosAppStoreId = "id310633997",
-        forceUpdateRemoteConfigKey = "RECOMMENDED_APP_VERSIONS"
-
+        forceUpdateRemoteConfigKey = "RECOMMENDED_APP_VERSIONS",
+        appConfigurationExpirationInMinutes = 1 * 60 * 24,
+        currentAppConfigurationVersion = 1
     )
 
     fun prod() = CoreEnvironment(
@@ -18,6 +19,7 @@ object AppEnvironment {
         title = "PRODUCTION",
         networkLogLevel = NetworkLogLevel.NONE,
         iosAppStoreId = "id310633997",
-        forceUpdateRemoteConfigKey = "RECOMMENDED_APP_VERSIONS"
+        appConfigurationExpirationInMinutes = 1 * 60 * 24,
+        currentAppConfigurationVersion = 1
     )
 }

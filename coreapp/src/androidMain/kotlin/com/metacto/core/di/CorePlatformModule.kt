@@ -1,6 +1,7 @@
 package com.metacto.core.di
 
 import com.google.firebase.messaging.FirebaseMessaging
+import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.permissions.IPermissionManager
@@ -37,6 +38,7 @@ import kotlin.reflect.KClass
 
 actual fun <T : SerializableNetworkError> corePlatformModule(
     appStorageName: String,
+    coreEnvironment: CoreEnvironment,
     shouldShowActualErrorMessages: Boolean,
     errorClass: KClass<T>
 ) = module {
@@ -105,7 +107,7 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
             applicationContext = androidContext(),
             appConfigurationService = get(),
             sharedPreference = get(),
-            appConfigurationExpirationInMinutes = 1
+            appConfigurationExpirationInMinutes = coreEnvironment.appConfigurationExpirationInMinutes
         )
     }
 

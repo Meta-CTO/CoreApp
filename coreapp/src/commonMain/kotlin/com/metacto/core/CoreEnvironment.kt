@@ -7,5 +7,7 @@ open class CoreEnvironment(
     open val baseUrl: String,
     open val networkLogLevel: NetworkLogLevel,
     open val iosAppStoreId: String,
-    open val forceUpdateRemoteConfigKey: String,
+    open val forceUpdateRemoteConfigKey: String? = null,
+    open val currentAppConfigurationVersion: Int,
+    open val appConfigurationExpirationInMinutes: Long
 )

@@ -1,8 +1,9 @@
 package com.metacto.core.di
 
 import coil3.PlatformContext
-import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
+import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.RepositoriesFactory
+import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
 import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.permissions.PermissionManager
 import com.metacto.core.presentation.base.CommonViewModel
@@ -35,6 +36,7 @@ import kotlin.reflect.KClass
 
 actual fun <T : SerializableNetworkError> corePlatformModule(
     appStorageName: String,
+    coreEnvironment: CoreEnvironment,
     shouldShowActualErrorMessages: Boolean,
     errorClass: KClass<T>
 ) = module {
@@ -96,7 +98,7 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
         AppConfigurationRepository(
             appConfigurationService = get(),
             sharedPreference = get(),
-            appConfigurationExpirationInMinutes = 1
+            appConfigurationExpirationInMinutes = coreEnvironment.appConfigurationExpirationInMinutes
         )
     }
 

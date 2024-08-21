@@ -17,15 +17,18 @@ class IntentLauncher : IIntentLauncher {
         UIApplication.sharedApplication.openURL(url)
     }
 
-    override fun launchAppStore(appId: String) {
+    override fun launchStore(appId: String) {
 
         val urlString = "itms-apps://itunes.apple.com/app/$appId"
         val url = NSURL.URLWithString(urlString) ?: return
         // Validate can open url
-        if (UIApplication.sharedApplication.canOpenURL(url).not()) return
+        if (UIApplication.sharedApplication.canOpenURL(url)) {
 
-        // Then open it
-        UIApplication.sharedApplication.openURL(url)
+            // Then open it
+            UIApplication.sharedApplication.openURL(url)
+        } else {
+            launchBrowser("https://apps.apple.com/app/$appId")
+        }
     }
 
     override fun launchShareText(text: String) {
