@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
@@ -37,12 +39,16 @@ internal fun TimePickerDialog(
     rowCount: Int = 5,
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onTimePicked: (LocalTime) -> Unit,
+    showToolbar: Boolean = CoreTheme.spacings.timePickerDialog.showToolbar,
     padding: PaddingValues = PaddingValues(CoreTheme.spacings.timePickerDialog.padding),
     wheelPadding: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.timePickerDialog.wheelPaddingHorizontal),
     okBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.timePickerDialog.btnPaddingTop),
     height: Dp = CoreTheme.spacings.timePickerDialog.height,
     pickerPadding: Dp = CoreTheme.spacings.timePickerDialog.pickPadding,
     wheelHeight: Dp = CoreTheme.spacings.timePickerDialog.wheelHeight,
+    btnBgColor: Color = CoreTheme.colors.timePickerDialog.btnBgColor,
+    btnTextColor: Color = CoreTheme.colors.timePickerDialog.btnTextColor,
+    btnTextStyle: TextStyle = CoreTheme.typography.timePickerDialog.btnTextStyle,
     onDismiss: () -> Unit = {}
 ) {
     // Get main objects
@@ -118,7 +124,7 @@ internal fun TimePickerDialog(
         modifier = modifier,
         onDismiss = onDismiss,
         isCancellable = isCancellable,
-        showToolbar = false
+        showToolbar = showToolbar
     ) {
         // Container column
         Column(
@@ -148,6 +154,9 @@ internal fun TimePickerDialog(
             PrimaryFilledButton(
                 text = stringResource(MR.strings.ok),
                 onClick = ::handleOkClick,
+                backgroundColor = btnBgColor,
+                textStyle = btnTextStyle,
+                textColor = btnTextColor,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(okBtnPadding)

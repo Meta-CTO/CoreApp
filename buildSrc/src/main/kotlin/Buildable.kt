@@ -25,9 +25,9 @@ sealed class Buildable {
         override val isMinifyEnabled: Boolean = false
         override val isShrinkResources: Boolean = false
         override val storeFile: String = "./signing/release.keystore"
-        override val keyAlias: String = "myatlas"
-        override val keyPassword: String = "myatlas"
-        override val storePassword: String = "myatlas"
+        override val keyAlias: String = "androiddebugkey"
+        override val keyPassword: String = "android"
+        override val storePassword: String = "android"
     }
 
     companion object {

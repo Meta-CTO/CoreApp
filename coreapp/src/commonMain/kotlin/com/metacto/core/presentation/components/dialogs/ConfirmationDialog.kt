@@ -31,6 +31,8 @@ fun ConfirmationDialog(
     onPositiveClick: (() -> Unit)? = null,
     onNegativeClick: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
+    bodyTextAlign: TextAlign = CoreTheme.spacings.confirmationDialog.bodyTextAlign,
+    showToolbar: Boolean = CoreTheme.spacings.confirmationDialog.showToolbar,
     positiveBtnTextStyle: TextStyle = CoreTheme.typography.confirmationDialog.positiveBtnTextStyle,
     positiveBtnTextColor: Color = CoreTheme.colors.confirmationDialog.positiveBtnTextColor,
     positiveBtnBgColor: Color = CoreTheme.colors.confirmationDialog.positiveBtnBgColor,
@@ -54,7 +56,7 @@ fun ConfirmationDialog(
     AppDialog(
         modifier = modifier,
         title = title,
-        showToolbar = true,
+        showToolbar = showToolbar,
         onDismiss = onDismiss,
         isCancellable = isCancellable,
     ) {
@@ -66,7 +68,7 @@ fun ConfirmationDialog(
             // Render body text
             Text(
                 text = body.orEmpty(),
-                textAlign = TextAlign.Center,
+                textAlign = bodyTextAlign,
                 color = bodyTextColor,
                 style = bodyTextStyle,
                 modifier = Modifier

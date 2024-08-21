@@ -19,9 +19,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
-import com.metacto.coreApp.MR
-import com.metacto.core.presentation.components.buttons.PrimaryStrokedButton
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.coreApp.MR
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
@@ -33,6 +32,8 @@ fun SuccessDialog(
     buttonText: String? = null,
     onPositiveClick: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
+    bodyTextAlign: TextAlign = CoreTheme.spacings.successDialog.bodyTextAlign,
+    showToolbar: Boolean = CoreTheme.spacings.successDialog.showToolbar,
     iconSize: Dp = CoreTheme.spacings.successDialog.iconSize,
     btnBgColor: Color = CoreTheme.colors.successDialog.btnBgColor,
     btnTextColor: Color = CoreTheme.colors.successDialog.btnTextColor,
@@ -45,7 +46,7 @@ fun SuccessDialog(
     AppDialog(
         modifier = modifier,
         title = title,
-        showToolbar = true,
+        showToolbar = showToolbar,
         onDismiss = onDismiss,
         isCancellable = isCancellable,
     ) {
@@ -66,7 +67,7 @@ fun SuccessDialog(
             // Render body text
             Text(
                 text = body.orEmpty(),
-                textAlign = TextAlign.Center,
+                textAlign = bodyTextAlign,
                 color = CoreTheme.colors.secondary,
                 style = bodyTextStyle,
                 modifier = Modifier.padding(bodyPadding)

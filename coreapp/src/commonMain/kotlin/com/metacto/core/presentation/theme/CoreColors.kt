@@ -366,6 +366,18 @@ data class CoreColors(
     val choicesDialog: ChoicesDialogColors = ChoicesDialogColors(
         primary = primary,
         onPrimary = onPrimary
+    ),
+
+    // TimePickerDialog
+    val timePickerDialog: TimePickerDialogColors = TimePickerDialogColors(
+        primary = primary,
+        onPrimary = onPrimary
+    ),
+
+    // DatePickerDialog
+    val datePickerDialog: DatePickerDialogColors = DatePickerDialogColors(
+        primary = primary,
+        onPrimary = onPrimary
     )
 )
 
@@ -708,7 +720,7 @@ data class MessageDialogColors(
     private val primary: Color,
     private val onPrimary: Color,
     val btnBgColor: Color = primary,
-    val btnTextColor: Color = primary,
+    val btnTextColor: Color = onPrimary,
     val bodyTextColor: Color = secondary
 )
 
@@ -718,9 +730,9 @@ data class OverrideUserDialogColors(
     private val primary: Color,
     private val onPrimary: Color,
     val overrideBtnBgColor: Color = primary,
-    val overrideBtnTextColor: Color = primary,
+    val overrideBtnTextColor: Color = onPrimary,
     val resetBtnBgColor: Color = primary,
-    val resetBtnTextColor: Color = primary,
+    val resetBtnTextColor: Color = onPrimary,
     val bodyTextColor: Color = secondary
 )
 
@@ -792,7 +804,7 @@ data class SuccessDialogColors(
     private val primary: Color,
     private val onPrimary: Color,
     val btnBgColor: Color = primary,
-    val btnTextColor: Color = primary
+    val btnTextColor: Color = onPrimary
 )
 
 // ChoicesDialog
@@ -800,7 +812,23 @@ data class ChoicesDialogColors(
     private val primary: Color,
     private val onPrimary: Color,
     val btnBgColor: Color = primary,
-    val btnTextColor: Color = primary
+    val btnTextColor: Color = onPrimary
+)
+
+// TimePickerDialog
+data class TimePickerDialogColors(
+    private val primary: Color,
+    private val onPrimary: Color,
+    val btnBgColor: Color = primary,
+    val btnTextColor: Color = onPrimary
+)
+
+// DatePickerDialog
+data class DatePickerDialogColors(
+    private val primary: Color,
+    private val onPrimary: Color,
+    val btnBgColor: Color = primary,
+    val btnTextColor: Color = onPrimary
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

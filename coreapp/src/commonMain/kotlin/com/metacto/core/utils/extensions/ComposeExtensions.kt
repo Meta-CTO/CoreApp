@@ -454,6 +454,12 @@ fun Color.isDark(): Boolean {
 }
 
 @Composable
+fun keyboardAsState(): State<Boolean> {
+    val isImeVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
+    return rememberUpdatedState(isImeVisible)
+}
+
+@Composable
 expect fun defaultMetadataLoader(): MetadataLoader
 
 @Composable

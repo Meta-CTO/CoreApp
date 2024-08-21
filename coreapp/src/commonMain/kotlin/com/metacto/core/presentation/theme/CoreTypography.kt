@@ -287,6 +287,16 @@ data class CoreTypography(
     // ChoicesDialog
     val choicesDialog: ChoicesDialogTypography = ChoicesDialogTypography(
         btnLabelMedium = btnLabelMedium
+    ),
+
+    // TimePickerDialog
+    val timePickerDialog: TimePickerDialogTypography = TimePickerDialogTypography(
+        btnLabelMedium = btnLabelMedium
+    ),
+
+    // DatePickerDialog
+    val datePickerDialog: DatePickerDialogTypography = DatePickerDialogTypography(
+        btnLabelMedium = btnLabelMedium
     )
 )
 
@@ -546,6 +556,18 @@ data class TabItemTypography(
 
 // choicesDialog
 data class ChoicesDialogTypography(
+    private val btnLabelMedium: TextStyle,
+    val btnTextStyle: TextStyle = btnLabelMedium
+)
+
+// TimePickerDialog
+data class TimePickerDialogTypography(
+    private val btnLabelMedium: TextStyle,
+    val btnTextStyle: TextStyle = btnLabelMedium
+)
+
+// DatePickerDialog
+data class DatePickerDialogTypography(
     private val btnLabelMedium: TextStyle,
     val btnTextStyle: TextStyle = btnLabelMedium
 )

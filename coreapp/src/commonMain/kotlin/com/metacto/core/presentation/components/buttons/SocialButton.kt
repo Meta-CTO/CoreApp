@@ -21,7 +21,7 @@ fun SocialButton(
     iconVector: ImageVector? = null,
     isEnabled: Boolean = true,
     isLoading: Boolean = false,
-    iconSize: Dp = CoreTheme.spacings.iconLarge,
+    iconSize: Dp = CoreTheme.spacings.socialButton.iconSize,
     padding: PaddingValues = PaddingValues(
         vertical = CoreTheme.spacings.socialButton.paddingVertical,
         horizontal = CoreTheme.spacings.socialButton.paddingHorizontal

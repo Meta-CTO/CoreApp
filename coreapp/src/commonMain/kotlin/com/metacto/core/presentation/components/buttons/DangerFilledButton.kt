@@ -20,7 +20,7 @@ fun DangerFilledButton(
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
     endIconVector: ImageVector? = null,
-    iconSize: Dp = CoreTheme.spacings.iconLarge,
+    iconSize: Dp = CoreTheme.spacings.dangerFilledButton.iconSize,
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isSmall: Boolean = false,

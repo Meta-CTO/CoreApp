@@ -2,6 +2,7 @@ package com.metacto.core.presentation.components.buttons
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,7 +22,7 @@ fun TransparentStrokedButton(
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
     endIconVector: ImageVector? = null,
-    iconSize: Dp = CoreTheme.spacings.iconLarge,
+    iconSize: Dp = CoreTheme.spacings.transparentStrokedButton.iconSize,
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isLoading: Boolean = false,
@@ -38,6 +39,11 @@ fun TransparentStrokedButton(
         width = CoreTheme.spacings.transparentStrokedButton.strokeWidth,
         color = CoreTheme.colors.transparentStrokedButton.strokeColor
     ),
+    isSmall: Boolean = false,
+    minHeightSmall: Dp = CoreTheme.spacings.transparentStrokedButton.minHeightSmall,
+    minHeightNormal: Dp = CoreTheme.spacings.transparentStrokedButton.minHeightNormal,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.transparentStrokedButton.shapeSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.transparentStrokedButton.shapeNormal,
     onClick: () -> Unit = {}
 ) {
     BaseButton(
@@ -59,6 +65,8 @@ fun TransparentStrokedButton(
         contentAlignment = contentAlignment,
         elevation = elevation,
         border = border,
-        padding = padding
+        padding = padding,
+        minHeight = if (isSmall) minHeightSmall else minHeightNormal,
+        shape = if (isSmall) shapeSmall else shapeNormal,
     )
 }

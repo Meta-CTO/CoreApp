@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "1075413013955",
-    "project_id": "samplecomposeapp",
-    "storage_bucket": "samplecomposeapp.appspot.com"
+    "project_number": "211134116667",
+    "project_id": "metactosampleapp",
+    "storage_bucket": "metactosampleapp.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1075413013955:android:f45da2a933e1d09ca69976",
+        "mobilesdk_app_id": "1:211134116667:android:fc6d637430f91854827d1e",
         "android_client_info": {
           "package_name": "com.sampleApp.app"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCRlQf0KeaS5ytVOBzmtAAawfAIhKp2nOY"
+          "current_key": "AIzaSyBSqPW4Jn4HksPCcHoRqfXQ2IUxWY_oVro"
         }
       ],
       "services": {
@@ -26,7 +26,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1075413013955:android:e595955b38e5b0cda69976",
+        "mobilesdk_app_id": "1:211134116667:android:0f5bd66d529ccdbc827d1e",
         "android_client_info": {
           "package_name": "com.sampleApp.app.dev"
         }
@@ -34,7 +34,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCRlQf0KeaS5ytVOBzmtAAawfAIhKp2nOY"
+          "current_key": "AIzaSyBSqPW4Jn4HksPCcHoRqfXQ2IUxWY_oVro"
         }
       ],
       "services": {
