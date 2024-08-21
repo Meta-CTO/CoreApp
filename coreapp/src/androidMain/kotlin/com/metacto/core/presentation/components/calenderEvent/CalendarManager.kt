@@ -14,10 +14,10 @@ import com.metacto.core.utils.extensions.orOne
 import java.util.TimeZone
 
 
-class CalenderEvent(
+class CalendarManager(
     private val context: Context,
     private val permissionManager: IPermissionManager
-) : ICalenderEvent {
+) : ICalendarManager {
 
     companion object {
         // The indices for the projection array above.
@@ -72,22 +72,22 @@ class CalenderEvent(
         val contentResolver = context.contentResolver
         val selection = ""
         val selectionArgs = emptyArray<String>()
-        val cur: Cursor? =
+        val cursor: Cursor? =
             contentResolver.query(uri, CALENDER_PROJECTION, selection, selectionArgs, null)
 
-        var calId: Long? = null
-        while (cur?.moveToNext() == true) {
+        var calenderId: Long? = null
+        while (cursor?.moveToNext() == true) {
             // Get the field values
-            val visible = cur.getInt(PROJECTION_VISIBLE_INDEX)
+            val visible = cursor.getInt(PROJECTION_VISIBLE_INDEX)
 
             // check if the calender is visible or not
             if (visible == 1) {
                 // return the calender id
-                calId = cur.getLong(PROJECTION_ID_INDEX)
+                calenderId = cursor.getLong(PROJECTION_ID_INDEX)
                 break
             }
         }
-        return calId
+        return calenderId
     }
 
     private fun sendEventToCalender(

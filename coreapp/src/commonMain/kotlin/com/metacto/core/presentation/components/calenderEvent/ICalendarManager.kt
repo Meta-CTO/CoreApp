@@ -1,6 +1,6 @@
 package com.metacto.core.presentation.components.calenderEvent
 
-interface ICalenderEvent {
+interface ICalendarManager {
 
     suspend fun addEventToCalender(
         eventTitle: String,

@@ -5,8 +5,8 @@ import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.permissions.PermissionManager
 import com.metacto.core.presentation.base.CommonViewModel
-import com.metacto.core.presentation.components.calenderEvent.CalenderEvent
-import com.metacto.core.presentation.components.calenderEvent.ICalenderEvent
+import com.metacto.core.presentation.components.calenderEvent.CalendarManager
+import com.metacto.core.presentation.components.calenderEvent.ICalendarManager
 import com.metacto.core.utils.IResourceProvider
 import com.metacto.core.utils.ResourceProvider
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
@@ -91,8 +91,8 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
     single<MetadataLoader> {
         MokoAssetResourceMetadataLoader()
     }
-    single<ICalenderEvent> {
-        CalenderEvent()
+    single<ICalendarManager> {
+        CalendarManager()
     }
 }
 

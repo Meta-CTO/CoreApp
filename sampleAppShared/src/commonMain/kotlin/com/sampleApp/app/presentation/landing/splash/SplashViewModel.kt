@@ -1,6 +1,6 @@
 package com.sampleApp.app.presentation.landing.splash
 
-import com.metacto.core.presentation.components.calenderEvent.ICalenderEvent
+import com.metacto.core.presentation.components.calenderEvent.ICalendarManager
 import com.metacto.core.presentation.components.wheelPicker.datetime.now
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
@@ -25,7 +25,7 @@ import org.koin.core.component.inject
 class SplashViewModel(
     private val eventBroadcaster: EventBroadcaster,
     private val intentLauncher: IIntentLauncher,
-    private val iCalenderEvent: ICalenderEvent,
+    private val iCalendarManager: ICalendarManager,
     private val dateHelper: DateHelper,
     private val phoneNumberManager: IPhoneNumberManager
 ) : BaseViewModel<State, Event, Effect>() {
@@ -56,8 +56,6 @@ class SplashViewModel(
             selectedPickerItem = pickedItem
         }
 
-        sendCalenderEvent()
-
         // Update the flag
         setState { copy(isInitialized = true) }
     }
@@ -65,7 +63,7 @@ class SplashViewModel(
     private fun sendCalenderEvent() = executeCatching({
         val calenderTime = LocalDate.now().toEpochMilliseconds()
 
-        iCalenderEvent.addEventToCalender(
+        iCalendarManager.addEventToCalender(
             eventTitle = "Test title ",
             eventDescription = "test description",
             eventStartTime = calenderTime,
@@ -143,5 +141,7 @@ class SplashViewModel(
         Event.NavigateToYoutube -> {
             navManager.navigate(YoutubeScreen())
         }
+
+        Event.OnCalenderEventClicked -> sendCalenderEvent()
     }
 }
