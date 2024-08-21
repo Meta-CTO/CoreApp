@@ -62,7 +62,9 @@ fun ForceUpdateDialog(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(dialogSpacings),
-            modifier = Modifier.fillMaxWidth().padding(dialogPadding)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dialogPadding)
         ) {
 
             // top image
