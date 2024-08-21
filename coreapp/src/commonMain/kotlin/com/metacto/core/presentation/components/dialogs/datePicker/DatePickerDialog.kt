@@ -11,6 +11,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
@@ -44,6 +46,9 @@ fun DatePickerDialog(
     okButtonPaddingTop: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.datePickerDialog.btnPaddingTop),
     wheelHeight: Dp = CoreTheme.spacings.datePickerDialog.wheelHeight,
     pickerPadding: Dp = CoreTheme.spacings.datePickerDialog.padding,
+    btnBgColor: Color = CoreTheme.colors.datePickerDialog.btnBgColor,
+    btnTextColor: Color = CoreTheme.colors.datePickerDialog.btnTextColor,
+    btnTextStyle: TextStyle = CoreTheme.typography.datePickerDialog.btnTextStyle,
     padding: PaddingValues = PaddingValues(
         vertical = CoreTheme.spacings.datePickerDialog.paddingVertical,
         horizontal = CoreTheme.spacings.datePickerDialog.paddingHorizontal
@@ -100,6 +105,9 @@ fun DatePickerDialog(
             PrimaryFilledButton(
                 text = stringResource(MR.strings.ok),
                 onClick = ::handleOkClick,
+                backgroundColor = btnBgColor,
+                textColor = btnTextColor,
+                textStyle = btnTextStyle,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(okButtonPaddingTop)

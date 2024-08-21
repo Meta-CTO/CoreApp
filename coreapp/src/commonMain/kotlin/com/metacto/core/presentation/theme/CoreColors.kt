@@ -361,6 +361,18 @@ data class CoreColors(
     val choicesDialog: ChoicesDialogColors = ChoicesDialogColors(
         primary = primary,
         onPrimary = onPrimary
+    ),
+
+    // TimePickerDialog
+    val timePickerDialog: TimePickerDialogColors = TimePickerDialogColors(
+        primary = primary,
+        onPrimary = onPrimary
+    ),
+
+    // DatePickerDialog
+    val datePickerDialog: DatePickerDialogColors = DatePickerDialogColors(
+        primary = primary,
+        onPrimary = onPrimary
     )
 )
 
@@ -786,6 +798,22 @@ data class SuccessDialogColors(
 
 // ChoicesDialog
 data class ChoicesDialogColors(
+    private val primary: Color,
+    private val onPrimary: Color,
+    val btnBgColor: Color = primary,
+    val btnTextColor: Color = onPrimary
+)
+
+// TimePickerDialog
+data class TimePickerDialogColors(
+    private val primary: Color,
+    private val onPrimary: Color,
+    val btnBgColor: Color = primary,
+    val btnTextColor: Color = onPrimary
+)
+
+// DatePickerDialog
+data class DatePickerDialogColors(
     private val primary: Color,
     private val onPrimary: Color,
     val btnBgColor: Color = primary,
