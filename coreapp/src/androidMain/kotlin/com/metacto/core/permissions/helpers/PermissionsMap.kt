@@ -25,6 +25,10 @@ internal fun Permission.toPlatformPermission(): List<String> {
         )
 
         Permission.MOTION -> motionPermissions()
+        Permission.CALENDER -> listOf(
+            Manifest.permission.READ_CALENDAR,
+            Manifest.permission.WRITE_CALENDAR
+        )
     }
 }
 

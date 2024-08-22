@@ -23,6 +23,7 @@ class SplashContract {
         data object ClickMeClicked : Event()
         data object PlayerActionClicked : Event()
         data object NavigateToYoutube : Event()
+        data object OnCalenderEventClicked:Event()
     }
 
     sealed class Effect : ViewSideEffect

@@ -14,7 +14,6 @@ import com.metacto.core.utils.remoteConfigs.IRemoteConfigs
 import com.metacto.strapikmm.auth.Authenticator
 import com.metacto.strapikmm.auth.FirebaseAuthenticator
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
-import com.metacto.strapikmm.repos.AppConfigurationRepository
 import com.metacto.strapikmm.repos.LogoutUseCase
 import com.metacto.strapikmm.util.Logger
 import dev.gitlive.firebase.Firebase

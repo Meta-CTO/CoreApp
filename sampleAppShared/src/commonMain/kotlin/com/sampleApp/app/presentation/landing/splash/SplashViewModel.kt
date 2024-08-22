@@ -2,6 +2,9 @@ package com.sampleApp.app.presentation.landing.splash
 
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource
+import com.metacto.core.presentation.components.calenderEvent.CalenderEventStatus
+import com.metacto.core.presentation.components.calenderEvent.ICalendarManager
+import com.metacto.core.presentation.globalState.models.SuccessPopupParams
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.utils.DateHelper
@@ -11,16 +14,22 @@ import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.Notification
 import com.metacto.core.utils.parseDate
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
+import com.metacto.core.utils.toInstant
 import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
 import com.sampleApp.app.presentation.landing.youtube.YoutubeScreen
+import kotlinx.coroutines.delay
+import kotlinx.datetime.Clock
 import kotlinx.datetime.DayOfWeek
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.koin.core.component.inject
 
 class SplashViewModel(
     private val eventBroadcaster: EventBroadcaster,
+    private val iCalendarManager: ICalendarManager,
     private val dateHelper: DateHelper,
     private val phoneNumberManager: IPhoneNumberManager,
     private val appEnvironment: CoreEnvironment
@@ -56,6 +65,31 @@ class SplashViewModel(
         // Update the flag
         setState { copy(isInitialized = true) }
     }
+
+    private fun sendCalenderEvent() = executeCatching({
+        val calenderTime = Clock.System.now().toLocalDateTime(
+            TimeZone.currentSystemDefault()
+        ).toInstant().toEpochMilliseconds()
+
+        val addedCalender = iCalendarManager.addEventToCalender(
+            eventTitle = "New Event Title ",
+            eventDescription = "new Event description",
+            eventStartTime = calenderTime,
+            eventEndTime = calenderTime + (60 * 60 * 1000)
+        )
+
+        delay(2000)
+        if (addedCalender == CalenderEventStatus.EVENT_ADDED) {
+            globalState.successPopup(
+                params =
+                SuccessPopupParams(
+                    title = "Event Added",
+                    body = "Event Added Successfully"
+                )
+            )
+        }
+    })
+
 
     override fun setInitialState() = State()
 
@@ -125,6 +159,8 @@ class SplashViewModel(
         Event.NavigateToYoutube -> {
             navManager.navigate(YoutubeScreen())
         }
+
+        Event.OnCalenderEventClicked -> sendCalenderEvent()
     }
 
     private fun checkForUpdates() = executeSilent({

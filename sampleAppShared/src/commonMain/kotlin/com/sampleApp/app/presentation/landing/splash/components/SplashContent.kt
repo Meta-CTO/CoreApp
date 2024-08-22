@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,21 +17,15 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
-import com.metacto.core.presentation.components.inputFields.CurrencyAmountInputVisualTransformation
-import com.metacto.core.presentation.components.inputFields.PickerInputField
-import com.metacto.core.presentation.components.inputFields.PriceTextInputField
-import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
 import com.metacto.core.presentation.components.tabsLayout.TabItemModel
 import com.metacto.core.presentation.components.tabsLayout.TabsLayout
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.presentation.components.wheelPicker.datetime.WheelDatePicker
 import com.metacto.core.presentation.components.wheelPicker.datetime.now
 import com.metacto.core.presentation.models.ImageUIModel
-import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.CountDownTimer
 import com.metacto.core.utils.asCommon
 import com.sampleApp.app.MR
@@ -136,6 +128,13 @@ internal fun SplashContent(
             text = "Click Me!",
             onClick = {
                 onEvent(Event.ClickMeClicked)
+            }
+        )
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Add Calender Event",
+            onClick = {
+                onEvent(Event.OnCalenderEventClicked)
             }
         )
 

@@ -15,4 +15,5 @@ enum class Permission {
     BLUETOOTH_CONNECT,
     CONTACTS,
     MOTION,
+    CALENDER
 }

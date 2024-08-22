@@ -80,5 +80,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>$(PRODUCT_NAME) wants to use your Calender to add events.</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>$(PRODUCT_NAME) wants to use your Calender to add events.</string>
 </dict>
 </plist>
