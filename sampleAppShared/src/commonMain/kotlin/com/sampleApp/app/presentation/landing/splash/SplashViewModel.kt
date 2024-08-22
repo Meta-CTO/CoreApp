@@ -1,11 +1,10 @@
 package com.sampleApp.app.presentation.landing.splash
 
-import com.metacto.core.presentation.components.calenderEvent.CalenderEventStatus
-import com.metacto.core.presentation.components.calenderEvent.ICalendarManager
-import com.metacto.core.presentation.components.wheelPicker.datetime.now
-import com.metacto.core.presentation.globalState.models.SuccessPopupParams
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource
+import com.metacto.core.presentation.components.calenderEvent.CalenderEventStatus
+import com.metacto.core.presentation.components.calenderEvent.ICalendarManager
+import com.metacto.core.presentation.globalState.models.SuccessPopupParams
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.utils.DateHelper
@@ -15,7 +14,6 @@ import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.Notification
 import com.metacto.core.utils.parseDate
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
-import com.metacto.core.utils.toEpochMilliseconds
 import com.metacto.core.utils.toInstant
 import com.sampleApp.app.presentation.components.BaseViewModel
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Effect
@@ -25,15 +23,12 @@ import com.sampleApp.app.presentation.landing.youtube.YoutubeScreen
 import kotlinx.coroutines.delay
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DayOfWeek
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.koin.core.component.inject
 
 class SplashViewModel(
     private val eventBroadcaster: EventBroadcaster,
-    private val intentLauncher: IIntentLauncher,
     private val iCalendarManager: ICalendarManager,
     private val dateHelper: DateHelper,
     private val phoneNumberManager: IPhoneNumberManager,

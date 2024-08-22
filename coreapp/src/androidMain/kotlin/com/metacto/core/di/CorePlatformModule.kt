@@ -2,8 +2,8 @@ package com.metacto.core.di
 
 import com.google.firebase.messaging.FirebaseMessaging
 import com.metacto.core.CoreEnvironment
-import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
 import com.metacto.core.domain.repos.RepositoriesFactory
+import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
 import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.permissions.PermissionManager
 import com.metacto.core.presentation.base.CommonViewModel
