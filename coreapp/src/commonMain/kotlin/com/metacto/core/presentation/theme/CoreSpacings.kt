@@ -205,7 +205,8 @@ data class CoreSpacings(
         noSpacing = noSpacing,
         paddingXXXLarge = paddingXXXLarge,
         datePickerHeight = datePickerHeight,
-        pickerPadding = pickerPadding
+        pickerPadding = pickerPadding,
+        wheelPickerItemStroke = wheelPickerItemStroke
     ),
 
     // TimePickerDialog
@@ -215,7 +216,8 @@ data class CoreSpacings(
         paddingXXXLarge = paddingXXXLarge,
         datePickerWheelHeight = datePickerWheelHeight,
         pickerPadding = pickerPadding,
-        datePickerHeight = datePickerHeight
+        datePickerHeight = datePickerHeight,
+        wheelPickerItemStroke = wheelPickerItemStroke
     ),
 
     // IconText
@@ -650,13 +652,15 @@ data class DatePickerDialogSpacings(
     private val paddingXXXLarge: Dp,
     private val datePickerHeight: Dp,
     private val pickerPadding: Dp,
+    private val wheelPickerItemStroke: Dp,
     val paddingVertical: Dp = paddingXLarge,
     val paddingHorizontal: Dp = noSpacing,
     val btnPaddingHorizontal: Dp = paddingXLarge,
     val btnPaddingTop: Dp = paddingXXXLarge,
     val wheelHeight: Dp = datePickerHeight,
     val padding: Dp = pickerPadding,
-    val showToolbar: Boolean = false
+    val showToolbar: Boolean = false,
+    val selectorBorderWidth: Dp = wheelPickerItemStroke
 )
 
 // TimePickerDialog
@@ -667,13 +671,15 @@ data class TimePickerDialogSpacings(
     private val datePickerWheelHeight: Dp,
     private val pickerPadding: Dp,
     private val datePickerHeight: Dp,
+    private val wheelPickerItemStroke: Dp,
     val showToolbar: Boolean = false,
     val padding: Dp = paddingXLarge,
     val wheelPaddingHorizontal: Dp = paddingXXLarge,
     val btnPaddingTop: Dp = paddingXXXLarge,
     val wheelHeight: Dp = datePickerWheelHeight,
     val pickPadding: Dp = pickerPadding,
-    val height: Dp = datePickerHeight
+    val height: Dp = datePickerHeight,
+    val selectorBorderWidth: Dp = wheelPickerItemStroke
 )
 
 // IconText

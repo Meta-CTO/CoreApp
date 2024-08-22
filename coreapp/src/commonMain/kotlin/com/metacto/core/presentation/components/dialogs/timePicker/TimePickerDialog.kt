@@ -1,8 +1,16 @@
 package com.metacto.core.presentation.components.dialogs.timePicker
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -37,7 +45,8 @@ internal fun TimePickerDialog(
     minTime: LocalTime? = null,
     maxTime: LocalTime? = null,
     rowCount: Int = 5,
-    selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
+    selectorBg: Color = CoreTheme.colors.timePickerDialog.selectorBgColor,
+    selectorBorderColor: Color = CoreTheme.colors.timePickerDialog.selectorBorderColor,
     onTimePicked: (LocalTime) -> Unit,
     showToolbar: Boolean = CoreTheme.spacings.timePickerDialog.showToolbar,
     padding: PaddingValues = PaddingValues(CoreTheme.spacings.timePickerDialog.padding),
@@ -49,6 +58,12 @@ internal fun TimePickerDialog(
     btnBgColor: Color = CoreTheme.colors.timePickerDialog.btnBgColor,
     btnTextColor: Color = CoreTheme.colors.timePickerDialog.btnTextColor,
     btnTextStyle: TextStyle = CoreTheme.typography.timePickerDialog.btnTextStyle,
+    selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(
+        color = selectorBg, border = BorderStroke(
+            width = CoreTheme.spacings.timePickerDialog.selectorBorderWidth,
+            color = selectorBorderColor
+        )
+    ),
     onDismiss: () -> Unit = {}
 ) {
     // Get main objects

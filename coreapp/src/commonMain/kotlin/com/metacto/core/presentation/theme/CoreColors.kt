@@ -371,13 +371,17 @@ data class CoreColors(
     // TimePickerDialog
     val timePickerDialog: TimePickerDialogColors = TimePickerDialogColors(
         primary = primary,
-        onPrimary = onPrimary
+        onPrimary = onPrimary,
+        wheelPickerItemBg = wheelPickerItemBg,
+        wheelPickerItemStroke = wheelPickerItemStroke
     ),
 
     // DatePickerDialog
     val datePickerDialog: DatePickerDialogColors = DatePickerDialogColors(
         primary = primary,
-        onPrimary = onPrimary
+        onPrimary = onPrimary,
+        wheelPickerItemBg = wheelPickerItemBg,
+        wheelPickerItemStroke = wheelPickerItemStroke
     )
 )
 
@@ -819,16 +823,24 @@ data class ChoicesDialogColors(
 data class TimePickerDialogColors(
     private val primary: Color,
     private val onPrimary: Color,
+    private val wheelPickerItemBg: Color,
+    private val wheelPickerItemStroke: Color,
     val btnBgColor: Color = primary,
-    val btnTextColor: Color = onPrimary
+    val btnTextColor: Color = onPrimary,
+    val selectorBgColor: Color = wheelPickerItemBg,
+    val selectorBorderColor: Color = wheelPickerItemStroke
 )
 
 // DatePickerDialog
 data class DatePickerDialogColors(
     private val primary: Color,
     private val onPrimary: Color,
+    private val wheelPickerItemBg: Color,
+    private val wheelPickerItemStroke: Color,
     val btnBgColor: Color = primary,
-    val btnTextColor: Color = onPrimary
+    val btnTextColor: Color = onPrimary,
+    val selectorBgColor: Color = wheelPickerItemBg,
+    val selectorBorderColor: Color = wheelPickerItemStroke
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

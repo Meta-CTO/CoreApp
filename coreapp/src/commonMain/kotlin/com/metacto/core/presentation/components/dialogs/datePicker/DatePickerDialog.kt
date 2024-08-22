@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.components.dialogs.datePicker
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -39,7 +40,8 @@ fun DatePickerDialog(
     maxDate: LocalDate? = null,
     rowCount: Int = 5,
     showToolbar: Boolean = CoreTheme.spacings.datePickerDialog.showToolbar,
-    selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
+    selectorBg: Color = CoreTheme.colors.timePickerDialog.selectorBgColor,
+    selectorBorderColor: Color = CoreTheme.colors.timePickerDialog.selectorBorderColor,
     onDatePicked: (LocalDate) -> Unit,
     onDismiss: () -> Unit = {},
     okButtonPaddingHorizontal: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.datePickerDialog.btnPaddingHorizontal),
@@ -49,6 +51,12 @@ fun DatePickerDialog(
     btnBgColor: Color = CoreTheme.colors.datePickerDialog.btnBgColor,
     btnTextColor: Color = CoreTheme.colors.datePickerDialog.btnTextColor,
     btnTextStyle: TextStyle = CoreTheme.typography.datePickerDialog.btnTextStyle,
+    selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(
+        color = selectorBg, border = BorderStroke(
+            width = CoreTheme.spacings.datePickerDialog.selectorBorderWidth,
+            color = selectorBorderColor
+        )
+    ),
     padding: PaddingValues = PaddingValues(
         vertical = CoreTheme.spacings.datePickerDialog.paddingVertical,
         horizontal = CoreTheme.spacings.datePickerDialog.paddingHorizontal
