@@ -4,12 +4,13 @@ import com.metacto.core.presentation.components.calenderEvent.CalenderEventStatu
 import com.metacto.core.presentation.components.calenderEvent.ICalendarManager
 import com.metacto.core.presentation.components.wheelPicker.datetime.now
 import com.metacto.core.presentation.globalState.models.SuccessPopupParams
+import com.metacto.core.CoreEnvironment
+import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.metacto.core.utils.getDayOfWeek
-import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.Notification
 import com.metacto.core.utils.parseDate
@@ -35,7 +36,8 @@ class SplashViewModel(
     private val intentLauncher: IIntentLauncher,
     private val iCalendarManager: ICalendarManager,
     private val dateHelper: DateHelper,
-    private val phoneNumberManager: IPhoneNumberManager
+    private val phoneNumberManager: IPhoneNumberManager,
+    private val appEnvironment: CoreEnvironment
 ) : BaseViewModel<State, Event, Effect>() {
     private val notificationManager by inject<INotificationManager>()
     private var selectedPickerItem: PickerItemUIModel? = null
@@ -64,6 +66,7 @@ class SplashViewModel(
             selectedPickerItem = pickedItem
         }
 
+        checkForUpdates()
         // Update the flag
         setState { copy(isInitialized = true) }
     }
@@ -116,8 +119,7 @@ class SplashViewModel(
 //            )
 
             notificationManager.scheduleRepeating(
-                notification = notification,
-                intervalMinutes = 1
+                notification = notification, intervalMinutes = 1
             )
         }
 
@@ -165,4 +167,20 @@ class SplashViewModel(
 
         Event.OnCalenderEventClicked -> sendCalenderEvent()
     }
+
+    private fun checkForUpdates() = executeSilent({
+        checkAppUpdates(
+            appUpdateSource = AppUpdateSource.STRAPI_CONFIGS,
+            title = "Ahmed",
+            showTitle = true,
+            onProceedAction = {
+                // TODO will navigate to next screen
+            },
+            onSkipUpdateClick = {
+                // to handle the skip update action if needed
+            },
+            onUpdateClick = {
+                intentLauncher.launchStore(appId = appEnvironment.iosAppStoreId)
+            })
+    })
 }

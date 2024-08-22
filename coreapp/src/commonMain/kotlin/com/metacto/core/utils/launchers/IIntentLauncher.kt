@@ -7,6 +7,8 @@ interface IIntentLauncher {
         body: String? = null
     )
 
+    fun launchStore(appId: String)
+
     fun launchShareText(text: String)
 
     fun launchPhone(phone: String)

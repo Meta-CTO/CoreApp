@@ -15,6 +15,6 @@ abstract class BaseViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     protected val globalState by inject<IAppGlobalState>()
 
     override val defaultLoadingType: LoadingType = LoadingType.SecondaryCircularBlocking
-
     override val defaultErrorType: ErrorType = ErrorType.SnackBar
+
 }
