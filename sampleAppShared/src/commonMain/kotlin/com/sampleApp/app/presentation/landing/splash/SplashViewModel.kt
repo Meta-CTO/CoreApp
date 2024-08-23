@@ -162,6 +162,9 @@ class SplashViewModel(
         }
 
         Event.OnCalenderEventClicked -> sendCalenderEvent()
+        is Event.SetCurrentVideo -> {
+            setState { copy(currentVideo = event.video) }
+        }
     }
 
     private fun checkForUpdates() = executeSilent({

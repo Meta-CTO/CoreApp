@@ -15,13 +15,11 @@ import androidx.media3.common.C
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.session.MediaSession
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import com.metacto.core.utils.extensions.OnLifecycleEvent
 import com.metacto.core.utils.extensions.createMediaSource
-import com.metacto.core.utils.extensions.getLauncherPendingIntent
-import com.metacto.core.utils.extensions.kill
+import org.koin.compose.rememberKoinInject
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -38,13 +36,10 @@ actual fun VideoPlayer(
     controllerShowTimeoutMs: Int,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?
 ) {
-    // Get context
+    // Inject main stuff
     val context = LocalContext.current
-
-    // Create exo player
-    val exoPlayer = remember {
-        ExoPlayer.Builder(context).build()
-    }
+    val exoPlayer = rememberKoinInject<ExoPlayer>()
+    val mediaNotificationManager = rememberKoinInject<MediaNotificationManager>()
 
     // Setup scaling mode
     LaunchedEffect(scaleToCrop) {
@@ -59,8 +54,12 @@ actual fun VideoPlayer(
         exoPlayer.playWhenReady = autoPlay
     }
 
-    // Set the url
+    // Configure the player
     LaunchedEffect(videoUrl, videoTitle, videoArtist, videoArtworkUrl) {
+        if (exoPlayer.isPlaying && exoPlayer.currentMediaItem?.mediaId == videoUrl) {
+            return@LaunchedEffect
+        }
+
         exoPlayer.apply {
             // Create the metadata
             val mediaMetaData = MediaMetadata.Builder()
@@ -80,28 +79,9 @@ actual fun VideoPlayer(
             setMediaSource(mediaItem)
             prepare()
         }
-    }
 
-    // Setup media session
-    val mediaSession = remember(exoPlayer) {
-        MediaSession.Builder(context, exoPlayer).run {
-            setId(System.currentTimeMillis().toString())
-            context.getLauncherPendingIntent()?.let {
-                setSessionActivity(it)
-            }
-            build()
-        }
-    }
-
-    // Setup the notification manager
-    val notificationManager = remember(mediaSession) {
-        MediaNotificationManager(
-            context = context,
-            sessionToken = mediaSession.token,
-            player = exoPlayer
-        ).apply {
-            showNotificationForPlayer(exoPlayer)
-        }
+        // Show player notification
+        mediaNotificationManager.showNotificationForPlayer(exoPlayer)
     }
 
     // Create the player controller
@@ -141,9 +121,10 @@ actual fun VideoPlayer(
 
     DisposableEffect(Unit) {
         onDispose {
-            exoPlayer.kill()
-            mediaSession.release()
-            notificationManager.hideNotification()
+            if (handleLifecyclePause) {
+                exoPlayer.pause()
+                mediaNotificationManager.hideNotification()
+            }
         }
     }
 
