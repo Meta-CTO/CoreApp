@@ -371,8 +371,21 @@ fun DelayedLaunchedEffect(key: Any? = null, delay: Long, callback: suspend () ->
 
 @Composable
 fun IOLaunchedEffect(key: Any? = null, callback: suspend () -> Unit) {
+    IOLaunchedEffect(
+        key1 = key,
+        key2 = null,
+        callback = callback
+    )
+}
+
+@Composable
+fun IOLaunchedEffect(
+    key1: Any? = null,
+    key2: Any? = null,
+    callback: suspend () -> Unit
+) {
     val coroutineScope = rememberIOCoroutineScope()
-    LaunchedEffect(key) {
+    LaunchedEffect(key1, key2) {
         coroutineScope.launch {
             callback.invoke()
         }

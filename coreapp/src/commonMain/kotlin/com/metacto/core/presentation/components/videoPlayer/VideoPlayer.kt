@@ -11,11 +11,14 @@ interface VideoPlayerController {
 @Composable
 expect fun VideoPlayer(
     modifier: Modifier = Modifier,
+    videoUrl: String,
+    videoArtist: String? = null,
+    videoTitle: String? = null,
+    videoArtworkUrl: String? = null,
     autoPlay: Boolean = false,
     scaleToCrop: Boolean = false,
     enablePip: Boolean = false,
     handleLifecyclePause: Boolean = true,
     controllerShowTimeoutMs: Int = 0,
-    onPlayerCreated: ((VideoPlayerController) -> Unit)? = null,
-    url: String
+    onPlayerCreated: ((VideoPlayerController) -> Unit)? = null
 )
