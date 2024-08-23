@@ -19,22 +19,26 @@ import com.metacto.core.utils.extensions.OnLifecycleEvent
 import com.metacto.core.utils.extensions.kill
 import com.metacto.core.utils.extensions.setMediaSource
 
+// TODO: implement showing playing video information (artist, title, artwork) in control center like iOS
 @OptIn(UnstableApi::class)
 @Composable
 actual fun VideoPlayer(
     modifier: Modifier,
+    videoUrl: String,
+    videoArtist: String?,
+    videoTitle: String?,
+    videoArtworkUrl: String?,
     autoPlay: Boolean,
     scaleToCrop: Boolean,
     enablePip: Boolean,
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
-    onPlayerCreated: ((VideoPlayerController) -> Unit)?,
-    url: String
+    onPlayerCreated: ((VideoPlayerController) -> Unit)?
 ) {
     val context = LocalContext.current
 
     // Create exo player
-    val exoPlayer = remember(url, autoPlay, scaleToCrop) {
+    val exoPlayer = remember(videoUrl, autoPlay, scaleToCrop) {
         ExoPlayer.Builder(context)
             .build()
             .apply {
@@ -46,7 +50,7 @@ actual fun VideoPlayer(
                 }
 
                 // Then load media
-                setMediaSource(url)
+                setMediaSource(videoUrl)
                 prepare()
             }
     }

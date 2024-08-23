@@ -9,10 +9,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.interop.UIKitView
+import com.metacto.core.utils.extensions.IOLaunchedEffect
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.AVFoundation.AVLayerVideoGravityResizeAspect
 import platform.AVFoundation.AVLayerVideoGravityResizeAspectFill
-import platform.AVFoundation.AVPlayer
 import platform.AVFoundation.AVPlayerLayer
 import platform.AVFoundation.pause
 import platform.AVFoundation.play
@@ -26,21 +26,84 @@ import platform.AVFAudio.AVAudioSession
 import platform.AVFAudio.AVAudioSessionCategoryPlayback
 import platform.AVFAudio.AVAudioSessionModeMoviePlayback
 import platform.AVFAudio.setActive
+import platform.AVFoundation.AVMetadataCommonIdentifierArtist
+import platform.AVFoundation.AVMetadataCommonIdentifierArtwork
+import platform.AVFoundation.AVMetadataCommonIdentifierTitle
+import platform.AVFoundation.AVMetadataKeySpaceCommon
+import platform.AVFoundation.AVMutableMetadataItem
+import platform.AVFoundation.AVPlayer
+import platform.AVFoundation.AVPlayerItem
+import platform.AVFoundation.setKeySpace
+import platform.AVKit.externalMetadata
+import platform.Foundation.NSData
+import platform.Foundation.NSString
+import platform.Foundation.dataWithContentsOfURL
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
 actual fun VideoPlayer(
     modifier: Modifier,
+    videoUrl: String,
+    videoArtist: String?,
+    videoTitle: String?,
+    videoArtworkUrl: String?,
     autoPlay: Boolean,
     scaleToCrop: Boolean,
     enablePip: Boolean,
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
-    onPlayerCreated: ((VideoPlayerController) -> Unit)?,
-    url: String
+    onPlayerCreated: ((VideoPlayerController) -> Unit)?
 ) {
-    val player = remember(url) {
-        AVPlayer(uRL = NSURL.URLWithString(url)!!)
+    // Create the player item with the url
+    val playerItem = remember(videoUrl) {
+        AVPlayerItem(uRL = NSURL.URLWithString(videoUrl)!!)
+    }
+
+    // Set the title metadata
+    LaunchedEffect(playerItem, videoTitle) {
+        val metadataItem = AVMutableMetadataItem().apply {
+            setIdentifier(AVMetadataCommonIdentifierTitle)
+            setExtendedLanguageTag("und")
+            setValue(videoTitle.orEmpty() as NSString)
+        }
+
+        playerItem.externalMetadata = playerItem.externalMetadata.toMutableList().also {
+            it.add(metadataItem)
+        }
+    }
+
+    // Set the artist metadata
+    LaunchedEffect(playerItem, videoArtist) {
+        val metadataItem = AVMutableMetadataItem().apply {
+            setIdentifier(AVMetadataCommonIdentifierArtist)
+            setExtendedLanguageTag("und")
+            setValue(videoArtist.orEmpty() as NSString)
+        }
+
+        playerItem.externalMetadata = playerItem.externalMetadata.toMutableList().also {
+            it.add(metadataItem)
+        }
+    }
+
+    // Set the artwork metadata
+    IOLaunchedEffect(playerItem, videoArtworkUrl) {
+        val artworkData = videoArtworkUrl?.let {
+            NSData.dataWithContentsOfURL(NSURL.URLWithString(videoArtworkUrl)!!)
+        }
+
+        val metadataItem = AVMutableMetadataItem().apply {
+            setIdentifier(AVMetadataCommonIdentifierArtwork)
+            setKeySpace(AVMetadataKeySpaceCommon)
+            setValue(artworkData)
+        }
+
+        playerItem.externalMetadata = playerItem.externalMetadata.toMutableList().also {
+            it.add(metadataItem)
+        }
+    }
+
+    val player = remember(playerItem) {
+        AVPlayer(playerItem = playerItem)
     }
 
     val playerLayer = remember(player) {
