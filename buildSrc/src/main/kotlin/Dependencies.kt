@@ -89,6 +89,7 @@ object Dependencies {
         const val PLAYER = "androidx.media3:media3-exoplayer:${Versions.EXO_PLAYER}"
         const val HLS = "androidx.media3:media3-exoplayer-hls:${Versions.EXO_PLAYER}"
         const val UI = "androidx.media3:media3-ui:${Versions.EXO_PLAYER}"
+        const val SESSION = "androidx.media3:media3-session:${Versions.EXO_PLAYER}"
     }
 
     object YoutubePlayer {

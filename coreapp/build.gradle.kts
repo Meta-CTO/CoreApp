@@ -143,6 +143,7 @@ kotlin {
                 api(Dependencies.ExoPlayer.PLAYER)
                 api(Dependencies.ExoPlayer.HLS)
                 api(Dependencies.ExoPlayer.UI)
+                api(Dependencies.ExoPlayer.SESSION)
 
                 // Youtube Player
                 api(Dependencies.YoutubePlayer.CORE)

@@ -26,10 +26,6 @@ internal fun SplashContent(
     state: State,
     onEvent: (Event) -> Unit
 ) {
-    var currentVideo by remember {
-        mutableStateOf(videosList()[0])
-    }
-
     ScreenColumn(
         isRefreshable = false,
         isScrollable = false,
@@ -61,19 +57,20 @@ internal fun SplashContent(
                 .height(400.dp)
                 .background(Color.Red)
         ) {
-
-            VideoPlayer(
-                videoUrl = currentVideo.url,
-                videoTitle = currentVideo.title,
-                videoArtist = currentVideo.artist,
-                videoArtworkUrl = currentVideo.artworkUrl,
-                autoPlay = true,
-                scaleToCrop = true,
-                enablePip = true,
-                handleLifecyclePause = false,
-                controllerShowTimeoutMs = 2000,
-                modifier = Modifier.fillMaxSize()
-            )
+            if (state.currentVideo != null) {
+                VideoPlayer(
+                    videoUrl = state.currentVideo.url,
+                    videoTitle = state.currentVideo.title,
+                    videoArtist = state.currentVideo.artist,
+                    videoArtworkUrl = state.currentVideo.artworkUrl,
+                    autoPlay = true,
+                    scaleToCrop = true,
+                    enablePip = true,
+                    handleLifecyclePause = false,
+                    controllerShowTimeoutMs = 2000,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         }
 
         Row(
@@ -83,7 +80,7 @@ internal fun SplashContent(
                 modifier = Modifier.weight(1f),
                 text = "Video 1",
                 onClick = {
-                    currentVideo = videosList()[0]
+                    onEvent(Event.SetCurrentVideo(videosList()[0]))
                 }
             )
 
@@ -91,7 +88,7 @@ internal fun SplashContent(
                 modifier = Modifier.weight(1f),
                 text = "Video 2",
                 onClick = {
-                    currentVideo = videosList()[1]
+                    onEvent(Event.SetCurrentVideo(videosList()[1]))
                 }
             )
 
@@ -99,7 +96,7 @@ internal fun SplashContent(
                 modifier = Modifier.weight(1f),
                 text = "Video 3",
                 onClick = {
-                    currentVideo = videosList()[2]
+                    onEvent(Event.SetCurrentVideo(videosList()[2]))
                 }
             )
         }

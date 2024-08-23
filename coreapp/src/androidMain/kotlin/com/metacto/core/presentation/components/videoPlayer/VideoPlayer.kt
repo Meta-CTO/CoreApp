@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.components.videoPlayer
 
+import android.net.Uri
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.annotation.OptIn
@@ -11,15 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.C
+import androidx.media3.common.MediaMetadata
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import com.metacto.core.utils.extensions.OnLifecycleEvent
-import com.metacto.core.utils.extensions.kill
-import com.metacto.core.utils.extensions.setMediaSource
+import com.metacto.core.utils.extensions.createMediaSource
+import org.koin.compose.rememberKoinInject
 
-// TODO: implement showing playing video information (artist, title, artwork) in control center like iOS
 @OptIn(UnstableApi::class)
 @Composable
 actual fun VideoPlayer(
@@ -35,24 +36,52 @@ actual fun VideoPlayer(
     controllerShowTimeoutMs: Int,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?
 ) {
+    // Inject main stuff
     val context = LocalContext.current
+    val exoPlayer = rememberKoinInject<ExoPlayer>()
+    val mediaNotificationManager = rememberKoinInject<MediaNotificationManager>()
 
-    // Create exo player
-    val exoPlayer = remember(videoUrl, autoPlay, scaleToCrop) {
-        ExoPlayer.Builder(context)
-            .build()
-            .apply {
-                // Configure the player
-                playWhenReady = autoPlay
-                videoScalingMode = when (scaleToCrop) {
-                    true -> C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING
-                    false -> C.VIDEO_SCALING_MODE_DEFAULT
-                }
+    // Setup scaling mode
+    LaunchedEffect(scaleToCrop) {
+        exoPlayer.videoScalingMode = when (scaleToCrop) {
+            true -> C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING
+            false -> C.VIDEO_SCALING_MODE_DEFAULT
+        }
+    }
 
-                // Then load media
-                setMediaSource(videoUrl)
-                prepare()
-            }
+    // Setup auto play
+    LaunchedEffect(autoPlay) {
+        exoPlayer.playWhenReady = autoPlay
+    }
+
+    // Configure the player
+    LaunchedEffect(videoUrl, videoTitle, videoArtist, videoArtworkUrl) {
+        if (exoPlayer.isPlaying && exoPlayer.currentMediaItem?.mediaId == videoUrl) {
+            return@LaunchedEffect
+        }
+
+        exoPlayer.apply {
+            // Create the metadata
+            val mediaMetaData = MediaMetadata.Builder()
+                .setTitle(videoTitle.orEmpty())
+                .setArtist(videoArtist.orEmpty())
+                .setAlbumArtist(videoArtist.orEmpty())
+                .setArtworkUri(videoArtworkUrl?.let { Uri.parse(it) })
+                .build()
+
+            // Create the media item
+            val mediaItem = createMediaSource(
+                url = videoUrl,
+                metaData = mediaMetaData
+            )
+
+            // Set media source and prepare
+            setMediaSource(mediaItem)
+            prepare()
+        }
+
+        // Show player notification
+        mediaNotificationManager.showNotificationForPlayer(exoPlayer)
     }
 
     // Create the player controller
@@ -87,22 +116,15 @@ actual fun VideoPlayer(
                 player = exoPlayer
                 layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
             }
-        },
-        update = {
-            if (it.player != exoPlayer) {
-                it.player?.kill()
-                it.player = exoPlayer
-            }
-        },
-        onRelease = {
-            exoPlayer.kill()
-            it.player?.kill()
         }
     )
 
     DisposableEffect(Unit) {
         onDispose {
-            exoPlayer.release()
+            if (handleLifecyclePause) {
+                exoPlayer.pause()
+                mediaNotificationManager.hideNotification()
+            }
         }
     }
 
@@ -112,9 +134,6 @@ actual fun VideoPlayer(
             if (handleLifecyclePause) {
                 exoPlayer.pause()
             }
-        },
-        onDispose = {
-            exoPlayer.kill()
         }
     )
 }
