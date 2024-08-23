@@ -127,7 +127,8 @@ class SplashViewModel(
         }
 
         Event.ClickMeClicked -> {
-            setState { copy(selectedDate = "1993-09-09".parseDate("yyyy-MM-dd")) }
+            navManager.navigate(YoutubeScreen())
+            //setState { copy(selectedDate = "1993-09-09".parseDate("yyyy-MM-dd")) }
 
 //            navManager.navigateToBottomSheet(
 //                ImagePickerSheet(
