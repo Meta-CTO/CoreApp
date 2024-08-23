@@ -143,15 +143,24 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
             } catch (throwable: Throwable) {
                 logger.log("Error: ${throwable.message}")
 
+                // Ignore if it's a cancelled job
+                if (throwable.message.equals("Job was cancelled", true)) {
+                    return@launch
+                }
+
+                // Handle auth errors
                 if (isAuthError(throwable)) {
                     handleAuthError()
                     return@launch
                 }
 
+                // Handle network errors
                 if (isNetworkError(throwable)) {
                     handleNetworkError()
                     return@launch
                 }
+
+                // Handle other errors
                 val errorMessage = when (throwable) {
                     is AppException -> {
                         throwable.getErrorMessage().orEmpty()
