@@ -55,6 +55,7 @@ fun PickerInputField(
         labelTextColor = labelTextColor,
         errorTextStyle = errorTextStyle,
         errorTextColor = errorTextColor,
+        onEndIconClick = { if (enabled) onClick() },
         maxLines = maxLines,
         singleLine = singleLine,
         isStaticLabel = isStaticLabel,

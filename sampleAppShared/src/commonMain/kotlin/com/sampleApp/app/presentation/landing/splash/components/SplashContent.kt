@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
+import com.metacto.core.presentation.components.inputFields.PickerInputField
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
 import com.sampleApp.app.presentation.landing.splash.SplashContract.State
@@ -42,6 +45,21 @@ internal fun SplashContent(
             onClick = {
                 onEvent(Event.ClickMeClicked)
             }
+        )
+
+        PickerInputField(
+            text = "Hello",
+            label = "Test test",
+            onClick = {
+                onEvent(Event.ClickMeClicked)
+            },
+            textColor = Color.Red,
+            enabled = true,
+            placeholder = "Ahmed ahmed",
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .padding(horizontal = 8.dp)
         )
         PrimaryFilledButton(
             modifier = Modifier.fillMaxWidth(),
