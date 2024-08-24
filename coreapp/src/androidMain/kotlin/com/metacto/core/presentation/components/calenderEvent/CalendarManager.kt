@@ -11,6 +11,7 @@ import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.utils.extensions.orOne
+import kotlinx.coroutines.delay
 import kotlinx.datetime.TimeZone
 
 
@@ -34,8 +35,10 @@ class CalendarManager(
         eventTitle: String,
         eventDescription: String,
         eventStartTime: Long,
-        eventEndTime: Long
-    ): CalenderEventStatus {
+        eventEndTime: Long,
+        onEventAdded: () -> Unit,
+        onEventError: (error: String) -> Unit,
+    ) {
 
         if (permissionManager.isPermissionGranted(Permission.CALENDER)) {
 
@@ -49,7 +52,9 @@ class CalendarManager(
                 eventStartTime,
                 eventEndTime
             )
-            return CalenderEventStatus.EVENT_ADDED
+            // need couple of second of wait to calender sync with the new event added
+            delay(2000)
+            onEventAdded.invoke()
 
         } else {
 
@@ -58,11 +63,9 @@ class CalendarManager(
 
                 // use the intent to navigate the user to calender with the event
                 openCalenderEventIntent(eventTitle, eventDescription, eventStartTime, eventEndTime)
-                return CalenderEventStatus.EVENT_NOT_ADDED
             } else {
                 // request the permission
                 permissionManager.requestPermission(Permission.CALENDER)
-                return CalenderEventStatus.EVENT_NOT_ADDED
             }
         }
     }

@@ -15,11 +15,11 @@ class CalendarManager : ICalendarManager {
         eventTitle: String,
         eventDescription: String,
         eventStartTime: Long,
-        eventEndTime: Long
-    ): CalenderEventStatus {
+        eventEndTime: Long,
+        onEventAdded: () -> Unit,
+        onEventError: (error:String) -> Unit,
+    ) {
         val eventStore = EKEventStore()
-
-        var status: CalenderEventStatus = CalenderEventStatus.EVENT_NOT_ADDED
 
         eventStore.requestAccessToEntityType(EKEntityType.EKEntityTypeEvent,
             completion = { success, error ->
@@ -41,13 +41,11 @@ class CalendarManager : ICalendarManager {
                         span = EKSpan.EKSpanThisEvent,
                         error = null
                     )
-                    status = CalenderEventStatus.EVENT_ADDED
+                    onEventAdded.invoke()
                 } else {
-                    status = CalenderEventStatus.EVENT_NOT_ADDED
+                    onEventError.invoke(error?.description.orEmpty())
                 }
             })
-
-        return status
     }
 
     private fun isEventExist(
