@@ -71,23 +71,25 @@ class SplashViewModel(
             TimeZone.currentSystemDefault()
         ).toInstant().toEpochMilliseconds()
 
-        val addedCalender = iCalendarManager.addEventToCalender(
+        iCalendarManager.addEventToCalender(
             eventTitle = "New Event Title ",
             eventDescription = "new Event description",
             eventStartTime = calenderTime,
-            eventEndTime = calenderTime + (60 * 60 * 1000)
+            eventEndTime = calenderTime + (60 * 60 * 1000),
+            onEventAdded = {
+                globalState.successPopup(
+                    params =
+                    SuccessPopupParams(
+                        title = "Event Added",
+                        body = "Event Added Successfully"
+                    )
+                )
+            },
+            onEventError = {
+                showError(it)
+            }
         )
 
-        delay(2000)
-        if (addedCalender == CalenderEventStatus.EVENT_ADDED) {
-            globalState.successPopup(
-                params =
-                SuccessPopupParams(
-                    title = "Event Added",
-                    body = "Event Added Successfully"
-                )
-            )
-        }
     })
 
 

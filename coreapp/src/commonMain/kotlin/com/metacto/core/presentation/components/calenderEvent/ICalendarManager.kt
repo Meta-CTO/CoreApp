@@ -6,6 +6,8 @@ interface ICalendarManager {
         eventTitle: String,
         eventDescription: String,
         eventStartTime: Long,
-        eventEndTime: Long
-    ): CalenderEventStatus
+        eventEndTime: Long,
+        onEventAdded: () -> Unit,
+        onEventError: (error: String) -> Unit,
+    )
 }
