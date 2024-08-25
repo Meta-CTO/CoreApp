@@ -41,7 +41,7 @@ class CalendarManager(
     ) {
 
         if (permissionManager.isPermissionGranted(Permission.CALENDER)) {
-
+            
             // get the active calender id
             val calenderId = getActiveCalender().orOne()
             // add the event to calender
@@ -57,16 +57,7 @@ class CalendarManager(
             onEventAdded.invoke()
 
         } else {
-
-            // if the user not grant the permissions at all
-            if (permissionManager.getPermissionState(Permission.CALENDER) == PermissionState.DeniedAlways) {
-
-                // use the intent to navigate the user to calender with the event
-                openCalenderEventIntent(eventTitle, eventDescription, eventStartTime, eventEndTime)
-            } else {
-                // request the permission
-                permissionManager.requestPermission(Permission.CALENDER)
-            }
+            permissionManager.grantPermission(Permission.CALENDER)
         }
     }
 
