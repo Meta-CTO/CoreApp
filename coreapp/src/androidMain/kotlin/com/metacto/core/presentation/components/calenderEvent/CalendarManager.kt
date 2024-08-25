@@ -40,25 +40,23 @@ class CalendarManager(
         onEventError: (error: String) -> Unit,
     ) {
 
-        if (permissionManager.isPermissionGranted(Permission.CALENDER)) {
-            
-            // get the active calender id
-            val calenderId = getActiveCalender().orOne()
-            // add the event to calender
-            sendEventToCalender(
-                calenderId,
-                eventTitle,
-                eventDescription,
-                eventStartTime,
-                eventEndTime
-            )
-            // need couple of second of wait to calender sync with the new event added
-            delay(2000)
-            onEventAdded.invoke()
+        // request permission first if the permission granted it will add the event
+        permissionManager.grantPermission(Permission.CALENDER)
 
-        } else {
-            permissionManager.grantPermission(Permission.CALENDER)
-        }
+        // get the active calender id
+        val calenderId = getActiveCalender().orOne()
+        // add the event to calender
+        sendEventToCalender(
+            calenderId,
+            eventTitle,
+            eventDescription,
+            eventStartTime,
+            eventEndTime
+        )
+        // need couple of second of wait to calender sync with the new event added
+        delay(2000)
+        onEventAdded.invoke()
+
     }
 
     private fun getActiveCalender(): Long? {
