@@ -4,8 +4,6 @@ import com.metacto.core.utils.dateFromTimestamp
 import com.metacto.core.utils.extensions.contains
 import com.metacto.core.utils.extensions.openAppSettingsPage
 import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import platform.EventKit.EKEntityType
 import platform.EventKit.EKEvent
 import platform.EventKit.EKEventStore
