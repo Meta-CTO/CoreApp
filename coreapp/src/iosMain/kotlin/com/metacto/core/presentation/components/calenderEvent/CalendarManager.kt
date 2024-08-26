@@ -44,7 +44,7 @@ class CalendarManager : ICalendarManager {
                     )
                     onEventAdded.invoke()
                 } else {
-                        openAppSettingsPage()
+                    openAppSettingsPage()
                 }
             })
     }
