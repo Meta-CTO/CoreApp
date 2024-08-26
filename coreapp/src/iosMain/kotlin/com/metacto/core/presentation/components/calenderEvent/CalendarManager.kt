@@ -2,6 +2,7 @@ package com.metacto.core.presentation.components.calenderEvent
 
 import com.metacto.core.utils.dateFromTimestamp
 import com.metacto.core.utils.extensions.contains
+import com.metacto.core.utils.extensions.openAppSettingsPage
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.EventKit.EKEntityType
 import platform.EventKit.EKEvent
@@ -17,7 +18,7 @@ class CalendarManager : ICalendarManager {
         eventStartTime: Long,
         eventEndTime: Long,
         onEventAdded: () -> Unit,
-        onEventError: (error:String) -> Unit,
+        onEventError: (error: String) -> Unit,
     ) {
         val eventStore = EKEventStore()
 
@@ -43,7 +44,7 @@ class CalendarManager : ICalendarManager {
                     )
                     onEventAdded.invoke()
                 } else {
-                    onEventError.invoke(error?.description.orEmpty())
+                    openAppSettingsPage()
                 }
             })
     }
