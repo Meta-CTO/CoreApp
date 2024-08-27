@@ -2,7 +2,10 @@ package com.metacto.core.presentation.components.images
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,6 +30,7 @@ import com.metacto.core.utils.extensions.borderIfNotNull
 import com.metacto.core.utils.extensions.clipIfNotNull
 import com.metacto.core.utils.extensions.shadowIfNotNull
 import com.metacto.strapikmm.util.applyIf
+import com.valentinilk.shimmer.shimmer
 
 internal const val DEFAULT_IMAGE_CROSS_FADE_DURATION = 200
 
@@ -52,12 +56,14 @@ fun AppImage(
     bgColor: Color? = null,
     quality: FilterQuality = FilterQuality.Medium,
     crossFade: Boolean = true,
+    showSimmerLoading: Boolean = false,
     crossFadeDuration: Int = DEFAULT_IMAGE_CROSS_FADE_DURATION
 ) {
     // Prepare painters
     val placeholder = placeholderPainter ?: placeholderVector?.let { rememberVectorPainter(it) }
     val error = errorPainter ?: errorVector?.let { rememberVectorPainter(it) }
     val fallback = fallbackPainter ?: fallbackVector?.let { rememberVectorPainter(it) }
+    var showShimmer by remember { mutableStateOf(showSimmerLoading) }
 
     // Build the model
     val context = LocalPlatformContext.current
@@ -70,10 +76,26 @@ fun AppImage(
             .build()
     }
 
+    // handle the modifier to show the shimmer and hide it while loaded
+    val imageModifier = if (showShimmer.not()) {
+        modifier
+            .shadowIfNotNull(elevation, shape)
+            .clipIfNotNull(shape)
+            .backgroundIfNotNull(bgColor)
+            .borderIfNotNull(border, shape)
+    } else {
+        modifier
+            .shimmer()
+            .shadowIfNotNull(elevation, shape)
+            .clipIfNotNull(shape)
+            .backgroundIfNotNull(CoreTheme.colors.appImagesColors.shimmerLoadingColor)
+            .borderIfNotNull(border, shape)
+    }
+
     // Render image
     AsyncImage(
         model = model,
-        placeholder = placeholder,
+        placeholder = if (showSimmerLoading) null else placeholderPainter,
         error = error ?: placeholder,
         fallback = fallback ?: placeholder,
         filterQuality = quality,
@@ -82,10 +104,12 @@ fun AppImage(
         alignment = alignment,
         alpha = alpha,
         colorFilter = colorFilter,
-        modifier = modifier
-            .shadowIfNotNull(elevation, shape)
-            .clipIfNotNull(shape)
-            .backgroundIfNotNull(bgColor)
-            .borderIfNotNull(border, shape)
+        modifier = imageModifier,
+        onSuccess = {
+            showShimmer = false
+        },
+        onError = {
+            showShimmer = false
+        }
     )
 }

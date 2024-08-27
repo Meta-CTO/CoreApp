@@ -112,4 +112,5 @@ object Dependencies {
     const val ANDROID_CROPPER = "com.vanniktech:android-image-cropper:${Versions.ANDROID_CROPPER}"
     const val COMPOTTIE = "io.github.alexzhirkevich:compottie:${Versions.COMPOTTIE}"
     const val WEBVIEW = "io.github.kevinnzou:compose-webview-multiplatform:${Versions.WEBVIEW}"
+    const val SHIMMER = "com.valentinilk.shimmer:compose-shimmer:${Versions.SHIMMER}"
 }

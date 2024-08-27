@@ -382,7 +382,10 @@ data class CoreColors(
         onPrimary = onPrimary,
         wheelPickerItemBg = wheelPickerItemBg,
         wheelPickerItemStroke = wheelPickerItemStroke
-    )
+    ),
+
+    // AppImagesColors
+    val appImagesColors: AppImagesColors = AppImagesColors(gray = gray)
 )
 
 // PrimaryFilledButton
@@ -841,6 +844,12 @@ data class DatePickerDialogColors(
     val btnTextColor: Color = onPrimary,
     val selectorBgColor: Color = wheelPickerItemBg,
     val selectorBorderColor: Color = wheelPickerItemStroke
+)
+
+// app images
+data class AppImagesColors(
+    private val gray: Color,
+    val shimmerLoadingColor: Color = gray
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }
