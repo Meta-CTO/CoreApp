@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.base.ViewSideEffect
+import com.valentinilk.shimmer.shimmer
 import dev.icerock.moko.resources.AssetResource
 import dev.icerock.moko.resources.compose.readTextAsState
 import io.github.alexzhirkevich.compottie.LottieCompositionResult
@@ -470,6 +471,11 @@ fun Color.isDark(): Boolean {
 fun keyboardAsState(): State<Boolean> {
     val isImeVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
     return rememberUpdatedState(isImeVisible)
+}
+
+@Composable
+fun Modifier.shimmerIf(condition: Boolean): Modifier {
+    return if (condition) this.shimmer() else this
 }
 
 @Composable

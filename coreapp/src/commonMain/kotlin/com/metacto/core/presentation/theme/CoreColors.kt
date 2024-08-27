@@ -385,7 +385,9 @@ data class CoreColors(
     ),
 
     // AppImagesColors
-    val appImagesColors: AppImagesColors = AppImagesColors(gray = gray)
+    val appImagesColors: AppImagesColors = AppImagesColors(
+        gray = gray
+    )
 )
 
 // PrimaryFilledButton
@@ -849,7 +851,7 @@ data class DatePickerDialogColors(
 // app images
 data class AppImagesColors(
     private val gray: Color,
-    val shimmerLoadingColor: Color = gray
+    val shimmerLoading: Color = gray
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

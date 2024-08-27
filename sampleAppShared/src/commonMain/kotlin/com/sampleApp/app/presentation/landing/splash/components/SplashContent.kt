@@ -44,13 +44,13 @@ internal fun SplashContent(
 
         WhiteAppImage(
             url = "https://t4.ftcdn.net/jpg/06/41/kRo33.jpg",
-            showSimmerLoading = true,
+            shimmerLoading = true,
             modifier = Modifier.size(200.dp)
         )
 
         WhiteAppImage(
             url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnGKed32c6CGq-N05c05RO0TsKRmSKsLYN1A&s",
-            showSimmerLoading = true,
+            shimmerLoading = true,
             modifier = Modifier.size(200.dp)
         )
 
