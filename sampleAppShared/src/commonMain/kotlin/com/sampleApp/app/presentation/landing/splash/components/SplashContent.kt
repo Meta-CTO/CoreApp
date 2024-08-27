@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
+import com.metacto.core.presentation.components.images.WhiteAppImage
 import com.metacto.core.presentation.components.inputFields.PickerInputField
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.sampleApp.app.presentation.landing.splash.SplashContract.Event
@@ -39,6 +41,19 @@ internal fun SplashContent(
         startPadding = 0.dp,
         endPadding = 0.dp
     ) {
+
+        WhiteAppImage(
+            url = "https://t4.ftcdn.net/jpg/06/41/kRo33.jpg",
+            showSimmerLoading = true,
+            modifier = Modifier.size(200.dp)
+        )
+
+        WhiteAppImage(
+            url = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnGKed32c6CGq-N05c05RO0TsKRmSKsLYN1A&s",
+            showSimmerLoading = true,
+            modifier = Modifier.size(200.dp)
+        )
+
         PrimaryFilledButton(
             modifier = Modifier.fillMaxWidth(),
             text = "Click Me!",

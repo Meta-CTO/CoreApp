@@ -103,6 +103,7 @@ kotlin {
                 api(Dependencies.LIB_PHONE_NUMBER)
                 api(Dependencies.COMPOTTIE)
                 api(Dependencies.WEBVIEW)
+                api(Dependencies.SHIMMER)
 
             }
         }
