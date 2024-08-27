@@ -96,7 +96,7 @@ internal fun SplashContent(
                     videoTitle = state.currentVideo.title,
                     videoArtist = state.currentVideo.artist,
                     videoArtworkUrl = state.currentVideo.artworkUrl,
-                    autoPlay = true,
+                    autoPlay = false,
                     scaleToCrop = true,
                     enablePip = true,
                     handleLifecyclePause = false,

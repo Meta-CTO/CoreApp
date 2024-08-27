@@ -9,9 +9,11 @@ interface IIntentLauncher {
 
     fun launchStore(appId: String)
 
-    fun launchShareText(text: String)
+    fun shareText(text: String)
 
     fun launchPhone(phone: String)
 
     fun launchBrowser(url: String)
+
+    suspend fun shareImage(imageUrl: String, text: String? = null)
 }

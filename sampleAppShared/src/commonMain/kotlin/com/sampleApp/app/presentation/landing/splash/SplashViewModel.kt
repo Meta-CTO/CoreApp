@@ -67,6 +67,11 @@ class SplashViewModel(
     }
 
     private fun sendCalenderEvent() = executeCatching({
+        intentLauncher.shareImage(
+            imageUrl = "https://www.hdwallpapers.in/download/leopard_hq-wide.jpg"
+        )
+
+        return@executeCatching
         val calenderTime = Clock.System.now().toLocalDateTime(
             TimeZone.currentSystemDefault()
         ).toInstant().toEpochMilliseconds()
@@ -129,7 +134,13 @@ class SplashViewModel(
         }
 
         Event.ClickMeClicked -> {
-            navManager.navigate(YoutubeScreen())
+            executeCatching({
+                intentLauncher.shareImage(
+                    imageUrl = "https://mahmoudelshamy.com/index-assets/images/profile-2-250x250.png",
+                    text = "Hello Mahmoud Elshamy from MetaCTO Core"
+                )
+            })
+            //navManager.navigate(YoutubeScreen())
             //setState { copy(selectedDate = "1993-09-09".parseDate("yyyy-MM-dd")) }
 
 //            navManager.navigateToBottomSheet(

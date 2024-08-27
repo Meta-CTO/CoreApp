@@ -5,7 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import com.metacto.coreApp.MR
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.File
+import java.net.URL
 
 class IntentLauncher(private val context: Context) : IIntentLauncher {
 
@@ -51,7 +57,7 @@ class IntentLauncher(private val context: Context) : IIntentLauncher {
         }
     }
 
-    override fun launchShareText(text: String) {
+    override fun shareText(text: String) {
         val sendIntent = Intent().apply {
             action = Intent.ACTION_SEND
             putExtra(Intent.EXTRA_TEXT, text)
@@ -92,5 +98,34 @@ class IntentLauncher(private val context: Context) : IIntentLauncher {
                 Toast.LENGTH_LONG
             ).show()
         }
+    }
+
+    override suspend fun shareImage(imageUrl: String, text: String?) = withContext(Dispatchers.IO) {
+        // Create the image file
+        val cachePath = File(context.cacheDir, "images")
+        cachePath.mkdirs()
+        val imageFile = File(cachePath, "image.png")
+
+        // Download the image and get the uri
+        val inputStream = URL(imageUrl).openStream()
+        imageFile.outputStream().use { inputStream.copyTo(it) }
+        val imageUri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", imageFile)
+
+        // Create the share intent
+        val shareIntent = Intent().apply {
+            action = Intent.ACTION_SEND
+            type = "image/*"
+            putExtra(Intent.EXTRA_STREAM, imageUri)
+            text?.let { putExtra(Intent.EXTRA_TEXT, it) }
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+
+        // Create them chooser intent
+        val chooserIntent = Intent.createChooser(shareIntent, null).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+        // Launch the chooser intent
+        ContextCompat.startActivity(context, chooserIntent, null)
     }
 }
