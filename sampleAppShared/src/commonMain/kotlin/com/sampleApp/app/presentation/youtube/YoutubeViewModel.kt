@@ -1,6 +1,6 @@
 package com.sampleApp.app.presentation.youtube
 
-import com.sampleApp.app.presentation.components.BaseViewModel
+import com.sampleApp.app.presentation.base.BaseViewModel
 import com.sampleApp.app.presentation.youtube.YoutubeContract.Effect
 import com.sampleApp.app.presentation.youtube.YoutubeContract.Event
 import com.sampleApp.app.presentation.youtube.YoutubeContract.State

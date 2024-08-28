@@ -1,4 +1,4 @@
-package com.sampleApp.app.presentation.components
+package com.sampleApp.app.presentation.base
 
 import com.metacto.core.presentation.base.CoreViewModel
 import com.metacto.core.presentation.base.ErrorType

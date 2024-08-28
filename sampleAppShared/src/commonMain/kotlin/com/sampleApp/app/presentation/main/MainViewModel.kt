@@ -2,7 +2,7 @@ package com.sampleApp.app.presentation.main
 
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource
-import com.sampleApp.app.presentation.components.BaseViewModel
+import com.sampleApp.app.presentation.base.BaseViewModel
 import com.sampleApp.app.presentation.main.MainContract.Companion.VIDEOS_LIST
 import com.sampleApp.app.presentation.main.MainContract.Effect
 import com.sampleApp.app.presentation.main.MainContract.Event
