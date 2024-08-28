@@ -31,11 +31,12 @@ internal fun ProfileContent(
         isScrollable = true
     ) {
         VideoPlayer(
+            playerId = "profile-player",
             videoUrl = videoInfo.url,
             videoTitle = videoInfo.title,
             videoArtist = videoInfo.artist,
             videoArtworkUrl = videoInfo.artworkUrl,
-            autoPlay = true,
+            autoPlay = false,
             scaleToCrop = true,
             enablePip = true,
             handleLifecyclePause = false,

@@ -9,6 +9,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
@@ -20,7 +21,7 @@ import org.koin.compose.rememberKoinInject
 @Composable
 actual fun VideoPlayer(
     modifier: Modifier,
-    uniqueId: String,
+    playerId: String,
     videoUrl: String,
     videoArtist: String?,
     videoTitle: String?,
@@ -33,9 +34,10 @@ actual fun VideoPlayer(
     onPlayerCreated: ((VideoPlayerController) -> Unit)?
 ) {
     // Inject main stuff
+    val context = LocalContext.current
     val playerManagers = rememberKoinInject<MutableMap<String, VideoPlayerManager>>()
-    val playerManager = playerManagers.getOrPut(uniqueId) {
-        VideoPlayerManager(uniqueId)
+    val playerManager = playerManagers.getOrPut(playerId) {
+        VideoPlayerManager(playerId)
     }
 
     // Setup scaling mode
@@ -76,9 +78,18 @@ actual fun VideoPlayer(
         onPlayerCreated?.invoke(playerController)
     }
 
+    // TODO: should change full screen icon to fixed icon
+    // Full screen handler
+    fun onFullScreen(playerId: String) {
+        VideoPlayerActivity.start(
+            context = context,
+            playerId = playerId
+        )
+    }
+
     AndroidView(
         modifier = modifier,
-        factory = { context ->
+        factory = {
             PlayerView(context).apply {
                 useController = true
                 this.controllerShowTimeoutMs = controllerShowTimeoutMs
@@ -89,6 +100,9 @@ actual fun VideoPlayer(
 
                 player = playerManager.exoPlayer
                 layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+                setFullscreenButtonClickListener {
+                    onFullScreen(playerId)
+                }
 
                 (videoSurfaceView as? SurfaceView)?.let {
                     playerManager.exoPlayer.setVideoSurfaceView(it)
@@ -96,6 +110,9 @@ actual fun VideoPlayer(
             }
         },
         update = { playerView ->
+            playerView.setFullscreenButtonClickListener {
+                onFullScreen(playerId)
+            }
             (playerView.videoSurfaceView as? SurfaceView)?.let {
                 playerManager.exoPlayer.setVideoSurfaceView(it)
             }

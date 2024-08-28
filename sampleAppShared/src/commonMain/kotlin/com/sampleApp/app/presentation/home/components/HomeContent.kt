@@ -23,11 +23,12 @@ internal fun HomeContent(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         VideoPlayer(
+            playerId = "home-player",
             videoUrl = state.currentVideo.url,
             videoTitle = state.currentVideo.title,
             videoArtist = state.currentVideo.artist,
             videoArtworkUrl = state.currentVideo.artworkUrl,
-            autoPlay = true,
+            autoPlay = false,
             scaleToCrop = true,
             enablePip = true,
             handleLifecyclePause = false,
