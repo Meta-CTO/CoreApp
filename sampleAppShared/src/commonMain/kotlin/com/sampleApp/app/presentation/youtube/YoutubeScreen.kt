@@ -1,11 +1,11 @@
-package com.sampleApp.app.presentation.landing.youtube
+package com.sampleApp.app.presentation.youtube
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.metacto.core.presentation.base.BaseScreen
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.base.rememberViewModel
-import com.sampleApp.app.presentation.landing.youtube.components.YoutubeContent
+import com.sampleApp.app.presentation.youtube.components.YoutubeContent
 
 internal class YoutubeScreen : BaseScreen<YoutubeViewModel>() {
 

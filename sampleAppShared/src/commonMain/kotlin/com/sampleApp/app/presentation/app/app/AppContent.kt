@@ -8,7 +8,7 @@ import com.metacto.core.presentation.app.CoreAppContent
 import com.metacto.core.navigation.NavManager
 import com.sampleApp.app.presentation.app.globalState.IAppGlobalState
 import com.sampleApp.app.presentation.app.globalState.models.AppBackgroundType
-import com.sampleApp.app.presentation.landing.splash.SplashScreen
+import com.sampleApp.app.presentation.main.MainScreen
 import com.sampleApp.app.presentation.theme.AppTheme
 import com.sampleApp.app.presentation.theme.AppThemeContent
 import org.koin.compose.rememberKoinInject
@@ -35,7 +35,7 @@ internal fun AppContent() {
             modifier = Modifier.background(bgColor),
             globalState = globalState,
             navManager = navManager,
-            startScreen = SplashScreen()
+            startScreen = MainScreen()
         )
     }
 

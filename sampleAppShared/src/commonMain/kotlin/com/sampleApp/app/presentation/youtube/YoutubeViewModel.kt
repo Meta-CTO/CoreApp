@@ -1,9 +1,9 @@
-package com.sampleApp.app.presentation.landing.youtube
+package com.sampleApp.app.presentation.youtube
 
 import com.sampleApp.app.presentation.components.BaseViewModel
-import com.sampleApp.app.presentation.landing.youtube.YoutubeContract.Effect
-import com.sampleApp.app.presentation.landing.youtube.YoutubeContract.Event
-import com.sampleApp.app.presentation.landing.youtube.YoutubeContract.State
+import com.sampleApp.app.presentation.youtube.YoutubeContract.Effect
+import com.sampleApp.app.presentation.youtube.YoutubeContract.Event
+import com.sampleApp.app.presentation.youtube.YoutubeContract.State
 
 class YoutubeViewModel : BaseViewModel<State, Event, Effect>() {
 

@@ -1,4 +1,4 @@
-package com.sampleApp.app.presentation.landing.youtube.components
+package com.sampleApp.app.presentation.youtube.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.metacto.core.presentation.components.youtubePlayer.YouTubePlayer
-import com.sampleApp.app.presentation.landing.youtube.YoutubeContract.Event
-import com.sampleApp.app.presentation.landing.youtube.YoutubeContract.State
+import com.sampleApp.app.presentation.youtube.YoutubeContract.Event
+import com.sampleApp.app.presentation.youtube.YoutubeContract.State
 
 @Composable
 internal fun YoutubeContent(
