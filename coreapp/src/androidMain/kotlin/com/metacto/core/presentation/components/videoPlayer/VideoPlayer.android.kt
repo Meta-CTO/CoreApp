@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.components.videoPlayer
 
+import android.view.SurfaceView
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.annotation.OptIn
@@ -8,7 +9,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
@@ -33,7 +33,6 @@ actual fun VideoPlayer(
     onPlayerCreated: ((VideoPlayerController) -> Unit)?
 ) {
     // Inject main stuff
-    val context = LocalContext.current
     val playerManagers = rememberKoinInject<MutableMap<String, VideoPlayerManager>>()
     val playerManager = playerManagers.getOrPut(uniqueId) {
         VideoPlayerManager(uniqueId)
@@ -79,7 +78,7 @@ actual fun VideoPlayer(
 
     AndroidView(
         modifier = modifier,
-        factory = {
+        factory = { context ->
             PlayerView(context).apply {
                 useController = true
                 this.controllerShowTimeoutMs = controllerShowTimeoutMs
@@ -90,6 +89,15 @@ actual fun VideoPlayer(
 
                 player = playerManager.exoPlayer
                 layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+
+                (videoSurfaceView as? SurfaceView)?.let {
+                    playerManager.exoPlayer.setVideoSurfaceView(it)
+                }
+            }
+        },
+        update = { playerView ->
+            (playerView.videoSurfaceView as? SurfaceView)?.let {
+                playerManager.exoPlayer.setVideoSurfaceView(it)
             }
         }
     )
