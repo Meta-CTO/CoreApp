@@ -36,7 +36,7 @@ class HomeContract {
                 artworkUrl = "https://www.hdwallpapers.in/download/car_in_fire_city_hq-normal.jpg"
             ),
             VideoItemInfo(
-                url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WhatCarCanYouGetForAGrand.mp4"
+                url = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
             )
         )
     }
