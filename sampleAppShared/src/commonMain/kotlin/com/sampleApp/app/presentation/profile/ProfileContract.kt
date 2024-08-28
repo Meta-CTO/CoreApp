@@ -1,19 +1,17 @@
-package com.sampleApp.app.presentation.main
+package com.sampleApp.app.presentation.profile
 
 import com.metacto.core.presentation.base.ViewEvent
 import com.metacto.core.presentation.base.ViewSideEffect
 import com.metacto.core.presentation.base.ViewState
 
-class MainContract {
+class ProfileContract {
 
     data class State(
-        val isInitialized: Boolean = false,
-        val currentTab : Int = 0
+        val isInitialized: Boolean = false
     ) : ViewState
 
     sealed class Event : ViewEvent {
         data object Init : Event()
-        data class ChangeTab(val index: Int) : Event()
     }
 
     sealed class Effect : ViewSideEffect

@@ -17,7 +17,7 @@ internal class MainScreen : BaseScreen<MainViewModel>() {
 
         // Init view model
         LaunchedEffect(SIDE_EFFECTS_KEY) {
-            viewModel.init()
+            viewModel.setEvent(MainContract.Event.Init)
         }
 
         // Binds the permissions controller to the LocalLifecycleOwner lifecycle.

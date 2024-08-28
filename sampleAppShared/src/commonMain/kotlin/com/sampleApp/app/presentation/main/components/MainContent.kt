@@ -1,76 +1,76 @@
 package com.sampleApp.app.presentation.main.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
-import com.metacto.core.presentation.components.containers.ScreenColumn
-import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
+import com.metacto.core.presentation.base.BaseTabScreen
+import com.sampleApp.app.presentation.home.HomeTab
 import com.sampleApp.app.presentation.main.MainContract.Event
 import com.sampleApp.app.presentation.main.MainContract.State
+import com.sampleApp.app.presentation.main.components.navBar.NavigationBar
+import com.sampleApp.app.presentation.profile.ProfileTab
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun MainContent(
     state: State,
     onEvent: (Event) -> Unit
 ) {
-    ScreenColumn(
-        isScrollable = true,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+    // Prepare pager state
+    val pagerState = rememberPagerState { 2 }
+
+    // Scroll to selected tab
+    LaunchedEffect(state.currentTab) {
+        // Scroll to this page
+        pagerState.scrollToPage(state.currentTab)
+
+        // And notify tab that it's displayed
+        val displayedTab = state.currentTab.toTab()
+        displayedTab?.onDisplayed()
+    }
+
+    // Container column
+    Column(
+        modifier = Modifier.fillMaxSize()
     ) {
-        VideoPlayer(
-            videoUrl = state.currentVideo.url,
-            videoTitle = state.currentVideo.title,
-            videoArtist = state.currentVideo.artist,
-            videoArtworkUrl = state.currentVideo.artworkUrl,
-            autoPlay = false,
-            scaleToCrop = true,
-            enablePip = true,
-            handleLifecyclePause = false,
-            controllerShowTimeoutMs = 2000,
+        // Content pager
+        HorizontalPager(
+            state = pagerState,
+            beyondBoundsPageCount = pagerState.pageCount,
+            userScrollEnabled = false,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(400.dp)
-        )
-
-        Row(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            PrimaryFilledButton(
-                modifier = Modifier.weight(1f),
-                text = "Video 1",
-                onClick = {
-                    onEvent(Event.ChangeCurrentVideo(0))
-                }
-            )
-
-            PrimaryFilledButton(
-                modifier = Modifier.weight(1f),
-                text = "Video 2",
-                onClick = {
-                    onEvent(Event.ChangeCurrentVideo(1))
-                }
-            )
-
-            PrimaryFilledButton(
-                modifier = Modifier.weight(1f),
-                text = "Video 3",
-                onClick = {
-                    onEvent(Event.ChangeCurrentVideo(2))
-                }
-            )
+                .weight(1f)
+        ) { index ->
+            // Get current tab and render content
+            val currentTab = index.toTab()
+            currentTab?.Content()
         }
 
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Click Me!",
-            onClick = {
-                onEvent(Event.ClickMeClicked)
-            }
+        // Bottom nav bar
+        NavigationBar(
+            selectedTab = state.currentTab,
+            onItemClick = { index ->
+                onEvent(Event.ChangeTab(index))
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding()
         )
+    }
+}
+
+private fun Int.toTab(): BaseTabScreen<*>? {
+    return when (this) {
+        0 -> HomeTab
+        1 -> ProfileTab
+        else -> null
     }
 }
