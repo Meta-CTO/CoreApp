@@ -31,6 +31,7 @@ internal fun ProfileContent(
         isScrollable = true
     ) {
         VideoPlayer(
+            uniqueId = "profile-player",
             videoUrl = videoInfo.url,
             videoTitle = videoInfo.title,
             videoArtist = videoInfo.artist,

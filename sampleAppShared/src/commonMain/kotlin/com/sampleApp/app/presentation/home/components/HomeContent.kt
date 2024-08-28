@@ -23,6 +23,7 @@ internal fun HomeContent(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         VideoPlayer(
+            uniqueId = "home-player",
             videoUrl = state.currentVideo.url,
             videoTitle = state.currentVideo.title,
             videoArtist = state.currentVideo.artist,
