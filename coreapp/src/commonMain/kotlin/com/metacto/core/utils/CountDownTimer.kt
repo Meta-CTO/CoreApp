@@ -32,9 +32,6 @@ class CountDownTimer(
 
     private suspend fun tick() {
         while (remainingSeconds > 0) {
-            delay(TICK_DURATION)
-            remainingSeconds--
-
             // Notify onSecondsTick
             onSecondsTick?.invoke(remainingSeconds)
 
@@ -48,6 +45,9 @@ class CountDownTimer(
 
                 onDatePartsTick.invoke(days, hours, minutes, seconds)
             }
+
+            remainingSeconds--
+            delay(TICK_DURATION)
         }
         onEnded?.invoke()
     }
