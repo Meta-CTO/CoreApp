@@ -8,12 +8,10 @@ interface VideoPlayerController {
     fun pause() {}
 }
 
-private const val DEFAULT_ID = "default_player_id"
-
 @Composable
 expect fun VideoPlayer(
     modifier: Modifier = Modifier,
-    playerId: String = DEFAULT_ID,
+    playerId: String = "default_player_id",
     videoUrl: String,
     videoArtist: String? = null,
     videoTitle: String? = null,

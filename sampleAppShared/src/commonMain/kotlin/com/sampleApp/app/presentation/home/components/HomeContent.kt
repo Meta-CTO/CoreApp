@@ -23,7 +23,7 @@ internal fun HomeContent(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         VideoPlayer(
-            playerId = "home-player",
+            playerId = "home_video_player",
             videoUrl = state.currentVideo.url,
             videoTitle = state.currentVideo.title,
             videoArtist = state.currentVideo.artist,
@@ -33,6 +33,9 @@ internal fun HomeContent(
             enablePip = true,
             handleLifecyclePause = false,
             controllerShowTimeoutMs = 2000,
+            onPlayerCreated = {
+                onEvent(Event.VideoPlayerControllerCreated(it))
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(400.dp)
