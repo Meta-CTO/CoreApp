@@ -110,7 +110,9 @@ internal class VideoPlayerManager(
             )
 
             // Set media source and prepare
-            playWhenReady = isAutoPlay
+            if (isAutoPlay) {
+                playWhenReady = true
+            }
             setMediaSource(mediaItem)
             prepare()
         }

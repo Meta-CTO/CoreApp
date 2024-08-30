@@ -20,6 +20,12 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
 
         is Event.ChangeCurrentVideo -> {
             setState { copy(currentVideo = VIDEOS_LIST[event.index]) }
+            currentState.videoController?.play()
+            Unit
+        }
+
+        is Event.VideoPlayerControllerCreated -> {
+            setState { copy(videoController = event.controller) }
         }
     }
 
