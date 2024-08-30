@@ -4,12 +4,16 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.provider.CalendarContract
+import android.provider.CalendarContract.Events
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.metacto.coreApp.MR
+import com.metacto.strapikmm.util.toEpochMilliseconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.LocalDateTime
 import java.io.File
 import java.net.URL
 
@@ -127,5 +131,24 @@ class IntentLauncher(private val context: Context) : IIntentLauncher {
 
         // Launch the chooser intent
         ContextCompat.startActivity(context, chooserIntent, null)
+    }
+
+    override fun addEventToCalendar(
+        eventTitle: String,
+        eventDescription: String,
+        eventStartTime: LocalDateTime,
+        eventEndTime: LocalDateTime
+    ) {
+        val intent = Intent(Intent.ACTION_INSERT).apply {
+            data = Uri.parse("content://com.android.calendar/events")
+            putExtra(Events.TITLE, eventTitle)
+            putExtra(Events.DESCRIPTION, eventDescription)
+            putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, eventStartTime.toEpochMilliseconds())
+            putExtra(CalendarContract.EXTRA_EVENT_END_TIME, eventEndTime.toEpochMilliseconds())
+            putExtra(Events.ALL_DAY, false)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+
+        context.startActivity(intent)
     }
 }

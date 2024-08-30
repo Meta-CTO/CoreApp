@@ -1,14 +1,23 @@
 package com.metacto.core.utils.launchers
 
+import com.metacto.core.utils.delegates.EventEditDelegate
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.toNSDateComponents
+import platform.EventKit.EKEntityType
+import platform.EventKit.EKEvent
+import platform.EventKit.EKEventStore
+import platform.EventKitUI.EKEventEditViewController
 import platform.Foundation.NSData
 import platform.Foundation.NSURL
 import platform.Foundation.dataWithContentsOfURL
 import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
 import platform.UIKit.UIImage
+import platform.darwin.dispatch_async
+import platform.darwin.dispatch_get_main_queue
 
 class IntentLauncher : IIntentLauncher {
     override fun launchEmail(email: String, subject: String?, body: String?) {
@@ -110,6 +119,49 @@ class IntentLauncher : IIntentLauncher {
                 animated = true,
                 completion = null
             )
+        }
+    }
+
+    override fun addEventToCalendar(
+        eventTitle: String,
+        eventDescription: String,
+        eventStartTime: LocalDateTime,
+        eventEndTime: LocalDateTime
+    ) {
+        val eventStore = EKEventStore()
+        eventStore.requestAccessToEntityType(EKEntityType.EKEntityTypeEvent) { granted, error ->
+            if (granted) {
+                val event = EKEvent.eventWithEventStore(eventStore).apply {
+                    this.title = eventTitle
+                    this.notes = eventDescription
+                    this.startDate = eventStartTime.toNSDateComponents().date
+                    this.endDate = eventEndTime.toNSDateComponents().date
+                    this.calendar = eventStore.defaultCalendarForNewEvents
+                }
+
+                dispatch_async(dispatch_get_main_queue()) {
+                    // Get and validate the root view controller
+                    val rootViewController = UIApplication.sharedApplication
+                        .keyWindow
+                        ?.rootViewController
+                        ?: return@dispatch_async
+
+                    val eventController = EKEventEditViewController().apply {
+                        this.event = event
+                        this.eventStore = eventStore
+                        this.editViewDelegate = EventEditDelegate()
+                    }
+
+                    rootViewController.presentViewController(
+                        eventController,
+                        animated = true,
+                        completion = null
+                    )
+                }
+            } else {
+                // Handle access denial or error
+                println("Access denied or error: ${error?.localizedDescription}")
+            }
         }
     }
 }

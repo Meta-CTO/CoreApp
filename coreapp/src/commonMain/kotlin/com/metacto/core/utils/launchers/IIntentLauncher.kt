@@ -1,5 +1,7 @@
 package com.metacto.core.utils.launchers
 
+import kotlinx.datetime.LocalDateTime
+
 interface IIntentLauncher {
     fun launchEmail(
         email: String,
@@ -16,4 +18,11 @@ interface IIntentLauncher {
     fun launchBrowser(url: String)
 
     suspend fun shareImage(imageUrl: String, text: String? = null)
+
+    fun addEventToCalendar(
+        eventTitle: String,
+        eventDescription: String,
+        eventStartTime: LocalDateTime,
+        eventEndTime: LocalDateTime
+    )
 }
