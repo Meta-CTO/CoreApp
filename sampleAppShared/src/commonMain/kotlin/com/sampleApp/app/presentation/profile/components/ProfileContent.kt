@@ -36,7 +36,7 @@ internal fun ProfileContent(
             videoTitle = videoInfo.title,
             videoArtist = videoInfo.artist,
             videoArtworkUrl = videoInfo.artworkUrl,
-            autoPlay = true,
+            autoPlay = false,
             scaleToCrop = true,
             enablePip = true,
             handleLifecyclePause = false,

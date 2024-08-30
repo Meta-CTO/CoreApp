@@ -28,11 +28,14 @@ internal fun HomeContent(
             videoTitle = state.currentVideo.title,
             videoArtist = state.currentVideo.artist,
             videoArtworkUrl = state.currentVideo.artworkUrl,
-            autoPlay = true,
+            autoPlay = false,
             scaleToCrop = true,
             enablePip = true,
             handleLifecyclePause = false,
             controllerShowTimeoutMs = 2000,
+            onPlayerCreated = {
+                onEvent(Event.VideoPlayerControllerCreated(it))
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(400.dp)
