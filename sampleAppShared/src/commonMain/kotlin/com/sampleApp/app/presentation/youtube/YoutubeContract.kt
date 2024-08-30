@@ -1,4 +1,4 @@
-package com.sampleApp.app.presentation.landing.youtube
+package com.sampleApp.app.presentation.youtube
 
 import com.metacto.core.presentation.base.ViewEvent
 import com.metacto.core.presentation.base.ViewSideEffect

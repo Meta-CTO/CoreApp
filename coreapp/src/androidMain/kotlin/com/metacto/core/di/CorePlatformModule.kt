@@ -1,7 +1,5 @@
 package com.metacto.core.di
 
-import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.session.MediaSession
 import com.google.firebase.messaging.FirebaseMessaging
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.RepositoriesFactory
@@ -11,11 +9,10 @@ import com.metacto.core.permissions.PermissionManager
 import com.metacto.core.presentation.base.CommonViewModel
 import com.metacto.core.presentation.components.calenderEvent.CalendarManager
 import com.metacto.core.presentation.components.calenderEvent.ICalendarManager
-import com.metacto.core.presentation.components.videoPlayer.MediaNotificationManager
+import com.metacto.core.presentation.components.videoPlayer.VideoPlayerManager
 import com.metacto.core.utils.IResourceProvider
 import com.metacto.core.utils.ResourceProvider
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
-import com.metacto.core.utils.extensions.getLauncherPendingIntent
 import com.metacto.core.utils.imagePreloader.IPreloader
 import com.metacto.core.utils.imagePreloader.Preloader
 import com.metacto.core.utils.language.ILanguageManager
@@ -133,26 +130,8 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
         )
     }
 
-    single {
-        ExoPlayer.Builder(androidContext()).build()
-    }
-
-    single {
-        val context = androidContext()
-        MediaSession.Builder(context, get<ExoPlayer>()).run {
-            context.getLauncherPendingIntent()?.let {
-                setSessionActivity(it)
-            }
-            build()
-        }
-    }
-
-    single {
-        MediaNotificationManager(
-            context = androidContext(),
-            sessionToken = get<MediaSession>().token,
-            player = get<ExoPlayer>()
-        )
+    single<MutableMap<String, VideoPlayerManager>> {
+        mutableMapOf()
     }
 }
 

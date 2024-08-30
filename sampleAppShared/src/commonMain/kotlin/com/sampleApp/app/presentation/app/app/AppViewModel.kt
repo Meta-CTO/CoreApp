@@ -4,7 +4,7 @@ import com.metacto.core.utils.deepLink.IDeepLinkManager
 import com.sampleApp.app.presentation.app.app.AppContract.Effect
 import com.sampleApp.app.presentation.app.app.AppContract.Event
 import com.sampleApp.app.presentation.app.app.AppContract.State
-import com.sampleApp.app.presentation.components.BaseViewModel
+import com.sampleApp.app.presentation.base.BaseViewModel
 import org.koin.core.component.inject
 
 class AppViewModel : BaseViewModel<State, Event, Effect>() {

@@ -1,13 +1,19 @@
 package com.sampleApp.app.di
 
+// MARK: Add imports
+import com.sampleApp.app.presentation.profile.ProfileViewModel
 import com.metacto.core.di.commonViewModel
 import com.sampleApp.app.presentation.app.app.AppViewModel
-import com.sampleApp.app.presentation.landing.splash.SplashViewModel
-import com.sampleApp.app.presentation.landing.youtube.YoutubeViewModel
+import com.sampleApp.app.presentation.home.HomeViewModel
+import com.sampleApp.app.presentation.main.MainViewModel
+import com.sampleApp.app.presentation.youtube.YoutubeViewModel
 import org.koin.dsl.module
 
 val viewModelsModule = module {
-    single { AppViewModel() }
-    commonViewModel { SplashViewModel(get(), get(), get(), get(), get()) }
+    // MARK: Add view model definitions
+    commonViewModel { ProfileViewModel() }
+    commonViewModel { HomeViewModel() }
+    commonViewModel { MainViewModel() }
     commonViewModel { YoutubeViewModel() }
+    single { AppViewModel() }
 }

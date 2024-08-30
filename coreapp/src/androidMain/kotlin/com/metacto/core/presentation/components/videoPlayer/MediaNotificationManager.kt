@@ -17,6 +17,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.abs
 
 /**
  * A wrapper class for ExoPlayer's PlayerNotificationManager.
@@ -28,7 +29,7 @@ import kotlinx.coroutines.withContext
  * @param notificationListener The listener for notification events.
  */
 @androidx.annotation.OptIn(androidx.media3.common.util.UnstableApi::class)
-class MediaNotificationManager(
+internal class MediaNotificationManager(
     private val context: Context,
     sessionToken: SessionToken,
     private val player: Player,
@@ -45,7 +46,7 @@ class MediaNotificationManager(
 
         notificationManager = PlayerNotificationManager.Builder(
             context,
-            NOW_PLAYING_NOTIFICATION_ID,
+            abs(System.currentTimeMillis().toInt()),
             NOW_PLAYING_CHANNEL_ID
         )
             .setChannelNameResourceId(MR.strings.media_notification_channel.resourceId)
@@ -130,8 +131,3 @@ class MediaNotificationManager(
  * The channel ID for the notification.
  */
 private const val NOW_PLAYING_CHANNEL_ID = "media.NOW_PLAYING"
-
-/**
- * The notification ID.
- */
-private const val NOW_PLAYING_NOTIFICATION_ID = 0xb339 // Arbitrary number used to identify our notification
