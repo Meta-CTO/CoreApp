@@ -20,8 +20,8 @@
         <activity
             android:name="com.metacto.core.presentation.components.videoPlayer.VideoPlayerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
-
             android:screenOrientation="landscape"
+            android:launchMode="singleInstance"
             android:supportsPictureInPicture="true"
             android:theme="@style/VideoPlayer"
             tools:ignore="DiscouragedApi" />

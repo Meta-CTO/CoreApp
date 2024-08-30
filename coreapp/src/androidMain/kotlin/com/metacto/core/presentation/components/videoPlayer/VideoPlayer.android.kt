@@ -7,7 +7,10 @@ import androidx.annotation.OptIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
@@ -35,6 +38,7 @@ actual fun VideoPlayer(
 ) {
     // Inject main stuff
     val context = LocalContext.current
+    val eventBroadcaster = rememberKoinInject<VideoPlayerEventBroadcaster>()
     val playerManagers = rememberKoinInject<MutableMap<String, VideoPlayerManager>>()
     val playerManager = playerManagers.getOrPut(playerId) {
         VideoPlayerManager(playerId)
@@ -80,13 +84,25 @@ actual fun VideoPlayer(
 
     // TODO: should change full screen icon to fixed icon
     // Full screen handler
+    var enableRendering by remember {
+        mutableStateOf(true)
+    }
     fun onFullScreen(playerId: String) {
         VideoPlayerActivity.start(
             context = context,
             playerId = playerId
         )
+        enableRendering = false
     }
 
+    // TODO: test collection of events
+    // Collect required events
+    eventBroadcaster.collectInCompose<VideoPlayerEvent.StoppedPip> {
+        println("eveeeeeent stopped pip")
+        enableRendering = true
+    }
+
+    // Render player view
     AndroidView(
         modifier = modifier,
         factory = {
@@ -113,12 +129,15 @@ actual fun VideoPlayer(
             playerView.setFullscreenButtonClickListener {
                 onFullScreen(playerId)
             }
-            (playerView.videoSurfaceView as? SurfaceView)?.let {
-                playerManager.exoPlayer.setVideoSurfaceView(it)
+            if (enableRendering) {
+                (playerView.videoSurfaceView as? SurfaceView)?.let {
+                    playerManager.exoPlayer.setVideoSurfaceView(it)
+                }
             }
         }
     )
 
+    // Handle disposing
     DisposableEffect(Unit) {
         onDispose {
             if (handleLifecyclePause) {

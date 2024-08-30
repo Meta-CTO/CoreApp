@@ -9,6 +9,7 @@ import com.metacto.core.permissions.PermissionManager
 import com.metacto.core.presentation.base.CommonViewModel
 import com.metacto.core.presentation.components.calenderEvent.CalendarManager
 import com.metacto.core.presentation.components.calenderEvent.ICalendarManager
+import com.metacto.core.presentation.components.videoPlayer.VideoPlayerEventBroadcaster
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayerManager
 import com.metacto.core.utils.IResourceProvider
 import com.metacto.core.utils.ResourceProvider
@@ -132,6 +133,10 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
 
     single<MutableMap<String, VideoPlayerManager>> {
         mutableMapOf()
+    }
+
+    single {
+        VideoPlayerEventBroadcaster
     }
 }
 

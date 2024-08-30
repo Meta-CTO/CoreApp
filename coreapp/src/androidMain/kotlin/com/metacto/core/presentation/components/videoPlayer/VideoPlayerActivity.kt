@@ -5,14 +5,18 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Rational
+import android.view.SurfaceView
 import android.widget.ImageButton
+import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
+import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import com.metacto.coreApp.R
 import org.koin.android.ext.android.inject
 
 internal class VideoPlayerActivity : AppCompatActivity() {
+    private val eventBroadcaster: VideoPlayerEventBroadcaster by inject()
     private var exoPlayer: ExoPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,12 +52,17 @@ internal class VideoPlayerActivity : AppCompatActivity() {
         }
     }
 
+    @OptIn(UnstableApi::class)
     private fun configPlayerView(playerId: String) {
         val playerManagers by inject<MutableMap<String, VideoPlayerManager>>()
         exoPlayer = playerManagers[playerId]?.exoPlayer ?: return
 
         val playerView = findViewById<PlayerView>(R.id.player_view)
         playerView.player = exoPlayer
+
+        (playerView.videoSurfaceView as? SurfaceView)?.let {
+            exoPlayer?.setVideoSurfaceView(it)
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -64,6 +73,7 @@ internal class VideoPlayerActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
+        eventBroadcaster.emit(VideoPlayerEvent.StoppedPip)
         exoPlayer?.pause()
         super.onStop()
     }
