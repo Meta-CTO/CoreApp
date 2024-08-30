@@ -20,6 +20,7 @@ internal class VideoPlayerManager(
 
     private val context by inject<Context>()
     private val playerManagers by inject<MutableMap<String, VideoPlayerManager>>()
+    private var isAutoPlay = false
 
     // Define the exo player
     val exoPlayer by lazy {
@@ -78,7 +79,7 @@ internal class VideoPlayerManager(
     }
 
     fun setAutoPlay(isAutoPlay: Boolean) {
-        exoPlayer.playWhenReady = isAutoPlay
+        this.isAutoPlay = isAutoPlay
     }
 
     @OptIn(UnstableApi::class)
@@ -89,7 +90,7 @@ internal class VideoPlayerManager(
         videoArtworkUrl: String?
     ) {
         // If the player is already playing the same video, skip
-        if (exoPlayer.isPlaying && exoPlayer.currentMediaItem?.mediaId == videoUrl) {
+        if (exoPlayer.currentMediaItem?.mediaId == videoUrl) {
             return
         }
 
@@ -109,6 +110,7 @@ internal class VideoPlayerManager(
             )
 
             // Set media source and prepare
+            playWhenReady = isAutoPlay
             setMediaSource(mediaItem)
             prepare()
         }
