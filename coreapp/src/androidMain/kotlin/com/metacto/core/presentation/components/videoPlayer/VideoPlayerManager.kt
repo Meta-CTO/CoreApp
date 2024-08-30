@@ -21,6 +21,7 @@ internal class VideoPlayerManager(
     private val context by inject<Context>()
     private val playerManagers by inject<MutableMap<String, VideoPlayerManager>>()
     private var isAutoPlay = false
+    // TODO: hold is pip flag here to decide which renderer should be used
 
     // Define the exo player
     val exoPlayer by lazy {
