@@ -34,7 +34,14 @@ fun <T : SerializableNetworkError> coreModule(
     deepLinkParsers: Map<String, DeepLinkParser> = emptyMap()
 ) = module {
 
-    includes(corePlatformModule(appStorageName,environment, shouldShowActualErrorMessages, errorClass,))
+    includes(
+        corePlatformModule(
+            appStorageName,
+            environment,
+            shouldShowActualErrorMessages,
+            errorClass,
+        )
+    )
 
     includes(coreViewModelsModule)
 

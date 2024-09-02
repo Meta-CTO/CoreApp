@@ -16,6 +16,7 @@ Pod::Spec.new do |spec|
     spec.dependency 'FirebaseAuth'
     spec.dependency 'FirebaseCrashlytics'
     spec.dependency 'FirebaseDynamicLinks'
+    spec.dependency 'FirebaseMessaging'
     spec.dependency 'FirebaseRemoteConfig'
     spec.dependency 'GoogleSignIn', '7.0.0'
                 
