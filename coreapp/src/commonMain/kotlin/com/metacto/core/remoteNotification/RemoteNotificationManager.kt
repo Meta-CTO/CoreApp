@@ -1,4 +1,4 @@
-package com.metacto.core.notification
+package com.metacto.core.remoteNotification
 
 import com.mmk.kmpnotifier.notification.NotifierManager
 import com.mmk.kmpnotifier.notification.PayloadData

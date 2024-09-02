@@ -1,4 +1,4 @@
-package com.metacto.core.notification
+package com.metacto.core.remoteNotification
 
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.metacto.core.utils.pushNotifications.IPushNotificationsManager

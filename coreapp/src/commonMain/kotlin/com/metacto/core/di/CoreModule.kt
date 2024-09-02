@@ -3,8 +3,8 @@ package com.metacto.core.di
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.navigation.NavManager
-import com.metacto.core.notification.IRemoteNotificationManager
-import com.metacto.core.notification.RemoteNotificationManager
+import com.metacto.core.remoteNotification.IRemoteNotificationManager
+import com.metacto.core.remoteNotification.RemoteNotificationManager
 import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.deepLink.DeepLinkManager
 import com.metacto.core.utils.deepLink.DeepLinkParser

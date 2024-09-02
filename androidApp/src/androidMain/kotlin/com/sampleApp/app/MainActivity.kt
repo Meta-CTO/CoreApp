@@ -11,8 +11,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import com.metacto.core.remoteNotification.IRemoteNotificationManager
 import com.metacto.core.presentation.components.inputFields.OutlinedOtpInputField
 import com.metacto.core.utils.deepLink.IDeepLinkManager
+import com.mmk.kmpnotifier.extensions.onCreateOrOnNewIntent
+import com.mmk.kmpnotifier.notification.NotifierManager
 import com.sampleApp.app.presentation.MainView
 import org.koin.android.ext.android.inject
 
@@ -22,6 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        NotifierManager.onCreateOrOnNewIntent(intent)
 
         installSplashScreen()
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -35,6 +39,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        NotifierManager.onCreateOrOnNewIntent(intent)
         // check intent
         intent?.let { checkDeepLink(it) }
     }
