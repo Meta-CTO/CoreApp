@@ -42,7 +42,8 @@ kotlin {
             if (System.getenv("XCODE_VERSION_MAJOR") == "1500") {
                 linkerOpts += "-ld64"
             }
-            export(Dependencies.KMP_NOTIFIER)
+
+            export(project(Dependencies.Modules.CORE_APP))
         }
         pod(
             name = Dependencies.Pods.FIREBASE_AUTH,

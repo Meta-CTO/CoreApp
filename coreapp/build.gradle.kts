@@ -48,11 +48,6 @@ kotlin {
             if (System.getenv("XCODE_VERSION_MAJOR") == "1500") {
                 linkerOpts += "-ld64"
             }
-
-            export(Dependencies.Moko.RESOURCES)
-            export(Dependencies.Moko.GRAPHICS)
-            export(Dependencies.STRAPI_KMM)
-            export(Dependencies.KMP_NOTIFIER)
         }
 
         xcodeConfigurationToNativeBuildType["Debug"] = NativeBuildType.RELEASE
@@ -109,7 +104,7 @@ kotlin {
                 api(Dependencies.COMPOTTIE)
                 api(Dependencies.WEBVIEW)
                 api(Dependencies.SHIMMER)
-                api(Dependencies.KMP_NOTIFIER)
+                implementation(Dependencies.KMP_NOTIFIER)
                 implementation(Dependencies.STATELY_COMMON) // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
             }
         }

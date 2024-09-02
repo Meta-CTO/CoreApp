@@ -76,7 +76,8 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
 
     single<INotificationManager> {
         NotificationManager(
-            notificationCenter = UNUserNotificationCenter.currentNotificationCenter()
+            notificationCenter = UNUserNotificationCenter.currentNotificationCenter(),
+            notifier = get()
         )
     }
 

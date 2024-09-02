@@ -2,6 +2,7 @@ package com.metacto.core.utils.notificationManager
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Intent
 import com.metacto.core.utils.Date
 
 actual interface INotificationManager {
@@ -12,6 +13,8 @@ actual interface INotificationManager {
         name: String,
         priority: Int = NotificationManager.IMPORTANCE_HIGH
     ): NotificationChannel?
+
+    fun onCreateOrOnNewIntent(intent: Intent?)
 
     actual fun schedule(notification: Notification, date: Date)
 
@@ -27,8 +30,24 @@ actual interface INotificationManager {
 
     actual fun clearBadgeCount()
 
+    actual suspend fun getPushNotificationToken(): String?
+
+    actual suspend fun deletePushNotificationToken()
+
+    actual suspend fun subscribeToTopic(topicName: String)
+
+    actual suspend fun unSubscribeFromTopic(topicName: String)
+
+    actual fun onNewTokenListener(listener: (String) -> Unit)
+
+    actual fun onReceiveMessageNotification(listener: (title: String?, body: String?) -> Unit)
+
+    actual fun onReceiveDataNotification(listener: (payload: NotificationPayload) -> Unit)
+
+    actual fun onNotificationClicked(listener: (payload: NotificationPayload) -> Unit)
+
     companion object {
         const val APP_CHANNEL_ID = "AppNotifications"
-        const val APP_CHANNEL_Name = "App Notifications"
+        const val APP_CHANNEL_NAME = "App Notifications"
     }
 }

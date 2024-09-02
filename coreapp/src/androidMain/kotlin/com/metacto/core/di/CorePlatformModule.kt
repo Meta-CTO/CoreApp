@@ -1,6 +1,5 @@
 package com.metacto.core.di
 
-import com.google.firebase.messaging.FirebaseMessaging
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
@@ -76,7 +75,8 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
 
     single<INotificationManager> {
         NotificationManager(
-            context = androidContext()
+            context = androidContext(),
+            notifier = get()
         )
     }
 

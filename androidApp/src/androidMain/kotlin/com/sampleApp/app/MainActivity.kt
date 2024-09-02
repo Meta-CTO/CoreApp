@@ -7,19 +7,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.metacto.core.utils.deepLink.IDeepLinkManager
-import com.mmk.kmpnotifier.extensions.onCreateOrOnNewIntent
-import com.mmk.kmpnotifier.notification.NotifierManager
+import com.metacto.core.utils.notificationManager.INotificationManager
 import com.sampleApp.app.presentation.MainView
 import org.koin.android.ext.android.inject
 
-
 class MainActivity : AppCompatActivity() {
     private val deepLinkManager by inject<IDeepLinkManager>()
-    private val notifier by inject<NotifierManager>()
+    private val notificationManager by inject<INotificationManager>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        NotifierManager.onCreateOrOnNewIntent(intent)
+        notificationManager.onCreateOrOnNewIntent(intent)
 
         installSplashScreen()
         WindowCompat.setDecorFitsSystemWindows(window, false)
@@ -33,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         checkDeepLink(intent)
-        notifier.onCreateOrOnNewIntent(intent)
+        notificationManager.onCreateOrOnNewIntent(intent)
     }
 
     private fun checkDeepLink(intent: Intent) {

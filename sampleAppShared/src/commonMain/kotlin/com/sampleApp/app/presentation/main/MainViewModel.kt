@@ -7,7 +7,6 @@ import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.utils.Date
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.Notification
-import com.metacto.core.utils.remoteNotification.IRemoteNotificationManager
 import com.sampleApp.app.presentation.base.BaseViewModel
 import com.sampleApp.app.presentation.main.MainContract.Effect
 import com.sampleApp.app.presentation.main.MainContract.Event
@@ -16,7 +15,6 @@ import org.koin.core.component.inject
 
 class MainViewModel : BaseViewModel<State, Event, Effect>() {
     private val appEnvironment by inject<CoreEnvironment>()
-    private val remoteNotificationManager by inject<IRemoteNotificationManager>()
     private val notificationManager by inject<INotificationManager>()
 
     override fun setInitialState() = State()
@@ -59,7 +57,7 @@ class MainViewModel : BaseViewModel<State, Event, Effect>() {
 
     private fun handleRemoteNotifications() {
         executeSilent({
-            val pushToken = remoteNotificationManager.getPushNotificationToken()
+            val pushToken = notificationManager.getPushNotificationToken()
 
             println("Push Token: $pushToken")
             globalState.snackBar(
@@ -70,7 +68,7 @@ class MainViewModel : BaseViewModel<State, Event, Effect>() {
             )
         })
 
-        remoteNotificationManager.onNewTokenListener {
+        notificationManager.onNewTokenListener {
             println("New Token: $it")
             globalState.snackBar(
                 SnackBarParams(
@@ -80,7 +78,7 @@ class MainViewModel : BaseViewModel<State, Event, Effect>() {
             )
         }
 
-        remoteNotificationManager.onReceiveMessageNotification { title, body ->
+        notificationManager.onReceiveMessageNotification { title, body ->
             println("New Notification: $title, $body")
             globalState.snackBar(
                 SnackBarParams(
@@ -98,7 +96,7 @@ class MainViewModel : BaseViewModel<State, Event, Effect>() {
             )
         }
 
-        remoteNotificationManager.onReceiveDataNotification { data ->
+        notificationManager.onReceiveDataNotification { data ->
             println("New Data Notification: $data")
             globalState.snackBar(
                 SnackBarParams(
@@ -116,7 +114,7 @@ class MainViewModel : BaseViewModel<State, Event, Effect>() {
             )
         }
 
-        remoteNotificationManager.onNotificationClicked {
+        notificationManager.onNotificationClicked {
             println("Notification Clicked: $it")
             globalState.snackBar(
                 SnackBarParams(

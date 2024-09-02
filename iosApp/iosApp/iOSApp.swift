@@ -8,6 +8,8 @@ import FirebaseMessaging
 import sampleAppShared
 
 class AppDelegate: NSObject, UIApplicationDelegate {
+    private let notificationManager =  DiProvider().get(clazz: INotificationManagerKt.Class) as INotificationManager
+    
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
@@ -38,7 +40,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         didReceiveRemoteNotification userInfo: [AnyHashable : Any]
     ) async -> UIBackgroundFetchResult {
         if Auth.auth().canHandleNotification(userInfo) {}
-        NotifierManager.shared.onApplicationDidReceiveRemoteNotification(userInfo: userInfo)
+        notificationManager.onApplicationDidReceiveRemoteNotification(userInfo: userInfo)
         return UIBackgroundFetchResult.newData
     }
 }
