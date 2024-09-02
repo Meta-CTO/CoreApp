@@ -9,6 +9,7 @@ fun RepositoryHandler.addProjectRepos() {
     mavenCentral()
     mavenLocal()
     maven("https://jitpack.io")
+    maven("https://www.jitpack.io")
     maven("https://storage.googleapis.com/r8-releases/raw")
     maven("https://maven.google.com")
     maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")

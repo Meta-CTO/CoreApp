@@ -42,10 +42,7 @@ kotlin {
             if (System.getenv("XCODE_VERSION_MAJOR") == "1500") {
                 linkerOpts += "-ld64"
             }
-
-            export(Dependencies.Moko.RESOURCES)
-            export(Dependencies.Moko.GRAPHICS)
-            export(Dependencies.STRAPI_KMM)
+            export(Dependencies.KMP_NOTIFIER)
         }
         pod(
             name = Dependencies.Pods.FIREBASE_AUTH,
@@ -74,6 +71,10 @@ kotlin {
         )
         pod(
             name = Dependencies.Pods.FIREBASE_REMOTE_CONFIG,
+            linkOnly = true
+        )
+        pod(
+            name = Dependencies.Pods.FIREBASE_MESSAGING,
             linkOnly = true
         )
         pod(

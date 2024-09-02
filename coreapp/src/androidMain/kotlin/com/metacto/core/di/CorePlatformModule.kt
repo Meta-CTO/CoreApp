@@ -21,10 +21,11 @@ import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.launchers.IntentLauncher
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.NotificationManager
-import com.metacto.core.utils.pushNotifications.FirebasePushNotificationsManager
-import com.metacto.core.utils.pushNotifications.IPushNotificationsManager
+import com.metacto.coreApp.MR
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
 import com.metacto.strapikmm.repos.AppConfigurationRepository
+import com.mmk.kmpnotifier.notification.NotifierManager
+import com.mmk.kmpnotifier.notification.configuration.NotificationPlatformConfiguration
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
 import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
@@ -79,12 +80,6 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
         )
     }
 
-    single<IPushNotificationsManager> {
-        FirebasePushNotificationsManager(
-            firebaseMessaging = FirebaseMessaging.getInstance()
-        )
-    }
-
     single<IPermissionManager> {
         PermissionManager(
             applicationContext = androidContext()
@@ -132,6 +127,19 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
 
     single<MutableMap<String, VideoPlayerManager>> {
         mutableMapOf()
+    }
+
+    single<NotifierManager> {
+        NotifierManager.apply {
+            initialize(
+                configuration = NotificationPlatformConfiguration.Android(
+                    showPushNotification = coreEnvironment.showRemoteNotifications,
+                    notificationChannelData = NotificationPlatformConfiguration.Android.NotificationChannelData(),
+                    notificationIconResId = coreEnvironment.remoteNotificationIcon
+                        ?: MR.images.ic_default_notifications_icon.drawableResId,
+                )
+            )
+        }
     }
 }
 

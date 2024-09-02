@@ -3,13 +3,17 @@ import FirebaseCore
 import GoogleSignIn
 import FirebaseAuth
 import AVFAudio
+import FirebaseMessaging
 
 import sampleAppShared
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+    ) -> Bool {
         requestPIPBackgroundMode()
-        initialize(application: application)
+        FirebaseApp.configure()
         return true
     }
     
@@ -22,51 +26,36 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         }
     }
     
-    private func initialize(application: UIApplication) {
-        initializeFirebase()
-        registerForRemoteNotifications(application: application)
-    }
-
-    
-    private func initializeFirebase() {
-        FirebaseApp.configure()
-    }
-        
-    private func registerForRemoteNotifications(application: UIApplication) {
-        application.registerForRemoteNotifications()
+    func application(
+        _ application: UIApplication,
+        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    ) {
+        Messaging.messaging().apnsToken = deviceToken
     }
     
     func application(
         _ application: UIApplication,
-        didReceiveRemoteNotification userInfo: [AnyHashable: Any]
+        didReceiveRemoteNotification userInfo: [AnyHashable : Any]
     ) async -> UIBackgroundFetchResult {
-        if Auth.auth().canHandleNotification(userInfo) {
-            // Do nothing Auth handles our userInfo
-        }
-        
-        return .noData
+        if Auth.auth().canHandleNotification(userInfo) {}
+        NotifierManager.shared.onApplicationDidReceiveRemoteNotification(userInfo: userInfo)
+        return UIBackgroundFetchResult.newData
     }
 }
 
 @main
 struct iOSApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate: AppDelegate
-
+    
     init() {
-        // TODO: check current build type and pass suitable values
         KoinKt.doInitKoin(
             environment: AppEnvironment().dev()
         )
     }
-
-	var body: some Scene {
-		WindowGroup {
-			ContentView()
-//                .onOpenURL { url in
-//                    DeepLinkRegistryKt.process(deepLink: url.absoluteString)
-//                }.onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
-//                    DeepLinkRegistryKt.process(deepLink: activity.webpageURL?.absoluteString ?? "")
-//                }
-		}
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+        }
     }
 }
