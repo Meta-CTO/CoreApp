@@ -105,6 +105,9 @@ kotlin {
                 api(Dependencies.WEBVIEW)
                 api(Dependencies.SHIMMER)
 
+                // kmp notifier
+                api(Dependencies.KMPNotifier.KMP_NOTIFIER)
+
             }
         }
 
@@ -168,6 +171,12 @@ kotlin {
                 api(Dependencies.Compose.MATERIAL)
                 api(Dependencies.Moko.PARCELIZE)
             }
+        }
+    }
+
+    listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            export(Dependencies.KMPNotifier.KMP_NOTIFIER)
         }
     }
 }

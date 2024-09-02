@@ -38,4 +38,6 @@ object Versions {
     const val GIT_LIVE = "1.10.4"
     const val YOUTUBE_PLAYER = "12.1.0"
     const val SHIMMER = "1.3.1"
+    const val KMP_NOTIFIER = "1.2.1"
+    const val KMP_NOTIFIER_PLUGIN = "1.9.20"
 }

@@ -9,5 +9,6 @@ open class CoreEnvironment(
     open val iosAppStoreId: String,
     open val forceUpdateRemoteConfigKey: String? = null,
     open val currentAppConfigurationVersion: Int,
-    open val appConfigurationExpirationInMinutes: Long
+    open val appConfigurationExpirationInMinutes: Long,
+    open val notificationIconResId: Int
 )
