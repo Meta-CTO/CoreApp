@@ -240,7 +240,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         return throwable is AppException && throwable.getErrorCode() == NetworkMapperConstants.NO_INTERNET_CONNECTION
     }
 
-    private fun handleAuthError() {
+    open fun handleAuthError() {
         coreGlobalState.confirmationPopup(
             ConfirmationPopupParams(
                 title = resourceProvider.getString(MR.strings.session_expired),
