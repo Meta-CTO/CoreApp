@@ -5,6 +5,7 @@ import com.metacto.core.presentation.itemPicker.ItemPickerContract.Effect
 import com.metacto.core.presentation.itemPicker.ItemPickerContract.Event
 import com.metacto.core.presentation.itemPicker.ItemPickerContract.State
 import com.metacto.core.presentation.itemPicker.models.PickerItem
+import com.metacto.core.utils.PlatformType
 import com.metacto.core.utils.extensions.orZero
 import kotlinx.collections.immutable.toImmutableList
 
@@ -17,7 +18,8 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
         is Event.Init -> init(
             items = event.items,
             selectedItem = event.selectedItem,
-            canSearch = event.canSearch
+            canSearch = event.canSearch,
+            platform = event.platform
         )
 
         Event.CloseClicked -> navManager.goBack()
@@ -31,7 +33,8 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
     private fun init(
         items: List<PickerItem>,
         selectedItem: PickerItem?,
-        canSearch: Boolean
+        canSearch: Boolean,
+        platform: PlatformType?
     ) {
         // Validate if already initialized
         if (currentState.isInitialized) return
@@ -50,7 +53,8 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
                 displayedItems = immutableItems,
                 initialItemIndex = initialItemIndex,
                 currentItemIndex = initialItemIndex,
-                canSearch = canSearch
+                canSearch = canSearch,
+                platform = platform
             )
         }
 

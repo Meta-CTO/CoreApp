@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.Composable
@@ -19,13 +18,15 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.IntSize
-import com.metacto.core.presentation.components.bottomSheets.BottomSheetContainer
+import com.metacto.core.presentation.components.bottomSheets.BottomSheetDoneContainer
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
 import com.metacto.core.presentation.components.wheelPicker.WheelPickerDefaults
 import com.metacto.core.presentation.components.wheelPicker.WheelTextPicker
 import com.metacto.core.presentation.itemPicker.ItemPickerContract.Event
 import com.metacto.core.presentation.itemPicker.ItemPickerContract.State
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.utils.PlatformType
+import com.metacto.core.utils.extensions.getPlatformType
 import com.metacto.core.utils.extensions.toDp
 import com.metacto.coreApp.MR
 import dev.icerock.moko.resources.compose.stringResource
@@ -35,6 +36,22 @@ fun ItemPickerContent(
     state: State,
     onEvent: (Event) -> Unit
 ) {
+
+    // check the platform type
+    val platform = state.platform ?: getPlatformType()
+
+    // ini the theme colors  based on the platform
+    val colorTheme = if (platform == PlatformType.ANDROID)
+        CoreTheme.colors.itemPicker
+    else
+        CoreTheme.colors.iosItemPicker
+
+    // ini the wheel picker row count based on the platform
+    val wheelSelectorShape = if (platform == PlatformType.ANDROID)
+        CoreTheme.shapes.wheelPickerItem
+    else
+        CoreTheme.shapes.iosWheelPickerItem
+
     var sheetSize by remember {
         mutableStateOf(IntSize.Zero)
     }
@@ -43,13 +60,9 @@ fun ItemPickerContent(
     }
 
     // Bottom sheet container
-    BottomSheetContainer(
-        startIcon = Icons.Default.Close,
-        endIcon = Icons.Default.Check,
-        onStartIconClick = {
-            onEvent(Event.CloseClicked)
-        },
-        onEndIconClick = {
+    BottomSheetDoneContainer(
+        platform = platform,
+        onDoneClick = {
             onEvent(Event.DoneClicked)
         },
         modifier = Modifier.onSizeChanged {
@@ -85,13 +98,14 @@ fun ItemPickerContent(
             texts = itemTitles,
             rowCount = 5,
             style = CoreTheme.typography.itemPicker.textStyle,
-            color = CoreTheme.colors.itemPicker.textColor,
+            color = colorTheme.textColor,
             selectorProperties = WheelPickerDefaults.selectorProperties(
-                color = CoreTheme.colors.itemPicker.selectorColor,
+                color = colorTheme.selectorColor,
                 border = BorderStroke(
                     width = CoreTheme.spacings.itemPicker.selectorBorderWidth,
-                    color = CoreTheme.colors.itemPicker.selectorBorderColor
+                    color = colorTheme.selectorBorderColor
                 ),
+                shape = wheelSelectorShape
             ),
             onScrollFinished = { index ->
                 onEvent(Event.ScrollFinished(index))

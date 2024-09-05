@@ -8,11 +8,13 @@ import com.metacto.core.presentation.base.rememberViewModel
 import com.metacto.core.presentation.itemPicker.ItemPickerContract.Event
 import com.metacto.core.presentation.itemPicker.components.ItemPickerContent
 import com.metacto.core.presentation.itemPicker.models.PickerItem
+import com.metacto.core.utils.PlatformType
 
 actual class ItemPickerSheet actual constructor(
     actual val items: List<PickerItem>,
     actual val selectedItem: PickerItem?,
-    actual val canSearch: Boolean
+    actual val canSearch: Boolean,
+    actual val platform: PlatformType?
 ) : BaseSheet<ItemPickerViewModel>() {
 
     @Composable
@@ -25,7 +27,8 @@ actual class ItemPickerSheet actual constructor(
                 Event.Init(
                     items = items,
                     selectedItem = selectedItem,
-                    canSearch = canSearch
+                    canSearch = canSearch,
+                    platform = platform,
                 )
             )
         }
