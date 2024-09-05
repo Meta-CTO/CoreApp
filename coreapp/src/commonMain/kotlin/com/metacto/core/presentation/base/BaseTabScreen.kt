@@ -9,4 +9,7 @@ abstract class BaseTabScreen<T : CoreViewModel<*, *, *>> : BaseScreen<T>() {
 
     open fun onDisplayed() {
     }
+
+    open fun onNavBarTabClicked() {
+    }
 }

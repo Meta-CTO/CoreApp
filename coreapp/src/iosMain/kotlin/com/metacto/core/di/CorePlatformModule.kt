@@ -22,6 +22,8 @@ import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.NotificationManager
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
 import com.metacto.strapikmm.repos.AppConfigurationRepository
+import com.mmk.kmpnotifier.notification.NotifierManager
+import com.mmk.kmpnotifier.notification.configuration.NotificationPlatformConfiguration
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
 import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
@@ -74,7 +76,8 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
 
     single<INotificationManager> {
         NotificationManager(
-            notificationCenter = UNUserNotificationCenter.currentNotificationCenter()
+            notificationCenter = UNUserNotificationCenter.currentNotificationCenter(),
+            notifier = get()
         )
     }
 
@@ -113,6 +116,17 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
             appConfigurationRepository = get(),
             remoteConfigs = get(),
         )
+    }
+
+    single<NotifierManager> {
+        NotifierManager.apply {
+            initialize(
+                NotificationPlatformConfiguration.Ios(
+                    showPushNotification = coreEnvironment.showRemoteNotifications,
+                    askNotificationPermissionOnStart = coreEnvironment.askRemoteNotificationPermissionOnStart
+                )
+            )
+        }
     }
 }
 

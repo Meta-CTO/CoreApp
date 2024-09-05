@@ -3,6 +3,9 @@ package com.metacto.core.utils.notificationManager
 import com.metacto.core.domain.CoreConstants
 import com.metacto.core.utils.Date
 import com.metacto.core.utils.toDateComponents
+import com.mmk.kmpnotifier.extensions.onApplicationDidReceiveRemoteNotification
+import com.mmk.kmpnotifier.notification.NotifierManager
+import com.mmk.kmpnotifier.notification.PayloadData
 import kotlinx.datetime.Clock
 import platform.Foundation.NSDateComponents
 import platform.UIKit.UIApplication
@@ -15,8 +18,22 @@ import platform.UserNotifications.UNTimeIntervalNotificationTrigger
 import platform.UserNotifications.UNUserNotificationCenter
 
 class NotificationManager(
-    private val notificationCenter: UNUserNotificationCenter
-) : INotificationManager {
+    private val notificationCenter: UNUserNotificationCenter,
+    private val notifier: NotifierManager
+) : INotificationManager, NotifierManager.Listener {
+
+    private var onNewTokenListener: ((String) -> Unit)? = null
+    private var onMessageNotificationListener: ((String?, String?) -> Unit)? = null
+    private var onDataNotificationListener: ((NotificationPayload) -> Unit)? = null
+    private var onNotificationClickedListener: ((NotificationPayload) -> Unit)? = null
+
+    init {
+        notifier.addListener(this)
+    }
+
+    override fun onApplicationDidReceiveRemoteNotification(userInfo: Map<Any?, *>) {
+        notifier.onApplicationDidReceiveRemoteNotification(userInfo)
+    }
 
     override fun schedule(notification: Notification, date: Date) {
         val trigger = UNCalendarNotificationTrigger.triggerWithDateMatchingComponents(
@@ -99,5 +116,53 @@ class NotificationManager(
 
     override fun clearBadgeCount() {
         UIApplication.sharedApplication.applicationIconBadgeNumber = 0
+    }
+
+    override suspend fun getPushNotificationToken(): String? {
+        return notifier.getPushNotifier().getToken()
+    }
+
+    override suspend fun deletePushNotificationToken() {
+        notifier.getPushNotifier().deleteMyToken()
+    }
+
+    override suspend fun subscribeToTopic(topicName: String) {
+        notifier.getPushNotifier().subscribeToTopic(topicName)
+    }
+
+    override suspend fun unSubscribeFromTopic(topicName: String) {
+        notifier.getPushNotifier().unSubscribeFromTopic(topicName)
+    }
+
+    override fun onNewTokenListener(listener: (String) -> Unit) {
+        onNewTokenListener = listener
+    }
+
+    override fun onReceiveMessageNotification(listener: (title: String?, body: String?) -> Unit) {
+        onMessageNotificationListener = listener
+    }
+
+    override fun onReceiveDataNotification(listener: (data: NotificationPayload) -> Unit) {
+        onDataNotificationListener = listener
+    }
+
+    override fun onNotificationClicked(listener: (payload: NotificationPayload) -> Unit) {
+        onNotificationClickedListener = listener
+    }
+
+    override fun onNewToken(token: String) {
+        onNewTokenListener?.invoke(token)
+    }
+
+    override fun onPushNotification(title: String?, body: String?) {
+        onMessageNotificationListener?.invoke(title, body)
+    }
+
+    override fun onPayloadData(data: PayloadData) {
+        onDataNotificationListener?.invoke(data)
+    }
+
+    override fun onNotificationClicked(data: PayloadData) {
+        onNotificationClickedListener?.invoke(data)
     }
 }

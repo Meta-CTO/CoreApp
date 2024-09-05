@@ -13,12 +13,18 @@ import com.metacto.core.utils.Date
 import com.metacto.core.utils.extensions.getAppIconResId
 import com.metacto.core.utils.extensions.getLauncherPendingIntent
 import com.metacto.coreApp.MR
+import com.mmk.kmpnotifier.extensions.onCreateOrOnNewIntent
+import com.mmk.kmpnotifier.notification.NotifierManager
+import com.mmk.kmpnotifier.notification.PayloadData
 import kotlinx.datetime.Clock
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 import android.app.Notification as PlatformNotification
 
-class NotificationManager(private val context: Context) : INotificationManager {
+class NotificationManager(
+    private val context: Context,
+    private val notifier: NotifierManager
+) : INotificationManager, NotifierManager.Listener {
 
     private val notificationService = context.getSystemService(
         Context.NOTIFICATION_SERVICE
@@ -28,10 +34,19 @@ class NotificationManager(private val context: Context) : INotificationManager {
         Context.ALARM_SERVICE
     ) as AlarmManager
 
+    private var onNewTokenListener: ((String) -> Unit)? = null
+    private var onMessageNotificationListener: ((String?, String?) -> Unit)? = null
+    private var onDataNotificationListener: ((NotificationPayload) -> Unit)? = null
+    private var onNotificationClickedListener: ((NotificationPayload) -> Unit)? = null
+
+    init {
+        notifier.addListener(this)
+    }
+
     override fun show(notification: Notification) {
         // Create the notification channel if required
         val channelId = notification.channel?.id ?: INotificationManager.APP_CHANNEL_ID
-        val channelName = notification.channel?.name ?: INotificationManager.APP_CHANNEL_Name
+        val channelName = notification.channel?.name ?: INotificationManager.APP_CHANNEL_NAME
         createNotificationsChannel(
             id = channelId,
             name = channelName
@@ -80,6 +95,10 @@ class NotificationManager(private val context: Context) : INotificationManager {
 
             else -> notificationService.getNotificationChannel(id)
         }
+    }
+
+    override fun onCreateOrOnNewIntent(intent: Intent?) {
+        notifier.onCreateOrOnNewIntent(intent)
     }
 
     override fun schedule(notification: Notification, date: Date) {
@@ -195,5 +214,53 @@ class NotificationManager(private val context: Context) : INotificationManager {
     override fun clearBadgeCount() {
         // In Android to clear badge count you have to clear all notifications in the notification center
         notificationService.cancelAll()
+    }
+
+    override suspend fun getPushNotificationToken(): String? {
+        return notifier.getPushNotifier().getToken()
+    }
+
+    override suspend fun deletePushNotificationToken() {
+        notifier.getPushNotifier().deleteMyToken()
+    }
+
+    override suspend fun subscribeToTopic(topicName: String) {
+        notifier.getPushNotifier().subscribeToTopic(topicName)
+    }
+
+    override suspend fun unSubscribeFromTopic(topicName: String) {
+        notifier.getPushNotifier().unSubscribeFromTopic(topicName)
+    }
+
+    override fun onNewTokenListener(listener: (String) -> Unit) {
+        onNewTokenListener = listener
+    }
+
+    override fun onReceiveMessageNotification(listener: (title: String?, body: String?) -> Unit) {
+        onMessageNotificationListener = listener
+    }
+
+    override fun onReceiveDataNotification(listener: (data: NotificationPayload) -> Unit) {
+        onDataNotificationListener = listener
+    }
+
+    override fun onNotificationClicked(listener: (payload: NotificationPayload) -> Unit) {
+        onNotificationClickedListener = listener
+    }
+
+    override fun onNewToken(token: String) {
+        onNewTokenListener?.invoke(token)
+    }
+
+    override fun onPushNotification(title: String?, body: String?) {
+        onMessageNotificationListener?.invoke(title, body)
+    }
+
+    override fun onPayloadData(data: PayloadData) {
+        onDataNotificationListener?.invoke(data)
+    }
+
+    override fun onNotificationClicked(data: PayloadData) {
+        onNotificationClickedListener?.invoke(data)
     }
 }

@@ -43,9 +43,7 @@ kotlin {
                 linkerOpts += "-ld64"
             }
 
-            export(Dependencies.Moko.RESOURCES)
-            export(Dependencies.Moko.GRAPHICS)
-            export(Dependencies.STRAPI_KMM)
+            export(project(Dependencies.Modules.CORE_APP))
         }
         pod(
             name = Dependencies.Pods.FIREBASE_AUTH,
@@ -74,6 +72,10 @@ kotlin {
         )
         pod(
             name = Dependencies.Pods.FIREBASE_REMOTE_CONFIG,
+            linkOnly = true
+        )
+        pod(
+            name = Dependencies.Pods.FIREBASE_MESSAGING,
             linkOnly = true
         )
         pod(

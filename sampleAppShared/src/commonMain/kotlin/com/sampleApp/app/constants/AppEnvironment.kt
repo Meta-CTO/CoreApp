@@ -11,7 +11,8 @@ object AppEnvironment {
         iosAppStoreId = "id310633997",
         forceUpdateRemoteConfigKey = "RECOMMENDED_APP_VERSIONS",
         appConfigurationExpirationInMinutes = 1 * 60 * 24,
-        currentAppConfigurationVersion = 1
+        currentAppConfigurationVersion = 1,
+        askRemoteNotificationPermissionOnStart = true
     )
 
     fun prod() = CoreEnvironment(
@@ -20,6 +21,7 @@ object AppEnvironment {
         networkLogLevel = NetworkLogLevel.NONE,
         iosAppStoreId = "id310633997",
         appConfigurationExpirationInMinutes = 1 * 60 * 24,
-        currentAppConfigurationVersion = 1
+        currentAppConfigurationVersion = 1,
+        askRemoteNotificationPermissionOnStart = true
     )
 }

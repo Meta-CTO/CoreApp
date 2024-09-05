@@ -12,6 +12,7 @@ object Dependencies {
         const val FIREBASE_DYNAMIC_LINKS = "FirebaseDynamicLinks"
         const val FIREBASE_CRASHLYTICS = "FirebaseCrashlytics"
         const val FIREBASE_REMOTE_CONFIG = "FirebaseRemoteConfig"
+        const val FIREBASE_MESSAGING = "FirebaseMessaging"
         const val AMPLITUDE = "Amplitude"
         const val AWSS3 = "AWSS3"
         const val APPS_FLYER = "AppsFlyerFramework"
@@ -113,4 +114,6 @@ object Dependencies {
     const val COMPOTTIE = "io.github.alexzhirkevich:compottie:${Versions.COMPOTTIE}"
     const val WEBVIEW = "io.github.kevinnzou:compose-webview-multiplatform:${Versions.WEBVIEW}"
     const val SHIMMER = "com.valentinilk.shimmer:compose-shimmer:${Versions.SHIMMER}"
+    const val KMP_NOTIFIER = "io.github.mirzemehdi:kmpnotifier:${Versions.KMP_NOTIFIER}"
+    const val STATELY_COMMON = "co.touchlab:stately-common:2.0.5"
 }

@@ -4,39 +4,34 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.width
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import com.metacto.core.presentation.components.inputFields.OutlinedOtpInputField
 import com.metacto.core.utils.deepLink.IDeepLinkManager
+import com.metacto.core.utils.notificationManager.INotificationManager
 import com.sampleApp.app.presentation.MainView
 import org.koin.android.ext.android.inject
 
-
 class MainActivity : AppCompatActivity() {
     private val deepLinkManager by inject<IDeepLinkManager>()
+    private val notificationManager by inject<INotificationManager>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        notificationManager.onCreateOrOnNewIntent(intent)
 
         installSplashScreen()
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            //Preview()
             MainView()
         }
 
         intent?.let { checkDeepLink(intent) }
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        // check intent
-        intent?.let { checkDeepLink(it) }
+        checkDeepLink(intent)
+        notificationManager.onCreateOrOnNewIntent(intent)
     }
 
     private fun checkDeepLink(intent: Intent) {
@@ -44,14 +39,4 @@ class MainActivity : AppCompatActivity() {
             deepLinkManager.emitDeepLink(it)
         }
     }
-}
-
-@Preview
-@Composable
-private fun Preview() {
-    OutlinedOtpInputField(
-        text = "123",
-        pinCount = 6,
-        modifier = Modifier.width(200.dp)
-    )
 }
