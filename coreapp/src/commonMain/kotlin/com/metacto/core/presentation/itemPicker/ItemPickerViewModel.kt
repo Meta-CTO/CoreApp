@@ -21,7 +21,8 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
         )
 
         Event.CloseClicked -> navManager.goBack()
-        is Event.DoneClicked -> handleDoneClick(event.selectedIndex)
+        is Event.DoneClicked -> handleDoneClick()
+        is Event.ScrollFinished -> handleScrollFinish(event.currentItemIndex)
         is Event.SearchTermChanged -> handleSearchTermChange(event.value)
         Event.ClearSearchClicked -> handleClearSearchClick()
         Event.SearchClicked -> handleSearchClick()
@@ -48,6 +49,7 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
                 items = immutableItems,
                 displayedItems = immutableItems,
                 initialItemIndex = initialItemIndex,
+                currentItemIndex = initialItemIndex,
                 canSearch = canSearch
             )
         }
@@ -56,9 +58,9 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
         setState { copy(isInitialized = true) }
     }
 
-    private fun handleDoneClick(selectedIndex: Int) {
+    private fun handleDoneClick() {
         // Get selected item
-        val selectedItem = currentState.displayedItems.getOrNull(selectedIndex)
+        val selectedItem = getCurrentItem()
 
         // Check it
         if (selectedItem != null) {
@@ -68,6 +70,12 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
             )
         } else {
             navManager.goBack()
+        }
+    }
+
+    private fun handleScrollFinish(currentItemIndex: Int) {
+        setState {
+            copy(currentItemIndex = currentItemIndex)
         }
     }
 
@@ -108,5 +116,19 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
 
     private fun handleSearchClick() {
         coreGlobalState.dismissKeyboard()
+    }
+
+    override fun onDispose() {
+        val selectedItem = getCurrentItem() ?: return
+        navManager.sendResult(
+            source = ItemPickerSheet::class.simpleName,
+            result = selectedItem
+        )
+
+        super.onDispose()
+    }
+
+    private fun getCurrentItem(): PickerItem? {
+        return currentState.displayedItems.getOrNull(currentState.currentItemIndex)
     }
 }

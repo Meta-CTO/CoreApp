@@ -1,5 +1,7 @@
 package com.sampleApp.app.presentation.home
 
+import com.metacto.core.presentation.itemPicker.ItemPickerSheet
+import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.sampleApp.app.presentation.base.BaseViewModel
 import com.sampleApp.app.presentation.home.HomeContract.Companion.VIDEOS_LIST
 import com.sampleApp.app.presentation.home.HomeContract.Effect
@@ -27,6 +29,20 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
         is Event.VideoPlayerControllerCreated -> {
             setState { copy(videoController = event.controller) }
         }
+
+        is Event.OpenPicker -> {
+            navManager.navigateToBottomSheet(
+                ItemPickerSheet(
+                    selectedItem = currentState.pickedItem,
+                    items = (0..20).map {
+                        PickerItemUIModel(
+                            key = it.toString(),
+                            title = "Item $it"
+                        )
+                    }
+                )
+            )
+        }
     }
 
     private fun init() {
@@ -34,8 +50,15 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
         if (currentState.isInitialized) return
 
         // Init
+        observeItemPickerResults()
 
         // Update the flag
         setState { copy(isInitialized = true) }
+    }
+
+    private fun observeItemPickerResults() {
+        navManager.collectNavResult<ItemPickerSheet, PickerItemUIModel> { pickedItem ->
+            setState { copy(pickedItem = pickedItem) }
+        }
     }
 }

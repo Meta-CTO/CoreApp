@@ -4,6 +4,7 @@ import com.metacto.core.presentation.base.ViewEvent
 import com.metacto.core.presentation.base.ViewSideEffect
 import com.metacto.core.presentation.base.ViewState
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayerController
+import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.sampleApp.app.presentation.models.VideoItemInfo
 
 class HomeContract {
@@ -13,6 +14,7 @@ class HomeContract {
         val isVideoPlaying: Boolean = true,
         val currentVideo: VideoItemInfo = VIDEOS_LIST[0],
         val videoController: VideoPlayerController? = null,
+        val pickedItem: PickerItemUIModel? = null,
     ) : ViewState
 
     sealed class Event : ViewEvent {
@@ -20,6 +22,7 @@ class HomeContract {
         data object NavToYoutubeScreen : Event()
         data class ChangeCurrentVideo(val index: Int) : Event()
         data class VideoPlayerControllerCreated(val controller: VideoPlayerController) : Event()
+        data object OpenPicker : Event()
     }
 
     sealed class Effect : ViewSideEffect

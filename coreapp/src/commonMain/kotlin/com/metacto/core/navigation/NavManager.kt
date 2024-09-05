@@ -101,13 +101,14 @@ class NavManager {
 
     fun <R> sendResult(source: String?, result: R) {
         GlobalScope.launch {
+            // Create the nav results
             val navResult = NavResult(
                 source = source,
                 result = result
             )
-
             // Push the nav result then push null value to prevent getting this value again once re-visit same screen
             _results.value = navResult
+            delay(1000)
             _results.value = null
         }
     }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -75,6 +76,18 @@ internal fun HomeContent(
             onClick = {
                 onEvent(Event.NavToYoutubeScreen)
             }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Open Picker",
+            onClick = {
+                onEvent(Event.OpenPicker)
+            }
+        )
+
+        Text(
+            "Picked Item: ${state.pickedItem?.title ?: "None"}"
         )
     }
 }

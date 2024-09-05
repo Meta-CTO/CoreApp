@@ -48,7 +48,6 @@ fun ItemPickerContent(
     wheelHeight: Dp = CoreTheme.spacings.itemPicker.wheelHeight,
     onEvent: (Event) -> Unit
 ) {
-    var currentSelectedIndex = remember { state.initialItemIndex }
     var sheetSize by remember {
         mutableStateOf(IntSize.Zero)
     }
@@ -64,11 +63,7 @@ fun ItemPickerContent(
             onEvent(Event.CloseClicked)
         },
         onEndIconClick = {
-            onEvent(
-                Event.DoneClicked(
-                    selectedIndex = currentSelectedIndex
-                )
-            )
+            onEvent(Event.DoneClicked)
         },
         modifier = Modifier.onSizeChanged {
             sheetSize = it
@@ -113,7 +108,7 @@ fun ItemPickerContent(
                 ),
             ),
             onScrollFinished = { index ->
-                currentSelectedIndex = index
+                onEvent(Event.ScrollFinished(index))
                 null
             },
             size = DpSize(

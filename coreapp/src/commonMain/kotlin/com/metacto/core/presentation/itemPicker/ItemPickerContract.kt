@@ -14,6 +14,7 @@ class ItemPickerContract {
         val items: ImmutableList<PickerItem> = persistentListOf(),
         val displayedItems: ImmutableList<PickerItem> = persistentListOf(),
         val initialItemIndex: Int = 0,
+        val currentItemIndex: Int = 0,
         val canSearch: Boolean = false,
         val searchTerm: String = ""
     ) : ViewState
@@ -26,7 +27,8 @@ class ItemPickerContract {
         ) : Event()
 
         data object CloseClicked : Event()
-        data class DoneClicked(val selectedIndex: Int) : Event()
+        data object DoneClicked : Event()
+        data class ScrollFinished(val currentItemIndex: Int) : Event()
         data class SearchTermChanged(val value: String) : Event()
         data object ClearSearchClicked : Event()
         data object SearchClicked : Event()
