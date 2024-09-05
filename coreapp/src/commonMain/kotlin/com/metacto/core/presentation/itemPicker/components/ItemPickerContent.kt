@@ -38,16 +38,19 @@ fun ItemPickerContent(
 ) {
 
     // check the platform type
-    val platform = getPlatformType()
+    val platform = state.platform ?: getPlatformType()
 
     // ini the theme colors  based on the platform
     val colorTheme = if (platform == PlatformType.ANDROID)
         CoreTheme.colors.itemPicker
     else
-        CoreTheme.colors.iOSItemPicker
+        CoreTheme.colors.iosItemPicker
 
     // ini the wheel picker row count based on the platform
-    val rowCount = if (platform == PlatformType.ANDROID) 5 else 7
+    val wheelSelectorShape = if (platform == PlatformType.ANDROID)
+        CoreTheme.shapes.wheelPickerItem
+    else
+        CoreTheme.shapes.iosWheelPickerItem
 
     var sheetSize by remember {
         mutableStateOf(IntSize.Zero)
@@ -58,6 +61,7 @@ fun ItemPickerContent(
 
     // Bottom sheet container
     BottomSheetDoneContainer(
+        platform = platform,
         onDoneClick = {
             onEvent(Event.DoneClicked)
         },
@@ -92,7 +96,7 @@ fun ItemPickerContent(
         WheelTextPicker(
             startIndex = state.initialItemIndex,
             texts = itemTitles,
-            rowCount = rowCount,
+            rowCount = 5,
             style = CoreTheme.typography.itemPicker.textStyle,
             color = colorTheme.textColor,
             selectorProperties = WheelPickerDefaults.selectorProperties(
@@ -101,6 +105,7 @@ fun ItemPickerContent(
                     width = CoreTheme.spacings.itemPicker.selectorBorderWidth,
                     color = colorTheme.selectorBorderColor
                 ),
+                shape = wheelSelectorShape
             ),
             onScrollFinished = { index ->
                 onEvent(Event.ScrollFinished(index))

@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.PlatformType
-import com.metacto.core.utils.extensions.getPlatformType
 
 @Composable
 fun BottomSheetDoneContainer(
@@ -20,19 +19,18 @@ fun BottomSheetDoneContainer(
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     title: String? = null,
+    platform: PlatformType,
     onDoneClick: (() -> Unit)? = null,
     contentPadding: PaddingValues = PaddingValues(),
     showToolbarDivider: Boolean = true,
-    content: @Composable ColumnScope.() -> Unit
+    content: @Composable() (ColumnScope.() -> Unit),
 ) {
-    // check the platform type
-    val platform = getPlatformType()
 
     // ini the theme colors  based on the platform
     val colorTheme = if (platform == PlatformType.ANDROID)
         CoreTheme.colors.bottomSheetToolbar
     else
-        CoreTheme.colors.iOSBottomSheetToolbar
+        CoreTheme.colors.iosBottomSheetToolbar
 
 
     // Container column
@@ -49,6 +47,7 @@ fun BottomSheetDoneContainer(
             BottomSheetDoneToolbar(
                 modifier = Modifier.fillMaxWidth(),
                 title = title,
+                platform = platform,
                 onDoneClick = onDoneClick,
                 showDivider = showToolbarDivider
             )

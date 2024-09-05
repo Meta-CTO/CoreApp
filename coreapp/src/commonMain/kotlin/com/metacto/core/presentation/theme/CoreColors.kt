@@ -49,9 +49,9 @@ data class CoreColors(
     val successContainer: Color = lightGreen,
 
     val sheetPrimary: Color = midnight,
+    val iosSheetPrimary: Color = Color(0xFF007AFF),
     val sheetBackground: Color = white,
-    val iosSheetBackground: Color = Color(0xFFd0d3da),
-    val iosToolbarSheetBackground: Color = Color(0xFFb1b1b1),
+    val iosToolbarSheetBackground: Color = Color(0xFFF9F9F9),
 
     val background: Color = miniPeach,
     val outline: Color = lightGray20,
@@ -60,7 +60,7 @@ data class CoreColors(
     val optionsArrow: Color = black,
     val divider: Color = Color(0xFFA5A5A5),
     val pickerItem: Color = midnight,
-    val iosPickerSelectedBackground: Color = Color(0xFFc9ccd3),
+    val iosPickerSelectedStroke: Color = Color(0xFF333333),
 
     val pullRefreshIndicator: Color = primary,
     val pullRefreshIndicatorBackground: Color = white,
@@ -322,10 +322,10 @@ data class CoreColors(
         itemPickerItemBg = itemPickerItemBg,
         itemPickerItemStroke = itemPickerItemStroke
     ),
-    val iOSItemPicker: ItemPickerColors = ItemPickerColors(
+    val iosItemPicker: ItemPickerColors = ItemPickerColors(
         pickerItem = pickerItem,
-        itemPickerItemBg = iosPickerSelectedBackground,
-        itemPickerItemStroke = iosPickerSelectedBackground
+        itemPickerItemBg = transparent,
+        itemPickerItemStroke = iosPickerSelectedStroke
     ),
 
     // AppDialog
@@ -366,10 +366,10 @@ data class CoreColors(
         background = sheetBackground,
     ),
     // iOS BottomSheetToolbar
-    val iOSBottomSheetToolbar: BottomSheetToolbarColors = BottomSheetToolbarColors(
-        sheetPrimary = white,
+    val iosBottomSheetToolbar: BottomSheetToolbarColors = BottomSheetToolbarColors(
+        sheetPrimary = iosSheetPrimary,
         toolbarBackground = iosToolbarSheetBackground,
-        background = iosSheetBackground,
+        background = sheetBackground,
     ),
 
     // SuccessDialog

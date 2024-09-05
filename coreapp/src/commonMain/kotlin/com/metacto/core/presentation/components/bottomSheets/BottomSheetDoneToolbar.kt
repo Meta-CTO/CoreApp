@@ -17,7 +17,6 @@ import com.metacto.core.presentation.components.dividers.VerticalDivider
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.PlatformType
 import com.metacto.core.utils.extensions.getPlatformType
-import com.metacto.core.utils.extensions.noRippleClickable
 import com.metacto.coreApp.MR
 import dev.icerock.moko.resources.compose.stringResource
 
@@ -27,17 +26,15 @@ fun BottomSheetDoneToolbar(
     title: String? = null,
     onDoneClick: (() -> Unit)? = null,
     textPadding: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.bottomSheetToolbar.titlePadding),
-    showDivider: Boolean = true
+    showDivider: Boolean = true,
+    platform: PlatformType
 ) {
-
-    // check the platform type
-    val platform = getPlatformType()
 
     // ini the theme colors  based on the platform
     val colorTheme = if (platform == PlatformType.ANDROID)
         CoreTheme.colors.bottomSheetToolbar
     else
-        CoreTheme.colors.iOSBottomSheetToolbar
+        CoreTheme.colors.iosBottomSheetToolbar
 
     // Container column
     Column(
