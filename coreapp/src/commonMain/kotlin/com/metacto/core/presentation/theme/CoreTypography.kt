@@ -32,6 +32,9 @@ data class CoreTypography(
     val sheetTitle: TextStyle = primaryRegular.copy(
         fontSize = 16.sp
     ),
+    val sheetAction: TextStyle = primarySemiBold.copy(
+        fontSize = 18.sp
+    ),
 
     val btnLabelMedium: TextStyle = primarySemiBold.copy(
         fontSize = 20.sp

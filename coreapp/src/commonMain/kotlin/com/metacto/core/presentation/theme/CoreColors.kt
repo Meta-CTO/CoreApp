@@ -50,6 +50,8 @@ data class CoreColors(
 
     val sheetPrimary: Color = midnight,
     val sheetBackground: Color = white,
+    val iosSheetBackground: Color = Color(0xFFd0d3da),
+    val iosToolbarSheetBackground: Color = Color(0xFFb1b1b1),
 
     val background: Color = miniPeach,
     val outline: Color = lightGray20,
@@ -58,6 +60,7 @@ data class CoreColors(
     val optionsArrow: Color = black,
     val divider: Color = Color(0xFFA5A5A5),
     val pickerItem: Color = midnight,
+    val iosPickerSelectedBackground: Color = Color(0xFFc9ccd3),
 
     val pullRefreshIndicator: Color = primary,
     val pullRefreshIndicatorBackground: Color = white,
@@ -319,6 +322,11 @@ data class CoreColors(
         itemPickerItemBg = itemPickerItemBg,
         itemPickerItemStroke = itemPickerItemStroke
     ),
+    val iOSItemPicker: ItemPickerColors = ItemPickerColors(
+        pickerItem = pickerItem,
+        itemPickerItemBg = iosPickerSelectedBackground,
+        itemPickerItemStroke = iosPickerSelectedBackground
+    ),
 
     // AppDialog
     val appDialog: AppDialogColors = AppDialogColors(
@@ -353,7 +361,15 @@ data class CoreColors(
 
     // BottomSheetToolbar
     val bottomSheetToolbar: BottomSheetToolbarColors = BottomSheetToolbarColors(
-        sheetPrimary = sheetPrimary
+        sheetPrimary = sheetPrimary,
+        toolbarBackground = sheetBackground,
+        background = sheetBackground,
+    ),
+    // iOS BottomSheetToolbar
+    val iOSBottomSheetToolbar: BottomSheetToolbarColors = BottomSheetToolbarColors(
+        sheetPrimary = white,
+        toolbarBackground = iosToolbarSheetBackground,
+        background = iosSheetBackground,
     ),
 
     // SuccessDialog
@@ -803,9 +819,14 @@ data class TapItemColors(
 // BottomSheetToolbar
 data class BottomSheetToolbarColors(
     private val sheetPrimary: Color,
+    private val toolbarBackground: Color,
+    private val background: Color,
     val startIconColor: Color = sheetPrimary,
+    val doneActionColor: Color = sheetPrimary,
     val endIconColor: Color = sheetPrimary,
-    val titleColor: Color = sheetPrimary
+    val titleColor: Color = sheetPrimary,
+    val toolbarBackgroundColor: Color = toolbarBackground,
+    val backgroundColor: Color = background,
 )
 
 // SuccessDialog
