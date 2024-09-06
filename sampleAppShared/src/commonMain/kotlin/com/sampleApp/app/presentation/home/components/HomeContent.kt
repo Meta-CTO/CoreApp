@@ -80,6 +80,14 @@ internal fun HomeContent(
 
         PrimaryFilledButton(
             modifier = Modifier.fillMaxWidth(),
+            text = "To Test Screen",
+            onClick = {
+                onEvent(Event.NavToTestScreen)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
             text = "Open Picker",
             onClick = {
                 onEvent(Event.OpenPicker)

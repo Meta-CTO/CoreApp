@@ -22,12 +22,12 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
             platform = event.platform
         )
 
-        Event.CloseClicked -> navManager.goBack()
         is Event.DoneClicked -> handleDoneClick()
         is Event.ScrollFinished -> handleScrollFinish(event.currentItemIndex)
         is Event.SearchTermChanged -> handleSearchTermChange(event.value)
         Event.ClearSearchClicked -> handleClearSearchClick()
         Event.SearchClicked -> handleSearchClick()
+        Event.Disposed -> handleDispose()
     }
 
     private fun init(
@@ -64,7 +64,7 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
 
     private fun handleDoneClick() {
         // Get selected item
-        val selectedItem = getCurrentItem()
+        val selectedItem = currentState.displayedItems.getOrNull(currentState.currentItemIndex)
 
         // Check it
         if (selectedItem != null) {
@@ -122,17 +122,20 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
         coreGlobalState.dismissKeyboard()
     }
 
+    private fun handleDispose() {
+        emitSelectedItemAsResult()
+    }
+
     override fun onDispose() {
-        val selectedItem = getCurrentItem() ?: return
+        emitSelectedItemAsResult()
+        super.onDispose()
+    }
+
+    private fun emitSelectedItemAsResult() {
+        val selectedItem = currentState.displayedItems.getOrNull(currentState.currentItemIndex) ?: return
         navManager.sendResult(
             source = ItemPickerSheet::class.simpleName,
             result = selectedItem
         )
-
-        super.onDispose()
-    }
-
-    private fun getCurrentItem(): PickerItem? {
-        return currentState.displayedItems.getOrNull(currentState.currentItemIndex)
     }
 }

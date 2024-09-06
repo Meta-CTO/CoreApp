@@ -7,6 +7,7 @@ import com.sampleApp.app.presentation.home.HomeContract.Companion.VIDEOS_LIST
 import com.sampleApp.app.presentation.home.HomeContract.Effect
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
+import com.sampleApp.app.presentation.test.TestScreen
 import com.sampleApp.app.presentation.youtube.YoutubeScreen
 
 class HomeViewModel : BaseViewModel<State, Event, Effect>() {
@@ -18,6 +19,10 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
 
         Event.NavToYoutubeScreen -> {
             navManager.navigate(YoutubeScreen())
+        }
+
+        Event.NavToTestScreen -> {
+            navManager.navigate(TestScreen)
         }
 
         is Event.ChangeCurrentVideo -> {

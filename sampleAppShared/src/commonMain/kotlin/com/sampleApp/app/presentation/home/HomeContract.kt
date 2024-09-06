@@ -20,6 +20,7 @@ class HomeContract {
     sealed class Event : ViewEvent {
         data object Init : Event()
         data object NavToYoutubeScreen : Event()
+        data object NavToTestScreen : Event()
         data class ChangeCurrentVideo(val index: Int) : Event()
         data class VideoPlayerControllerCreated(val controller: VideoPlayerController) : Event()
         data object OpenPicker : Event()

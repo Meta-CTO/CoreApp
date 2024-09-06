@@ -1,6 +1,7 @@
 package com.metacto.core.presentation.itemPicker
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import com.metacto.core.presentation.base.BaseSheet
 import com.metacto.core.presentation.base.getViewModel
 import com.metacto.core.presentation.itemPicker.ItemPickerContract.Event
@@ -36,5 +37,12 @@ actual class ItemPickerSheet actual constructor(
             state = viewModel.viewState.value,
             onEvent = viewModel::setEvent
         )
+
+        // Handle lifecycle
+        DisposableEffect(Unit) {
+            onDispose {
+                viewModel.setEvent(Event.Disposed)
+            }
+        }
     }
 }

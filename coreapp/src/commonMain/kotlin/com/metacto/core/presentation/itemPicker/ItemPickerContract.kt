@@ -30,12 +30,12 @@ class ItemPickerContract {
             val platform: PlatformType?
         ) : Event()
 
-        data object CloseClicked : Event()
         data object DoneClicked : Event()
         data class ScrollFinished(val currentItemIndex: Int) : Event()
         data class SearchTermChanged(val value: String) : Event()
         data object ClearSearchClicked : Event()
         data object SearchClicked : Event()
+        data object Disposed : Event()
     }
 
     sealed class Effect : ViewSideEffect
