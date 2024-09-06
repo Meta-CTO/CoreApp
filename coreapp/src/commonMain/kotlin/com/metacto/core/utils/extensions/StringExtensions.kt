@@ -2,6 +2,9 @@ package com.metacto.core.utils.extensions
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.buildAnnotatedString
+import com.metacto.core.domain.models.JwtPayload
+import kotlinx.serialization.json.Json
+import okio.ByteString.Companion.decodeBase64
 
 fun String.format(vararg args: Any): String {
     var formattedString = this
@@ -184,4 +187,16 @@ fun String.isValidCardNumber(): Boolean {
 fun String.isValidUrl(): Boolean {
     val pattern = "^(https?|ftp)://[a-zA-Z0-9\\-._~:/?#\\[\\]@!$&'()*+,;=%]+$"
     return Regex(pattern).matches(this)
+}
+
+fun String.decodeJwt(): JwtPayload? {
+    return try {
+        val parts = this.split(".")
+        val payloadBase64 = parts.getOrNull(1)
+        val decodedPayload = payloadBase64?.decodeBase64()?.utf8() ?: return null
+        val json = Json { ignoreUnknownKeys = true }
+        return json.decodeFromString<JwtPayload>(decodedPayload)
+    } catch (_: Throwable) {
+        null
+    }
 }
