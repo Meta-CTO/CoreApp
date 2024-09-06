@@ -43,7 +43,7 @@ internal fun WheelPicker(
     ),
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onScrollFinished: (snappedIndex: Int) -> Int? = { null },
-    content: @Composable LazyItemScope.(index: Int) -> Unit,
+    content: @Composable LazyItemScope.(index: Int, isClickable: Boolean) -> Unit
 ) {
     val lazyListState = rememberLazyListState(startIndex)
     val flingBehavior = rememberSnapFlingBehavior(lazyListState)
@@ -67,11 +67,11 @@ internal fun WheelPicker(
     ) {
         if (selectorProperties.enabled().value) {
             Surface(
-                modifier = Modifier
-                    .size(size.width, size.height / rowCount),
                 shape = selectorProperties.shape().value,
                 color = selectorProperties.color().value,
-                border = selectorProperties.border().value
+                border = selectorProperties.border().value,
+                modifier = Modifier
+                    .size(size.width, size.height / rowCount)
             ) {}
         }
         LazyColumn(
@@ -104,7 +104,10 @@ internal fun WheelPicker(
                         },
                     contentAlignment = Alignment.Center
                 ) {
-                    content(index)
+                    content(
+                        index = index,
+                        isClickable = index == calculateSnappedItemIndex(lazyListState)
+                    )
                 }
             }
         }

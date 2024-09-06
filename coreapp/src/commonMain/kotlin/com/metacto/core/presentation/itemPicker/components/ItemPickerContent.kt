@@ -115,6 +115,9 @@ fun ItemPickerContent(
                 width = sheetSize.width.toDp(),
                 height = CoreTheme.spacings.itemPicker.wheelHeight
             ),
+            onItemClicked = {
+                onEvent(Event.DoneClicked)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(CoreTheme.spacings.itemPicker.wheelHeight),
