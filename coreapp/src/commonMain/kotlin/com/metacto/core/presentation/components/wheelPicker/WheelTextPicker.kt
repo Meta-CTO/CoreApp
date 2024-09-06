@@ -8,6 +8,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import com.metacto.core.presentation.components.texts.SingleLineText
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.utils.extensions.noRippleClickable
 
 @Composable
 fun WheelTextPicker(
@@ -23,6 +24,7 @@ fun WheelTextPicker(
     color: Color = CoreTheme.colors.wheelTextPicker.textColor,
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onScrollFinished: (snappedIndex: Int) -> Int? = { null },
+    onItemClicked: (() -> Unit)? = null,
 ) {
     WheelPicker(
         modifier = modifier,
@@ -31,13 +33,17 @@ fun WheelTextPicker(
         count = texts.size,
         rowCount = rowCount,
         selectorProperties = selectorProperties,
-        onScrollFinished = onScrollFinished
-    ) { index ->
+        onScrollFinished = onScrollFinished,
+    ) { index, clickable ->
         SingleLineText(
             text = texts[index],
             textAlign = TextAlign.Center,
             style = style,
-            color = color
+            color = color,
+            modifier = Modifier.noRippleClickable(
+                enabled = clickable,
+                onClick = { onItemClicked?.invoke() }
+            )
         )
     }
 }
