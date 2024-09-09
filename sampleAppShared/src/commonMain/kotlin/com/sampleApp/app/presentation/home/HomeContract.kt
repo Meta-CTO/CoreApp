@@ -24,6 +24,13 @@ class HomeContract {
         data class ChangeCurrentVideo(val index: Int) : Event()
         data class VideoPlayerControllerCreated(val controller: VideoPlayerController) : Event()
         data object OpenPicker : Event()
+        data object ShareEmail : Event()
+        data object ShareText : Event()
+        data object OpenStore : Event()
+        data object OpenPhone : Event()
+        data object OpenBrowser : Event()
+        data object ShareImage : Event()
+        data object AddToCalendar : Event()
     }
 
     sealed class Effect : ViewSideEffect

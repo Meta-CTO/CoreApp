@@ -19,22 +19,23 @@ import platform.UIKit.UIApplication
 import platform.UIKit.UIImage
 
 class IntentLauncher : IIntentLauncher {
-    override fun launchEmail(email: String, subject: String?, body: String?) {
+
+    override fun launchEmail(email: String, subject: String?, body: String?) = runOnMainThread {
         // Create the url
         val urlString = "mailto:$email?subject=${subject.orEmpty()}&body=${body.orEmpty()}"
-        val url = NSURL.URLWithString(urlString) ?: return
+        val url = NSURL.URLWithString(urlString) ?: return@runOnMainThread
 
         // Validate can open url
-        if (UIApplication.sharedApplication.canOpenURL(url).not()) return
+        if (UIApplication.sharedApplication.canOpenURL(url).not()) return@runOnMainThread
 
         // Then open it
         UIApplication.sharedApplication.openURL(url)
     }
 
-    override fun launchStore(appId: String) {
+    override fun launchStore(appId: String) = runOnMainThread {
         // Create the url
         val urlString = "itms-apps://itunes.apple.com/app/$appId"
-        val url = NSURL.URLWithString(urlString) ?: return
+        val url = NSURL.URLWithString(urlString) ?: return@runOnMainThread
 
         // Check if can open url
         if (UIApplication.sharedApplication.canOpenURL(url)) {
@@ -45,12 +46,12 @@ class IntentLauncher : IIntentLauncher {
         }
     }
 
-    override fun shareText(text: String) {
+    override fun shareText(text: String) = runOnMainThread {
         // Get and validate the root view controller
         val rootViewController = UIApplication.sharedApplication
             .keyWindow
             ?.rootViewController
-            ?: return
+            ?: return@runOnMainThread
 
         // Create the activity controller
         val activityController = UIActivityViewController(
@@ -66,24 +67,24 @@ class IntentLauncher : IIntentLauncher {
         )
     }
 
-    override fun launchPhone(phone: String) {
+    override fun launchPhone(phone: String) = runOnMainThread {
         // Create the url
         val urlString = "tel://$phone"
-        val url = NSURL.URLWithString(urlString) ?: return
+        val url = NSURL.URLWithString(urlString) ?: return@runOnMainThread
 
         // Validate can open url
-        if (UIApplication.sharedApplication.canOpenURL(url).not()) return
+        if (UIApplication.sharedApplication.canOpenURL(url).not()) return@runOnMainThread
 
         // Then open it
         UIApplication.sharedApplication.openURL(url)
     }
 
-    override fun launchBrowser(url: String) {
+    override fun launchBrowser(url: String) = runOnMainThread {
         // Create the url
-        val nsUrl = NSURL.URLWithString(url) ?: return
+        val nsUrl = NSURL.URLWithString(url) ?: return@runOnMainThread
 
         // Validate can open url
-        if (UIApplication.sharedApplication.canOpenURL(nsUrl).not()) return
+        if (UIApplication.sharedApplication.canOpenURL(nsUrl).not()) return@runOnMainThread
 
         // Then open it
         UIApplication.sharedApplication.openURL(nsUrl)
@@ -126,7 +127,7 @@ class IntentLauncher : IIntentLauncher {
         eventDescription: String,
         eventStartTime: LocalDateTime,
         eventEndTime: LocalDateTime
-    ) = runOnMainThread {
+    ) {
         val eventStore = EKEventStore()
         eventStore.requestAccessToEntityType(EKEntityType.EKEntityTypeEvent) { granted, error ->
             if (granted) {
@@ -138,23 +139,25 @@ class IntentLauncher : IIntentLauncher {
                     this.calendar = eventStore.defaultCalendarForNewEvents
                 }
 
-                // Get and validate the root view controller
-                val rootViewController = UIApplication.sharedApplication
-                    .keyWindow
-                    ?.rootViewController
-                    ?: return@requestAccessToEntityType
+                runOnMainThread {
+                    // Get and validate the root view controller
+                    val rootViewController = UIApplication.sharedApplication
+                        .keyWindow
+                        ?.rootViewController
+                        ?: return@runOnMainThread
 
-                val eventController = EKEventEditViewController().apply {
-                    this.event = event
-                    this.eventStore = eventStore
-                    this.editViewDelegate = EventEditDelegate()
+                    val eventController = EKEventEditViewController().apply {
+                        this.event = event
+                        this.eventStore = eventStore
+                        this.editViewDelegate = EventEditDelegate()
+                    }
+
+                    rootViewController.presentViewController(
+                        eventController,
+                        animated = true,
+                        completion = null
+                    )
                 }
-
-                rootViewController.presentViewController(
-                    eventController,
-                    animated = true,
-                    completion = null
-                )
             } else {
                 // Handle access denial or error
                 println("Access denied or error: ${error?.localizedDescription}")
