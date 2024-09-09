@@ -1,6 +1,7 @@
 package com.metacto.core.utils.launchers
 
 import com.metacto.core.utils.delegates.EventEditDelegate
+import com.metacto.core.utils.extensions.runOnMainThread
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
@@ -16,8 +17,6 @@ import platform.Foundation.dataWithContentsOfURL
 import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
 import platform.UIKit.UIImage
-import platform.darwin.dispatch_async
-import platform.darwin.dispatch_get_main_queue
 
 class IntentLauncher : IIntentLauncher {
     override fun launchEmail(email: String, subject: String?, body: String?) {
@@ -127,7 +126,7 @@ class IntentLauncher : IIntentLauncher {
         eventDescription: String,
         eventStartTime: LocalDateTime,
         eventEndTime: LocalDateTime
-    ) {
+    ) = runOnMainThread {
         val eventStore = EKEventStore()
         eventStore.requestAccessToEntityType(EKEntityType.EKEntityTypeEvent) { granted, error ->
             if (granted) {
@@ -139,25 +138,23 @@ class IntentLauncher : IIntentLauncher {
                     this.calendar = eventStore.defaultCalendarForNewEvents
                 }
 
-                dispatch_async(dispatch_get_main_queue()) {
-                    // Get and validate the root view controller
-                    val rootViewController = UIApplication.sharedApplication
-                        .keyWindow
-                        ?.rootViewController
-                        ?: return@dispatch_async
+                // Get and validate the root view controller
+                val rootViewController = UIApplication.sharedApplication
+                    .keyWindow
+                    ?.rootViewController
+                    ?: return@requestAccessToEntityType
 
-                    val eventController = EKEventEditViewController().apply {
-                        this.event = event
-                        this.eventStore = eventStore
-                        this.editViewDelegate = EventEditDelegate()
-                    }
-
-                    rootViewController.presentViewController(
-                        eventController,
-                        animated = true,
-                        completion = null
-                    )
+                val eventController = EKEventEditViewController().apply {
+                    this.event = event
+                    this.eventStore = eventStore
+                    this.editViewDelegate = EventEditDelegate()
                 }
+
+                rootViewController.presentViewController(
+                    eventController,
+                    animated = true,
+                    completion = null
+                )
             } else {
                 // Handle access denial or error
                 println("Access denied or error: ${error?.localizedDescription}")

@@ -17,6 +17,8 @@ import platform.UIKit.UIApplicationOpenSettingsURLString
 import platform.UIKit.UIKeyboardFrameEndUserInfoKey
 import platform.UIKit.UIKeyboardWillHideNotification
 import platform.UIKit.UIKeyboardWillShowNotification
+import platform.darwin.dispatch_async
+import platform.darwin.dispatch_get_main_queue
 
 actual fun getPlatformType(): PlatformType {
     return PlatformType.IOS
@@ -75,6 +77,12 @@ fun openNSUrl(string: String) {
 
 fun openAppSettingsPage() {
     openNSUrl(UIApplicationOpenSettingsURLString)
+}
+
+fun runOnMainThread(block: () -> Unit) {
+    dispatch_async(dispatch_get_main_queue()) {
+        block()
+    }
 }
 
 actual fun randomUUID(): String = NSUUID().UUIDString()
