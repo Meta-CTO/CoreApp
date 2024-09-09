@@ -78,7 +78,7 @@ fun TabItem(
 
     // Prepare the icon
     val tabIcon = if (tabItemModel.activeIcon != null && tabItemModel.inactiveIcon != null) {
-        if (isSelected) tabItemModel.activeIcon else tabItemModel.activeIcon
+        if (isSelected) tabItemModel.activeIcon else tabItemModel.inactiveIcon
     } else {
         null
     }
