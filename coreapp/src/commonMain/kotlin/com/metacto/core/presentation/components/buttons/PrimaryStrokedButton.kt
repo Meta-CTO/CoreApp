@@ -19,6 +19,7 @@ fun PrimaryStrokedButton(
     textStyle: TextStyle = CoreTheme.typography.primaryStrokedButton.textStyle,
     textColor: Color = CoreTheme.colors.primaryStrokedButton.textColor,
     iconColor: Color? = CoreTheme.colors.primaryStrokedButton.iconColor,
+    disabledBgColor: Color = CoreTheme.colors.primaryStrokedButton.disabledBgColor,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
@@ -28,6 +29,8 @@ fun PrimaryStrokedButton(
     isDimmed: Boolean = false,
     isSmall: Boolean = false,
     isLoading: Boolean = false,
+    elevation: Dp = CoreTheme.spacings.primaryStrokedButton.elevation,
+    contentSpacing: Dp = CoreTheme.spacings.primaryStrokedButton.contentSpacing,
     padding: PaddingValues = PaddingValues(
         vertical = CoreTheme.spacings.primaryStrokedButton.paddingVertical,
         horizontal = CoreTheme.spacings.primaryStrokedButton.paddingHorizontal
@@ -50,6 +53,7 @@ fun PrimaryStrokedButton(
         textColor = textColor,
         iconColor = iconColor,
         iconSize = iconSize,
+        disabledBackgroundColor = disabledBgColor,
         startIconPainter = startIconPainter,
         startIconVector = startIconVector,
         endIconPainter = endIconPainter,
@@ -57,6 +61,8 @@ fun PrimaryStrokedButton(
         isEnabled = isEnabled,
         isDimmed = isDimmed,
         isLoading = isLoading,
+        contentSpacing = contentSpacing,
+        elevation = elevation,
         onClick = onClick,
         backgroundColor = backgroundColor,
         minHeight = if (isSmall) minHeightSmall else minHeightNormal,

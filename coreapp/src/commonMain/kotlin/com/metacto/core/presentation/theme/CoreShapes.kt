@@ -117,6 +117,11 @@ data class CoreShapes(
         small = small
     ),
 
+    // SecondaryTextInputField
+    val secondaryTextInputField: SecondaryTextInputFieldShapes = SecondaryTextInputFieldShapes(
+        small = small
+    ),
+
     // TertiaryTextInputField
     val tertiaryTextInputField: TertiaryTextInputFieldShapes = TertiaryTextInputFieldShapes(
         small = small
@@ -272,6 +277,12 @@ data class PriceTextInputFieldShapes(
 
 // PrimaryTextInputField
 data class PrimaryTextInputFieldShapes(
+    private val small: RoundedCornerShape,
+    val shape: RoundedCornerShape = small
+)
+
+// SecondaryTextInputField
+data class SecondaryTextInputFieldShapes(
     private val small: RoundedCornerShape,
     val shape: RoundedCornerShape = small
 )
