@@ -11,6 +11,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
+import android.content.res.Configuration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import com.metacto.core.utils.extensions.OnLifecycleEvent
@@ -27,8 +29,25 @@ private val logger = Logger("YoutubePlayer")
 @Composable
 actual fun YouTubePlayer(
     modifier: Modifier,
-    videoId: String
+    videoId: String,
+    onOrientationChanged: (isLandscape: Boolean) -> Unit
 ) {
+    val configuration = LocalConfiguration.current
+
+    when (configuration.orientation) {
+        Configuration.ORIENTATION_LANDSCAPE -> {
+            onOrientationChanged.invoke(true)
+        }
+
+        Configuration.ORIENTATION_PORTRAIT -> {
+            onOrientationChanged.invoke(false)
+        }
+
+        else -> {
+            onOrientationChanged.invoke(false)
+        }
+    }
+
     // Init things
     val context = LocalContext.current
     var player: YouTubePlayer? = null

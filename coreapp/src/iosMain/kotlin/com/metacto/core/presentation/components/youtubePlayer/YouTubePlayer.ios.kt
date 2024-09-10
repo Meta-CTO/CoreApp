@@ -9,7 +9,8 @@ import kotlinx.coroutines.launch
 @Composable
 actual fun YouTubePlayer(
     modifier: Modifier,
-    videoId: String
+    videoId: String,
+    onOrientationChanged: (isLandscape: Boolean) -> Unit
 ) {
     val hostState = remember { YouTubePlayerHostState() }
     val coroutineScope = rememberCoroutineScope()
