@@ -5,8 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Circle
@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
@@ -32,7 +33,10 @@ fun SwitchButton(
     thumbNonToggled: Color = CoreTheme.colors.switchThumbNonToggled,
     width: Dp = CoreTheme.spacings.switchBtnWidth,
     height: Dp = CoreTheme.spacings.switchBtnHeight,
-    shape: RoundedCornerShape = CoreTheme.shapes.switchButton.shape
+    shape: RoundedCornerShape = CoreTheme.shapes.switchButton.shape,
+    elevation: Dp = CoreTheme.spacings.switchButton.thumbElevation,
+    shadowColor: Color = CoreTheme.colors.switchButton.shadowColor,
+    thumbPadding: Dp = CoreTheme.spacings.switchButton.thumbPadding
 ) {
     // Prepare states
     val switchColor by animateColorAsState(
@@ -64,8 +68,15 @@ fun SwitchButton(
             tint = thumbColor,
             contentDescription = null,
             modifier = Modifier
+                .padding(thumbPadding)
                 .fillMaxHeight()
                 .align(thumbAlign)
+                .shadow(
+                    elevation = elevation,
+                    spotColor = shadowColor,
+                    ambientColor = shadowColor,
+                    shape = shape
+                )
         )
     }
 }

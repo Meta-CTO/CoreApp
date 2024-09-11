@@ -39,7 +39,7 @@ kotlin {
         version = "1.0.0"
         summary = "MetaCTO core app module"
         homepage = "https://metacto.com/"
-        ios.deploymentTarget = Configs.IOS_DEPLOYEMENT_TARGET
+        ios.deploymentTarget = Configs.IOS_DEPLOYMENT_TARGET
         podfile = project.file("../iosApp/Podfile")
         framework {
             baseName = Configs.CORE_APP_FRAMEWORK_NAME

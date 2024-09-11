@@ -48,16 +48,27 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct iOSApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate: AppDelegate
+    private let deepLinkManager: IDeepLinkManager
     
     init() {
         KoinKt.doInitKoin(
             environment: AppEnvironment().dev()
         )
+        
+        // Then inject deep link manager
+        deepLinkManager = DiProvider().get(clazz: IDeepLinkManagerKt.Class) as IDeepLinkManager
     }
     
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onOpenURL { url in
+                    deepLinkManager.emitDeepLink(link: url.absoluteString)
+                }.onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
+                    if let url = activity.webpageURL?.absoluteString {
+                        deepLinkManager.emitDeepLink(link: url)
+                    }
+                }
         }
     }
 }

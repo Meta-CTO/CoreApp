@@ -35,6 +35,7 @@ fun TransparentStrokedButton(
     iconColor: Color = CoreTheme.colors.transparentStrokedButton.iconColor,
     backgroundColor: Color = CoreTheme.colors.transparentStrokedButton.bgColor,
     elevation: Dp = CoreTheme.spacings.transparentStrokedButton.elevation,
+    contentSpacing: Dp = CoreTheme.spacings.transparentStrokedButton.contentSpacing,
     border: BorderStroke = BorderStroke(
         width = CoreTheme.spacings.transparentStrokedButton.strokeWidth,
         color = CoreTheme.colors.transparentStrokedButton.strokeColor
@@ -61,6 +62,7 @@ fun TransparentStrokedButton(
         isDimmed = isDimmed,
         isLoading = isLoading,
         onClick = onClick,
+        contentSpacing = contentSpacing,
         backgroundColor = backgroundColor,
         contentAlignment = contentAlignment,
         elevation = elevation,

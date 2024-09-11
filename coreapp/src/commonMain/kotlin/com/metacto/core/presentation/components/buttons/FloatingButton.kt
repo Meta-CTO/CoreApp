@@ -22,6 +22,7 @@ fun FloatingButton(
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isLoading: Boolean = false,
+    disabledBgColor: Color = CoreTheme.colors.floatingButton.disabledBgColor,
     textColor: Color = CoreTheme.colors.floatingButton.textColor,
     iconColor: Color = CoreTheme.colors.floatingButton.iconColor,
     iconSize: Dp = CoreTheme.spacings.floatingButton.iconSize,
@@ -29,7 +30,7 @@ fun FloatingButton(
     minHeight: Dp = CoreTheme.spacings.floatingButton.minHeight,
     contentSpacing: Dp = CoreTheme.spacings.floatingButton.contentSpacing,
     shape: RoundedCornerShape = CoreTheme.shapes.floatingButton.shape,
-    elevation: Dp = CoreTheme.spacings.floatingBtnElevation,
+    elevation: Dp = CoreTheme.spacings.floatingButton.elevation,
     onClick: () -> Unit = {}
 ) {
     BaseButton(
@@ -43,6 +44,7 @@ fun FloatingButton(
         startIconPainter = startIconPainter,
         startIconVector = startIconVector,
         endIconPainter = endIconPainter,
+        disabledBackgroundColor = disabledBgColor,
         endIconVector = endIconVector,
         isEnabled = isEnabled,
         isDimmed = isDimmed,

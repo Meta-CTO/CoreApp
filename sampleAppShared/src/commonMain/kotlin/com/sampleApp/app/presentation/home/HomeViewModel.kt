@@ -9,6 +9,11 @@ import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
 import com.sampleApp.app.presentation.test.TestScreen
 import com.metacto.core.presentation.youtube.YoutubeScreen
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimePeriod
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.plus
+import kotlinx.datetime.toLocalDateTime
 
 
 class HomeViewModel : BaseViewModel<State, Event, Effect>() {
@@ -49,7 +54,62 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
                 )
             )
         }
+
+        Event.AddToCalendar -> {
+            val currentInstant = Clock.System.now()
+
+            // Convert the Instant to LocalDateTime using the system's default time zone
+            val currentDateTime = currentInstant.toLocalDateTime(TimeZone.currentSystemDefault())
+
+            // Add 1 day to get tomorrow's Instant
+            val tomorrowInstant = currentInstant.plus(DateTimePeriod(days = 1), TimeZone.currentSystemDefault())
+
+            // Convert tomorrow's Instant back to LocalDateTime
+            val tomorrowDateTime = tomorrowInstant.toLocalDateTime(TimeZone.currentSystemDefault())
+
+            // Add 2 days to get the day after tomorrow's Instant
+            val dayAfterTomorrowInstant = currentInstant.plus(DateTimePeriod(days = 2), TimeZone.currentSystemDefault())
+
+            // Convert the day after tomorrow's Instant back to LocalDateTime
+            val dayAfterTomorrowDateTime = dayAfterTomorrowInstant.toLocalDateTime(TimeZone.currentSystemDefault())
+
+            intentLauncher.addEventToCalendar(
+                "event title", "event description",
+                tomorrowDateTime,dayAfterTomorrowDateTime
+            )
+        }
+
+        Event.OpenBrowser -> {
+            intentLauncher.launchBrowser("https://www.facebook.com/")
+        }
+
+        Event.OpenPhone -> {
+            intentLauncher.launchPhone("+201555056563")
+        }
+
+        Event.OpenStore -> {
+            intentLauncher.launchStore("")
+        }
+
+        Event.ShareEmail -> {
+            intentLauncher.launchEmail("uni.fareed@gmail.com", "Test subject", "test body")
+        }
+
+        Event.ShareImage -> {
+            shareImage()
+        }
+
+        Event.ShareText -> {
+            intentLauncher.shareText("Hello share text")
+        }
     }
+
+    private fun shareImage() = executeCatching(
+        loadingType = super.defaultLoadingType,
+        block = {
+            intentLauncher.shareImage("https://upload.wikimedia.org/wikipedia/commons/4/40/Image_test.png?20141030190340")
+        }
+    )
 
     private fun init() {
         // Validate if already initialized

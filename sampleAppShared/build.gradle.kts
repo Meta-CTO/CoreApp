@@ -32,7 +32,7 @@ kotlin {
         version = "1.0.0"
         summary = "Sample app shared module"
         homepage = "https://www.metacto.com/"
-        ios.deploymentTarget = Configs.IOS_DEPLOYEMENT_TARGET
+        ios.deploymentTarget = Configs.IOS_DEPLOYMENT_TARGET
         podfile = project.file("../iosApp/Podfile")
         framework {
             baseName = Configs.SAMPLE_APP_FRAMEWORK_NAME
@@ -118,7 +118,7 @@ kotlin {
 }
 
 android {
-    namespace = Configs.SAMPLE_APP_ID
+    namespace = Configs.SAMPLE_APP_NAMESPACE
     compileSdk = Configs.COMPILE_SDK_VERSION
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -141,7 +141,7 @@ android {
 }
 
 multiplatformResources {
-    resourcesPackage.set(Configs.SAMPLE_APP_ID)
+    resourcesPackage.set(Configs.SAMPLE_APP_NAMESPACE)
     resourcesVisibility.set(MRVisibility.Internal)
     iosBaseLocalizationRegion.set("en")
     iosMinimalDeploymentTarget.set("14.1")

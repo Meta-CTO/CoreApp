@@ -36,6 +36,7 @@ data class CoreSpacings(
     val btnMinHeightSmall: Dp = 44.dp,
     val btnMinHeightNormal: Dp = 52.dp,
     val btnElevation: Dp = 0.dp,
+    val inputFieldElevation: Dp = 0.dp,
     val btnPaddingVertical: Dp = 4.dp,
     val btnPaddingHorizontal: Dp = 16.dp,
     val btnCheckablePaddingVertical: Dp = 14.dp,
@@ -85,7 +86,9 @@ data class CoreSpacings(
         btnPaddingVertical = btnPaddingVertical,
         btnMinHeightNormal = btnMinHeightNormal,
         btnMinHeightSmall = btnMinHeightSmall,
-        iconLarge = iconLarge
+        iconLarge = iconLarge,
+        paddingXLarge = paddingXLarge,
+        noSpacing = noSpacing
     ),
 
     // DangerFilledButton
@@ -94,14 +97,17 @@ data class CoreSpacings(
         btnPaddingVertical = btnPaddingVertical,
         btnMinHeightNormal = btnMinHeightNormal,
         btnMinHeightSmall = btnMinHeightSmall,
-        iconLarge = iconLarge
+        iconLarge = iconLarge,
+        paddingXLarge = paddingXLarge,
+        noSpacing = noSpacing
     ),
 
     // FloatingButton
     val floatingButton: FloatingButtonSpacings = FloatingButtonSpacings(
         iconSmall = iconSmall,
         btnMinHeightSmall = btnMinHeightSmall,
-        paddingSmall = paddingSmall
+        paddingSmall = paddingSmall,
+        floatingBtnElevation = floatingBtnElevation
     ),
 
     // OnSecondaryTransparentFilledButton
@@ -110,7 +116,8 @@ data class CoreSpacings(
         btnPaddingVertical = btnPaddingVertical,
         btnMinHeightSmall = btnMinHeightSmall,
         noSpacing = noSpacing,
-        iconLarge = iconLarge
+        iconLarge = iconLarge,
+        paddingXLarge = paddingXLarge
     ),
 
     // PrimaryStrokedButton
@@ -120,7 +127,9 @@ data class CoreSpacings(
         btnMinHeightSmall = btnMinHeightSmall,
         btnMinHeightNormal = btnMinHeightNormal,
         stroke = stroke,
-        iconLarge = iconLarge
+        iconLarge = iconLarge,
+        paddingXLarge = paddingXLarge,
+        noSpacing = noSpacing
     ),
 
     // PrimaryTextButton
@@ -136,7 +145,9 @@ data class CoreSpacings(
         btnPaddingHorizontal = btnPaddingHorizontal,
         btnMinHeightSmall = btnMinHeightSmall,
         btnMinHeightNormal = btnMinHeightNormal,
-        iconLarge = iconLarge
+        iconLarge = iconLarge,
+        paddingXLarge = paddingXLarge,
+        noSpacing = noSpacing
     ),
 
     // SecondaryStrokedButton
@@ -146,7 +157,9 @@ data class CoreSpacings(
         btnMinHeightSmall = btnMinHeightSmall,
         btnMinHeightNormal = btnMinHeightNormal,
         stroke = stroke,
-        iconLarge = iconLarge
+        iconLarge = iconLarge,
+        paddingXLarge = paddingXLarge,
+        noSpacing = noSpacing
     ),
 
     // SecondaryTextButton
@@ -161,7 +174,9 @@ data class CoreSpacings(
         btnPaddingVertical = btnPaddingVertical,
         btnPaddingHorizontal = btnPaddingHorizontal,
         stroke = stroke,
-        iconLarge = iconLarge
+        iconLarge = iconLarge,
+        paddingXLarge = paddingXLarge,
+        noSpacing = noSpacing
     ),
 
     // TertiaryFilledButton
@@ -170,7 +185,9 @@ data class CoreSpacings(
         btnPaddingVertical = btnPaddingVertical,
         btnMinHeightNormal = btnMinHeightNormal,
         btnMinHeightSmall = btnMinHeightSmall,
-        iconLarge = iconLarge
+        iconLarge = iconLarge,
+        paddingXLarge = paddingXLarge,
+        noSpacing = noSpacing
     ),
 
     // TertiaryStrokedButton
@@ -180,7 +197,9 @@ data class CoreSpacings(
         btnMinHeightSmall = btnMinHeightSmall,
         btnMinHeightNormal = btnMinHeightNormal,
         stroke = stroke,
-        iconLarge = iconLarge
+        iconLarge = iconLarge,
+        paddingXLarge = paddingXLarge,
+        noSpacing = noSpacing
     ),
 
     // TertiaryTextButton
@@ -198,7 +217,8 @@ data class CoreSpacings(
         stroke = stroke,
         iconLarge = iconLarge,
         btnMinHeightNormal = btnMinHeightNormal,
-        btnMinHeightSmall = btnMinHeightSmall
+        btnMinHeightSmall = btnMinHeightSmall,
+        paddingXLarge = paddingXLarge
     ),
 
     // DatePickerDialog
@@ -262,13 +282,22 @@ data class CoreSpacings(
     // PrimaryTextInputField
     val primaryTextInputField: PrimaryTextInputFieldSpacings = PrimaryTextInputFieldSpacings(
         noSpacing = noSpacing,
-        iconSmall = iconSmall
+        iconSmall = iconSmall,
+        inputFieldElevation = inputFieldElevation
+    ),
+
+    // SecondaryTextInputField
+    val secondaryTextInputField: SecondaryTextInputFieldSpacings = SecondaryTextInputFieldSpacings(
+        noSpacing = noSpacing,
+        iconSmall = iconSmall,
+        inputFieldElevation = inputFieldElevation
     ),
 
     // TertiaryTextInputField
     val tertiaryTextInputField: TertiaryTextInputFieldSpacings = TertiaryTextInputFieldSpacings(
         noSpacing = noSpacing,
-        iconSmall = iconSmall
+        iconSmall = iconSmall,
+        inputFieldElevation = inputFieldElevation
     ),
 
     // OptionItem
@@ -382,7 +411,8 @@ data class CoreSpacings(
     // PriceTextInputField
     val priceTextInputField: PriceTextInputFieldSpacings = PriceTextInputFieldSpacings(
         iconSmall = iconSmall,
-        noSpacing = noSpacing
+        noSpacing = noSpacing,
+        inputFieldElevation = inputFieldElevation
     ),
 
     // Dot
@@ -456,7 +486,10 @@ data class CoreSpacings(
     ),
 
     // TabItem
-    val tabItem: TabItemSpacings = TabItemSpacings()
+    val tabItem: TabItemSpacings = TabItemSpacings(),
+
+    // SwitchButton
+    val switchButton: SwitchButtonSpacings = SwitchButtonSpacings()
 )
 
 // PrimaryFilledButton
@@ -466,11 +499,15 @@ data class PrimaryFilledButtonSpacings(
     private val btnMinHeightNormal: Dp,
     private val btnMinHeightSmall: Dp,
     private val iconLarge: Dp,
+    private val noSpacing: Dp,
+    private val paddingXLarge: Dp,
     val paddingHorizontal: Dp = btnPaddingHorizontal,
     val paddingVertical: Dp = btnPaddingVertical,
     val minHeightNormal: Dp = btnMinHeightNormal,
     val minHeightSmall: Dp = btnMinHeightSmall,
-    val iconSize: Dp = iconLarge
+    val iconSize: Dp = iconLarge,
+    val elevation: Dp = noSpacing,
+    val contentSpacing: Dp = paddingXLarge
 )
 
 // DangerFilledButton
@@ -480,11 +517,15 @@ data class DangerFilledButtonSpacings(
     private val btnMinHeightNormal: Dp,
     private val btnMinHeightSmall: Dp,
     private val iconLarge: Dp,
+    private val noSpacing: Dp,
+    private val paddingXLarge: Dp,
     val paddingHorizontal: Dp = btnPaddingHorizontal,
     val paddingVertical: Dp = btnPaddingVertical,
     val minHeightNormal: Dp = btnMinHeightNormal,
     val minHeightSmall: Dp = btnMinHeightSmall,
-    val iconSize: Dp = iconLarge
+    val iconSize: Dp = iconLarge,
+    val contentSpacing: Dp = paddingXLarge,
+    val elevation: Dp = noSpacing
 )
 
 // FloatingButton
@@ -492,9 +533,11 @@ data class FloatingButtonSpacings(
     private val iconSmall: Dp,
     private val btnMinHeightSmall: Dp,
     private val paddingSmall: Dp,
+    private val floatingBtnElevation: Dp,
     val iconSize: Dp = iconSmall,
     val minHeight: Dp = btnMinHeightSmall,
-    val contentSpacing: Dp = paddingSmall
+    val contentSpacing: Dp = paddingSmall,
+    val elevation: Dp = floatingBtnElevation
 )
 
 // OnSecondaryTransparentFilledButton
@@ -504,11 +547,13 @@ data class OnSecondaryTransparentFilledButtonSpacings(
     private val btnMinHeightSmall: Dp,
     private val noSpacing: Dp,
     private val iconLarge: Dp,
+    private val paddingXLarge: Dp,
     val paddingHorizontal: Dp = btnPaddingHorizontal,
     val paddingVertical: Dp = btnPaddingVertical,
     val minHeight: Dp = btnMinHeightSmall,
     val elevation: Dp = noSpacing,
-    val iconSize: Dp = iconLarge
+    val iconSize: Dp = iconLarge,
+    val contentSpacing: Dp = paddingXLarge
 )
 
 // PrimaryStrokedButton
@@ -519,12 +564,16 @@ data class PrimaryStrokedButtonSpacings(
     private val btnMinHeightNormal: Dp,
     private val stroke: Dp,
     private val iconLarge: Dp,
+    private val noSpacing: Dp,
+    private val paddingXLarge: Dp,
     val paddingHorizontal: Dp = btnPaddingHorizontal,
     val paddingVertical: Dp = btnPaddingVertical,
     val minHeightSmall: Dp = btnMinHeightSmall,
     val minHeightNormal: Dp = btnMinHeightNormal,
     val strokeWidth: Dp = stroke,
-    val iconSize: Dp = iconLarge
+    val iconSize: Dp = iconLarge,
+    val elevation: Dp = noSpacing,
+    val contentSpacing: Dp = paddingXLarge
 )
 
 // PrimaryTextButton
@@ -544,11 +593,15 @@ data class SecondaryFilledButtonSpacings(
     private val btnMinHeightSmall: Dp,
     private val btnMinHeightNormal: Dp,
     private val iconLarge: Dp,
+    private val noSpacing: Dp,
+    private val paddingXLarge: Dp,
     val paddingVertical: Dp = btnPaddingVertical,
     val paddingHorizontal: Dp = btnPaddingHorizontal,
     val minHeightSmall: Dp = btnMinHeightSmall,
     val minHeightNormal: Dp = btnMinHeightNormal,
-    val iconSize: Dp = iconLarge
+    val iconSize: Dp = iconLarge,
+    val elevation: Dp = noSpacing,
+    val contentSpacing: Dp = paddingXLarge
 )
 
 // SecondaryStrokedButton
@@ -559,12 +612,16 @@ data class SecondaryStrokedButtonSpacings(
     private val btnMinHeightNormal: Dp,
     private val stroke: Dp,
     private val iconLarge: Dp,
+    private val noSpacing: Dp,
+    private val paddingXLarge: Dp,
     val paddingVertical: Dp = btnPaddingVertical,
     val paddingHorizontal: Dp = btnPaddingHorizontal,
     val minHeightSmall: Dp = btnMinHeightSmall,
     val minHeightNormal: Dp = btnMinHeightNormal,
     val strokeWidth: Dp = stroke,
-    val iconSize: Dp = iconLarge
+    val iconSize: Dp = iconLarge,
+    val elevation: Dp = noSpacing,
+    val contentSpacing: Dp = paddingXLarge
 )
 
 // SecondaryTextButton
@@ -583,10 +640,14 @@ data class SocialButtonSpacings(
     private val btnPaddingHorizontal: Dp,
     private val stroke: Dp,
     private val iconLarge: Dp,
+    private val noSpacing: Dp,
+    private val paddingXLarge: Dp,
     val paddingVertical: Dp = btnPaddingVertical,
     val paddingHorizontal: Dp = btnPaddingHorizontal,
     val strokeWidth: Dp = stroke,
-    val iconSize: Dp = iconLarge
+    val iconSize: Dp = iconLarge,
+    val elevation: Dp = noSpacing,
+    val contentSpacing: Dp = paddingXLarge
 )
 
 // TertiaryFilledButton
@@ -596,11 +657,15 @@ data class TertiaryFilledButtonSpacings(
     private val btnMinHeightNormal: Dp,
     private val btnMinHeightSmall: Dp,
     private val iconLarge: Dp,
+    private val noSpacing: Dp,
+    private val paddingXLarge: Dp,
     val paddingHorizontal: Dp = btnPaddingHorizontal,
     val paddingVertical: Dp = btnPaddingVertical,
     val minHeightNormal: Dp = btnMinHeightNormal,
     val minHeightSmall: Dp = btnMinHeightSmall,
-    val iconSize: Dp = iconLarge
+    val iconSize: Dp = iconLarge,
+    val elevation: Dp = noSpacing,
+    val contentSpacing: Dp = paddingXLarge
 )
 
 // TertiaryStrokedButton
@@ -611,12 +676,16 @@ data class TertiaryStrokedButtonSpacings(
     private val btnMinHeightNormal: Dp,
     private val stroke: Dp,
     private val iconLarge: Dp,
+    private val noSpacing: Dp,
+    private val paddingXLarge: Dp,
     val paddingVertical: Dp = btnPaddingVertical,
     val paddingHorizontal: Dp = btnPaddingHorizontal,
     val minHeightSmall: Dp = btnMinHeightSmall,
     val minHeightNormal: Dp = btnMinHeightNormal,
     val strokeWidth: Dp = stroke,
-    val iconSize: Dp = iconLarge
+    val iconSize: Dp = iconLarge,
+    val contentSpacing: Dp = paddingXLarge,
+    val elevation: Dp = noSpacing
 )
 
 // TertiaryTextButton
@@ -638,13 +707,15 @@ data class TransparentStrokedButtonSpacings(
     private val iconLarge: Dp,
     private val btnMinHeightNormal: Dp,
     private val btnMinHeightSmall: Dp,
+    private val paddingXLarge: Dp,
     val minHeightSmall: Dp = btnMinHeightSmall,
     val minHeightNormal: Dp = btnMinHeightNormal,
     val paddingVertical: Dp = btnPaddingVertical,
     val paddingHorizontal: Dp = btnPaddingHorizontal,
     val elevation: Dp = noSpacing,
     val strokeWidth: Dp = stroke,
-    val iconSize: Dp = iconLarge
+    val iconSize: Dp = iconLarge,
+    val contentSpacing: Dp = paddingXLarge
 )
 
 // DatePickerDialog
@@ -734,18 +805,33 @@ data class OutlinedOtpInputFieldSpacings(
 data class PrimaryTextInputFieldSpacings(
     private val noSpacing: Dp,
     private val iconSmall: Dp,
+    private val inputFieldElevation: Dp,
     val minHeight: Dp = noSpacing,
     val startIconSize: Dp = iconSmall,
-    val endIconSize: Dp = iconSmall
+    val endIconSize: Dp = iconSmall,
+    val elevation: Dp = inputFieldElevation
+)
+
+// SecondaryTextInputField
+data class SecondaryTextInputFieldSpacings(
+    private val noSpacing: Dp,
+    private val iconSmall: Dp,
+    private val inputFieldElevation: Dp,
+    val minHeight: Dp = noSpacing,
+    val startIconSize: Dp = iconSmall,
+    val endIconSize: Dp = iconSmall,
+    val elevation: Dp = inputFieldElevation
 )
 
 // TertiaryTextInputField
 data class TertiaryTextInputFieldSpacings(
     private val noSpacing: Dp,
     private val iconSmall: Dp,
+    private val inputFieldElevation: Dp,
     val minHeight: Dp = noSpacing,
     val startIconSize: Dp = iconSmall,
-    val endIconSize: Dp = iconSmall
+    val endIconSize: Dp = iconSmall,
+    val elevation: Dp = inputFieldElevation
 )
 
 // OptionItem
@@ -917,9 +1003,11 @@ data class SuccessDialogSpacings(
 data class PriceTextInputFieldSpacings(
     private val iconSmall: Dp,
     private val noSpacing: Dp,
+    private val inputFieldElevation: Dp,
     val startIconSize: Dp = iconSmall,
     val endIconSize: Dp = iconSmall,
-    val minHeight: Dp = noSpacing
+    val minHeight: Dp = noSpacing,
+    val elevation: Dp = inputFieldElevation
 )
 
 // Dot
@@ -1027,6 +1115,12 @@ data class TabItemSpacings(
     val textPadding: Dp = 4.dp,
     val iconSize: Dp = 24.dp,
     val itemMinWidth: Dp = 120.dp
+)
+
+// SwitchButton
+data class SwitchButtonSpacings(
+    val thumbElevation: Dp = 0.dp,
+    val thumbPadding: Dp = 0.dp
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }

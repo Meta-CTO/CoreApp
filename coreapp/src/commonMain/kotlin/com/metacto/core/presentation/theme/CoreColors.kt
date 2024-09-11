@@ -219,7 +219,17 @@ data class CoreColors(
         primaryDark = primaryDark,
         primary = primary,
         placeholder = placeholder,
-        danger = danger
+        danger = danger,
+        black = black
+    ),
+
+    // SecondaryTextInputField
+    val secondaryTextInputField: SecondaryTextInputFieldColors = SecondaryTextInputFieldColors(
+        secondary = secondary,
+        background = background,
+        placeholder = placeholder,
+        danger = danger,
+        black = black
     ),
 
     // TertiaryTextInputField
@@ -403,6 +413,11 @@ data class CoreColors(
     // AppImagesColors
     val appImagesColors: AppImagesColors = AppImagesColors(
         gray = gray
+    ),
+
+    // SwitchButton
+    val switchButton: SwitchButtonColors = SwitchButtonColors(
+        black = black
     )
 )
 
@@ -413,6 +428,7 @@ data class PrimaryFilledButtonColors(
     val bgColor: Color = primary,
     val textColor: Color = onPrimary,
     val iconColor: Color = onPrimary,
+    val disabledBgColor: Color = primary.copy(0.5f)
 )
 
 // DangerFilledButton
@@ -422,6 +438,7 @@ data class DangerFilledButtonColors(
     val bgColor: Color = danger,
     val textColor: Color = onPrimary,
     val iconColor: Color = onPrimary,
+    val disabledBgColor: Color = danger.copy(0.5f)
 )
 
 // FloatingButton
@@ -431,6 +448,7 @@ data class FloatingButtonColors(
     val bgColor: Color = onSecondary,
     val textColor: Color = secondary,
     val iconColor: Color = secondary,
+    val disabledBgColor: Color = onSecondary.copy(0.5f)
 )
 
 // OnSecondaryTransparentFilledButton
@@ -461,6 +479,7 @@ data class PrimaryStrokedButtonColors(
     val strokeColor: Color = primary,
     val textColor: Color = primary,
     val iconColor: Color = primary,
+    val disabledBgColor: Color = background.copy(0.5f)
 )
 
 // PrimaryTextButton
@@ -476,7 +495,8 @@ data class SecondaryFilledButtonColors(
     private val onSecondary: Color,
     val bgColor: Color = secondary,
     val textColor: Color = onSecondary,
-    val iconColor: Color = onSecondary
+    val iconColor: Color = onSecondary,
+    val disabledBgColor: Color = secondary.copy(0.5f)
 )
 
 // SecondaryStrokedButton
@@ -487,6 +507,7 @@ data class SecondaryStrokedButtonColors(
     val strokeColor: Color = secondary,
     val textColor: Color = secondary,
     val iconColor: Color = secondary,
+    val disabledBgColor: Color = background.copy(0.5f)
 )
 
 // SecondaryTextButton
@@ -503,6 +524,7 @@ data class SocialButtonColors(
     val bgColor: Color = black,
     val textColor: Color = onPrimary,
     val strokeColor: Color = onPrimary,
+    val disabledBgColor: Color = black.copy(0.5f)
 )
 
 // TertiaryFilledButton
@@ -512,6 +534,7 @@ data class TertiaryFilledButtonColors(
     val bgColor: Color = tertiary,
     val textColor: Color = onTertiary,
     val iconColor: Color = onTertiary,
+    val disabledBgColor: Color = tertiary.copy(0.5f)
 )
 
 // TertiaryStrokedButton
@@ -521,7 +544,8 @@ data class TertiaryStrokedButtonColors(
     val bgColor: Color = background,
     val strokeColor: Color = tertiary,
     val textColor: Color = tertiary,
-    val iconColor: Color = tertiary
+    val iconColor: Color = tertiary,
+    val disabledBgColor: Color = background.copy(0.5f)
 )
 
 // TertiaryTextButton
@@ -608,6 +632,7 @@ data class PriceTextInputFieldColors(
     val iconColor: Color = tertiary,
     val focusedBorderColor: Color = primaryDark,
     val unFocusedBorderColor: Color = primary,
+    val shadowColor: Color = black
 )
 
 // PrimaryTextInputField
@@ -618,6 +643,7 @@ data class PrimaryTextInputFieldColors(
     private val primary: Color,
     private val placeholder: Color,
     private val danger: Color,
+    private val black: Color,
     val iconColor: Color = secondary,
     val bgColor: Color = background,
     val focusedBorderColor: Color = primaryDark,
@@ -626,6 +652,25 @@ data class PrimaryTextInputFieldColors(
     val placeholderColor: Color = placeholder,
     val labelColor: Color = secondary,
     val errorColor: Color = danger,
+    val shadowColor: Color = black
+)
+
+// SecondaryTextInputField
+data class SecondaryTextInputFieldColors(
+    private val secondary: Color,
+    private val background: Color,
+    private val placeholder: Color,
+    private val danger: Color,
+    private val black: Color,
+    val iconColor: Color = secondary,
+    val bgColor: Color = background,
+    val focusedBorderColor: Color = secondary,
+    val unFocusedBorderColor: Color = secondary.copy(alpha = 0.5f),
+    val textColor: Color = secondary,
+    val placeholderColor: Color = placeholder,
+    val labelColor: Color = secondary,
+    val errorColor: Color = danger,
+    val shadowColor: Color = black
 )
 
 // TertiaryTextInputField
@@ -644,6 +689,7 @@ data class TertiaryTextInputFieldColors(
     val placeholderColor: Color = secondaryContainer,
     val labelColor: Color = black,
     val errorColor: Color = danger,
+    val shadowColor: Color = black
 )
 
 // PrimaryProgressIndicator
@@ -873,6 +919,12 @@ data class DatePickerDialogColors(
 data class AppImagesColors(
     private val gray: Color,
     val shimmerLoading: Color = gray
+)
+
+// SwitchButton
+data class SwitchButtonColors(
+    private val black: Color,
+    val shadowColor: Color = black
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

@@ -9,7 +9,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
+import com.metacto.core.presentation.components.buttons.SwitchButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
+import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
@@ -91,6 +93,78 @@ internal fun HomeContent(
             text = "Open Picker",
             onClick = {
                 onEvent(Event.OpenPicker)
+            }
+        )
+
+        SwitchButton(
+            modifier = Modifier,
+            isChecked = false,
+            onCheckChanged = {
+
+            }
+        )
+
+        SwitchButton(
+            modifier = Modifier,
+            isChecked = true,
+            onCheckChanged = {
+
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Share email",
+            onClick = {
+                onEvent(Event.ShareEmail)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Share text",
+            onClick = {
+                onEvent(Event.ShareText)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Open store",
+            onClick = {
+                onEvent(Event.OpenStore)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Open Phone",
+            onClick = {
+                onEvent(Event.OpenPhone)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Open Browser",
+            onClick = {
+                onEvent(Event.OpenBrowser)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Share image",
+            onClick = {
+                onEvent(Event.ShareImage)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Add to calendar",
+            onClick = {
+                onEvent(Event.AddToCalendar)
             }
         )
 
