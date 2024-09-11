@@ -5,10 +5,12 @@ object Configs {
     const val CORE_APP_ID = "com.metacto.coreApp"
     const val CORE_APP_FRAMEWORK_NAME = "CoreApp"
     const val SAMPLE_APP_FRAMEWORK_NAME = "sampleAppShared"
-    const val SAMPLE_APP_ID = "com.sampleApp.app"
+    const val SAMPLE_APP_NAMESPACE = "com.sampleApp.app"
+    const val DEV_APP_ID = "com.sampleApp.app.dev"
+    const val PROD_APP_ID = "com.sampleApp.app.prod"
     val MY_ATLAS_VERSION_CODE by lazy { getGitCommitCount() }
     val MY_ATLAS_VERSION_NAME by lazy { getVersionName() }
-    const val IOS_DEPLOYEMENT_TARGET = "14.1"
+    const val IOS_DEPLOYMENT_TARGET = "14.1"
 
     // TODO: move these values to gradle.properties
     const val SH_USERNAME = "developer-swensonhe"

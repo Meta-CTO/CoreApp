@@ -26,6 +26,9 @@ fun TertiaryFilledButton(
     isDimmed: Boolean = false,
     isSmall: Boolean = false,
     isLoading: Boolean = false,
+    disabledBgColor: Color = CoreTheme.colors.tertiaryFilledButton.disabledBgColor,
+    elevation: Dp = CoreTheme.spacings.tertiaryFilledButton.elevation,
+    contentSpacing: Dp = CoreTheme.spacings.tertiaryFilledButton.contentSpacing,
     padding: PaddingValues = PaddingValues(
         vertical = CoreTheme.spacings.tertiaryFilledButton.paddingVertical,
         horizontal = CoreTheme.spacings.tertiaryFilledButton.paddingHorizontal
@@ -48,6 +51,9 @@ fun TertiaryFilledButton(
         backgroundColor = backgroundColor,
         startIconPainter = startIconPainter,
         startIconVector = startIconVector,
+        disabledBackgroundColor = disabledBgColor,
+        elevation = elevation,
+        contentSpacing = contentSpacing,
         endIconPainter = endIconPainter,
         endIconVector = endIconVector,
         isEnabled = isEnabled,

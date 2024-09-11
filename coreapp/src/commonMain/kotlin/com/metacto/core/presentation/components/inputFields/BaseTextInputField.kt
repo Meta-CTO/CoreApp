@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
@@ -95,6 +96,8 @@ fun BaseTextInputField(
     labelTextStyle: TextStyle,
     errorTextStyle: TextStyle,
     allowDigitsOnly: Boolean,
+    shadowColor: Color = CoreTheme.colors.black,
+    elevation: Dp = CoreTheme.spacings.inputFieldElevation,
     requestFocus: Boolean
 ) {
     // Prepare field box size state
@@ -252,6 +255,12 @@ fun BaseTextInputField(
             modifier = Modifier
                 .fillMaxWidth()
                 .onSizeChanged { fieldBoxSize = it }
+                .shadow(
+                    elevation = elevation,
+                    spotColor = shadowColor,
+                    ambientColor = shadowColor,
+                    shape = shape
+                )
         ) {
             // Render text field
             OutlinedTextField(

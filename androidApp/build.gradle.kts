@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = Configs.SAMPLE_APP_ID
+    namespace = Configs.SAMPLE_APP_NAMESPACE
     compileSdk = Configs.COMPILE_SDK_VERSION
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -23,7 +23,6 @@ android {
     }
 
     defaultConfig {
-        applicationId = Configs.SAMPLE_APP_ID
         minSdk = Configs.MIN_SDK_VERSION
         targetSdk = Configs.TARGET_SDK_VERSION
         versionCode = Configs.MY_ATLAS_VERSION_CODE
@@ -60,7 +59,7 @@ android {
     productFlavors {
         ProductFlavor.all().forEach { flavor ->
             maybeCreate(flavor.toString()).apply {
-                applicationIdSuffix = flavor.applicationIdSuffix
+                applicationId = flavor.applicationId
                 versionNameSuffix = flavor.versionNameSuffix
                 resValue(
                     type = "string",
