@@ -112,6 +112,62 @@ internal fun HomeContent(
             }
         )
 
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Share email",
+            onClick = {
+                onEvent(Event.ShareEmail)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Share text",
+            onClick = {
+                onEvent(Event.ShareText)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Open store",
+            onClick = {
+                onEvent(Event.OpenStore)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Open Phone",
+            onClick = {
+                onEvent(Event.OpenPhone)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Open Browser",
+            onClick = {
+                onEvent(Event.OpenBrowser)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Share image",
+            onClick = {
+                onEvent(Event.ShareImage)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Add to calendar",
+            onClick = {
+                onEvent(Event.AddToCalendar)
+            }
+        )
+
         Text(
             "Picked Item: ${state.pickedItem?.title ?: "None"}"
         )
