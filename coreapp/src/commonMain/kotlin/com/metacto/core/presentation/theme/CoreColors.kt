@@ -361,6 +361,12 @@ data class CoreColors(
         wheelPickerItemStroke = wheelPickerItemStroke
     ),
 
+    // WheelDatePicker
+    val wheelDatePicker: WheelDatePickerColors = WheelDatePickerColors(
+        black = black,
+        transparent = transparent
+    ),
+
     // TabItem
     val tapItem: TapItemColors = TapItemColors(
         primaryContainer = primaryContainer,
@@ -838,6 +844,17 @@ data class SecondaryNumberItemColors(
 data class WheelTextPickerColors(
     private val pickerItem: Color,
     val textColor: Color = pickerItem
+)
+
+// WheelDatePicker
+data class WheelDatePickerColors(
+    private val black: Color,
+    private val transparent: Color,
+    val textColor: Color = black,
+    val selectorStrokeColor: Color = transparent,
+    val selectorColor: Color = Color(0xFF747480).copy(
+        alpha = 0.08f
+    )
 )
 
 // SelectorProperties
