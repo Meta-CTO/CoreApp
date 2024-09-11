@@ -8,7 +8,7 @@ import com.sampleApp.app.presentation.home.HomeContract.Effect
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
 import com.sampleApp.app.presentation.test.TestScreen
-import com.sampleApp.app.presentation.youtube.YoutubeScreen
+import com.metacto.core.presentation.youtube.YoutubeScreen
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimePeriod
 import kotlinx.datetime.TimeZone
@@ -24,7 +24,7 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
         Event.Init -> init()
 
         Event.NavToYoutubeScreen -> {
-            navManager.navigate(YoutubeScreen())
+            navManager.navigate(YoutubeScreen("Gmhk7mWG050"))
         }
 
         Event.NavToTestScreen -> {
