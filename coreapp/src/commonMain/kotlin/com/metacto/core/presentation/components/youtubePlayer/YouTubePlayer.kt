@@ -7,5 +7,5 @@ import androidx.compose.ui.Modifier
 expect fun YouTubePlayer(
     modifier: Modifier = Modifier,
     videoId: String,
-    onOrientationChanged: (isLandscape: Boolean) -> Unit
+    onLandscapeMode: (Boolean) -> Unit
 )

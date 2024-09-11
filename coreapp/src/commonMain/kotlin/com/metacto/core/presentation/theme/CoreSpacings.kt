@@ -14,6 +14,8 @@ data class CoreSpacings(
     val dotIndicatorActiveSize: Dp = 10.dp,
     val dotIndicatorInActiveSize: Dp = 8.dp,
 
+    val backBtnPadding: Dp = 8.dp,
+
     val paddingXXSmall: Dp = 2.dp,
     val paddingXSmall: Dp = 4.dp,
     val paddingSmall: Dp = 6.dp,

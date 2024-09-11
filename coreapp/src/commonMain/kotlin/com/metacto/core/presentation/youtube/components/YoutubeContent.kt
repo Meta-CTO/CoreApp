@@ -15,9 +15,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.youtubePlayer.YouTubePlayer
 import com.metacto.core.presentation.theme.CoreTheme.colors
+import com.metacto.core.presentation.theme.CoreTheme.spacings
 import com.metacto.core.presentation.youtube.YoutubeContract.Event
 import com.metacto.core.presentation.youtube.YoutubeContract.State
 
@@ -38,7 +38,7 @@ internal fun YoutubeContent(
             // Back button
             IconButton(
                 onClick = { onEvent(Event.BackClicked) },
-                modifier = Modifier.padding(8.dp)
+                modifier = Modifier.padding(spacings.backBtnPadding)
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -51,7 +51,7 @@ internal fun YoutubeContent(
         if (state.videoId != null) {
             YouTubePlayer(
                 videoId = state.videoId,
-                onOrientationChanged = { isLandscape ->
+                onLandscapeMode = { isLandscape ->
                     onEvent(Event.OrientationChanged(isLandscape = isLandscape))
                 },
                 modifier = Modifier

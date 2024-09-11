@@ -30,21 +30,19 @@ private val logger = Logger("YoutubePlayer")
 actual fun YouTubePlayer(
     modifier: Modifier,
     videoId: String,
-    onOrientationChanged: (isLandscape: Boolean) -> Unit
+    onLandscapeMode: (Boolean) -> Unit
 ) {
     val configuration = LocalConfiguration.current
 
-    when (configuration.orientation) {
-        Configuration.ORIENTATION_LANDSCAPE -> {
-            onOrientationChanged.invoke(true)
-        }
+    LaunchedEffect(configuration.orientation) {
+        when (configuration.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                onLandscapeMode.invoke(true)
+            }
 
-        Configuration.ORIENTATION_PORTRAIT -> {
-            onOrientationChanged.invoke(false)
-        }
-
-        else -> {
-            onOrientationChanged.invoke(false)
+            else -> {
+                onLandscapeMode.invoke(false)
+            }
         }
     }
 
