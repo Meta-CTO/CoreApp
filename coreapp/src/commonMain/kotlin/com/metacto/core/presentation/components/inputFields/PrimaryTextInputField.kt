@@ -62,6 +62,8 @@ fun PrimaryTextInputField(
     labelTextColor: Color = CoreTheme.colors.primaryTextInputField.labelColor,
     errorTextStyle: TextStyle = CoreTheme.typography.primaryTextInputField.errorTextStyle,
     errorTextColor: Color = CoreTheme.colors.primaryTextInputField.errorColor,
+    elevation: Dp = CoreTheme.spacings.primaryTextInputField.elevation,
+    shadowColor: Color = CoreTheme.colors.primaryTextInputField.shadowColor
 ) {
     BaseTextInputField(
         requestFocus = requestFocus,
@@ -71,6 +73,7 @@ fun PrimaryTextInputField(
         onClick = onClick,
         modifier = modifier,
         keyboardType = keyboardType,
+        shadowColor = shadowColor,
         imeAction = imeAction,
         keyboardActions = keyboardActions,
         capitalization = capitalization,
@@ -88,6 +91,7 @@ fun PrimaryTextInputField(
         onEndIconClick = onEndIconClick,
         startIconVector = startIconVector,
         startIconPainter = startIconPainter,
+        elevation = elevation,
         startIconSize = startIconSize,
         onStartIconClick = onStartIconClick,
         iconTintColor = iconTintColor,

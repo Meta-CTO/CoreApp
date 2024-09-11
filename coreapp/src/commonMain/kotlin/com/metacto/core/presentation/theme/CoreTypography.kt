@@ -227,6 +227,12 @@ data class CoreTypography(
         labelMedium = labelMedium
     ),
 
+    // SecondaryTextInputField
+    val secondaryTextInputField: SecondaryTextInputFieldTypography = SecondaryTextInputFieldTypography(
+        inputFieldText = inputFieldText,
+        labelMedium = labelMedium
+    ),
+
     // TertiaryTextInputField
     val tertiaryTextInputField: TertiaryTextInputFieldTypography = TertiaryTextInputFieldTypography(
         bodyMedium = bodyMedium,
@@ -485,6 +491,16 @@ data class PriceTextInputFieldTypography(
 
 // PrimaryTextInputField
 data class PrimaryTextInputFieldTypography(
+    private val inputFieldText: TextStyle,
+    private val labelMedium: TextStyle,
+    val textStyle: TextStyle = inputFieldText,
+    val labelTextStyle: TextStyle = labelMedium,
+    val errorTextStyle: TextStyle = labelMedium,
+    val placeholderTextStyle: TextStyle = labelMedium
+)
+
+// SecondaryTextInputField
+data class SecondaryTextInputFieldTypography(
     private val inputFieldText: TextStyle,
     private val labelMedium: TextStyle,
     val textStyle: TextStyle = inputFieldText,
