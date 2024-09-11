@@ -38,7 +38,7 @@ internal fun YoutubeContent(
             // Back button
             IconButton(
                 onClick = { onEvent(Event.BackClicked) },
-                modifier = Modifier.padding(spacings.backBtnPadding)
+                modifier = Modifier.padding(spacings.youtubeBackBtnPadding)
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
