@@ -11,8 +11,10 @@ import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.SwitchButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
+import com.metacto.core.presentation.components.inputFields.OutlinedOtpInputField
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
+import com.metacto.core.presentation.theme.CoreTheme.colors
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
 
@@ -166,6 +168,13 @@ internal fun HomeContent(
             onClick = {
                 onEvent(Event.AddToCalendar)
             }
+        )
+
+        OutlinedOtpInputField(
+            backgroundColor = colors.white,
+            modifier = Modifier.fillMaxWidth().height(52.dp),
+            pinCount = 6,
+            digitItemElevation = 0.dp
         )
 
         Text(
