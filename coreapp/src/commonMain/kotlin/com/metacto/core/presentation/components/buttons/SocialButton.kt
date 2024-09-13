@@ -2,6 +2,7 @@ package com.metacto.core.presentation.components.buttons
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +22,7 @@ fun SocialButton(
     iconVector: ImageVector? = null,
     isEnabled: Boolean = true,
     isLoading: Boolean = false,
+    isSmall: Boolean = false,
     disabledBgColor: Color = CoreTheme.colors.socialButton.disabledBgColor,
     elevation: Dp = CoreTheme.spacings.socialButton.elevation,
     contentSpacing: Dp = CoreTheme.spacings.socialButton.contentSpacing,
@@ -32,6 +34,8 @@ fun SocialButton(
     textColor: Color = CoreTheme.colors.socialButton.textColor,
     backgroundColor: Color = CoreTheme.colors.socialButton.bgColor,
     contentAlignment: Alignment.Horizontal = Alignment.Start,
+    shapeSmall: RoundedCornerShape = CoreTheme.shapes.socialButton.shapeSmall,
+    shapeNormal: RoundedCornerShape = CoreTheme.shapes.socialButton.shapeNormal,
     border: BorderStroke = BorderStroke(
         width = CoreTheme.spacings.socialButton.strokeWidth,
         color = CoreTheme.colors.socialButton.strokeColor
@@ -56,6 +60,7 @@ fun SocialButton(
         iconColor = null,
         contentAlignment = contentAlignment,
         border = border,
+        shape = if (isSmall) shapeSmall else shapeNormal,
         padding = padding
     )
 }
