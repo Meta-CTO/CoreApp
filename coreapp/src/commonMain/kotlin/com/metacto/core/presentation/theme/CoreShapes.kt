@@ -30,7 +30,7 @@ data class CoreShapes(
         small = small
     ),
 
-    // SocialButton
+    // Social Button
     val socialButton: SocialButtonShapes = SocialButtonShapes(
         xSmall = xSmall,
         small = small
@@ -177,7 +177,7 @@ data class PrimaryFilledButtonShapes(
     val shapeNormal: RoundedCornerShape = small
 )
 
-// SocialButton
+// Social Button
 data class SocialButtonShapes(
     private val xSmall: RoundedCornerShape,
     private val small: RoundedCornerShape,
