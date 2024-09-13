@@ -171,7 +171,7 @@ internal fun HomeContent(
 
         OutlinedOtpInputField(
             backgroundColor = colors.white,
-            modifier = Modifier.fillMaxWidth().height(52.dp),
+            modifier = Modifier.fillMaxWidth(),
             pinCount = 6,
             digitItemElevation = 0.dp
         )
