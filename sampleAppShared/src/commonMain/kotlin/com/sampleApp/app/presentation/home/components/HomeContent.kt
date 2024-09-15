@@ -173,7 +173,7 @@ internal fun HomeContent(
             backgroundColor = colors.white,
             modifier = Modifier.fillMaxWidth(),
             pinCount = 6,
-            digitItemElevation = 0.dp
+            digitItemElevation = 6.dp
         )
 
         Text(
