@@ -464,7 +464,8 @@ data class CoreSpacings(
     // WheelDatePicker
     val wheelDatePicker: WheelDatePickerSpacings = WheelDatePickerSpacings(
         defaultWheelPickerHeight = defaultWheelPickerHeight,
-        defaultWheelPickerWidth = defaultWheelPickerWidth
+        defaultWheelPickerWidth = defaultWheelPickerWidth,
+        wheelPickerItemStroke = wheelPickerItemStroke
     ),
 
     // DefaultWheelTimePicker
@@ -1080,8 +1081,11 @@ data class WheelDateTimePickerSpacings(
 data class WheelDatePickerSpacings(
     private val defaultWheelPickerHeight: Dp,
     private val defaultWheelPickerWidth: Dp,
-    val pickerHeight: Dp = defaultWheelPickerHeight,
-    val pickerWidth: Dp = defaultWheelPickerWidth
+    private val wheelPickerItemStroke: Dp,
+    val borderWidth: Dp = wheelPickerItemStroke,
+    val pickerHeight: Dp = 216.dp,
+    val pickerWidth: Dp = 300.dp,
+    val rowCount: Int = 5
 )
 
 // DefaultWheelTimePicker
