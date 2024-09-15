@@ -279,6 +279,11 @@ data class CoreTypography(
         pickerItem = pickerItem
     ),
 
+    // WheelDatePicker
+    val wheelDatePicker: WheelDatePickerTypography = WheelDatePickerTypography(
+        primaryRegular = primaryRegular
+    ),
+
     // ItemPicker
     val itemPicker: ItemPickerTypography = ItemPickerTypography(
         pickerItem = pickerItem
@@ -565,6 +570,14 @@ data class TextDividerTypography(
 data class WheelTextPickerTypography(
     private val pickerItem: TextStyle,
     val textStyle: TextStyle = pickerItem
+)
+
+// WheelDatePicker
+data class WheelDatePickerTypography(
+    private val primaryRegular: TextStyle,
+    val textStyle: TextStyle = primaryRegular.copy(
+        fontSize = 16.sp
+    )
 )
 
 // ItemPicker

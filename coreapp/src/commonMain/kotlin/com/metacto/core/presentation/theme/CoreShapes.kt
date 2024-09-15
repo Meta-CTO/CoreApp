@@ -166,6 +166,11 @@ data class CoreShapes(
     // SelectorProperties
     val selectorProperties: SelectorPropertiesShapes = SelectorPropertiesShapes(
         wheelPickerItem = wheelPickerItem
+    ),
+
+    // WheelDatePicker
+    val wheelDatePicker: WheelDatePickerShapes = WheelDatePickerShapes(
+        xSmall = xSmall
     )
 )
 
@@ -347,6 +352,12 @@ data class ItemPickerShapes(
 data class SelectorPropertiesShapes(
     private val wheelPickerItem: RoundedCornerShape,
     val shape: RoundedCornerShape = wheelPickerItem
+)
+
+// WheelDatePicker
+data class WheelDatePickerShapes(
+    private val xSmall: RoundedCornerShape,
+    val selectorShape: RoundedCornerShape = xSmall
 )
 
 val LocalCoreShapes = staticCompositionLocalOf { CoreShapes() }

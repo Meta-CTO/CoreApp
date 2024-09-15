@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -11,9 +12,8 @@ import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.SwitchButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
-import com.metacto.core.presentation.components.inputFields.OutlinedOtpInputField
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
-import com.metacto.core.presentation.theme.CoreTheme.colors
+import com.metacto.core.presentation.components.wheelPicker.datetime.WheelDatePicker
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
 
@@ -169,11 +169,14 @@ internal fun HomeContent(
             }
         )
 
-        OutlinedOtpInputField(
-            backgroundColor = colors.white,
-            modifier = Modifier.fillMaxWidth(),
-            pinCount = 6,
-            digitItemElevation = 6.dp
+        // Render date picker
+        WheelDatePicker(
+            onSnappedDate = {
+
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 30.dp)
         )
 
         Text(
