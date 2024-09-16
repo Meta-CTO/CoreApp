@@ -10,6 +10,6 @@ data class OptionUIModel(
     val id: Int = 0,
     val title: String,
     val icon: CommonImageResource? = null,
-    val color: ULong? = null,
+    val color: String? = null,
     val hasArrow: Boolean = false
 ) : CommonParcelable, CommonSerializable

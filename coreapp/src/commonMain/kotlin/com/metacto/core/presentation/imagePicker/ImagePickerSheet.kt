@@ -2,7 +2,7 @@ package com.metacto.core.presentation.imagePicker
 
 import com.metacto.core.presentation.base.BaseSheet
 
-expect class ImagePickerSheet constructor(
+expect class ImagePickerSheet(
     allowGallery: Boolean = true,
     allowCamera: Boolean = true,
     showDeleteAction: Boolean = false,

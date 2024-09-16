@@ -1,6 +1,7 @@
 package com.sampleApp.app.presentation.home
 
 import com.metacto.core.presentation.globalState.models.DatePickerParams
+import com.metacto.core.presentation.imagePicker.ImagePickerSheet
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.presentation.youtube.YoutubeScreen
@@ -19,7 +20,8 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
         Event.Init -> init()
 
         Event.NavToYoutubeScreen -> {
-            navManager.navigate(YoutubeScreen("Gmhk7mWG050"))
+            navManager.navigateToBottomSheet(ImagePickerSheet(showDeleteAction = true))
+            //navManager.navigate(YoutubeScreen("Gmhk7mWG050"))
         }
 
         Event.NavToTestScreen -> {

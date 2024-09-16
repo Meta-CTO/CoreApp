@@ -6,6 +6,8 @@ import com.metacto.core.domain.models.JwtPayload
 import kotlinx.serialization.json.Json
 import okio.ByteString.Companion.decodeBase64
 
+expect fun String.formatNatively(vararg args: Any): String
+
 fun String.format(vararg args: Any): String {
     var formattedString = this
     args.forEach { arg ->

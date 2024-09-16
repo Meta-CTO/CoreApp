@@ -337,10 +337,6 @@ fun <T : ViewSideEffect> Flow<T>.consume(
     LaunchedEffect(key) { onEach(action).collect() }
 }
 
-fun ULong?.toColor(): Color? {
-    return if (this != null) Color(this) else null
-}
-
 fun Modifier.focusRequesterIfNotNull(focusRequester: FocusRequester?): Modifier {
     return if (focusRequester != null) this.focusRequester(focusRequester) else this
 }

@@ -40,7 +40,7 @@ fun OptionItem(
     textStyle: TextStyle = CoreTheme.typography.optionItem.textStyle
 ) {
     // Prepare the color
-    val color = option.color.toColor() ?: defaultColor
+    val color = option.color?.toColor() ?: defaultColor
 
     // Container row
     Row(
