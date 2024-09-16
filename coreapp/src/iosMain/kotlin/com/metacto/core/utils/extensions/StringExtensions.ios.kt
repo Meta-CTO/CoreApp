@@ -4,5 +4,5 @@ import platform.Foundation.NSString
 import platform.Foundation.stringWithFormat
 
 actual fun String.formatNatively(vararg args: Any): String {
-    return NSString.stringWithFormat(this, *arrayOf(args))
+    return NSString.stringWithFormat(this, args.map { it })
 }
