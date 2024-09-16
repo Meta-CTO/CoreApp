@@ -3,6 +3,7 @@ package com.metacto.core.presentation.options.models
 import com.metacto.core.utils.CommonImageResource
 import com.metacto.core.utils.CommonParcelable
 import com.metacto.core.utils.CommonParcelize
+import com.metacto.core.utils.CommonSerializable
 
 @CommonParcelize
 data class OptionUIModel(
@@ -11,4 +12,4 @@ data class OptionUIModel(
     val icon: CommonImageResource? = null,
     val color: ULong? = null,
     val hasArrow: Boolean = false
-) : CommonParcelable
+) : CommonParcelable, CommonSerializable
