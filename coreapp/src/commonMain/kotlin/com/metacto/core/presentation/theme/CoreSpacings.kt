@@ -318,6 +318,9 @@ data class CoreSpacings(
         paddingMedium = paddingMedium
     ),
 
+    // HorizontalCapsulesIndicator
+    val horizontalCapsulesIndicator: HorizontalCapsulesIndicatorSpacings = HorizontalCapsulesIndicatorSpacings(),
+
     // HorizontalPagerTabItem
     val horizontalPagerTabItem: HorizontalPagerTabItemSpacings = HorizontalPagerTabItemSpacings(
         paddingMedium = paddingMedium,
@@ -858,6 +861,12 @@ data class HorizontalDotsIndicatorSpacings(
 data class HorizontalPagerIndicatorSpacings(
     private val paddingMedium: Dp,
     val spacing: Dp = paddingMedium
+)
+
+// HorizontalCapsulesIndicator
+data class HorizontalCapsulesIndicatorSpacings(
+    val size: Dp = 6.dp,
+    val spacing: Dp = 4.dp
 )
 
 // HorizontalPagerTabItem
