@@ -32,7 +32,7 @@ fun PriceTextInputField(
     visualTransformationSpanStyle: SpanStyle? = null,
     readOnly: Boolean = false,
     enabled: Boolean = true,
-    onPriceChange: ((Int?) -> Unit)? = null,
+    onPriceChange: ((Number?) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
     endIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
@@ -59,6 +59,7 @@ fun PriceTextInputField(
     requestFocus: Boolean = false,
     error: String? = null,
     textAlign: TextAlign? = null,
+    allowDecimal: Boolean = false
 ) {
     BaseTextInputField(
         modifier = modifier,
@@ -67,7 +68,7 @@ fun PriceTextInputField(
         placeholder = placeholder.orEmpty(),
         textColor = textColor,
         readOnly = readOnly,
-        keyboardType = KeyboardType.Number,
+        keyboardType = if (allowDecimal) KeyboardType.Decimal else KeyboardType.Number,
         textStyle = textStyle,
         visualTransformation = CurrencyAmountInputVisualTransformation(style = visualTransformationSpanStyle),
         maxLines = 1,
@@ -110,7 +111,7 @@ fun PriceTextInputField(
             if (value.isEmpty()) {
                 onPriceChange?.invoke(null)
             } else {
-                val digitValue = value.toIntOrNull() ?: return@BaseTextInputField
+                val digitValue = value.toDoubleOrNull() ?: return@BaseTextInputField
                 onPriceChange?.invoke(digitValue)
             }
         }
