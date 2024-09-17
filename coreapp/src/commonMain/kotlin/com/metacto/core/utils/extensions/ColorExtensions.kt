@@ -1,7 +1,6 @@
 package com.metacto.core.utils.extensions
 
 import androidx.compose.ui.graphics.Color
-import kotlin.math.roundToInt
 
 fun Color.blend(background: Color): Color {
     val foregroundAlpha = this.alpha
@@ -29,12 +28,17 @@ fun String.toColor(): Color {
     }
 }
 
-fun Color.toHexCode(): String {
-    val red = (red * 255).roundToInt()
-    val green = (green * 255).roundToInt()
-    val blue = (blue * 255).roundToInt()
-    val alpha = (alpha * 255).roundToInt()
-    return "#%02X%02X%02X%02X".formatNatively(alpha, red, green, blue)
+fun Color.toHexString(withAlpha: Boolean = false): String {
+    val red = (red * 255).toInt()
+    val green = (green * 255).toInt()
+    val blue = (blue * 255).toInt()
+
+    return if (withAlpha) {
+        val alpha = (alpha * 255).toInt()
+        "#${alpha.toHex()}${red.toHex()}${green.toHex()}${blue.toHex()}"
+    } else {
+        "#${red.toHex()}${green.toHex()}${blue.toHex()}"
+    }
 }
 
 fun ULong?.toColor(): Color? {

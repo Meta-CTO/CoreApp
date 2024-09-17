@@ -31,6 +31,7 @@ class HomeContract {
         data object OpenBrowser : Event()
         data object ShareImage : Event()
         data object AddToCalendar : Event()
+        data object OpenImagePicker : Event()
     }
 
     sealed class Effect : ViewSideEffect

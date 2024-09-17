@@ -124,6 +124,10 @@ fun Double.formatToCurrency(currency: String = "$", addSpace: Boolean = true): S
     }
 }
 
+fun Int.toHex(): String {
+    return this.toString(16).padStart(2, '0').uppercase()
+}
+
 expect fun Double.format(decimalsCount: Int): String
 
 expect fun Double.formatToComma(): String

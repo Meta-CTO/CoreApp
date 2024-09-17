@@ -169,6 +169,14 @@ internal fun HomeContent(
             }
         )
 
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Open Image Picker",
+            onClick = {
+                onEvent(Event.OpenImagePicker)
+            }
+        )
+
         // Render date picker
         WheelDatePicker(
             onSnappedDate = {

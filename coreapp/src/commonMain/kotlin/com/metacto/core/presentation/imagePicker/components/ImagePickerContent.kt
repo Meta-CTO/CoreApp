@@ -11,7 +11,7 @@ import com.metacto.core.presentation.imagePicker.ImagePickerContract.Event
 import com.metacto.core.presentation.imagePicker.ImagePickerContract.State
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.asCommon
-import com.metacto.core.utils.extensions.toHexCode
+import com.metacto.core.utils.extensions.toHexString
 import dev.icerock.moko.resources.compose.stringResource
 
 @Composable
@@ -58,7 +58,7 @@ fun ImagePickerContent(
                 option = OptionUIModel(
                     title = stringResource(MR.strings.remove_current_photo),
                     icon = MR.images.ic_delete.asCommon(),
-                    color = CoreTheme.colors.danger.toHexCode()
+                    color = CoreTheme.colors.danger.toHexString(withAlpha = true)
                 ),
                 onClick = {
                     onEvent(Event.DeleteCurrentPhotoClicked)

@@ -20,8 +20,7 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
         Event.Init -> init()
 
         Event.NavToYoutubeScreen -> {
-            navManager.navigateToBottomSheet(ImagePickerSheet(showDeleteAction = true))
-            //navManager.navigate(YoutubeScreen("Gmhk7mWG050"))
+            navManager.navigate(YoutubeScreen("Gmhk7mWG050"))
         }
 
         Event.NavToTestScreen -> {
@@ -82,6 +81,10 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
 
         Event.ShareText -> {
             intentLauncher.shareText("Hello share text")
+        }
+
+        Event.OpenImagePicker -> {
+            navManager.navigateToBottomSheet(ImagePickerSheet(showDeleteAction = true))
         }
     }
 
