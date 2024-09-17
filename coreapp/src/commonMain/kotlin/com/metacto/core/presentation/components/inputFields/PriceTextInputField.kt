@@ -23,7 +23,7 @@ fun PriceTextInputField(
     backgroundShape: RoundedCornerShape = CoreTheme.shapes.priceTextInputField.shape,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     imeAction: ImeAction = ImeAction.Next,
-    price: Int? = null,
+    price: Double? = null,
     isStaticLabel: Boolean = false,
     label: String? = null,
     placeholder: String? = null,
@@ -61,9 +61,15 @@ fun PriceTextInputField(
     textAlign: TextAlign? = null,
     allowDecimal: Boolean = false
 ) {
+    val text = if (!allowDecimal) {
+        price?.toInt()?.toString().orEmpty()
+    } else {
+        price?.toString().orEmpty()
+    }
+
     BaseTextInputField(
         modifier = modifier,
-        text = price?.toString().orEmpty(),
+        text = text,
         isStaticLabel = isStaticLabel,
         placeholder = placeholder.orEmpty(),
         textColor = textColor,
