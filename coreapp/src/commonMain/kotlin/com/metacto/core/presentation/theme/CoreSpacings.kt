@@ -276,7 +276,8 @@ data class CoreSpacings(
 
     // OutlinedOtpInputField
     val outlinedOtpInputField: OutlinedOtpInputFieldSpacings = OutlinedOtpInputFieldSpacings(
-        paddingLarge = paddingLarge
+        paddingLarge = paddingLarge,
+        noSpacing = noSpacing
     ),
 
     // PrimaryTextInputField
@@ -802,7 +803,9 @@ data class LinedOtpInputFieldSpacings(
 // OutlinedOtpInputField
 data class OutlinedOtpInputFieldSpacings(
     private val paddingLarge: Dp,
-    val horizontalSpacing: Dp = paddingLarge
+    private val noSpacing: Dp,
+    val horizontalSpacing: Dp = paddingLarge,
+    val digitItemElevation: Dp = noSpacing
 )
 
 // PrimaryTextInputField

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -19,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
@@ -46,6 +48,8 @@ fun OutlinedOtpInputField(
     textStyle: TextStyle = CoreTheme.typography.outlinedOtpInputField.textStyle,
     horizontalSpacing: Dp = CoreTheme.spacings.outlinedOtpInputField.horizontalSpacing,
     requestFocus: Boolean = false,
+    digitShadowColor: Color = CoreTheme.colors.outlinedOtpInputField.shadowColor,
+    digitItemElevation: Dp = CoreTheme.spacings.outlinedOtpInputField.digitItemElevation,
     requestFocusDelay: Long = DEF_REQUEST_FOCUS_DELAY
 ) {
     // Prepare text value state
@@ -114,11 +118,15 @@ fun OutlinedOtpInputField(
                     // Render digits
                     repeat(pinCount) { index ->
                         OtpDigit(
-                            modifier = Modifier.weight(1f),
                             digit = text.getOrNull(index) ?: ' ',
                             textStyle = textStyle,
                             textColor = textColor,
-                            backgroundColor = backgroundColor
+                            digitShadowColor = digitShadowColor,
+                            digitItemElevation = digitItemElevation,
+                            backgroundColor = backgroundColor,
+                            modifier = Modifier
+                                .weight(1f)
+                                .fillMaxHeight()
                         )
                     }
                 }
@@ -134,6 +142,8 @@ private fun OtpDigit(
     textStyle: TextStyle,
     textColor: Color,
     backgroundColor: Color,
+    digitShadowColor: Color = CoreTheme.colors.outlinedOtpInputField.shadowColor,
+    digitItemElevation: Dp = CoreTheme.spacings.outlinedOtpInputField.digitItemElevation,
     shape: RoundedCornerShape = CoreTheme.shapes.otpDigit.shape,
     paddingValues: PaddingValues = PaddingValues(vertical = CoreTheme.spacings.otpDigit.paddingVertical)
 ) {
@@ -144,6 +154,12 @@ private fun OtpDigit(
         color = textColor,
         textAlign = TextAlign.Center,
         modifier = modifier
+            .shadow(
+                elevation = digitItemElevation,
+                ambientColor = digitShadowColor,
+                spotColor = digitShadowColor,
+                shape = shape
+            )
             .clip(shape)
             .background(backgroundColor)
             .padding(paddingValues)
