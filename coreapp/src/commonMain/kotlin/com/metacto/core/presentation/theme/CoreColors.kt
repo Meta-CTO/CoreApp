@@ -424,6 +424,12 @@ data class CoreColors(
     // SwitchButton
     val switchButton: SwitchButtonColors = SwitchButtonColors(
         black = black
+    ),
+
+    // HorizontalCapsulesIndicator
+    val horizontalCapsulesIndicator: HorizontalCapsulesIndicatorColors = HorizontalCapsulesIndicatorColors(
+        primary = primary,
+        onPrimary = onPrimary
     )
 )
 
@@ -942,6 +948,14 @@ data class AppImagesColors(
 data class SwitchButtonColors(
     private val black: Color,
     val shadowColor: Color = black
+)
+
+// HorizontalCapsulesIndicator
+data class HorizontalCapsulesIndicatorColors(
+    private val primary: Color,
+    private val onPrimary: Color,
+    val activeColor: Color = primary,
+    val inActiveColor: Color = onPrimary.copy(alpha = 0.5f),
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }
