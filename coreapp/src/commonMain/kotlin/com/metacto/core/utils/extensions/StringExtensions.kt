@@ -86,6 +86,28 @@ fun String.removeAllNonNumeric(): String {
     return this.replace(nonNumericRegex, "")
 }
 
+private val nonDecimalRegex = Regex("[^0-9.]")
+fun String.removeAllNonDecimal(): String {
+    return this.replace(nonDecimalRegex, "").replace(Regex("(\\..*?)\\."), "$1")
+}
+
+fun String.formatToCurrency(currency: String = "$", addSpace: Boolean = true): String {
+    val updatedValue = this.formatToMaxTwoDecimals()
+
+    return if (addSpace) {
+        "$currency $updatedValue"
+    } else {
+        "$currency$updatedValue"
+    }
+}
+
+fun String.formatToMaxTwoDecimals(): String {
+    val regex = Regex("(\\.\\d{2})\\d+")
+    return regex.replace(this) { matchResult ->
+        matchResult.groupValues[1]
+    }
+}
+
 fun String.formatWithMask(mask: String, maskChar: Char): String {
     val maxLength = mask.count { it == maskChar }
     val trimmed = this.take(maxLength)
