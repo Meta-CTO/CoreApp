@@ -110,6 +110,7 @@ fun TabItem(
                 AppImage(
                     image = tabIcon,
                     contentDescription = tabItemModel.title,
+                    crossFade = false,
                     modifier = Modifier.size(iconSize)
                 )
             }
