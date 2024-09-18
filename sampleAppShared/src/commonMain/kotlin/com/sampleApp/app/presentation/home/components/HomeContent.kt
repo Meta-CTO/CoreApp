@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.SwitchButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
-import com.metacto.core.presentation.components.inputFields.DecimalPriceInputField
+import com.metacto.core.presentation.components.inputFields.PriceTextInputField
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
@@ -116,13 +116,14 @@ internal fun HomeContent(
             }
         )
 
-        var price by remember { mutableStateOf("") }  // State to hold the input value
+        var price by remember { mutableStateOf("1.222222222222222222") }
 
-        DecimalPriceInputField(
+        PriceTextInputField(
             modifier = Modifier.fillMaxWidth(),
             allowDecimal = true,
+            allowMaxDecimals = 3,
             price = price,
-            onPriceChange = { value ->
+            onPriceChange = {value ->
                 price = value.orEmpty()
             }
         )

@@ -12,18 +12,20 @@ import com.metacto.core.utils.extensions.orZero
 class CurrencyAmountInputVisualTransformation(
     private val style: SpanStyle? = null,
     private val currency: String = "$",
-    private val addSpaceToFormattedCurrency: Boolean = true
+    private val addSpaceToFormattedCurrency: Boolean = true,
+    private val allowedMaxDecimals: Int = 2
 ) : VisualTransformation {
 
     override fun filter(text: AnnotatedString): TransformedText {
         val inputText = text.text
-        val formattedNumber = inputText.toFloatOrNull()?.formatToCurrency(
+        val formattedNumber = inputText.formatToCurrency(
             currency = currency,
-            addSpace = addSpaceToFormattedCurrency
+            addSpace = addSpaceToFormattedCurrency,
+            allowedMaxDecimals = allowedMaxDecimals
         )
 
         val newText = AnnotatedString(
-            text = formattedNumber.orEmpty(),
+            text = formattedNumber,
             spanStyles = if (style == null) {
                 text.spanStyles
             } else {
@@ -34,7 +36,7 @@ class CurrencyAmountInputVisualTransformation(
 
         val offsetMapping = FixedCursorOffsetMapping(
             contentLength = inputText.length,
-            formattedContentLength = formattedNumber?.length.orZero()
+            formattedContentLength = formattedNumber.length.orZero()
         )
 
         return TransformedText(newText, offsetMapping)

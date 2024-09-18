@@ -15,6 +15,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.utils.extensions.formatToMaxDecimals
+import com.metacto.core.utils.extensions.orZero
+import com.metacto.core.utils.extensions.removeAllNonDecimal
 
 @Composable
 fun PriceTextInputField(
@@ -23,7 +26,7 @@ fun PriceTextInputField(
     backgroundShape: RoundedCornerShape = CoreTheme.shapes.priceTextInputField.shape,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     imeAction: ImeAction = ImeAction.Next,
-    price: Double? = null,
+    price: String? = null,
     isStaticLabel: Boolean = false,
     label: String? = null,
     placeholder: String? = null,
@@ -32,7 +35,7 @@ fun PriceTextInputField(
     visualTransformationSpanStyle: SpanStyle? = null,
     readOnly: Boolean = false,
     enabled: Boolean = true,
-    onPriceChange: ((Number?) -> Unit)? = null,
+    onPriceChange: ((String?) -> Unit)? = null,
     onClick: (() -> Unit)? = null,
     endIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
@@ -56,15 +59,16 @@ fun PriceTextInputField(
     minHeight: Dp = CoreTheme.spacings.priceTextInputField.minHeight,
     elevation: Dp = CoreTheme.spacings.priceTextInputField.elevation,
     shadowColor: Color = CoreTheme.colors.priceTextInputField.shadowColor,
+    allowMaxDecimals: Int = 2,
     requestFocus: Boolean = false,
     error: String? = null,
     textAlign: TextAlign? = null,
     allowDecimal: Boolean = false
 ) {
     val text = if (!allowDecimal) {
-        price?.toInt()?.toString().orEmpty()
+        price?.toIntOrNull().orZero().toString()
     } else {
-        price?.toString().orEmpty()
+        price.orEmpty()
     }
 
     BaseTextInputField(
@@ -76,13 +80,16 @@ fun PriceTextInputField(
         readOnly = readOnly,
         keyboardType = if (allowDecimal) KeyboardType.Decimal else KeyboardType.Number,
         textStyle = textStyle,
-        visualTransformation = CurrencyAmountInputVisualTransformation(style = visualTransformationSpanStyle),
+        visualTransformation = CurrencyAmountInputVisualTransformation(
+            style = visualTransformationSpanStyle,
+            allowedMaxDecimals = allowMaxDecimals
+        ),
         maxLines = 1,
         singleLine = true,
         capitalization = KeyboardCapitalization.None,
         enabled = enabled,
         shape = backgroundShape,
-        allowDigitsOnly = true,
+        allowDigitsOnly = !allowDecimal,
         backgroundColor = backgroundColor,
         onClick = onClick,
         imeAction = imeAction,
@@ -117,7 +124,7 @@ fun PriceTextInputField(
             if (value.isEmpty()) {
                 onPriceChange?.invoke(null)
             } else {
-                val digitValue = value.toDoubleOrNull() ?: return@BaseTextInputField
+                val digitValue = value.removeAllNonDecimal().formatToMaxDecimals(allowMaxDecimals)
                 onPriceChange?.invoke(digitValue)
             }
         }

@@ -91,8 +91,12 @@ fun String.removeAllNonDecimal(): String {
     return this.replace(nonDecimalRegex, "").replace(Regex("(\\..*?)\\."), "$1")
 }
 
-fun String.formatToCurrency(currency: String = "$", addSpace: Boolean = true): String {
-    val updatedValue = this.formatToMaxTwoDecimals()
+fun String.formatToCurrency(
+    currency: String = "$",
+    addSpace: Boolean = true,
+    allowedMaxDecimals: Int = 2
+): String {
+    val updatedValue = this.formatToMaxDecimals(allowedMaxDecimals)
 
     return if (addSpace) {
         "$currency $updatedValue"
@@ -101,8 +105,8 @@ fun String.formatToCurrency(currency: String = "$", addSpace: Boolean = true): S
     }
 }
 
-fun String.formatToMaxTwoDecimals(): String {
-    val regex = Regex("(\\.\\d{2})\\d+")
+fun String.formatToMaxDecimals(allowedMaxDecimals: Int): String {
+    val regex = Regex("(\\.\\d{$allowedMaxDecimals})\\d+")
     return regex.replace(this) { matchResult ->
         matchResult.groupValues[1]
     }
