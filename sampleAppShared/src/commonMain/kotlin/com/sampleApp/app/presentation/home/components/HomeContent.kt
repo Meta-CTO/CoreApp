@@ -4,16 +4,19 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.SwitchButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
+import com.metacto.core.presentation.components.inputFields.PriceTextInputField
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
-import com.metacto.core.presentation.components.wheelPicker.datetime.WheelDatePicker
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
 
@@ -113,78 +116,16 @@ internal fun HomeContent(
             }
         )
 
-        PrimaryFilledButton(
+        var price by remember { mutableStateOf("1.222222222222222222") }
+
+        PriceTextInputField(
             modifier = Modifier.fillMaxWidth(),
-            text = "Share email",
-            onClick = {
-                onEvent(Event.ShareEmail)
+            allowDecimal = true,
+            maxAllowedDecimals = 3,
+            price = price,
+            onPriceChange = {value ->
+                price = value.orEmpty()
             }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Share text",
-            onClick = {
-                onEvent(Event.ShareText)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Open store",
-            onClick = {
-                onEvent(Event.OpenStore)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Open Phone",
-            onClick = {
-                onEvent(Event.OpenPhone)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Open Browser",
-            onClick = {
-                onEvent(Event.OpenBrowser)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Share image",
-            onClick = {
-                onEvent(Event.ShareImage)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Add to calendar",
-            onClick = {
-                onEvent(Event.AddToCalendar)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Open Image Picker",
-            onClick = {
-                onEvent(Event.OpenImagePicker)
-            }
-        )
-
-        // Render date picker
-        WheelDatePicker(
-            onSnappedDate = {
-
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 30.dp)
         )
 
         Text(
