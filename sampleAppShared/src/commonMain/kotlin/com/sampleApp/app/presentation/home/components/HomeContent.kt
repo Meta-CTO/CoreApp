@@ -121,7 +121,7 @@ internal fun HomeContent(
         PriceTextInputField(
             modifier = Modifier.fillMaxWidth(),
             allowDecimal = true,
-            allowMaxDecimals = 3,
+            maxAllowedDecimals = 3,
             price = price,
             onPriceChange = {value ->
                 price = value.orEmpty()

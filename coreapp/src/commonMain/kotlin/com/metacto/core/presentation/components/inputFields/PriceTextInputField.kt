@@ -59,12 +59,12 @@ fun PriceTextInputField(
     minHeight: Dp = CoreTheme.spacings.priceTextInputField.minHeight,
     elevation: Dp = CoreTheme.spacings.priceTextInputField.elevation,
     shadowColor: Color = CoreTheme.colors.priceTextInputField.shadowColor,
-    allowMaxDecimals: Int = 2,
     requestFocus: Boolean = false,
     error: String? = null,
     textAlign: TextAlign? = null,
-    allowDecimal: Boolean = false
-) {
+    allowDecimal: Boolean = false,
+    maxAllowedDecimals: Int = 2,
+    ) {
     val text = if (!allowDecimal) {
         price?.toIntOrNull().orZero().toString()
     } else {
@@ -82,7 +82,7 @@ fun PriceTextInputField(
         textStyle = textStyle,
         visualTransformation = CurrencyAmountInputVisualTransformation(
             style = visualTransformationSpanStyle,
-            allowedMaxDecimals = allowMaxDecimals
+            maxAllowedDecimals = maxAllowedDecimals
         ),
         maxLines = 1,
         singleLine = true,
@@ -124,7 +124,7 @@ fun PriceTextInputField(
             if (value.isEmpty()) {
                 onPriceChange?.invoke(null)
             } else {
-                val digitValue = value.removeAllNonDecimal().formatToMaxDecimals(allowMaxDecimals)
+                val digitValue = value.removeAllNonDecimal().formatToMaxDecimals(maxAllowedDecimals)
                 onPriceChange?.invoke(digitValue)
             }
         }

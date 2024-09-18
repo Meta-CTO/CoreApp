@@ -87,6 +87,7 @@ fun String.removeAllNonNumeric(): String {
 }
 
 private val nonDecimalRegex = Regex("[^0-9.]")
+
 fun String.removeAllNonDecimal(): String {
     return this.replace(nonDecimalRegex, "").replace(Regex("(\\..*?)\\."), "$1")
 }

@@ -13,7 +13,7 @@ class CurrencyAmountInputVisualTransformation(
     private val style: SpanStyle? = null,
     private val currency: String = "$",
     private val addSpaceToFormattedCurrency: Boolean = true,
-    private val allowedMaxDecimals: Int = 2
+    private val maxAllowedDecimals: Int = 2
 ) : VisualTransformation {
 
     override fun filter(text: AnnotatedString): TransformedText {
@@ -21,7 +21,7 @@ class CurrencyAmountInputVisualTransformation(
         val formattedNumber = inputText.formatToCurrency(
             currency = currency,
             addSpace = addSpaceToFormattedCurrency,
-            allowedMaxDecimals = allowedMaxDecimals
+            allowedMaxDecimals = maxAllowedDecimals
         )
 
         val newText = AnnotatedString(
