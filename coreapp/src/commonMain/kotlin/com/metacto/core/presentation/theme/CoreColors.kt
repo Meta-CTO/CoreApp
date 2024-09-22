@@ -82,6 +82,13 @@ data class CoreColors(
         onPrimary = onPrimary
     ),
 
+    // RecordingButton
+    val recordingButton: RecordingButtonColors = RecordingButtonColors(
+        white = white,
+        primary = primary,
+        onPrimary = onPrimary
+    ),
+
     // DangerFilledButton
     val dangerFilledButton: DangerFilledButtonColors = DangerFilledButtonColors(
         danger = danger,
@@ -442,6 +449,16 @@ data class PrimaryFilledButtonColors(
     val textColor: Color = onPrimary,
     val iconColor: Color = onPrimary,
     val disabledBgColor: Color = primary.copy(0.5f)
+)
+
+// RecordingButton
+data class RecordingButtonColors(
+    private val primary: Color,
+    private val onPrimary: Color,
+    private val white: Color,
+    val ringColor: Color = white,
+    val recordingButtonColor: Color = primary,
+    val notRecordingButtonColor: Color = onPrimary
 )
 
 // DangerFilledButton

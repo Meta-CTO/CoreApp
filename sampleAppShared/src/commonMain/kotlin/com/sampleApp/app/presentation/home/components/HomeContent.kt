@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
+import com.metacto.core.presentation.components.buttons.RecordingButton
 import com.metacto.core.presentation.components.buttons.SwitchButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.inputFields.PriceTextInputField
@@ -108,6 +109,14 @@ internal fun HomeContent(
             }
         )
 
+        RecordingButton(onStartRecording = {
+
+        }, onStopRecording = {
+
+        }, onDurationChanged = {
+
+        })
+
         SwitchButton(
             modifier = Modifier,
             isChecked = true,
@@ -123,7 +132,7 @@ internal fun HomeContent(
             allowDecimal = true,
             maxAllowedDecimals = 3,
             price = price,
-            onPriceChange = {value ->
+            onPriceChange = { value ->
                 price = value.orEmpty()
             }
         )

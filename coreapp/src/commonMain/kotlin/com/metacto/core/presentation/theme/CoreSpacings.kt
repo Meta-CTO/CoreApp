@@ -91,6 +91,9 @@ data class CoreSpacings(
         noSpacing = noSpacing
     ),
 
+    // RecordingButton
+    val recordingButton: RecordingButtonSpacings = RecordingButtonSpacings(),
+
     // DangerFilledButton
     val dangerFilledButton: DangerFilledButtonSpacings = DangerFilledButtonSpacings(
         btnPaddingHorizontal = btnPaddingHorizontal,
@@ -513,6 +516,14 @@ data class PrimaryFilledButtonSpacings(
     val iconSize: Dp = iconLarge,
     val elevation: Dp = noSpacing,
     val contentSpacing: Dp = paddingXLarge
+)
+
+// RecordingButton
+data class RecordingButtonSpacings(
+    val ringSize: Dp = 64.dp,
+    val ringWidth: Dp = 4.dp,
+    val recordingButtonSize: Dp = 48.dp,
+    val notRecordingButtonSize: Dp = 58.dp
 )
 
 // DangerFilledButton
