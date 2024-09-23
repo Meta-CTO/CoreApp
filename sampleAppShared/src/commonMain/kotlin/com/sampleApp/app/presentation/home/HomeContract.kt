@@ -32,6 +32,7 @@ class HomeContract {
         data object ShareImage : Event()
         data object AddToCalendar : Event()
         data object OpenImagePicker : Event()
+        data object NavigateToCameraScreen : Event()
     }
 
     sealed class Effect : ViewSideEffect

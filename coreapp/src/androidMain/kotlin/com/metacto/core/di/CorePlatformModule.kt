@@ -6,6 +6,7 @@ import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
 import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.permissions.PermissionManager
 import com.metacto.core.presentation.base.CommonViewModel
+import com.metacto.core.presentation.camera.CameraController
 import com.metacto.core.presentation.components.calenderEvent.CalendarManager
 import com.metacto.core.presentation.components.calenderEvent.ICalendarManager
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayerManager
@@ -140,6 +141,10 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
                 )
             )
         }
+    }
+
+    factory {
+        CameraController(androidContext())
     }
 }
 

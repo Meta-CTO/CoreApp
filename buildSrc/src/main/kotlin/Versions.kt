@@ -39,4 +39,5 @@ object Versions {
     const val YOUTUBE_PLAYER = "12.1.0"
     const val SHIMMER = "1.3.1"
     const val KMP_NOTIFIER = "1.2.1"
+    const val CAMERA_X = "1.3.4"
 }
