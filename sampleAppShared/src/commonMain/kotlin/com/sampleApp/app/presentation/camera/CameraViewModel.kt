@@ -7,7 +7,6 @@ import com.sampleApp.app.presentation.base.BaseViewModel
 import com.sampleApp.app.presentation.camera.CameraContract.Effect
 import com.sampleApp.app.presentation.camera.CameraContract.Event
 import com.sampleApp.app.presentation.camera.CameraContract.State
-import kotlinx.coroutines.delay
 
 class CameraViewModel(
     private val cameraController: CameraController
@@ -35,7 +34,6 @@ class CameraViewModel(
 
     private fun handlePermissions() = executeSilent({
         permissionManager.grantPermission(Permission.CAMERA)
-        delay(1000L)
         setState { copy(cameraController = this@CameraViewModel.cameraController) }
     })
 

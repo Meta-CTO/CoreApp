@@ -86,10 +86,6 @@ actual class CameraController(
         }, ContextCompat.getMainExecutor(context))
     }
 
-    fun stopCamera() {
-        camera?.cameraControl?.
-    }
-
     actual fun toggleFlashMode() {
         // Toggle between ON and OFF
         currentFlashMode = if (currentFlashMode == CameraFlashMode.OFF) {

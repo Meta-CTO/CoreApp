@@ -2,7 +2,6 @@ package com.metacto.core.presentation.camera
 
 import androidx.camera.view.PreviewView
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -38,11 +37,5 @@ actual fun CameraPreview(
     // Start the camera
     LaunchedEffect(Unit) {
         cameraController.startCamera(previewView)
-    }
-
-    DisposableEffect(Unit) {
-        onDispose {
-            cameraController.stopCamera()
-        }
     }
 }
