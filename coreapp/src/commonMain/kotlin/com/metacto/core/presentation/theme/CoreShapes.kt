@@ -133,6 +133,11 @@ data class CoreShapes(
         small = small
     ),
 
+    // PasswordTextInputField
+    val passwordTextInputField: PasswordTextInputFieldShapes = PasswordTextInputFieldShapes(
+        small = small
+    ),
+
     // NumberItem
     val numberItem: NumberItemShapes = NumberItemShapes(
         circle = circle
@@ -308,6 +313,12 @@ data class SecondaryTextInputFieldShapes(
 
 // TertiaryTextInputField
 data class TertiaryTextInputFieldShapes(
+    private val small: RoundedCornerShape,
+    val shape: RoundedCornerShape = small
+)
+
+// PasswordTextInputField
+data class PasswordTextInputFieldShapes(
     private val small: RoundedCornerShape,
     val shape: RoundedCornerShape = small
 )

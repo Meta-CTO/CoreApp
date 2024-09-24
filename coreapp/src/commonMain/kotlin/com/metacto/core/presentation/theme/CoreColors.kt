@@ -243,6 +243,16 @@ data class CoreColors(
         danger = danger
     ),
 
+    // PasswordTextInputField
+    val passwordTextInputField: PasswordTextInputFieldColors = PasswordTextInputFieldColors(
+        tertiary = tertiary,
+        background = background,
+        tertiaryBorder = tertiaryBorder,
+        black = black,
+        secondaryContainer = secondaryContainer,
+        danger = danger
+    ),
+
     // PrimaryProgressIndicator
     val primaryProgressIndicator: PrimaryProgressIndicatorColors = PrimaryProgressIndicatorColors(
         primary = primary
@@ -690,6 +700,25 @@ data class SecondaryTextInputFieldColors(
 
 // TertiaryTextInputField
 data class TertiaryTextInputFieldColors(
+    private val tertiary: Color,
+    private val background: Color,
+    private val tertiaryBorder: Color,
+    private val black: Color,
+    private val secondaryContainer: Color,
+    private val danger: Color,
+    val iconColor: Color = tertiary,
+    val bgColor: Color = background,
+    val focusedBorderColor: Color = tertiaryBorder,
+    val unFocusedBorderColor: Color = tertiaryBorder,
+    val textColor: Color = black,
+    val placeholderColor: Color = secondaryContainer,
+    val labelColor: Color = black,
+    val errorColor: Color = danger,
+    val shadowColor: Color = black
+)
+
+// PasswordTextInputField
+data class PasswordTextInputFieldColors(
     private val tertiary: Color,
     private val background: Color,
     private val tertiaryBorder: Color,
