@@ -74,14 +74,19 @@ fun PasswordTextInputField(
         mutableStateOf(false)
     }
 
-    val visualTransformation = if (isPasswordVisible)
-        VisualTransformation.None
-    else
-        PasswordVisualTransformation()
+    val visualTransformation = remember(isPasswordVisible) {
+        if (isPasswordVisible) {
+            VisualTransformation.None
+        } else {
+            PasswordVisualTransformation()
+        }
+    }
 
-    val passwordImage = if (isPasswordVisible)
+    val endIcon = if (isPasswordVisible) {
         Icons.Default.Visibility
-    else Icons.Default.VisibilityOff
+    } else {
+        Icons.Default.VisibilityOff
+    }
 
     BaseTextInputField(
         requestFocus = requestFocus,
@@ -104,12 +109,9 @@ fun PasswordTextInputField(
         maxLines = maxLines,
         minHeight = minHeight,
         error = error,
-        endIconVector = if (showPasswordVisibilityToggle) passwordImage else null,
+        endIconVector = if (showPasswordVisibilityToggle) endIcon else null,
         endIconPainter = null,
         endIconSize = endIconSize,
-        onEndIconClick = {
-            isPasswordVisible = isPasswordVisible.not()
-        },
         startIconVector = startIconVector,
         startIconPainter = startIconPainter,
         startIconSize = startIconSize,
@@ -131,6 +133,9 @@ fun PasswordTextInputField(
         labelTextStyle = labelTextStyle,
         labelTextColor = labelTextColor,
         errorTextStyle = errorTextStyle,
-        errorTextColor = errorTextColor
+        errorTextColor = errorTextColor,
+        onEndIconClick = {
+            isPasswordVisible = isPasswordVisible.not()
+        }
     )
 }
