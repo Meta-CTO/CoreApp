@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.SwitchButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
+import com.metacto.core.presentation.components.inputFields.PasswordTextInputField
 import com.metacto.core.presentation.components.inputFields.PriceTextInputField
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.sampleApp.app.presentation.home.HomeContract.Event
@@ -125,6 +126,16 @@ internal fun HomeContent(
             price = price,
             onPriceChange = {value ->
                 price = value.orEmpty()
+            }
+        )
+
+        var password by remember { mutableStateOf("") }
+        PasswordTextInputField(
+            showPasswordVisibilityToggle = true,
+            modifier = Modifier.fillMaxWidth(),
+            text = password,
+            onValueChange = {value ->
+                password = value
             }
         )
 
