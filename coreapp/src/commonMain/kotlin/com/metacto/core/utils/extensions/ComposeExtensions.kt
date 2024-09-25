@@ -50,6 +50,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -472,6 +473,23 @@ fun keyboardAsState(): State<Boolean> {
 @Composable
 fun Modifier.shimmerIf(condition: Boolean): Modifier {
     return if (condition) this.shimmer() else this
+}
+
+@Composable
+fun LazyListState.dismissKeyboardWhenScrollDown() {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    var lastScrollIndex by remember { mutableStateOf(0) }
+
+    LaunchedEffect(this) {
+        snapshotFlow { firstVisibleItemIndex }
+            .collect { currentIndex ->
+                if (currentIndex < lastScrollIndex) {
+                    // Scroll down detected, hide the keyboard
+                    keyboardController?.hide()
+                }
+                lastScrollIndex = currentIndex
+            }
+    }
 }
 
 @Composable
