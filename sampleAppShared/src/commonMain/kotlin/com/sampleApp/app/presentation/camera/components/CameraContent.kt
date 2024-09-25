@@ -50,17 +50,9 @@ internal fun CameraContent(
         ) {
             PrimaryFilledButton(
                 modifier = Modifier.weight(1f),
-                text = "Record",
+                text = if (state.isRecording) "Stop" else "Record",
                 onClick = {
                     onEvent(Event.ToggleRecord)
-                }
-            )
-
-            PrimaryFilledButton(
-                modifier = Modifier.weight(1f),
-                text = "Flash",
-                onClick = {
-                    onEvent(Event.ToggleFlash)
                 }
             )
 

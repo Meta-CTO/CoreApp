@@ -16,9 +16,7 @@ import androidx.camera.video.VideoRecordEvent
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import com.metacto.core.presentation.camera.models.CameraFlashMode
 import com.metacto.core.presentation.camera.models.CameraLens
-import com.metacto.core.presentation.camera.models.CameraRotation
 import com.metacto.core.presentation.camera.models.VideoRecordingParams
 import com.metacto.core.presentation.camera.models.VideoRecordingResult
 import com.metacto.core.utils.extensions.orFalse
@@ -37,20 +35,13 @@ actual class CameraController(
     private var cameraProvider: ProcessCameraProvider? = null
     private var videoCapture: VideoCapture<Recorder>? = null
     private var recording: Recording? = null
-
-    private var currentFlashMode = CameraFlashMode.OFF
     private var currentCameraLens = CameraLens.BACK
-    private var currentRotation = CameraRotation.ROTATION_0
+    private var currentOutputFile: File? = null
 
-    private val defaultVideoFile by lazy {
-        // Get videos dir and create it if not exists
-        val videoDir = File(context.cacheDir.absolutePath + "/videos")
-        if (videoDir.exists().not()) {
-            videoDir.mkdirs()
+    private val videosDirectory by lazy {
+        File(context.cacheDir.absolutePath + "/videos").apply {
+            if (exists().not()) mkdirs()
         }
-
-        // Return the file
-        File(videoDir, VIDEO_FILE_NAME)
     }
 
     fun init(lifecycleOwner: LifecycleOwner) {
@@ -67,13 +58,11 @@ actual class CameraController(
 
             // Build camera preview
             cameraPreview = Preview.Builder()
-                .setTargetRotation(currentRotation.toSurfaceRotation())
                 .build()
                 .also {
                     it.setSurfaceProvider(previewView.surfaceProvider)
                 }
 
-            // TODO: take quality as a parameter
             // Build video capture
             val recorder = Recorder.Builder()
                 .setQualitySelector(QualitySelector.from(Quality.HD))
@@ -86,15 +75,6 @@ actual class CameraController(
         }, ContextCompat.getMainExecutor(context))
     }
 
-    actual fun toggleFlashMode() {
-        // Toggle between ON and OFF
-        currentFlashMode = if (currentFlashMode == CameraFlashMode.OFF) {
-            CameraFlashMode.ON
-        } else {
-            CameraFlashMode.OFF
-        }
-    }
-
     actual fun toggleCameraLens() {
         currentCameraLens = if (currentCameraLens == CameraLens.BACK) {
             CameraLens.FRONT
@@ -104,27 +84,8 @@ actual class CameraController(
         previewView?.let { startCamera(it) }
     }
 
-    actual fun getFlashMode(): CameraFlashMode {
-        return currentFlashMode
-    }
-
     actual fun getCameraLens(): CameraLens {
         return currentCameraLens
-    }
-
-    actual fun getCameraRotation(): CameraRotation {
-        return currentRotation
-    }
-
-    actual fun setCameraRotation(rotation: CameraRotation) {
-        // Update rotation
-        currentRotation = rotation
-        val surfaceRotation = rotation.toSurfaceRotation()
-        videoCapture?.targetRotation = surfaceRotation
-        cameraPreview?.targetRotation = surfaceRotation
-
-        // Re-bind the camera to apply the changes immediately
-        bindCameraToLifeCycle()
     }
 
     @Throws(Throwable::class)
@@ -136,7 +97,8 @@ actual class CameraController(
         }
 
         // Create recording
-        val outputOptions = FileOutputOptions.Builder(defaultVideoFile).build()
+        currentOutputFile = createVideoFile(fileName = params.fileName)
+        val outputOptions = FileOutputOptions.Builder(currentOutputFile!!).build()
         val pendingRecording = videoCapture.output.prepareRecording(context, outputOptions)
 
         // Start recording
@@ -147,13 +109,22 @@ actual class CameraController(
         }
     }
 
+    private fun createVideoFile(fileName: String): File {
+        return File(videosDirectory, fileName)
+    }
+
     @Throws(Throwable::class)
     actual suspend fun stopRecording() = suspendCancellableCoroutine { cont ->
         recording?.stop()
         recording = null
+
+        val outputFile = requireNotNull(currentOutputFile) {
+            "Error saving video file"
+        }
+
         cont.resumeIfActive(
             VideoRecordingResult(
-                videoPath = defaultVideoFile.absolutePath
+                videoPath = outputFile.absolutePath
             )
         )
     }
@@ -178,9 +149,5 @@ actual class CameraController(
             cameraPreview,
             videoCapture
         )
-    }
-
-    companion object {
-        private const val VIDEO_FILE_NAME = "recorded_video.mp4"
     }
 }

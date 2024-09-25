@@ -16,7 +16,6 @@ class CameraContract {
     sealed class Event : ViewEvent {
         data object Init : Event()
         data object ToggleRecord : Event()
-        data object ToggleFlash : Event()
         data object ToggleLens : Event()
     }
 

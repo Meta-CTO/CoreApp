@@ -16,7 +16,6 @@ class CameraViewModel(
 
     override fun handleEvents(event: Event): Any = when (event) {
         Event.Init -> init()
-        Event.ToggleFlash -> handleToggleFlash()
         Event.ToggleLens -> handleToggleLens()
         Event.ToggleRecord -> handleToggleRecord()
     }
@@ -36,10 +35,6 @@ class CameraViewModel(
         permissionManager.grantPermission(Permission.CAMERA)
         setState { copy(cameraController = this@CameraViewModel.cameraController) }
     })
-
-    private fun handleToggleFlash() {
-        currentState.cameraController?.toggleFlashMode()
-    }
 
     private fun handleToggleLens() {
         currentState.cameraController?.toggleCameraLens()
