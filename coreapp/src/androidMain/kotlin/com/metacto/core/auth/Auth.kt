@@ -17,7 +17,6 @@ fun getAuthOptions(): AuthOptions? {
     return remember { authOptions }
 }
 
-
 @Composable
 actual fun rememberAuthOptions(onCancelled: () -> Unit): AuthOptions {
     var authOptions = getAuthOptions()
