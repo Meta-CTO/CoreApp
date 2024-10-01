@@ -10,6 +10,8 @@ import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.height
@@ -49,6 +51,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
@@ -489,6 +492,28 @@ fun LazyListState.dismissKeyboardWhenScrollDown() {
                 }
                 lastScrollIndex = currentIndex
             }
+    }
+}
+
+@Composable
+fun Modifier.dismissKeyboardOnScrollAttempt(): Modifier {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    return pointerInput(Unit) {
+        detectDragGestures { _, _ ->
+            keyboardController?.hide()
+        }
+    }
+}
+
+@Composable
+fun Modifier.dismissKeyboardOnTapAttempt(): Modifier {
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    return pointerInput(Unit) {
+        detectTapGestures {
+            keyboardController?.hide()
+        }
     }
 }
 
