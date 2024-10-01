@@ -301,6 +301,13 @@ data class CoreSpacings(
         inputFieldElevation = inputFieldElevation
     ),
 
+    // PasswordTextInputField
+    val passwordTextInputField: PasswordTextInputFieldSpacings = PasswordTextInputFieldSpacings(
+        noSpacing = noSpacing,
+        iconSmall = iconSmall,
+        inputFieldElevation = inputFieldElevation
+    ),
+
     // OptionItem
     val optionItem: OptionItemSpacings = OptionItemSpacings(
         paddingXXXLarge = paddingXXXLarge,
@@ -832,6 +839,17 @@ data class SecondaryTextInputFieldSpacings(
 
 // TertiaryTextInputField
 data class TertiaryTextInputFieldSpacings(
+    private val noSpacing: Dp,
+    private val iconSmall: Dp,
+    private val inputFieldElevation: Dp,
+    val minHeight: Dp = noSpacing,
+    val startIconSize: Dp = iconSmall,
+    val endIconSize: Dp = iconSmall,
+    val elevation: Dp = inputFieldElevation
+)
+
+// PasswordTextInputField
+data class PasswordTextInputFieldSpacings(
     private val noSpacing: Dp,
     private val iconSmall: Dp,
     private val inputFieldElevation: Dp,

@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.metacto.core.navigation.CoreAppNavigator
 import com.metacto.core.navigation.NavManager
+import com.metacto.core.permissions.BindEffect
+import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.presentation.components.dialogs.ChoicesDialog
 import com.metacto.core.presentation.components.dialogs.ConfirmationDialog
 import com.metacto.core.presentation.components.dialogs.ForceUpdateDialog
@@ -32,13 +34,13 @@ import com.metacto.core.utils.extensions.dismissKeyboard
 import com.metacto.core.utils.extensions.setNavigationBarColor
 import com.metacto.core.utils.extensions.setStatusBarColor
 import com.metacto.coreApp.MR
-import org.koin.compose.rememberKoinInject
+import org.koin.compose.koinInject
 
 @Composable
 fun CoreAppContent(
     modifier: Modifier = Modifier,
-    globalState: ICoreGlobalState = rememberKoinInject(),
-    navManager: NavManager = rememberKoinInject(),
+    globalState: ICoreGlobalState = koinInject(),
+    navManager: NavManager = koinInject(),
     startScreen: Screen,
 ) {
     // Get global states
@@ -54,6 +56,12 @@ fun CoreAppContent(
     val snackBarParams by globalState.snackBarState
     val isStatusBarDark by globalState.isStatusBarDarkState
     val isNavigationBarDark by globalState.isNavigationBarDarkState
+
+    // Bind permissions manager
+    val permissionManager = koinInject<IPermissionManager>()
+    BindEffect(
+        permissionManager
+    )
 
     // Core container
     CoreAppContainer(

@@ -12,8 +12,14 @@ import dev.gitlive.firebase.auth.PhoneVerificationProvider
 import java.util.concurrent.TimeUnit
 
 @Composable
+fun getAuthOptions(): AuthOptions? {
+    val authOptions: AuthOptions? = null
+    return remember { authOptions }
+}
+
+@Composable
 actual fun rememberAuthOptions(onCancelled: () -> Unit): AuthOptions {
-    var authOptions: AuthOptions? = null
+    var authOptions = getAuthOptions()
     val context = LocalContext.current
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),

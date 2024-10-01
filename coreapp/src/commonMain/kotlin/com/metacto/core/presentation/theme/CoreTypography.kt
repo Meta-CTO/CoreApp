@@ -239,6 +239,13 @@ data class CoreTypography(
         labelMedium = labelMedium
     ),
 
+    // PasswordTextInputField
+    val passwordTextInputField: PasswordTextInputFieldTypography = PasswordTextInputFieldTypography(
+        bodyMedium = bodyMedium,
+        labelMedium = labelMedium
+    ),
+
+
     // NumberItem
     val numberItem: NumberItemTypography = NumberItemTypography(
         numberSelector = numberSelector
@@ -516,6 +523,16 @@ data class SecondaryTextInputFieldTypography(
 
 // TertiaryTextInputField
 data class TertiaryTextInputFieldTypography(
+    private val bodyMedium: TextStyle,
+    private val labelMedium: TextStyle,
+    val textStyle: TextStyle = bodyMedium,
+    val labelTextStyle: TextStyle = labelMedium,
+    val errorTextStyle: TextStyle = labelMedium,
+    val placeholderTextStyle: TextStyle = labelMedium
+)
+
+// PasswordTextInputField
+data class PasswordTextInputFieldTypography(
     private val bodyMedium: TextStyle,
     private val labelMedium: TextStyle,
     val textStyle: TextStyle = bodyMedium,
