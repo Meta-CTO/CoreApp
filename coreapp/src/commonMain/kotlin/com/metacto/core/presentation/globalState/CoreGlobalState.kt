@@ -22,7 +22,6 @@ import kotlinx.coroutines.launch
 open class CoreGlobalState : ICoreGlobalState {
 
     override val appLoadedState = mutableStateOf(false)
-    override val navigateToLogin = mutableStateOf(false)
     override val loadingState = mutableStateOf<LoadingType>(LoadingType.NoLoading)
     override val messagePopupState = mutableStateOf<MessagePopupParams?>(null)
     override val overrideUserPopupState = mutableStateOf<OverrideUserPopupParams?>(null)
@@ -39,7 +38,6 @@ open class CoreGlobalState : ICoreGlobalState {
     private var hideSnackBarJob: Job? = null
 
     override fun idle() {
-        navigateToLogin.value = false
         loadingState.value = LoadingType.NoLoading
         messagePopupState.value = null
         successPopupState.value = null
@@ -49,14 +47,6 @@ open class CoreGlobalState : ICoreGlobalState {
         datePickerState.value = null
         timePickerState.value = null
         overrideUserPopupState.value = null
-    }
-
-    override fun navigateToLogin() {
-        navigateToLogin.value = true
-    }
-
-    override fun resetNavigateToLogin() {
-        navigateToLogin.value = false
     }
 
     override fun setAppLoaded() {

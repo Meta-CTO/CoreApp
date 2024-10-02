@@ -38,10 +38,4 @@ internal fun AppContent() {
             startScreen = MainScreen()
         )
     }
-
-    // Check if we need to navigate to login
-    if (navigateToLogin) {
-//        navManager.clearAndNavigate(AuthScreen)
-        globalState.resetNavigateToLogin()
-    }
 }
