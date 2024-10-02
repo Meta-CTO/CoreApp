@@ -14,7 +14,6 @@ import com.metacto.core.presentation.globalState.models.TimePickerParams
 
 interface ICoreGlobalState {
     val appLoadedState: State<Boolean>
-    val navigateToLogin: State<Boolean>
     val loadingState: State<LoadingType>
     val messagePopupState: State<MessagePopupParams?>
     val overrideUserPopupState: State<OverrideUserPopupParams?>
@@ -30,8 +29,6 @@ interface ICoreGlobalState {
     val isNavigationBarDarkState: State<Boolean>
 
     fun idle()
-    fun navigateToLogin()
-    fun resetNavigateToLogin()
     fun setAppLoaded()
     fun loading(type: LoadingType)
     fun messagePopup(params: MessagePopupParams)

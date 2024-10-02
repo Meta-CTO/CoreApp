@@ -238,7 +238,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         return throwable is AppException && throwable.getErrorCode() == NetworkMapperConstants.NO_INTERNET_CONNECTION
     }
 
-    open fun logout() {}
+    open suspend fun logout() {}
 
     open fun handleAuthError() {
         coreGlobalState.confirmationPopup(
@@ -250,11 +250,12 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                 onPositiveClick = {
                     executeSilent({
                         logout()
-                        coreGlobalState.navigateToLogin()
                     })
                 },
                 onNegativeClick = {
-                    coreGlobalState.navigateToLogin()
+                    executeSilent({
+                        logout()
+                    })
                 }
             )
         )
