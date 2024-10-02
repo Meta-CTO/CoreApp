@@ -74,8 +74,14 @@ fun PasswordTextInputField(
         mutableStateOf(false)
     }
 
-    val visualTransformation = remember(isPasswordVisible) {
-        if (isPasswordVisible) {
+    val visualTransformation = remember(isPasswordVisible, text) {
+        /**
+         * Compose multiplatform input field has a bug that when a custom visual transformation
+         * is used then copy & paste menu doesn't appear in iOS.
+         * So as a workaround to fix the issue, we set the visual transformation to None when
+         * the text is empty to show the copy & paste menu
+         */
+        if (isPasswordVisible || text.isEmpty()) {
             VisualTransformation.None
         } else {
             PasswordVisualTransformation()
