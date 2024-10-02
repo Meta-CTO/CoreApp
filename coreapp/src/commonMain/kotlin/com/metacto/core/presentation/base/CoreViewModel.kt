@@ -238,7 +238,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         return throwable is AppException && throwable.getErrorCode() == NetworkMapperConstants.NO_INTERNET_CONNECTION
     }
 
-    abstract fun logout()
+    open fun logout() {}
 
     open fun handleAuthError() {
         coreGlobalState.confirmationPopup(
