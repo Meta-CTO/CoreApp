@@ -25,8 +25,6 @@ import com.metacto.strapikmm.datasource.network.services.strapi.JsonWithIgnoredU
 import com.metacto.strapikmm.errorhandling.AppException
 import com.metacto.strapikmm.errorhandling.NetworkMapperConstants
 import com.metacto.strapikmm.util.Logger
-import dev.gitlive.firebase.Firebase
-import dev.gitlive.firebase.auth.auth
 import dev.icerock.moko.resources.StringResource
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
@@ -240,6 +238,8 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         return throwable is AppException && throwable.getErrorCode() == NetworkMapperConstants.NO_INTERNET_CONNECTION
     }
 
+    abstract fun logout()
+
     open fun handleAuthError() {
         coreGlobalState.confirmationPopup(
             ConfirmationPopupParams(
@@ -249,7 +249,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                 isCancellable = false,
                 onPositiveClick = {
                     executeSilent({
-                        Firebase.auth.signOut()
+                        logout()
                         coreGlobalState.navigateToLogin()
                     })
                 },
