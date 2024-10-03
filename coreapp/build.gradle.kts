@@ -106,7 +106,6 @@ kotlin {
                 api(Dependencies.WEBVIEW)
                 api(Dependencies.SHIMMER)
                 implementation(Dependencies.KMP_NOTIFIER)
-                implementation(Dependencies.STATELY_COMMON) // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
             }
         }
 
