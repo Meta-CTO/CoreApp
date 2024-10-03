@@ -16,14 +16,14 @@ import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.components.bottomSheets.BottomSheetInsetsContainer
 import com.metacto.core.presentation.components.voyager.FadeTransition
 import com.metacto.core.presentation.theme.CoreTheme
-import org.koin.compose.rememberKoinInject
+import org.koin.compose.koinInject
 
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 @Composable
 fun CoreAppNavigator(
     modifier: Modifier,
-    navManager: NavManager = rememberKoinInject(),
+    navManager: NavManager = koinInject(),
     startScreen: Screen
 ) {
     // Get local navigator

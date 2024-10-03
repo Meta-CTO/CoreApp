@@ -105,8 +105,8 @@ internal fun WheelPicker(
                     contentAlignment = Alignment.Center
                 ) {
                     content(
-                        index = index,
-                        isClickable = index == calculateSnappedItemIndex(lazyListState)
+                        index,
+                        index == calculateSnappedItemIndex(lazyListState)
                     )
                 }
             }

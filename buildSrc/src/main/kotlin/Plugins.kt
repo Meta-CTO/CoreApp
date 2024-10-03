@@ -4,6 +4,7 @@ object Plugins {
     const val COCOAPODS_PLUGIN = "native.cocoapods"
     const val ANDROID_LIBRARY_PLUGIN = "com.android.library"
     const val COMPOSE_PLUGIN = "org.jetbrains.compose"
+    const val COMPOSE_COMPILER_PLUGIN = "org.jetbrains.kotlin.plugin.compose"
     const val SERIALIZATION_PLUGIN = "org.jetbrains.kotlin.plugin.serialization"
     const val PARCELIZE_PLUGIN = "kotlin-parcelize"
     const val MOKO_RESOURCES_PLUGIN = "dev.icerock.mobile.multiplatform-resources"

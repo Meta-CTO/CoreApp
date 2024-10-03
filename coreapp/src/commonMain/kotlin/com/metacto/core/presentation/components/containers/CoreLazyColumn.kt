@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.utils.extensions.isKeyboardVisible
 import com.metacto.core.utils.extensions.rememberPrevious
-import org.koin.compose.rememberKoinInject
+import org.koin.compose.koinInject
 
 @Composable
 fun CoreLazyColumn(
@@ -37,7 +37,7 @@ fun CoreLazyColumn(
     if (dismissKeyboardWhenScrolled) {
         val currentPosition by remember { derivedStateOf { state.firstVisibleItemIndex } }
         val prevPosition = rememberPrevious(currentPosition) ?: -1
-        val globalState = rememberKoinInject<ICoreGlobalState>()
+        val globalState = koinInject<ICoreGlobalState>()
         val isKeyboardVisible by isKeyboardVisible()
 
         LaunchedEffect(currentPosition, prevPosition, isKeyboardVisible) {

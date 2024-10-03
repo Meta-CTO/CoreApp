@@ -2,6 +2,7 @@
 
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import dev.icerock.gradle.MRVisibility
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 
 plugins {
@@ -9,6 +10,7 @@ plugins {
     kotlin(Plugins.COCOAPODS_PLUGIN)
     id(Plugins.ANDROID_LIBRARY_PLUGIN)
     id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
+    id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
     id(Plugins.SERIALIZATION_PLUGIN)
     id(Plugins.PARCELIZE_PLUGIN)
     id(Plugins.MOKO_RESOURCES_PLUGIN)
@@ -25,10 +27,9 @@ kotlin {
     iosSimulatorArm64()
 
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = Versions.JVM.toString()
-            }
+        compilerOptions {
+            jvmTarget.value(JvmTarget.JVM_17)
+            freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.metacto.core.utils.CommonParcelize")
         }
 
         publishAllLibraryVariants()

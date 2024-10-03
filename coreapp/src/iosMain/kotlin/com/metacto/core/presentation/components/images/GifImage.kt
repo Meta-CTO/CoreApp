@@ -19,7 +19,7 @@ import dev.icerock.moko.resources.AssetResource
 import org.jetbrains.skia.Bitmap
 import org.jetbrains.skia.Codec
 import org.jetbrains.skia.Data
-import org.koin.compose.rememberKoinInject
+import org.koin.compose.koinInject
 
 @Composable
 actual fun GifImage(
@@ -27,7 +27,7 @@ actual fun GifImage(
     resource: AssetResource
 ) {
     // Get resource provider
-    val resourceProvider = rememberKoinInject<IResourceProvider>()
+    val resourceProvider = koinInject<IResourceProvider>()
 
     // Init the codec
     var codec: Codec? by remember {
