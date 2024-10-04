@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.camera.CameraPreview
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
+import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.sampleApp.app.presentation.camera.CameraContract.Event
 import com.sampleApp.app.presentation.camera.CameraContract.State
 import com.sampleApp.app.presentation.theme.AppTheme.colors
@@ -32,37 +33,46 @@ internal fun CameraContent(
             .statusBarsPadding()
             .navigationBarsPadding()
     ) {
-        if (state.cameraController != null) {
-            CameraPreview(
-                cameraController = state.cameraController,
+        if (state.recordingFilePath != null) {
+            VideoPlayer(
+                modifier = Modifier.fillMaxSize(),
+                videoUrl = state.recordingFilePath,
+                autoPlay = false,
+                uniqueId = "camera_recording"
+            )
+        } else {
+            if (state.cameraController != null) {
+                CameraPreview(
+                    cameraController = state.cameraController,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(colors.black)
+                )
+            }
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(colors.black)
-            )
-        }
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .align(Alignment.BottomCenter)
+            ) {
+                PrimaryFilledButton(
+                    modifier = Modifier.weight(1f),
+                    text = if (state.isRecording) "Stop" else "Record",
+                    onClick = {
+                        onEvent(Event.ToggleRecord)
+                    }
+                )
 
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp)
-                .align(Alignment.BottomCenter)
-        ) {
-            PrimaryFilledButton(
-                modifier = Modifier.weight(1f),
-                text = if (state.isRecording) "Stop" else "Record",
-                onClick = {
-                    onEvent(Event.ToggleRecord)
-                }
-            )
-
-            PrimaryFilledButton(
-                modifier = Modifier.weight(1f),
-                text = "Lens",
-                onClick = {
-                    onEvent(Event.ToggleLens)
-                }
-            )
+                PrimaryFilledButton(
+                    modifier = Modifier.weight(1f),
+                    text = "Lens",
+                    onClick = {
+                        onEvent(Event.ToggleLens)
+                    }
+                )
+            }
         }
     }
 }

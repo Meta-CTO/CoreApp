@@ -7,16 +7,22 @@ import com.sampleApp.app.presentation.camera.components.CameraContent
 import com.metacto.core.presentation.base.BaseScreen
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.base.rememberViewModel
+import com.metacto.core.presentation.camera.rememberCameraController
 
 internal object CameraScreen : BaseScreen<CameraViewModel>() {
     @Composable
     override fun Content() {
-        // Get the view model
+        // Get main objects
         val viewModel = rememberViewModel<CameraViewModel>()
+        val cameraController = rememberCameraController()
 
         // Init view model
         LaunchedEffect(SIDE_EFFECTS_KEY) {
-            viewModel.setEvent(Event.Init)
+            viewModel.setEvent(
+                Event.Init(
+                    cameraController = cameraController
+                )
+            )
         }
 
         // Render content

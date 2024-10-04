@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.camera
 
+import androidx.compose.runtime.Composable
 import com.metacto.core.presentation.camera.models.CameraLens
 import com.metacto.core.presentation.camera.models.VideoRecordingParams
 import com.metacto.core.presentation.camera.models.VideoRecordingResult
@@ -17,3 +18,6 @@ expect class CameraController {
 
     fun isRecording(): Boolean
 }
+
+@Composable
+expect fun rememberCameraController(): CameraController

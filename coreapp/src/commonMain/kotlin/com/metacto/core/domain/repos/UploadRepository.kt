@@ -22,7 +22,23 @@ class UploadRepository(
     private val sharedPreference: KmmPreference
 ) {
     @Throws(Throwable::class)
-    suspend fun uploadImage(bytes: ByteArray, imageName: String = randomUUID()): Image {
+    suspend fun uploadImage(bytes: ByteArray, fileName: String = randomUUID()): Image {
+        return uploadMedia(
+            bytes = bytes,
+            fileName = "$fileName.jpg"
+        )
+    }
+
+    @Throws(Throwable::class)
+    suspend fun uploadVideo(bytes: ByteArray, fileName: String = randomUUID()): Image {
+        return uploadMedia(
+            bytes = bytes,
+            fileName = "$fileName.mp4"
+        )
+    }
+
+    @Throws(Throwable::class)
+    private suspend fun uploadMedia(bytes: ByteArray, fileName: String): Image {
         val token = sharedPreference.getSecureString(SharedConstants.ACCESS_TOKEN)
         val response = uploadService.httpClient.submitFormWithBinaryData(
             url = "${appEnvironment.baseUrl}/upload",
@@ -31,7 +47,7 @@ class UploadRepository(
                     "files",
                     bytes,
                     Headers.build {
-                        append(HttpHeaders.ContentDisposition, "filename=$imageName.jpg")
+                        append(HttpHeaders.ContentDisposition, "filename=$fileName")
                         append(HttpHeaders.Authorization, "Bearer $token")
                     }
                 )

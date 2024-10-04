@@ -14,6 +14,9 @@ import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
 import androidx.camera.video.VideoRecordEvent
 import androidx.camera.view.PreviewView
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.metacto.core.presentation.camera.models.CameraLens
@@ -148,6 +151,16 @@ actual class CameraController(
             cameraSelector,
             cameraPreview,
             videoCapture
+        )
+    }
+}
+
+@Composable
+actual fun rememberCameraController(): CameraController {
+    val context = LocalContext.current
+    return remember {
+        CameraController(
+            context = context.applicationContext
         )
     }
 }

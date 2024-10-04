@@ -12,7 +12,7 @@ import org.koin.dsl.module
 
 val viewModelsModule = module {
     // MARK: Add view model definitions
-    commonViewModel { CameraViewModel(get()) }
+    commonViewModel { CameraViewModel() }
     commonViewModel { TestViewModel() }
     commonViewModel { ProfileViewModel() }
     commonViewModel { HomeViewModel() }

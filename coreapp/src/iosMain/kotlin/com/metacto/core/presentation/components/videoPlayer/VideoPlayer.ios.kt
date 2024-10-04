@@ -38,6 +38,7 @@ import platform.AVKit.externalMetadata
 import platform.Foundation.NSData
 import platform.Foundation.NSString
 import platform.Foundation.dataWithContentsOfURL
+import platform.Foundation.NSFileManager
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
@@ -57,7 +58,18 @@ actual fun VideoPlayer(
 ) {
     // Create the player item with the url
     val playerItem = remember(videoUrl) {
-        AVPlayerItem(uRL = NSURL.URLWithString(videoUrl)!!)
+        // Check if the videoUrl is a local file path
+        val nsUrl = if (videoUrl.startsWith("file://")) {
+            NSURL.fileURLWithPath(videoUrl.removePrefix("file://"))
+        } else {
+            NSURL.URLWithString(videoUrl)!!
+        }
+        println("NSURL: $nsUrl")
+        nsUrl.path?.let {
+            val fileExists = NSFileManager.defaultManager.fileExistsAtPath(it)
+            println("File exists: $fileExists") // This should print 'true' if the file is there
+        }
+        AVPlayerItem(uRL = nsUrl)
     }
 
     // Set the title metadata

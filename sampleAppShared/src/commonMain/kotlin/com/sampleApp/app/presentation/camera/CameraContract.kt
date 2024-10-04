@@ -10,11 +10,12 @@ class CameraContract {
     data class State(
         val isInitialized: Boolean = false,
         val cameraController: CameraController? = null,
-        val isRecording: Boolean = false
+        val isRecording: Boolean = false,
+        val recordingFilePath: String? = null
     ) : ViewState
 
     sealed class Event : ViewEvent {
-        data object Init : Event()
+        data class Init(val cameraController: CameraController) : Event()
         data object ToggleRecord : Event()
         data object ToggleLens : Event()
     }
