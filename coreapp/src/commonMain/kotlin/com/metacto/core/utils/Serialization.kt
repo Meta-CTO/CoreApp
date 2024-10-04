@@ -8,4 +8,5 @@ expect interface CommonParcelable
 //@OptionalExpectation
 //@Target(AnnotationTarget.CLASS)
 //@Retention(AnnotationRetention.BINARY)
+//expect annotation class CommonParcelize()
 annotation class CommonParcelize
