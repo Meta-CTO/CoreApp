@@ -17,9 +17,7 @@ import platform.UIKit.UIApplicationOpenSettingsURLString
 import platform.UIKit.UIKeyboardFrameEndUserInfoKey
 import platform.UIKit.UIKeyboardWillHideNotification
 import platform.UIKit.UIKeyboardWillShowNotification
-import platform.darwin.DISPATCH_QUEUE_PRIORITY_DEFAULT
 import platform.darwin.dispatch_async
-import platform.darwin.dispatch_get_global_queue
 import platform.darwin.dispatch_get_main_queue
 
 actual fun getPlatformType(): PlatformType {
@@ -83,13 +81,6 @@ fun openAppSettingsPage() {
 
 fun runOnMainThread(block: () -> Unit) {
     dispatch_async(dispatch_get_main_queue()) {
-        block()
-    }
-}
-
-fun runOnIOThread(block: () -> Unit) {
-    val ioQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT.toLong(), 0u)
-    dispatch_async(ioQueue) {
         block()
     }
 }

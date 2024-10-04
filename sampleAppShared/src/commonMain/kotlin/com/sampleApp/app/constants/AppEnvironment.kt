@@ -5,7 +5,7 @@ import com.metacto.strapikmm.datasource.network.NetworkLogLevel
 
 object AppEnvironment {
     fun dev() = CoreEnvironment(
-        baseUrl = "https://dev-api.satyadating.com/api",
+        baseUrl = "https://dev-api.sampleApp.com/api",
         title = "DEV",
         networkLogLevel = NetworkLogLevel.ALL,
         iosAppStoreId = "id310633997",
@@ -16,9 +16,9 @@ object AppEnvironment {
     )
 
     fun prod() = CoreEnvironment(
-        baseUrl = "https://dev-api.satyadating.com/api",
+        baseUrl = "https://api.sampleApp.com/api",
         title = "PRODUCTION",
-        networkLogLevel = NetworkLogLevel.ALL,
+        networkLogLevel = NetworkLogLevel.NONE,
         iosAppStoreId = "id310633997",
         appConfigurationExpirationInMinutes = 1 * 60 * 24,
         currentAppConfigurationVersion = 1,

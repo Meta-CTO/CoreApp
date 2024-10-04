@@ -1,7 +1,6 @@
 package com.sampleApp.app.presentation.main.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,7 +16,6 @@ import com.sampleApp.app.presentation.main.MainContract.Event
 import com.sampleApp.app.presentation.main.MainContract.State
 import com.sampleApp.app.presentation.main.components.navBar.NavigationBar
 import com.sampleApp.app.presentation.profile.ProfileTab
-import com.sampleApp.app.presentation.theme.AppTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -40,9 +38,7 @@ internal fun MainContent(
 
     // Container column
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(AppTheme.colors.background)
+        modifier = Modifier.fillMaxSize()
     ) {
         // Content pager
         HorizontalPager(

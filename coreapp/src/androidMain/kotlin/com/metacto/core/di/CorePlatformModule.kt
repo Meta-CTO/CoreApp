@@ -12,8 +12,6 @@ import com.metacto.core.presentation.components.videoPlayer.VideoPlayerManager
 import com.metacto.core.utils.IResourceProvider
 import com.metacto.core.utils.ResourceProvider
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
-import com.metacto.core.utils.file.FileManager
-import com.metacto.core.utils.file.IFileManager
 import com.metacto.core.utils.imagePreloader.IPreloader
 import com.metacto.core.utils.imagePreloader.Preloader
 import com.metacto.core.utils.language.ILanguageManager
@@ -142,10 +140,6 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
                 )
             )
         }
-    }
-
-    single<IFileManager> {
-        FileManager()
     }
 }
 
