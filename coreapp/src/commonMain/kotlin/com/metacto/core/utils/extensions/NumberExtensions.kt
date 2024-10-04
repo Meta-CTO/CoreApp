@@ -70,6 +70,18 @@ fun Int?.stringOrDash(): String {
     }
 }
 
+private fun Int.formatSecondsTime(): String {
+    val sec = this % 60
+    val minutes = (this / 60) % 60
+    val hours = (this / 3600)
+
+    val hoursStr = if (hours < 10) "0$hours" else "$hours"
+    val minutesStr = if (minutes < 10) "0$minutes" else "$minutes"
+    val secondsStr = if (sec < 10) "0$sec" else "$sec"
+
+    return "$hoursStr:$minutesStr:$secondsStr"
+}
+
 fun Int.isMoreThanOne() = this > 1
 
 fun Dp?.orZero() = this ?: 0.dp
