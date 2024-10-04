@@ -105,8 +105,9 @@ kotlin {
                 api(Dependencies.COMPOTTIE)
                 api(Dependencies.WEBVIEW)
                 api(Dependencies.SHIMMER)
-                implementation("com.benasher44:uuid:0.8.4")
                 implementation(Dependencies.KMP_NOTIFIER)
+                implementation("com.benasher44:uuid:0.8.4")  // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
+                implementation(Dependencies.STATELY_COMMON) // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
             }
         }
 

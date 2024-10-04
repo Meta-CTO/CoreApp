@@ -40,7 +40,7 @@ jobs:
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
-          PUBLISH_VERSION: 1.0.${{ github.run_number }}
+          PUBLISH_VERSION: 2.0.${{ github.run_number }}
         run: echo PUBLISH_REPO_USER=$PUBLISH_REPO_USER$'\n'
           PUBLISH_VERSION=$PUBLISH_VERSION$'\n'
           PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN > ./local.properties
