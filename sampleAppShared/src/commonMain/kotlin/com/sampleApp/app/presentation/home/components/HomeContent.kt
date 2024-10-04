@@ -79,6 +79,14 @@ internal fun HomeContent(
 
         PrimaryFilledButton(
             modifier = Modifier.fillMaxWidth(),
+            text = "To Camera Screen",
+            onClick = {
+                onEvent(Event.NavigateToCameraScreen)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
             text = "To Youtube Screen",
             onClick = {
                 onEvent(Event.NavToYoutubeScreen)

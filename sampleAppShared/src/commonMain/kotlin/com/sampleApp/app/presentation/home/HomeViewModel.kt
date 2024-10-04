@@ -6,6 +6,7 @@ import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.presentation.youtube.YoutubeScreen
 import com.sampleApp.app.presentation.base.BaseViewModel
+import com.sampleApp.app.presentation.camera.CameraScreen
 import com.sampleApp.app.presentation.home.HomeContract.Companion.VIDEOS_LIST
 import com.sampleApp.app.presentation.home.HomeContract.Effect
 import com.sampleApp.app.presentation.home.HomeContract.Event
@@ -85,6 +86,10 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
 
         Event.OpenImagePicker -> {
             navManager.navigateToBottomSheet(ImagePickerSheet(showDeleteAction = true))
+        }
+
+        Event.NavigateToCameraScreen -> {
+            navManager.navigate(CameraScreen)
         }
     }
 

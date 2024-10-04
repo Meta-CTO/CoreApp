@@ -81,7 +81,7 @@ object Dependencies {
     object Coil {
         const val CORE = "io.coil-kt.coil3:coil:${Versions.COIL}"
         const val COMPOSE = "io.coil-kt.coil3:coil-compose:${Versions.COIL}"
-        const val NETOWRK = "io.coil-kt.coil3:coil-network:${Versions.COIL}"
+        const val NETWORK = "io.coil-kt.coil3:coil-network:${Versions.COIL}"
         const val ANDROID_COMPOSE = "io.coil-kt:coil-compose:${Versions.COIL_ANDROID}"
         const val ANDROID_GIF = "io.coil-kt:coil-gif:${Versions.COIL_ANDROID}"
     }
@@ -105,6 +105,15 @@ object Dependencies {
 
     object GitLive {
         const val CONFIG = "dev.gitlive:firebase-config:${Versions.GIT_LIVE}"
+    }
+
+    object Camera {
+        const val CAMERA_VIEW = "androidx.camera:camera-view:${Versions.CAMERA_X}"
+        const val CAMERA2 = "androidx.camera:camera-camera2:${Versions.CAMERA_X}"
+        const val CORE = "androidx.camera:camera-core:${Versions.CAMERA_X}"
+        const val EXTENSIONS = "androidx.camera:camera-extensions:${Versions.CAMERA_X}"
+        const val LIFECYCLE = "androidx.camera:camera-lifecycle:${Versions.CAMERA_X}"
+        const val VIDEO = "androidx.camera:camera-video:${Versions.CAMERA_X}"
     }
 
     const val STRAPI_KMM = "com.metacto:strapi:${Versions.STRAPI_KMM}"
