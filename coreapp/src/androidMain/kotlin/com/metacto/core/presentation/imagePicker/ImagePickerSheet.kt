@@ -21,7 +21,7 @@ actual class ImagePickerSheet actual constructor(
 ) : BaseSheet<ImagePickerViewModel>() {
 
     @Composable
-    override fun Content() {
+    actual override fun Content() {
         // Get main objects
         val viewModel = rememberViewModel<ImagePickerViewModel>()
         val imagePicker = rememberImagePicker(
