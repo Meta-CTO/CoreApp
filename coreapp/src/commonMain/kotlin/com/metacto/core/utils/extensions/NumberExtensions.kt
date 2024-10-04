@@ -142,4 +142,4 @@ fun Int.toHex(): String {
 
 expect fun Double.format(decimalsCount: Int): String
 
-expect fun Double.formatToComma(): String
+expect fun Double.formatToComma(maxFractionCount: Int = 0): String
