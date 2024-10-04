@@ -81,9 +81,7 @@ object Dependencies {
     object Coil {
         const val CORE = "io.coil-kt.coil3:coil:${Versions.COIL}"
         const val COMPOSE = "io.coil-kt.coil3:coil-compose:${Versions.COIL}"
-        const val NETOWRK = "io.coil-kt.coil3:coil-network:${Versions.COIL}"
-        const val ANDROID_COMPOSE = "io.coil-kt:coil-compose:${Versions.COIL_ANDROID}"
-        const val ANDROID_GIF = "io.coil-kt:coil-gif:${Versions.COIL_ANDROID}"
+        const val NETOWRK = "io.coil-kt.coil3:coil-network-ktor3:${Versions.COIL}"
     }
 
     object ExoPlayer {

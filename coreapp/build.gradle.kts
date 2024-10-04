@@ -125,7 +125,7 @@ kotlin {
                 api(Dependencies.AndroidX.SPLASH_SCREEN)
 
                 // Firebase
-                api(platform(Dependencies.Firebase.BOM))
+                api(project.dependencies.platform(Dependencies.Firebase.BOM))
                 api(Dependencies.Firebase.DYNAMIC_LINKS)
                 api(Dependencies.Firebase.CRASHLYTICS)
                 api(Dependencies.Firebase.ANALYTICS)
@@ -138,10 +138,6 @@ kotlin {
 
                 // Voyager
                 api(Dependencies.Voyager.KOIN)
-
-                // Coil
-                api(Dependencies.Coil.ANDROID_COMPOSE)
-                api(Dependencies.Coil.ANDROID_GIF)
 
                 // Exo Player
                 api(Dependencies.ExoPlayer.PLAYER)
