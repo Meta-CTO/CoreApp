@@ -107,7 +107,6 @@ kotlin {
                 api(Dependencies.SHIMMER)
                 implementation("com.benasher44:uuid:0.8.4")
                 implementation(Dependencies.KMP_NOTIFIER)
-                implementation(Dependencies.STATELY_COMMON) // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
             }
         }
 
