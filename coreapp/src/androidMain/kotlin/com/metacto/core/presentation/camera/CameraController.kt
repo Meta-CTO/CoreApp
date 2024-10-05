@@ -29,7 +29,8 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 
 actual class CameraController(
-    private val context: Context
+    private val context: Context,
+    actual var cameraLens: CameraLens = CameraLens.BACK
 ) {
     private var previewView: PreviewView? = null
     private var cameraPreview: Preview? = null
@@ -38,7 +39,6 @@ actual class CameraController(
     private var cameraProvider: ProcessCameraProvider? = null
     private var videoCapture: VideoCapture<Recorder>? = null
     private var recording: Recording? = null
-    private var currentCameraLens = CameraLens.BACK
     private var currentOutputFile: File? = null
 
     private val videosDirectory by lazy {
@@ -79,7 +79,7 @@ actual class CameraController(
     }
 
     actual fun toggleCameraLens() {
-        currentCameraLens = if (currentCameraLens == CameraLens.BACK) {
+        cameraLens = if (cameraLens == CameraLens.BACK) {
             CameraLens.FRONT
         } else {
             CameraLens.BACK
@@ -88,7 +88,7 @@ actual class CameraController(
     }
 
     actual fun getCameraLens(): CameraLens {
-        return currentCameraLens
+        return cameraLens
     }
 
     @Throws(Throwable::class)
@@ -140,7 +140,7 @@ actual class CameraController(
     // Bind camera to lifecycle with image and video capture
     private fun bindCameraToLifeCycle() {
         val cameraSelector = CameraSelector.Builder()
-            .requireLensFacing(currentCameraLens.toCameraXLensFacing())
+            .requireLensFacing(cameraLens.toCameraXLensFacing())
             .build()
 
         cameraProvider?.unbindAll()
@@ -156,11 +156,12 @@ actual class CameraController(
 }
 
 @Composable
-actual fun rememberCameraController(): CameraController {
+actual fun rememberCameraController(defaultLens: CameraLens): CameraController {
     val context = LocalContext.current
-    return remember {
+    return remember(defaultLens) {
         CameraController(
-            context = context.applicationContext
+            context = context.applicationContext,
+            cameraLens = defaultLens
         )
     }
 }

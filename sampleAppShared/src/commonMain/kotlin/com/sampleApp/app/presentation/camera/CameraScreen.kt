@@ -7,6 +7,7 @@ import com.sampleApp.app.presentation.camera.components.CameraContent
 import com.metacto.core.presentation.base.BaseScreen
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.base.rememberViewModel
+import com.metacto.core.presentation.camera.models.CameraLens
 import com.metacto.core.presentation.camera.rememberCameraController
 
 internal object CameraScreen : BaseScreen<CameraViewModel>() {
@@ -14,7 +15,9 @@ internal object CameraScreen : BaseScreen<CameraViewModel>() {
     override fun Content() {
         // Get main objects
         val viewModel = rememberViewModel<CameraViewModel>()
-        val cameraController = rememberCameraController()
+        val cameraController = rememberCameraController(
+            defaultLens = CameraLens.FRONT
+        )
 
         // Init view model
         LaunchedEffect(SIDE_EFFECTS_KEY) {

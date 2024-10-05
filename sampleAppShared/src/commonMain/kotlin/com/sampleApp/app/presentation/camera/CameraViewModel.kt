@@ -24,6 +24,7 @@ class CameraViewModel : BaseViewModel<State, Event, Effect>() {
 
     override fun handleEvents(event: Event): Any = when (event) {
         is Event.Init -> init(event.cameraController)
+        Event.BackClicked -> navManager.goBack()
         Event.ToggleLens -> handleToggleLens()
         Event.ToggleRecord -> handleToggleRecord()
     }

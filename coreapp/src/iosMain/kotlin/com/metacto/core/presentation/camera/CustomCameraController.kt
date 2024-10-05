@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.camera
 
+import com.metacto.core.presentation.camera.models.CameraLens
 import com.metacto.core.utils.extensions.runOnIOThread
 import com.metacto.core.utils.extensions.runOnMainThread
 import platform.AVFoundation.*
@@ -10,7 +11,9 @@ import kotlinx.cinterop.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 
-class CustomCameraController : NSObject(), AVCapturePhotoCaptureDelegateProtocol, AVCaptureFileOutputRecordingDelegateProtocol {
+class CustomCameraController(
+    private val defaultCameraLens: CameraLens
+) : NSObject(), AVCapturePhotoCaptureDelegateProtocol, AVCaptureFileOutputRecordingDelegateProtocol {
 
     private var captureSession: AVCaptureSession? = null
     private var backCamera: AVCaptureDevice? = null
@@ -20,7 +23,7 @@ class CustomCameraController : NSObject(), AVCapturePhotoCaptureDelegateProtocol
     private var movieOutput: AVCaptureMovieFileOutput? = null
     var cameraPreviewLayer: AVCaptureVideoPreviewLayer? = null
 
-    private var isUsingFrontCamera = false
+    private var isUsingFrontCamera = defaultCameraLens == CameraLens.FRONT
 
     // Output handling closures
     var onPhotoCapture: ((UIImage?) -> Unit)? = null
@@ -37,20 +40,35 @@ class CustomCameraController : NSObject(), AVCapturePhotoCaptureDelegateProtocol
         // Setup inputs
         setupInputs()
 
-        // Setup photo output
-        /*photoOutput = AVCapturePhotoOutput()
-        photoOutput?.setHighResolutionCaptureEnabled(true)
-        captureSession?.addOutput(photoOutput!!)*/
-
         // Setup movie output for video recording
         movieOutput = AVCaptureMovieFileOutput()
-        captureSession?.addOutput(movieOutput!!)
-//        if (captureSession?.canAddOutput(movieOutput!!) == true) {
-//            captureSession?.addOutput(movieOutput!!)
-//        }
+        if (captureSession?.canAddOutput(movieOutput!!) == true) {
+            captureSession?.addOutput(movieOutput!!)
+        }
+
+        // Add audio input here as well during initial setup
+        addAudioInput()
 
         captureSession?.commitConfiguration()
     }
+
+    @OptIn(ExperimentalForeignApi::class)
+    private fun addAudioInput() {
+        try {
+            val audioDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
+            val audioInput = AVCaptureDeviceInput.deviceInputWithDevice(audioDevice!!, null) as AVCaptureDeviceInput
+            if (captureSession?.canAddInput(audioInput) == true) {
+                captureSession?.addInput(audioInput)
+                println("Audio input added successfully")
+            } else {
+                println("Unable to add audio input")
+            }
+        } catch (e: Exception) {
+            println("Error adding audio input: ${e.message}")
+            onError?.invoke(e)
+        }
+    }
+
 
     @OptIn(ExperimentalForeignApi::class)
     private fun setupInputs() {
@@ -69,11 +87,14 @@ class CustomCameraController : NSObject(), AVCapturePhotoCaptureDelegateProtocol
         }
 
         // Set the back camera as default
-        currentCamera = backCamera
+        currentCamera = when (defaultCameraLens) {
+            CameraLens.FRONT -> frontCamera
+            CameraLens.BACK -> backCamera
+        }
 
         // Add input to session
         try {
-            val input = AVCaptureDeviceInput.deviceInputWithDevice(backCamera!!, null) as AVCaptureDeviceInput
+            val input = AVCaptureDeviceInput.deviceInputWithDevice(currentCamera!!, null) as AVCaptureDeviceInput
             if (captureSession?.canAddInput(input) == true) {
                 captureSession?.addInput(input)
             }
@@ -117,7 +138,7 @@ class CustomCameraController : NSObject(), AVCapturePhotoCaptureDelegateProtocol
         photoOutput?.capturePhotoWithSettings(settings, delegate = this)
     }
 
-    // Video Recording Functions
+    @OptIn(ExperimentalForeignApi::class)
     fun startVideoRecording() {
         val tempDir = NSTemporaryDirectory()
 //        val documentDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true).first() as String
@@ -125,24 +146,35 @@ class CustomCameraController : NSObject(), AVCapturePhotoCaptureDelegateProtocol
 
         val documentDir = NSFileManager.defaultManager.URLsForDirectory(NSDocumentDirectory, NSUserDomainMask).first() as NSURL
         val filePath = documentDir.URLByAppendingPathComponent("temp_video.mp4")
-        val outputURL = NSFileManager.defaultManager.temporaryDirectory.URLByAppendingPathComponent("output.mp4")
+        val outputURL = NSFileManager.defaultManager.temporaryDirectory.URLByAppendingPathComponent("output2.mp4")
 
-        val cacheDirectory: NSURL? = NSSearchPathForDirectoriesInDomains(
-            directory = NSCachesDirectory,
-            domainMask = NSUserDomainMask,
-            expandTilde = true
-        ).firstOrNull()?.let { path ->
-            (path as? String)?.let {
-                NSURL.fileURLWithPath(path).URLByAppendingPathComponent("syncFiles")
+        // Check if the file already exists and delete it if necessary
+        val fileManager = NSFileManager.defaultManager
+        if (fileManager.fileExistsAtPath(outputURL?.path!!)) {
+            try {
+                fileManager.removeItemAtURL(outputURL, null)
+                println("Existing video file deleted: ${outputURL.path}")
+            } catch (e: Exception) {
+                println("Error deleting existing file: ${e.message}")
             }
         }
 
+        //////////////
 
-
-        //val fileURL = NSURL.fileURLWithPath(filePath)
+        // Get the correct connection after switching the camera
+        val connection = movieOutput?.connectionWithMediaType(AVMediaTypeVideo)
+        connection?.let {
+            if (it.isVideoOrientationSupported()) {
+                it.videoOrientation = cameraPreviewLayer?.connection?.videoOrientation ?: AVCaptureVideoOrientationPortrait
+            }
+            if (it.isVideoMirroringSupported()) {
+                it.setVideoMirrored(isUsingFrontCamera)
+            }
+        }
 
         movieOutput?.startRecordingToOutputFileURL(outputURL!!, recordingDelegate = this)
     }
+
 
     fun stopVideoRecording() {
         movieOutput?.stopRecording()
@@ -152,7 +184,6 @@ class CustomCameraController : NSObject(), AVCapturePhotoCaptureDelegateProtocol
         return movieOutput?.isRecording() == true
     }
 
-    // Switch Camera
     @OptIn(ExperimentalForeignApi::class)
     fun switchCamera() {
         captureSession?.beginConfiguration()
@@ -198,10 +229,12 @@ class CustomCameraController : NSObject(), AVCapturePhotoCaptureDelegateProtocol
         }
 
         // Adjust connection settings for mirroring
-        val connection = cameraPreviewLayer?.connection
-        if (connection?.isVideoMirroringSupported() == true) {
-            connection.automaticallyAdjustsVideoMirroring = false
-            connection.setVideoMirrored(isUsingFrontCamera)
+        val connection = movieOutput?.connectionWithMediaType(AVMediaTypeVideo)
+        connection?.let {
+            if (it.isVideoMirroringSupported()) {
+                it.automaticallyAdjustsVideoMirroring = false
+                it.setVideoMirrored(isUsingFrontCamera)
+            }
         }
 
         captureSession?.commitConfiguration()

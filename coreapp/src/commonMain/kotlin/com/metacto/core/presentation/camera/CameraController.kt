@@ -6,6 +6,8 @@ import com.metacto.core.presentation.camera.models.VideoRecordingParams
 import com.metacto.core.presentation.camera.models.VideoRecordingResult
 
 expect class CameraController {
+    var cameraLens: CameraLens
+
     fun toggleCameraLens()
 
     fun getCameraLens(): CameraLens
@@ -20,4 +22,6 @@ expect class CameraController {
 }
 
 @Composable
-expect fun rememberCameraController(): CameraController
+expect fun rememberCameraController(
+    defaultLens: CameraLens = CameraLens.BACK
+): CameraController

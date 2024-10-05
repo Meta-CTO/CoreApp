@@ -17,17 +17,17 @@ import platform.Foundation.NSUserDomainMask
 import platform.Foundation.URLByAppendingPathComponent
 import platform.Foundation.temporaryDirectory
 import platform.UIKit.UIViewController
+import kotlin.coroutines.Continuation
 
-actual class CameraController : UIViewController(nibName = null, bundle = null) {
+actual class CameraController(
+    actual var cameraLens: CameraLens = CameraLens.BACK
+) : UIViewController(nibName = null, bundle = null) {
 
     private lateinit var cameraController: CustomCameraController
 
-    // Variables to store the current camera settings
-    private var currentCameraLens: CameraLens = CameraLens.BACK
-
     override fun viewDidLoad() {
         super.viewDidLoad()
-        cameraController = CustomCameraController()
+        cameraController = CustomCameraController(defaultCameraLens = cameraLens)
         cameraController.setupSession()
         cameraController.setupPreviewLayer(view)
         cameraController.startSession()
@@ -48,38 +48,42 @@ actual class CameraController : UIViewController(nibName = null, bundle = null) 
     }
 
     actual fun toggleCameraLens() {
-        currentCameraLens = if (currentCameraLens == CameraLens.BACK) CameraLens.FRONT else CameraLens.BACK
+        cameraLens =
+            if (cameraLens == CameraLens.BACK) CameraLens.FRONT else CameraLens.BACK
         cameraController.switchCamera()
     }
 
     actual fun getCameraLens(): CameraLens {
-        return currentCameraLens
+        return cameraLens
     }
 
     @Throws(Throwable::class)
     actual suspend fun recordVideo(params: VideoRecordingParams) {
         return suspendCancellableCoroutine { continuation ->
-            cameraController.onVideoCapture = { url ->
-                println("Video captured: $url")
-            }
             cameraController.startVideoRecording()
             continuation.resumeIfActive(Unit)
         }
     }
 
     @Throws(Throwable::class)
-    actual suspend fun stopRecording(): VideoRecordingResult = suspendCancellableCoroutine { cont ->
+    actual suspend fun stopRecording() = suspendCancellableCoroutine { cont ->
 //        val documentDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true).first() as String
 //        val filePath = "$documentDir/temp_video.mp4"
 //        val fileURL = NSURL.fileURLWithPath(filePath)
 
-        val documentDir = NSFileManager.defaultManager.URLsForDirectory(NSDocumentDirectory, NSUserDomainMask).first() as NSURL
+        val documentDir =
+            NSFileManager.defaultManager.URLsForDirectory(NSDocumentDirectory, NSUserDomainMask)
+                .first() as NSURL
         val filePath = documentDir.URLByAppendingPathComponent("temp_video.mp4")
-        val outputURL = NSFileManager.defaultManager.temporaryDirectory.URLByAppendingPathComponent("output.mp4")
+        val outputURL =
+            NSFileManager.defaultManager.temporaryDirectory.URLByAppendingPathComponent("output2.mp4")
 
         cameraController.stopVideoRecording()
 
-        cont.resumeIfActive(VideoRecordingResult(videoPath = outputURL!!.path.orEmpty()))
+        cameraController.onVideoCapture = { url ->
+            println("Video captured: $url")
+            cont.resumeIfActive(VideoRecordingResult(videoPath = url?.path!!))
+        }
     }
 
     actual fun isRecording(): Boolean {
@@ -88,8 +92,10 @@ actual class CameraController : UIViewController(nibName = null, bundle = null) 
 }
 
 @Composable
-actual fun rememberCameraController(): CameraController {
-    return remember {
-        CameraController()
+actual fun rememberCameraController(defaultLens: CameraLens): CameraController {
+    return remember(defaultLens) {
+        CameraController(
+            cameraLens = defaultLens
+        )
     }
 }
