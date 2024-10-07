@@ -111,7 +111,6 @@ object Dependencies {
         const val CAMERA_VIEW = "androidx.camera:camera-view:${Versions.CAMERA_X}"
         const val CAMERA2 = "androidx.camera:camera-camera2:${Versions.CAMERA_X}"
         const val CORE = "androidx.camera:camera-core:${Versions.CAMERA_X}"
-        const val EXTENSIONS = "androidx.camera:camera-extensions:${Versions.CAMERA_X}"
         const val LIFECYCLE = "androidx.camera:camera-lifecycle:${Versions.CAMERA_X}"
         const val VIDEO = "androidx.camera:camera-video:${Versions.CAMERA_X}"
     }
