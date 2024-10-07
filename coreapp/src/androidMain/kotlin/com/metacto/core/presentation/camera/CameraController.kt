@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
-import androidx.core.util.Consumer
 import androidx.lifecycle.LifecycleOwner
 import com.metacto.core.presentation.camera.models.CameraLens
 import com.metacto.core.presentation.camera.models.VideoRecordingParams
@@ -26,7 +25,6 @@ import com.metacto.core.presentation.camera.models.VideoRecordingResult
 import com.metacto.core.utils.extensions.orFalse
 import com.metacto.strapikmm.util.exceptionIfActive
 import com.metacto.strapikmm.util.resumeIfActive
-import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 
@@ -43,8 +41,6 @@ actual class CameraController(
     private var recording: Recording? = null
     private var currentOutputFile: File? = null
     private var currentCamera: CameraLens = defaultCamera
-    private var startRecordingCont: CancellableContinuation<Unit>? = null
-    private var stopRecordingCont: CancellableContinuation<VideoRecordingResult>? = null
 
     fun init(lifecycleOwner: LifecycleOwner) {
         this.lifecycleOwner = lifecycleOwner
@@ -96,12 +92,10 @@ actual class CameraController(
         return defaultCamera
     }
 
+    @SuppressLint("MissingPermission")
     @Throws(Throwable::class)
     actual suspend fun recordVideo(params: VideoRecordingParams) {
         return suspendCancellableCoroutine { cont ->
-            // Hold start recording cont to resume it when the video recording is started
-            startRecordingCont = cont
-
             // Validate video capture
             val videoCapture = videoCapture ?: run {
                 cont.exceptionIfActive(Throwable("VideoCapture is not created yet"))
@@ -111,38 +105,15 @@ actual class CameraController(
             // Create recording
             currentOutputFile = createVideoFile(fileName = params.fileName)
             val outputOptions = FileOutputOptions.Builder(currentOutputFile!!).build()
-            val pendingRecording = videoCapture.output.prepareRecording(context, outputOptions)
+            val pendingRecording = videoCapture.output
+                .prepareRecording(context, outputOptions)
+                .withAudioEnabled()
 
             // Start recording
-            recording = pendingRecording.start(
-                ContextCompat.getMainExecutor(context),
-                createRecordingEventHandler()
-            )
-        }
-    }
-
-    private fun createRecordingEventHandler() = Consumer<VideoRecordEvent> { event ->
-        when (event) {
-            is VideoRecordEvent.Start -> {
-                startRecordingCont?.resumeIfActive(Unit)
-                startRecordingCont = null
-            }
-
-            is VideoRecordEvent.Finalize -> {
-                if (event.error != VideoRecordEvent.Finalize.ERROR_NONE) {
-                    stopRecordingCont?.exceptionIfActive(Throwable("Recording error: ${event.error}"))
-                } else {
-                    val outputFile = requireNotNull(currentOutputFile) {
-                        "Error saving video file"
-                    }
-
-                    stopRecordingCont?.resumeIfActive(
-                        VideoRecordingResult(
-                            videoPath = outputFile.absolutePath
-                        )
-                    )
+            recording = pendingRecording.start(ContextCompat.getMainExecutor(context)) { event ->
+                if (event is VideoRecordEvent.Start) {
+                    cont.resumeIfActive(Unit)
                 }
-                stopRecordingCont = null
             }
         }
     }
@@ -152,13 +123,20 @@ actual class CameraController(
     }
 
     @Throws(Throwable::class)
-    actual suspend fun stopRecording() = suspendCancellableCoroutine { cont ->
-        // Hold stop recording cont to resume it when the video recording is stopped
-        stopRecordingCont = cont
-
+    actual suspend fun stopRecording(): VideoRecordingResult {
         // Stop the video recording
         recording?.stop()
         recording = null
+
+        // Validate output file
+        val outputFile = requireNotNull(currentOutputFile) {
+            "Error saving video file"
+        }
+
+        // Return the result
+        return VideoRecordingResult(
+            videoPath = outputFile.absolutePath
+        )
     }
 
     @SuppressLint("RestrictedApi")
