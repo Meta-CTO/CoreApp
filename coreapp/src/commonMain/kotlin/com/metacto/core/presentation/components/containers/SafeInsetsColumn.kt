@@ -12,11 +12,13 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.metacto.core.utils.extensions.isGesturesNavBarEnabled
+import com.metacto.strapikmm.util.applyIf
 
 @Composable
 fun SafeInsetsColumn(
     modifier: Modifier = Modifier,
     enableSafeInsets: Boolean = true,
+    enableImePadding: Boolean = true,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     // Prepare status bars modifier
@@ -50,7 +52,9 @@ fun SafeInsetsColumn(
         Column(
             modifier = Modifier
                 .then(safeDrawingModifier)
-                .windowInsetsPadding(WindowInsets.ime)
+                .applyIf(enableImePadding){
+                    windowInsetsPadding(WindowInsets.ime)
+                }
         ) {
             // Then render content
             content(this)
