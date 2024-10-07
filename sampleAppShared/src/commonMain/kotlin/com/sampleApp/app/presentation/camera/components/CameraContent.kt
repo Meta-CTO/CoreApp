@@ -38,7 +38,7 @@ internal fun CameraContent(
             VideoPlayer(
                 modifier = Modifier.fillMaxSize(),
                 videoUrl = state.recordingFilePath,
-                autoPlay = false,
+                autoPlay = true,
                 uniqueId = "camera_recording"
             )
         } else {

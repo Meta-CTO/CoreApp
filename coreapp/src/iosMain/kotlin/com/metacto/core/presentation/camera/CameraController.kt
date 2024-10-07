@@ -10,24 +10,22 @@ import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
-import platform.Foundation.NSSearchPathForDirectoriesInDomains
-import platform.Foundation.NSTemporaryDirectory
 import platform.Foundation.NSURL
 import platform.Foundation.NSUserDomainMask
 import platform.Foundation.URLByAppendingPathComponent
 import platform.Foundation.temporaryDirectory
 import platform.UIKit.UIViewController
-import kotlin.coroutines.Continuation
 
 actual class CameraController(
-    actual var cameraLens: CameraLens = CameraLens.BACK
+    actual val defaultCamera: CameraLens = CameraLens.BACK
 ) : UIViewController(nibName = null, bundle = null) {
 
     private lateinit var cameraController: CustomCameraController
+    private var currentCamera: CameraLens = defaultCamera
 
     override fun viewDidLoad() {
         super.viewDidLoad()
-        cameraController = CustomCameraController(defaultCameraLens = cameraLens)
+        cameraController = CustomCameraController(defaultCameraLens = defaultCamera)
         cameraController.setupSession()
         cameraController.setupPreviewLayer(view)
         cameraController.startSession()
@@ -48,13 +46,12 @@ actual class CameraController(
     }
 
     actual fun toggleCameraLens() {
-        cameraLens =
-            if (cameraLens == CameraLens.BACK) CameraLens.FRONT else CameraLens.BACK
+        currentCamera = if (currentCamera == CameraLens.BACK) CameraLens.FRONT else CameraLens.BACK
         cameraController.switchCamera()
     }
 
     actual fun getCameraLens(): CameraLens {
-        return cameraLens
+        return currentCamera
     }
 
     @Throws(Throwable::class)
@@ -92,10 +89,10 @@ actual class CameraController(
 }
 
 @Composable
-actual fun rememberCameraController(defaultLens: CameraLens): CameraController {
-    return remember(defaultLens) {
+actual fun rememberCameraController(defaultCamera: CameraLens): CameraController {
+    return remember(defaultCamera) {
         CameraController(
-            cameraLens = defaultLens
+            defaultCamera = defaultCamera
         )
     }
 }

@@ -16,7 +16,7 @@ internal object CameraScreen : BaseScreen<CameraViewModel>() {
         // Get main objects
         val viewModel = rememberViewModel<CameraViewModel>()
         val cameraController = rememberCameraController(
-            defaultLens = CameraLens.FRONT
+            defaultCamera = CameraLens.FRONT
         )
 
         // Init view model
