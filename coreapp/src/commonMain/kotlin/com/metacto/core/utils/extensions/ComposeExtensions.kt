@@ -518,6 +518,14 @@ fun Modifier.dismissKeyboardOnTapAttempt(): Modifier {
 }
 
 @Composable
+fun Modifier.modifyIf(
+    condition: Boolean,
+    modify: @Composable Modifier.() -> Modifier,
+): Modifier {
+    return if (condition) modify() else this
+}
+
+@Composable
 expect fun defaultMetadataLoader(): MetadataLoader
 
 @Composable

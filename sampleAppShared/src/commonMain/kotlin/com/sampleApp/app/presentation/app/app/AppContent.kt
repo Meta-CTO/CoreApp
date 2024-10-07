@@ -21,7 +21,6 @@ internal fun AppContent() {
 
     // Get states
     val backgroundType by globalState.appBgState
-    val navigateToLogin by globalState.navigateToLogin
 
     // Prepare app background
     val bgColor = when(backgroundType) {
