@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.camera.CameraPreview
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
+import com.metacto.core.utils.extensions.randomUUID
 import com.sampleApp.app.presentation.camera.CameraContract.Event
 import com.sampleApp.app.presentation.camera.CameraContract.State
 import com.sampleApp.app.presentation.theme.AppTheme.colors
@@ -39,7 +39,7 @@ internal fun CameraContent(
                 modifier = Modifier.fillMaxSize(),
                 videoUrl = state.recordingFilePath,
                 autoPlay = true,
-                uniqueId = "camera_recording"
+                uniqueId = randomUUID()
             )
         } else {
             if (state.cameraController != null) {
