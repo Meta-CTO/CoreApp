@@ -8,12 +8,6 @@ import com.metacto.core.presentation.camera.models.VideoRecordingResult
 import com.metacto.strapikmm.util.resumeIfActive
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.suspendCancellableCoroutine
-import platform.Foundation.NSDocumentDirectory
-import platform.Foundation.NSFileManager
-import platform.Foundation.NSURL
-import platform.Foundation.NSUserDomainMask
-import platform.Foundation.URLByAppendingPathComponent
-import platform.Foundation.temporaryDirectory
 import platform.UIKit.UIViewController
 
 actual class CameraController(
@@ -29,14 +23,14 @@ actual class CameraController(
         cameraController.setupSession()
         cameraController.setupPreviewLayer(view)
         cameraController.startSession()
-        configureCameraCallbacks()
-    }
-
-    private fun configureCameraCallbacks() {
         cameraController.onError = { error ->
-            println("Camera Error: $error")
             error.printStackTrace()
         }
+    }
+
+    override fun viewDidUnload() {
+        cameraController.stopSession()
+        super.viewDidUnload()
     }
 
     @OptIn(ExperimentalForeignApi::class)
@@ -57,29 +51,16 @@ actual class CameraController(
     @Throws(Throwable::class)
     actual suspend fun recordVideo(params: VideoRecordingParams) {
         return suspendCancellableCoroutine { continuation ->
-            cameraController.startVideoRecording()
+            cameraController.startVideoRecording(params)
             continuation.resumeIfActive(Unit)
         }
     }
 
     @Throws(Throwable::class)
     actual suspend fun stopRecording() = suspendCancellableCoroutine { cont ->
-//        val documentDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true).first() as String
-//        val filePath = "$documentDir/temp_video.mp4"
-//        val fileURL = NSURL.fileURLWithPath(filePath)
-
-        val documentDir =
-            NSFileManager.defaultManager.URLsForDirectory(NSDocumentDirectory, NSUserDomainMask)
-                .first() as NSURL
-        val filePath = documentDir.URLByAppendingPathComponent("temp_video.mp4")
-        val outputURL =
-            NSFileManager.defaultManager.temporaryDirectory.URLByAppendingPathComponent("output2.mp4")
-
         cameraController.stopVideoRecording()
-
-        cameraController.onVideoCapture = { url ->
-            println("Video captured: $url")
-            cont.resumeIfActive(VideoRecordingResult(videoPath = url?.path!!))
+        cameraController.onVideoCapture = { videoUrl ->
+            cont.resumeIfActive(VideoRecordingResult(videoPath = videoUrl?.path!!))
         }
     }
 

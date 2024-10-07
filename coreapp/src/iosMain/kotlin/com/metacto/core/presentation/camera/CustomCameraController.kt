@@ -1,37 +1,48 @@
 package com.metacto.core.presentation.camera
 
 import com.metacto.core.presentation.camera.models.CameraLens
+import com.metacto.core.presentation.camera.models.VideoRecordingParams
 import com.metacto.core.utils.extensions.runOnIOThread
-import com.metacto.core.utils.extensions.runOnMainThread
-import platform.AVFoundation.*
-import platform.Foundation.*
-import platform.UIKit.*
-import platform.darwin.*
-import kotlinx.cinterop.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
+import kotlinx.cinterop.ExperimentalForeignApi
+import platform.AVFoundation.AVCaptureDevice
+import platform.AVFoundation.AVCaptureDeviceDiscoverySession
+import platform.AVFoundation.AVCaptureDeviceInput
+import platform.AVFoundation.AVCaptureDevicePositionBack
+import platform.AVFoundation.AVCaptureDevicePositionFront
+import platform.AVFoundation.AVCaptureDevicePositionUnspecified
+import platform.AVFoundation.AVCaptureDeviceTypeBuiltInWideAngleCamera
+import platform.AVFoundation.AVCaptureFileOutput
+import platform.AVFoundation.AVCaptureFileOutputRecordingDelegateProtocol
+import platform.AVFoundation.AVCaptureMovieFileOutput
+import platform.AVFoundation.AVCaptureSession
+import platform.AVFoundation.AVCaptureVideoOrientationPortrait
+import platform.AVFoundation.AVCaptureVideoPreviewLayer
+import platform.AVFoundation.AVLayerVideoGravityResizeAspectFill
+import platform.AVFoundation.AVMediaTypeAudio
+import platform.AVFoundation.AVMediaTypeVideo
+import platform.AVFoundation.position
+import platform.Foundation.NSError
+import platform.Foundation.NSFileManager
+import platform.Foundation.NSURL
+import platform.Foundation.URLByAppendingPathComponent
+import platform.Foundation.temporaryDirectory
+import platform.UIKit.UIView
+import platform.darwin.NSObject
 
 class CustomCameraController(
     private val defaultCameraLens: CameraLens
-) : NSObject(), AVCapturePhotoCaptureDelegateProtocol, AVCaptureFileOutputRecordingDelegateProtocol {
+) : NSObject(), AVCaptureFileOutputRecordingDelegateProtocol {
 
     private var captureSession: AVCaptureSession? = null
     private var backCamera: AVCaptureDevice? = null
     private var frontCamera: AVCaptureDevice? = null
-    var currentCamera: AVCaptureDevice? = null
-    private var photoOutput: AVCapturePhotoOutput? = null
+    private var currentCamera: AVCaptureDevice? = null
     private var movieOutput: AVCaptureMovieFileOutput? = null
     var cameraPreviewLayer: AVCaptureVideoPreviewLayer? = null
+        private set
 
-    private var isUsingFrontCamera = defaultCameraLens == CameraLens.FRONT
-
-    // Output handling closures
-    var onPhotoCapture: ((UIImage?) -> Unit)? = null
-    var onVideoCapture: ((NSURL?) -> Unit)? = null // Callback for video file
-    var onError: ((Exception) -> Unit)? = null
-
-    // Flash mode: Can be auto, on, or off
-    var flashMode: AVCaptureFlashMode = AVCaptureFlashModeAuto
+    var onVideoCapture: ((NSURL?) -> Unit)? = null
+    var onError: ((Throwable) -> Unit)? = null
 
     fun setupSession() {
         captureSession = AVCaptureSession()
@@ -46,31 +57,10 @@ class CustomCameraController(
             captureSession?.addOutput(movieOutput!!)
         }
 
-        // Add audio input here as well during initial setup
-        addAudioInput()
-
+        // Commit configurations
         captureSession?.commitConfiguration()
     }
 
-    @OptIn(ExperimentalForeignApi::class)
-    private fun addAudioInput() {
-        try {
-            val audioDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
-            val audioInput = AVCaptureDeviceInput.deviceInputWithDevice(audioDevice!!, null) as AVCaptureDeviceInput
-            if (captureSession?.canAddInput(audioInput) == true) {
-                captureSession?.addInput(audioInput)
-                println("Audio input added successfully")
-            } else {
-                println("Unable to add audio input")
-            }
-        } catch (e: Exception) {
-            println("Error adding audio input: ${e.message}")
-            onError?.invoke(e)
-        }
-    }
-
-
-    @OptIn(ExperimentalForeignApi::class)
     private fun setupInputs() {
         // Find the back and front cameras
         val availableDevices = AVCaptureDeviceDiscoverySession.discoverySessionWithDeviceTypes(
@@ -79,6 +69,7 @@ class CustomCameraController(
             AVCaptureDevicePositionUnspecified
         ).devices
 
+        // Set back and front cameras
         for (device in availableDevices) {
             when ((device as AVCaptureDevice).position) {
                 AVCaptureDevicePositionBack -> backCamera = device
@@ -86,21 +77,76 @@ class CustomCameraController(
             }
         }
 
-        // Set the back camera as default
+        // Set current camera
         currentCamera = when (defaultCameraLens) {
             CameraLens.FRONT -> frontCamera
             CameraLens.BACK -> backCamera
         }
 
-        // Add input to session
+        // Add inputs
+        addCameraInputToCurrentSession()
+        addAudioInputToCurrentSession()
+    }
+
+    fun switchCamera() {
+        captureSession?.beginConfiguration()
+
+        // Remove current input
+        val currentInput = captureSession?.inputs?.firstOrNull() as? AVCaptureDeviceInput
+        if (currentInput != null) {
+            captureSession?.removeInput(currentInput)
+        }
+
+        // Toggle between front and back camera
+        currentCamera = if (currentCamera == backCamera) frontCamera else backCamera
+
+        // Add inputs
+        addCameraInputToCurrentSession()
+        addAudioInputToCurrentSession()
+
+        // Commit configuration
+        captureSession?.commitConfiguration()
+    }
+
+    @OptIn(ExperimentalForeignApi::class)
+    private fun addCameraInputToCurrentSession() {
         try {
-            val input = AVCaptureDeviceInput.deviceInputWithDevice(currentCamera!!, null) as AVCaptureDeviceInput
+            val input = AVCaptureDeviceInput.deviceInputWithDevice(
+                currentCamera!!,
+                null
+            ) as AVCaptureDeviceInput
             if (captureSession?.canAddInput(input) == true) {
                 captureSession?.addInput(input)
             }
-        } catch (e: Exception) {
+        } catch (e: Throwable) {
             onError?.let { it(e) }
         }
+    }
+
+    @OptIn(ExperimentalForeignApi::class)
+    private fun addAudioInputToCurrentSession() {
+        try {
+            val audioDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
+            val audioInput = AVCaptureDeviceInput.deviceInputWithDevice(
+                audioDevice!!,
+                null
+            ) as AVCaptureDeviceInput
+            if (captureSession?.canAddInput(audioInput) == true) {
+                captureSession?.addInput(audioInput)
+            }
+        } catch (e: Throwable) {
+            onError?.let { it(e) }
+        }
+    }
+
+    @OptIn(ExperimentalForeignApi::class)
+    fun setupPreviewLayer(view: UIView) {
+        val captureSession = this.captureSession ?: return
+
+        cameraPreviewLayer = AVCaptureVideoPreviewLayer(session = captureSession)
+        cameraPreviewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
+        cameraPreviewLayer?.setFrame(view.bounds)
+        view.layer.addSublayer(cameraPreviewLayer!!)
     }
 
     fun startSession() = runOnIOThread {
@@ -116,65 +162,36 @@ class CustomCameraController(
     }
 
     @OptIn(ExperimentalForeignApi::class)
-    fun setupPreviewLayer(view: UIView) {
-        captureSession?.let { captureSession ->
-            cameraPreviewLayer = AVCaptureVideoPreviewLayer(session = captureSession)
-            cameraPreviewLayer?.videoGravity = AVLayerVideoGravityResizeAspectFill
-            cameraPreviewLayer?.setFrame(view.bounds)
-            view.layer.addSublayer(cameraPreviewLayer!!)
-        }
-    }
+    fun startVideoRecording(params: VideoRecordingParams) {
+        // Create the video file
+        val videoFile = NSFileManager.defaultManager
+            .temporaryDirectory
+            .URLByAppendingPathComponent(params.fileName)
 
-    // Flash Handling
-    fun setFlashMode(mode: AVCaptureFlashMode) {
-        flashMode = mode
-    }
-
-    // Capture Image
-    fun captureImage() {
-        val settings = AVCapturePhotoSettings()
-        settings.flashMode = flashMode
-        settings.isHighResolutionPhotoEnabled()
-        photoOutput?.capturePhotoWithSettings(settings, delegate = this)
-    }
-
-    @OptIn(ExperimentalForeignApi::class)
-    fun startVideoRecording() {
-        val tempDir = NSTemporaryDirectory()
-//        val documentDir = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true).first() as String
-//        val filePath = "$documentDir/temp_video.mp4"
-
-        val documentDir = NSFileManager.defaultManager.URLsForDirectory(NSDocumentDirectory, NSUserDomainMask).first() as NSURL
-        val filePath = documentDir.URLByAppendingPathComponent("temp_video.mp4")
-        val outputURL = NSFileManager.defaultManager.temporaryDirectory.URLByAppendingPathComponent("output2.mp4")
-
-        // Check if the file already exists and delete it if necessary
-        val fileManager = NSFileManager.defaultManager
-        if (fileManager.fileExistsAtPath(outputURL?.path!!)) {
-            try {
-                fileManager.removeItemAtURL(outputURL, null)
-                println("Existing video file deleted: ${outputURL.path}")
-            } catch (e: Exception) {
-                println("Error deleting existing file: ${e.message}")
+        // Delete the video file if exists before so that the new video could be recorded
+        NSFileManager.defaultManager.run {
+            if (fileExistsAtPath(videoFile?.path!!)) {
+                removeItemAtURL(videoFile, null)
             }
         }
 
-        //////////////
-
-        // Get the correct connection after switching the camera
-        val connection = movieOutput?.connectionWithMediaType(AVMediaTypeVideo)
-        connection?.let {
+        // Configure the movie connection before start recording
+        movieOutput?.connectionWithMediaType(AVMediaTypeVideo)?.let {
+            // Set video orientation
             if (it.isVideoOrientationSupported()) {
-                it.videoOrientation = cameraPreviewLayer?.connection?.videoOrientation ?: AVCaptureVideoOrientationPortrait
+                it.videoOrientation = cameraPreviewLayer?.connection?.videoOrientation
+                    ?: AVCaptureVideoOrientationPortrait
             }
+
+            // Set video mirroring
             if (it.isVideoMirroringSupported()) {
-                it.setVideoMirrored(isUsingFrontCamera)
+                it.setVideoMirrored(isUsingFrontCamera())
             }
         }
 
-        movieOutput?.startRecordingToOutputFileURL(outputURL!!, recordingDelegate = this)
+        // Start recording
+        movieOutput?.startRecordingToOutputFileURL(videoFile!!, recordingDelegate = this)
     }
-
 
     fun stopVideoRecording() {
         movieOutput?.stopRecording()
@@ -184,63 +201,6 @@ class CustomCameraController(
         return movieOutput?.isRecording() == true
     }
 
-    @OptIn(ExperimentalForeignApi::class)
-    fun switchCamera() {
-        captureSession?.beginConfiguration()
-
-        // Remove current input
-        val currentInput = captureSession?.inputs?.first() as? AVCaptureDeviceInput
-        if (currentInput != null) {
-            captureSession?.removeInput(currentInput)
-        }
-
-        // Toggle between front and back camera
-        isUsingFrontCamera = !isUsingFrontCamera
-        currentCamera = if (isUsingFrontCamera) frontCamera else backCamera
-
-        // Add new input
-        try {
-            val newInput = AVCaptureDeviceInput.deviceInputWithDevice(currentCamera!!, null) as AVCaptureDeviceInput
-            if (captureSession?.canAddInput(newInput) == true) {
-                println("can add video input")
-                captureSession?.addInput(newInput)
-            } else {
-                println("can't add video input")
-            }
-        } catch (e: Exception) {
-            println("error adding video input")
-            e.printStackTrace()
-            onError?.invoke(e)
-        }
-
-        // Add audio input to session
-        try {
-            val audioDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
-            val audioInput = AVCaptureDeviceInput.deviceInputWithDevice(audioDevice!!, null) as AVCaptureDeviceInput
-            if (captureSession?.canAddInput(audioInput) == true) {
-                captureSession?.addInput(audioInput)
-                println("can add audio input")
-            } else {
-                println("can't add audio input")
-            }
-        } catch (e: Exception) {
-            println("can't add audio input ${e.message}")
-            onError?.let { it(e) }
-        }
-
-        // Adjust connection settings for mirroring
-        val connection = movieOutput?.connectionWithMediaType(AVMediaTypeVideo)
-        connection?.let {
-            if (it.isVideoMirroringSupported()) {
-                it.automaticallyAdjustsVideoMirroring = false
-                it.setVideoMirrored(isUsingFrontCamera)
-            }
-        }
-
-        captureSession?.commitConfiguration()
-    }
-
-    // AVCaptureFileOutputRecordingDelegate
     override fun captureOutput(
         output: AVCaptureFileOutput,
         didFinishRecordingToOutputFileAtURL: NSURL,
@@ -254,19 +214,7 @@ class CustomCameraController(
         }
     }
 
-    // AVCapturePhotoCaptureDelegate
-    override fun captureOutput(
-        output: AVCapturePhotoOutput,
-        didFinishProcessingPhoto: AVCapturePhoto,
-        error: NSError?
-    ) {
-        if (error != null) {
-            onError?.invoke(Exception(error.localizedDescription))
-            return
-        }
-
-        val imageData = didFinishProcessingPhoto.fileDataRepresentation()
-        val image = imageData?.let { UIImage(data = it) }
-        onPhotoCapture?.invoke(image)
+    private fun isUsingFrontCamera(): Boolean {
+        return currentCamera == frontCamera
     }
 }
