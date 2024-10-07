@@ -7,12 +7,12 @@ import kotlinx.cinterop.ExperimentalForeignApi
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
-actual fun CameraPreview(
+internal actual fun CameraPreviewView(
     modifier: Modifier,
-    cameraController: CameraController
+    cameraEngine: CameraEngine
 ) {
     UIKitViewController(
-        factory = { cameraController },
+        factory = { cameraEngine },
         modifier = modifier
     )
 }

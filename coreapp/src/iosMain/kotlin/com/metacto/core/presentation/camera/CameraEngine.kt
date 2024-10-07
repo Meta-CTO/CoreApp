@@ -1,7 +1,5 @@
 package com.metacto.core.presentation.camera
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import com.metacto.core.presentation.camera.models.CameraLens
 import com.metacto.core.presentation.camera.models.VideoRecordingParams
 import com.metacto.core.presentation.camera.models.VideoRecordingResult
@@ -34,7 +32,7 @@ import platform.Foundation.temporaryDirectory
 import platform.UIKit.UIView
 import platform.UIKit.UIViewController
 
-actual class CameraController(
+actual class CameraEngine(
     actual val defaultCamera: CameraLens = CameraLens.BACK
 ) : UIViewController(nibName = null, bundle = null), AVCaptureFileOutputRecordingDelegateProtocol {
 
@@ -256,14 +254,5 @@ actual class CameraController(
 
     private fun isUsingFrontCamera(): Boolean {
         return currentCamera == CameraLens.FRONT
-    }
-}
-
-@Composable
-actual fun rememberCameraController(defaultCamera: CameraLens): CameraController {
-    return remember(defaultCamera) {
-        CameraController(
-            defaultCamera = defaultCamera
-        )
     }
 }

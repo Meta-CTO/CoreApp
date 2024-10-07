@@ -1,27 +1,39 @@
 package com.metacto.core.presentation.camera
 
-import androidx.compose.runtime.Composable
+import com.metacto.core.permissions.IPermissionManager
+import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.presentation.camera.models.CameraLens
 import com.metacto.core.presentation.camera.models.VideoRecordingParams
 import com.metacto.core.presentation.camera.models.VideoRecordingResult
 
-expect class CameraController {
-    val defaultCamera: CameraLens
+class CameraController(
+    private val permissionManager: IPermissionManager,
+    val cameraEngine: CameraEngine
+) {
+    fun toggleCameraLens() {
+        cameraEngine.toggleCameraLens()
+    }
 
-    fun toggleCameraLens()
-
-    fun getCameraLens(): CameraLens
+    fun getCameraLens(): CameraLens {
+        return cameraEngine.getCameraLens()
+    }
 
     @Throws(Throwable::class)
-    suspend fun recordVideo(params: VideoRecordingParams)
+    suspend fun recordVideo(params: VideoRecordingParams) {
+        // Request required permissions
+        permissionManager.requestPermission(Permission.CAMERA)
+        permissionManager.requestPermission(Permission.RECORD_AUDIO)
+
+        // Then record
+        cameraEngine.recordVideo(params)
+    }
 
     @Throws(Throwable::class)
-    suspend fun stopRecording(): VideoRecordingResult
+    suspend fun stopRecording(): VideoRecordingResult {
+        return cameraEngine.stopRecording()
+    }
 
-    fun isRecording(): Boolean
+    fun isRecording(): Boolean {
+        return cameraEngine.isRecording()
+    }
 }
-
-@Composable
-expect fun rememberCameraController(
-    defaultCamera: CameraLens = CameraLens.BACK
-): CameraController

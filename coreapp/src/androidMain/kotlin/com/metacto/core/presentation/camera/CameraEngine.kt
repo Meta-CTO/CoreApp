@@ -14,9 +14,6 @@ import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
 import androidx.camera.video.VideoRecordEvent
 import androidx.camera.view.PreviewView
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.metacto.core.presentation.camera.models.CameraLens
@@ -28,7 +25,7 @@ import com.metacto.strapikmm.util.resumeIfActive
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 
-actual class CameraController(
+actual class CameraEngine(
     private val context: Context,
     actual val defaultCamera: CameraLens = CameraLens.BACK
 ) {
@@ -158,17 +155,6 @@ actual class CameraController(
             cameraSelector,
             cameraPreview,
             videoCapture
-        )
-    }
-}
-
-@Composable
-actual fun rememberCameraController(defaultCamera: CameraLens): CameraController {
-    val context = LocalContext.current
-    return remember(defaultCamera) {
-        CameraController(
-            context = context.applicationContext,
-            defaultCamera = defaultCamera
         )
     }
 }

@@ -17,7 +17,7 @@ class CameraContract {
     ) : ViewState
 
     sealed class Event : ViewEvent {
-        data class Init(val cameraController: CameraController) : Event()
+        data object Init : Event()
         data object BackClicked : Event()
         data object ToggleRecord : Event()
         data object ToggleLens : Event()
