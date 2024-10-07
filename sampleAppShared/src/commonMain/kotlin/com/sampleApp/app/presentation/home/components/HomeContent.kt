@@ -29,6 +29,7 @@ internal fun HomeContent(
     ScreenColumn(
         isScrollable = true,
         verticalArrangement = Arrangement.spacedBy(8.dp),
+        enableSafeInsets = false
     ) {
         VideoPlayer(
             uniqueId = "home_video_player",
@@ -77,29 +78,29 @@ internal fun HomeContent(
             )
         }
 
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "To Camera Screen",
-            onClick = {
-                onEvent(Event.NavigateToCameraScreen)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "To Youtube Screen",
-            onClick = {
-                onEvent(Event.NavToYoutubeScreen)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "To Test Screen",
-            onClick = {
-                onEvent(Event.NavToTestScreen)
-            }
-        )
+//        PrimaryFilledButton(
+//            modifier = Modifier.fillMaxWidth(),
+//            text = "To Camera Screen",
+//            onClick = {
+//                onEvent(Event.NavigateToCameraScreen)
+//            }
+//        )
+//
+//        PrimaryFilledButton(
+//            modifier = Modifier.fillMaxWidth(),
+//            text = "To Youtube Screen",
+//            onClick = {
+//                onEvent(Event.NavToYoutubeScreen)
+//            }
+//        )
+//
+//        PrimaryFilledButton(
+//            modifier = Modifier.fillMaxWidth(),
+//            text = "To Test Screen",
+//            onClick = {
+//                onEvent(Event.NavToTestScreen)
+//            }
+//        )
 
         PrimaryFilledButton(
             modifier = Modifier.fillMaxWidth(),

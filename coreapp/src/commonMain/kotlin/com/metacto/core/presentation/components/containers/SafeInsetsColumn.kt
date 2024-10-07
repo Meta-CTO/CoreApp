@@ -16,7 +16,6 @@ import com.metacto.core.utils.extensions.modifyIf
 fun SafeInsetsColumn(
     modifier: Modifier = Modifier,
     enableSafeInsets: Boolean = true,
-    enableImePadding: Boolean = true,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     // Render outer box that will respect status and nav bars
@@ -33,7 +32,7 @@ fun SafeInsetsColumn(
         Column(
             modifier = Modifier
                 .modifyIf(enableSafeInsets) { safeDrawingPadding() }
-                .modifyIf(enableImePadding) { imePadding() }
+                .modifyIf(enableSafeInsets) { imePadding() }
         ) {
             // Then render content
             content(this)
