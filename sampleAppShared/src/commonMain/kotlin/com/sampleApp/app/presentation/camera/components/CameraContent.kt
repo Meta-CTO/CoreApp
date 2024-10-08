@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.camera.CameraPreview
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
+import com.metacto.core.utils.extensions.randomUUID
 import com.sampleApp.app.presentation.camera.CameraContract.Event
 import com.sampleApp.app.presentation.camera.CameraContract.State
 import com.sampleApp.app.presentation.theme.AppTheme.colors
@@ -37,8 +38,8 @@ internal fun CameraContent(
             VideoPlayer(
                 modifier = Modifier.fillMaxSize(),
                 videoUrl = state.recordingFilePath,
-                autoPlay = false,
-                uniqueId = "camera_recording"
+                autoPlay = true,
+                uniqueId = randomUUID()
             )
         } else {
             if (state.cameraController != null) {
@@ -74,5 +75,13 @@ internal fun CameraContent(
                 )
             }
         }
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
+            text = "Go back",
+            onClick = {
+                onEvent(Event.BackClicked)
+            }
+        )
     }
 }

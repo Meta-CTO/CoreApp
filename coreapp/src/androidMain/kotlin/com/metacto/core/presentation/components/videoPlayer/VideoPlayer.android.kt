@@ -14,7 +14,7 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import com.metacto.core.utils.extensions.OnLifecycleEvent
-import org.koin.compose.rememberKoinInject
+import org.koin.compose.koinInject
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -33,7 +33,7 @@ actual fun VideoPlayer(
     onPlayerCreated: ((VideoPlayerController) -> Unit)?
 ) {
     // Inject main stuff
-    val playerManagers = rememberKoinInject<MutableMap<String, VideoPlayerManager>>()
+    val playerManagers = koinInject<MutableMap<String, VideoPlayerManager>>()
     val playerManager = playerManagers.getOrPut(uniqueId) {
         VideoPlayerManager(uniqueId)
     }

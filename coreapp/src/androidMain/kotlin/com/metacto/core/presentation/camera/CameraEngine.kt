@@ -14,9 +14,6 @@ import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
 import androidx.camera.video.VideoRecordEvent
 import androidx.camera.view.PreviewView
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.metacto.core.presentation.camera.models.CameraLens
@@ -28,8 +25,9 @@ import com.metacto.strapikmm.util.resumeIfActive
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
 
-actual class CameraController(
-    private val context: Context
+actual class CameraEngine(
+    private val context: Context,
+    actual val defaultCamera: CameraLens = CameraLens.BACK
 ) {
     private var previewView: PreviewView? = null
     private var cameraPreview: Preview? = null
@@ -38,17 +36,17 @@ actual class CameraController(
     private var cameraProvider: ProcessCameraProvider? = null
     private var videoCapture: VideoCapture<Recorder>? = null
     private var recording: Recording? = null
-    private var currentCameraLens = CameraLens.BACK
     private var currentOutputFile: File? = null
+    private var currentCamera: CameraLens = defaultCamera
+
+    fun init(lifecycleOwner: LifecycleOwner) {
+        this.lifecycleOwner = lifecycleOwner
+    }
 
     private val videosDirectory by lazy {
         File(context.cacheDir.absolutePath + "/videos").apply {
             if (exists().not()) mkdirs()
         }
-    }
-
-    fun init(lifecycleOwner: LifecycleOwner) {
-        this.lifecycleOwner = lifecycleOwner
     }
 
     fun startCamera(previewView: PreviewView) {
@@ -79,7 +77,7 @@ actual class CameraController(
     }
 
     actual fun toggleCameraLens() {
-        currentCameraLens = if (currentCameraLens == CameraLens.BACK) {
+        currentCamera = if (currentCamera == CameraLens.BACK) {
             CameraLens.FRONT
         } else {
             CameraLens.BACK
@@ -88,26 +86,31 @@ actual class CameraController(
     }
 
     actual fun getCameraLens(): CameraLens {
-        return currentCameraLens
+        return defaultCamera
     }
 
+    @SuppressLint("MissingPermission")
     @Throws(Throwable::class)
-    actual suspend fun recordVideo(params: VideoRecordingParams) = suspendCancellableCoroutine { cont ->
-        // Validate video capture
-        val videoCapture = videoCapture ?: run {
-            cont.exceptionIfActive(Throwable("VideoCapture is not created yet"))
-            return@suspendCancellableCoroutine
-        }
+    actual suspend fun recordVideo(params: VideoRecordingParams) {
+        return suspendCancellableCoroutine { cont ->
+            // Validate video capture
+            val videoCapture = videoCapture ?: run {
+                cont.exceptionIfActive(Throwable("VideoCapture is not created yet"))
+                return@suspendCancellableCoroutine
+            }
 
-        // Create recording
-        currentOutputFile = createVideoFile(fileName = params.fileName)
-        val outputOptions = FileOutputOptions.Builder(currentOutputFile!!).build()
-        val pendingRecording = videoCapture.output.prepareRecording(context, outputOptions)
+            // Create recording
+            currentOutputFile = createVideoFile(fileName = params.fileName)
+            val outputOptions = FileOutputOptions.Builder(currentOutputFile!!).build()
+            val pendingRecording = videoCapture.output
+                .prepareRecording(context, outputOptions)
+                .withAudioEnabled()
 
-        // Start recording
-        recording = pendingRecording.start(ContextCompat.getMainExecutor(context)) { event ->
-            if (event is VideoRecordEvent.Start) {
-                cont.resumeIfActive(Unit)
+            // Start recording
+            recording = pendingRecording.start(ContextCompat.getMainExecutor(context)) { event ->
+                if (event is VideoRecordEvent.Start) {
+                    cont.resumeIfActive(Unit)
+                }
             }
         }
     }
@@ -117,18 +120,19 @@ actual class CameraController(
     }
 
     @Throws(Throwable::class)
-    actual suspend fun stopRecording() = suspendCancellableCoroutine { cont ->
+    actual suspend fun stopRecording(): VideoRecordingResult {
+        // Stop the video recording
         recording?.stop()
         recording = null
 
+        // Validate output file
         val outputFile = requireNotNull(currentOutputFile) {
             "Error saving video file"
         }
 
-        cont.resumeIfActive(
-            VideoRecordingResult(
-                videoPath = outputFile.absolutePath
-            )
+        // Return the result
+        return VideoRecordingResult(
+            videoPath = outputFile.absolutePath
         )
     }
 
@@ -140,7 +144,7 @@ actual class CameraController(
     // Bind camera to lifecycle with image and video capture
     private fun bindCameraToLifeCycle() {
         val cameraSelector = CameraSelector.Builder()
-            .requireLensFacing(currentCameraLens.toCameraXLensFacing())
+            .requireLensFacing(currentCamera.toCameraXLensFacing())
             .build()
 
         cameraProvider?.unbindAll()
@@ -151,16 +155,6 @@ actual class CameraController(
             cameraSelector,
             cameraPreview,
             videoCapture
-        )
-    }
-}
-
-@Composable
-actual fun rememberCameraController(): CameraController {
-    val context = LocalContext.current
-    return remember {
-        CameraController(
-            context = context.applicationContext
         )
     }
 }

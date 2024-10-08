@@ -151,12 +151,10 @@ kotlin {
                 api(Dependencies.YoutubePlayer.CORE)
                 api(Dependencies.YoutubePlayer.CUSTOM_UI)
 
-                // TODO: revisit dependencies and remove non-used
                 // Camera X
                 api(Dependencies.Camera.CAMERA_VIEW)
                 api(Dependencies.Camera.CAMERA2)
                 api(Dependencies.Camera.CORE)
-                api(Dependencies.Camera.EXTENSIONS)
                 api(Dependencies.Camera.LIFECYCLE)
                 api(Dependencies.Camera.VIDEO)
 

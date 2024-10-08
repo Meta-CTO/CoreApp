@@ -10,9 +10,9 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
 
 @Composable
-actual fun CameraPreview(
+internal actual fun CameraPreviewView(
     modifier: Modifier,
-    cameraController: CameraController
+    cameraEngine: CameraEngine
 ) {
     // Get main objects
     val context = LocalContext.current
@@ -20,7 +20,7 @@ actual fun CameraPreview(
 
     // Init camera controller
     LaunchedEffect(Unit) {
-        cameraController.init(lifecycleOwner)
+        cameraEngine.init(lifecycleOwner)
     }
 
     // Create preview view
@@ -36,6 +36,6 @@ actual fun CameraPreview(
 
     // Start the camera
     LaunchedEffect(Unit) {
-        cameraController.startCamera(previewView)
+        cameraEngine.startCamera(previewView)
     }
 }

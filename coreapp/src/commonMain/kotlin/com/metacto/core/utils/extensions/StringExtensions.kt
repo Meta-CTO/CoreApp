@@ -227,3 +227,7 @@ fun String.decodeJwt(): JwtPayload? {
         null
     }
 }
+
+fun String.isLocalFile(): Boolean {
+    return startsWith("file://") || startsWith("/")
+}
