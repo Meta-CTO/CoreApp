@@ -23,8 +23,8 @@ class CameraController(
     suspend fun recordVideo(params: VideoRecordingParams) {
         try {
             // Request required permissions
-            permissionManager.requestPermission(Permission.CAMERA)
-            permissionManager.requestPermission(Permission.RECORD_AUDIO)
+            permissionManager.grantPermission(Permission.CAMERA)
+            permissionManager.grantPermission(Permission.RECORD_AUDIO)
 
             // Then record
             cameraEngine.recordVideo(params)
