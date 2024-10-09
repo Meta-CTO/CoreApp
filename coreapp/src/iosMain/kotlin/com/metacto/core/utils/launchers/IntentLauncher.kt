@@ -21,27 +21,17 @@ import platform.UIKit.UIImage
 class IntentLauncher : IIntentLauncher {
 
     override fun launchEmail(email: String, subject: String?, body: String?) = runOnMainThread {
-        // Create the url
-        val urlString = "mailto:$email?subject=${subject.orEmpty()}&body=${body.orEmpty()}"
-        val url = NSURL.URLWithString(urlString) ?: return@runOnMainThread
-
-        // Validate can open url
-        if (UIApplication.sharedApplication.canOpenURL(url).not()) return@runOnMainThread
-
-        // Then open it
-        UIApplication.sharedApplication.openURL(url)
+        val url = "mailto:$email?subject=${subject.orEmpty()}&body=${body.orEmpty()}"
+        openUrl(url)
     }
 
     override fun launchStore(appId: String) = runOnMainThread {
-        // Create the url
-        val urlString = "itms-apps://itunes.apple.com/app/$appId"
-        val url = NSURL.URLWithString(urlString) ?: return@runOnMainThread
+        // Open the url
+        val url = "itms-apps://itunes.apple.com/app/$appId"
+        val canOpen = openUrl(url)
 
-        // Check if can open url
-        if (UIApplication.sharedApplication.canOpenURL(url)) {
-            // Then open it
-            UIApplication.sharedApplication.openURL(url)
-        } else {
+        // Open browser if couldn't be opened
+        if (canOpen.not()) {
             launchBrowser("https://apps.apple.com/app/$appId")
         }
     }
@@ -68,26 +58,12 @@ class IntentLauncher : IIntentLauncher {
     }
 
     override fun launchPhone(phone: String) = runOnMainThread {
-        // Create the url
-        val urlString = "tel://$phone"
-        val url = NSURL.URLWithString(urlString) ?: return@runOnMainThread
-
-        // Validate can open url
-        if (UIApplication.sharedApplication.canOpenURL(url).not()) return@runOnMainThread
-
-        // Then open it
-        UIApplication.sharedApplication.openURL(url)
+        val url = "tel://$phone"
+        openUrl(url)
     }
 
     override fun launchBrowser(url: String) = runOnMainThread {
-        // Create the url
-        val nsUrl = NSURL.URLWithString(url) ?: return@runOnMainThread
-
-        // Validate can open url
-        if (UIApplication.sharedApplication.canOpenURL(nsUrl).not()) return@runOnMainThread
-
-        // Then open it
-        UIApplication.sharedApplication.openURL(nsUrl)
+        openUrl(url)
     }
 
     override suspend fun shareImage(imageUrl: String, text: String?) = withContext(Dispatchers.IO) {
@@ -163,5 +139,19 @@ class IntentLauncher : IIntentLauncher {
                 println("Access denied or error: ${error?.localizedDescription}")
             }
         }
+    }
+
+    private fun openUrl(url: String): Boolean {
+        // Create the url
+        val nsUrl = NSURL.URLWithString(url) ?: return false
+
+        // Validate can open url
+        if (UIApplication.sharedApplication.canOpenURL(nsUrl).not()) return false
+
+        // Then open it
+        runOnMainThread {
+            UIApplication.sharedApplication.openURL(nsUrl, emptyMap<Any?, Any?>(), null)
+        }
+        return true
     }
 }
