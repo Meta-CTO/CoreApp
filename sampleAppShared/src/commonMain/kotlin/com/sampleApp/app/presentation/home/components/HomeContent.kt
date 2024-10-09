@@ -30,6 +30,7 @@ internal fun HomeContent(
     ScreenColumn(
         isScrollable = true,
         verticalArrangement = Arrangement.spacedBy(8.dp),
+        enableSafeInsets = false
     ) {
         VideoPlayer(
             uniqueId = "home_video_player",
@@ -78,9 +79,6 @@ internal fun HomeContent(
             )
         }
 
-        AppImage(
-            url = "https://www.searchenginejournal.com/wp-content/uploads/2019/07/the-essential-guide-to-using-images-legally-online.png"
-        )
 
         PrimaryFilledButton(
             modifier = Modifier.fillMaxWidth(),

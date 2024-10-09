@@ -94,7 +94,7 @@ kotlin {
                 // Coil
                 api(Dependencies.Coil.CORE)
                 api(Dependencies.Coil.COMPOSE)
-                api(Dependencies.Coil.NETOWRK)
+                api(Dependencies.Coil.NETWORK)
 
                 // GitLive
                 api(Dependencies.GitLive.CONFIG)
@@ -148,6 +148,13 @@ kotlin {
                 // Youtube Player
                 api(Dependencies.YoutubePlayer.CORE)
                 api(Dependencies.YoutubePlayer.CUSTOM_UI)
+
+                // Camera X
+                api(Dependencies.Camera.CAMERA_VIEW)
+                api(Dependencies.Camera.CAMERA2)
+                api(Dependencies.Camera.CORE)
+                api(Dependencies.Camera.LIFECYCLE)
+                api(Dependencies.Camera.VIDEO)
 
                 // Others
                 api(Dependencies.ANDROID_IMAGE_PICKER)

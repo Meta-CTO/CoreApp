@@ -4,14 +4,19 @@ import coil3.PlatformContext
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
+import com.metacto.core.file.FileManager
 import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.permissions.PermissionManager
 import com.metacto.core.presentation.base.CommonViewModel
+import com.metacto.core.presentation.camera.CameraController
+import com.metacto.core.presentation.camera.CameraEngine
+import com.metacto.core.presentation.camera.models.CameraLens
 import com.metacto.core.presentation.components.calenderEvent.CalendarManager
 import com.metacto.core.presentation.components.calenderEvent.ICalendarManager
 import com.metacto.core.utils.IResourceProvider
 import com.metacto.core.utils.ResourceProvider
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
+import com.metacto.core.utils.file.IFileManager
 import com.metacto.core.utils.imagePreloader.IPreloader
 import com.metacto.core.utils.imagePreloader.Preloader
 import com.metacto.core.utils.language.ILanguageManager
@@ -127,6 +132,20 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
                 )
             )
         }
+    }
+
+    single<IFileManager> {
+        FileManager()
+    }
+
+    factory { (defaultCamera: CameraLens?) ->
+        val cameraEngine = CameraEngine(
+            defaultCamera = defaultCamera ?: CameraLens.BACK
+        )
+        CameraController(
+            permissionManager = get(),
+            cameraEngine = cameraEngine
+        )
     }
 }
 

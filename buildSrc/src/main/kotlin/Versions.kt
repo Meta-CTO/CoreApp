@@ -13,7 +13,7 @@ object Versions {
     const val GOOGLE_SIGN_IN_POD = "7.0.0"
     const val DATE_TIME = "0.4.0"
     const val COLLECTIONS = "0.3.7"
-    const val STRAPI_KMM = "10.0.116"
+    const val STRAPI_KMM = "10.0.117"
     const val KOIN = "4.0.0"
     const val KOIN_COMPOSE = "1.1.0"
     const val VOYAGER = "1.1.0-beta02"
@@ -38,4 +38,5 @@ object Versions {
     const val YOUTUBE_PLAYER = "12.1.0"
     const val SHIMMER = "1.3.1"
     const val KMP_NOTIFIER = "1.3.0"
+    const val CAMERA_X = "1.3.4"
 }

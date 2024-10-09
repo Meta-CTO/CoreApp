@@ -105,6 +105,14 @@ object Dependencies {
         const val CONFIG = "dev.gitlive:firebase-config:${Versions.GIT_LIVE}"
     }
 
+    object Camera {
+        const val CAMERA_VIEW = "androidx.camera:camera-view:${Versions.CAMERA_X}"
+        const val CAMERA2 = "androidx.camera:camera-camera2:${Versions.CAMERA_X}"
+        const val CORE = "androidx.camera:camera-core:${Versions.CAMERA_X}"
+        const val LIFECYCLE = "androidx.camera:camera-lifecycle:${Versions.CAMERA_X}"
+        const val VIDEO = "androidx.camera:camera-video:${Versions.CAMERA_X}"
+    }
+
     const val STRAPI_KMM = "com.metacto:strapi:${Versions.STRAPI_KMM}"
     const val ANDROID_IMAGE_PICKER = "com.github.dhaval2404:imagepicker:${Versions.ANDROID_IMAGE_PICKER}"
     const val LIB_PHONE_NUMBER = "io.github.luca992.libphonenumber-kotlin:libphonenumber:${Versions.LIB_PHONE_NUMBER}"
