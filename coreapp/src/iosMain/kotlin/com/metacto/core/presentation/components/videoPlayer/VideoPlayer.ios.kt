@@ -53,6 +53,7 @@ actual fun VideoPlayer(
     enablePip: Boolean,
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
+    showControls: Boolean,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?
 ) {
     // Create the player item with the url
@@ -126,7 +127,7 @@ actual fun VideoPlayer(
     val playerController = remember(player) {
         AVPlayerViewController().apply {
             this.player = player
-            showsPlaybackControls = true
+            showsPlaybackControls = showControls
             videoGravity = if (scaleToCrop) {
                 AVLayerVideoGravityResizeAspectFill
             } else {

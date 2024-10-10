@@ -40,6 +40,7 @@ internal fun CameraContent(
                 videoUrl = state.recordingFilePath,
                 autoPlay = true,
                 enablePip = false,
+                showControls = false,
                 uniqueId = randomUUID()
             )
         } else {

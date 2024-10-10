@@ -30,6 +30,7 @@ actual fun VideoPlayer(
     enablePip: Boolean,
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
+    showControls: Boolean,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?
 ) {
     // Inject main stuff
@@ -80,7 +81,7 @@ actual fun VideoPlayer(
         modifier = modifier,
         factory = { context ->
             PlayerView(context).apply {
-                useController = true
+                useController = showControls
                 this.controllerShowTimeoutMs = controllerShowTimeoutMs
                 resizeMode = when (scaleToCrop) {
                     true -> AspectRatioFrameLayout.RESIZE_MODE_FILL

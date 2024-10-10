@@ -21,5 +21,6 @@ expect fun VideoPlayer(
     enablePip: Boolean = false,
     handleLifecyclePause: Boolean = true,
     controllerShowTimeoutMs: Int = 0,
+    showControls: Boolean = true,
     onPlayerCreated: ((VideoPlayerController) -> Unit)? = null
 )
