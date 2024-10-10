@@ -4,7 +4,7 @@ import coil3.PlatformContext
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
-import com.metacto.core.file.FileManager
+import com.metacto.core.utils.file.FileManager
 import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.permissions.PermissionManager
 import com.metacto.core.presentation.base.CommonViewModel
@@ -23,6 +23,8 @@ import com.metacto.core.utils.language.ILanguageManager
 import com.metacto.core.utils.language.LanguageManager
 import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.launchers.IntentLauncher
+import com.metacto.core.utils.media.IMediaManager
+import com.metacto.core.utils.media.MediaManager
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.NotificationManager
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
@@ -136,6 +138,10 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
 
     single<IFileManager> {
         FileManager()
+    }
+
+    single<IMediaManager> {
+        MediaManager()
     }
 
     factory { (defaultCamera: CameraLens?) ->

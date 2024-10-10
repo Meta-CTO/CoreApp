@@ -6,6 +6,7 @@ import com.metacto.core.presentation.camera.models.CameraLens
 import com.metacto.core.presentation.camera.models.VideoRecordingParams
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayerController
 import com.metacto.core.utils.file.IFileManager
+import com.metacto.core.utils.media.IMediaManager
 import com.metacto.strapikmm.constants.SharedConstants
 import com.metacto.strapikmm.sharedpreference.KmmPreference
 import com.sampleApp.app.presentation.base.BaseViewModel
@@ -24,6 +25,7 @@ class CameraViewModel : BaseViewModel<State, Event, Effect>() {
     private val cameraController by inject<CameraController>() {
         parametersOf(CameraLens.FRONT)
     }
+    private val mediaManager by inject<IMediaManager>()
 
     override fun setInitialState() = State()
 
@@ -66,9 +68,18 @@ class CameraViewModel : BaseViewModel<State, Event, Effect>() {
 
                 // Upload it
                 val videoBytes = fileManager.readFile(result.videoPath)
-                sharedPreference.putSecureString(SharedConstants.ACCESS_TOKEN, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzI3OTgyMTg1LCJleHAiOjE3NTk1MTgxODV9.v10RUKRWiXfYgZI82RXcqd2JTTFLcxGQ8-z1P7ufK2M")
+                sharedPreference.putSecureString(SharedConstants.ACCESS_TOKEN, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzI4NTA4MTI2LCJleHAiOjE3NjAwNDQxMjZ9.zXkg8CSK5PZLtrYgfcJzT5hAGju2CbwOSGGIEXcZCgU")
                 val uploadResult = uploadRepository.uploadVideo(videoBytes)
-                println("Upload result: $uploadResult")
+                println("Upload video result: $uploadResult")
+
+                val previewBytes = mediaManager.getVideoPreview(result.videoPath)
+
+                if (previewBytes != null) {
+                    val uploadPreviewResult = uploadRepository.uploadImage(previewBytes)
+                    println("Upload preview result: $uploadPreviewResult")
+                } else {
+                    println("Failed to get video preview")
+                }
 
             } else {
                 cameraController.recordVideo(

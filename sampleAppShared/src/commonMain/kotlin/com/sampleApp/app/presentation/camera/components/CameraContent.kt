@@ -39,6 +39,7 @@ internal fun CameraContent(
                 modifier = Modifier.fillMaxSize(),
                 videoUrl = state.recordingFilePath,
                 autoPlay = true,
+                enablePip = false,
                 uniqueId = randomUUID()
             )
         } else {
