@@ -1,6 +1,8 @@
 package com.metacto.core.domain.repos
 
 import com.metacto.core.CoreEnvironment
+import com.metacto.core.domain.models.request.UpdatePreviewUrlRequest
+import com.metacto.core.domain.models.request.UpdatePreviewUrlRequestData
 import com.metacto.core.utils.extensions.randomUUID
 import com.metacto.strapikmm.constants.SharedConstants
 import com.metacto.strapikmm.datasource.network.services.strapi.JsonFlatter
@@ -30,11 +32,21 @@ class UploadRepository(
     }
 
     @Throws(Throwable::class)
-    suspend fun uploadVideo(bytes: ByteArray, fileName: String = randomUUID()): Image {
-        return uploadMedia(
+    suspend fun uploadVideo(
+        bytes: ByteArray,
+        fileName: String = randomUUID(),
+        previewUrl: String? = null
+    ): Image {
+        val video = uploadMedia(
             bytes = bytes,
             fileName = "$fileName.mp4"
         )
+
+        if (previewUrl != null && video.id != null) {
+            updateVideoPreviewUrl(video.id!!, previewUrl)
+        }
+
+        return video
     }
 
     @Throws(Throwable::class)
@@ -56,5 +68,14 @@ class UploadRepository(
 
         val responseContent = ((response.body() as JsonArray)[0].jsonObject)
         return JsonFlatter.flat<Image>(responseContent).convert()
+    }
+
+    @Throws(Throwable::class)
+    suspend fun updateVideoPreviewUrl(id: Int, previewUrl: String) {
+        uploadService.put<Unit> {
+            endpoint("/custom-uploader/{id}")
+            path("id", id.toString())
+            body(UpdatePreviewUrlRequest(UpdatePreviewUrlRequestData(previewUrl)))
+        }
     }
 }
