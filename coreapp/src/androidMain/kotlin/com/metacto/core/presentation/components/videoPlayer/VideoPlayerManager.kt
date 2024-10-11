@@ -119,10 +119,14 @@ internal class VideoPlayerManager(
     }
 
     fun play() {
-        exoPlayer.play()
+        if (exoPlayer.isPlaying) {
+            exoPlayer.play()
+        }
     }
 
     fun pause() {
-        exoPlayer.pause()
+        if (exoPlayer.isPlaying.not()) {
+            exoPlayer.pause()
+        }
     }
 }

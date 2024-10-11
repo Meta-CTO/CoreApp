@@ -1,6 +1,6 @@
 package com.metacto.core.utils.media
 
-import com.metacto.core.utils.extensions.normalizedImage
+import com.metacto.core.utils.extensions.rotate
 import com.metacto.core.utils.extensions.toByteArray
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +29,7 @@ class MediaManager : IMediaManager {
 
         return try {
             val cgImage = imageGenerator.copyCGImageAtTime(time, actualTime = null, error = null)
-            UIImage(cgImage).normalizedImage().toByteArray()
+            UIImage(cgImage).rotate(90.0).toByteArray()
         } catch (e: Exception) {
             e.printStackTrace()
             null
