@@ -11,6 +11,6 @@ data class UpdatePreviewUrlRequest(
 
 @Serializable
 data class UpdatePreviewUrlRequestData(
-    @SerialName("previewUrl")
+    @SerialName("previewURL")
     val previewUrl: String
 )

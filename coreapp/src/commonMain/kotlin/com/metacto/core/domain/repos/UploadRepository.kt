@@ -44,7 +44,6 @@ class UploadRepository(
 
         return if (previewUrl != null && video.id != null) {
             updateVideoPreviewUrl(video.id!!, previewUrl)
-            video
         } else {
             video
         }
@@ -72,8 +71,8 @@ class UploadRepository(
     }
 
     @Throws(Throwable::class)
-    suspend fun updateVideoPreviewUrl(id: Int, previewUrl: String) {
-        return uploadService.put<Unit> {
+    suspend fun updateVideoPreviewUrl(id: Int, previewUrl: String): Image {
+        return uploadService.put<Image> {
             endpoint("/custom-uploader/{id}")
             path("id", id.toString())
             body(UpdatePreviewUrlRequest(UpdatePreviewUrlRequestData(previewUrl)))
