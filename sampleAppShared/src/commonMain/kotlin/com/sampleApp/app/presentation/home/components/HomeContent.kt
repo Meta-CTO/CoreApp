@@ -40,6 +40,7 @@ internal fun HomeContent(
             autoPlay = false,
             scaleToCrop = true,
             enablePip = true,
+            showControls = false,
             handleLifecyclePause = false,
             controllerShowTimeoutMs = 2000,
             onPlayerCreated = {

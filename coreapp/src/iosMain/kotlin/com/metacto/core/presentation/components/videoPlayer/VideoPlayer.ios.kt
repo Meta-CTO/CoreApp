@@ -1,5 +1,9 @@
 package com.metacto.core.presentation.components.videoPlayer
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -7,25 +11,25 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.interop.UIKitView
+import androidx.compose.ui.unit.dp
+import com.metacto.core.presentation.components.visibilities.FadeVisibility
+import com.metacto.core.presentation.theme.CoreTheme.shapes
+import com.metacto.core.presentation.theme.CoreTheme.spacings
 import com.metacto.core.utils.extensions.IOLaunchedEffect
+import com.metacto.core.utils.extensions.noRippleClickable
+import dev.icerock.moko.resources.ImageResource
+import dev.icerock.moko.resources.compose.painterResource
 import kotlinx.cinterop.ExperimentalForeignApi
-import platform.AVFoundation.AVLayerVideoGravityResizeAspect
-import platform.AVFoundation.AVLayerVideoGravityResizeAspectFill
-import platform.AVFoundation.AVPlayerLayer
-import platform.AVFoundation.pause
-import platform.AVFoundation.play
-import platform.AVKit.AVPictureInPictureController
-import platform.AVKit.AVPlayerViewController
-import platform.Foundation.NSURL
-import platform.QuartzCore.CATransaction
-import platform.QuartzCore.kCATransactionDisableActions
-import platform.UIKit.UIView
 import platform.AVFAudio.AVAudioSession
 import platform.AVFAudio.AVAudioSessionCategoryPlayback
 import platform.AVFAudio.AVAudioSessionModeMoviePlayback
 import platform.AVFAudio.setActive
+import platform.AVFoundation.AVLayerVideoGravityResizeAspect
+import platform.AVFoundation.AVLayerVideoGravityResizeAspectFill
 import platform.AVFoundation.AVMetadataCommonIdentifierArtist
 import platform.AVFoundation.AVMetadataCommonIdentifierArtwork
 import platform.AVFoundation.AVMetadataCommonIdentifierTitle
@@ -33,11 +37,26 @@ import platform.AVFoundation.AVMetadataKeySpaceCommon
 import platform.AVFoundation.AVMutableMetadataItem
 import platform.AVFoundation.AVPlayer
 import platform.AVFoundation.AVPlayerItem
+import platform.AVFoundation.AVPlayerLayer
+import platform.AVFoundation.addPeriodicTimeObserverForInterval
+import platform.AVFoundation.pause
+import platform.AVFoundation.play
+import platform.AVFoundation.rate
+import platform.AVFoundation.removeTimeObserver
 import platform.AVFoundation.setKeySpace
+import platform.AVKit.AVPictureInPictureController
+import platform.AVKit.AVPlayerViewController
 import platform.AVKit.externalMetadata
+import platform.CoreMedia.CMTimeMake
 import platform.Foundation.NSData
 import platform.Foundation.NSString
+import platform.Foundation.NSURL
 import platform.Foundation.dataWithContentsOfURL
+import platform.QuartzCore.CATransaction
+import platform.QuartzCore.kCATransactionDisableActions
+import platform.UIKit.UIView
+
+private const val CONTROLS_ANIM_DURATION = 150
 
 @OptIn(ExperimentalForeignApi::class)
 @Composable
@@ -54,6 +73,8 @@ actual fun VideoPlayer(
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
     showControls: Boolean,
+    playIconRes : ImageResource,
+    pauseIconRes : ImageResource,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?
 ) {
     // Create the player item with the url
@@ -140,6 +161,35 @@ actual fun VideoPlayer(
         mutableStateOf(null)
     }
 
+    // isPlaying state
+    var isPlaying by remember { mutableStateOf(player.rate != 0f) }
+
+    // Prepare player icon
+    val icon = if (isPlaying) pauseIconRes else playIconRes
+
+    // icon visibility state
+    var isPlayButtonVisible by remember { mutableStateOf(true) }
+
+    // Observe changes to the player state
+    DisposableEffect(player) {
+        val timeObserver = player.addPeriodicTimeObserverForInterval(
+            CMTimeMake(1, 1),
+            null
+        ) {
+            isPlaying = player.rate != 0f
+
+            // Show pause icon if playing
+            if (isPlaying) {
+                isPlayButtonVisible = false
+            }
+        }
+
+        // Clean up on disposal
+        onDispose {
+            player.removeTimeObserver(timeObserver)
+        }
+    }
+
     // Activate the audio session if required
     LaunchedEffect(enablePip, handleLifecyclePause) {
         if (enablePip || handleLifecyclePause.not()) {
@@ -169,60 +219,93 @@ actual fun VideoPlayer(
         onPlayerCreated?.invoke(videoPlayerController)
     }
 
-    UIKitView(
-        modifier = modifier,
-        factory = {
-            UIView().apply {
-                addSubview(playerController.view)
-            }
-
-        },
-        update = { view ->
-            // Remove current subviews
-            view.subviews().forEach { subView ->
-                (subView as? UIView)?.removeFromSuperview()
-            }
-
-            // Then add the new player view
-            view.addSubview(playerController.view)
-
-            // Resize it
-            playerLayer.setFrame(view.bounds)
-            playerController.view.setFrame(view.bounds)
-            playerController.view.layer.frame = view.bounds
-
-            // Initialize PiP controller if required
-            if (enablePip && pipController == null && AVPictureInPictureController.isPictureInPictureSupported()) {
-                pipController = AVPictureInPictureController(playerLayer).apply {
-                    canStartPictureInPictureAutomaticallyFromInline = true
+    Box(modifier = modifier){
+        UIKitView(
+            modifier = Modifier
+                .fillMaxSize()
+                .noRippleClickable {
+                    isPlayButtonVisible = isPlayButtonVisible.not()
+                },
+            factory = {
+                UIView().apply {
+                    addSubview(playerController.view)
                 }
-            }
-            // Auto play if required
-            if (autoPlay) {
-                player.play()
-                playerController.player?.play()
-            }
 
-            // Start PiP if it's not already running
-            pipController.startIfPossible()
-        },
-        onResize = { view, rect ->
-            CATransaction.run {
-                begin()
+            },
+            update = { view ->
+                // Remove current subviews
+                view.subviews().forEach { subView ->
+                    (subView as? UIView)?.removeFromSuperview()
+                }
 
-                setValue(true, kCATransactionDisableActions)
-                view.layer.setFrame(rect)
-                playerLayer.setFrame(rect)
-                playerController.view.layer.frame = rect
+                // Then add the new player view
+                view.addSubview(playerController.view)
 
-                commit()
+                // Resize it
+                playerLayer.setFrame(view.bounds)
+                playerController.view.setFrame(view.bounds)
+                playerController.view.layer.frame = view.bounds
+
+                // Initialize PiP controller if required
+                if (enablePip && pipController == null && AVPictureInPictureController.isPictureInPictureSupported()) {
+                    pipController = AVPictureInPictureController(playerLayer).apply {
+                        canStartPictureInPictureAutomaticallyFromInline = true
+                    }
+                }
+                // Auto play if required
+                if (autoPlay) {
+                    player.play()
+                    playerController.player?.play()
+                }
+
+                // Start PiP if it's not already running
+                pipController.startIfPossible()
+            },
+            onResize = { view, rect ->
+                CATransaction.run {
+                    begin()
+
+                    setValue(true, kCATransactionDisableActions)
+                    view.layer.setFrame(rect)
+                    playerLayer.setFrame(rect)
+                    playerController.view.layer.frame = rect
+
+                    commit()
+                }
+            },
+            onRelease = {
+                player.pause()
+                playerController.player?.pause()
             }
-        },
-        onRelease = {
-            player.pause()
-            playerController.player?.pause()
+        )
+
+        if (showControls.not()) {
+            FadeVisibility(
+                visible = isPlayButtonVisible,
+                duration = CONTROLS_ANIM_DURATION,
+                modifier = Modifier.align(Alignment.Center)
+            ) {
+                // Player control icon
+                Image(
+                    painter = painterResource(icon),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(58.dp)
+                        .shadow(
+                            elevation = spacings.paddingXSmall,
+                            shape = shapes.circle
+                        )
+                        .noRippleClickable {
+                            if (isPlaying) {
+                                player.pause()
+                            } else {
+                                player.play()
+                            }
+                        }
+                )
+            }
         }
-    )
+    }
 
     // Pause player when disposed
     DisposableEffect(player) {

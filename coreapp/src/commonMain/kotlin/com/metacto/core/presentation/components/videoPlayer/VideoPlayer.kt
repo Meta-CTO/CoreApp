@@ -2,6 +2,8 @@ package com.metacto.core.presentation.components.videoPlayer
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.metacto.coreApp.MR
+import dev.icerock.moko.resources.ImageResource
 
 interface VideoPlayerController {
     fun play() {}
@@ -22,5 +24,7 @@ expect fun VideoPlayer(
     handleLifecyclePause: Boolean = true,
     controllerShowTimeoutMs: Int = 0,
     showControls: Boolean = true,
+    playIconRes :ImageResource = MR.images.ic_play,
+    pauseIconRes :ImageResource = MR.images.ic_pause,
     onPlayerCreated: ((VideoPlayerController) -> Unit)? = null
 )
