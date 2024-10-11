@@ -70,6 +70,7 @@ actual fun VideoPlayer(
     autoPlay: Boolean,
     scaleToCrop: Boolean,
     enablePip: Boolean,
+    enableMediaMetadata: Boolean,
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
     showControls: Boolean,
@@ -100,33 +101,36 @@ actual fun VideoPlayer(
         }
     }
 
-    // Set the artist metadata
-    LaunchedEffect(playerItem, videoArtist) {
-        val metadataItem = AVMutableMetadataItem().apply {
-            setIdentifier(AVMetadataCommonIdentifierArtist)
-            setExtendedLanguageTag("und")
-            setValue(videoArtist.orEmpty() as NSString)
+    // Check if metadata is enabled or not
+    if (enableMediaMetadata) {
+        // Set the artist metadata
+        LaunchedEffect(playerItem, videoArtist) {
+            val metadataItem = AVMutableMetadataItem().apply {
+                setIdentifier(AVMetadataCommonIdentifierArtist)
+                setExtendedLanguageTag("und")
+                setValue(videoArtist.orEmpty() as NSString)
+            }
+
+            playerItem.externalMetadata = playerItem.externalMetadata.toMutableList().also {
+                it.add(metadataItem)
+            }
         }
 
-        playerItem.externalMetadata = playerItem.externalMetadata.toMutableList().also {
-            it.add(metadataItem)
-        }
-    }
+        // Set the artwork metadata
+        IOLaunchedEffect(playerItem, videoArtworkUrl) {
+            val artworkData = videoArtworkUrl?.let {
+                NSData.dataWithContentsOfURL(NSURL.URLWithString(videoArtworkUrl)!!)
+            }
 
-    // Set the artwork metadata
-    IOLaunchedEffect(playerItem, videoArtworkUrl) {
-        val artworkData = videoArtworkUrl?.let {
-            NSData.dataWithContentsOfURL(NSURL.URLWithString(videoArtworkUrl)!!)
-        }
+            val metadataItem = AVMutableMetadataItem().apply {
+                setIdentifier(AVMetadataCommonIdentifierArtwork)
+                setKeySpace(AVMetadataKeySpaceCommon)
+                setValue(artworkData)
+            }
 
-        val metadataItem = AVMutableMetadataItem().apply {
-            setIdentifier(AVMetadataCommonIdentifierArtwork)
-            setKeySpace(AVMetadataKeySpaceCommon)
-            setValue(artworkData)
-        }
-
-        playerItem.externalMetadata = playerItem.externalMetadata.toMutableList().also {
-            it.add(metadataItem)
+            playerItem.externalMetadata = playerItem.externalMetadata.toMutableList().also {
+                it.add(metadataItem)
+            }
         }
     }
 

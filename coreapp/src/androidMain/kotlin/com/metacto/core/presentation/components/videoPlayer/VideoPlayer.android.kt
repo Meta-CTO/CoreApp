@@ -47,6 +47,7 @@ actual fun VideoPlayer(
     autoPlay: Boolean,
     scaleToCrop: Boolean,
     enablePip: Boolean,
+    enableMediaMetadata: Boolean,
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
     showControls: Boolean,
@@ -100,6 +101,11 @@ actual fun VideoPlayer(
             videoArtist = videoArtist,
             videoArtworkUrl = videoArtworkUrl
         )
+    }
+
+    // Configure media meta data
+    LaunchedEffect(enableMediaMetadata) {
+        playerManager.setMediaMetadataEnabled(enableMediaMetadata)
     }
 
     // Create the player controller

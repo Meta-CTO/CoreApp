@@ -46,13 +46,13 @@ class HomeContract {
                 artworkUrl = "https://mahmoudelshamy.com/index-assets/images/profile-2-250x250.png"
             ),
             VideoItemInfo(
-                url = "file:////var/mobile/Containers/Data/Application/D027BEC0-8D50-4C29-AE4A-63C8E37C2288/Documents/temp_video.mp4",
+                url = "/data/user/0/com.sampleApp.app.prod/cache/videos/recorded_video.mp4",
                 title = "Talking about the future of the Compose multiplatform",
                 artist = "Ahmed Elzeiny",
                 artworkUrl = "https://www.hdwallpapers.in/download/car_in_fire_city_hq-normal.jpg"
             ),
             VideoItemInfo(
-                url = "file:////var/mobile/Containers/Data/Application/D027BEC0-8D50-4C29-AE4A-63C8E37C2288/Documents/temp_video.mp4"
+                url = "/data/user/0/com.sampleApp.app.prod/cache/videos/recorded_video.mp4"
             )
         )
     }

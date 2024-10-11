@@ -22,8 +22,10 @@ import com.metacto.core.presentation.camera.models.VideoRecordingResult
 import com.metacto.core.utils.extensions.orFalse
 import com.metacto.strapikmm.util.exceptionIfActive
 import com.metacto.strapikmm.util.resumeIfActive
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.io.File
+import kotlin.time.Duration.Companion.milliseconds
 
 actual class CameraEngine(
     private val context: Context,
@@ -130,6 +132,9 @@ actual class CameraEngine(
             "Error saving video file"
         }
 
+        // Add some delay before returning allow the video file to be saved
+        delay(STOP_RECORDING_DELAY)
+
         // Return the result
         return VideoRecordingResult(
             videoPath = outputFile.absolutePath
@@ -156,5 +161,9 @@ actual class CameraEngine(
             cameraPreview,
             videoCapture
         )
+    }
+
+    companion object {
+        private val STOP_RECORDING_DELAY = 300.milliseconds
     }
 }

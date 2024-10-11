@@ -21,6 +21,7 @@ internal class VideoPlayerManager(
     private val context by inject<Context>()
     private val playerManagers by inject<MutableMap<String, VideoPlayerManager>>()
     private var isAutoPlay = false
+    private var isMediaMetadataEnabled = false
 
     // Define the exo player
     val exoPlayer by lazy {
@@ -51,6 +52,9 @@ internal class VideoPlayerManager(
         // Add play listener to exo player
         exoPlayer.addListener(object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
+                // Skip if the feature is not enabled
+                if (isMediaMetadataEnabled.not()) return
+
                 // Skip if not playing
                 if (isPlaying.not()) return
 
@@ -119,10 +123,18 @@ internal class VideoPlayerManager(
     }
 
     fun play() {
-        exoPlayer.play()
+        if (exoPlayer.isPlaying) {
+            exoPlayer.play()
+        }
     }
 
     fun pause() {
-        exoPlayer.pause()
+        if (exoPlayer.isPlaying.not()) {
+            exoPlayer.pause()
+        }
+    }
+
+    fun setMediaMetadataEnabled(isEnabled: Boolean) {
+        isMediaMetadataEnabled = isEnabled
     }
 }

@@ -19,6 +19,7 @@ class CameraContract {
     sealed class Event : ViewEvent {
         data object Init : Event()
         data object BackClicked : Event()
+        data object RetakeClicked : Event()
         data object ToggleRecord : Event()
         data object ToggleLens : Event()
         data class VideoControllerCreated(val controller: VideoPlayerController) : Event()
