@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.camera.CameraPreview
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
+import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.extensions.randomUUID
 import com.sampleApp.app.presentation.camera.CameraContract.Event
@@ -40,7 +41,7 @@ internal fun CameraContent(
                 videoUrl = state.recordingFilePath,
                 autoPlay = true,
                 enablePip = false,
-                showControls = false,
+                controlsType = ControlsType.CustomControls,
                 enableMediaMetadata = false,
                 uniqueId = randomUUID()
             )

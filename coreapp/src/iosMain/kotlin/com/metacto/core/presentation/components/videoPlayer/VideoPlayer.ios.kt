@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -15,10 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.interop.UIKitView
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.visibilities.FadeVisibility
-import com.metacto.core.presentation.theme.CoreTheme.shapes
-import com.metacto.core.presentation.theme.CoreTheme.spacings
 import com.metacto.core.utils.extensions.IOLaunchedEffect
 import com.metacto.core.utils.extensions.noRippleClickable
 import dev.icerock.moko.resources.ImageResource
@@ -37,18 +36,21 @@ import platform.AVFoundation.AVMetadataKeySpaceCommon
 import platform.AVFoundation.AVMutableMetadataItem
 import platform.AVFoundation.AVPlayer
 import platform.AVFoundation.AVPlayerItem
+import platform.AVFoundation.AVPlayerItemDidPlayToEndTimeNotification
 import platform.AVFoundation.AVPlayerLayer
 import platform.AVFoundation.addPeriodicTimeObserverForInterval
 import platform.AVFoundation.pause
 import platform.AVFoundation.play
 import platform.AVFoundation.rate
 import platform.AVFoundation.removeTimeObserver
+import platform.AVFoundation.seekToTime
 import platform.AVFoundation.setKeySpace
 import platform.AVKit.AVPictureInPictureController
 import platform.AVKit.AVPlayerViewController
 import platform.AVKit.externalMetadata
 import platform.CoreMedia.CMTimeMake
 import platform.Foundation.NSData
+import platform.Foundation.NSNotificationCenter
 import platform.Foundation.NSString
 import platform.Foundation.NSURL
 import platform.Foundation.dataWithContentsOfURL
@@ -73,9 +75,12 @@ actual fun VideoPlayer(
     enableMediaMetadata: Boolean,
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
-    showControls: Boolean,
+    controlsType: ControlsType,
     playIconRes: ImageResource,
     pauseIconRes: ImageResource,
+    customControlsSize: Dp,
+    customControlsElevation: Dp,
+    customControlsShape : RoundedCornerShape,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?
 ) {
     // Create the player item with the url
@@ -152,7 +157,7 @@ actual fun VideoPlayer(
     val playerController = remember(player) {
         AVPlayerViewController().apply {
             this.player = player
-            showsPlaybackControls = showControls
+            showsPlaybackControls = controlsType == ControlsType.NativeControls
             videoGravity = if (scaleToCrop) {
                 AVLayerVideoGravityResizeAspectFill
             } else {
@@ -174,6 +179,9 @@ actual fun VideoPlayer(
     // icon visibility state
     var isPlayButtonVisible by remember { mutableStateOf(true) }
 
+    // Track video ended state
+    var isVideoEnded by remember { mutableStateOf(false) }
+
     // Observe changes to the player state
     DisposableEffect(player) {
         val timeObserver = player.addPeriodicTimeObserverForInterval(
@@ -181,11 +189,15 @@ actual fun VideoPlayer(
             null
         ) {
             isPlaying = player.rate != 0f
+        }
 
-            // Show pause icon if playing
-            if (isPlaying) {
-                isPlayButtonVisible = false
-            }
+        val observer = NSNotificationCenter.defaultCenter.addObserverForName(
+            AVPlayerItemDidPlayToEndTimeNotification,
+            playerItem,
+            null
+        ) { _ ->
+            isPlaying = false
+            isVideoEnded = true
         }
 
         // Clean up on disposal
@@ -232,7 +244,7 @@ actual fun VideoPlayer(
                 .noRippleClickable {
                     isPlayButtonVisible = isPlayButtonVisible.not()
                 },
-            interactive = showControls,
+            interactive = controlsType == ControlsType.NativeControls,
             factory = {
                 UIView().apply {
                     addSubview(playerController.view)
@@ -286,7 +298,7 @@ actual fun VideoPlayer(
             }
         )
 
-        if (showControls.not()) {
+        if (controlsType == ControlsType.CustomControls) {
             FadeVisibility(
                 visible = isPlayButtonVisible,
                 duration = CONTROLS_ANIM_DURATION,
@@ -297,16 +309,23 @@ actual fun VideoPlayer(
                     painter = painterResource(icon),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(58.dp)
+                        .size(customControlsSize)
                         .shadow(
-                            elevation = spacings.paddingXSmall,
-                            shape = shapes.circle
+                            elevation = customControlsElevation,
+                            shape = customControlsShape
                         )
                         .noRippleClickable {
                             if (isPlaying) {
                                 player.pause()
                             } else {
+                                if (isVideoEnded) {
+                                    // Restart the video
+                                    player.seekToTime(CMTimeMake(0, 1))
+                                    isVideoEnded = false
+                                    isPlaying = true
+                                }
                                 player.play()
+                                isPlaying = true
                             }
                         }
                 )

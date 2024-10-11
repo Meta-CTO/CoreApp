@@ -17,6 +17,7 @@ import com.metacto.core.presentation.components.buttons.SwitchButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.inputFields.PasswordTextInputField
 import com.metacto.core.presentation.components.inputFields.PriceTextInputField
+import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
@@ -40,7 +41,7 @@ internal fun HomeContent(
             autoPlay = false,
             scaleToCrop = true,
             enablePip = true,
-            showControls = false,
+            controlsType = ControlsType.CustomControls,
             handleLifecyclePause = false,
             controllerShowTimeoutMs = 2000,
             onPlayerCreated = {

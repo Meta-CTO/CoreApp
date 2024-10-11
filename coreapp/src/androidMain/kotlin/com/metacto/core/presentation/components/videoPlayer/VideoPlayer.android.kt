@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -18,15 +19,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import com.metacto.core.presentation.components.visibilities.FadeVisibility
-import com.metacto.core.presentation.theme.CoreTheme.shapes
-import com.metacto.core.presentation.theme.CoreTheme.spacings
 import com.metacto.core.utils.extensions.OnLifecycleEvent
 import com.metacto.core.utils.extensions.noRippleClickable
 import dev.icerock.moko.resources.ImageResource
@@ -50,9 +49,12 @@ actual fun VideoPlayer(
     enableMediaMetadata: Boolean,
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
-    showControls: Boolean,
+    controlsType: ControlsType,
     playIconRes: ImageResource,
     pauseIconRes: ImageResource,
+    customControlsSize: Dp,
+    customControlsElevation: Dp,
+    customControlsShape: RoundedCornerShape,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?
 ) {
     // Inject main stuff
@@ -70,14 +72,20 @@ actual fun VideoPlayer(
     // icon visibility state
     var isPlayButtonVisible by remember { mutableStateOf(true) }
 
+    // Track video ended state
+    var isVideoEnded by remember { mutableStateOf(false) }
+
     // Observe changes to the player state
     LaunchedEffect(playerManager.exoPlayer) {
         playerManager.exoPlayer.addListener(object : Player.Listener {
             override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
                 isPlaying = playWhenReady
+            }
 
-                if (isPlaying) {
-                    isPlayButtonVisible = false
+            override fun onPlaybackStateChanged(state: Int) {
+                if (state == Player.STATE_ENDED) {
+                    isPlaying = false
+                    isVideoEnded = true
                 }
             }
         })
@@ -135,7 +143,7 @@ actual fun VideoPlayer(
                 },
             factory = { context ->
                 PlayerView(context).apply {
-                    useController = showControls
+                    useController = controlsType == ControlsType.NativeControls
                     this.controllerShowTimeoutMs = controllerShowTimeoutMs
                     resizeMode = when (scaleToCrop) {
                         true -> AspectRatioFrameLayout.RESIZE_MODE_FILL
@@ -157,7 +165,7 @@ actual fun VideoPlayer(
             }
         )
 
-        if (showControls.not()) {
+        if (controlsType == ControlsType.CustomControls) {
             FadeVisibility(
                 visible = isPlayButtonVisible,
                 duration = CONTROLS_ANIM_DURATION,
@@ -168,16 +176,23 @@ actual fun VideoPlayer(
                     painter = painterResource(icon),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(58.dp)
+                        .size(customControlsSize)
                         .shadow(
-                            elevation = spacings.paddingXSmall,
-                            shape = shapes.circle
+                            elevation = customControlsElevation,
+                            shape = customControlsShape
                         )
                         .noRippleClickable {
                             if (isPlaying) {
                                 playerManager.pause()
                             } else {
+                                if (isVideoEnded) {
+                                    // Restart the video
+                                    playerManager.exoPlayer.seekTo(0)
+                                    isVideoEnded = false
+                                    isPlaying = true
+                                }
                                 playerManager.play()
+                                isPlaying = true
                             }
                         }
                 )

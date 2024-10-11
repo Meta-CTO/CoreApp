@@ -176,6 +176,11 @@ data class CoreShapes(
     // WheelDatePicker
     val wheelDatePicker: WheelDatePickerShapes = WheelDatePickerShapes(
         xSmall = xSmall
+    ),
+
+    // VideoPLayer
+    val videoPlayer: VideoPlayerShapes = VideoPlayerShapes(
+        circle = circle
     )
 )
 
@@ -369,6 +374,12 @@ data class SelectorPropertiesShapes(
 data class WheelDatePickerShapes(
     private val xSmall: RoundedCornerShape,
     val selectorShape: RoundedCornerShape = xSmall
+)
+
+// VideoPlayer
+data class VideoPlayerShapes(
+    private val circle: RoundedCornerShape,
+    val customIconShape: RoundedCornerShape = circle
 )
 
 val LocalCoreShapes = staticCompositionLocalOf { CoreShapes() }
