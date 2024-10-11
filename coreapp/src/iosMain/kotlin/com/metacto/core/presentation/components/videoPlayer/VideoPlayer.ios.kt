@@ -74,8 +74,8 @@ actual fun VideoPlayer(
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
     showControls: Boolean,
-    playIconRes : ImageResource,
-    pauseIconRes : ImageResource,
+    playIconRes: ImageResource,
+    pauseIconRes: ImageResource,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?
 ) {
     // Create the player item with the url
@@ -223,13 +223,16 @@ actual fun VideoPlayer(
         onPlayerCreated?.invoke(videoPlayerController)
     }
 
-    Box(modifier = modifier){
+    Box(
+        modifier = modifier
+    ) {
         UIKitView(
             modifier = Modifier
                 .fillMaxSize()
                 .noRippleClickable {
                     isPlayButtonVisible = isPlayButtonVisible.not()
                 },
+            interactive = showControls,
             factory = {
                 UIView().apply {
                     addSubview(playerController.view)
