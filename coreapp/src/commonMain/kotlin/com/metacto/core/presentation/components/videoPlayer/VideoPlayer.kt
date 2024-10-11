@@ -19,6 +19,7 @@ expect fun VideoPlayer(
     autoPlay: Boolean = false,
     scaleToCrop: Boolean = false,
     enablePip: Boolean = false,
+    enableMediaMetadata: Boolean = true,
     handleLifecyclePause: Boolean = true,
     controllerShowTimeoutMs: Int = 0,
     showControls: Boolean = true,

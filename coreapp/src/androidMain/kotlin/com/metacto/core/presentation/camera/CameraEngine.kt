@@ -164,6 +164,6 @@ actual class CameraEngine(
     }
 
     companion object {
-        private val STOP_RECORDING_DELAY = 250.milliseconds
+        private val STOP_RECORDING_DELAY = 300.milliseconds
     }
 }

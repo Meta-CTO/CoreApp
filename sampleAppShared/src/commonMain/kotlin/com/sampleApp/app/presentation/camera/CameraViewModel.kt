@@ -32,6 +32,7 @@ class CameraViewModel : BaseViewModel<State, Event, Effect>() {
     override fun handleEvents(event: Event): Any = when (event) {
         Event.Init -> init()
         Event.BackClicked -> navManager.goBack()
+        Event.RetakeClicked -> handleRetakeClick()
         Event.ToggleLens -> handleToggleLens()
         Event.ToggleRecord -> handleToggleRecord()
         is Event.VideoControllerCreated -> handleVideoControllerCreate(event.controller)
@@ -50,6 +51,15 @@ class CameraViewModel : BaseViewModel<State, Event, Effect>() {
 
     private fun handleToggleLens() {
         currentState.cameraController?.toggleCameraLens()
+    }
+
+    private fun handleRetakeClick() {
+        setState {
+            copy(
+                isRecording = false,
+                recordingFilePath = null
+            )
+        }
     }
 
     private fun handleToggleRecord() = executeCatching(
