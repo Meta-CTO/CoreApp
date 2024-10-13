@@ -501,7 +501,10 @@ data class CoreSpacings(
     val tabItem: TabItemSpacings = TabItemSpacings(),
 
     // SwitchButton
-    val switchButton: SwitchButtonSpacings = SwitchButtonSpacings()
+    val switchButton: SwitchButtonSpacings = SwitchButtonSpacings(),
+
+    // VideoPlayer
+    val videoPlayer:VideoPlayerSpacings = VideoPlayerSpacings()
 )
 
 // PrimaryFilledButton
@@ -1155,6 +1158,12 @@ data class TabItemSpacings(
 data class SwitchButtonSpacings(
     val thumbElevation: Dp = 0.dp,
     val thumbPadding: Dp = 0.dp
+)
+
+// VideoPlayer
+data class VideoPlayerSpacings(
+    val customIconsSize: Dp = 58.dp,
+    val customIconsElevation: Dp = 4.dp
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }

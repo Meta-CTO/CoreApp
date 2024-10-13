@@ -40,7 +40,7 @@ class HomeContract {
     companion object {
         val VIDEOS_LIST = listOf(
             VideoItemInfo(
-                url = "/data/user/0/com.sampleApp.app.prod/cache/videos/recorded_video.mp4",
+                url = "https://www.w3schools.com/tags/mov_bbb.mp4",
                 title = "Mahmoud Elshamy - Talking about the future of the world",
                 artist = "Mahmoud Elshamy",
                 artworkUrl = "https://mahmoudelshamy.com/index-assets/images/profile-2-250x250.png"
