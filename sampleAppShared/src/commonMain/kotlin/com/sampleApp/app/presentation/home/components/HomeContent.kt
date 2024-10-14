@@ -15,11 +15,11 @@ import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.SwitchButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
-import com.metacto.core.presentation.components.images.AppImage
 import com.metacto.core.presentation.components.inputFields.PasswordTextInputField
 import com.metacto.core.presentation.components.inputFields.PriceTextInputField
 import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
+import com.metacto.core.utils.extensions.randomUUID
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
 
@@ -34,17 +34,18 @@ internal fun HomeContent(
         enableSafeInsets = false
     ) {
         VideoPlayer(
-            uniqueId = "home_video_player",
+            uniqueId = randomUUID(),
             videoUrl = state.currentVideo.url,
-            videoTitle = state.currentVideo.title,
-            videoArtist = state.currentVideo.artist,
-            videoArtworkUrl = state.currentVideo.artworkUrl,
-            autoPlay = false,
-            scaleToCrop = true,
-            enablePip = true,
+//            videoTitle = state.currentVideo.title,
+//            videoArtist = state.currentVideo.artist,
+//            videoArtworkUrl = state.currentVideo.artworkUrl,
+            autoPlay = true,
+//            scaleToCrop = true,
+            enablePip = false,
             controlsType = ControlsType.CustomControls,
-            handleLifecyclePause = false,
-            controllerShowTimeoutMs = 2000,
+//            handleLifecyclePause = false,
+//            controllerShowTimeoutMs = 2000,
+            enableMediaMetadata = false,
             onPlayerCreated = {
                 onEvent(Event.VideoPlayerControllerCreated(it))
             },
