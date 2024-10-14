@@ -1,4 +1,4 @@
-package com.metacto.core.file
+package com.metacto.core.utils.file
 
 import com.metacto.core.utils.file.IFileManager
 import dev.gitlive.firebase.remoteconfig.toByteArray

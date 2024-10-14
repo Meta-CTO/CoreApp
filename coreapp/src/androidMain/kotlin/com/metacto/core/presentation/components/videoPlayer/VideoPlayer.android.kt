@@ -4,17 +4,35 @@ import android.view.SurfaceView
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.annotation.OptIn
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
+import com.metacto.core.presentation.components.visibilities.FadeVisibility
 import com.metacto.core.utils.extensions.OnLifecycleEvent
+import com.metacto.core.utils.extensions.noRippleClickable
+import dev.icerock.moko.resources.ImageResource
+import dev.icerock.moko.resources.compose.painterResource
 import org.koin.compose.koinInject
+
+private const val CONTROLS_ANIM_DURATION = 150
 
 @OptIn(UnstableApi::class)
 @Composable
@@ -28,14 +46,49 @@ actual fun VideoPlayer(
     autoPlay: Boolean,
     scaleToCrop: Boolean,
     enablePip: Boolean,
+    enableMediaMetadata: Boolean,
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
+    controlsType: ControlsType,
+    playIconRes: ImageResource,
+    pauseIconRes: ImageResource,
+    customControlsSize: Dp,
+    customControlsElevation: Dp,
+    customControlsShape: RoundedCornerShape,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?
 ) {
     // Inject main stuff
     val playerManagers = koinInject<MutableMap<String, VideoPlayerManager>>()
     val playerManager = playerManagers.getOrPut(uniqueId) {
         VideoPlayerManager(uniqueId)
+    }
+
+    // isPlaying state
+    var isPlaying by remember { mutableStateOf(playerManager.exoPlayer.isPlaying) }
+
+    // Prepare player icon
+    val icon = if (isPlaying) pauseIconRes else playIconRes
+
+    // icon visibility state
+    var isPlayButtonVisible by remember { mutableStateOf(true) }
+
+    // Track video ended state
+    var isVideoEnded by remember { mutableStateOf(false) }
+
+    // Observe changes to the player state
+    LaunchedEffect(playerManager.exoPlayer) {
+        playerManager.exoPlayer.addListener(object : Player.Listener {
+            override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
+                isPlaying = playWhenReady
+            }
+
+            override fun onPlaybackStateChanged(state: Int) {
+                if (state == Player.STATE_ENDED) {
+                    isPlaying = false
+                    isVideoEnded = true
+                }
+            }
+        })
     }
 
     // Setup scaling mode
@@ -58,6 +111,11 @@ actual fun VideoPlayer(
         )
     }
 
+    // Configure media meta data
+    LaunchedEffect(enableMediaMetadata) {
+        playerManager.setMediaMetadataEnabled(enableMediaMetadata)
+    }
+
     // Create the player controller
     val playerController = remember(playerManager) {
         object : VideoPlayerController {
@@ -76,31 +134,71 @@ actual fun VideoPlayer(
         onPlayerCreated?.invoke(playerController)
     }
 
-    AndroidView(
-        modifier = modifier,
-        factory = { context ->
-            PlayerView(context).apply {
-                useController = true
-                this.controllerShowTimeoutMs = controllerShowTimeoutMs
-                resizeMode = when (scaleToCrop) {
-                    true -> AspectRatioFrameLayout.RESIZE_MODE_FILL
-                    false -> AspectRatioFrameLayout.RESIZE_MODE_FIT
+    Box(modifier = modifier) {
+        AndroidView(
+            modifier = Modifier
+                .fillMaxSize()
+                .noRippleClickable {
+                    isPlayButtonVisible = isPlayButtonVisible.not()
+                },
+            factory = { context ->
+                PlayerView(context).apply {
+                    useController = controlsType == ControlsType.NativeControls
+                    this.controllerShowTimeoutMs = controllerShowTimeoutMs
+                    resizeMode = when (scaleToCrop) {
+                        true -> AspectRatioFrameLayout.RESIZE_MODE_FILL
+                        false -> AspectRatioFrameLayout.RESIZE_MODE_FIT
+                    }
+
+                    player = playerManager.exoPlayer
+                    layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+
+                    (videoSurfaceView as? SurfaceView)?.let {
+                        playerManager.exoPlayer.setVideoSurfaceView(it)
+                    }
                 }
-
-                player = playerManager.exoPlayer
-                layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-
-                (videoSurfaceView as? SurfaceView)?.let {
+            },
+            update = { playerView ->
+                (playerView.videoSurfaceView as? SurfaceView)?.let {
                     playerManager.exoPlayer.setVideoSurfaceView(it)
                 }
             }
-        },
-        update = { playerView ->
-            (playerView.videoSurfaceView as? SurfaceView)?.let {
-                playerManager.exoPlayer.setVideoSurfaceView(it)
+        )
+
+        if (controlsType == ControlsType.CustomControls) {
+            FadeVisibility(
+                visible = isPlayButtonVisible,
+                duration = CONTROLS_ANIM_DURATION,
+                modifier = Modifier.align(Alignment.Center)
+            ) {
+                // Player control icon
+                Image(
+                    painter = painterResource(icon),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(customControlsSize)
+                        .shadow(
+                            elevation = customControlsElevation,
+                            shape = customControlsShape
+                        )
+                        .noRippleClickable {
+                            if (isPlaying) {
+                                playerManager.pause()
+                            } else {
+                                if (isVideoEnded) {
+                                    // Restart the video
+                                    playerManager.exoPlayer.seekTo(0)
+                                    isVideoEnded = false
+                                    isPlaying = true
+                                }
+                                playerManager.play()
+                                isPlaying = true
+                            }
+                        }
+                )
             }
         }
-    )
+    }
 
     DisposableEffect(Unit) {
         onDispose {

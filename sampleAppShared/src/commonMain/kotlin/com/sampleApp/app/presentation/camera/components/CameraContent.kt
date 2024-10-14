@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.camera.CameraPreview
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
+import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.extensions.randomUUID
 import com.sampleApp.app.presentation.camera.CameraContract.Event
@@ -39,48 +40,64 @@ internal fun CameraContent(
                 modifier = Modifier.fillMaxSize(),
                 videoUrl = state.recordingFilePath,
                 autoPlay = true,
+                enablePip = false,
+                controlsType = ControlsType.CustomControls,
+                enableMediaMetadata = false,
                 uniqueId = randomUUID()
             )
-        } else {
-            if (state.cameraController != null) {
-                CameraPreview(
-                    cameraController = state.cameraController,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(colors.black)
-                )
-            }
-
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-                    .align(Alignment.BottomCenter)
-            ) {
-                PrimaryFilledButton(
-                    modifier = Modifier.weight(1f),
-                    text = if (state.isRecording) "Stop" else "Record",
-                    onClick = {
-                        onEvent(Event.ToggleRecord)
-                    }
-                )
-
-                PrimaryFilledButton(
-                    modifier = Modifier.weight(1f),
-                    text = "Lens",
-                    onClick = {
-                        onEvent(Event.ToggleLens)
-                    }
-                )
-            }
         }
 
+        if (state.cameraController != null) {
+            CameraPreview(
+                cameraController = state.cameraController,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(colors.black)
+            )
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp)
+                .align(Alignment.BottomCenter)
+        ) {
+            PrimaryFilledButton(
+                modifier = Modifier.weight(1f),
+                text = if (state.isRecording) "Stop" else "Record",
+                onClick = {
+                    onEvent(Event.ToggleRecord)
+                }
+            )
+
+            PrimaryFilledButton(
+                modifier = Modifier.weight(1f),
+                text = "Lens",
+                onClick = {
+                    onEvent(Event.ToggleLens)
+                }
+            )
+        }
+    }
+
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
+        horizontalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
         PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth().padding(top = 20.dp),
+            modifier = Modifier.weight(1f),
             text = "Go back",
             onClick = {
                 onEvent(Event.BackClicked)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.weight(1f),
+            text = "Retake",
+            onClick = {
+                onEvent(Event.RetakeClicked)
             }
         )
     }

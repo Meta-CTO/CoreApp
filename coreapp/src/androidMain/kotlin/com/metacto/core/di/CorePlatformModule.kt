@@ -23,6 +23,8 @@ import com.metacto.core.utils.language.ILanguageManager
 import com.metacto.core.utils.language.LanguageManager
 import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.launchers.IntentLauncher
+import com.metacto.core.utils.media.IMediaManager
+import com.metacto.core.utils.media.MediaManager
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.NotificationManager
 import com.metacto.coreApp.MR
@@ -149,6 +151,10 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
 
     single<IFileManager> {
         FileManager()
+    }
+
+    single<IMediaManager> {
+        MediaManager()
     }
 
     factory { (defaultCamera: CameraLens?) ->
