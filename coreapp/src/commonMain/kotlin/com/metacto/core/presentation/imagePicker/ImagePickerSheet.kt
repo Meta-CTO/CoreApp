@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.imagePicker
 
+import androidx.compose.runtime.Composable
 import com.metacto.core.presentation.base.BaseSheet
 
 expect class ImagePickerSheet(
@@ -10,6 +11,9 @@ expect class ImagePickerSheet(
     aspectRatioX: Int? = null,
     aspectRatioY: Int? = null
 ) : BaseSheet<ImagePickerViewModel> {
+
+    @Composable
+    override fun Content()
 
     val allowGallery: Boolean
     val allowCamera: Boolean
