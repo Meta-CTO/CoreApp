@@ -76,20 +76,20 @@ class CameraViewModel : BaseViewModel<State, Event, Effect>() {
                 }
                 currentState.videoController?.play()
 
-                // Upload it
-                val videoBytes = fileManager.readFile(result.videoPath)
-                sharedPreference.putSecureString(SharedConstants.ACCESS_TOKEN, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzI4NTA4MTI2LCJleHAiOjE3NjAwNDQxMjZ9.zXkg8CSK5PZLtrYgfcJzT5hAGju2CbwOSGGIEXcZCgU")
-                val uploadResult = uploadRepository.uploadVideo(videoBytes, previewUrl = "https://mahmoudelshamy.com/index-assets/images/profile-2-250x250.png")
-                println("Upload video result: $uploadResult")
-
-                val previewBytes = mediaManager.getVideoPreview(result.videoPath)
-
-                if (previewBytes != null) {
-                    val uploadPreviewResult = uploadRepository.uploadImage(previewBytes)
-                    println("Upload preview result: $uploadPreviewResult")
-                } else {
-                    println("Failed to get video preview")
-                }
+//                // Upload it
+//                val videoBytes = fileManager.readFile(result.videoPath)
+//                sharedPreference.putSecureString(SharedConstants.ACCESS_TOKEN, "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzI4NTA4MTI2LCJleHAiOjE3NjAwNDQxMjZ9.zXkg8CSK5PZLtrYgfcJzT5hAGju2CbwOSGGIEXcZCgU")
+//                val uploadResult = uploadRepository.uploadVideo(videoBytes, previewUrl = "https://mahmoudelshamy.com/index-assets/images/profile-2-250x250.png")
+//                println("Upload video result: $uploadResult")
+//
+//                val previewBytes = mediaManager.getVideoPreview(result.videoPath)
+//
+//                if (previewBytes != null) {
+//                    val uploadPreviewResult = uploadRepository.uploadImage(previewBytes)
+//                    println("Upload preview result: $uploadPreviewResult")
+//                } else {
+//                    println("Failed to get video preview")
+//                }
 
             } else {
                 cameraController.recordVideo(
