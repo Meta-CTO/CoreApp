@@ -5,13 +5,24 @@ import com.metacto.strapikmm.auth.AuthOptions
 import androidx.compose.runtime.remember
 import androidx.compose.ui.interop.LocalUIViewController
 import dev.gitlive.firebase.auth.PhoneVerificationProvider
+import platform.UIKit.UIViewController
+
+actual class AuthOptionsFactory(
+    private val viewController: UIViewController
+) {
+    actual fun createAuthOptions(onCancelled: () -> Unit): AuthOptions {
+        return AuthOptions(
+            presentingViewController = viewController
+        )
+    }
+}
 
 @Composable
-actual fun rememberAuthOptions(onCancelled: () -> Unit): AuthOptions {
+actual fun rememberAuthOptionsFactory(): AuthOptionsFactory {
     val currentViewController = LocalUIViewController.current
-    return remember {
-        return@remember AuthOptions(
-            presentingViewController = currentViewController
+    return remember(currentViewController) {
+        AuthOptionsFactory(
+            viewController = currentViewController
         )
     }
 }
