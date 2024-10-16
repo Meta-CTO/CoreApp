@@ -75,8 +75,10 @@ class CameraViewModel : BaseViewModel<State, Event, Effect>() {
     private fun handleToggleRecord() = executeCatching(
         context = Dispatchers.IO,
         block = {
+            println("Toggle record")
             val cameraController = currentState.cameraController ?: return@executeCatching
             if (currentState.isRecording) {
+                println("Stop recording")
                 val result = cameraController.stopRecording()
                 setState {
                     copy(
@@ -84,6 +86,8 @@ class CameraViewModel : BaseViewModel<State, Event, Effect>() {
                         recordingFilePath = result.videoPath
                     )
                 }
+                println("Stopped recording")
+                println("Video path: ${result.videoPath}")
                 currentState.videoController?.play()
 
                 // Upload it
@@ -102,11 +106,15 @@ class CameraViewModel : BaseViewModel<State, Event, Effect>() {
                 }
 
             } else {
+                println("Start recording")
                 cameraController.recordVideo(
                     params = VideoRecordingParams()
                 )
                 setState { copy(isRecording = true) }
             }
+        },
+        onError = { throwable, msg ->
+            println("throwable: $throwable, msg: $msg")
         }
     )
 
