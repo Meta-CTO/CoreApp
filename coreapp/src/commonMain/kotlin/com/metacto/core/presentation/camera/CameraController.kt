@@ -42,4 +42,8 @@ class CameraController(
     fun isRecording(): Boolean {
         return cameraEngine.isRecording()
     }
+
+    fun getVideosDirPath(): String {
+        return cameraEngine.getVideosDirPath()
+    }
 }

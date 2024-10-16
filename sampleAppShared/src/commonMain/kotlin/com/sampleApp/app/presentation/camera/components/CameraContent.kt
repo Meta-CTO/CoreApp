@@ -36,26 +36,26 @@ internal fun CameraContent(
             .statusBarsPadding()
             .navigationBarsPadding()
     ) {
-        if (state.recordingFilePath != null) {
-            VideoPlayer(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black),
-                videoUrl = state.recordingFilePath,
-                autoPlay = false,
-//                enablePip = false,
-                controlsType = ControlsType.NativeControls,
-                enableMediaMetadata = false,
-                uniqueId = randomUUID()
-            )
-        }
-
         if (state.cameraController != null) {
             CameraPreview(
                 cameraController = state.cameraController,
                 modifier = Modifier
                     .fillMaxSize()
                     .background(colors.black)
+            )
+        }
+
+        if (state.recordingFilePath != null) {
+            VideoPlayer(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black),
+                videoUrl = state.recordingFilePath,
+                autoPlay = true,
+                enablePip = false,
+                controlsType = ControlsType.CustomControls,
+                enableMediaMetadata = false,
+                uniqueId = "camera-video-player"
             )
         }
 

@@ -18,4 +18,6 @@ expect class CameraEngine {
     suspend fun stopRecording(): VideoRecordingResult
 
     fun isRecording(): Boolean
+
+    fun getVideosDirPath(): String
 }
