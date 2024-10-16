@@ -164,7 +164,7 @@ actual class CameraEngine(
 
         // Toggle between front and back camera
         currentCamera = if (currentCamera == CameraLens.BACK) CameraLens.FRONT else CameraLens.BACK
-        currentCameraDevice = when(this.currentCamera) {
+        currentCameraDevice = when (this.currentCamera) {
             CameraLens.FRONT -> frontCamera
             CameraLens.BACK -> backCamera
         }
@@ -185,9 +185,7 @@ actual class CameraEngine(
     @Throws(Throwable::class)
     actual suspend fun recordVideo(params: VideoRecordingParams) = suspendCancellableCoroutine { continuation ->
         // Create the video file
-        val videoFile = NSFileManager.defaultManager
-            .temporaryDirectory
-            .URLByAppendingPathComponent(params.fileName)
+        val videoFile = getVideosDir().URLByAppendingPathComponent(params.fileName)
 
         // Delete the video file if exists before so that the new video could be recorded
         NSFileManager.defaultManager.run {
@@ -239,6 +237,32 @@ actual class CameraEngine(
 
     actual fun isRecording(): Boolean {
         return movieOutput?.isRecording() == true
+    }
+
+    actual fun getVideosDirPath(): String {
+        return getVideosDir().path!!
+    }
+
+    @OptIn(ExperimentalForeignApi::class)
+    private fun getVideosDir(): NSURL {
+        val fileManager = NSFileManager.defaultManager
+
+        // Create the "camera_recorder" directory path
+        val videosDir = fileManager
+            .temporaryDirectory
+            .URLByAppendingPathComponent("camera_recorder")
+
+        // Check if the directory exists, if not, create it
+        if (!fileManager.fileExistsAtPath(videosDir?.path!!)) {
+            fileManager.createDirectoryAtPath(
+                path = videosDir.path!!,
+                withIntermediateDirectories = true,
+                attributes = null,
+                error = null
+            )
+        }
+
+        return videosDir
     }
 
     override fun viewDidUnload() {

@@ -45,12 +45,6 @@ actual class CameraEngine(
         this.lifecycleOwner = lifecycleOwner
     }
 
-    private val videosDirectory by lazy {
-        File(context.cacheDir.absolutePath + "/videos").apply {
-            if (exists().not()) mkdirs()
-        }
-    }
-
     fun startCamera(previewView: PreviewView) {
         this.previewView = previewView
         val cameraProviderFuture = ProcessCameraProvider.getInstance(context)
@@ -118,7 +112,7 @@ actual class CameraEngine(
     }
 
     private fun createVideoFile(fileName: String): File {
-        return File(videosDirectory, fileName)
+        return File(getVideosDir(), fileName)
     }
 
     @Throws(Throwable::class)
@@ -144,6 +138,18 @@ actual class CameraEngine(
     @SuppressLint("RestrictedApi")
     actual fun isRecording(): Boolean {
         return recording?.isClosed.orFalse().not()
+    }
+
+    actual fun getVideosDirPath(): String {
+        return getVideosDir().absolutePath
+    }
+
+    private fun getVideosDir(): File {
+        return File(context.cacheDir.absolutePath + "/camera_recorder").apply {
+            if (exists().not()) {
+                mkdirs()
+            }
+        }
     }
 
     // Bind camera to lifecycle with image and video capture
