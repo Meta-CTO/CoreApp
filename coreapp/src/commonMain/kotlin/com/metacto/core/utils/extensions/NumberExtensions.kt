@@ -140,6 +140,28 @@ fun Int.toHex(): String {
     return this.toString(16).padStart(2, '0').uppercase()
 }
 
+fun Int.formatSecondsToMMSS(): String {
+    val sec = this % 60
+    val minutes = (this / 60) % 60
+
+    val minutesStr = if (minutes < 10) "0$minutes" else "$minutes"
+    val secondsStr = if (sec < 10) "0$sec" else "$sec"
+
+    return "$minutesStr:$secondsStr"
+}
+
+fun Int.formatSecondsToHHMMSS(): String {
+    val sec = this % 60
+    val minutes = (this / 60) % 60
+    val hours = (this / 3600)
+
+    val hoursStr = if (hours < 10) "0$hours" else "$hours"
+    val minutesStr = if (minutes < 10) "0$minutes" else "$minutes"
+    val secondsStr = if (sec < 10) "0$sec" else "$sec"
+
+    return "$hoursStr:$minutesStr:$secondsStr"
+}
+
 expect fun Double.format(decimalsCount: Int): String
 
 expect fun Double.formatToComma(maxFractionCount: Int = 0): String

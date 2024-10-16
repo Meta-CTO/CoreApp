@@ -5,6 +5,8 @@ import com.metacto.core.presentation.camera.CameraController
 import com.metacto.core.presentation.camera.models.CameraLens
 import com.metacto.core.presentation.camera.models.VideoRecordingParams
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayerController
+import com.metacto.core.presentation.globalState.models.SnackBarParams
+import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.utils.file.IFileManager
 import com.metacto.core.utils.media.IMediaManager
 import com.metacto.strapikmm.constants.SharedConstants
@@ -54,6 +56,14 @@ class CameraViewModel : BaseViewModel<State, Event, Effect>() {
     }
 
     private fun handleRetakeClick() {
+        val deleteResult = fileManager.clearFolder(cameraController.getVideosDirPath())
+        globalState.snackBar(
+            SnackBarParams(
+                message = "Delete result: $deleteResult",
+                type = SnackBarType.SUCCESS
+            )
+        )
+
         setState {
             copy(
                 isRecording = false,
@@ -65,8 +75,10 @@ class CameraViewModel : BaseViewModel<State, Event, Effect>() {
     private fun handleToggleRecord() = executeCatching(
         context = Dispatchers.IO,
         block = {
+            println("Toggle record")
             val cameraController = currentState.cameraController ?: return@executeCatching
             if (currentState.isRecording) {
+                println("Stop recording")
                 val result = cameraController.stopRecording()
                 setState {
                     copy(
@@ -74,6 +86,8 @@ class CameraViewModel : BaseViewModel<State, Event, Effect>() {
                         recordingFilePath = result.videoPath
                     )
                 }
+                println("Stopped recording")
+                println("Video path: ${result.videoPath}")
                 currentState.videoController?.play()
 
                 // Upload it
@@ -92,11 +106,15 @@ class CameraViewModel : BaseViewModel<State, Event, Effect>() {
                 }
 
             } else {
+                println("Start recording")
                 cameraController.recordVideo(
                     params = VideoRecordingParams()
                 )
                 setState { copy(isRecording = true) }
             }
+        },
+        onError = { throwable, msg ->
+            println("throwable: $throwable, msg: $msg")
         }
     )
 

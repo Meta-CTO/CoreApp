@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.camera.CameraPreview
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
@@ -35,24 +36,26 @@ internal fun CameraContent(
             .statusBarsPadding()
             .navigationBarsPadding()
     ) {
-        if (state.recordingFilePath != null) {
-            VideoPlayer(
-                modifier = Modifier.fillMaxSize(),
-                videoUrl = state.recordingFilePath,
-                autoPlay = true,
-                enablePip = false,
-                controlsType = ControlsType.CustomControls,
-                enableMediaMetadata = false,
-                uniqueId = randomUUID()
-            )
-        }
-
         if (state.cameraController != null) {
             CameraPreview(
                 cameraController = state.cameraController,
                 modifier = Modifier
                     .fillMaxSize()
                     .background(colors.black)
+            )
+        }
+
+        if (state.recordingFilePath != null) {
+            VideoPlayer(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black),
+                videoUrl = state.recordingFilePath,
+                autoPlay = true,
+                enablePip = false,
+                controlsType = ControlsType.CustomControls,
+                enableMediaMetadata = false,
+                uniqueId = "camera-video-player"
             )
         }
 
