@@ -7,5 +7,7 @@ actual fun Double.format(decimalsCount: Int): String {
 }
 
 actual fun Double.formatToComma(maxFractionCount: Int): String {
-    return String.format("%,.${maxFractionCount}f", this)
+    return this.truncate(maxFractionCount).let {
+        String.format("%.${maxFractionCount}f", it)
+    }
 }

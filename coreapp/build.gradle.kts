@@ -2,6 +2,7 @@
 
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import dev.icerock.gradle.MRVisibility
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 
 plugins {
@@ -9,10 +10,11 @@ plugins {
     kotlin(Plugins.COCOAPODS_PLUGIN)
     id(Plugins.ANDROID_LIBRARY_PLUGIN)
     id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
+    id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
     id(Plugins.SERIALIZATION_PLUGIN)
     id(Plugins.PARCELIZE_PLUGIN)
     id(Plugins.MOKO_RESOURCES_PLUGIN)
-    id(Plugins.SWIFT_KLIB)
+    id(Plugins.SWIFT_KLIB) version Versions.SWIFT_KLIB
     id(Plugins.MAVEN_PUBLISH)
     id(Plugins.SIGNING)
 }
@@ -25,10 +27,9 @@ kotlin {
     iosSimulatorArm64()
 
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = Versions.JVM.toString()
-            }
+        compilerOptions {
+            jvmTarget.value(JvmTarget.JVM_17)
+            freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.metacto.core.utils.CommonParcelize")
         }
 
         publishAllLibraryVariants()
@@ -105,6 +106,7 @@ kotlin {
                 api(Dependencies.WEBVIEW)
                 api(Dependencies.SHIMMER)
                 implementation(Dependencies.KMP_NOTIFIER)
+                implementation("com.benasher44:uuid:0.8.4")  // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
                 implementation(Dependencies.STATELY_COMMON) // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
             }
         }
@@ -123,7 +125,7 @@ kotlin {
                 api(Dependencies.AndroidX.SPLASH_SCREEN)
 
                 // Firebase
-                api(platform(Dependencies.Firebase.BOM))
+                api(project.dependencies.platform(Dependencies.Firebase.BOM))
                 api(Dependencies.Firebase.DYNAMIC_LINKS)
                 api(Dependencies.Firebase.CRASHLYTICS)
                 api(Dependencies.Firebase.ANALYTICS)
@@ -136,10 +138,6 @@ kotlin {
 
                 // Voyager
                 api(Dependencies.Voyager.KOIN)
-
-                // Coil
-                api(Dependencies.Coil.ANDROID_COMPOSE)
-                api(Dependencies.Coil.ANDROID_GIF)
 
                 // Exo Player
                 api(Dependencies.ExoPlayer.PLAYER)
@@ -220,8 +218,8 @@ publishing {
             maven("https://maven.pkg.github.com/Meta-CTO/CoreApp") {
                 name = "Github"
                 credentials {
-                    username = gradleLocalProperties(rootDir).getProperty("PUBLISH_REPO_USER") as String
-                    password = gradleLocalProperties(rootDir).getProperty("PUBLISH_REPO_TOKEN") as String
+                    username = gradleLocalProperties(rootDir, providers).getProperty("PUBLISH_REPO_USER") as String
+                    password = gradleLocalProperties(rootDir, providers).getProperty("PUBLISH_REPO_TOKEN") as String
                 }
             }
         }
@@ -230,7 +228,7 @@ publishing {
     publications.withType<MavenPublication> {
         artifact(javadocJar)
         groupId = "com.metacto"
-        version = gradleLocalProperties(rootDir).getProperty("PUBLISH_VERSION") as String
+        version = gradleLocalProperties(rootDir, providers).getProperty("PUBLISH_VERSION") as String
 
         pom {
             name.set("coreApp")

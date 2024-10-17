@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.isKeyboardVisible
-import org.koin.compose.rememberKoinInject
+import org.koin.compose.koinInject
 
 @Composable
 fun ScreenColumn(
@@ -40,7 +40,7 @@ fun ScreenColumn(
     mainContent: @Composable ColumnScope.() -> Unit,
 ) {
     // Prepare main objects
-    val globalState = rememberKoinInject<ICoreGlobalState>()
+    val globalState = koinInject<ICoreGlobalState>()
     val isKeyboardVisible by isKeyboardVisible()
     val onScrolledHandler: () -> Unit = {
         onScrolled?.invoke()

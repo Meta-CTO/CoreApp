@@ -4,8 +4,9 @@ expect interface CommonSerializable
 
 expect interface CommonParcelable
 
-@OptIn(ExperimentalMultiplatform::class)
-@OptionalExpectation
-@Target(AnnotationTarget.CLASS)
-@Retention(AnnotationRetention.BINARY)
-expect annotation class CommonParcelize()
+//@OptIn(ExperimentalMultiplatform::class)
+//@OptionalExpectation
+//@Target(AnnotationTarget.CLASS)
+//@Retention(AnnotationRetention.BINARY)
+//expect annotation class CommonParcelize()
+annotation class CommonParcelize

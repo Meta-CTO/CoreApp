@@ -7,4 +7,4 @@ actual typealias CommonSerializable = java.io.Serializable
 
 actual typealias CommonParcelable = Parcelable
 
-actual typealias CommonParcelize = Parcelize
+//actual typealias CommonParcelize = Parcelize

@@ -1,7 +1,10 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     kotlin(Plugins.MULTIPLATFORM_PLUGIN)
     id(Plugins.ANDROID_APPLICATION_PLUGIN)
     id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
+    id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
     id(Plugins.PLAY_SERVICES_PLUGIN)
     id(Plugins.CRASHLYTICS_PLUGIN)
 }
@@ -95,7 +98,12 @@ android {
 }
 
 kotlin {
-    androidTarget()
+    androidTarget {
+        compilerOptions {
+            jvmTarget.value(JvmTarget.JVM_17)
+            freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.metacto.core.utils.CommonParcelize")
+        }
+    }
     sourceSets {
         val androidMain by getting {
             dependencies {

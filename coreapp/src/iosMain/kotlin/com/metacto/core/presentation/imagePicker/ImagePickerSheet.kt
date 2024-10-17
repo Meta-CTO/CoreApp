@@ -32,7 +32,7 @@ actual class ImagePickerSheet actual constructor(
     }
 
     @Composable
-    override fun Content() {
+    actual override fun Content() {
         // Create the image picker
         val imagePicker = rememberImagePicker(
             enableCropping = enableCropping,

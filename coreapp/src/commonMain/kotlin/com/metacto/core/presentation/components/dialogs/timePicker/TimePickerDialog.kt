@@ -34,7 +34,7 @@ import com.metacto.core.utils.getCurrentTime
 import com.metacto.coreApp.MR
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.datetime.LocalTime
-import org.koin.compose.rememberKoinInject
+import org.koin.compose.koinInject
 
 @Suppress("NAME_SHADOWING")
 @Composable
@@ -67,8 +67,8 @@ internal fun TimePickerDialog(
     onDismiss: () -> Unit = {}
 ) {
     // Get main objects
-    val globalState = rememberKoinInject<ICoreGlobalState>()
-    val resourceProvider = rememberKoinInject<IResourceProvider>()
+    val globalState = koinInject<ICoreGlobalState>()
+    val resourceProvider = koinInject<IResourceProvider>()
 
     // Config times
     val selectedTime = selectedTime ?: getCurrentTime()

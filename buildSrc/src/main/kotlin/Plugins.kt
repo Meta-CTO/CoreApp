@@ -4,6 +4,7 @@ object Plugins {
     const val COCOAPODS_PLUGIN = "native.cocoapods"
     const val ANDROID_LIBRARY_PLUGIN = "com.android.library"
     const val COMPOSE_PLUGIN = "org.jetbrains.compose"
+    const val COMPOSE_COMPILER_PLUGIN = "org.jetbrains.kotlin.plugin.compose"
     const val SERIALIZATION_PLUGIN = "org.jetbrains.kotlin.plugin.serialization"
     const val PARCELIZE_PLUGIN = "kotlin-parcelize"
     const val MOKO_RESOURCES_PLUGIN = "dev.icerock.mobile.multiplatform-resources"
@@ -28,5 +29,4 @@ object Plugins {
         "com.google.gms:google-services:${Versions.PLAY_SERVICES_PLUGIN}"
     const val CRASHLYTICS_PLUGIN_CLASSPATH =
         "com.google.firebase:firebase-crashlytics-gradle:${Versions.CRASHLYTICS_PLUGIN}"
-    const val SWIFT_KLIB_PLUGIN_CLASSPATH = "io.github.ttypic:plugin:${Versions.SWIFT_KLIB}"
 }
