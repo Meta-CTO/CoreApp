@@ -17,6 +17,7 @@ import com.metacto.core.presentation.components.buttons.SwitchButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.inputFields.PasswordTextInputField
 import com.metacto.core.presentation.components.inputFields.PriceTextInputField
+import com.metacto.core.presentation.components.loadMore.LoadingMoreProgress
 import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.sampleApp.app.presentation.home.HomeContract.Event
@@ -153,5 +154,7 @@ internal fun HomeContent(
         Text(
             "Picked Item: ${state.pickedItem?.title ?: "None"}"
         )
+
+        LoadingMoreProgress()
     }
 }
