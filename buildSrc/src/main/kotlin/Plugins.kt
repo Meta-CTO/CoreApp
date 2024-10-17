@@ -29,5 +29,4 @@ object Plugins {
         "com.google.gms:google-services:${Versions.PLAY_SERVICES_PLUGIN}"
     const val CRASHLYTICS_PLUGIN_CLASSPATH =
         "com.google.firebase:firebase-crashlytics-gradle:${Versions.CRASHLYTICS_PLUGIN}"
-    const val SWIFT_KLIB_PLUGIN_CLASSPATH = "io.github.ttypic:plugin:${Versions.SWIFT_KLIB}"
 }

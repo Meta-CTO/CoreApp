@@ -133,7 +133,7 @@ android {
     }
 
     kotlin {
-        jvmToolchain(Versions.JVM.toString().toInt())
+        jvmToolchain(Versions.JVM.majorVersion.toInt())
     }
 }
 

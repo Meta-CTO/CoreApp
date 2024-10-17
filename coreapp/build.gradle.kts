@@ -14,7 +14,7 @@ plugins {
     id(Plugins.SERIALIZATION_PLUGIN)
     id(Plugins.PARCELIZE_PLUGIN)
     id(Plugins.MOKO_RESOURCES_PLUGIN)
-    id(Plugins.SWIFT_KLIB)
+    id(Plugins.SWIFT_KLIB) version Versions.SWIFT_KLIB
     id(Plugins.MAVEN_PUBLISH)
     id(Plugins.SIGNING)
 }
@@ -218,8 +218,8 @@ publishing {
             maven("https://maven.pkg.github.com/Meta-CTO/CoreApp") {
                 name = "Github"
                 credentials {
-                    username = gradleLocalProperties(rootDir).getProperty("PUBLISH_REPO_USER") as String
-                    password = gradleLocalProperties(rootDir).getProperty("PUBLISH_REPO_TOKEN") as String
+                    username = gradleLocalProperties(rootDir, providers).getProperty("PUBLISH_REPO_USER") as String
+                    password = gradleLocalProperties(rootDir, providers).getProperty("PUBLISH_REPO_TOKEN") as String
                 }
             }
         }
@@ -228,7 +228,7 @@ publishing {
     publications.withType<MavenPublication> {
         artifact(javadocJar)
         groupId = "com.metacto"
-        version = gradleLocalProperties(rootDir).getProperty("PUBLISH_VERSION") as String
+        version = gradleLocalProperties(rootDir, providers).getProperty("PUBLISH_VERSION") as String
 
         pom {
             name.set("coreApp")
