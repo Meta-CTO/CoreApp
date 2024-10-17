@@ -11,4 +11,8 @@ class FileManager : IFileManager {
     override fun clearFolder(folderPath: String): Boolean {
         return File(folderPath).deleteRecursively()
     }
+
+    override fun deleteFile(filePath: String): Boolean {
+        return File(filePath).delete()
+    }
 }
