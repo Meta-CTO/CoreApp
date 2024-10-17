@@ -5,4 +5,6 @@ interface IFileManager {
     fun readFile(filePath: String): ByteArray
 
     fun clearFolder(folderPath: String): Boolean
+
+    fun deleteFile(filePath: String): Boolean
 }

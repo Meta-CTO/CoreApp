@@ -30,7 +30,19 @@ class FileManager : IFileManager {
             }
             true
         } catch (e: Exception) {
-            println("Could not clear folder: $e")
+            println("Could not clear folder at $folderPath, Error: $e")
+            false
+        }
+    }
+
+    @OptIn(ExperimentalForeignApi::class)
+    override fun deleteFile(filePath: String): Boolean {
+        return try {
+            // Attempt to remove the file at the given path
+            NSFileManager.defaultManager.removeItemAtPath(filePath, null)
+            true
+        } catch (e: Exception) {
+            println("Could not delete file at: $filePath, Error: $e")
             false
         }
     }
