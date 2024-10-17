@@ -441,6 +441,11 @@ data class CoreColors(
     val horizontalCapsulesIndicator: HorizontalCapsulesIndicatorColors = HorizontalCapsulesIndicatorColors(
         primary = primary,
         onPrimary = onPrimary
+    ),
+
+    // LoadingMoreProgress
+    val loadingMore: LoadingMoreColors = LoadingMoreColors(
+        primary = primary
     )
 )
 
@@ -988,6 +993,12 @@ data class HorizontalCapsulesIndicatorColors(
     private val onPrimary: Color,
     val activeColor: Color = primary,
     val inActiveColor: Color = onPrimary.copy(alpha = 0.5f),
+)
+
+// HorizontalCapsulesIndicator
+data class LoadingMoreColors(
+    private val primary: Color,
+    val progressColor: Color = primary
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

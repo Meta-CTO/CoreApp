@@ -504,7 +504,10 @@ data class CoreSpacings(
     val switchButton: SwitchButtonSpacings = SwitchButtonSpacings(),
 
     // VideoPlayer
-    val videoPlayer:VideoPlayerSpacings = VideoPlayerSpacings()
+    val videoPlayer: VideoPlayerSpacings = VideoPlayerSpacings(),
+
+    // LoadingMoreProgress
+    val loadingMore: LoadingMoreSpacings = LoadingMoreSpacings()
 )
 
 // PrimaryFilledButton
@@ -1164,6 +1167,12 @@ data class SwitchButtonSpacings(
 data class VideoPlayerSpacings(
     val customIconsSize: Dp = 58.dp,
     val customIconsElevation: Dp = 4.dp
+)
+
+// LoadingMoreProgress
+data class LoadingMoreSpacings(
+    val progressSize: Dp = 30.dp,
+    val strokeWidth: Dp = 4.dp
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }
