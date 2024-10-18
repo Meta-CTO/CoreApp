@@ -12,15 +12,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.metacto.core.domain.CoreConstants
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.SwitchButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
-import com.metacto.core.presentation.components.images.AppImage
 import com.metacto.core.presentation.components.inputFields.PasswordTextInputField
 import com.metacto.core.presentation.components.inputFields.PriceTextInputField
+import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
 import com.metacto.core.presentation.components.loadMore.LoadingMoreProgress
 import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
+import com.metacto.core.utils.PhoneNumberVisualTransformation
+import com.metacto.core.utils.extensions.rememberPhoneNumberUtil
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
 
@@ -32,7 +35,7 @@ internal fun HomeContent(
     ScreenColumn(
         isScrollable = true,
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        enableSafeInsets = false
+        enableSafeInsets = true
     ) {
         VideoPlayer(
             uniqueId = "home_video_player",
@@ -157,5 +160,24 @@ internal fun HomeContent(
         )
 
         LoadingMoreProgress()
+
+        val phoneNumberUtil = rememberPhoneNumberUtil()
+        val phoneNumberVisualTransformation = remember {
+            PhoneNumberVisualTransformation(
+                phoneNumberUtil = phoneNumberUtil,
+                countryCode = CoreConstants.US_COUNTRY_CODE
+            )
+        }
+        var phoneNumber by remember {
+            mutableStateOf("")
+        }
+        PrimaryTextInputField(
+            modifier = Modifier.fillMaxWidth(),
+            text = phoneNumber,
+            onValueChange = {
+                phoneNumber = it
+            },
+            visualTransformation = phoneNumberVisualTransformation
+        )
     }
 }

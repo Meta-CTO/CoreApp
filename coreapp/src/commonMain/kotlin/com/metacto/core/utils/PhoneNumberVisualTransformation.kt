@@ -21,11 +21,11 @@ class PhoneNumberVisualTransformation(
             AnnotatedString(transformation.formatted.orEmpty()),
             object : OffsetMapping {
                 override fun originalToTransformed(offset: Int): Int {
-                    return transformation.originalToTransformed[offset.coerceIn(transformation.originalToTransformed.indices)]
+                    return transformation.originalToTransformed.getOrElse(offset) { transformation.formatted?.length ?: offset }
                 }
 
                 override fun transformedToOriginal(offset: Int): Int {
-                    return transformation.transformedToOriginal[offset.coerceIn(transformation.transformedToOriginal.indices)]
+                    return transformation.transformedToOriginal.getOrElse(offset) { text.length }
                 }
             }
         )
@@ -65,14 +65,11 @@ class PhoneNumberVisualTransformation(
         formatted?.forEachIndexed { index, char ->
             if (!isNonSeparator(char)) {
                 specialCharsCount++
-                transformedToOriginal.add(index - specialCharsCount)
             } else {
                 originalToTransformed.add(index)
                 transformedToOriginal.add(index - specialCharsCount)
             }
         }
-        originalToTransformed.add(originalToTransformed.maxOrNull()?.plus(1) ?: 0)
-        transformedToOriginal.add(transformedToOriginal.maxOrNull()?.plus(1) ?: 0)
 
         return Transformation(formatted, originalToTransformed, transformedToOriginal)
     }

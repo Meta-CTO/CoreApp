@@ -1,6 +1,5 @@
 package com.sampleApp.app.presentation.main.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +18,6 @@ import com.sampleApp.app.presentation.main.components.navBar.NavigationBar
 import com.sampleApp.app.presentation.profile.ProfileTab
 import com.sampleApp.app.presentation.theme.AppTheme
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 internal fun MainContent(
     state: State,
@@ -47,7 +45,7 @@ internal fun MainContent(
         // Content pager
         HorizontalPager(
             state = pagerState,
-            beyondBoundsPageCount = pagerState.pageCount,
+            beyondViewportPageCount = pagerState.pageCount,
             userScrollEnabled = false,
             modifier = Modifier
                 .fillMaxWidth()
