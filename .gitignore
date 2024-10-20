@@ -11,3 +11,4 @@ xcuserdata
 iosApp/Pods/*
 iosApp/Podfile.lock
 kotlin-js-store/*
+.kotlin/*

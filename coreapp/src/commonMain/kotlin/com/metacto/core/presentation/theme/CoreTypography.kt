@@ -321,6 +321,11 @@ data class CoreTypography(
     // DatePickerDialog
     val datePickerDialog: DatePickerDialogTypography = DatePickerDialogTypography(
         btnLabelMedium = btnLabelMedium
+    ),
+
+    // AudioPlayerTypography
+    val audioPlayer: AudioPlayerTypography = AudioPlayerTypography(
+        labelSmall = labelSmall
     )
 )
 
@@ -631,6 +636,12 @@ data class TimePickerDialogTypography(
 data class DatePickerDialogTypography(
     private val btnLabelMedium: TextStyle,
     val btnTextStyle: TextStyle = btnLabelMedium
+)
+
+// AudioPlayer
+data class AudioPlayerTypography(
+    private val labelSmall: TextStyle,
+    val duration: TextStyle = labelSmall
 )
 
 

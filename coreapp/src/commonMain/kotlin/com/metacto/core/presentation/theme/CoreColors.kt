@@ -446,6 +446,11 @@ data class CoreColors(
     // LoadingMoreProgress
     val loadingMore: LoadingMoreColors = LoadingMoreColors(
         primary = primary
+    ),
+
+    // AudioPlayerColors
+    val audioPlayer: AudioPlayerColors = AudioPlayerColors(
+        primary = primary
     )
 )
 
@@ -999,6 +1004,15 @@ data class HorizontalCapsulesIndicatorColors(
 data class LoadingMoreColors(
     private val primary: Color,
     val progressColor: Color = primary
+)
+
+// AudioPlayer
+data class AudioPlayerColors(
+    private val primary: Color,
+    val playIcon: Color = primary,
+    val durationText: Color = primary,
+    val progress: Color = primary,
+    val tracker: Color = primary.copy(alpha = 0.5f),
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

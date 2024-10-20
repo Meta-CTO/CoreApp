@@ -1,4 +1,4 @@
-package com.metacto.core.presentation.components.calenderEvent
+package com.metacto.core.utils.calendar
 
 import com.metacto.core.utils.dateFromTimestamp
 import com.metacto.core.utils.extensions.contains

@@ -9,6 +9,7 @@ import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
+import com.metacto.core.domain.DiQualifiers
 import com.metacto.core.utils.extensions.createMediaSource
 import com.metacto.core.utils.extensions.getLauncherPendingIntent
 import org.koin.core.component.KoinComponent
@@ -19,7 +20,7 @@ internal class VideoPlayerManager(
 ) : KoinComponent {
 
     private val context by inject<Context>()
-    private val playerManagers by inject<MutableMap<String, VideoPlayerManager>>()
+    private val playerManagers by inject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
     private var isAutoPlay = false
     private var isMediaMetadataEnabled = false
 
