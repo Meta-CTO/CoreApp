@@ -3,7 +3,6 @@ object Dependencies {
         const val RESOURCES = "dev.icerock.moko:resources:${Versions.MOKO_RESOURCES}"
         const val RESOURCES_COMPOSE = "dev.icerock.moko:resources-compose:${Versions.MOKO_RESOURCES}"
         const val PARCELIZE = "dev.icerock.moko:parcelize:${Versions.MOKO_PARCELIZE}"
-        const val GRAPHICS = "dev.icerock.moko:graphics:${Versions.MOKO_GRAPHICS}"
     }
 
     object Pods {
@@ -14,7 +13,6 @@ object Dependencies {
         const val FIREBASE_REMOTE_CONFIG = "FirebaseRemoteConfig"
         const val FIREBASE_MESSAGING = "FirebaseMessaging"
         const val AMPLITUDE = "Amplitude"
-        const val AWSS3 = "AWSS3"
         const val APPS_FLYER = "AppsFlyerFramework"
 
         object CleverTap {
