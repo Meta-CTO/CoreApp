@@ -1,4 +1,4 @@
-package com.metacto.core.presentation.components.calenderEvent
+package com.metacto.core.utils.calendar
 
 import android.content.ContentValues
 import android.content.Context
@@ -9,11 +9,9 @@ import android.provider.CalendarContract
 import android.provider.CalendarContract.Events
 import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.permissions.enums.Permission
-import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.utils.extensions.orOne
 import kotlinx.coroutines.delay
 import kotlinx.datetime.TimeZone
-
 
 class CalendarManager(
     private val context: Context,

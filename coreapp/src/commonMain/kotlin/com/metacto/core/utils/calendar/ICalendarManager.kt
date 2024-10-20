@@ -1,4 +1,4 @@
-package com.metacto.core.presentation.components.calenderEvent
+package com.metacto.core.utils.calendar
 
 interface ICalendarManager {
 

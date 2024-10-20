@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.metacto.core.presentation.components.audioPlayer.AudioPlayer
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.sampleApp.app.presentation.models.VideoItemInfo
@@ -44,6 +45,12 @@ internal fun ProfileContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(400.dp)
+        )
+
+        AudioPlayer(
+            modifier = Modifier.fillMaxWidth(),
+            audioUrl = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+//            audioUrl = "https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
         )
     }
 }

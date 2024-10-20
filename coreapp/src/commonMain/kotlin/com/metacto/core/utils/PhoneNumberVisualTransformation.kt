@@ -21,11 +21,17 @@ class PhoneNumberVisualTransformation(
             AnnotatedString(transformation.formatted.orEmpty()),
             object : OffsetMapping {
                 override fun originalToTransformed(offset: Int): Int {
-                    return transformation.originalToTransformed.getOrElse(offset) { transformation.formatted?.length ?: offset }
+                    if (transformation.formatted.isNullOrEmpty()) return 0
+                    return transformation.originalToTransformed
+                        .getOrElse(offset) { transformation.formatted.length }
+                        .coerceIn(0, transformation.formatted.length)
                 }
 
                 override fun transformedToOriginal(offset: Int): Int {
-                    return transformation.transformedToOriginal.getOrElse(offset) { text.length }
+                    if (text.isEmpty()) return 0
+                    return transformation.transformedToOriginal
+                        .getOrElse(offset) { text.length }
+                        .coerceIn(0, text.length)
                 }
             }
         )
@@ -59,9 +65,11 @@ class PhoneNumberVisualTransformation(
         if (lastNonSeparator.code != 0) {
             formatted = getFormattedNumber(lastNonSeparator, hasCursor)
         }
+
         val originalToTransformed = mutableListOf<Int>()
         val transformedToOriginal = mutableListOf<Int>()
         var specialCharsCount = 0
+
         formatted?.forEachIndexed { index, char ->
             if (!isNonSeparator(char)) {
                 specialCharsCount++
@@ -70,6 +78,10 @@ class PhoneNumberVisualTransformation(
                 transformedToOriginal.add(index - specialCharsCount)
             }
         }
+
+        // Ensure there's always at least one mapping
+        if (originalToTransformed.isEmpty()) originalToTransformed.add(0)
+        if (transformedToOriginal.isEmpty()) transformedToOriginal.add(0)
 
         return Transformation(formatted, originalToTransformed, transformedToOriginal)
     }

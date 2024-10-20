@@ -507,7 +507,10 @@ data class CoreSpacings(
     val videoPlayer: VideoPlayerSpacings = VideoPlayerSpacings(),
 
     // LoadingMoreProgress
-    val loadingMore: LoadingMoreSpacings = LoadingMoreSpacings()
+    val loadingMore: LoadingMoreSpacings = LoadingMoreSpacings(),
+
+    // AudioPlayer
+    val audioPlayer: AudioPlayerSpacings = AudioPlayerSpacings(),
 )
 
 // PrimaryFilledButton
@@ -1173,6 +1176,14 @@ data class VideoPlayerSpacings(
 data class LoadingMoreSpacings(
     val progressSize: Dp = 30.dp,
     val strokeWidth: Dp = 4.dp
+)
+
+// AudioPlayer
+data class AudioPlayerSpacings(
+    val playIconSize: Dp = 22.dp,
+    val progressHeight: Dp = 4.dp,
+    val durationTextWidth: Dp = 40.dp,
+    val progressRadius: Dp = 12.dp,
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }
