@@ -8,8 +8,6 @@ object Versions {
     const val SWIFT_KLIB = "0.6.4"
     const val COMPOSE_ANDROID = "1.7.4"
     const val MOKO_RESOURCES = "0.24.3"
-    const val MOKO_GRAPHICS = "0.10.0"
-    const val MOKO_PARCELIZE = "0.9.0"
     const val GOOGLE_SIGN_IN_POD = "7.0.0"
     const val DATE_TIME = "0.4.0"
     const val COLLECTIONS = "0.3.7"
