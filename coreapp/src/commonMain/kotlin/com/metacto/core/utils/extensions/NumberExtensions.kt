@@ -162,6 +162,13 @@ fun Int.formatSecondsToHHMMSS(): String {
     return "$hoursStr:$minutesStr:$secondsStr"
 }
 
+fun Float.toFeetInches(): String {
+    val totalInches = this.toInt()
+    val feet = totalInches / 12
+    val inches = totalInches % 12
+    return "$feet'${inches}"
+}
+
 expect fun Double.format(decimalsCount: Int): String
 
 expect fun Double.formatToComma(maxFractionCount: Int = 0): String
