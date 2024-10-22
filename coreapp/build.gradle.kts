@@ -252,36 +252,3 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
         jvmTarget = "17"
     }
 }
-
-afterEvaluate {
-    tasks.named("androidDebugSourcesJar") {
-        dependsOn("generateMRandroidMain")
-    }
-    tasks.named("androidReleaseSourcesJar") {
-        dependsOn("generateMRandroidMain")
-    }
-    tasks.named("iosX64SourcesJar") {
-        dependsOn("generateMRandroidMain")
-    }
-    tasks.named("iosX64SourcesJar") {
-        dependsOn("generateMRiosX64Main")
-    }
-    tasks.named("iosSimulatorArm64SourcesJar") {
-        dependsOn("generateMRandroidMain")
-    }
-    tasks.named("iosSimulatorArm64SourcesJar") {
-        dependsOn("generateMRiosSimulatorArm64Main")
-    }
-    tasks.named("iosArm64SourcesJar") {
-        dependsOn("generateMRandroidMain")
-    }
-    tasks.named("iosArm64SourcesJar") {
-        dependsOn("generateMRiosArm64Main")
-    }
-    tasks.named("sourcesJar") {
-        dependsOn("generateMRandroidMain")
-    }
-    tasks.named("sourcesJar") {
-        dependsOn("generateMRandroidMain")
-    }
-}
