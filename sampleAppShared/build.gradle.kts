@@ -1,6 +1,5 @@
 @file:Suppress("OPT_IN_USAGE")
 
-import dev.icerock.gradle.MRVisibility
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 
@@ -12,7 +11,6 @@ plugins {
     id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
     id(Plugins.SERIALIZATION_PLUGIN)
     id(Plugins.PARCELIZE_PLUGIN)
-    id(Plugins.MOKO_RESOURCES_PLUGIN)
 }
 
 kotlin {
@@ -137,13 +135,8 @@ android {
     }
 }
 
-multiplatformResources {
-    resourcesPackage.set(Configs.SAMPLE_APP_NAMESPACE)
-    resourcesVisibility.set(MRVisibility.Internal)
-    iosBaseLocalizationRegion.set("en")
-    iosMinimalDeploymentTarget.set("14.1")
-}
-
-tasks.named("syncPodComposeResourcesForIos") {
-    dependsOn("generateMRiosSimulatorArm64Main")
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "${Configs.SAMPLE_APP_NAMESPACE}.resources"
+    generateResClass = always
 }

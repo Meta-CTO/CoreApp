@@ -1,17 +1,15 @@
 package com.metacto.core.presentation.models
 
-import com.metacto.core.utils.CommonImageResource
-import com.metacto.core.utils.CommonParcelable
-import com.metacto.core.utils.CommonParcelize
+import com.metacto.core.utils.CommonSerializable
+import org.jetbrains.compose.resources.DrawableResource
 
-@CommonParcelize
 data class ImageUIModel(
     val id: Int? = null,
     val bytes: ByteArray? = null,
-    val resource: CommonImageResource? = null,
+    val resource: DrawableResource? = null,
     val url: String? = null,
     val isUpdating: Boolean = false
-) : CommonParcelable {
+) : CommonSerializable {
     fun getData() = bytes ?: url ?: resource
 
     fun hasData(): Boolean {

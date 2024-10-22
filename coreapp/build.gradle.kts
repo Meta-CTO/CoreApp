@@ -1,7 +1,6 @@
 @file:Suppress("OPT_IN_USAGE")
 
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import dev.icerock.gradle.MRVisibility
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 
@@ -13,7 +12,6 @@ plugins {
     id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
     id(Plugins.SERIALIZATION_PLUGIN)
     id(Plugins.PARCELIZE_PLUGIN)
-    id(Plugins.MOKO_RESOURCES_PLUGIN)
     id(Plugins.SWIFT_KLIB) version Versions.SWIFT_KLIB
     id(Plugins.MAVEN_PUBLISH)
     id(Plugins.SIGNING)
@@ -82,10 +80,6 @@ kotlin {
                 // Koin
                 api(Dependencies.Koin.CORE)
                 api(Dependencies.Koin.COMPOSE)
-
-                // Moko
-                api(Dependencies.Moko.RESOURCES)
-                api(Dependencies.Moko.RESOURCES_COMPOSE)
 
                 // Kotlin
                 api(Dependencies.Kotlin.DATE_TIME)
@@ -200,11 +194,10 @@ android {
     }
 }
 
-multiplatformResources {
-    resourcesPackage.set(Configs.CORE_APP_ID)
-    resourcesVisibility.set(MRVisibility.Internal)
-    iosBaseLocalizationRegion.set("en")
-    iosMinimalDeploymentTarget.set("14.1")
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "${Configs.CORE_APP_ID}.resources"
+    generateResClass = always
 }
 
 val javadocJar by tasks.registering(Jar::class) {

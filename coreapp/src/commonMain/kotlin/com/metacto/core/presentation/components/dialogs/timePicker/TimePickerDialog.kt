@@ -27,12 +27,12 @@ import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.core.utils.IResourceProvider
+import com.metacto.core.utils.resources.IResourceProvider
 import com.metacto.core.utils.extensions.getScreenSize
 import com.metacto.core.utils.extensions.toDp
 import com.metacto.core.utils.getCurrentTime
-import com.metacto.coreApp.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.metacto.coreApp.resources.*
+import org.jetbrains.compose.resources.stringResource
 import kotlinx.datetime.LocalTime
 import org.koin.compose.koinInject
 
@@ -107,7 +107,7 @@ internal fun TimePickerDialog(
                 SnackBarParams(
                     type = SnackBarType.ERROR,
                     message = resourceProvider.getString(
-                        MR.strings.minimum_allowed_time_is_s,
+                        Res.string.minimum_allowed_time_is_s,
                         minTime.toString()
                     )
                 )
@@ -122,7 +122,7 @@ internal fun TimePickerDialog(
                 SnackBarParams(
                     type = SnackBarType.ERROR,
                     message = resourceProvider.getString(
-                        MR.strings.maximum_allowed_time_is_s,
+                        Res.string.maximum_allowed_time_is_s,
                         maxTime.toString()
                     )
                 )
@@ -167,7 +167,7 @@ internal fun TimePickerDialog(
 
             // Ok button
             PrimaryFilledButton(
-                text = stringResource(MR.strings.ok),
+                text = stringResource(Res.string.ok),
                 onClick = ::handleOkClick,
                 backgroundColor = btnBgColor,
                 textStyle = btnTextStyle,

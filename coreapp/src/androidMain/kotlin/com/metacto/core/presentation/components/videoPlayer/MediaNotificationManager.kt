@@ -10,7 +10,7 @@ import androidx.media3.session.SessionToken
 import androidx.media3.ui.PlayerNotificationManager
 import com.google.common.util.concurrent.ListenableFuture
 import com.metacto.core.utils.extensions.downloadBitmap
-import com.metacto.coreApp.MR
+import com.metacto.coreApp.resources.*
 import com.metacto.strapikmm.util.applyIf
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -44,13 +44,16 @@ internal class MediaNotificationManager(
             .Builder(context, sessionToken)
             .buildAsync()
 
+        Res.string.media_notification_channel.key
+
         notificationManager = PlayerNotificationManager.Builder(
             context,
             abs(System.currentTimeMillis().toInt()),
             NOW_PLAYING_CHANNEL_ID
         )
-            .setChannelNameResourceId(MR.strings.media_notification_channel.resourceId)
-            .setChannelDescriptionResourceId(MR.strings.media_notification_channel_description.resourceId)
+            // TODO: resource migration
+//            .setChannelNameResourceId(Res.string.media_notification_channel.resourceId)
+//            .setChannelDescriptionResourceId(Res.string.media_notification_channel_description.resourceId)
             .setMediaDescriptionAdapter(DescriptionAdapter(mediaController))
             .applyIf(notificationListener != null) {
                 setNotificationListener(notificationListener!!)

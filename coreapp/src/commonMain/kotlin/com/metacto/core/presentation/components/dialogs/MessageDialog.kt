@@ -14,8 +14,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.coreApp.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.metacto.coreApp.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MessageDialog(
@@ -70,7 +70,7 @@ fun MessageDialog(
 
             // Render ok positive button
             PrimaryFilledButton(
-                text = buttonText ?: stringResource(MR.strings.ok),
+                text = buttonText ?: stringResource(Res.string.ok),
                 textColor = btnTextColor,
                 textStyle = btnTextStyle,
                 backgroundColor = btnBgColor,

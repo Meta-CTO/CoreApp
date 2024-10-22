@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import dev.icerock.moko.resources.ImageResource
+import org.jetbrains.compose.resources.DrawableResource
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.AVFoundation.AVPlayer
 import platform.AVFoundation.AVPlayerItem
@@ -38,8 +38,8 @@ actual fun AudioPlayer(
     audioUrl: String,
     autoPlay: Boolean,
     handleLifecyclePause: Boolean,
-    playIconRes: ImageResource,
-    pauseIconRes: ImageResource,
+    playIconRes: DrawableResource,
+    pauseIconRes: DrawableResource,
     playIconColor: Color,
     playIconSize: Dp,
     durationTextColor: Color,

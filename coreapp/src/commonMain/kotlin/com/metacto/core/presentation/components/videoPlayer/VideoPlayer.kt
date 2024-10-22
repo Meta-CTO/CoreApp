@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.coreApp.MR
-import dev.icerock.moko.resources.ImageResource
+import com.metacto.coreApp.resources.*
+import org.jetbrains.compose.resources.DrawableResource
 
 interface VideoPlayerController {
     fun play() {}
@@ -28,8 +28,8 @@ expect fun VideoPlayer(
     handleLifecyclePause: Boolean = true,
     controllerShowTimeoutMs: Int = 0,
     controlsType: ControlsType = ControlsType.NativeControls,
-    playIconRes :ImageResource = MR.images.ic_play,
-    pauseIconRes :ImageResource = MR.images.ic_pause,
+    playIconRes :DrawableResource = Res.drawable.ic_play,
+    pauseIconRes :DrawableResource = Res.drawable.ic_pause,
     customControlsSize:Dp = CoreTheme.spacings.videoPlayer.customIconsSize,
     customControlsElevation:Dp = CoreTheme.spacings.videoPlayer.customIconsElevation,
     customControlsShape :RoundedCornerShape = CoreTheme.shapes.videoPlayer.customIconShape,

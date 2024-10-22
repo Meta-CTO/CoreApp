@@ -12,7 +12,7 @@ import com.metacto.core.domain.CoreConstants
 import com.metacto.core.utils.Date
 import com.metacto.core.utils.extensions.getAppIconResId
 import com.metacto.core.utils.extensions.getLauncherPendingIntent
-import com.metacto.coreApp.MR
+import com.metacto.coreApp.R
 import com.mmk.kmpnotifier.extensions.onCreateOrOnNewIntent
 import com.mmk.kmpnotifier.notification.NotifierManager
 import com.mmk.kmpnotifier.notification.PayloadData
@@ -62,7 +62,7 @@ class NotificationManager(
         val pendingIntent = notification.pendingIntent ?: context.getLauncherPendingIntent(extras)
         val notificationIcon = notification.icon
             ?: context.getAppIconResId()
-            ?: MR.images.ic_default_notifications_icon.drawableResId
+            ?: R.drawable.ic_default_notifications_icon
 
         // Create the notification builder
         val builder = NotificationCompat.Builder(context, channelId)

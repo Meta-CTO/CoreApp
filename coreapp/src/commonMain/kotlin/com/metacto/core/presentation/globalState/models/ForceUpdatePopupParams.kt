@@ -1,14 +1,13 @@
 package com.metacto.core.presentation.globalState.models
 
-import com.metacto.core.utils.CommonImageResource
-import com.metacto.core.utils.asCommon
-import com.metacto.coreApp.MR
+import com.metacto.coreApp.resources.*
+import org.jetbrains.compose.resources.DrawableResource
 
 data class ForceUpdatePopupParams(
     val isRequired: Boolean = true,
     val title: String? = null,
     val body: String? = null,
-    val image: CommonImageResource = MR.images.ic_upgrade.asCommon(),
+    val image: DrawableResource = Res.drawable.ic_upgrade,
     val updateButtonText: String? = null,
     val skipUpdateButtonText: String? = null,
     val onUpdateClick: (() -> Unit)? = null,

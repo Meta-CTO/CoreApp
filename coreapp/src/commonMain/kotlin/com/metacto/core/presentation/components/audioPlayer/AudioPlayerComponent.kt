@@ -25,8 +25,8 @@ import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme.spacings
 import com.metacto.core.utils.extensions.formatSecondsToMMSS
 import com.metacto.core.utils.extensions.noRippleClickable
-import dev.icerock.moko.resources.ImageResource
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 internal fun AudioPlayerComponent(
@@ -34,8 +34,8 @@ internal fun AudioPlayerComponent(
     totalDuration: Long,
     currentPosition: Long,
     isPlaying: Boolean,
-    playIconRes: ImageResource,
-    pauseIconRes: ImageResource,
+    playIconRes: DrawableResource,
+    pauseIconRes: DrawableResource,
     playIconColor: Color,
     playIconSize: Dp,
     durationTextColor: Color,

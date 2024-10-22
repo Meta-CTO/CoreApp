@@ -14,13 +14,13 @@ import com.metacto.core.utils.extensions.noRippleClickable
 import com.sampleApp.app.presentation.theme.AppTheme.colors
 import com.sampleApp.app.presentation.theme.AppTheme.spacings
 import com.sampleApp.app.presentation.theme.AppTheme.typography
-import dev.icerock.moko.resources.ImageResource
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 internal fun NavigationItem(
     modifier: Modifier = Modifier,
-    icon: ImageResource,
+    icon: DrawableResource,
     title: String,
     isSelected: Boolean,
     onClick: () -> Unit

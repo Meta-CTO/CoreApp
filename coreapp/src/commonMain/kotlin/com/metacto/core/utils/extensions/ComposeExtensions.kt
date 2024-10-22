@@ -5,7 +5,6 @@ import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -62,9 +61,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.base.ViewSideEffect
+import com.metacto.core.resources.FileResource
+import com.metacto.core.resources.readTextAsState
 import com.valentinilk.shimmer.shimmer
-import dev.icerock.moko.resources.AssetResource
-import dev.icerock.moko.resources.compose.readTextAsState
 import io.github.alexzhirkevich.compottie.LottieCompositionResult
 import io.github.alexzhirkevich.compottie.LottieCompositionSpec
 import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
@@ -171,7 +170,6 @@ fun animateAlignmentAsState(
     return derivedStateOf { BiasAlignment(horizontalBias = bias, verticalBias = 0f) }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 suspend fun PagerState.scrollToNextPage() {
     try {
         animateScrollToPage(currentPage + 1)
@@ -179,7 +177,6 @@ suspend fun PagerState.scrollToNextPage() {
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 suspend fun PagerState.scrollToPreviousPage() {
     try {
         animateScrollToPage(currentPage - 1)
@@ -404,7 +401,7 @@ fun rememberPhoneNumberUtil(): PhoneNumberUtil {
 }
 
 @Composable
-fun rememberLottieComposition(res: AssetResource): LottieCompositionResult {
+fun rememberLottieComposition(res: FileResource): LottieCompositionResult {
     // Load json if required
     var json by remember(res) { mutableStateOf<String?>(null) }
     if (json == null) json = res.readTextAsState().value

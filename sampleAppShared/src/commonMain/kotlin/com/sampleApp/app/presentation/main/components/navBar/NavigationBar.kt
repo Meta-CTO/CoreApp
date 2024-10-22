@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import com.sampleApp.app.MR
+import com.sampleApp.app.resources.*
 import com.sampleApp.app.presentation.theme.AppTheme.colors
 import com.sampleApp.app.presentation.theme.AppTheme.spacings
 
@@ -35,7 +35,7 @@ internal fun NavigationBar(
             .then(modifier)
     ) {
         NavigationItem(
-            icon = MR.images.ic_star_filled,
+            icon = Res.drawable.ic_star_filled,
             title = "Home",
             isSelected = selectedTab == 0,
             onClick = {
@@ -44,7 +44,7 @@ internal fun NavigationBar(
         )
 
         NavigationItem(
-            icon = MR.images.ic_star_filled,
+            icon = Res.drawable.ic_star_filled,
             title = "Profile",
             isSelected = selectedTab == 1,
             onClick = {

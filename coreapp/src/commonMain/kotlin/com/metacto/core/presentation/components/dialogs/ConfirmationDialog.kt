@@ -14,11 +14,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import com.metacto.coreApp.MR
+import com.metacto.coreApp.resources.*
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.PrimaryStrokedButton
 import com.metacto.core.presentation.theme.CoreTheme
-import dev.icerock.moko.resources.compose.stringResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ConfirmationDialog(
@@ -85,7 +85,7 @@ fun ConfirmationDialog(
             ) {
                 // Negative button
                 PrimaryStrokedButton(
-                    text = negativeButtonText ?: stringResource(MR.strings.cancel),
+                    text = negativeButtonText ?: stringResource(Res.string.cancel),
                     textStyle = negativeBtnTextStyle,
                     textColor = negativeBtnTextColor,
                     backgroundColor = negativeBtnBgColor,
@@ -98,7 +98,7 @@ fun ConfirmationDialog(
 
                 // Positive button
                 PrimaryFilledButton(
-                    text = positiveButtonText ?: stringResource(MR.strings.confirm),
+                    text = positiveButtonText ?: stringResource(Res.string.confirm),
                     textStyle = positiveBtnTextStyle,
                     textColor = positiveBtnTextColor,
                     backgroundColor = positiveBtnBgColor,

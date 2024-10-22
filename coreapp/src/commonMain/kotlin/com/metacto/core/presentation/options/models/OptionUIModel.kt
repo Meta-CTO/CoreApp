@@ -1,15 +1,12 @@
 package com.metacto.core.presentation.options.models
 
-import com.metacto.core.utils.CommonImageResource
-import com.metacto.core.utils.CommonParcelable
-import com.metacto.core.utils.CommonParcelize
 import com.metacto.core.utils.CommonSerializable
+import org.jetbrains.compose.resources.DrawableResource
 
-@CommonParcelize
 data class OptionUIModel(
     val id: Int = 0,
     val title: String,
-    val icon: CommonImageResource? = null,
+    val icon: DrawableResource? = null,
     val color: String? = null,
     val hasArrow: Boolean = false
-) : CommonParcelable, CommonSerializable
+) : CommonSerializable
