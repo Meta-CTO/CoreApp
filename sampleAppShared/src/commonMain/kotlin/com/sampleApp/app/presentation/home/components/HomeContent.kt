@@ -179,5 +179,61 @@ internal fun HomeContent(
             },
             visualTransformation = phoneNumberVisualTransformation
         )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Test String Resource",
+            onClick = {
+                onEvent(Event.TestStringResource)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Test Formatted String Resource",
+            onClick = {
+                onEvent(Event.TestFormattedStringResource)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Test Plural String Resource",
+            onClick = {
+                onEvent(Event.TestPluralStringResource)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Test Formatted Plural String Resource",
+            onClick = {
+                onEvent(Event.TestFormattedPluralStringResource)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Show Core Lottie Loading",
+            onClick = {
+                onEvent(Event.ShowCoreLottieLoading)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Show App Lottie Loading",
+            onClick = {
+                onEvent(Event.ShowAppLottieLoading)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Hide Loading",
+            onClick = {
+                onEvent(Event.HideLoading)
+            }
+        )
     }
 }

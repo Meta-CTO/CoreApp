@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
     <plurals name="d_languages">
-        <item quantity="one">%d Language</item>
-        <item quantity="other">%d Languages</item>
+        <item quantity="one">%1$d Language</item>
+        <item quantity="other">%1$d Languages</item>
+    </plurals>
+
+    <plurals name="my_languages">
+        <item quantity="one">My Language</item>
+        <item quantity="other">My Languages</item>
     </plurals>
 </resources>

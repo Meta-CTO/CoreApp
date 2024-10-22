@@ -13,10 +13,10 @@
     <string name="something_went_wrong_try_again">Qualcosa è andato storto, per favore riprova più tardi.</string>
     <string name="no_results">Nessun Risultato</string>
     <string name="no_results_subtitle">Per favore controlla nuovamente la tua\n ortografia e stato</string>
-    <string name="minimum_allowed_date_is_s">La data minima consentita è: %s</string>
-    <string name="maximum_allowed_date_is_s">La data massima consentita è: %s</string>
-    <string name="minimum_allowed_time_is_s">L\'orario minimo consentito è: %s</string>
-    <string name="maximum_allowed_time_is_s">L\'orario massimo consentito è: %s</string>
+    <string name="minimum_allowed_date_is_s">La data minima consentita è: %1$s</string>
+    <string name="maximum_allowed_date_is_s">La data massima consentita è: %1$s</string>
+    <string name="minimum_allowed_time_is_s">L\'orario minimo consentito è: %1$s</string>
+    <string name="maximum_allowed_time_is_s">L\'orario massimo consentito è: %1$s</string>
     <string name="choose_from_library">Scegli dalla libreria</string>
     <string name="take_photo">Scatta foto</string>
     <string name="remove_current_photo">Rimuovi foto attuale</string>

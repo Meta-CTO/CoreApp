@@ -21,7 +21,7 @@ fun FileResource.readTextAsState(): State<String?> {
     }
 }
 
-private fun String.asFileResource() = FileResource(path = "files/$this")
+fun String.asFileResource() = FileResource(path = "files/$this")
 
 object FileResources {
     val loading_indicator_anim: FileResource = "loading_indicator_anim.json".asFileResource()

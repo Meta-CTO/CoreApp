@@ -33,6 +33,13 @@ class HomeContract {
         data object AddToCalendar : Event()
         data object OpenImagePicker : Event()
         data object NavigateToCameraScreen : Event()
+        data object TestStringResource : Event()
+        data object TestFormattedStringResource : Event()
+        data object TestPluralStringResource : Event()
+        data object TestFormattedPluralStringResource : Event()
+        data object ShowCoreLottieLoading : Event()
+        data object ShowAppLottieLoading : Event()
+        data object HideLoading : Event()
     }
 
     sealed class Effect : ViewSideEffect

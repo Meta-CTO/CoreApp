@@ -32,7 +32,7 @@ object ResourceProvider : IResourceProvider {
         vararg args: Any
     ): String {
         return runBlocking {
-            getComposePluralString(res, quantity, args)
+            getComposePluralString(res, quantity, *args)
         }
     }
 

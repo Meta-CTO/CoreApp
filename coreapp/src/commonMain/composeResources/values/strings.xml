@@ -13,10 +13,10 @@
     <string name="something_went_wrong_try_again">Something went wrong, please try again later.</string>
     <string name="no_results">No Results</string>
     <string name="no_results_subtitle">Please double check your\n spelling and state</string>
-    <string name="minimum_allowed_date_is_s">Minimum allowed date is: %s</string>
-    <string name="maximum_allowed_date_is_s">Maximum allowed date is: %s</string>
-    <string name="minimum_allowed_time_is_s">Minimum allowed time is: %s</string>
-    <string name="maximum_allowed_time_is_s">Maximum allowed time is: %s</string>
+    <string name="minimum_allowed_date_is_s">Minimum allowed date is: %1$s</string>
+    <string name="maximum_allowed_date_is_s">Maximum allowed date is: %1$s</string>
+    <string name="minimum_allowed_time_is_s">Minimum allowed time is: %1$s</string>
+    <string name="maximum_allowed_time_is_s">Maximum allowed time is: %1$s</string>
     <string name="choose_from_library">Choose from library</string>
     <string name="take_photo">Take photo</string>
     <string name="remove_current_photo">Remove current photo</string>
