@@ -162,7 +162,7 @@ fun Int.formatSecondsToHHMMSS(): String {
     return "$hoursStr:$minutesStr:$secondsStr"
 }
 
-private fun Float.toFeetInches(): String {
+fun Float.toFeetInches(): String {
     val totalInches = this.toInt()
     val feet = totalInches / 12
     val inches = totalInches % 12
