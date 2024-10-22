@@ -27,6 +27,7 @@ import com.metacto.core.utils.media.IMediaManager
 import com.metacto.core.utils.media.MediaManager
 import com.metacto.core.utils.notificationManager.INotificationManager
 import com.metacto.core.utils.notificationManager.NotificationManager
+import com.metacto.coreApp.R
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
 import com.metacto.strapikmm.repos.AppConfigurationRepository
 import com.mmk.kmpnotifier.notification.NotifierManager
@@ -134,10 +135,8 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
                 configuration = NotificationPlatformConfiguration.Android(
                     showPushNotification = coreEnvironment.showRemoteNotifications,
                     notificationChannelData = NotificationPlatformConfiguration.Android.NotificationChannelData(),
-                    notificationIconResId = 0,
-                    // TODO: resource migration
-//                    notificationIconResId = coreEnvironment.remoteNotificationIcon
-//                        ?: Res.drawable.ic_default_notifications_icon,
+                    notificationIconResId = coreEnvironment.androidRemoteNotificationIcon
+                        ?: R.drawable.ic_default_notifications_icon,
                 )
             )
         }
