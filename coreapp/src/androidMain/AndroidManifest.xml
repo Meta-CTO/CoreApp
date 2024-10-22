@@ -16,7 +16,7 @@
             android:name="com.canhub.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
 
-        <receiver android:name="com.metacto.core.utils.notificationManager.NotificationsReceiver" />
+        <receiver android:name="com.metacto.core.utils.notification.NotificationsReceiver" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

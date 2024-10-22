@@ -1,4 +1,4 @@
-package com.metacto.core.utils.notificationManager
+package com.metacto.core.utils.notification
 
 import com.metacto.core.domain.CoreConstants
 import com.metacto.core.utils.Date

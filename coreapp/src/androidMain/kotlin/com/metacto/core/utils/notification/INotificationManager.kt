@@ -1,4 +1,4 @@
-package com.metacto.core.utils.notificationManager
+package com.metacto.core.utils.notification
 
 import android.app.NotificationChannel
 import android.app.NotificationManager

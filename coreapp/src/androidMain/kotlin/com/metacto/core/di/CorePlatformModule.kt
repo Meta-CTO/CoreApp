@@ -25,8 +25,8 @@ import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.launchers.IntentLauncher
 import com.metacto.core.utils.media.IMediaManager
 import com.metacto.core.utils.media.MediaManager
-import com.metacto.core.utils.notificationManager.INotificationManager
-import com.metacto.core.utils.notificationManager.NotificationManager
+import com.metacto.core.utils.notification.INotificationManager
+import com.metacto.core.utils.notification.NotificationManager
 import com.metacto.coreApp.R
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
 import com.metacto.strapikmm.repos.AppConfigurationRepository
