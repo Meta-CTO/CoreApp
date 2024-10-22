@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.metacto.core.domain.CoreConstants
+import com.metacto.core.presentation.components.audioPlayer.AudioPlayer
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.SwitchButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
@@ -157,6 +158,10 @@ internal fun HomeContent(
 
         Text(
             "Picked Item: ${state.pickedItem?.title ?: "None"}"
+        )
+
+        AudioPlayer(
+            audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Evillaugh.ogg"
         )
 
         LoadingMoreProgress()

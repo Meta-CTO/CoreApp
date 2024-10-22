@@ -49,7 +49,7 @@ internal fun ProfileContent(
 
         AudioPlayer(
             modifier = Modifier.fillMaxWidth(),
-            audioUrl = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+            audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Evillaugh.ogg",
 //            audioUrl = "https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
         )
     }

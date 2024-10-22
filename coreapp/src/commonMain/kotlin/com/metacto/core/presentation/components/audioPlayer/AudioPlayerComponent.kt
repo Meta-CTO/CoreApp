@@ -50,7 +50,7 @@ internal fun AudioPlayerComponent(
     val progress = remember { Animatable(0f) }
 
     LaunchedEffect(isPlaying) {
-        if (currentPosition == 0L) {
+        if (progress.value == 1f) {
             progress.snapTo(0f)
         }
 
