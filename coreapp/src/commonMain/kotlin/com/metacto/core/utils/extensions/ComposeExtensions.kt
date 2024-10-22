@@ -61,8 +61,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.base.ViewSideEffect
-import com.metacto.core.resources.FileResource
-import com.metacto.core.resources.readTextAsState
+import com.metacto.core.resources.IFileResource
 import com.valentinilk.shimmer.shimmer
 import io.github.alexzhirkevich.compottie.LottieCompositionResult
 import io.github.alexzhirkevich.compottie.LottieCompositionSpec
@@ -401,10 +400,10 @@ fun rememberPhoneNumberUtil(): PhoneNumberUtil {
 }
 
 @Composable
-fun rememberLottieComposition(res: FileResource): LottieCompositionResult {
+fun rememberLottieComposition(res: IFileResource): LottieCompositionResult {
     // Load json if required
     var json by remember(res) { mutableStateOf<String?>(null) }
-    if (json == null) json = res.readTextAsState().value
+    if (json == null) json = res.readAsState().value
 
     // Then return the composition
     return io.github.alexzhirkevich.compottie.rememberLottieComposition(

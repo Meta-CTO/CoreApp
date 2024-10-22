@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.resources.FileResource
+import com.metacto.core.resources.IFileResource
 import com.metacto.core.resources.file
 import com.metacto.core.utils.extensions.noRippleClickable
 import com.metacto.core.utils.extensions.rememberLottieComposition
@@ -21,7 +22,7 @@ import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
 @Composable
 fun LottieProgressIndicator(
     modifier: Modifier = Modifier,
-    lottieRes: FileResource = Res.file.loading_indicator_anim,
+    lottieRes: IFileResource = Res.file.loading_indicator_anim,
     isBlocking: Boolean = false,
     progressSize: Dp = CoreTheme.spacings.lottieProgressSize
 ) {

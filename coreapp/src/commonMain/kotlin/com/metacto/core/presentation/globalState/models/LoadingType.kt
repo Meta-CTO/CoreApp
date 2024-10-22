@@ -1,10 +1,10 @@
 package com.metacto.core.presentation.globalState.models
 
-import com.metacto.core.resources.FileResource
+import com.metacto.core.resources.IFileResource
 
 sealed class LoadingType {
-    data class Lottie(val anim: FileResource? = null) : LoadingType()
-    data class LottieBlocking(val anim: FileResource? = null) : LoadingType()
+    data class Lottie(val anim: IFileResource? = null) : LoadingType()
+    data class LottieBlocking(val anim: IFileResource? = null) : LoadingType()
     data object PrimaryCircular : LoadingType()
     data object PrimaryCircularBlocking : LoadingType()
     data object SecondaryCircular : LoadingType()

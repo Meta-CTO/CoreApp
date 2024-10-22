@@ -27,6 +27,7 @@ import com.metacto.coreApp.resources.*
 import com.metacto.core.presentation.components.visibilities.FadeVisibility
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.resources.FileResource
+import com.metacto.core.resources.IFileResource
 import com.metacto.core.resources.file
 import com.metacto.core.utils.extensions.orZero
 import com.metacto.core.utils.extensions.rememberLottieComposition
@@ -55,7 +56,7 @@ fun BaseButton(
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isLoading: Boolean = false,
-    loadingAnimRes: FileResource = Res.file.loading_indicator_anim,
+    loadingAnimRes: IFileResource = Res.file.loading_indicator_anim,
     contentSpacing: Dp = CoreTheme.spacings.paddingXLarge,
     elevation: Dp = CoreTheme.spacings.btnElevation,
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
