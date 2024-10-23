@@ -2,6 +2,7 @@ package com.metacto.core.presentation.components.youtubePlayer
 
 import android.app.Activity
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.view.View
 import android.view.ViewGroup.LayoutParams
 import androidx.compose.foundation.background
@@ -12,7 +13,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import android.content.res.Configuration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import com.metacto.core.utils.extensions.OnLifecycleEvent
@@ -30,7 +30,10 @@ private val logger = Logger("YoutubePlayer")
 actual fun YouTubePlayer(
     modifier: Modifier,
     videoId: String,
-    onLandscapeMode: (Boolean) -> Unit
+    onLandscapeMode: (Boolean) -> Unit,
+    shouldAutoPlay: Boolean,
+    showControls: Boolean,
+    showFullScreenButton: Boolean
 ) {
     val configuration = LocalConfiguration.current
 
@@ -97,13 +100,13 @@ actual fun YouTubePlayer(
     // Create player builder
     val playerBuilder = remember {
         IFramePlayerOptions.Builder().apply {
-            autoplay(1)
-            controls(1)
+            autoplay(if (shouldAutoPlay) 1 else 0)
+            controls(if (showControls) 1 else 0)
             rel(0)
             ivLoadPolicy(0)
             ccLoadPolicy(0)
             modestBranding(0)
-            fullscreen(1)
+            fullscreen(if (showFullScreenButton) 1 else 0)
         }
     }
 

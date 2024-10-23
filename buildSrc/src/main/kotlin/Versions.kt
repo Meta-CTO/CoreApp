@@ -24,7 +24,7 @@ object Versions {
     const val PLAY_SERVICES_AUTH = "20.7.0"
     const val SPLASH_SCREEN = "1.1.0-alpha02"
     const val FIREBASE = "32.7.0"
-    const val SERIALIZATION = "2.0.21-RC"
+    const val SERIALIZATION = "2.0.21"
     const val PLAY_SERVICES_PLUGIN = "4.3.14"
     const val CRASHLYTICS_PLUGIN = "2.9.4"
     const val ANDROID_IMAGE_PICKER = "2.1"

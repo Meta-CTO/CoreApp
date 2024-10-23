@@ -7,5 +7,8 @@ import androidx.compose.ui.Modifier
 expect fun YouTubePlayer(
     modifier: Modifier = Modifier,
     videoId: String,
-    onLandscapeMode: (Boolean) -> Unit
+    onLandscapeMode: (Boolean) -> Unit,
+    shouldAutoPlay: Boolean = true,
+    showControls: Boolean = true,
+    showFullScreenButton: Boolean = true,
 )

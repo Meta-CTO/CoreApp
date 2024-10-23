@@ -10,7 +10,10 @@ import kotlinx.coroutines.launch
 actual fun YouTubePlayer(
     modifier: Modifier,
     videoId: String,
-    onLandscapeMode: (Boolean) -> Unit
+    onLandscapeMode: (Boolean) -> Unit,
+    shouldAutoPlay: Boolean,
+    showControls: Boolean,
+    showFullScreenButton: Boolean
 ) {
     val hostState = remember { YouTubePlayerHostState() }
     val coroutineScope = rememberCoroutineScope()
@@ -25,12 +28,12 @@ actual fun YouTubePlayer(
         modifier = modifier,
         hostState = hostState,
         options = SimpleYouTubePlayerOptionsBuilder.builder {
-            autoplay(true)
-            controls(true)
+            autoplay(shouldAutoPlay)
+            controls(showControls)
             rel(false)
             ivLoadPolicy(false)
             ccLoadPolicy(false)
-            fullscreen(true)
+            fullscreen(showFullScreenButton)
         }
     )
 }
