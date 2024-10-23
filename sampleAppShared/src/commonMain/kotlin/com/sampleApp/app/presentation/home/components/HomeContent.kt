@@ -224,14 +224,6 @@ internal fun HomeContent(
 
         PrimaryFilledButton(
             modifier = Modifier.fillMaxWidth(),
-            text = "Show Core Lottie Loading",
-            onClick = {
-                onEvent(Event.ShowCoreLottieLoading)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
             text = "Show App Lottie Loading",
             onClick = {
                 onEvent(Event.ShowAppLottieLoading)

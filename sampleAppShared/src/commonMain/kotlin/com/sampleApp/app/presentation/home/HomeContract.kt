@@ -37,7 +37,6 @@ class HomeContract {
         data object TestFormattedStringResource : Event()
         data object TestPluralStringResource : Event()
         data object TestFormattedPluralStringResource : Event()
-        data object ShowCoreLottieLoading : Event()
         data object ShowAppLottieLoading : Event()
         data object HideLoading : Event()
     }

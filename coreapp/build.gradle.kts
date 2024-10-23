@@ -195,7 +195,7 @@ android {
 }
 
 compose.resources {
-    publicResClass = true
+    publicResClass = false
     packageOfResClass = "${Configs.CORE_APP_ID}.resources"
     generateResClass = always
 }

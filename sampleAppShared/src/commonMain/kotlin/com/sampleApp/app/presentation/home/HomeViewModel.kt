@@ -6,9 +6,7 @@ import com.metacto.core.presentation.imagePicker.ImagePickerSheet
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.presentation.youtube.YoutubeScreen
-import com.metacto.core.resources.file
 import com.sampleApp.app.resources.file
-import com.metacto.coreApp.resources.Res as CoreRes
 import com.sampleApp.app.presentation.base.BaseViewModel
 import com.sampleApp.app.presentation.camera.CameraScreen
 import com.sampleApp.app.presentation.home.HomeContract.Companion.VIDEOS_LIST
@@ -103,7 +101,6 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
         }
 
         Event.HideLoading -> hideLoading()
-        Event.ShowCoreLottieLoading -> showLoading(LoadingType.Lottie(CoreRes.file.loading_indicator_anim))
         Event.ShowAppLottieLoading -> showLoading(LoadingType.Lottie(Res.file.app_loading))
         Event.TestFormattedPluralStringResource -> {
             val quantity = listOf(1, 50).random()
