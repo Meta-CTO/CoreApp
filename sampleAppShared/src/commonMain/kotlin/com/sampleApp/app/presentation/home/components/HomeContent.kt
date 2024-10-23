@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.metacto.core.domain.CoreConstants
+import com.metacto.core.presentation.components.audioPlayer.AudioPlayer
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.SwitchButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
@@ -24,6 +25,7 @@ import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.PhoneNumberVisualTransformation
 import com.metacto.core.utils.extensions.rememberPhoneNumberUtil
+import com.metacto.core.utils.extensions.toFeetInches
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
 
@@ -157,6 +159,14 @@ internal fun HomeContent(
 
         Text(
             "Picked Item: ${state.pickedItem?.title ?: "None"}"
+        )
+
+        Text(
+            text = 20f.toFeetInches()
+        )
+
+        AudioPlayer(
+            audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Evillaugh.ogg"
         )
 
         LoadingMoreProgress()
