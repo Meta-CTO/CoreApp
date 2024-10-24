@@ -171,24 +171,24 @@ internal fun HomeContent(
 
         LoadingMoreProgress()
 
-//        val phoneNumberUtil = rememberPhoneNumberUtil()
-//        val phoneNumberVisualTransformation = remember {
-//            PhoneNumberVisualTransformation(
-//                phoneNumberUtil = phoneNumberUtil,
-//                countryCode = CoreConstants.US_COUNTRY_CODE
-//            )
-//        }
-//        var phoneNumber by remember {
-//            mutableStateOf("")
-//        }
-//        PrimaryTextInputField(
-//            modifier = Modifier.fillMaxWidth(),
-//            text = phoneNumber,
-//            onValueChange = {
-//                phoneNumber = it
-//            },
-//            visualTransformation = phoneNumberVisualTransformation
-//        )
+        val phoneNumberUtil = rememberPhoneNumberUtil()
+        val phoneNumberVisualTransformation = remember {
+            PhoneNumberVisualTransformation(
+                phoneNumberUtil = phoneNumberUtil,
+                countryCode = CoreConstants.US_COUNTRY_CODE
+            )
+        }
+        var phoneNumber by remember {
+            mutableStateOf("")
+        }
+        PrimaryTextInputField(
+            modifier = Modifier.fillMaxWidth(),
+            text = phoneNumber,
+            onValueChange = {
+                phoneNumber = it
+            },
+            visualTransformation = phoneNumberVisualTransformation
+        )
 
         PrimaryFilledButton(
             modifier = Modifier.fillMaxWidth(),
