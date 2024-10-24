@@ -24,10 +24,10 @@ import com.metacto.core.presentation.components.loadMore.LoadingMoreProgress
 import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.PhoneNumberVisualTransformation
-import com.metacto.core.utils.extensions.rememberPhoneNumberUtil
 import com.metacto.core.utils.extensions.toFeetInches
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
+import io.michaelrocks.libphonenumber.kotlin.rememberPhoneNumberUtil
 
 @Composable
 internal fun HomeContent(

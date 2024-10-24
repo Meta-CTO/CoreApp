@@ -11,8 +11,6 @@ import androidx.compose.ui.graphics.asComposeImageBitmap
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
-import io.michaelrocks.libphonenumber.kotlin.metadata.init.MokoAssetResourceMetadataLoader
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
 import org.jetbrains.skia.Bitmap
@@ -21,11 +19,6 @@ import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
 import platform.UIKit.UIColor
 import platform.UIKit.UINavigationBar
-
-@Composable
-actual fun defaultMetadataLoader(): MetadataLoader {
-    return MokoAssetResourceMetadataLoader()
-}
 
 @Composable
 actual fun openUrlInBrowser(url: String) {
