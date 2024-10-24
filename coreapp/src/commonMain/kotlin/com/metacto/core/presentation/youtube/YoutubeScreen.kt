@@ -9,7 +9,10 @@ import com.metacto.core.presentation.youtube.YoutubeContract.Event
 import com.metacto.core.presentation.youtube.components.YoutubeContent
 
 class YoutubeScreen(
-    private val videoId: String
+    private val videoId: String,
+    private val shouldAutoPlay: Boolean = true,
+    private val showControls: Boolean = true,
+    private val showFullScreenButton: Boolean = true
 ) : BaseScreen<YoutubeViewModel>() {
 
     @Composable
@@ -21,7 +24,10 @@ class YoutubeScreen(
         LaunchedEffect(SIDE_EFFECTS_KEY) {
             viewModel.setEvent(
                 Event.Init(
-                    videoId = videoId
+                    videoId = videoId,
+                    shouldAutoPlay = shouldAutoPlay,
+                    showControls = showControls,
+                    showFullScreenButton = showFullScreenButton
                 )
             )
         }

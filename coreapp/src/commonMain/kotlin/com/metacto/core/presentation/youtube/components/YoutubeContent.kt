@@ -54,6 +54,9 @@ internal fun YoutubeContent(
                 onLandscapeMode = { isLandscape ->
                     onEvent(Event.OrientationChanged(isLandscape = isLandscape))
                 },
+                shouldAutoPlay = state.shouldAutoPlay,
+                showControls = state.showControls,
+                showFullScreenButton = state.showFullScreenButton,
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f)
