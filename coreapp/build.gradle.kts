@@ -96,7 +96,6 @@ kotlin {
 
                 // Others
                 api(Dependencies.STRAPI_KMM)
-                api(Dependencies.MOKO_RESOURCES) // Needed to get phone number lib working on iOS
                 api(Dependencies.LIB_PHONE_NUMBER)
                 api(Dependencies.COMPOTTIE)
                 api(Dependencies.WEBVIEW)
