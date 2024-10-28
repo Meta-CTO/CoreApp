@@ -85,13 +85,11 @@ actual fun VideoPlayer(
 ) {
     // Create the player item with the url
     val playerItem = remember(videoUrl) {
-        // TODO: fix local path and remote urls issue then enable it
-        val nsUrl = NSURL.URLWithString(videoUrl)!!
-//        val nsUrl = if (NSURL.fileURLWithPath(videoUrl).isFileURL()) {
-//            NSURL.fileURLWithPath(videoUrl)
-//        } else {
-//            NSURL.URLWithString(videoUrl)!!
-//        }
+        val nsUrl = if (NSURL.fileURLWithPath(videoUrl).isFileURL()) {
+            NSURL.fileURLWithPath(videoUrl)
+        } else {
+            NSURL.URLWithString(videoUrl)!!
+        }
         AVPlayerItem(uRL = nsUrl)
     }
 
