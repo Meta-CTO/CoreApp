@@ -19,6 +19,7 @@ import androidx.compose.ui.interop.UIKitView
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.visibilities.FadeVisibility
 import com.metacto.core.utils.extensions.IOLaunchedEffect
+import com.metacto.core.utils.extensions.isValidUrl
 import com.metacto.core.utils.extensions.noRippleClickable
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -85,10 +86,10 @@ actual fun VideoPlayer(
 ) {
     // Create the player item with the url
     val playerItem = remember(videoUrl) {
-        val nsUrl = if (NSURL.fileURLWithPath(videoUrl).isFileURL()) {
-            NSURL.fileURLWithPath(videoUrl)
-        } else {
+        val nsUrl = if (videoUrl.isValidUrl()) {
             NSURL.URLWithString(videoUrl)!!
+        } else {
+            NSURL.fileURLWithPath(videoUrl)
         }
         AVPlayerItem(uRL = nsUrl)
     }
@@ -143,6 +144,12 @@ actual fun VideoPlayer(
         AVPlayer(playerItem = playerItem)
     }
 
+    // Player states
+    var isPlaying by remember { mutableStateOf(player.rate != 0f) }
+    val icon = if (isPlaying) pauseIconRes else playIconRes
+    var isPlayButtonVisible by remember { mutableStateOf(true) }
+    var isVideoEnded by remember { mutableStateOf(false) }
+
     val playerLayer = remember(player) {
         AVPlayerLayer().apply {
             this.player = player
@@ -168,42 +175,6 @@ actual fun VideoPlayer(
 
     var pipController: AVPictureInPictureController? by remember {
         mutableStateOf(null)
-    }
-
-    // isPlaying state
-    var isPlaying by remember { mutableStateOf(player.rate != 0f) }
-
-    // Prepare player icon
-    val icon = if (isPlaying) pauseIconRes else playIconRes
-
-    // icon visibility state
-    var isPlayButtonVisible by remember { mutableStateOf(true) }
-
-    // Track video ended state
-    var isVideoEnded by remember { mutableStateOf(false) }
-
-    // Observe changes to the player state
-    DisposableEffect(player) {
-        val timeObserver = player.addPeriodicTimeObserverForInterval(
-            CMTimeMake(1, 1),
-            null
-        ) {
-            isPlaying = player.rate != 0f
-        }
-
-        val observer = NSNotificationCenter.defaultCenter.addObserverForName(
-            AVPlayerItemDidPlayToEndTimeNotification,
-            playerItem,
-            null
-        ) { _ ->
-            isPlaying = false
-            isVideoEnded = true
-        }
-
-        // Clean up on disposal
-        onDispose {
-            player.removeTimeObserver(timeObserver)
-        }
     }
 
     // Activate the audio session if required
@@ -335,8 +306,26 @@ actual fun VideoPlayer(
 
     // Pause player when disposed
     DisposableEffect(player) {
+        val timeObserver = player.addPeriodicTimeObserverForInterval(
+            CMTimeMake(1, 1),
+            null
+        ) {
+            isPlaying = player.rate != 0f
+        }
+
+        NSNotificationCenter.defaultCenter.addObserverForName(
+            AVPlayerItemDidPlayToEndTimeNotification,
+            playerItem,
+            null
+        ) { _ ->
+            isPlaying = false
+            isVideoEnded = true
+        }
+
+        // Clean up on disposal
         onDispose {
             player.pause()
+            player.removeTimeObserver(timeObserver)
         }
     }
 }
