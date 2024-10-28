@@ -7,7 +7,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
@@ -19,6 +18,13 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
+import io.michaelrocks.libphonenumber.kotlin.metadata.source.AssetsMetadataLoader
+
+@Composable
+actual fun defaultMetadataLoader(): MetadataLoader {
+    return AssetsMetadataLoader(LocalContext.current.applicationContext.assets)
+}
 
 @SuppressLint("ComposableNaming")
 @Composable
@@ -113,7 +119,6 @@ fun OnLifecycleEvent(
 }
 
 @SuppressLint("ComposableNaming")
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 actual fun dismissKeyboard() {
     LocalView.current.hideKeyboard()

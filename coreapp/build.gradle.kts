@@ -11,6 +11,7 @@ plugins {
     id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
     id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
     id(Plugins.SERIALIZATION_PLUGIN)
+    id(Plugins.MOKO_RESOURCES_PLUGIN)
     id(Plugins.PARCELIZE_PLUGIN)
     id(Plugins.SWIFT_KLIB) version Versions.SWIFT_KLIB
     id(Plugins.MAVEN_PUBLISH)
@@ -95,6 +96,7 @@ kotlin {
 
                 // Others
                 api(Dependencies.STRAPI_KMM)
+                api(Dependencies.MOKO_RESOURCES) // Needed to get phone number lib working on iOS
                 api(Dependencies.LIB_PHONE_NUMBER)
                 api(Dependencies.COMPOTTIE)
                 api(Dependencies.WEBVIEW)

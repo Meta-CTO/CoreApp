@@ -5,12 +5,13 @@ package com.metacto.core.utils.extensions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asComposeImageBitmap
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
+import io.michaelrocks.libphonenumber.kotlin.metadata.init.MokoAssetResourceMetadataLoader
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
 import org.jetbrains.skia.Bitmap
@@ -19,6 +20,11 @@ import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
 import platform.UIKit.UIColor
 import platform.UIKit.UINavigationBar
+
+@Composable
+actual fun defaultMetadataLoader(): MetadataLoader {
+    return MokoAssetResourceMetadataLoader()
+}
 
 @Composable
 actual fun openUrlInBrowser(url: String) {
@@ -79,7 +85,6 @@ actual fun setNavigationBarColor(isDark: Boolean) {
     // No need to do that, iOS do this automatically
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 actual fun dismissKeyboard() {
     LocalSoftwareKeyboardController.current?.hide()

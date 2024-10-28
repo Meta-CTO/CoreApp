@@ -7,6 +7,7 @@ object Plugins {
     const val COMPOSE_COMPILER_PLUGIN = "org.jetbrains.kotlin.plugin.compose"
     const val SERIALIZATION_PLUGIN = "org.jetbrains.kotlin.plugin.serialization"
     const val PARCELIZE_PLUGIN = "kotlin-parcelize"
+    const val MOKO_RESOURCES_PLUGIN = "dev.icerock.mobile.multiplatform-resources"
     const val ANDROID_APPLICATION_PLUGIN = "com.android.application"
     const val PLAY_SERVICES_PLUGIN = "com.google.gms.google-services"
     const val CRASHLYTICS_PLUGIN = "com.google.firebase.crashlytics"
@@ -22,6 +23,8 @@ object Plugins {
     const val KOTLIN_CLASSPATH = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.KOTLIN}"
     const val SERIALIZATION_CLASSPATH =
         "org.jetbrains.kotlin:kotlin-serialization:${Versions.SERIALIZATION}"
+    const val MOKO_RESOURCES_CLASSPATH =
+        "dev.icerock.moko:resources-generator:${Versions.MOKO_RESOURCES}"
     const val PLAY_SERVICES_CLASSPATH =
         "com.google.gms:google-services:${Versions.PLAY_SERVICES_PLUGIN}"
     const val CRASHLYTICS_PLUGIN_CLASSPATH =

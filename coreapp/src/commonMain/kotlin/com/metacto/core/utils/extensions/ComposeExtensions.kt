@@ -65,6 +65,8 @@ import com.metacto.core.resources.IFileResource
 import com.valentinilk.shimmer.shimmer
 import io.github.alexzhirkevich.compottie.LottieCompositionResult
 import io.github.alexzhirkevich.compottie.LottieCompositionSpec
+import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
+import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -388,6 +390,16 @@ fun IOLaunchedEffect(
 }
 
 @Composable
+fun rememberPhoneNumberUtil(): PhoneNumberUtil {
+    val metadataLoader = defaultMetadataLoader()
+    return remember {
+        PhoneNumberUtil.Companion.createInstance(
+            metadataLoader = metadataLoader
+        )
+    }
+}
+
+@Composable
 fun rememberLottieComposition(res: IFileResource): LottieCompositionResult {
     // Load json if required
     var json by remember(res) { mutableStateOf<String?>(null) }
@@ -508,6 +520,9 @@ fun Modifier.modifyIf(
 ): Modifier {
     return if (condition) modify() else this
 }
+
+@Composable
+expect fun defaultMetadataLoader(): MetadataLoader
 
 @Composable
 expect fun openUrlInBrowser(url: String)

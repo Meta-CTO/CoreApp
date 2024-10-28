@@ -114,4 +114,5 @@ object Dependencies {
     const val SHIMMER = "com.valentinilk.shimmer:compose-shimmer:${Versions.SHIMMER}"
     const val KMP_NOTIFIER = "io.github.mirzemehdi:kmpnotifier:${Versions.KMP_NOTIFIER}"
     const val STATELY_COMMON = "co.touchlab:stately-common:2.0.5"
+    const val MOKO_RESOURCES = "dev.icerock.moko:resources:${Versions.MOKO_RESOURCES}"
 }

@@ -25,7 +25,7 @@ object Versions {
     const val PLAY_SERVICES_PLUGIN = "4.3.14"
     const val CRASHLYTICS_PLUGIN = "2.9.4"
     const val ANDROID_IMAGE_PICKER = "2.1"
-    const val LIB_PHONE_NUMBER = "0.1.1-metacto-3-alpha"
+    const val LIB_PHONE_NUMBER = "0.1.1-metacto-2"
     const val ANDROID_CROPPER = "4.5.0"
     const val COIL = "3.0.0-alpha10"
     const val COMPOTTIE = "1.1.0"
@@ -36,4 +36,5 @@ object Versions {
     const val SHIMMER = "1.3.1"
     const val KMP_NOTIFIER = "1.3.0"
     const val CAMERA_X = "1.3.4"
+    const val MOKO_RESOURCES = "0.24.3"
 }
