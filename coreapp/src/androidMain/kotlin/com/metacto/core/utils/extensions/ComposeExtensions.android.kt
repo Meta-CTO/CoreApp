@@ -11,7 +11,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
@@ -19,6 +18,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
 import io.michaelrocks.libphonenumber.kotlin.metadata.source.AssetsMetadataLoader
 
@@ -83,16 +83,24 @@ fun getInsetsController(): WindowInsetsControllerCompat? {
     }
 }
 
+@SuppressLint("ComposableNaming")
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun OnLifecycleEvent(
-    onCreate: () -> Unit = {},
-    onStart: () -> Unit = {},
-    onResume: () -> Unit = {},
-    onPause: () -> Unit = {},
-    onStop: () -> Unit = {},
-    onDestroy: () -> Unit = {},
-    onAny: () -> Unit = {},
-    onDispose: () -> Unit = {}
+actual fun dismissKeyboard() {
+    LocalView.current.hideKeyboard()
+    LocalSoftwareKeyboardController.current?.hide()
+}
+
+@Composable
+actual fun OnLifecycleEvent(
+    onCreate: () -> Unit,
+    onStart: () -> Unit,
+    onResume: () -> Unit,
+    onPause: () -> Unit,
+    onStop: () -> Unit,
+    onDestroy: () -> Unit,
+    onAny: () -> Unit,
+    onDispose: () -> Unit
 ) {
     val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
 
@@ -117,12 +125,4 @@ fun OnLifecycleEvent(
             lifecycle.removeObserver(observer)
         }
     }
-}
-
-@SuppressLint("ComposableNaming")
-@OptIn(ExperimentalComposeUiApi::class)
-@Composable
-actual fun dismissKeyboard() {
-    LocalView.current.hideKeyboard()
-    LocalSoftwareKeyboardController.current?.hide()
 }
