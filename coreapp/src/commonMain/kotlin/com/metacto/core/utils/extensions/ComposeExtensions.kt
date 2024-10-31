@@ -547,3 +547,15 @@ expect fun setNavigationBarColor(isDark: Boolean)
 
 @Composable
 expect fun dismissKeyboard()
+
+@Composable
+expect fun OnLifecycleEvent(
+    onCreate: () -> Unit = {},
+    onStart: () -> Unit = {},
+    onResume: () -> Unit = {},
+    onPause: () -> Unit = {},
+    onStop: () -> Unit = {},
+    onDestroy: () -> Unit = {},
+    onAny: () -> Unit = {},
+    onDispose: () -> Unit = {}
+)
