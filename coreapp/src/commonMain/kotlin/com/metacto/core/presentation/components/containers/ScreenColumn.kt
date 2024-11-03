@@ -70,8 +70,8 @@ fun ScreenColumn(
             isRefreshable = isRefreshable,
             isRefreshing = isRefreshing,
             onRefresh = onRefresh,
-            refreshIndicatorColor = refreshIndicatorColor,
-            refreshIndicatorBgColor = refreshIndicatorBgColor,
+//            refreshIndicatorColor = refreshIndicatorColor,
+//            refreshIndicatorBgColor = refreshIndicatorBgColor,
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
