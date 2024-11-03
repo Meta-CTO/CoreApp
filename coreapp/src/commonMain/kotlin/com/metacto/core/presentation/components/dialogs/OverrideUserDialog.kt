@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.inputFields.TertiaryTextInputField
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.coreApp.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.metacto.coreApp.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun OverrideUserDialog(
@@ -49,7 +49,7 @@ fun OverrideUserDialog(
     // Render app dialog
     AppDialog(
         modifier = modifier,
-        title = stringResource(MR.strings.override_current_user),
+        title = stringResource(Res.string.override_current_user),
         showToolbar = showToolbar,
         onDismiss = onDismiss,
         isCancellable = true,
@@ -61,7 +61,7 @@ fun OverrideUserDialog(
         ) {
             // Render body text
             Text(
-                text = stringResource(MR.strings.override_current_user_message),
+                text = stringResource(Res.string.override_current_user_message),
                 textAlign = bodyTextAlign,
                 color = bodyTextColor,
                 style = bodyTextStyle,
@@ -85,7 +85,7 @@ fun OverrideUserDialog(
             )
 
             PrimaryFilledButton(
-                text = stringResource(MR.strings.override),
+                text = stringResource(Res.string.override),
                 textColor = overrideBtnTextColor,
                 textStyle = overriderBtnTextStyle,
                 backgroundColor = overriderBtnBgColor,
@@ -101,7 +101,7 @@ fun OverrideUserDialog(
 
             if (onResetClick != null) {
                 PrimaryFilledButton(
-                    text = stringResource(MR.strings.reset_current_user),
+                    text = stringResource(Res.string.reset_current_user),
                     textColor = resetBtnTextColor,
                     textStyle = resetBtnTextStyle,
                     backgroundColor = resetBtnBgColor,

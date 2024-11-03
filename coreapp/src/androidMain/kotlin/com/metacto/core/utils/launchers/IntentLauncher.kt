@@ -9,7 +9,8 @@ import android.provider.CalendarContract.Events
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import com.metacto.coreApp.MR
+import com.metacto.core.utils.resources.IResourceProvider
+import com.metacto.coreApp.resources.*
 import com.metacto.strapikmm.util.toEpochMilliseconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -17,7 +18,10 @@ import kotlinx.datetime.LocalDateTime
 import java.io.File
 import java.net.URL
 
-class IntentLauncher(private val context: Context) : IIntentLauncher {
+class IntentLauncher(
+    private val context: Context,
+    private val resourceProvider: IResourceProvider
+) : IIntentLauncher {
 
     override fun launchEmail(
         email: String,
@@ -41,7 +45,7 @@ class IntentLauncher(private val context: Context) : IIntentLauncher {
     } catch (_: Throwable) {
         Toast.makeText(
             context,
-            MR.strings.no_email_apps_found_on_your_device.resourceId,
+            resourceProvider.getString(Res.string.no_email_apps_found_on_your_device),
             Toast.LENGTH_LONG
         ).show()
     }
@@ -84,7 +88,7 @@ class IntentLauncher(private val context: Context) : IIntentLauncher {
     } catch (t: Throwable) {
         Toast.makeText(
             context,
-            MR.strings.no_phone_apps_found_on_your_device.resourceId,
+            resourceProvider.getString(Res.string.no_phone_apps_found_on_your_device),
             Toast.LENGTH_LONG
         ).show()
     }
@@ -98,7 +102,7 @@ class IntentLauncher(private val context: Context) : IIntentLauncher {
         } catch (_: Throwable) {
             Toast.makeText(
                 context,
-                MR.strings.no_browser_installed.resourceId,
+                resourceProvider.getString(Res.string.no_browser_installed),
                 Toast.LENGTH_LONG
             ).show()
         }

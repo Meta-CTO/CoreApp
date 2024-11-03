@@ -3,16 +3,15 @@ package com.metacto.core.presentation.imagePicker.components
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.runtime.Composable
-import com.metacto.coreApp.MR
+import com.metacto.coreApp.resources.*
 import com.metacto.core.presentation.components.bottomSheets.BottomSheetContainer
 import com.metacto.core.presentation.components.options.OptionItem
 import com.metacto.core.presentation.options.models.OptionUIModel
 import com.metacto.core.presentation.imagePicker.ImagePickerContract.Event
 import com.metacto.core.presentation.imagePicker.ImagePickerContract.State
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.core.utils.asCommon
 import com.metacto.core.utils.extensions.toHexString
-import dev.icerock.moko.resources.compose.stringResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ImagePickerContent(
@@ -30,8 +29,8 @@ fun ImagePickerContent(
         if (state.allowGallery) {
             OptionItem(
                 option = OptionUIModel(
-                    title = stringResource(MR.strings.choose_from_library),
-                    icon = MR.images.ic_photo_library.asCommon()
+                    title = stringResource(Res.string.choose_from_library),
+                    icon = Res.drawable.ic_photo_library
                 ),
                 onClick = {
                     onEvent(Event.PickFromGalleryClicked)
@@ -43,8 +42,8 @@ fun ImagePickerContent(
         if (state.allowCamera) {
             OptionItem(
                 option = OptionUIModel(
-                    title = stringResource(MR.strings.take_photo),
-                    icon = MR.images.ic_camera.asCommon()
+                    title = stringResource(Res.string.take_photo),
+                    icon = Res.drawable.ic_camera
                 ),
                 onClick = {
                     onEvent(Event.CaptureUsingCameraClicked)
@@ -56,8 +55,8 @@ fun ImagePickerContent(
         if (state.showDeleteAction) {
             OptionItem(
                 option = OptionUIModel(
-                    title = stringResource(MR.strings.remove_current_photo),
-                    icon = MR.images.ic_delete.asCommon(),
+                    title = stringResource(Res.string.remove_current_photo),
+                    icon = Res.drawable.ic_delete,
                     color = CoreTheme.colors.danger.toHexString(withAlpha = true)
                 ),
                 onClick = {

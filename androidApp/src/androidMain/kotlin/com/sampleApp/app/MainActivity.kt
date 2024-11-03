@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.metacto.core.utils.deepLink.IDeepLinkManager
-import com.metacto.core.utils.notificationManager.INotificationManager
+import com.metacto.core.utils.notification.INotificationManager
 import com.sampleApp.app.presentation.MainView
 import org.koin.android.ext.android.inject
 

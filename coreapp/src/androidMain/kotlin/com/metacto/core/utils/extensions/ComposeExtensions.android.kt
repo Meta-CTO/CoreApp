@@ -7,7 +7,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
@@ -84,7 +83,6 @@ fun getInsetsController(): WindowInsetsControllerCompat? {
 }
 
 @SuppressLint("ComposableNaming")
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 actual fun dismissKeyboard() {
     LocalView.current.hideKeyboard()

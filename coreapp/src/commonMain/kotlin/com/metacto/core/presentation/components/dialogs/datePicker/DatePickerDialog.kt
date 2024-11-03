@@ -27,8 +27,8 @@ import com.metacto.core.presentation.components.wheelPicker.datetime.now
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.getScreenSize
 import com.metacto.core.utils.extensions.toDp
-import com.metacto.coreApp.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.metacto.coreApp.resources.*
+import org.jetbrains.compose.resources.stringResource
 import kotlinx.datetime.LocalDate
 
 @Composable
@@ -111,7 +111,7 @@ fun DatePickerDialog(
 
             // Ok button
             PrimaryFilledButton(
-                text = stringResource(MR.strings.ok),
+                text = stringResource(Res.string.ok),
                 onClick = ::handleOkClick,
                 backgroundColor = btnBgColor,
                 textColor = btnTextColor,

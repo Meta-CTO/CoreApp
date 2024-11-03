@@ -7,27 +7,27 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.metacto.core.utils.extensions.FontFamily
-import com.sampleApp.app.MR
-import dev.icerock.moko.resources.compose.asFont
+import com.sampleApp.app.resources.*
+import org.jetbrains.compose.resources.Font
 
 
 // Define font families
 @Composable
 fun getFenwickFontFamily() = FontFamily(
-    MR.fonts.fenwick_bold.asFont(FontWeight.Bold),
-    MR.fonts.fenwick_regular.asFont(FontWeight.Normal),
-    MR.fonts.fenwick_light.asFont(FontWeight.Light)
+    Font(Res.font.fenwick_bold, FontWeight.Bold),
+    Font(Res.font.fenwick_regular, FontWeight.Normal),
+    Font(Res.font.fenwick_light, FontWeight.Light)
 )
 
 @Composable
 fun getQuasimodaFontFamily() = FontFamily(
-    MR.fonts.quasimoda_black.asFont(FontWeight.Black),
-    MR.fonts.quasimoda_bold.asFont(FontWeight.Bold),
-    MR.fonts.quasimoda_semibold.asFont(FontWeight.SemiBold),
-    MR.fonts.quasimoda_medium.asFont(FontWeight.Medium),
-    MR.fonts.quasimoda_regular.asFont(FontWeight.Normal),
-    MR.fonts.quasimoda_light.asFont(FontWeight.Light),
-    MR.fonts.quasimoda_thin.asFont(FontWeight.Thin),
+    Font(Res.font.quasimoda_black, FontWeight.Black),
+    Font(Res.font.quasimoda_bold, FontWeight.Bold),
+    Font(Res.font.quasimoda_semibold, FontWeight.SemiBold),
+    Font(Res.font.quasimoda_medium, FontWeight.Medium),
+    Font(Res.font.quasimoda_regular, FontWeight.Normal),
+    Font(Res.font.quasimoda_light, FontWeight.Light),
+    Font(Res.font.quasimoda_thin, FontWeight.Thin)
 )
 
 // Create app typography

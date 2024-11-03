@@ -16,9 +16,8 @@ import com.metacto.core.presentation.components.buttons.PrimaryTextButton
 import com.metacto.core.presentation.components.dividers.VerticalDivider
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.PlatformType
-import com.metacto.core.utils.extensions.getPlatformType
-import com.metacto.coreApp.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.metacto.coreApp.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun BottomSheetDoneToolbar(
@@ -52,7 +51,7 @@ fun BottomSheetDoneToolbar(
             // Render start icon if required
             if (onDoneClick != null) {
                 PrimaryTextButton(
-                    text = stringResource(MR.strings.action_done),
+                    text = stringResource(Res.string.action_done),
                     color = colorTheme.doneActionColor,
                     textStyle = CoreTheme.typography.sheetAction,
                     onClick = onDoneClick,

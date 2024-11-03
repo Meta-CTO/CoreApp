@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asComposeImageBitmap
@@ -91,7 +90,6 @@ actual fun setNavigationBarColor(isDark: Boolean) {
     // No need to do that, iOS do this automatically
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 actual fun dismissKeyboard() {
     LocalSoftwareKeyboardController.current?.hide()
