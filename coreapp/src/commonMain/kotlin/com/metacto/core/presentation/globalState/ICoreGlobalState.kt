@@ -5,6 +5,7 @@ import com.metacto.core.presentation.globalState.models.ChoicesPopupParams
 import com.metacto.core.presentation.globalState.models.ConfirmationPopupParams
 import com.metacto.core.presentation.globalState.models.DatePickerParams
 import com.metacto.core.presentation.globalState.models.ForceUpdatePopupParams
+import com.metacto.core.presentation.globalState.models.ItemPickerParams
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.MessagePopupParams
 import com.metacto.core.presentation.globalState.models.OverrideUserPopupParams
@@ -23,6 +24,7 @@ interface ICoreGlobalState {
     val choicesPopupState: State<ChoicesPopupParams?>
     val datePickerState: State<DatePickerParams?>
     val timePickerState: State<TimePickerParams?>
+    val itemPickerState: State<ItemPickerParams?>
     val snackBarState: State<SnackBarParams>
     val dismissKeyboardState: State<Boolean>
     val isStatusBarDarkState: State<Boolean>
@@ -38,6 +40,7 @@ interface ICoreGlobalState {
     fun choicesPopup(params: ChoicesPopupParams)
     fun datePicker(params: DatePickerParams)
     fun timePicker(params: TimePickerParams)
+    fun itemPicker(params: ItemPickerParams)
     fun snackBar(params: SnackBarParams)
     fun overrideUserPopup(params: OverrideUserPopupParams)
     fun hideSnackBar(delay: Long = 0)

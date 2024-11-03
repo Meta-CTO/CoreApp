@@ -1,6 +1,7 @@
 package com.metacto.core.presentation.app
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -12,7 +13,7 @@ import com.metacto.core.utils.extensions.setScreenSize
 @Composable
 internal fun CoreAppContainer(
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+    content: @Composable BoxScope.() -> Unit
 ) {
     val screenSize = remember { mutableStateOf(Pair(-1, -1)) }
 
