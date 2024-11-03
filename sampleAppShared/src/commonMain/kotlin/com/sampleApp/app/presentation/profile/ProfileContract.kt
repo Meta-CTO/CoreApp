@@ -12,6 +12,7 @@ class ProfileContract {
 
     sealed class Event : ViewEvent {
         data object Init : Event()
+        data object NativeItemPicker : Event()
     }
 
     sealed class Effect : ViewSideEffect

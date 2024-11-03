@@ -12,12 +12,17 @@ import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.ConfirmationPopupParams
 import com.metacto.core.presentation.globalState.models.ForceUpdatePopupParams
+import com.metacto.core.presentation.globalState.models.ItemPickerParams
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.MessagePopupParams
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
-import com.metacto.core.utils.resources.IResourceProvider
+import com.metacto.core.presentation.itemPicker.ItemPickerSheet
+import com.metacto.core.presentation.itemPicker.models.PickerItem
+import com.metacto.core.utils.PlatformType
+import com.metacto.core.utils.extensions.getPlatformType
 import com.metacto.core.utils.launchers.IIntentLauncher
+import com.metacto.core.utils.resources.IResourceProvider
 import com.metacto.coreApp.resources.*
 import com.metacto.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
 import com.metacto.strapikmm.errorhandling.AppException
@@ -82,6 +87,8 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     val effect = _effect.receiveAsFlow()
 
     private var loadingCount = 0
+    private var isObservingItemPicker: Boolean = false
+    private var onPickerItemSelected: ((PickerItem) -> Unit)? = null
 
     init {
         subscribeToEvents()
@@ -375,6 +382,75 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         } else {
             onProceedAction()
         }
+    }
+
+    protected fun nativeItemPicker(
+        items: List<PickerItem>,
+        selectedItem: PickerItem? = null,
+        onItemSelected: (PickerItem) -> Unit
+    ) {
+        if (getPlatformType() == PlatformType.IOS) {
+            // Pick using native item picker
+            pickItemUsingNativePicker(
+                items = items,
+                selectedItem = selectedItem,
+                onItemSelected = onItemSelected
+            )
+        } else {
+            // Pick using item picker sheet
+            pickItemUsingPickerSheet(
+                items = items,
+                selectedItem = selectedItem,
+                onItemSelected = onItemSelected
+            )
+        }
+    }
+
+    private fun pickItemUsingNativePicker(
+        items: List<PickerItem>,
+        selectedItem: PickerItem? = null,
+        onItemSelected: (PickerItem) -> Unit
+    ) {
+        coreGlobalState.itemPicker(
+            ItemPickerParams(
+                items = items,
+                selectedItem = selectedItem,
+                onItemSelected = onItemSelected
+            )
+        )
+    }
+
+    private fun pickItemUsingPickerSheet(
+        items: List<PickerItem>,
+        selectedItem: PickerItem? = null,
+        onItemSelected: (PickerItem) -> Unit
+    ) {
+        // Observe item picker results
+        onPickerItemSelected = onItemSelected
+        observePickerItemResultsIfRequired()
+
+        // Open item picker sheet
+        navManager.navigateToBottomSheet(
+            ItemPickerSheet(
+                items = items,
+                selectedItem = selectedItem
+            )
+        )
+    }
+
+    private fun observePickerItemResultsIfRequired() {
+        // Validate, if we should observe
+        // Should observe one time only to avoid issues
+        if (isObservingItemPicker) return
+
+        // Observe
+        navManager.collectNavResult<ItemPickerSheet, PickerItem> {
+            onPickerItemSelected?.invoke(it)
+            onPickerItemSelected = null
+        }
+
+        // Update the flag
+        isObservingItemPicker = true
     }
 
     override fun onDispose() {

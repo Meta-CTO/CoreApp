@@ -4,7 +4,9 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Immutable
 data class CoreSpacings(
@@ -511,6 +513,9 @@ data class CoreSpacings(
 
     // AudioPlayer
     val audioPlayer: AudioPlayerSpacings = AudioPlayerSpacings(),
+
+    // NativeItemPicker
+    val nativeItemPicker: NativeItemPickerSpacings = NativeItemPickerSpacings(),
 )
 
 // PrimaryFilledButton
@@ -1184,6 +1189,15 @@ data class AudioPlayerSpacings(
     val progressHeight: Dp = 4.dp,
     val durationTextWidth: Dp = 40.dp,
     val progressRadius: Dp = 12.dp,
+)
+
+// Native item picker
+data class NativeItemPickerSpacings(
+    val pickerHeight: Dp = 280.dp,
+    val headerDividerThickness: Dp = 1.dp,
+    val headerVerticalPadding: Dp = 13.dp,
+    val headerHorizontalPadding: Dp = 18.dp,
+    val headerLabelFontSize: TextUnit = 18.sp,
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }

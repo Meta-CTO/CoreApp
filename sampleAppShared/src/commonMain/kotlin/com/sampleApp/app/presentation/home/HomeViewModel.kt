@@ -120,6 +120,20 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
             val value = resourceProvider.getString(Res.string.hello_world)
             showError(value)
         }
+        Event.NativeItemPicker -> {
+            nativeItemPicker(
+                items = (0..20).map {
+                    PickerItemUIModel(
+                        key = it.toString(),
+                        title = "Item $it"
+                    )
+                },
+                selectedItem = currentState.selectedNativePickerItem,
+                onItemSelected = { item ->
+                    setState { copy(selectedNativePickerItem = item) }
+                }
+            )
+        }
     }
 
     private fun shareImage() = executeCatching(

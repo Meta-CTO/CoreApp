@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.metacto.core.navigation.CoreAppNavigator
@@ -29,6 +30,7 @@ import com.metacto.core.presentation.components.visibilities.TopSlideVisibility
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.SnackBarType
+import com.metacto.core.presentation.itemPicker.ItemPickerContainer
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.resources.file
 import com.metacto.core.utils.extensions.dismissKeyboard
@@ -53,6 +55,7 @@ fun CoreAppContent(
     val choicesParams by globalState.choicesPopupState
     val datePickerParams by globalState.datePickerState
     val timePickerParams by globalState.timePickerState
+    val itemPickerParams by globalState.itemPickerState
     val loadingType by globalState.loadingState
     val snackBarParams by globalState.snackBarState
     val isStatusBarDark by globalState.isStatusBarDarkState
@@ -286,6 +289,17 @@ fun CoreAppContent(
                 )
             }
         }
+
+        // Handle item picker
+        ItemPickerContainer(
+            items = itemPickerParams?.items.orEmpty(),
+            selectedItem = itemPickerParams?.selectedItem,
+            onItemSelected = itemPickerParams?.onItemSelected,
+            onDismissed = {
+                globalState.idle()
+            },
+            modifier = Modifier.align(Alignment.BottomCenter)
+        )
 
         // Handle dismiss keyboard state
         if (globalState.dismissKeyboardState.value) {

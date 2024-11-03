@@ -4,6 +4,7 @@ import com.metacto.core.presentation.base.ViewEvent
 import com.metacto.core.presentation.base.ViewSideEffect
 import com.metacto.core.presentation.base.ViewState
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayerController
+import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.sampleApp.app.presentation.models.VideoItemInfo
 
@@ -15,6 +16,7 @@ class HomeContract {
         val currentVideo: VideoItemInfo = VIDEOS_LIST[0],
         val videoController: VideoPlayerController? = null,
         val pickedItem: PickerItemUIModel? = null,
+        val selectedNativePickerItem: PickerItem? = null,
     ) : ViewState
 
     sealed class Event : ViewEvent {
@@ -39,6 +41,7 @@ class HomeContract {
         data object TestFormattedPluralStringResource : Event()
         data object ShowAppLottieLoading : Event()
         data object HideLoading : Event()
+        data object NativeItemPicker : Event()
     }
 
     sealed class Effect : ViewSideEffect
