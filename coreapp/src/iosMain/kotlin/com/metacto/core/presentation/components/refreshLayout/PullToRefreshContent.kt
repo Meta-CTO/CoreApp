@@ -25,9 +25,10 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.coreApp.MR
-import dev.icerock.moko.resources.compose.painterResource
+import com.metacto.coreApp.resources.Res
+import com.metacto.coreApp.resources.ic_play
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import kotlin.math.abs
 
 /**
@@ -65,7 +66,7 @@ fun RefreshLayoutState.PullToRefreshContent() {
                     )
                 )
                 Image(
-                    painter = painterResource(MR.images.ic_play),
+                    painter = painterResource(Res.drawable.ic_play),
                     contentDescription = "",
                     modifier = Modifier
                         .size(20.dp)
@@ -80,7 +81,7 @@ fun RefreshLayoutState.PullToRefreshContent() {
                     abs(getRefreshContentOffset()) < getRefreshContentThreshold()
                 val rotate by animateFloatAsState(targetValue = if (isCannotRefresh) 0f else 180f)
                 Image(
-                    painter = painterResource(MR.images.ic_play),
+                    painter = painterResource(Res.drawable.ic_play),
                     contentDescription = "",
                     modifier = Modifier
                         .size(20.dp)
