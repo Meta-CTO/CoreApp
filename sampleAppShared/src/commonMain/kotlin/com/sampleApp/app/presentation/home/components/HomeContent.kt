@@ -189,5 +189,17 @@ internal fun HomeContent(
             },
             visualTransformation = phoneNumberVisualTransformation
         )
+
+        Text(
+            text = "Selected native picker item: ${state.selectedNativePickerItem?.title ?: "None"}"
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Native item picker",
+            onClick = {
+                onEvent(Event.NativeItemPicker)
+            }
+        )
     }
 }

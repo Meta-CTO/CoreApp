@@ -8,6 +8,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.audioPlayer.AudioPlayer
+import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.extensions.toFeetInches
@@ -31,7 +32,7 @@ internal fun ProfileContent(
 
     // Container column
     ScreenColumn(
-        isScrollable = true
+        isScrollable = false
     ) {
         VideoPlayer(
             uniqueId = "profile_video_player",
@@ -57,6 +58,13 @@ internal fun ProfileContent(
             modifier = Modifier.fillMaxWidth(),
             audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Evillaugh.ogg",
 //            audioUrl = "https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
+        )
+
+        PrimaryFilledButton(
+            text = "Open native picker",
+            onClick = {
+                onEvent(Event.NativeItemPicker)
+            }
         )
     }
 }
