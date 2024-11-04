@@ -644,5 +644,4 @@ data class AudioPlayerTypography(
     val duration: TextStyle = labelSmall
 )
 
-
 val LocalCoreTypography = staticCompositionLocalOf { CoreTypography() }

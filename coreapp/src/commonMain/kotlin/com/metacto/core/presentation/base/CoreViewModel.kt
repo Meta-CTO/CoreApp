@@ -12,12 +12,12 @@ import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.ConfirmationPopupParams
 import com.metacto.core.presentation.globalState.models.ForceUpdatePopupParams
-import com.metacto.core.presentation.globalState.models.ItemPickerParams
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.MessagePopupParams
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
+import com.metacto.core.presentation.itemPicker.NativeItemPicker
 import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.utils.PlatformType
 import com.metacto.core.utils.extensions.getPlatformType
@@ -58,7 +58,7 @@ interface ViewSideEffect
 
 const val SIDE_EFFECTS_KEY = "side-effects_key"
 
-expect open class CommonViewModel constructor()
+expect open class CommonViewModel()
 
 abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> :
     CommonViewModel(), ScreenModel, KoinComponent {
@@ -71,6 +71,10 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     protected val forceUpdateRepository by inject<ForceUpdateRepository>()
     protected val intentLauncher by inject<IIntentLauncher>()
     val permissionManager by inject<IPermissionManager>()
+    private val nativeItemPicker by inject<NativeItemPicker>()
+    private var isObservingItemPicker: Boolean = false
+    private var onPickerItemSelected: ((PickerItem) -> Unit)? = null
+    private var loadingCount = 0
 
     abstract fun setInitialState(): S
     abstract fun handleEvents(event: E): Any
@@ -86,9 +90,6 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     private val _effect: Channel<SF> = Channel()
     val effect = _effect.receiveAsFlow()
 
-    private var loadingCount = 0
-    private var isObservingItemPicker: Boolean = false
-    private var onPickerItemSelected: ((PickerItem) -> Unit)? = null
 
     init {
         subscribeToEvents()
@@ -411,12 +412,10 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         selectedItem: PickerItem? = null,
         onItemSelected: (PickerItem) -> Unit
     ) {
-        coreGlobalState.itemPicker(
-            ItemPickerParams(
-                items = items,
-                selectedItem = selectedItem,
-                onItemSelected = onItemSelected
-            )
+        nativeItemPicker.display(
+            items = items,
+            selectedItem = selectedItem,
+            onItemSelected = onItemSelected
         )
     }
 

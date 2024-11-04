@@ -451,10 +451,7 @@ data class CoreColors(
     // AudioPlayer
     val audioPlayer: AudioPlayerColors = AudioPlayerColors(
         primary = primary
-    ),
-
-    // NativeItemPicker
-    val nativeItemPicker: NativeItemPickerColors = NativeItemPickerColors(),
+    )
 )
 
 // PrimaryFilledButton
@@ -1016,14 +1013,6 @@ data class AudioPlayerColors(
     val durationText: Color = primary,
     val progress: Color = primary,
     val tracker: Color = primary.copy(alpha = 0.5f),
-)
-
-// Native item picker
-data class NativeItemPickerColors(
-    val headerDivider: Color = Color(0xFFDEDEDE),
-    val headerBg: Color = Color(0xFFF7F7F7),
-    val headerLabel: Color = Color(0xFF007AFF),
-    val pickerBackground: Color = Color(0xFFD1D4D9),
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }
