@@ -11,6 +11,7 @@ import com.metacto.core.presentation.base.CommonViewModel
 import com.metacto.core.presentation.camera.CameraController
 import com.metacto.core.presentation.camera.CameraEngine
 import com.metacto.core.presentation.camera.models.CameraLens
+import com.metacto.core.presentation.itemPicker.NativeItemPicker
 import com.metacto.core.utils.calendar.CalendarManager
 import com.metacto.core.utils.calendar.ICalendarManager
 import com.metacto.core.utils.IResourceProvider
@@ -152,6 +153,10 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
             permissionManager = get(),
             cameraEngine = cameraEngine
         )
+    }
+
+    single {
+        NativeItemPicker(get())
     }
 }
 
