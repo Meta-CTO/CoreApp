@@ -510,7 +510,10 @@ data class CoreSpacings(
     val loadingMore: LoadingMoreSpacings = LoadingMoreSpacings(),
 
     // AudioPlayer
-    val audioPlayer: AudioPlayerSpacings = AudioPlayerSpacings()
+    val audioPlayer: AudioPlayerSpacings = AudioPlayerSpacings(),
+
+    // NonLazyGrid
+    val nonLazyGrid :NonLazyGridSpacings = NonLazyGridSpacings()
 )
 
 // PrimaryFilledButton
@@ -1184,6 +1187,12 @@ data class AudioPlayerSpacings(
     val progressHeight: Dp = 4.dp,
     val durationTextWidth: Dp = 40.dp,
     val progressRadius: Dp = 12.dp,
+)
+
+// NonLazyGrid
+data class NonLazyGridSpacings(
+    val verticalSpacing: Dp = 0.dp,
+    val horizontalSpacing: Dp = 0.dp,
 )
 
 val LocalCoreSpacings = staticCompositionLocalOf { CoreSpacings() }

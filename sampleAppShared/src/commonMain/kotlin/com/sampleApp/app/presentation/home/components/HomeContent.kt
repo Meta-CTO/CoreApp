@@ -17,6 +17,7 @@ import com.metacto.core.presentation.components.audioPlayer.AudioPlayer
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.SwitchButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
+import com.metacto.core.presentation.components.grids.NonLazyGrid
 import com.metacto.core.presentation.components.inputFields.PasswordTextInputField
 import com.metacto.core.presentation.components.inputFields.PriceTextInputField
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
@@ -142,7 +143,7 @@ internal fun HomeContent(
             allowDecimal = true,
             maxAllowedDecimals = 3,
             price = price,
-            onPriceChange = {value ->
+            onPriceChange = { value ->
                 price = value.orEmpty()
             }
         )
@@ -152,7 +153,7 @@ internal fun HomeContent(
             showPasswordVisibilityToggle = true,
             modifier = Modifier.fillMaxWidth(),
             text = password,
-            onValueChange = {value ->
+            onValueChange = { value ->
                 password = value
             }
         )
@@ -247,6 +248,16 @@ internal fun HomeContent(
             text = "Native item picker",
             onClick = {
                 onEvent(Event.NativeItemPicker)
+            }
+        )
+
+        NonLazyGrid(
+            modifier = Modifier.fillMaxWidth(),
+            columnsCount = 2,
+            items = listOf("String", "String", "String").map { item ->
+                {
+                    Text(text = item)
+                }
             }
         )
     }
