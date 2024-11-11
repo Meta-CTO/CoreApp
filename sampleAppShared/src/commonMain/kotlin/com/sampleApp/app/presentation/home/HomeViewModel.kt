@@ -1,10 +1,12 @@
 package com.sampleApp.app.presentation.home
 
 import com.metacto.core.presentation.globalState.models.DatePickerParams
+import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.imagePicker.ImagePickerSheet
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.presentation.youtube.YoutubeScreen
+import com.sampleApp.app.resources.file
 import com.sampleApp.app.presentation.base.BaseViewModel
 import com.sampleApp.app.presentation.camera.CameraScreen
 import com.sampleApp.app.presentation.home.HomeContract.Companion.VIDEOS_LIST
@@ -12,6 +14,12 @@ import com.sampleApp.app.presentation.home.HomeContract.Effect
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
 import com.sampleApp.app.presentation.test.TestScreen
+import com.sampleApp.app.resources.Res
+import com.sampleApp.app.resources.d_languages
+import com.sampleApp.app.resources.hello_s
+import com.sampleApp.app.resources.hello_s1_from_s2_to_s3
+import com.sampleApp.app.resources.hello_world
+import com.sampleApp.app.resources.my_languages
 
 class HomeViewModel : BaseViewModel<State, Event, Effect>() {
 
@@ -92,6 +100,26 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
             navManager.navigate(CameraScreen)
         }
 
+        Event.HideLoading -> hideLoading()
+        Event.ShowAppLottieLoading -> showLoading(LoadingType.Lottie(Res.file.app_loading))
+        Event.TestFormattedPluralStringResource -> {
+            val quantity = listOf(1, 50).random()
+            val value = resourceProvider.getPluralString(Res.plurals.d_languages, quantity, quantity)
+            showError(value)
+        }
+        Event.TestFormattedStringResource -> {
+            val value = resourceProvider.getString(Res.string.hello_s1_from_s2_to_s3, "Shamy", "Damietta", "Zeiny")
+            showError(value)
+        }
+        Event.TestPluralStringResource -> {
+            val quantity = listOf(1, 50).random()
+            val value = resourceProvider.getPluralString(Res.plurals.my_languages, quantity)
+            showError(value)
+        }
+        Event.TestStringResource -> {
+            val value = resourceProvider.getString(Res.string.hello_world)
+            showError(value)
+        }
         Event.NativeItemPicker -> {
             nativeItemPicker(
                 items = (0..20).map {

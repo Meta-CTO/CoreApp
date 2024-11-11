@@ -15,8 +15,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.models.ImageUIModel
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.coreApp.MR
-import dev.icerock.moko.resources.compose.painterResource
+import com.metacto.coreApp.resources.*
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun GrayAppImage(
@@ -64,6 +64,6 @@ fun GrayAppImage(
         fallbackVector = fallbackVector,
         shimmerLoading = shimmerLoading,
         shimmerLoadingColor = shimmerLoadingColor,
-        placeholderPainter = painterResource(MR.images.img_gray_placeholder)
+        placeholderPainter = painterResource(Res.drawable.img_gray_placeholder)
     )
 }

@@ -11,12 +11,10 @@ import com.metacto.core.presentation.camera.CameraController
 import com.metacto.core.presentation.camera.CameraEngine
 import com.metacto.core.presentation.camera.models.CameraLens
 import com.metacto.core.presentation.components.audioPlayer.AudioPlayerManager
+import com.metacto.core.presentation.components.videoPlayer.VideoPlayerManager
 import com.metacto.core.presentation.itemPicker.NativeItemPicker
 import com.metacto.core.utils.calendar.CalendarManager
 import com.metacto.core.utils.calendar.ICalendarManager
-import com.metacto.core.presentation.components.videoPlayer.VideoPlayerManager
-import com.metacto.core.utils.IResourceProvider
-import com.metacto.core.utils.ResourceProvider
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.metacto.core.utils.file.FileManager
 import com.metacto.core.utils.file.IFileManager
@@ -28,9 +26,9 @@ import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.launchers.IntentLauncher
 import com.metacto.core.utils.media.IMediaManager
 import com.metacto.core.utils.media.MediaManager
-import com.metacto.core.utils.notificationManager.INotificationManager
-import com.metacto.core.utils.notificationManager.NotificationManager
-import com.metacto.coreApp.MR
+import com.metacto.core.utils.notification.INotificationManager
+import com.metacto.core.utils.notification.NotificationManager
+import com.metacto.coreApp.R
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
 import com.metacto.strapikmm.repos.AppConfigurationRepository
 import com.mmk.kmpnotifier.notification.NotifierManager
@@ -65,10 +63,6 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
         )
     }
 
-    single<IResourceProvider> {
-        ResourceProvider(androidContext())
-    }
-
     single<IPreloader> {
         Preloader(
             context = androidContext().applicationContext
@@ -91,22 +85,15 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
     }
 
     single<IPermissionManager> {
-        PermissionManager(
-            applicationContext = androidContext()
-        )
+        PermissionManager(androidContext())
     }
 
     single<IIntentLauncher> {
-        IntentLauncher(
-            context = androidContext()
-        )
+        IntentLauncher(androidContext(), get())
     }
 
     single<ICalendarManager> {
-        CalendarManager(
-            context = androidContext(),
-            permissionManager = get()
-        )
+        CalendarManager(androidContext(), get())
     }
 
     single<ILanguageManager> {
@@ -149,8 +136,8 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
                 configuration = NotificationPlatformConfiguration.Android(
                     showPushNotification = coreEnvironment.showRemoteNotifications,
                     notificationChannelData = NotificationPlatformConfiguration.Android.NotificationChannelData(),
-                    notificationIconResId = coreEnvironment.remoteNotificationIcon
-                        ?: MR.images.ic_default_notifications_icon.drawableResId,
+                    notificationIconResId = coreEnvironment.androidRemoteNotificationIcon
+                        ?: R.drawable.ic_default_notifications_icon,
                 )
             )
         }

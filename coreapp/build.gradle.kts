@@ -1,7 +1,6 @@
 @file:Suppress("OPT_IN_USAGE")
 
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import dev.icerock.gradle.MRVisibility
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 
@@ -12,8 +11,8 @@ plugins {
     id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
     id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
     id(Plugins.SERIALIZATION_PLUGIN)
-    id(Plugins.PARCELIZE_PLUGIN)
     id(Plugins.MOKO_RESOURCES_PLUGIN)
+    id(Plugins.PARCELIZE_PLUGIN)
     id(Plugins.SWIFT_KLIB) version Versions.SWIFT_KLIB
     id(Plugins.MAVEN_PUBLISH)
     id(Plugins.SIGNING)
@@ -82,10 +81,6 @@ kotlin {
                 // Koin
                 api(Dependencies.Koin.CORE)
                 api(Dependencies.Koin.COMPOSE)
-
-                // Moko
-                api(Dependencies.Moko.RESOURCES)
-                api(Dependencies.Moko.RESOURCES_COMPOSE)
 
                 // Kotlin
                 api(Dependencies.Kotlin.DATE_TIME)
@@ -172,7 +167,6 @@ kotlin {
             iosSimulatorArm64Main.dependsOn(this)
             dependencies {
                 api(Dependencies.Compose.MATERIAL)
-                api(Dependencies.Moko.PARCELIZE)
             }
         }
     }
@@ -201,11 +195,10 @@ android {
     }
 }
 
-multiplatformResources {
-    resourcesPackage.set(Configs.CORE_APP_ID)
-    resourcesVisibility.set(MRVisibility.Internal)
-    iosBaseLocalizationRegion.set("en")
-    iosMinimalDeploymentTarget.set("14.1")
+compose.resources {
+    publicResClass = false
+    packageOfResClass = "${Configs.CORE_APP_ID}.resources"
+    generateResClass = always
 }
 
 val javadocJar by tasks.registering(Jar::class) {
@@ -258,38 +251,5 @@ publishing {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
         jvmTarget = "17"
-    }
-}
-
-afterEvaluate {
-    tasks.named("androidDebugSourcesJar") {
-        dependsOn("generateMRandroidMain")
-    }
-    tasks.named("androidReleaseSourcesJar") {
-        dependsOn("generateMRandroidMain")
-    }
-    tasks.named("iosX64SourcesJar") {
-        dependsOn("generateMRandroidMain")
-    }
-    tasks.named("iosX64SourcesJar") {
-        dependsOn("generateMRiosX64Main")
-    }
-    tasks.named("iosSimulatorArm64SourcesJar") {
-        dependsOn("generateMRandroidMain")
-    }
-    tasks.named("iosSimulatorArm64SourcesJar") {
-        dependsOn("generateMRiosSimulatorArm64Main")
-    }
-    tasks.named("iosArm64SourcesJar") {
-        dependsOn("generateMRandroidMain")
-    }
-    tasks.named("iosArm64SourcesJar") {
-        dependsOn("generateMRiosArm64Main")
-    }
-    tasks.named("sourcesJar") {
-        dependsOn("generateMRandroidMain")
-    }
-    tasks.named("sourcesJar") {
-        dependsOn("generateMRandroidMain")
     }
 }

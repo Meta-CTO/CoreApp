@@ -21,8 +21,8 @@ import com.metacto.core.presentation.components.visibilities.FadeVisibility
 import com.metacto.core.utils.extensions.IOLaunchedEffect
 import com.metacto.core.utils.extensions.isValidUrl
 import com.metacto.core.utils.extensions.noRippleClickable
-import dev.icerock.moko.resources.ImageResource
-import dev.icerock.moko.resources.compose.painterResource
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.AVFAudio.AVAudioSession
 import platform.AVFAudio.AVAudioSessionCategoryPlayback
@@ -77,8 +77,8 @@ actual fun VideoPlayer(
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
     controlsType: ControlsType,
-    playIconRes: ImageResource,
-    pauseIconRes: ImageResource,
+    playIconRes: DrawableResource,
+    pauseIconRes: DrawableResource,
     customControlsSize: Dp,
     customControlsElevation: Dp,
     customControlsShape : RoundedCornerShape,

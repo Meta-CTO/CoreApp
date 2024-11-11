@@ -8,8 +8,8 @@ import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme.colors
 import com.metacto.core.presentation.theme.CoreTheme.spacings
 import com.metacto.core.presentation.theme.CoreTheme.typography
-import com.metacto.coreApp.MR
-import dev.icerock.moko.resources.ImageResource
+import com.metacto.coreApp.resources.*
+import org.jetbrains.compose.resources.DrawableResource
 
 interface AudioPlayerController {
     fun play() {}
@@ -23,8 +23,8 @@ expect fun AudioPlayer(
     audioUrl: String,
     autoPlay: Boolean = false,
     handleLifecyclePause: Boolean = false,
-    playIconRes: ImageResource = MR.images.ic_audio_play,
-    pauseIconRes: ImageResource = MR.images.ic_audio_pause,
+    playIconRes: DrawableResource = Res.drawable.ic_audio_play,
+    pauseIconRes: DrawableResource = Res.drawable.ic_audio_pause,
     playIconColor: Color = colors.audioPlayer.playIcon,
     playIconSize: Dp = spacings.audioPlayer.playIconSize,
     durationTextColor: Color = colors.audioPlayer.durationText,

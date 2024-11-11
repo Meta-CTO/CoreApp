@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.options.models.OptionUIModel
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.toColor
-import com.metacto.core.utils.painterResource
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun OptionItem(

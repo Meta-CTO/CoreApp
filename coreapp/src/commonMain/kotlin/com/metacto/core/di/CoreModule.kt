@@ -11,6 +11,8 @@ import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.metacto.core.utils.phoneNumber.PhoneNumberManager
 import com.metacto.core.utils.remoteConfigs.FirebaseRemoteConfigs
 import com.metacto.core.utils.remoteConfigs.IRemoteConfigs
+import com.metacto.core.utils.resources.IResourceProvider
+import com.metacto.core.utils.resources.ResourceProvider
 import com.metacto.strapikmm.auth.Authenticator
 import com.metacto.strapikmm.auth.FirebaseAuthenticator
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
@@ -118,5 +120,9 @@ fun <T : SerializableNetworkError> coreModule(
             appLogger = get(),
             parsers = deepLinkParsers
         )
+    }
+
+    single<IResourceProvider> {
+        ResourceProvider
     }
 }

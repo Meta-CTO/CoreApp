@@ -20,11 +20,10 @@ import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.PrimaryTextButton
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.core.utils.CommonImageResource
-import com.metacto.core.utils.asCommon
-import com.metacto.core.utils.painterResource
-import com.metacto.coreApp.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.metacto.coreApp.resources.*
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ForceUpdateDialog(
@@ -37,7 +36,7 @@ fun ForceUpdateDialog(
     onUpdateClick: (() -> Unit)? = null,
     onSkipUpdateClicked: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
-    image: CommonImageResource = MR.images.ic_upgrade.asCommon(),
+    image: DrawableResource = Res.drawable.ic_upgrade,
     bodyTextStyle: TextStyle = CoreTheme.typography.forceUpdateDialog.textStyle,
     bodyTextColor: Color = CoreTheme.colors.forceUpdateDialog.bodyTextColor,
     textPadding: Dp = CoreTheme.spacings.forceUpdateDialog.textPadding,
@@ -99,7 +98,7 @@ fun ForceUpdateDialog(
                 PrimaryFilledButton(
                     modifier = Modifier.fillMaxWidth(),
                     textStyle =  CoreTheme.typography.forceUpdateDialog.positiveBtnTextStyle,
-                    text = updateButtonText ?: stringResource(MR.strings.confirm),
+                    text = updateButtonText ?: stringResource(Res.string.confirm),
                     isSmall = true,
                     onClick = {
                         onUpdateClick?.invoke()
@@ -112,7 +111,7 @@ fun ForceUpdateDialog(
                     PrimaryTextButton(
                         modifier = Modifier.wrapContentSize(),
                         textStyle =  CoreTheme.typography.forceUpdateDialog.negativeBtnTextStyle,
-                        text = skipUpdateButtonText ?: stringResource(MR.strings.skip_update_button),
+                        text = skipUpdateButtonText ?: stringResource(Res.string.skip_update_button),
                         onClick = {
                             onSkipUpdateClicked?.invoke()
                         }

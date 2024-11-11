@@ -3,10 +3,12 @@
 package com.metacto.core.presentation.itemPicker
 
 import com.metacto.core.presentation.itemPicker.models.PickerItem
-import com.metacto.core.utils.IResourceProvider
 import com.metacto.core.utils.extensions.orZero
 import com.metacto.core.utils.extensions.uiColor
-import com.metacto.coreApp.MR
+import com.metacto.core.utils.resources.IResourceProvider
+import com.metacto.coreApp.resources.Res
+import com.metacto.coreApp.resources.action_done
+import com.metacto.coreApp.resources.cancel
 import kotlinx.cinterop.BetaInteropApi
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.ObjCAction
@@ -124,7 +126,7 @@ private class PopupPickerView(
         // Config cancel button
         doneButton.let {
             it.setTitle(
-                title = resourceProvider.getString(MR.strings.action_done),
+                title = resourceProvider.getString(Res.string.action_done),
                 forState = UIControlStateNormal
             )
             it.setTitleColor(
@@ -145,7 +147,7 @@ private class PopupPickerView(
         // Config cancel button
         cancelButton.let {
             it.setTitle(
-                title = resourceProvider.getString(MR.strings.cancel),
+                title = resourceProvider.getString(Res.string.cancel),
                 forState = UIControlStateNormal
             )
             it.setTitleColor(

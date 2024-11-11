@@ -4,7 +4,6 @@ import coil3.PlatformContext
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
-import com.metacto.core.utils.file.FileManager
 import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.permissions.PermissionManager
 import com.metacto.core.presentation.base.CommonViewModel
@@ -14,9 +13,8 @@ import com.metacto.core.presentation.camera.models.CameraLens
 import com.metacto.core.presentation.itemPicker.NativeItemPicker
 import com.metacto.core.utils.calendar.CalendarManager
 import com.metacto.core.utils.calendar.ICalendarManager
-import com.metacto.core.utils.IResourceProvider
-import com.metacto.core.utils.ResourceProvider
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
+import com.metacto.core.utils.file.FileManager
 import com.metacto.core.utils.file.IFileManager
 import com.metacto.core.utils.imagePreloader.IPreloader
 import com.metacto.core.utils.imagePreloader.Preloader
@@ -26,8 +24,8 @@ import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.launchers.IntentLauncher
 import com.metacto.core.utils.media.IMediaManager
 import com.metacto.core.utils.media.MediaManager
-import com.metacto.core.utils.notificationManager.INotificationManager
-import com.metacto.core.utils.notificationManager.NotificationManager
+import com.metacto.core.utils.notification.INotificationManager
+import com.metacto.core.utils.notification.NotificationManager
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
 import com.metacto.strapikmm.repos.AppConfigurationRepository
 import com.mmk.kmpnotifier.notification.NotifierManager
@@ -41,8 +39,6 @@ import org.koin.core.definition.KoinDefinition
 import org.koin.core.module.Module
 import org.koin.core.qualifier.Qualifier
 import org.koin.dsl.module
-import platform.Foundation.NSBundle
-import platform.Foundation.NSFileManager
 import platform.UserNotifications.UNUserNotificationCenter
 import kotlin.reflect.KClass
 
@@ -58,13 +54,6 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
             appStorageName = appStorageName,
             shouldShowActualErrorMessages = shouldShowActualErrorMessages,
             errorClass = errorClass
-        )
-    }
-
-    single<IResourceProvider> {
-        ResourceProvider(
-            bundle = NSBundle.mainBundle,
-            fileManager = NSFileManager.defaultManager()
         )
     }
 

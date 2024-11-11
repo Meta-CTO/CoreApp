@@ -19,18 +19,15 @@ import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.NativeItemPicker
 import com.metacto.core.presentation.itemPicker.models.PickerItem
-import com.metacto.core.utils.CommonImageResource
-import com.metacto.core.utils.IResourceProvider
 import com.metacto.core.utils.PlatformType
-import com.metacto.core.utils.asCommon
 import com.metacto.core.utils.extensions.getPlatformType
 import com.metacto.core.utils.launchers.IIntentLauncher
-import com.metacto.coreApp.MR
+import com.metacto.core.utils.resources.IResourceProvider
+import com.metacto.coreApp.resources.*
 import com.metacto.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
 import com.metacto.strapikmm.errorhandling.AppException
 import com.metacto.strapikmm.errorhandling.NetworkMapperConstants
 import com.metacto.strapikmm.util.Logger
-import dev.icerock.moko.resources.StringResource
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.HttpRequestTimeoutException
@@ -47,6 +44,8 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import org.jetbrains.compose.resources.DrawableResource
+import org.jetbrains.compose.resources.StringResource
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.coroutines.CoroutineContext
@@ -175,7 +174,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                     is SocketTimeoutException,
                     is HttpRequestTimeoutException,
                     is ConnectTimeoutException -> {
-                        resourceProvider.getString(MR.strings.server_taking_too_long)
+                        resourceProvider.getString(Res.string.server_taking_too_long)
                     }
 
                     else -> {
@@ -251,9 +250,9 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     open fun handleAuthError() {
         coreGlobalState.confirmationPopup(
             ConfirmationPopupParams(
-                title = resourceProvider.getString(MR.strings.session_expired),
-                body = resourceProvider.getString(MR.strings.your_session_expired_login_again),
-                positiveButtonText = resourceProvider.getString(MR.strings.ok),
+                title = resourceProvider.getString(Res.string.session_expired),
+                body = resourceProvider.getString(Res.string.your_session_expired_login_again),
+                positiveButtonText = resourceProvider.getString(Res.string.ok),
                 isCancellable = false,
                 onPositiveClick = {
                     executeSilent({
@@ -274,7 +273,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         hideLoading()
         coreGlobalState.snackBar(
             SnackBarParams(
-                message = resourceProvider.getString(MR.strings.no_internet_connection_check_connection),
+                message = resourceProvider.getString(Res.string.no_internet_connection_check_connection),
                 type = SnackBarType.ERROR
             )
         )
@@ -311,7 +310,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         when (errorType) {
             ErrorType.Popup -> coreGlobalState.messagePopup(
                 MessagePopupParams(
-                    title = resourceProvider.getString(MR.strings.error),
+                    title = resourceProvider.getString(Res.string.error),
                     body = error
                 )
             )
@@ -343,14 +342,14 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         appUpdateSource: AppUpdateSource,
         showTitle: Boolean = true,
         title: String? = null,
-        image: CommonImageResource? = null,
+        image: DrawableResource? = null,
         onUpdateClick: (() -> Unit)? = null,
         onSkipUpdateClick: (() -> Unit)? = null,
         onProceedAction: () -> Unit
     ) {
         // check if the title is enabled and handle the title
         val forceUpdateTitle = if (showTitle) title
-            ?: resourceProvider.getString(MR.strings.force_update_title) else null
+            ?: resourceProvider.getString(Res.string.force_update_title) else null
 
         // check for app updates first
         val response = forceUpdateRepository.checkForceUpdate(appUpdateSource = appUpdateSource)
@@ -361,9 +360,9 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                     isRequired = response.isRequired,
                     title = forceUpdateTitle,
                     body = response.message,
-                    image = image ?: MR.images.ic_upgrade.asCommon(),
-                    updateButtonText = resourceProvider.getString(MR.strings.update_button),
-                    skipUpdateButtonText = resourceProvider.getString(MR.strings.skip_update_button),
+                    image = image ?: Res.drawable.ic_upgrade,
+                    updateButtonText = resourceProvider.getString(Res.string.update_button),
+                    skipUpdateButtonText = resourceProvider.getString(Res.string.skip_update_button),
                     onDismiss = {
                         if (response.isRequired.not()) {
                             onProceedAction.invoke()

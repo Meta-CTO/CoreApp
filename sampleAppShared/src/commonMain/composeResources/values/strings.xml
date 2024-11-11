@@ -1,0 +1,6 @@
+<resources>
+    <string name="my_atlas">MyAtlas</string>
+    <string name="hello_world">Hello World!</string>
+    <string name="hello_s">Hello %1$s</string>
+    <string name="hello_s1_from_s2_to_s3">Hello %1$s from %2$s to %3$s</string>
+</resources>

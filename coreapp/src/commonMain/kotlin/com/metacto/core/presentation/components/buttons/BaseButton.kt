@@ -23,13 +23,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import com.metacto.coreApp.MR
+import com.metacto.coreApp.resources.*
 import com.metacto.core.presentation.components.visibilities.FadeVisibility
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.resources.FileResource
+import com.metacto.core.resources.IFileResource
+import com.metacto.core.resources.file
 import com.metacto.core.utils.extensions.orZero
 import com.metacto.core.utils.extensions.rememberLottieComposition
 import com.metacto.core.utils.extensions.tintIfNotNull
-import dev.icerock.moko.resources.AssetResource
 import io.github.alexzhirkevich.compottie.LottieAnimation
 import io.github.alexzhirkevich.compottie.LottieConstants
 import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
@@ -54,7 +56,7 @@ fun BaseButton(
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isLoading: Boolean = false,
-    loadingAnimRes: AssetResource = MR.assets.loading_indicator_anim_json,
+    loadingAnimRes: IFileResource = Res.file.loading_indicator_anim,
     contentSpacing: Dp = CoreTheme.spacings.paddingXLarge,
     elevation: Dp = CoreTheme.spacings.btnElevation,
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,

@@ -3,9 +3,7 @@ name: Build & upload the debug package
 on:
   push:
     branches:
-      - 'release'
       - 'develop'
-      - 'kotlin_2'
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
@@ -40,7 +38,7 @@ jobs:
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
-          PUBLISH_VERSION: 2.0.${{ github.run_number }}
+          PUBLISH_VERSION: 3.0.${{ github.run_number }}
         run: echo PUBLISH_REPO_USER=$PUBLISH_REPO_USER$'\n'
           PUBLISH_VERSION=$PUBLISH_VERSION$'\n'
           PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN > ./local.properties

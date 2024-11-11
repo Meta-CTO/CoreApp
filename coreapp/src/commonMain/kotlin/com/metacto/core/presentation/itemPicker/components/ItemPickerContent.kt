@@ -28,8 +28,8 @@ import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.PlatformType
 import com.metacto.core.utils.extensions.getPlatformType
 import com.metacto.core.utils.extensions.toDp
-import com.metacto.coreApp.MR
-import dev.icerock.moko.resources.compose.stringResource
+import com.metacto.coreApp.resources.*
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun ItemPickerContent(
@@ -73,7 +73,7 @@ fun ItemPickerContent(
         if (state.canSearch) {
             PrimaryTextInputField(
                 text = state.searchTerm,
-                placeholder = stringResource(MR.strings.search_here),
+                placeholder = stringResource(Res.string.search_here),
                 startIconVector = Icons.Default.Search,
                 endIconVector = Icons.Default.Close,
                 imeAction = ImeAction.Search,

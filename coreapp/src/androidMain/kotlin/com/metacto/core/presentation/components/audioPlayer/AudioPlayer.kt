@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.media3.common.util.UnstableApi
 import com.metacto.core.domain.DiQualifiers
 import com.metacto.core.utils.extensions.OnLifecycleEvent
-import dev.icerock.moko.resources.ImageResource
+import org.jetbrains.compose.resources.DrawableResource
 import org.koin.compose.koinInject
 
 @OptIn(UnstableApi::class)
@@ -25,8 +25,8 @@ actual fun AudioPlayer(
     audioUrl: String,
     autoPlay: Boolean,
     handleLifecyclePause: Boolean,
-    playIconRes: ImageResource,
-    pauseIconRes: ImageResource,
+    playIconRes: DrawableResource,
+    pauseIconRes: DrawableResource,
     playIconColor: Color,
     playIconSize: Dp,
     durationTextColor: Color,

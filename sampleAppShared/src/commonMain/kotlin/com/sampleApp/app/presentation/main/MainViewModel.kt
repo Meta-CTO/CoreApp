@@ -5,8 +5,8 @@ import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.utils.Date
-import com.metacto.core.utils.notificationManager.INotificationManager
-import com.metacto.core.utils.notificationManager.Notification
+import com.metacto.core.utils.notification.INotificationManager
+import com.metacto.core.utils.notification.Notification
 import com.sampleApp.app.presentation.base.BaseViewModel
 import com.sampleApp.app.presentation.main.MainContract.Effect
 import com.sampleApp.app.presentation.main.MainContract.Event

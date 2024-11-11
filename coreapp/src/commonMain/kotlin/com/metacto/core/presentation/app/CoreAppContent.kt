@@ -30,10 +30,11 @@ import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.resources.file
 import com.metacto.core.utils.extensions.dismissKeyboard
 import com.metacto.core.utils.extensions.setNavigationBarColor
 import com.metacto.core.utils.extensions.setStatusBarColor
-import com.metacto.coreApp.MR
+import com.metacto.coreApp.resources.*
 import org.koin.compose.koinInject
 
 @Composable
@@ -249,13 +250,13 @@ fun CoreAppContent(
 
                 is LoadingType.Lottie -> LottieProgressIndicator(
                     lottieRes = (loadingType as? LoadingType.Lottie)?.anim
-                        ?: MR.assets.loading_indicator_anim_json,
+                        ?: Res.file.loading_indicator_anim,
                     isBlocking = false
                 )
 
                 is LoadingType.LottieBlocking -> LottieProgressIndicator(
                     lottieRes = (loadingType as LoadingType.LottieBlocking).anim
-                        ?: MR.assets.loading_indicator_anim_json,
+                        ?: Res.file.loading_indicator_anim,
                     isBlocking = true
                 )
 
