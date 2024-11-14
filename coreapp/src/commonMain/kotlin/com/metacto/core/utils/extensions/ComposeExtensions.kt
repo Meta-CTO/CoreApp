@@ -221,6 +221,12 @@ fun <T> LazyListScope.itemIfNotNull(data: T?, content: @Composable (T) -> Unit) 
     }
 }
 
+fun LazyListScope.itemIf(condition: Boolean, content: @Composable () -> Unit) {
+    if (condition) item {
+        content()
+    }
+}
+
 @Composable
 fun rememberCurrentOffset(state: LazyListState): State<Int> {
     val position = remember { derivedStateOf { state.firstVisibleItemIndex } }
