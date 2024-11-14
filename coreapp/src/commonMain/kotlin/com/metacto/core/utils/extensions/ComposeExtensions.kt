@@ -15,8 +15,12 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyGridItemScope
+import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -221,8 +225,20 @@ fun <T> LazyListScope.itemIfNotNull(data: T?, content: @Composable (T) -> Unit) 
     }
 }
 
-fun LazyListScope.itemIf(condition: Boolean, content: @Composable () -> Unit) {
+fun LazyListScope.itemIf(condition: Boolean, content: @Composable LazyItemScope.() -> Unit) {
     if (condition) item {
+        content()
+    }
+}
+
+fun LazyGridScope.itemIf(
+    condition: Boolean,
+    spanCount: Int? = null,
+    content: @Composable LazyGridItemScope.() -> Unit
+) {
+    if (condition) item(
+        span = spanCount?.let { { GridItemSpan(it) } }
+    ) {
         content()
     }
 }
