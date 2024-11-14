@@ -243,6 +243,15 @@ fun LazyGridScope.itemIf(
     }
 }
 
+fun LazyGridScope.item(
+    spanCount: Int,
+    content: @Composable LazyGridItemScope.() -> Unit
+) {
+    item(span = { GridItemSpan(spanCount) }) {
+        content()
+    }
+}
+
 @Composable
 fun rememberCurrentOffset(state: LazyListState): State<Int> {
     val position = remember { derivedStateOf { state.firstVisibleItemIndex } }
