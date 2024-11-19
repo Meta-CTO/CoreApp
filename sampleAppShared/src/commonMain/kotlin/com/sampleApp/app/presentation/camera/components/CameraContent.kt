@@ -14,20 +14,24 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.metacto.core.navigation.NavManager
 import com.metacto.core.presentation.camera.CameraPreview
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
-import com.metacto.core.utils.extensions.randomUUID
 import com.sampleApp.app.presentation.camera.CameraContract.Event
 import com.sampleApp.app.presentation.camera.CameraContract.State
+import com.sampleApp.app.presentation.test.TestScreen
 import com.sampleApp.app.presentation.theme.AppTheme.colors
+import org.koin.compose.koinInject
 
 @Composable
 internal fun CameraContent(
     state: State,
     onEvent: (Event) -> Unit
 ) {
+    val navManager = koinInject<NavManager>()
+
     // Container column
     Box(
         modifier = Modifier
@@ -83,6 +87,14 @@ internal fun CameraContent(
             )
         }
     }
+
+    PrimaryFilledButton(
+        modifier = Modifier.fillMaxWidth(),
+        text = "Nav to test screen",
+        onClick = {
+            navManager.navigate(TestScreen)
+        }
+    )
 
     Row(
         modifier = Modifier.fillMaxWidth().padding(top = 20.dp),

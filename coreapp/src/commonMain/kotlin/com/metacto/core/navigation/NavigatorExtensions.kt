@@ -11,10 +11,11 @@ fun Navigator.navigateTo(
     val isSameCurrentScreen = (lastItemOrNull as? NavDestination)?.screenTag == screen.screenTag
 
     // Handle navigation according to behavior
-    when(behaviour) {
+    when (behaviour) {
         NavigateBehaviour.Normal -> {
             push(screen)
         }
+
         NavigateBehaviour.ReplaceIfCurrent -> {
             if (isSameCurrentScreen) {
                 replace(screen)
@@ -22,6 +23,7 @@ fun Navigator.navigateTo(
                 push(screen)
             }
         }
+
         NavigateBehaviour.KeepIfCurrent -> {
             if (isSameCurrentScreen.not()) {
                 push(screen)
@@ -51,6 +53,22 @@ fun Navigator.popByCount(popCount: Int) {
 
 fun Navigator.navigateAndPopCurrent(screen: NavDestination) {
     replace(screen)
+}
+
+fun <D : NavDestination> Navigator.navigateAndPopToExclusive(
+    navToScreen: NavDestination,
+    popToScreenClass: KClass<D>
+) {
+    popToExclusive(popToScreenClass)
+    push(navToScreen)
+}
+
+fun <D : NavDestination> Navigator.navigateAndPopToInclusive(
+    navToScreen: NavDestination,
+    popToScreenClass: KClass<D>
+) {
+    popToInclusive(popToScreenClass)
+    push(navToScreen)
 }
 
 fun Navigator.goBack() {

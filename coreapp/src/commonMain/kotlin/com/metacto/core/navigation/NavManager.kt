@@ -74,6 +74,28 @@ class NavManager {
         }
     }
 
+    fun <D : NavDestination> navigateAndPopToExclusive(navToDest: NavDestination, popToDestClass: KClass<D>) {
+        GlobalScope.launch {
+            _effects.send(
+                NavEffect.NavigateAndPopToExclusive(
+                    navToDest = navToDest,
+                    popToDestClass = popToDestClass
+                )
+            )
+        }
+    }
+
+    fun <D : NavDestination> navigateAndPopToInclusive(navToDest: NavDestination, popToDestClass: KClass<D>) {
+        GlobalScope.launch {
+            _effects.send(
+                NavEffect.NavigateAndPopToInclusive(
+                    navToDest = navToDest,
+                    popToDestClass = popToDestClass
+                )
+            )
+        }
+    }
+
     fun navigateToBottomSheet(destination: NavDestination) {
         GlobalScope.launch {
             _effects.send(

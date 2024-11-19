@@ -59,6 +59,16 @@ fun CoreAppNavigator(
                     screen = effect.destination
                 )
 
+                is NavEffect.NavigateAndPopToExclusive<*> -> navigator?.navigateAndPopToExclusive(
+                    navToScreen = effect.navToDest,
+                    popToScreenClass = effect.popToDestClass
+                )
+
+                is NavEffect.NavigateAndPopToInclusive<*> -> navigator?.navigateAndPopToInclusive(
+                    navToScreen = effect.navToDest,
+                    popToScreenClass = effect.popToDestClass
+                )
+
                 is NavEffect.NavigateToBottomSheet -> sheetNavigator?.show(
                     effect.destination
                 )

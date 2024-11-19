@@ -18,6 +18,16 @@ sealed class NavEffect {
 
     data class NavigateAndPopCurrent(val destination: NavDestination) : NavEffect()
 
+    data class NavigateAndPopToExclusive<D : NavDestination>(
+        val navToDest: NavDestination,
+        val popToDestClass: KClass<D>
+    ) : NavEffect()
+
+    data class NavigateAndPopToInclusive<D : NavDestination>(
+        val navToDest: NavDestination,
+        val popToDestClass: KClass<D>
+    ) : NavEffect()
+
     data class NavigateToBottomSheet(val destination: NavDestination) : NavEffect()
 
     data object GoBack : NavEffect()
