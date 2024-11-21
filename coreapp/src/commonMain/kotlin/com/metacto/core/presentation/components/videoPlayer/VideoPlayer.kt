@@ -7,6 +7,7 @@ import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.coreApp.resources.*
 import org.jetbrains.compose.resources.DrawableResource
+import kotlin.time.Duration
 
 interface VideoPlayerController {
     fun play() {}
@@ -28,10 +29,11 @@ expect fun VideoPlayer(
     handleLifecyclePause: Boolean = true,
     controllerShowTimeoutMs: Int = 0,
     controlsType: ControlsType = ControlsType.NativeControls,
-    playIconRes :DrawableResource = Res.drawable.ic_play,
-    pauseIconRes :DrawableResource = Res.drawable.ic_pause,
-    customControlsSize:Dp = CoreTheme.spacings.videoPlayer.customIconsSize,
-    customControlsElevation:Dp = CoreTheme.spacings.videoPlayer.customIconsElevation,
-    customControlsShape :RoundedCornerShape = CoreTheme.shapes.videoPlayer.customIconShape,
-    onPlayerCreated: ((VideoPlayerController) -> Unit)? = null
+    playIconRes: DrawableResource = Res.drawable.ic_play,
+    pauseIconRes: DrawableResource = Res.drawable.ic_pause,
+    customControlsSize: Dp = CoreTheme.spacings.videoPlayer.customIconsSize,
+    customControlsElevation: Dp = CoreTheme.spacings.videoPlayer.customIconsElevation,
+    customControlsShape: RoundedCornerShape = CoreTheme.shapes.videoPlayer.customIconShape,
+    onPlayerCreated: ((VideoPlayerController) -> Unit)? = null,
+    onDurationCaught: ((Duration) -> Unit)? = null,
 )

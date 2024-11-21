@@ -60,6 +60,9 @@ internal fun HomeContent(
             onPlayerCreated = {
                 onEvent(Event.VideoPlayerControllerCreated(it))
             },
+            onDurationCaught = {
+                println("Video duration: $it")
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(400.dp)

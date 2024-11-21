@@ -40,6 +40,8 @@ import platform.AVFoundation.AVPlayerItem
 import platform.AVFoundation.AVPlayerItemDidPlayToEndTimeNotification
 import platform.AVFoundation.AVPlayerLayer
 import platform.AVFoundation.addPeriodicTimeObserverForInterval
+import platform.AVFoundation.asset
+import platform.AVFoundation.currentItem
 import platform.AVFoundation.pause
 import platform.AVFoundation.play
 import platform.AVFoundation.rate
@@ -49,6 +51,7 @@ import platform.AVFoundation.setKeySpace
 import platform.AVKit.AVPictureInPictureController
 import platform.AVKit.AVPlayerViewController
 import platform.AVKit.externalMetadata
+import platform.CoreMedia.CMTimeGetSeconds
 import platform.CoreMedia.CMTimeMake
 import platform.Foundation.NSData
 import platform.Foundation.NSNotificationCenter
@@ -58,6 +61,9 @@ import platform.Foundation.dataWithContentsOfURL
 import platform.QuartzCore.CATransaction
 import platform.QuartzCore.kCATransactionDisableActions
 import platform.UIKit.UIView
+import kotlin.time.Duration
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 private const val CONTROLS_ANIM_DURATION = 150
 
@@ -82,7 +88,8 @@ actual fun VideoPlayer(
     customControlsSize: Dp,
     customControlsElevation: Dp,
     customControlsShape : RoundedCornerShape,
-    onPlayerCreated: ((VideoPlayerController) -> Unit)?
+    onPlayerCreated: ((VideoPlayerController) -> Unit)?,
+    onDurationCaught: ((Duration) -> Unit)?
 ) {
     // Create the player item with the url
     val playerItem = remember(videoUrl) {
@@ -206,6 +213,17 @@ actual fun VideoPlayer(
         onPlayerCreated?.invoke(videoPlayerController)
     }
 
+    // Effect to catch duration
+    LaunchedEffect(player) {
+        val item = player.currentItem
+        if (item != null) {
+            val durationSeconds = CMTimeGetSeconds(item.asset.duration)
+            if (durationSeconds.isFinite()) {
+                onDurationCaught?.invoke(durationSeconds.toDuration(DurationUnit.SECONDS))
+            }
+        }
+    }
+
     Box(
         modifier = modifier
     ) {
@@ -220,7 +238,6 @@ actual fun VideoPlayer(
                 UIView().apply {
                     addSubview(playerController.view)
                 }
-
             },
             update = { view ->
                 // Remove current subviews

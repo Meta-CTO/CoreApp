@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.media3.common.C
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
@@ -32,6 +33,9 @@ import com.metacto.core.utils.extensions.noRippleClickable
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
+import kotlin.time.Duration
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 private const val CONTROLS_ANIM_DURATION = 150
 
@@ -56,7 +60,8 @@ actual fun VideoPlayer(
     customControlsSize: Dp,
     customControlsElevation: Dp,
     customControlsShape: RoundedCornerShape,
-    onPlayerCreated: ((VideoPlayerController) -> Unit)?
+    onPlayerCreated: ((VideoPlayerController) -> Unit)?,
+    onDurationCaught: ((Duration) -> Unit)?
 ) {
     // Inject main stuff
     val playerManagers = koinInject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
@@ -87,6 +92,15 @@ actual fun VideoPlayer(
                 if (state == Player.STATE_ENDED) {
                     isPlaying = false
                     isVideoEnded = true
+                }
+
+                if (state == Player.STATE_READY) {
+                    val durationMs = playerManager.exoPlayer.duration
+                    if (durationMs != C.TIME_UNSET) {
+                        onDurationCaught?.invoke(
+                            durationMs.toDuration(DurationUnit.MILLISECONDS)
+                        )
+                    }
                 }
             }
         })
