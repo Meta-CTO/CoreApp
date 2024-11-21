@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.CurrentScreen
@@ -16,8 +17,12 @@ import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.components.bottomSheets.BottomSheetInsetsContainer
 import com.metacto.core.presentation.components.voyager.FadeTransition
 import com.metacto.core.presentation.theme.CoreTheme
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
+import kotlin.time.Duration.Companion.milliseconds
 
+private val NAV_BETWEEN_SHEETS_DELAY = 100.milliseconds
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialApi::class)
 @Composable
@@ -26,9 +31,10 @@ fun CoreAppNavigator(
     navManager: NavManager = koinInject(),
     startScreen: Screen
 ) {
-    // Get local navigator
+    // Get main objects
     var navigator: Navigator? = null
     var sheetNavigator: BottomSheetNavigator? = null
+    val coroutineScope = rememberCoroutineScope()
 
     // Handle navigation effects
     LaunchedEffect(SIDE_EFFECTS_KEY) {
@@ -39,39 +45,70 @@ fun CoreAppNavigator(
                     behaviour = effect.behaviour
                 )
 
-                is NavEffect.ClearAndNavigateTo -> navigator?.clearAndNavigateTo(
-                    screen = effect.destination
-                )
+                is NavEffect.ClearAndNavigateTo -> {
+                    sheetNavigator?.hide()
+                    navigator?.clearAndNavigateTo(
+                        screen = effect.destination
+                    )
+                }
 
-                is NavEffect.PopToExclusive<*> -> navigator?.popToExclusive(
-                    screenClass = effect.destClass
-                )
+                is NavEffect.PopToExclusive<*> -> {
+                    sheetNavigator?.hide()
+                    navigator?.popToExclusive(
+                        screenClass = effect.destClass
+                    )
+                }
 
-                is NavEffect.PopToInclusive<*> -> navigator?.popToInclusive(
-                    screenClass = effect.destClass
-                )
+                is NavEffect.PopToInclusive<*> -> {
+                    sheetNavigator?.hide()
+                    navigator?.popToInclusive(
+                        screenClass = effect.destClass
+                    )
+                }
 
-                is NavEffect.PopByCount -> navigator?.popByCount(
-                    popCount = effect.popCount
-                )
+                is NavEffect.PopByCount -> {
+                    sheetNavigator?.hide()
+                    navigator?.popByCount(
+                        popCount = effect.popCount
+                    )
+                }
 
-                is NavEffect.NavigateAndPopCurrent -> navigator?.navigateAndPopCurrent(
-                    screen = effect.destination
-                )
+                is NavEffect.NavigateAndPopCurrent -> {
+                    sheetNavigator?.hide()
+                    navigator?.navigateAndPopCurrent(
+                        screen = effect.destination
+                    )
+                }
 
-                is NavEffect.NavigateAndPopToExclusive<*> -> navigator?.navigateAndPopToExclusive(
-                    navToScreen = effect.navToDest,
-                    popToScreenClass = effect.popToDestClass
-                )
+                is NavEffect.NavigateAndPopToExclusive<*> -> {
+                    sheetNavigator?.hide()
+                    navigator?.navigateAndPopToExclusive(
+                        navToScreen = effect.navToDest,
+                        popToScreenClass = effect.popToDestClass
+                    )
+                }
 
-                is NavEffect.NavigateAndPopToInclusive<*> -> navigator?.navigateAndPopToInclusive(
-                    navToScreen = effect.navToDest,
-                    popToScreenClass = effect.popToDestClass
-                )
+                is NavEffect.NavigateAndPopToInclusive<*> -> {
+                    sheetNavigator?.hide()
+                    navigator?.navigateAndPopToInclusive(
+                        navToScreen = effect.navToDest,
+                        popToScreenClass = effect.popToDestClass
+                    )
+                }
 
-                is NavEffect.NavigateToBottomSheet -> sheetNavigator?.show(
-                    effect.destination
-                )
+                is NavEffect.NavigateToBottomSheet -> {
+                    coroutineScope.launch {
+                        // Check if we already have a bottom sheet visible
+                        if (sheetNavigator?.isVisible == true) {
+                            // We should hide current sheet first, wait some seconds
+                            sheetNavigator?.hide()
+                            delay(NAV_BETWEEN_SHEETS_DELAY)
+                        }
+
+                        // Then navigate to the other sheet
+                        sheetNavigator?.show(effect.destination)
+                    }
+                }
 
                 is NavEffect.GoBack -> {
                     // Hide bottom sheet if visible or navigate back

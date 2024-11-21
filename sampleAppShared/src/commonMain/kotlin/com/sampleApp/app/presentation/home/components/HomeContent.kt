@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.metacto.core.domain.CoreConstants
+import com.metacto.core.navigation.NavManager
 import com.metacto.core.presentation.components.audioPlayer.AudioPlayer
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.SwitchButton
@@ -29,12 +30,16 @@ import com.metacto.core.utils.extensions.rememberPhoneNumberUtil
 import com.metacto.core.utils.extensions.toFeetInches
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
+import com.sampleApp.app.presentation.testsheet1.TestSheet1
+import org.koin.compose.koinInject
 
 @Composable
 internal fun HomeContent(
     state: State,
     onEvent: (Event) -> Unit
 ) {
+    val navManager = koinInject<NavManager>()
+
     ScreenColumn(
         isScrollable = true,
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -248,6 +253,14 @@ internal fun HomeContent(
             text = "Native item picker",
             onClick = {
                 onEvent(Event.NativeItemPicker)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Open sheet 1",
+            onClick = {
+                navManager.navigateToBottomSheet(TestSheet1())
             }
         )
 
