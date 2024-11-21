@@ -23,6 +23,7 @@ import com.metacto.core.presentation.components.inputFields.PasswordTextInputFie
 import com.metacto.core.presentation.components.inputFields.PriceTextInputField
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
 import com.metacto.core.presentation.components.loadMore.LoadingMoreProgress
+import com.metacto.core.presentation.components.texts.TextWithFixedSize
 import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.PhoneNumberVisualTransformation
@@ -31,6 +32,8 @@ import com.metacto.core.utils.extensions.toFeetInches
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
 import com.sampleApp.app.presentation.testsheet1.TestSheet1
+import com.sampleApp.app.presentation.theme.AppTheme.colors
+import com.sampleApp.app.presentation.theme.AppTheme.typography
 import org.koin.compose.koinInject
 
 @Composable
@@ -275,6 +278,12 @@ internal fun HomeContent(
                     Text(text = item)
                 }
             }
+        )
+
+        TextWithFixedSize(
+            text = "Testing",
+            color = colors.black,
+            style = typography.fenwickBold12
         )
     }
 }
