@@ -23,7 +23,7 @@ import com.metacto.core.presentation.components.inputFields.PasswordTextInputFie
 import com.metacto.core.presentation.components.inputFields.PriceTextInputField
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
 import com.metacto.core.presentation.components.loadMore.LoadingMoreProgress
-import com.metacto.core.presentation.components.texts.TextWithFixedSize
+import com.metacto.core.presentation.components.texts.FixedScaleText
 import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.PhoneNumberVisualTransformation
@@ -280,7 +280,7 @@ internal fun HomeContent(
             }
         )
 
-        TextWithFixedSize(
+        FixedScaleText(
             text = "Testing",
             color = colors.black,
             style = typography.fenwickBold12

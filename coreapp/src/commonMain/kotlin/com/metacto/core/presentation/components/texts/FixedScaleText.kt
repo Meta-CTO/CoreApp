@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.TextUnit
 
 @Composable
-fun TextWithFixedSize(
+fun FixedScaleText(
     text: String,
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
