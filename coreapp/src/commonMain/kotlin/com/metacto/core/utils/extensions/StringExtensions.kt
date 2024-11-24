@@ -231,3 +231,22 @@ fun String.decodeJwt(): JwtPayload? {
 fun String.isLocalFile(): Boolean {
     return startsWith("file://") || startsWith("/")
 }
+
+fun String.splitAtIndexSafely(index: Int): Pair<String, String> {
+    if (this.isEmpty()) {
+        return Pair("", "")
+    }
+
+    if (index <= 0) {
+        return Pair("", this)
+    }
+
+    if (index >= this.length) {
+        return Pair(this, "")
+    }
+
+    return Pair(
+        this.substring(0, index),
+        this.substring(index)
+    )
+}
