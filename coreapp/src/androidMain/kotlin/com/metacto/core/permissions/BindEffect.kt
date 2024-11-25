@@ -1,10 +1,10 @@
 package com.metacto.core.permissions
 
+import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.compose.LocalLifecycleOwner
 
 @Suppress("FunctionNaming")
 @Composable
@@ -13,7 +13,10 @@ actual fun BindEffect(permissionManager: IPermissionManager) {
     val context = LocalContext.current
 
     LaunchedEffect(permissionManager, lifecycleOwner, context) {
-        val fragmentManager = (context as FragmentActivity).supportFragmentManager
-        permissionManager.bind(lifecycleOwner.lifecycle, fragmentManager)
+        val activity = checkNotNull(context as? ComponentActivity) {
+            "$context context is not instance of ComponentActivity"
+        }
+
+        permissionManager.bind(activity)
     }
 }

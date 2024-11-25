@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
+import android.provider.Settings
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 
@@ -79,4 +80,13 @@ fun Context.getLauncherPendingIntent(
         intent,
         PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
     )
+}
+
+fun Context.openAppSettings() {
+    val intent = Intent().apply {
+        action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+        data = Uri.fromParts("package", applicationContext.packageName, null)
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+    }
+    startActivity(intent)
 }

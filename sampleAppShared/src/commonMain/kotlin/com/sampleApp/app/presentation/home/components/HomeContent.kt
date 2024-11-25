@@ -6,14 +6,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.metacto.core.domain.CoreConstants
 import com.metacto.core.navigation.NavManager
+import com.metacto.core.permissions.IPermissionManager
+import com.metacto.core.permissions.enums.Permission
+import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.presentation.components.audioPlayer.AudioPlayer
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.buttons.SwitchButton
@@ -34,6 +39,7 @@ import com.sampleApp.app.presentation.home.HomeContract.State
 import com.sampleApp.app.presentation.testsheet1.TestSheet1
 import com.sampleApp.app.presentation.theme.AppTheme.colors
 import com.sampleApp.app.presentation.theme.AppTheme.typography
+import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
 @Composable
@@ -42,6 +48,7 @@ internal fun HomeContent(
     onEvent: (Event) -> Unit
 ) {
     val navManager = koinInject<NavManager>()
+    val permissionManager = koinInject<IPermissionManager>()
 
     ScreenColumn(
         isScrollable = true,
@@ -284,6 +291,18 @@ internal fun HomeContent(
             text = "Testing",
             color = colors.black,
             style = typography.fenwickBold12
+        )
+
+
+        Text(
+            text = "Camera permission state: ${state.cameraPermState}"
+        )
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Request camera permission",
+            onClick = {
+                onEvent(Event.RequestCameraPermClicked)
+            }
         )
     }
 }

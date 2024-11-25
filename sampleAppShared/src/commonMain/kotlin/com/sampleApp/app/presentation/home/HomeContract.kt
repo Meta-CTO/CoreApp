@@ -1,5 +1,6 @@
 package com.sampleApp.app.presentation.home
 
+import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.presentation.base.ViewEvent
 import com.metacto.core.presentation.base.ViewSideEffect
 import com.metacto.core.presentation.base.ViewState
@@ -17,6 +18,7 @@ class HomeContract {
         val videoController: VideoPlayerController? = null,
         val pickedItem: PickerItemUIModel? = null,
         val selectedNativePickerItem: PickerItem? = null,
+        val cameraPermState: PermissionState? = null,
     ) : ViewState
 
     sealed class Event : ViewEvent {
@@ -42,6 +44,7 @@ class HomeContract {
         data object ShowAppLottieLoading : Event()
         data object HideLoading : Event()
         data object NativeItemPicker : Event()
+        data object RequestCameraPermClicked : Event()
     }
 
     sealed class Effect : ViewSideEffect

@@ -31,7 +31,10 @@ fun CameraPreview(
         // Request the permission if not granted
         if (isCameraPermissionGranted.not()) {
             try {
-                permissionManager.grantPermission(Permission.CAMERA)
+                permissionManager.requestPermission(
+                    permission = Permission.CAMERA,
+                    openAppSettingsIfRequired = false
+                )
             } catch (e: Throwable) {
                 e.printStackTrace()
             }
