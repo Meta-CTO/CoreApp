@@ -25,6 +25,7 @@ interface ICoreGlobalState {
     val timePickerState: State<TimePickerParams?>
     val snackBarState: State<SnackBarParams>
     val dismissKeyboardState: State<Boolean>
+    val showKeyboardState: State<Boolean>
     val isStatusBarDarkState: State<Boolean>
     val isNavigationBarDarkState: State<Boolean>
 
@@ -43,6 +44,8 @@ interface ICoreGlobalState {
     fun hideSnackBar(delay: Long = 0)
     fun dismissKeyboard()
     fun resetDismissKeyboardState()
+    fun showKeyboard()
+    fun resetShowKeyboardState()
     fun setStatusBarDark()
     fun setStatusBarLight()
     fun setNavigationBarDark()

@@ -16,6 +16,7 @@ import com.metacto.core.presentation.base.BaseScreen
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.components.bottomSheets.BottomSheetInsetsContainer
 import com.metacto.core.presentation.components.voyager.FadeTransition
+import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.theme.CoreTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -35,10 +36,15 @@ fun CoreAppNavigator(
     var navigator: Navigator? = null
     var sheetNavigator: BottomSheetNavigator? = null
     val coroutineScope = rememberCoroutineScope()
+    val globalState = koinInject<ICoreGlobalState>()
 
     // Handle navigation effects
     LaunchedEffect(SIDE_EFFECTS_KEY) {
         navManager.collectNavEffects(this) { effect ->
+            // First dismiss the keyboard for better UX
+            globalState.dismissKeyboard()
+
+            // Then execute the navigation
             when (effect) {
                 is NavEffect.NavigateTo -> navigator?.navigateTo(
                     screen = effect.destination,

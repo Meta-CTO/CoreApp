@@ -33,6 +33,7 @@ open class CoreGlobalState : ICoreGlobalState {
     override val timePickerState = mutableStateOf<TimePickerParams?>(null)
     override val snackBarState = mutableStateOf(SnackBarParams.hidden())
     override val dismissKeyboardState = mutableStateOf(false)
+    override val showKeyboardState = mutableStateOf(false)
     override val isStatusBarDarkState = mutableStateOf(false)
     override val isNavigationBarDarkState = mutableStateOf(false)
     private var hideSnackBarJob: Job? = null
@@ -112,6 +113,14 @@ open class CoreGlobalState : ICoreGlobalState {
 
     override fun resetDismissKeyboardState() {
         dismissKeyboardState.value = false
+    }
+
+    override fun showKeyboard() {
+        showKeyboardState.value = true
+    }
+
+    override fun resetShowKeyboardState() {
+        showKeyboardState.value = false
     }
 
     override fun setStatusBarDark() {

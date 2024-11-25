@@ -580,6 +580,11 @@ expect fun setNavigationBarColor(isDark: Boolean)
 expect fun dismissKeyboard()
 
 @Composable
+fun showKeyboard() {
+    LocalSoftwareKeyboardController.current?.show()
+}
+
+@Composable
 expect fun OnLifecycleEvent(
     onCreate: () -> Unit = {},
     onStart: () -> Unit = {},

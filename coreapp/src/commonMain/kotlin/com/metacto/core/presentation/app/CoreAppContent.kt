@@ -34,6 +34,7 @@ import com.metacto.core.resources.file
 import com.metacto.core.utils.extensions.dismissKeyboard
 import com.metacto.core.utils.extensions.setNavigationBarColor
 import com.metacto.core.utils.extensions.setStatusBarColor
+import com.metacto.core.utils.extensions.showKeyboard
 import com.metacto.coreApp.resources.*
 import org.koin.compose.koinInject
 
@@ -291,6 +292,12 @@ fun CoreAppContent(
         if (globalState.dismissKeyboardState.value) {
             globalState.resetDismissKeyboardState()
             dismissKeyboard()
+        }
+
+        // Handle show keyboard state
+        if (globalState.showKeyboardState.value) {
+            globalState.resetShowKeyboardState()
+            showKeyboard()
         }
 
         // Handle changing status bar color
