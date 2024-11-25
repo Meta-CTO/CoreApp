@@ -45,15 +45,22 @@ import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.DefaultShadowColor
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.LinearGradientShader
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.TileMode
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
@@ -550,6 +557,27 @@ fun Modifier.modifyIf(
     modify: @Composable Modifier.() -> Modifier,
 ): Modifier {
     return if (condition) modify() else this
+}
+
+fun Modifier.topShadow(elevation: Dp) = drawBehind {
+    drawIntoCanvas { canvas ->
+        val paint = Paint()
+        val shadowHeight = -elevation.toPx()
+        val gradientShader = LinearGradientShader(
+            from = Offset(0f, shadowHeight),
+            to = Offset.Zero,
+            colors = listOf(Color.Transparent, DefaultShadowColor.copy(alpha = 0.08f)),
+            tileMode = TileMode.Clamp,
+        )
+        paint.shader = gradientShader
+        canvas.drawRect(
+            left = size.width,
+            top = shadowHeight,
+            right = 0f,
+            bottom = 0f,
+            paint = paint,
+        )
+    }
 }
 
 @Composable
