@@ -9,6 +9,7 @@ import android.provider.CalendarContract.Events
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import com.metacto.core.utils.extensions.openAppSettings
 import com.metacto.core.utils.resources.IResourceProvider
 import com.metacto.coreApp.resources.*
 import com.metacto.strapikmm.util.toEpochMilliseconds
@@ -106,6 +107,10 @@ class IntentLauncher(
                 Toast.LENGTH_LONG
             ).show()
         }
+    }
+
+    override fun launchAppSettings() {
+        context.openAppSettings()
     }
 
     override suspend fun shareImage(imageUrl: String, text: String?) = withContext(Dispatchers.IO) {

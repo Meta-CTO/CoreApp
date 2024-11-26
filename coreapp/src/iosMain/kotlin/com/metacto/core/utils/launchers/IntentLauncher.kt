@@ -1,6 +1,7 @@
 package com.metacto.core.utils.launchers
 
 import com.metacto.core.utils.delegates.EventEditDelegate
+import com.metacto.core.utils.extensions.openAppSettings
 import com.metacto.core.utils.extensions.runOnMainThread
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -64,6 +65,10 @@ class IntentLauncher : IIntentLauncher {
 
     override fun launchBrowser(url: String) = runOnMainThread {
         openUrl(url)
+    }
+
+    override fun launchAppSettings() {
+        openAppSettings()
     }
 
     override suspend fun shareImage(imageUrl: String, text: String?) = withContext(Dispatchers.IO) {

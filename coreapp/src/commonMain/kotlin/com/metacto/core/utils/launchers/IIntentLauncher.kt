@@ -17,6 +17,8 @@ interface IIntentLauncher {
 
     fun launchBrowser(url: String)
 
+    fun launchAppSettings()
+
     suspend fun shareImage(imageUrl: String, text: String? = null)
 
     fun addEventToCalendar(
