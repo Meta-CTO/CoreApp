@@ -23,6 +23,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
+import kotlin.time.Duration
 
 @Composable
 fun PasswordTextInputField(
@@ -55,6 +56,7 @@ fun PasswordTextInputField(
     allowDigitsOnly: Boolean = false,
     isStaticLabel: Boolean = false,
     requestFocus: Boolean = false,
+    requestFocusDelay: Duration = DEFAULT_REQUEST_FOCUS_DELAY,
     showPasswordVisibilityToggle: Boolean = false,
     textStyle: TextStyle = CoreTheme.typography.passwordTextInputField.textStyle,
     textColor: Color = CoreTheme.colors.passwordTextInputField.textColor,
@@ -96,6 +98,7 @@ fun PasswordTextInputField(
 
     BaseTextInputField(
         requestFocus = requestFocus,
+        requestFocusDelay = requestFocusDelay,
         text = text,
         label = label,
         onValueChange = onValueChange,

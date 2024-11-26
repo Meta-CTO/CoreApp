@@ -48,8 +48,10 @@ import com.metacto.core.utils.extensions.noRippleClickable
 import com.metacto.core.utils.extensions.rememberFocusRequester
 import com.metacto.core.utils.extensions.removeAllNonNumeric
 import com.metacto.core.utils.extensions.toDp
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.milliseconds
 
-private const val REQUEST_FOCUS_DELAY = 250L
+internal val DEFAULT_REQUEST_FOCUS_DELAY = 250.milliseconds
 
 @Composable
 fun BaseTextInputField(
@@ -98,7 +100,8 @@ fun BaseTextInputField(
     allowDigitsOnly: Boolean,
     shadowColor: Color = CoreTheme.colors.black,
     elevation: Dp = CoreTheme.spacings.inputFieldElevation,
-    requestFocus: Boolean
+    requestFocus: Boolean,
+    requestFocusDelay: Duration = DEFAULT_REQUEST_FOCUS_DELAY
 ) {
     // Prepare field box size state
     var fieldBoxSize by remember {
@@ -227,7 +230,7 @@ fun BaseTextInputField(
         focusRequester = rememberFocusRequester()
         DelayedLaunchedEffect(
             key = requestFocus,
-            delay = REQUEST_FOCUS_DELAY
+            delay = requestFocusDelay.inWholeMilliseconds
         ) {
             focusRequester.requestFocus()
         }

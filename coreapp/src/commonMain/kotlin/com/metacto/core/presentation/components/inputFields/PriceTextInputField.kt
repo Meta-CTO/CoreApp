@@ -18,6 +18,7 @@ import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.formatToMaxDecimals
 import com.metacto.core.utils.extensions.orZero
 import com.metacto.core.utils.extensions.removeAllNonDecimal
+import kotlin.time.Duration
 
 @Composable
 fun PriceTextInputField(
@@ -60,6 +61,7 @@ fun PriceTextInputField(
     elevation: Dp = CoreTheme.spacings.priceTextInputField.elevation,
     shadowColor: Color = CoreTheme.colors.priceTextInputField.shadowColor,
     requestFocus: Boolean = false,
+    requestFocusDelay: Duration = DEFAULT_REQUEST_FOCUS_DELAY,
     error: String? = null,
     textAlign: TextAlign? = null,
     allowDecimal: Boolean = false,
@@ -117,6 +119,7 @@ fun PriceTextInputField(
         error = error,
         minHeight = minHeight,
         requestFocus = requestFocus,
+        requestFocusDelay = requestFocusDelay,
         keyboardActions = keyboardActions,
         placeholderMaxLines = placeholderMaxLines,
         textAlign = textAlign,

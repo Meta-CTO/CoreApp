@@ -15,6 +15,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
+import kotlin.time.Duration
 
 @Composable
 fun TertiaryTextInputField(
@@ -51,6 +52,7 @@ fun TertiaryTextInputField(
     allowDigitsOnly: Boolean = false,
     isStaticLabel: Boolean = false,
     requestFocus: Boolean = false,
+    requestFocusDelay: Duration = DEFAULT_REQUEST_FOCUS_DELAY,
     textStyle: TextStyle = CoreTheme.typography.tertiaryTextInputField.textStyle,
     textColor: Color = CoreTheme.colors.tertiaryTextInputField.textColor,
     placeholderTextStyle: TextStyle = CoreTheme.typography.tertiaryTextInputField.placeholderTextStyle,
@@ -67,6 +69,7 @@ fun TertiaryTextInputField(
 ) {
     BaseTextInputField(
         requestFocus = requestFocus,
+        requestFocusDelay = requestFocusDelay,
         text = text,
         label = label,
         onValueChange = onValueChange,
