@@ -1,165 +1,196 @@
 package com.metacto.core.permissions
 
+import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Build
-import android.provider.Settings
+import androidx.activity.ComponentActivity
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.ActivityResultRegistryOwner
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.permissions.exceptions.DeniedAlwaysException
-import com.metacto.core.permissions.helpers.ResolverFragment
+import com.metacto.core.permissions.exceptions.DeniedException
+import com.metacto.core.permissions.exceptions.RequestCanceledException
 import com.metacto.core.permissions.helpers.toPlatformPermission
-import kotlinx.coroutines.Dispatchers
+import com.metacto.core.utils.extensions.openAppSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
+import java.util.UUID
 import kotlin.coroutines.suspendCoroutine
 
-@Suppress("TooManyFunctions")
-class PermissionManager(
-    private val applicationContext: Context
-) : IPermissionManager {
-
-    private val fragmentManagerHolder = MutableStateFlow<FragmentManager?>(null)
+internal class PermissionManager(private val context: Context) : IPermissionManager {
+    private val activityHolder = MutableStateFlow<Activity?>(null)
+    private val launcherHolder = MutableStateFlow<ActivityResultLauncher<Array<String>>?>(null)
+    private var permissionCallback: PermissionCallback? = null
     private val mutex = Mutex()
+    private val key = UUID.randomUUID().toString()
 
-    override suspend fun requestPermission(permission: Permission) {
-        mutex.withLock {
-            val fragmentManager: FragmentManager = awaitFragmentManager()
-            val resolverFragment: ResolverFragment = getOrCreateResolverFragment(fragmentManager)
+    override fun bind(activity: ComponentActivity) {
+        activityHolder.value = activity
+        setupPermissionLauncher(activity)
+        setupLifecycleObserver(activity)
+    }
 
-            val platformPermission = permission.toPlatformPermission()
-            suspendCoroutine { continuation ->
-                resolverFragment.requestPermission(
-                    permission,
-                    platformPermission
-                ) {
-                    continuation.resumeWith(it)
-                }
-            }
+    override suspend fun requestPermission(
+        permission: Permission,
+        openAppSettingsIfRequired: Boolean
+    ) {
+        if (openAppSettingsIfRequired) {
+            handlePermissionRequestWithSettings(permission)
+        } else {
+            handlePermissionRequest(permission)
         }
     }
 
-    override suspend fun isPermissionGranted(permission: Permission): Boolean {
-        return getPermissionState(permission) == PermissionState.Granted
-    }
+    override suspend fun isPermissionGranted(permission: Permission): Boolean =
+        getPermissionState(permission) == PermissionState.Granted
 
-    @Suppress("ReturnCount")
     override suspend fun getPermissionState(permission: Permission): PermissionState {
-        if (permission == Permission.REMOTE_NOTIFICATION &&
-            Build.VERSION.SDK_INT in VERSIONS_WITHOUT_NOTIFICATION_PERMISSION
-        ) {
-            val isNotificationsEnabled = NotificationManagerCompat
-                .from(applicationContext)
-                .areNotificationsEnabled()
-            return if (isNotificationsEnabled) {
-                PermissionState.Granted
-            } else {
-                PermissionState.DeniedAlways
+        return when {
+            isNotificationPermission(permission) -> getNotificationPermissionState()
+            else -> getRuntimePermissionState(permission)
+        }
+    }
+
+    private fun setupPermissionLauncher(activity: ComponentActivity) {
+        val registry = (activity as ActivityResultRegistryOwner).activityResultRegistry
+        val launcher = registry.register(
+            key,
+            ActivityResultContracts.RequestMultiplePermissions(),
+            ::handlePermissionResult
+        )
+        launcherHolder.value = launcher
+    }
+
+    private fun setupLifecycleObserver(activity: ComponentActivity) {
+        activity.lifecycle.addObserver(object : DefaultLifecycleObserver {
+            override fun onDestroy(owner: LifecycleOwner) {
+                activityHolder.value = null
+                launcherHolder.value = null
+                owner.lifecycle.removeObserver(this)
+            }
+        })
+    }
+
+    private fun handlePermissionResult(permissions: Map<String, Boolean>) {
+        val callback = permissionCallback ?: return
+
+        when {
+            permissions.isEmpty() -> {
+                callback.callback(Result.failure(RequestCanceledException(callback.permission)))
+            }
+            permissions.values.all { it } -> {
+                callback.callback(Result.success(Unit))
+            }
+            else -> {
+                handlePermissionDenial(callback, permissions.keys.first())
             }
         }
+    }
+
+    private fun handlePermissionDenial(callback: PermissionCallback, permission: String) {
+        val activity = activityHolder.value ?: return
+        val exception = if (shouldShowRequestPermissionRationale(activity, permission)) {
+            DeniedException(callback.permission)
+        } else {
+            DeniedAlwaysException(callback.permission)
+        }
+        callback.callback(Result.failure(exception))
+    }
+
+    private suspend fun handlePermissionRequest(permission: Permission) {
+        mutex.withLock {
+            val launcher = awaitActivityResultLauncher()
+            val platformPermissions = permission.toPlatformPermission()
+
+            suspendCoroutine { continuation ->
+                permissionCallback = PermissionCallback(permission, continuation::resumeWith)
+                launcher.launch(platformPermissions.toTypedArray())
+            }
+        }
+    }
+
+    private suspend fun handlePermissionRequestWithSettings(permission: Permission) {
+        val initialState = getPermissionState(permission)
+        try {
+            handlePermissionRequest(permission)
+        } catch (exception: DeniedAlwaysException) {
+            if (initialState == PermissionState.Denied) {
+                context.openAppSettings()
+            }
+            throw exception
+        }
+    }
+
+    private suspend fun awaitActivityResultLauncher(): ActivityResultLauncher<Array<String>> {
+        return launcherHolder.value ?: withTimeoutOrNull(AWAIT_ACTIVITY_TIMEOUT_MS) {
+            launcherHolder.filterNotNull().first()
+        } ?: throw IllegalStateException(getBindErrorMessage())
+    }
+
+    private suspend fun awaitActivity(): Activity {
+        return activityHolder.value ?: withTimeoutOrNull(AWAIT_ACTIVITY_TIMEOUT_MS) {
+            activityHolder.filterNotNull().first()
+        } ?: throw IllegalStateException(getBindErrorMessage())
+    }
+
+    private fun isNotificationPermission(permission: Permission): Boolean =
+        permission == Permission.REMOTE_NOTIFICATION &&
+                Build.VERSION.SDK_INT in VERSIONS_WITHOUT_NOTIFICATION_PERMISSION
+
+    private fun getNotificationPermissionState(): PermissionState {
+        val isEnabled = NotificationManagerCompat.from(context).areNotificationsEnabled()
+        return if (isEnabled) PermissionState.Granted else PermissionState.DeniedAlways
+    }
+
+    private suspend fun getRuntimePermissionState(permission: Permission): PermissionState {
         val permissions = permission.toPlatformPermission()
         val status = permissions.map {
-            ContextCompat.checkSelfPermission(applicationContext, it)
+            ContextCompat.checkSelfPermission(context, it)
         }
-        val isAllGranted = status.all { it == PackageManager.PERMISSION_GRANTED }
-        if (isAllGranted) return PermissionState.Granted
 
-        val fragmentManager = awaitFragmentManager()
-        val resolverFragment = getOrCreateResolverFragment(fragmentManager)
-
-        val isAllRequestRationale: Boolean = permissions.all {
-            !resolverFragment.shouldShowRequestPermissionRationale(it)
-        }
-        return if (isAllRequestRationale) PermissionState.NotDetermined
-        else PermissionState.Denied
-    }
-
-    override fun openAppSettings() {
-        val intent = Intent().apply {
-            action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-            data = Uri.fromParts("package", applicationContext.packageName, null)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        }
-        applicationContext.startActivity(intent)
-    }
-
-    override suspend fun grantPermission(permission: Permission) {
-        // Check permission state
-        when (getPermissionState(permission)) {
-            PermissionState.NotDetermined -> try {
-                requestPermission(permission)
-            } catch (_: DeniedAlwaysException) {
-                withContext(Dispatchers.Main) {
-                    openAppSettings()
-                }
-            }
-
-            PermissionState.DeniedAlways -> withContext(Dispatchers.Main) {
-                openAppSettings()
-            }
-
-            else -> requestPermission(permission)
+        return when {
+            status.all { it == PackageManager.PERMISSION_GRANTED } -> PermissionState.Granted
+            permissions.all { !shouldShowRequestPermissionRationale(it) } -> PermissionState.Denied
+            else -> PermissionState.NotDetermined
         }
     }
 
-    override fun bind(lifecycle: Lifecycle, fragmentManager: FragmentManager) {
-        this.fragmentManagerHolder.value = fragmentManager
+    private suspend fun shouldShowRequestPermissionRationale(permission: String): Boolean =
+        shouldShowRequestPermissionRationale(awaitActivity(), permission)
 
-        val observer = object : LifecycleEventObserver {
-            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                if (event == Lifecycle.Event.ON_DESTROY) {
-                    this@PermissionManager.fragmentManagerHolder.value = null
-                    source.lifecycle.removeObserver(this)
-                }
-            }
-        }
-        lifecycle.addObserver(observer)
-    }
+    private fun shouldShowRequestPermissionRationale(
+        activity: Activity,
+        permission: String
+    ): Boolean = ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)
 
-    private suspend fun awaitFragmentManager(): FragmentManager {
-        val fragmentManager: FragmentManager? = fragmentManagerHolder.value
-        if (fragmentManager != null) return fragmentManager
-
-        return withTimeoutOrNull(AWAIT_FRAGMENT_MANAGER_TIMEOUT_DURATION_MS) {
-            fragmentManagerHolder.filterNotNull().first()
-        } ?: error(
-            "fragmentManager is null, `bind` function was never called," +
-                    " consider calling BindEffect(permissionManager) in the composable function"
-        )
-    }
-
-    private fun getOrCreateResolverFragment(fragmentManager: FragmentManager): ResolverFragment {
-        val currentFragment: Fragment? = fragmentManager.findFragmentByTag(RESOLVER_FRAGMENT_TAG)
-        return if (currentFragment != null) {
-            currentFragment as ResolverFragment
-        } else {
-            ResolverFragment().also { fragment ->
-                fragmentManager
-                    .beginTransaction()
-                    .add(fragment, RESOLVER_FRAGMENT_TAG)
-                    .commit()
-            }
-        }
-    }
+    private fun getBindErrorMessage() = """
+        Activity/Launcher is null. 'bind' function was never called.
+        Please call permissionsController.bind(activity) or use
+        BindEffect(permissionsController) in your composable function.
+        For more information, visit:
+        https://github.com/icerockdev/moko-permissions/blob/master/README.md
+    """.trimIndent()
 
     private companion object {
+        private const val AWAIT_ACTIVITY_TIMEOUT_MS = 2000L
         private val VERSIONS_WITHOUT_NOTIFICATION_PERMISSION =
             Build.VERSION_CODES.KITKAT until Build.VERSION_CODES.TIRAMISU
-        private const val AWAIT_FRAGMENT_MANAGER_TIMEOUT_DURATION_MS = 2000L
-        private const val RESOLVER_FRAGMENT_TAG = "PermissionManagerResolver"
     }
 }
+
+private data class PermissionCallback(
+    val permission: Permission,
+    val callback: (Result<Unit>) -> Unit
+)

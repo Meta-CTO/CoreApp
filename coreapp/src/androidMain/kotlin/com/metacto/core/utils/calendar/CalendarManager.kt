@@ -39,7 +39,7 @@ class CalendarManager(
     ) {
 
         // request permission first if the permission granted it will add the event
-        permissionManager.grantPermission(Permission.CALENDER)
+        permissionManager.requestPermission(Permission.CALENDER)
 
         // get the active calender id
         val calenderId = getActiveCalender().orOne()

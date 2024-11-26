@@ -2,11 +2,9 @@
 
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.plugin.mpp.NativeBuildType
 
 plugins {
     kotlin(Plugins.MULTIPLATFORM_PLUGIN)
-    kotlin(Plugins.COCOAPODS_PLUGIN)
     id(Plugins.ANDROID_LIBRARY_PLUGIN)
     id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
     id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
@@ -33,24 +31,6 @@ kotlin {
 
         publishAllLibraryVariants()
         publishLibraryVariantsGroupedByFlavor = true
-    }
-
-    cocoapods {
-        version = "1.0.0"
-        summary = "MetaCTO core app module"
-        homepage = "https://metacto.com/"
-        ios.deploymentTarget = Configs.IOS_DEPLOYMENT_TARGET
-        podfile = project.file("../iosApp/Podfile")
-        framework {
-            baseName = Configs.CORE_APP_FRAMEWORK_NAME
-            linkerOpts.add("-lsqlite3")
-
-            if (System.getenv("XCODE_VERSION_MAJOR") == "1500") {
-                linkerOpts += "-ld64"
-            }
-        }
-
-        xcodeConfigurationToNativeBuildType["Debug"] = NativeBuildType.RELEASE
     }
 
     metadata {

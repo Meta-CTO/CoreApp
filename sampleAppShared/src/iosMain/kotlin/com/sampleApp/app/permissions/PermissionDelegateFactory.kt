@@ -30,7 +30,8 @@ class PermissionDelegateFactory : IPermissionDelegateFactory {
             )
 
             Permission.LOCATION,
-            Permission.COARSE_LOCATION -> LocationPermissionDelegate(
+            Permission.COARSE_LOCATION,
+            Permission.BACKGROUND_LOCATION -> LocationPermissionDelegate(
                 locationManagerDelegate = locationManagerDelegate,
                 permission = permission
             )

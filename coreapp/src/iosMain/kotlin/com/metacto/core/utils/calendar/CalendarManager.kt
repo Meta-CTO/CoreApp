@@ -2,7 +2,7 @@ package com.metacto.core.utils.calendar
 
 import com.metacto.core.utils.dateFromTimestamp
 import com.metacto.core.utils.extensions.contains
-import com.metacto.core.utils.extensions.openAppSettingsPage
+import com.metacto.core.utils.extensions.openAppSettings
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.EventKit.EKEntityType
 import platform.EventKit.EKEvent
@@ -44,7 +44,7 @@ class CalendarManager : ICalendarManager {
                     )
                     onEventAdded.invoke()
                 } else {
-                    openAppSettingsPage()
+                    openAppSettings()
                 }
             })
     }

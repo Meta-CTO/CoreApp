@@ -1,5 +1,7 @@
 package com.sampleApp.app.presentation.home
 
+import com.metacto.core.permissions.enums.Permission
+import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.presentation.globalState.models.DatePickerParams
 import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.imagePicker.ImagePickerSheet
@@ -104,22 +106,32 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
         Event.ShowAppLottieLoading -> showLoading(LoadingType.Lottie(Res.file.app_loading))
         Event.TestFormattedPluralStringResource -> {
             val quantity = listOf(1, 50).random()
-            val value = resourceProvider.getPluralString(Res.plurals.d_languages, quantity, quantity)
+            val value =
+                resourceProvider.getPluralString(Res.plurals.d_languages, quantity, quantity)
             showError(value)
         }
+
         Event.TestFormattedStringResource -> {
-            val value = resourceProvider.getString(Res.string.hello_s1_from_s2_to_s3, "Shamy", "Damietta", "Zeiny")
+            val value = resourceProvider.getString(
+                Res.string.hello_s1_from_s2_to_s3,
+                "Shamy",
+                "Damietta",
+                "Zeiny"
+            )
             showError(value)
         }
+
         Event.TestPluralStringResource -> {
             val quantity = listOf(1, 50).random()
             val value = resourceProvider.getPluralString(Res.plurals.my_languages, quantity)
             showError(value)
         }
+
         Event.TestStringResource -> {
             val value = resourceProvider.getString(Res.string.hello_world)
             showError(value)
         }
+
         Event.NativeItemPicker -> {
             nativeItemPicker(
                 items = (0..20).map {
@@ -133,6 +145,13 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
                     setState { copy(selectedNativePickerItem = item) }
                 }
             )
+        }
+
+        Event.RequestCameraPermClicked ->{
+            executeSilent({
+                permissionManager.requestPermission(Permission.CAMERA)
+                setState { copy(cameraPermState = PermissionState.Granted) }
+            })
         }
     }
 
@@ -148,6 +167,14 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
         if (currentState.isInitialized) return
 
         // Init
+        executeSilent({
+            val cameraPermState = permissionManager.getPermissionState(Permission.CAMERA)
+            setState {
+                copy(
+                    cameraPermState = cameraPermState
+                )
+            }
+        })
         observeItemPickerResults()
 
         // Update the flag

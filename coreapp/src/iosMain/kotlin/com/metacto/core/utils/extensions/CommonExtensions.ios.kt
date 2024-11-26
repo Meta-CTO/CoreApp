@@ -26,6 +26,7 @@ actual fun getPlatformType(): PlatformType {
     return PlatformType.IOS
 }
 
+@OptIn(ExperimentalForeignApi::class)
 fun observeKeyboardHeight(
     onKeyboardVisible: (Float) -> Unit,
     onKeyboardHidden: () -> Unit
@@ -70,20 +71,17 @@ inline fun <T1, T2> mainContinuation(
     }
 }
 
-fun openNSUrl(string: String) {
-    val settingsUrl: NSURL = NSURL.URLWithString(string)!!
-    if (UIApplication.sharedApplication.canOpenURL(settingsUrl)) {
-        UIApplication.sharedApplication.openURL(settingsUrl)
-    } else throw Throwable("Cannot open URL: $string")
-}
-
-fun openAppSettingsPage() {
-    openNSUrl(UIApplicationOpenSettingsURLString)
-}
-
 fun runOnMainThread(block: () -> Unit) {
     dispatch_async(dispatch_get_main_queue()) {
         block()
+    }
+}
+
+fun runOnMainThreadCatching(block: () -> Unit) {
+    try {
+        runOnMainThread(block)
+    } catch (e: Throwable) {
+        e.printStackTrace()
     }
 }
 
@@ -92,6 +90,29 @@ fun runOnIOThread(block: () -> Unit) {
     dispatch_async(ioQueue) {
         block()
     }
+}
+
+fun runOnIOThreadCatching(block: () -> Unit) {
+    try {
+        runOnIOThread(block)
+    } catch (e: Throwable) {
+        e.printStackTrace()
+    }
+}
+
+fun openUrl(url: String) = runOnMainThreadCatching {
+    val settingsUrl = NSURL.URLWithString(url)!!
+    if (UIApplication.sharedApplication.canOpenURL(settingsUrl)) {
+        UIApplication.sharedApplication.openURL(
+            url = settingsUrl,
+            options = emptyMap<Any?, Any?>(),
+            completionHandler = null
+        )
+    }
+}
+
+fun openAppSettings() {
+    openUrl(UIApplicationOpenSettingsURLString)
 }
 
 actual fun randomUUID(): String = NSUUID().UUIDString()
