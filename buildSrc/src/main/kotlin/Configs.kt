@@ -3,7 +3,6 @@ object Configs {
     const val TARGET_SDK_VERSION = 34
     const val MIN_SDK_VERSION = 26
     const val CORE_APP_ID = "com.metacto.coreApp"
-    const val CORE_APP_FRAMEWORK_NAME = "CoreApp"
     const val SAMPLE_APP_FRAMEWORK_NAME = "sampleAppShared"
     const val SAMPLE_APP_NAMESPACE = "com.sampleApp.app"
     const val DEV_APP_ID = "com.sampleApp.app.dev"
