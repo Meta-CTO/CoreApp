@@ -419,9 +419,30 @@ fun IOLaunchedEffect(
     key2: Any? = null,
     callback: suspend () -> Unit
 ) {
-    val coroutineScope = rememberIOCoroutineScope()
     LaunchedEffect(key1, key2) {
-        coroutineScope.launch {
+        withContext(Dispatchers.IO) {
+            callback.invoke()
+        }
+    }
+}
+
+@Composable
+fun DefaultLaunchedEffect(key: Any? = null, callback: suspend () -> Unit) {
+    DefaultLaunchedEffect(
+        key1 = key,
+        key2 = null,
+        callback = callback
+    )
+}
+
+@Composable
+fun DefaultLaunchedEffect(
+    key1: Any? = null,
+    key2: Any? = null,
+    callback: suspend () -> Unit
+) {
+    LaunchedEffect(key1, key2) {
+        withContext(Dispatchers.Default) {
             callback.invoke()
         }
     }

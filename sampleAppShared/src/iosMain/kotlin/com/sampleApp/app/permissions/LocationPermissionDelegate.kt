@@ -40,7 +40,7 @@ internal class LocationPermissionDelegate(
             kCLAuthorizationStatusAuthorizedWhenInUse -> return
 
             kCLAuthorizationStatusNotDetermined -> {
-                val newStatus = suspendCoroutine<CLAuthorizationStatus> { continuation ->
+                val newStatus = suspendCoroutine { continuation ->
                     locationManagerDelegate.requestLocationAccess { continuation.resume(it) }
                 }
                 provideLocationPermission(newStatus)

@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.interop.UIKitView
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.visibilities.FadeVisibility
+import com.metacto.core.utils.extensions.DefaultLaunchedEffect
 import com.metacto.core.utils.extensions.IOLaunchedEffect
 import com.metacto.core.utils.extensions.isValidUrl
 import com.metacto.core.utils.extensions.noRippleClickable
@@ -214,12 +215,14 @@ actual fun VideoPlayer(
     }
 
     // Effect to catch duration
-    LaunchedEffect(player) {
-        val item = player.currentItem
-        if (item != null) {
-            val durationSeconds = CMTimeGetSeconds(item.asset.duration)
-            if (durationSeconds.isFinite()) {
-                onDurationCaught?.invoke(durationSeconds.toDuration(DurationUnit.SECONDS))
+    if (onDurationCaught != null) {
+        DefaultLaunchedEffect(player, onDurationCaught) {
+            val item = player.currentItem
+            if (item != null) {
+                val durationSeconds = CMTimeGetSeconds(item.asset.duration)
+                if (durationSeconds.isFinite()) {
+                    onDurationCaught.invoke(durationSeconds.toDuration(DurationUnit.SECONDS))
+                }
             }
         }
     }
