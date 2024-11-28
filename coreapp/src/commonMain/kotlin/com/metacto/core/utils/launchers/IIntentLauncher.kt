@@ -19,6 +19,8 @@ interface IIntentLauncher {
 
     fun launchAppSettings()
 
+    fun checkAppInstalled(appId: String): Boolean
+
     suspend fun shareImage(imageUrl: String, text: String? = null)
 
     fun addEventToCalendar(
