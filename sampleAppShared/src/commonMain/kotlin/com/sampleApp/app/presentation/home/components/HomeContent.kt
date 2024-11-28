@@ -27,6 +27,7 @@ import com.metacto.core.presentation.components.texts.FixedScaleText
 import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.PhoneNumberVisualTransformation
+import com.metacto.core.utils.extensions.formatNumber
 import com.metacto.core.utils.extensions.rememberPhoneNumberUtil
 import com.metacto.core.utils.extensions.toFeetInches
 import com.sampleApp.app.presentation.home.HomeContract.Event
@@ -281,7 +282,7 @@ internal fun HomeContent(
         )
 
         FixedScaleText(
-            text = "Testing",
+            text = 2452132.0.formatNumber(),
             color = colors.black,
             style = typography.fenwickBold12
         )
