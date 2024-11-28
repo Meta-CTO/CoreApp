@@ -94,7 +94,9 @@ actual fun VideoPlayer(
 ) {
     // Create the player item with the url
     val playerItem = remember(videoUrl) {
-        val nsUrl = if (videoUrl.isValidUrl()) {
+        // Check if the url is empty of a valid url so we will consider this is a url
+        // (Checking for empty is mandatory as it will crash if we tried to handle the empty url as a file)
+        val nsUrl = if (videoUrl.isEmpty() || videoUrl.isValidUrl()) {
             NSURL.URLWithString(videoUrl)!!
         } else {
             NSURL.fileURLWithPath(videoUrl)
