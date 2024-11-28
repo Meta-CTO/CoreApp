@@ -113,6 +113,16 @@ class IntentLauncher(
         context.openAppSettings()
     }
 
+    override fun checkAppInstalled(appId: String): Boolean {
+        val packageManager = context.applicationContext.packageManager
+        return try {
+            packageManager.getPackageInfo(appId, 0)
+            true
+        } catch (e: Throwable) {
+            false
+        }
+    }
+
     override suspend fun shareImage(imageUrl: String, text: String?) = withContext(Dispatchers.IO) {
         // Create the image file
         val cachePath = File(context.cacheDir, "images")

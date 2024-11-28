@@ -71,6 +71,11 @@ class IntentLauncher : IIntentLauncher {
         openAppSettings()
     }
 
+    override fun checkAppInstalled(appId: String): Boolean {
+        val url = NSURL(string = "$appId://app")
+        return UIApplication.sharedApplication.canOpenURL(url)
+    }
+
     override suspend fun shareImage(imageUrl: String, text: String?) = withContext(Dispatchers.IO) {
         // Create and validate the UIImage
         val nsUrl = requireNotNull(NSURL.URLWithString(imageUrl)) {
