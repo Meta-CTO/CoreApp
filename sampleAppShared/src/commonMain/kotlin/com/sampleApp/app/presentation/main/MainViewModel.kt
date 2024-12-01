@@ -50,7 +50,7 @@ class MainViewModel : BaseViewModel<State, Event, Effect>() {
                 // to handle the skip update action if needed
             },
             onUpdateClick = {
-                intentLauncher.launchStore(appId = appEnvironment.iosAppStoreId)
+                intentLauncher.launchAppInStore(appId = appEnvironment.iosAppStoreId)
             }
         )
     })

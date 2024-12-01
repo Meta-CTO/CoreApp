@@ -372,7 +372,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                         if (onUpdateClick != null) {
                             onUpdateClick.invoke()
                         } else {
-                            intentLauncher.launchStore(response.iosAppStoreId)
+                            intentLauncher.launchAppInStore(response.iosAppStoreId)
                         }
                     },
                     onSkipUpdateClicked = {
