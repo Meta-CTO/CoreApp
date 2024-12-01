@@ -15,10 +15,8 @@ import com.sampleApp.app.presentation.home.HomeContract.Companion.VIDEOS_LIST
 import com.sampleApp.app.presentation.home.HomeContract.Effect
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
-import com.sampleApp.app.presentation.test.TestScreen
 import com.sampleApp.app.resources.Res
 import com.sampleApp.app.resources.d_languages
-import com.sampleApp.app.resources.hello_s
 import com.sampleApp.app.resources.hello_s1_from_s2_to_s3
 import com.sampleApp.app.resources.hello_world
 import com.sampleApp.app.resources.my_languages
@@ -35,7 +33,15 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
         }
 
         Event.NavToTestScreen -> {
-            navManager.navigate(TestScreen)
+            val appId = "com.joelosteen.jom.maui"
+
+            val isAppInstalled = intentLauncher.checkAppInstalled(appId)
+
+            if (isAppInstalled) {
+                intentLauncher.openDeepLink("jom://archives")
+            } else {
+                intentLauncher.launchAppInStore(appId)
+            }
         }
 
         is Event.ChangeCurrentVideo -> {
@@ -79,7 +85,7 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
         }
 
         Event.OpenStore -> {
-            intentLauncher.launchStore("")
+            intentLauncher.launchAppInStore("")
         }
 
         Event.ShareEmail -> {
@@ -147,7 +153,7 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
             )
         }
 
-        Event.RequestCameraPermClicked ->{
+        Event.RequestCameraPermClicked -> {
             executeSilent({
                 permissionManager.requestPermission(Permission.CAMERA)
                 setState { copy(cameraPermState = PermissionState.Granted) }
