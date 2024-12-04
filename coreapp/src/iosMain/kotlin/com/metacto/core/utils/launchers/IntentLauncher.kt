@@ -76,14 +76,22 @@ class IntentLauncher : IIntentLauncher {
         return UIApplication.sharedApplication.canOpenURL(url)
     }
 
-    override fun openDeepLink(link: String): Boolean {
-        val nsUrl = NSURL(string = link)
-        return if (UIApplication.sharedApplication.canOpenURL(nsUrl)) {
-            UIApplication.sharedApplication.openURL(nsUrl)
-            true
-        } else {
-            false
+    override fun openDeepLink(link: String, onError: (() -> Unit)?): Boolean {
+        // Create the url
+        val nsUrl = NSURL.URLWithString(link) ?: return false
+
+        // Validate can open url
+        if (UIApplication.sharedApplication.canOpenURL(nsUrl).not()) return false
+
+        // Then open it
+        runOnMainThread {
+            UIApplication.sharedApplication.openURL(nsUrl, emptyMap<Any?, Any?>()) { success ->
+                if (success.not()) {
+                    onError?.invoke()
+                }
+            }
         }
+        return true
     }
 
     override fun canHandleScheme(scheme: String, host: String?): Boolean {
@@ -92,7 +100,8 @@ class IntentLauncher : IIntentLauncher {
             host?.let { append(it) }
         }
 
-        val nsUrl = NSURL(string = urlString)
+        val nsUrl = NSURL.URLWithString(urlString) ?: return false
+
         return UIApplication.sharedApplication.canOpenURL(nsUrl)
     }
 

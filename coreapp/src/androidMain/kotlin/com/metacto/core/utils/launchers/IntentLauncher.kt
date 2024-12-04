@@ -125,7 +125,7 @@ class IntentLauncher(
         }
     }
 
-    override fun openDeepLink(link: String): Boolean {
+    override fun openDeepLink(link: String, onError: (() -> Unit)?): Boolean {
         try {
             val linkIntent = Intent(Intent.ACTION_VIEW).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
@@ -135,6 +135,7 @@ class IntentLauncher(
             return true
         } catch (e: Exception) {
             e.printStackTrace()
+            onError?.invoke()
             return false
         }
     }

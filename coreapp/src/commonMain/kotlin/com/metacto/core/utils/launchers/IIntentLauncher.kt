@@ -21,7 +21,7 @@ interface IIntentLauncher {
 
     fun checkAppInstalled(appId: String): Boolean
 
-    fun openDeepLink(link: String): Boolean
+    fun openDeepLink(link: String, onError: (() -> Unit)?): Boolean
 
     fun canHandleScheme(scheme: String, host: String? = null): Boolean
 
