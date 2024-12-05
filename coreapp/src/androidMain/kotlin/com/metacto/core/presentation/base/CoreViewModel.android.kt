@@ -10,6 +10,10 @@ actual fun AppException.getErrorMessage(): String? {
     return this.errorMessage
 }
 
+actual fun AppException.getErrorBody(): String? {
+    return this.errorBody
+}
+
 actual fun AppException.getHttpErrorCode(): Int? {
     return this.errorCode
 }
