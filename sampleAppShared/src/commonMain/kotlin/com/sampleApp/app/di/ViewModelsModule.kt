@@ -1,15 +1,15 @@
 package com.sampleApp.app.di
 
 // MARK: Add imports
-import com.sampleApp.app.presentation.testsheet2.TestSheet2ViewModel
-import com.sampleApp.app.presentation.testsheet1.TestSheet1ViewModel
-import com.sampleApp.app.presentation.camera.CameraViewModel
 import com.metacto.core.di.commonViewModel
 import com.sampleApp.app.presentation.app.app.AppViewModel
+import com.sampleApp.app.presentation.camera.CameraViewModel
 import com.sampleApp.app.presentation.home.HomeViewModel
 import com.sampleApp.app.presentation.main.MainViewModel
 import com.sampleApp.app.presentation.profile.ProfileViewModel
 import com.sampleApp.app.presentation.test.TestViewModel
+import com.sampleApp.app.presentation.testsheet1.TestSheet1ViewModel
+import com.sampleApp.app.presentation.testsheet2.TestSheet2ViewModel
 import org.koin.dsl.module
 
 val viewModelsModule = module {
@@ -19,7 +19,7 @@ val viewModelsModule = module {
     commonViewModel { CameraViewModel() }
     commonViewModel { TestViewModel() }
     commonViewModel { ProfileViewModel() }
-    commonViewModel { HomeViewModel() }
+    commonViewModel { HomeViewModel(get()) }
     commonViewModel { MainViewModel() }
     single { AppViewModel() }
 }

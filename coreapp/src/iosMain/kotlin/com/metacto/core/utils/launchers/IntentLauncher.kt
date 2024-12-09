@@ -26,7 +26,7 @@ class IntentLauncher : IIntentLauncher {
         openUrl(url)
     }
 
-    override fun launchStore(appId: String) = runOnMainThread {
+    override fun launchAppInStore(appId: String) = runOnMainThread {
         // Open the url
         val url = "itms-apps://itunes.apple.com/app/$appId"
         val canOpen = openUrl(url)
@@ -69,6 +69,40 @@ class IntentLauncher : IIntentLauncher {
 
     override fun launchAppSettings() {
         openAppSettings()
+    }
+
+    override fun checkAppInstalled(appId: String): Boolean {
+        val url = NSURL(string = "$appId://app")
+        return UIApplication.sharedApplication.canOpenURL(url)
+    }
+
+    override fun openDeepLink(link: String, onError: (() -> Unit)?): Boolean {
+        // Create the url
+        val nsUrl = NSURL.URLWithString(link) ?: return false
+
+        // Validate can open url
+        if (UIApplication.sharedApplication.canOpenURL(nsUrl).not()) return false
+
+        // Then open it
+        runOnMainThread {
+            UIApplication.sharedApplication.openURL(nsUrl, emptyMap<Any?, Any?>()) { success ->
+                if (success.not()) {
+                    onError?.invoke()
+                }
+            }
+        }
+        return true
+    }
+
+    override fun canHandleScheme(scheme: String, host: String?): Boolean {
+        val urlString = buildString {
+            append("$scheme://")
+            host?.let { append(it) }
+        }
+
+        val nsUrl = NSURL.URLWithString(urlString) ?: return false
+
+        return UIApplication.sharedApplication.canOpenURL(nsUrl)
     }
 
     override suspend fun shareImage(imageUrl: String, text: String?) = withContext(Dispatchers.IO) {

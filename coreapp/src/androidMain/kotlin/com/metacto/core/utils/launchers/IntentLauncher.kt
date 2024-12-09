@@ -11,7 +11,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.metacto.core.utils.extensions.openAppSettings
 import com.metacto.core.utils.resources.IResourceProvider
-import com.metacto.coreApp.resources.*
+import com.metacto.coreApp.resources.Res
+import com.metacto.coreApp.resources.no_browser_installed
+import com.metacto.coreApp.resources.no_email_apps_found_on_your_device
+import com.metacto.coreApp.resources.no_phone_apps_found_on_your_device
 import com.metacto.strapikmm.util.toEpochMilliseconds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -51,18 +54,17 @@ class IntentLauncher(
         ).show()
     }
 
-    override fun launchStore(appId: String) {
-        val packageName = context.packageName
+    override fun launchAppInStore(appId: String) {
         try {
             val intent = Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse("market://details?id=$packageName")
+                data = Uri.parse("market://details?id=$appId")
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
             context.startActivity(
                 intent
             )
         } catch (e: ActivityNotFoundException) {
-            launchBrowser("https://play.google.com/store/apps/details?id=$packageName")
+            launchBrowser("https://play.google.com/store/apps/details?id=$appId")
         }
     }
 
@@ -113,6 +115,39 @@ class IntentLauncher(
         context.openAppSettings()
     }
 
+    override fun checkAppInstalled(appId: String): Boolean {
+        val packageManager = context.applicationContext.packageManager
+        return try {
+            packageManager.getPackageInfo(appId, 0)
+            true
+        } catch (e: Throwable) {
+            false
+        }
+    }
+
+    override fun openDeepLink(link: String, onError: (() -> Unit)?): Boolean {
+        try {
+            val linkIntent = Intent(Intent.ACTION_VIEW).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                data = Uri.parse(link)
+            }
+            context.startActivity(linkIntent)
+            return true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            onError?.invoke()
+            return false
+        }
+    }
+
+    override fun canHandleScheme(scheme: String, host: String?): Boolean {
+        val uriBuilder = Uri.Builder().scheme(scheme)
+        host?.let { uriBuilder.authority(it) }
+
+        val intent = Intent(Intent.ACTION_VIEW, uriBuilder.build())
+        return intent.resolveActivity(context.packageManager) != null
+    }
+
     override suspend fun shareImage(imageUrl: String, text: String?) = withContext(Dispatchers.IO) {
         // Create the image file
         val cachePath = File(context.cacheDir, "images")
@@ -122,7 +157,8 @@ class IntentLauncher(
         // Download the image and get the uri
         val inputStream = URL(imageUrl).openStream()
         imageFile.outputStream().use { inputStream.copyTo(it) }
-        val imageUri = FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", imageFile)
+        val imageUri =
+            FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", imageFile)
 
         // Create the share intent
         val shareIntent = Intent().apply {

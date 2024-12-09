@@ -4,6 +4,7 @@ import com.metacto.core.CoreEnvironment
 import com.metacto.core.di.coreModule
 import com.metacto.strapikmm.errorhandling.NetworkError
 import com.sampleApp.app.constants.AppEnvironment
+import com.sampleApp.app.deepLink.DEEP_LINK_PARSERS
 import dev.gitlive.firebase.auth.ActionCodeSettings
 import dev.gitlive.firebase.auth.AndroidPackageName
 import org.koin.core.context.startKoin
@@ -44,6 +45,7 @@ private fun createCoreModule(environment: CoreEnvironment) = coreModule(
         ),
         url = "",
         canHandleCodeInApp = true,
-        dynamicLinkDomain = "links.sampleApp.com"
-    )
+        dynamicLinkDomain = "links.sampleApp.com",
+    ),
+    deepLinkParsers = DEEP_LINK_PARSERS
 )

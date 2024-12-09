@@ -13,3 +13,7 @@ actual fun AppException.getErrorMessage(): String? {
 actual fun AppException.getHttpErrorCode(): Int? {
     return this.error.userInfo["httpErrorCode"] as Int?
 }
+
+actual fun AppException.getErrorBody(): String? {
+    return this.error.userInfo["errorBody"] as String?
+}

@@ -9,7 +9,7 @@ interface IIntentLauncher {
         body: String? = null
     )
 
-    fun launchStore(appId: String)
+    fun launchAppInStore(appId: String)
 
     fun shareText(text: String)
 
@@ -18,6 +18,12 @@ interface IIntentLauncher {
     fun launchBrowser(url: String)
 
     fun launchAppSettings()
+
+    fun checkAppInstalled(appId: String): Boolean
+
+    fun openDeepLink(link: String, onError: (() -> Unit)?): Boolean
+
+    fun canHandleScheme(scheme: String, host: String? = null): Boolean
 
     suspend fun shareImage(imageUrl: String, text: String? = null)
 

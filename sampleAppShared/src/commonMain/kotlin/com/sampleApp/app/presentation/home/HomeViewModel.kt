@@ -8,22 +8,22 @@ import com.metacto.core.presentation.imagePicker.ImagePickerSheet
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.presentation.youtube.YoutubeScreen
-import com.sampleApp.app.resources.file
+import com.metacto.core.utils.deepLink.IDeepLinkManager
 import com.sampleApp.app.presentation.base.BaseViewModel
-import com.sampleApp.app.presentation.camera.CameraScreen
 import com.sampleApp.app.presentation.home.HomeContract.Companion.VIDEOS_LIST
 import com.sampleApp.app.presentation.home.HomeContract.Effect
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
-import com.sampleApp.app.presentation.test.TestScreen
 import com.sampleApp.app.resources.Res
 import com.sampleApp.app.resources.d_languages
-import com.sampleApp.app.resources.hello_s
+import com.sampleApp.app.resources.file
 import com.sampleApp.app.resources.hello_s1_from_s2_to_s3
 import com.sampleApp.app.resources.hello_world
 import com.sampleApp.app.resources.my_languages
 
-class HomeViewModel : BaseViewModel<State, Event, Effect>() {
+class HomeViewModel(
+    private val deeplinkManager: IDeepLinkManager
+) : BaseViewModel<State, Event, Effect>() {
 
     override fun setInitialState() = State()
 
@@ -35,7 +35,15 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
         }
 
         Event.NavToTestScreen -> {
-            navManager.navigate(TestScreen)
+            val appId = "com.joelosteen.jom.maui"
+
+            val isAppInstalled = intentLauncher.checkAppInstalled(appId)
+
+            if (isAppInstalled) {
+                intentLauncher.openDeepLink("jom://archives")
+            } else {
+                intentLauncher.launchAppInStore(appId)
+            }
         }
 
         is Event.ChangeCurrentVideo -> {
@@ -79,7 +87,7 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
         }
 
         Event.OpenStore -> {
-            intentLauncher.launchStore("")
+            intentLauncher.launchAppInStore("")
         }
 
         Event.ShareEmail -> {
@@ -99,7 +107,8 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
         }
 
         Event.NavigateToCameraScreen -> {
-            navManager.navigate(CameraScreen)
+            deeplinkManager.emitDeepLink("jom://archives")
+//            navManager.navigate(CameraScreen)
         }
 
         Event.HideLoading -> hideLoading()
@@ -147,7 +156,7 @@ class HomeViewModel : BaseViewModel<State, Event, Effect>() {
             )
         }
 
-        Event.RequestCameraPermClicked ->{
+        Event.RequestCameraPermClicked -> {
             executeSilent({
                 permissionManager.requestPermission(Permission.CAMERA)
                 setState { copy(cameraPermState = PermissionState.Granted) }

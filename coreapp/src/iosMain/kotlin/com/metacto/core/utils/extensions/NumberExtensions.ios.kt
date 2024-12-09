@@ -1,6 +1,11 @@
 package com.metacto.core.utils.extensions
 
+import platform.Foundation.NSLocale
+import platform.Foundation.NSNumber
+import platform.Foundation.NSNumberFormatter
+import platform.Foundation.NSNumberFormatterDecimalStyle
 import platform.Foundation.NSString
+import platform.Foundation.currentLocale
 import platform.Foundation.stringWithFormat
 import platform.UIKit.UIColor
 
@@ -14,6 +19,14 @@ actual fun Double.formatToComma(maxFractionCount: Int): String {
     return this.truncate(maxFractionCount).let {
         NSString.stringWithFormat("%,.${maxFractionCount}f", it)
     }
+}
+
+actual fun Double.formatNumber(): String {
+    val formatter = NSNumberFormatter().apply {
+        numberStyle = NSNumberFormatterDecimalStyle
+        locale = NSLocale.currentLocale
+    }
+    return formatter.stringFromNumber(NSNumber(this)) ?: "$this"
 }
 
 fun uiColor(hex: Long): UIColor {

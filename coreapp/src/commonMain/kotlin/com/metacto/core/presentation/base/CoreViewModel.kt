@@ -23,7 +23,17 @@ import com.metacto.core.utils.PlatformType
 import com.metacto.core.utils.extensions.getPlatformType
 import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.resources.IResourceProvider
-import com.metacto.coreApp.resources.*
+import com.metacto.coreApp.resources.Res
+import com.metacto.coreApp.resources.error
+import com.metacto.coreApp.resources.force_update_title
+import com.metacto.coreApp.resources.ic_upgrade
+import com.metacto.coreApp.resources.no_internet_connection_check_connection
+import com.metacto.coreApp.resources.ok
+import com.metacto.coreApp.resources.server_taking_too_long
+import com.metacto.coreApp.resources.session_expired
+import com.metacto.coreApp.resources.skip_update_button
+import com.metacto.coreApp.resources.update_button
+import com.metacto.coreApp.resources.your_session_expired_login_again
 import com.metacto.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
 import com.metacto.strapikmm.errorhandling.AppException
 import com.metacto.strapikmm.errorhandling.NetworkMapperConstants
@@ -372,7 +382,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                         if (onUpdateClick != null) {
                             onUpdateClick.invoke()
                         } else {
-                            intentLauncher.launchStore(response.iosAppStoreId)
+                            intentLauncher.launchAppInStore(response.iosAppStoreId)
                         }
                     },
                     onSkipUpdateClicked = {
@@ -487,3 +497,4 @@ private fun extractErrorCodeAndMessage(jsonString: String): Pair<String, Int> {
 expect fun AppException.getHttpErrorCode(): Int?
 expect fun AppException.getErrorCode(): Int?
 expect fun AppException.getErrorMessage(): String?
+expect fun AppException.getErrorBody(): String?
