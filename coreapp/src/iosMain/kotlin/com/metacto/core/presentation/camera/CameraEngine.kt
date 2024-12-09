@@ -27,7 +27,6 @@ import platform.AVFoundation.position
 import platform.Foundation.NSError
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSURL
-import platform.Foundation.URLByAppendingPathComponent
 import platform.Foundation.temporaryDirectory
 import platform.UIKit.UIView
 import platform.UIKit.UIViewController
@@ -46,6 +45,7 @@ actual class CameraEngine(
     private var onVideoCapture: ((NSURL?) -> Unit)? = null
     private var onError: ((Throwable) -> Unit)? = null
 
+    @OptIn(ExperimentalForeignApi::class)
     override fun viewDidLoad() {
         super.viewDidLoad()
         setupSession()
@@ -56,25 +56,16 @@ actual class CameraEngine(
         }
     }
 
+    @OptIn(ExperimentalForeignApi::class)
     private fun setupSession() {
         captureSession = AVCaptureSession()
         captureSession?.beginConfiguration()
 
-        // Setup inputs
-        setupInputs()
+        // Setup inputs with direct device acquisition
+        val videoDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
+        val audioDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
 
-        // Setup movie output for video recording
-        movieOutput = AVCaptureMovieFileOutput()
-        if (captureSession?.canAddOutput(movieOutput!!) == true) {
-            captureSession?.addOutput(movieOutput!!)
-        }
-
-        // Commit configurations
-        captureSession?.commitConfiguration()
-    }
-
-    private fun setupInputs() {
-        // Find the back and front cameras
+        // Find the back and front cameras for toggle functionality
         val availableDevices = AVCaptureDeviceDiscoverySession.discoverySessionWithDeviceTypes(
             listOf(AVCaptureDeviceTypeBuiltInWideAngleCamera),
             AVMediaTypeVideo,
@@ -95,40 +86,24 @@ actual class CameraEngine(
             CameraLens.BACK -> backCamera
         }
 
-        // Add inputs
-        addCameraInputToCurrentSession()
-        addAudioInputToCurrentSession()
-    }
+        // Create inputs for camera and audio
+        val cameraInput = AVCaptureDeviceInput(device = currentCameraDevice!!, error = null)
+        val audioInput = AVCaptureDeviceInput(device = audioDevice!!, error = null)
 
-    @OptIn(ExperimentalForeignApi::class)
-    private fun addCameraInputToCurrentSession() {
-        try {
-            val input = AVCaptureDeviceInput.deviceInputWithDevice(
-                currentCameraDevice!!,
-                null
-            ) as AVCaptureDeviceInput
-            if (captureSession?.canAddInput(input) == true) {
-                captureSession?.addInput(input)
-            }
-        } catch (e: Throwable) {
-            onError?.let { it(e) }
+        if (captureSession?.canAddInput(cameraInput) == true) {
+            captureSession?.addInput(cameraInput)
         }
-    }
+        if (captureSession?.canAddInput(audioInput) == true) {
+            captureSession?.addInput(audioInput)
+        }
 
-    @OptIn(ExperimentalForeignApi::class)
-    private fun addAudioInputToCurrentSession() {
-        try {
-            val audioDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeAudio)
-            val audioInput = AVCaptureDeviceInput.deviceInputWithDevice(
-                audioDevice!!,
-                null
-            ) as AVCaptureDeviceInput
-            if (captureSession?.canAddInput(audioInput) == true) {
-                captureSession?.addInput(audioInput)
-            }
-        } catch (e: Throwable) {
-            onError?.let { it(e) }
+        // Setup movie output
+        movieOutput = AVCaptureMovieFileOutput()
+        if (captureSession?.canAddOutput(movieOutput!!) == true) {
+            captureSession?.addOutput(movieOutput!!)
         }
+
+        captureSession?.commitConfiguration()
     }
 
     @OptIn(ExperimentalForeignApi::class)
@@ -153,27 +128,31 @@ actual class CameraEngine(
         cameraPreviewLayer?.setFrame(view.bounds)
     }
 
+    @OptIn(ExperimentalForeignApi::class)
     actual fun toggleCameraLens() {
         captureSession?.beginConfiguration()
 
         // Remove current input
-        val currentInput = captureSession?.inputs?.firstOrNull() as? AVCaptureDeviceInput
-        if (currentInput != null) {
-            captureSession?.removeInput(currentInput)
+        val currentInputs = captureSession?.inputs
+        currentInputs?.forEach { input ->
+            if (input is AVCaptureDeviceInput && input.device.hasMediaType(AVMediaTypeVideo)) {
+                captureSession?.removeInput(input)
+            }
         }
 
         // Toggle between front and back camera
         currentCamera = if (currentCamera == CameraLens.BACK) CameraLens.FRONT else CameraLens.BACK
-        currentCameraDevice = when (this.currentCamera) {
+        currentCameraDevice = when (currentCamera) {
             CameraLens.FRONT -> frontCamera
             CameraLens.BACK -> backCamera
         }
 
-        // Add inputs
-        addCameraInputToCurrentSession()
-        addAudioInputToCurrentSession()
+        // Add new camera input
+        val newCameraInput = AVCaptureDeviceInput(device = currentCameraDevice!!, error = null)
+        if (captureSession?.canAddInput(newCameraInput) == true) {
+            captureSession?.addInput(newCameraInput)
+        }
 
-        // Commit configuration
         captureSession?.commitConfiguration()
     }
 
@@ -187,7 +166,7 @@ actual class CameraEngine(
         // Create the video file
         val videoFile = getVideosDir().URLByAppendingPathComponent(params.fileName)
 
-        // Delete the video file if exists before so that the new video could be recorded
+        // Delete the video file if exists
         NSFileManager.defaultManager.run {
             if (fileExistsAtPath(videoFile?.path!!)) {
                 removeItemAtURL(videoFile, null)
@@ -210,7 +189,6 @@ actual class CameraEngine(
 
         // Start recording
         movieOutput?.startRecordingToOutputFileURL(videoFile!!, recordingDelegate = this)
-
         continuation.resumeIfActive(Unit)
     }
 
