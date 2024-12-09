@@ -471,7 +471,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
     open val defaultErrorType: ErrorType = ErrorType.Popup
 
-    open val defaultDispatcher: CoroutineContext = Dispatchers.IO
+    open val defaultDispatcher: CoroutineContext = Dispatchers.Default
 }
 
 private fun extractErrorCodeAndMessage(jsonString: String): Pair<String, Int> {
