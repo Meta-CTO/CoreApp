@@ -4,53 +4,21 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.metacto.core.domain.CoreConstants
-import com.metacto.core.navigation.NavManager
-import com.metacto.core.permissions.IPermissionManager
-import com.metacto.core.permissions.enums.Permission
-import com.metacto.core.permissions.enums.PermissionState
-import com.metacto.core.presentation.components.audioPlayer.AudioPlayer
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
-import com.metacto.core.presentation.components.buttons.SwitchButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
-import com.metacto.core.presentation.components.grids.NonLazyGrid
-import com.metacto.core.presentation.components.inputFields.PasswordTextInputField
-import com.metacto.core.presentation.components.inputFields.PriceTextInputField
-import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
-import com.metacto.core.presentation.components.loadMore.LoadingMoreProgress
-import com.metacto.core.presentation.components.texts.FixedScaleText
 import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
-import com.metacto.core.utils.PhoneNumberVisualTransformation
-import com.metacto.core.utils.extensions.formatNumber
-import com.metacto.core.utils.extensions.rememberPhoneNumberUtil
-import com.metacto.core.utils.extensions.toFeetInches
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
-import com.sampleApp.app.presentation.testsheet1.TestSheet1
-import com.sampleApp.app.presentation.theme.AppTheme.colors
-import com.sampleApp.app.presentation.theme.AppTheme.typography
-import kotlinx.coroutines.launch
-import org.koin.compose.koinInject
 
 @Composable
 internal fun HomeContent(
     state: State,
     onEvent: (Event) -> Unit
 ) {
-    val navManager = koinInject<NavManager>()
-    val permissionManager = koinInject<IPermissionManager>()
-
     ScreenColumn(
         isScrollable = true,
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -139,168 +107,9 @@ internal fun HomeContent(
             }
         )
 
-        SwitchButton(
-            modifier = Modifier,
-            isChecked = false,
-            onCheckChanged = {
-
-            }
-        )
-
-        SwitchButton(
-            modifier = Modifier,
-            isChecked = true,
-            onCheckChanged = {
-
-            }
-        )
-
-        var price by remember { mutableStateOf("1.222222222222222222") }
-
-        PriceTextInputField(
-            modifier = Modifier.fillMaxWidth(),
-            allowDecimal = true,
-            maxAllowedDecimals = 3,
-            price = price,
-            onPriceChange = { value ->
-                price = value.orEmpty()
-            }
-        )
-
-        var password by remember { mutableStateOf("") }
-        PasswordTextInputField(
-            showPasswordVisibilityToggle = true,
-            modifier = Modifier.fillMaxWidth(),
-            text = password,
-            onValueChange = { value ->
-                password = value
-            }
-        )
-
-        Text(
-            "Picked Item: ${state.pickedItem?.title ?: "None"}"
-        )
-
-        Text(
-            text = 20f.toFeetInches()
-        )
-
-        AudioPlayer(
-            audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Evillaugh.ogg"
-        )
-
-        LoadingMoreProgress()
-
-        val phoneNumberUtil = rememberPhoneNumberUtil()
-        val phoneNumberVisualTransformation = remember {
-            PhoneNumberVisualTransformation(
-                phoneNumberUtil = phoneNumberUtil,
-                countryCode = CoreConstants.US_COUNTRY_CODE
-            )
-        }
-        var phoneNumber by remember {
-            mutableStateOf("")
-        }
-        PrimaryTextInputField(
-            modifier = Modifier.fillMaxWidth(),
-            text = phoneNumber,
-            onValueChange = {
-                phoneNumber = it
-            },
-            visualTransformation = phoneNumberVisualTransformation
-        )
-
         PrimaryFilledButton(
             modifier = Modifier.fillMaxWidth(),
-            text = "Test String Resource",
-            onClick = {
-                onEvent(Event.TestStringResource)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Test Formatted String Resource",
-            onClick = {
-                onEvent(Event.TestFormattedStringResource)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Test Plural String Resource",
-            onClick = {
-                onEvent(Event.TestPluralStringResource)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Test Formatted Plural String Resource",
-            onClick = {
-                onEvent(Event.TestFormattedPluralStringResource)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Show App Lottie Loading",
-            onClick = {
-                onEvent(Event.ShowAppLottieLoading)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Hide Loading",
-            onClick = {
-                onEvent(Event.HideLoading)
-            }
-        )
-
-        Text(
-            text = "Selected native picker item: ${state.selectedNativePickerItem?.title ?: "None"}"
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Native item picker",
-            onClick = {
-                onEvent(Event.NativeItemPicker)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Open sheet 1",
-            onClick = {
-                navManager.navigateToBottomSheet(TestSheet1())
-            }
-        )
-
-        NonLazyGrid(
-            modifier = Modifier.fillMaxWidth(),
-            columnsCount = 2,
-            items = listOf("String", "String", "String").map { item ->
-                {
-                    Text(text = item)
-                }
-            }
-        )
-
-        FixedScaleText(
-            text = 232222.0.formatNumber(),
-            color = colors.black,
-            style = typography.fenwickBold12
-        )
-
-
-        Text(
-            text = "Camera permission state: ${state.cameraPermState}"
-        )
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Request camera permission",
+            text = "Request camera permissions",
             onClick = {
                 onEvent(Event.RequestCameraPermClicked)
             }
