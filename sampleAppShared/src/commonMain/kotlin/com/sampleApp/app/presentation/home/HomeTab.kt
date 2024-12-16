@@ -23,6 +23,7 @@ internal object HomeTab : BaseTabScreen<HomeViewModel>() {
     }
 
     override fun onDisplayed() {
+        super.onDisplayed()
         viewModel?.setEvent(Event.Init)
     }
 }
