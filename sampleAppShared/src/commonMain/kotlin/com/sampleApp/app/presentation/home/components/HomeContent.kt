@@ -5,14 +5,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
+import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
 import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
+import com.sampleApp.app.presentation.theme.AppTheme
 
 @Composable
 internal fun HomeContent(
@@ -112,6 +118,20 @@ internal fun HomeContent(
             text = "Request camera permissions",
             onClick = {
                 onEvent(Event.RequestCameraPermClicked)
+            }
+        )
+
+        var text by remember { mutableStateOf("") }
+        PrimaryTextInputField(
+            modifier = Modifier.fillMaxWidth(),
+            text = text,
+            maxLines = 20,
+            singleLine = false,
+            placeholderMaxLines = 20,
+            minHeight = AppTheme.spacings.spacing100,
+            placeholder = "Some long placeholder text that should wrap to the next line if it's too long to fit in one line",
+            onValueChange = {
+                text = it
             }
         )
     }
