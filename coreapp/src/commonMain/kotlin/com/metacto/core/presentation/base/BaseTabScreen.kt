@@ -8,6 +8,11 @@ abstract class BaseTabScreen<T : CoreViewModel<*, *, *>> : BaseScreen<T>() {
     open val tabIconVector: ImageVector? = null
 
     open fun onDisplayed() {
+        println("tab displayed ${this::class.simpleName}")
+    }
+
+    open fun onHidden() {
+        println("tab hidden ${this::class.simpleName}")
     }
 
     open fun onNavBarTabClicked() {

@@ -23,6 +23,7 @@ internal object ProfileTab : BaseTabScreen<ProfileViewModel>() {
     }
 
     override fun onDisplayed() {
+        super.onDisplayed()
         viewModel?.setEvent(Event.Init)
     }
 }

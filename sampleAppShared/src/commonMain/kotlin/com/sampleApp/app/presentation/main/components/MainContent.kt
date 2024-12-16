@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.metacto.core.presentation.base.BaseTabScreen
+import com.metacto.core.utils.extensions.rememberPrevious
 import com.sampleApp.app.presentation.home.HomeTab
 import com.sampleApp.app.presentation.main.MainContract.Event
 import com.sampleApp.app.presentation.main.MainContract.State
@@ -25,15 +26,18 @@ internal fun MainContent(
 ) {
     // Prepare pager state
     val pagerState = rememberPagerState { 2 }
+    val previousTab = rememberPrevious(state.currentTab)
 
     // Scroll to selected tab
     LaunchedEffect(state.currentTab) {
         // Scroll to this page
         pagerState.scrollToPage(state.currentTab)
 
-        // And notify tab that it's displayed
-        val displayedTab = state.currentTab.toTab()
-        displayedTab?.onDisplayed()
+        // Notify previous tab is hidden
+        previousTab?.toTab()?.onHidden()
+
+        // And notify current tab that it's displayed
+        state.currentTab.toTab()?.onDisplayed()
     }
 
     // Container column
