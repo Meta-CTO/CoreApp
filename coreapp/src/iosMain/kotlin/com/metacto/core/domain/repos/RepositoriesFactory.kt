@@ -1,4 +1,7 @@
-@file:OptIn(ExperimentalForeignApi::class, ExperimentalSettingsApi::class)
+@file:OptIn(
+    ExperimentalForeignApi::class, ExperimentalSettingsApi::class,
+    ExperimentalSettingsImplementation::class
+)
 
 package com.metacto.core.domain.repos
 
@@ -19,19 +22,22 @@ import platform.Security.kSecAttrAccessibleAfterFirstUnlock
 import platform.Security.kSecAttrService
 import kotlin.reflect.KClass
 
-@OptIn(ExperimentalSettingsImplementation::class)
-actual open class RepositoriesFactory<T: SerializableNetworkError> constructor(
+actual open class RepositoriesFactory<T : SerializableNetworkError> constructor(
     actual val environment: CoreEnvironment,
     actual val appStorageName: String,
     actual val shouldShowActualErrorMessages: Boolean,
     actual val errorClass: KClass<T>
 ) {
+
+    private val oldKeyChainStore = KeychainSettings(service = appStorageName)
+    private val newKeyChainStore = KeychainSettings(
+        kSecAttrService to CFBridgingRetain(appStorageName),
+        kSecAttrAccessible to kSecAttrAccessibleAfterFirstUnlock,
+    )
+
     actual val sharedPreference = KmmPreference(
         preferences = NSUserDefaultsSettings(NSUserDefaults.standardUserDefaults()),
-        encryptedPreferences = KeychainSettings(
-            kSecAttrAccessible to kSecAttrAccessibleAfterFirstUnlock,
-            kSecAttrService to CFBridgingRetain(appStorageName)
-        )
+        encryptedPreferences = newKeyChainStore
     )
 
     private val ktorClientFactory = KtorClientFactory(
@@ -45,4 +51,39 @@ actual open class RepositoriesFactory<T: SerializableNetworkError> constructor(
         baseUrl = environment.baseUrl,
         kmmPreference = sharedPreference
     )
+
+    init {
+        migrate(oldKeyChainStore, newKeyChainStore)
+    }
+}
+
+private fun migrate(oldKeyChainStore: KeychainSettings, newKeyChainStore: KeychainSettings) {
+    if (newKeyChainStore.hasKey("_version")) return
+
+    oldKeyChainStore.keys.forEach { key ->
+        // Check each type and store accordingly
+        val oldValue: Any? = when {
+            oldKeyChainStore.getIntOrNull(key) != null -> oldKeyChainStore.getIntOrNull(key)
+            oldKeyChainStore.getLongOrNull(key) != null -> oldKeyChainStore.getLongOrNull(key)
+            oldKeyChainStore.getStringOrNull(key) != null -> oldKeyChainStore.getStringOrNull(key)
+            oldKeyChainStore.getFloatOrNull(key) != null -> oldKeyChainStore.getFloatOrNull(key)
+            oldKeyChainStore.getDoubleOrNull(key) != null -> oldKeyChainStore.getDoubleOrNull(key)
+            oldKeyChainStore.getBooleanOrNull(key) != null -> oldKeyChainStore.getBooleanOrNull(key)
+            else -> null
+        }
+
+        oldValue?.let {
+            when (it) {
+                is Int -> newKeyChainStore.putInt(key, it)
+                is Long -> newKeyChainStore.putLong(key, it)
+                is String -> newKeyChainStore.putString(key, it)
+                is Float -> newKeyChainStore.putFloat(key, it)
+                is Double -> newKeyChainStore.putDouble(key, it)
+                is Boolean -> newKeyChainStore.putBoolean(key, it)
+            }
+        }
+    }
+
+    oldKeyChainStore.clear()
+    newKeyChainStore.putString("_version", "1")
 }
