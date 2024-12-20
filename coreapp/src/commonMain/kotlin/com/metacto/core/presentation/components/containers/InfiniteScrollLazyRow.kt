@@ -30,6 +30,7 @@ fun <T> InfiniteScrollLazyRow(
     horizontalArrangement: Arrangement.Horizontal = if (!reverseLayout) Arrangement.Start else Arrangement.End,
     verticalAlignment: Alignment.Vertical = Alignment.Top,
     flingBehavior: FlingBehavior = ScrollableDefaults.flingBehavior(),
+    startAnimDelay: Duration = Duration.ZERO,
     scrollSpeed: Float = 10f,
     scrollDelay: Duration = Duration.ZERO,
     itemWidth: Float = 100f,
@@ -61,6 +62,12 @@ fun <T> InfiniteScrollLazyRow(
         var currentOffset = 0f
         val totalItemsWidth = allItems.size * itemWidth
 
+        // Delay the start of the animation if required
+        if (startAnimDelay > Duration.ZERO) {
+            delay(startAnimDelay)
+        }
+
+        // Then start the infinite scroll animation
         while (true) {
             delay(scrollDelay)
 
