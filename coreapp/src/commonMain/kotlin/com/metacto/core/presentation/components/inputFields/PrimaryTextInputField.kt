@@ -45,7 +45,7 @@ fun PrimaryTextInputField(
     startIconPainter: Painter? = null,
     startIconSize: Dp = CoreTheme.spacings.primaryTextInputField.startIconSize,
     onStartIconClick: (() -> Unit)? = null,
-    iconTintColor: Color = CoreTheme.colors.primaryTextInputField.iconColor,
+    iconTintColor: Color? = CoreTheme.colors.primaryTextInputField.iconColor,
     placeholder: String? = null,
     placeholderMaxLines: Int = 1,
     shape: RoundedCornerShape = CoreTheme.shapes.primaryTextInputField.shape,

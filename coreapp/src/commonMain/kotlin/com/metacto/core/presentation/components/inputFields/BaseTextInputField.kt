@@ -25,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
@@ -47,6 +46,7 @@ import com.metacto.core.utils.extensions.focusRequesterIfNotNull
 import com.metacto.core.utils.extensions.noRippleClickable
 import com.metacto.core.utils.extensions.rememberFocusRequester
 import com.metacto.core.utils.extensions.removeAllNonNumeric
+import com.metacto.core.utils.extensions.tintIfNotNull
 import com.metacto.core.utils.extensions.toDp
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
@@ -88,7 +88,7 @@ fun BaseTextInputField(
     startIconPainter: Painter?,
     startIconSize: Dp,
     onStartIconClick: (() -> Unit)?,
-    iconTintColor: Color,
+    iconTintColor: Color?,
     placeholder: String?,
     placeholderMaxLines: Int,
     shape: RoundedCornerShape,
@@ -128,7 +128,7 @@ fun BaseTextInputField(
             Image(
                 imageVector = startIconVector,
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(iconTintColor),
+                colorFilter = tintIfNotNull(iconTintColor),
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
                     .size(startIconSize)
@@ -140,7 +140,7 @@ fun BaseTextInputField(
             Image(
                 painter = startIconPainter,
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(iconTintColor),
+                colorFilter = tintIfNotNull(iconTintColor),
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
                     .size(startIconSize)
@@ -155,7 +155,7 @@ fun BaseTextInputField(
             Image(
                 imageVector = endIconVector,
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(iconTintColor),
+                colorFilter = tintIfNotNull(iconTintColor),
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
                     .size(endIconSize)
@@ -167,7 +167,7 @@ fun BaseTextInputField(
             Image(
                 painter = endIconPainter,
                 contentDescription = null,
-                colorFilter = ColorFilter.tint(iconTintColor),
+                colorFilter = tintIfNotNull(iconTintColor),
                 contentScale = ContentScale.FillBounds,
                 modifier = Modifier
                     .size(endIconSize)

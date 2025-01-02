@@ -46,7 +46,7 @@ fun PriceTextInputField(
     startIconPainter: Painter? = null,
     startIconSize: Dp = CoreTheme.spacings.priceTextInputField.startIconSize,
     onStartIconClick: (() -> Unit)? = null,
-    iconTintColor: Color = CoreTheme.colors.priceTextInputField.iconColor,
+    iconTintColor: Color? = CoreTheme.colors.priceTextInputField.iconColor,
     focusedBorderColor: Color = CoreTheme.colors.priceTextInputField.focusedBorderColor,
     unFocusedBorderColor: Color = CoreTheme.colors.priceTextInputField.unFocusedBorderColor,
     placeholderTextStyle: TextStyle = CoreTheme.typography.priceTextInputField.placeholderTextStyle,

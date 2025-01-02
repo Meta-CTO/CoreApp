@@ -44,7 +44,7 @@ fun TertiaryTextInputField(
     startIconPainter: Painter? = null,
     startIconSize: Dp = CoreTheme.spacings.tertiaryTextInputField.startIconSize,
     onStartIconClick: (() -> Unit)? = null,
-    iconTintColor: Color = CoreTheme.colors.tertiaryTextInputField.iconColor,
+    iconTintColor: Color? = CoreTheme.colors.tertiaryTextInputField.iconColor,
     placeholder: String? = null,
     placeholderMaxLines: Int = 1,
     shape: RoundedCornerShape = CoreTheme.shapes.tertiaryTextInputField.shape,

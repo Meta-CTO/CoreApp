@@ -301,6 +301,11 @@ data class CoreSpacings(
         inputFieldElevation = inputFieldElevation
     ),
 
+    // PickerInputField
+    val pickerInputField: PickerInputFieldSpacings = PickerInputFieldSpacings(
+        iconSmall = iconSmall
+    ),
+
     // PasswordTextInputField
     val passwordTextInputField: PasswordTextInputFieldSpacings = PasswordTextInputFieldSpacings(
         noSpacing = noSpacing,
@@ -858,6 +863,13 @@ data class TertiaryTextInputFieldSpacings(
     val startIconSize: Dp = iconSmall,
     val endIconSize: Dp = iconSmall,
     val elevation: Dp = inputFieldElevation
+)
+
+// PickerInputField
+data class PickerInputFieldSpacings(
+    private val iconSmall: Dp,
+    val startIconSize: Dp = iconSmall,
+    val endIconSize: Dp = iconSmall
 )
 
 // PasswordTextInputField

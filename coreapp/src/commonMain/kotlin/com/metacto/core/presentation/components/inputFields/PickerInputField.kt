@@ -1,16 +1,16 @@
 package com.metacto.core.presentation.components.inputFields
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.core.utils.extensions.noRippleClickable
 
 @Composable
 fun PickerInputField(
@@ -21,9 +21,15 @@ fun PickerInputField(
     placeholder: String? = null,
     onClick: () -> Unit,
     enabled: Boolean = true,
-    showTrailingIcon: Boolean = true,
-    trailingIcon: ImageVector? = Icons.Default.ExpandMore,
-    iconTintColor: Color = CoreTheme.colors.pickerInputField.iconColor,
+    endIconVector: ImageVector? = Icons.Default.ExpandMore,
+    endIconPainter: Painter? = null,
+    endIconSize: Dp = CoreTheme.spacings.pickerInputField.endIconSize,
+    onEndIconClick: (() -> Unit)? = null,
+    startIconVector: ImageVector? = null,
+    startIconPainter: Painter? = null,
+    startIconSize: Dp = CoreTheme.spacings.pickerInputField.startIconSize,
+    onStartIconClick: (() -> Unit)? = null,
+    iconTintColor: Color? = CoreTheme.colors.pickerInputField.iconColor,
     textStyle: TextStyle = CoreTheme.typography.pickerInputField.textStyle,
     textColor: Color = CoreTheme.colors.pickerInputField.textColor,
     isStaticLabel: Boolean = false,
@@ -40,10 +46,17 @@ fun PickerInputField(
     TertiaryTextInputField(
         text = text,
         label = label,
-        enabled = false,
+        enabled = enabled,
         readOnly = true,
         error = error,
-        endIconVector = if (showTrailingIcon) trailingIcon else null,
+        startIconVector = startIconVector,
+        startIconPainter = startIconPainter,
+        startIconSize = startIconSize,
+        onStartIconClick = onStartIconClick,
+        endIconVector = endIconVector,
+        endIconPainter = endIconPainter,
+        endIconSize = endIconSize,
+        onEndIconClick = onEndIconClick,
         iconTintColor = iconTintColor,
         onValueChange = {},
         placeholder = placeholder,
@@ -55,16 +68,11 @@ fun PickerInputField(
         labelTextColor = labelTextColor,
         errorTextStyle = errorTextStyle,
         errorTextColor = errorTextColor,
-        onEndIconClick = { if (enabled) onClick() },
+        onClick = onClick,
         maxLines = maxLines,
         singleLine = singleLine,
         isStaticLabel = isStaticLabel,
         shape = shape,
-        modifier = Modifier
-            .fillMaxWidth()
-            .noRippleClickable {
-                if (enabled) onClick()
-            }
-            .then(modifier)
+        modifier = modifier
     )
 }

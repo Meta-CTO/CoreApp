@@ -48,7 +48,7 @@ fun PasswordTextInputField(
     startIconPainter: Painter? = null,
     startIconSize: Dp = CoreTheme.spacings.passwordTextInputField.startIconSize,
     onStartIconClick: (() -> Unit)? = null,
-    iconTintColor: Color = CoreTheme.colors.passwordTextInputField.iconColor,
+    iconTintColor: Color? = CoreTheme.colors.passwordTextInputField.iconColor,
     placeholder: String? = null,
     placeholderMaxLines: Int = 1,
     shape: RoundedCornerShape = CoreTheme.shapes.passwordTextInputField.shape,

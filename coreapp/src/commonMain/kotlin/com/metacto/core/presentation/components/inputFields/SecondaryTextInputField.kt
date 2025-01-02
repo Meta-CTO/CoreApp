@@ -45,7 +45,7 @@ fun SecondaryTextInputField(
     startIconPainter: Painter? = null,
     startIconSize: Dp = CoreTheme.spacings.secondaryTextInputField.startIconSize,
     onStartIconClick: (() -> Unit)? = null,
-    iconTintColor: Color = CoreTheme.colors.secondaryTextInputField.iconColor,
+    iconTintColor: Color? = CoreTheme.colors.secondaryTextInputField.iconColor,
     placeholder: String? = null,
     placeholderMaxLines: Int = 1,
     shape: RoundedCornerShape = CoreTheme.shapes.secondaryTextInputField.shape,
