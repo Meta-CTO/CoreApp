@@ -5,8 +5,11 @@ import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.utils.Date
+import com.metacto.core.utils.DateHelper
+import com.metacto.core.utils.getCurrentWeekDates
 import com.metacto.core.utils.notification.INotificationManager
 import com.metacto.core.utils.notification.Notification
+import com.metacto.core.utils.toFormattedDate
 import com.sampleApp.app.presentation.base.BaseViewModel
 import com.sampleApp.app.presentation.main.MainContract.Effect
 import com.sampleApp.app.presentation.main.MainContract.Event
@@ -31,6 +34,9 @@ class MainViewModel : BaseViewModel<State, Event, Effect>() {
         if (currentState.isInitialized) return
 
         // Init
+        getCurrentWeekDates().forEach { date ->
+            println("Day: ${date.toFormattedDate("EEE")} -- Day Number: ${date.dayOfMonth} -- Date: $date")
+        }
         checkForUpdates()
         handleRemoteNotifications()
 

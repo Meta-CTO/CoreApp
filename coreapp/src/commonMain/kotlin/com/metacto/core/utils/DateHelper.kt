@@ -2,6 +2,7 @@ package com.metacto.core.utils
 
 import com.metacto.core.domain.CoreConstants
 import com.metacto.strapikmm.util.DatetimeUtil
+import com.metacto.strapikmm.util.minusDays
 import com.metacto.strapikmm.util.plusDays
 import com.metacto.strapikmm.util.toLocalDate
 import kotlinx.datetime.Clock
@@ -163,4 +164,10 @@ fun Clock.getCurrentLocalDate(timeZone: TimeZone = TimeZone.currentSystemDefault
 fun LocalDate.getDayOfWeek(dayOfWeek: DayOfWeek): LocalDate {
     val currentDayOfWeek = this.dayOfWeek
     return this.plusDays(dayOfWeek.isoDayNumber - currentDayOfWeek.isoDayNumber)
+}
+
+fun getCurrentWeekDates(timeZone: TimeZone = TimeZone.currentSystemDefault()): List<LocalDate> {
+    val currentDate = Clock.System.now().toLocalDateTime(timeZone).date
+    val startOfWeek = currentDate.minusDays(currentDate.dayOfWeek.isoDayNumber % 7)
+    return (0..6).map { startOfWeek.plusDays(it) }
 }
