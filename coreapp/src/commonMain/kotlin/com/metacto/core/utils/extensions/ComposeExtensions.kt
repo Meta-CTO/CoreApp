@@ -21,6 +21,9 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridItemScope
 import androidx.compose.foundation.lazy.grid.LazyGridScope
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridItemScope
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridScope
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -28,6 +31,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshState
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -51,6 +55,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.DefaultShadowColor
@@ -62,6 +67,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.TextStyle
@@ -70,6 +76,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.lerp
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.offset
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.base.ViewSideEffect
 import com.metacto.core.resources.IFileResource
@@ -598,6 +605,96 @@ fun Modifier.topShadow(elevation: Dp) = drawBehind {
             bottom = 0f,
             paint = paint,
         )
+    }
+}
+
+@Composable
+fun Modifier.topStroke(
+    color: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+    thickness: Dp = 1.dp
+) = drawBehind {
+    val strokeHeight = thickness.toPx()
+    drawRect(
+        color = color,
+        topLeft = Offset(0f, 0f),
+        size = Size(width = size.width, height = strokeHeight)
+    )
+}
+
+@Composable
+fun Modifier.bottomStroke(
+    color: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+    thickness: Dp = 1.dp
+) = drawBehind {
+    val strokeHeight = thickness.toPx()
+    drawRect(
+        color = color,
+        topLeft = Offset(0f, size.height - strokeHeight),
+        size = Size(width = size.width, height = strokeHeight)
+    )
+}
+
+@Composable
+fun Modifier.startStroke(
+    color: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+    thickness: Dp = 1.dp
+) = drawBehind {
+    val strokeWidthPx = thickness.toPx()
+    drawRect(
+        color = color,
+        topLeft = Offset(0f, 0f),
+        size = Size(width = strokeWidthPx, height = size.height)
+    )
+}
+
+@Composable
+fun Modifier.endStroke(
+    color: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+    thickness: Dp = 1.dp
+) = drawBehind {
+    val strokeWidthPx = thickness.toPx()
+    drawRect(
+        color = color,
+        topLeft = Offset(size.width - strokeWidthPx, 0f),
+        size = Size(width = strokeWidthPx, height = size.height)
+    )
+}
+
+
+fun LazyStaggeredGridScope.fullLineItem(
+    key: Any? = null,
+    content: @Composable LazyStaggeredGridItemScope.() -> Unit
+) {
+    item(
+        span = StaggeredGridItemSpan.FullLine,
+        key = key,
+        content = content
+    )
+}
+
+fun LazyStaggeredGridScope.fullLineItemIf(
+    condition: Boolean,
+    key: Any? = null,
+    content: @Composable LazyStaggeredGridItemScope.() -> Unit
+) {
+    if (condition) {
+        fullLineItem(key, content)
+    }
+}
+
+fun Modifier.extendOutsideParent(
+    horizontalExtension: Dp
+) = this.layout { measurable, constraints ->
+    val startExtensionPx = horizontalExtension.roundToPx()
+    val endExtensionPx = horizontalExtension.roundToPx()
+
+    val relaxedConstraints = constraints
+        .copy(minWidth = 0, minHeight = 0)
+        .offset(horizontal = startExtensionPx + endExtensionPx)
+
+    val placeable = measurable.measure(relaxedConstraints)
+    layout(constraints.maxWidth, placeable.height) {
+        placeable.placeRelative(-startExtensionPx, 0)
     }
 }
 
