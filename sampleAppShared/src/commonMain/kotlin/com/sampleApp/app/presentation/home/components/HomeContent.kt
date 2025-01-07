@@ -31,7 +31,9 @@ internal fun HomeContent(
     ScreenColumn(
         isScrollable = true,
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        enableSafeInsets = true
+        enableSafeInsets = true,
+        isRefreshable = true,
+        isRefreshing = true
     ) {
         VideoPlayer(
             uniqueId = "home_video_player",
