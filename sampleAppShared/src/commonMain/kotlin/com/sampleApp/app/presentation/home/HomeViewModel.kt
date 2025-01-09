@@ -7,7 +7,6 @@ import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.presentation.youtube.YoutubeScreen
 import com.metacto.core.utils.deepLink.IDeepLinkManager
 import com.sampleApp.app.presentation.base.BaseViewModel
-import com.sampleApp.app.presentation.camera.CameraScreen
 import com.sampleApp.app.presentation.home.HomeContract.Companion.VIDEOS_LIST
 import com.sampleApp.app.presentation.home.HomeContract.Effect
 import com.sampleApp.app.presentation.home.HomeContract.Event
@@ -56,11 +55,23 @@ class HomeViewModel(
         }
 
         Event.NavigateToCameraScreen -> {
-            executeSilent({
-                permissionManager.requestPermission(Permission.CAMERA)
-                permissionManager.requestPermission(Permission.RECORD_AUDIO)
-                navManager.navigate(CameraScreen)
-            })
+//            executeSilent({
+//                permissionManager.requestPermission(Permission.CAMERA)
+//                permissionManager.requestPermission(Permission.RECORD_AUDIO)
+//                navManager.navigate(CameraScreen)
+//            })
+
+            nativeItemPicker(
+                items = listOf(
+                    PickerItemUIModel("1", "first"),
+                    PickerItemUIModel("2", "second"),
+                    PickerItemUIModel("3","third")
+                ),
+                selectedItem = null,
+                onItemSelected = { item ->
+
+                }
+            )
         }
 
         Event.RequestCameraPermClicked -> {

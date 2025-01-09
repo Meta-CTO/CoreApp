@@ -16,11 +16,13 @@ import kotlinx.cinterop.readValue
 import platform.CoreGraphics.CGRectZero
 import platform.Foundation.NSSelectorFromString
 import platform.UIKit.NSLayoutConstraint
+import platform.UIKit.NSTextAlignmentCenter
 import platform.UIKit.UIApplication
 import platform.UIKit.UIButton
 import platform.UIKit.UIButtonTypeSystem
 import platform.UIKit.UIControlEventTouchUpInside
 import platform.UIKit.UIControlStateNormal
+import platform.UIKit.UILabel
 import platform.UIKit.UIPickerView
 import platform.UIKit.UIPickerViewDataSourceProtocol
 import platform.UIKit.UIPickerViewDelegateProtocol
@@ -63,6 +65,7 @@ private data object Colors {
     val headerBg = uiColor(0xFFF7F7F7)
     val headerLabel = uiColor(0xFF007AFF)
     val pickerBackground = uiColor(0xFFD1D4D9)
+    val pickerItemLabel = uiColor(0xFF303032)
 }
 
 private class PopupPickerView(
@@ -252,5 +255,19 @@ private class PopupPickerView(
         forComponent: NSInteger
     ): String? {
         return items?.get(titleForRow.toInt())
+    }
+
+    override fun pickerView(
+        pickerView: UIPickerView,
+        viewForRow: NSInteger,
+        forComponent: NSInteger,
+        reusingView: UIView?
+    ): UIView {
+        val label = (reusingView as? UILabel) ?: UILabel().apply {
+            textAlignment = NSTextAlignmentCenter
+            textColor = Colors.pickerItemLabel
+        }
+        label.text = items?.get(viewForRow.toInt())
+        return label
     }
 }
