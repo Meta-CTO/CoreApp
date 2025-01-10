@@ -19,7 +19,7 @@ val viewModelsModule = module {
     commonViewModel { CameraViewModel() }
     commonViewModel { TestViewModel() }
     commonViewModel { ProfileViewModel() }
-    commonViewModel { HomeViewModel(get()) }
+    commonViewModel { HomeViewModel(get(),get()) }
     commonViewModel { MainViewModel() }
     single { AppViewModel() }
 }
