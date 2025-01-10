@@ -33,7 +33,7 @@ import com.mmk.kmpnotifier.notification.configuration.NotificationPlatformConfig
 import dev.gitlive.firebase.Firebase
 import dev.gitlive.firebase.remoteconfig.remoteConfig
 import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
-import io.michaelrocks.libphonenumber.kotlin.metadata.init.MokoAssetResourceMetadataLoader
+import io.michaelrocks.libphonenumber.kotlin.metadata.init.ComposeResourceMetadataLoader
 import org.koin.core.definition.Definition
 import org.koin.core.definition.KoinDefinition
 import org.koin.core.module.Module
@@ -93,8 +93,9 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
     }
 
     single<MetadataLoader> {
-        MokoAssetResourceMetadataLoader()
+        ComposeResourceMetadataLoader()
     }
+
     single<ICalendarManager> {
         CalendarManager()
     }
