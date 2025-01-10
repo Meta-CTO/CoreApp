@@ -16,7 +16,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
-import io.michaelrocks.libphonenumber.kotlin.metadata.init.MokoAssetResourceMetadataLoader
+import io.michaelrocks.libphonenumber.kotlin.metadata.init.ComposeResourceMetadataLoader
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.useContents
 import org.jetbrains.skia.Bitmap
@@ -28,7 +28,7 @@ import platform.UIKit.UINavigationBar
 
 @Composable
 actual fun defaultMetadataLoader(): MetadataLoader {
-    return MokoAssetResourceMetadataLoader()
+    return ComposeResourceMetadataLoader()
 }
 
 @Composable

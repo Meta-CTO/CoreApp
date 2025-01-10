@@ -1,6 +1,7 @@
 object Dependencies {
     object Pods {
         const val FIREBASE_AUTH = "FirebaseAuth"
+        const val FIREBASE_ANALYTICS = "FirebaseAnalytics"
         const val GOOGLE_SIGN_IN = "GoogleSignIn"
         const val FIREBASE_DYNAMIC_LINKS = "FirebaseDynamicLinks"
         const val FIREBASE_CRASHLYTICS = "FirebaseCrashlytics"
