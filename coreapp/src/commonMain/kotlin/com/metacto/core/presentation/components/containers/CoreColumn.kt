@@ -13,7 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.core.utils.extensions.onScrolling
+import com.metacto.core.utils.extensions.onScroll
 import com.metacto.core.utils.extensions.pullRefreshIf
 import com.metacto.core.utils.extensions.rememberPullRefreshStateIf
 import com.metacto.core.utils.extensions.rememberScrollStateIf
@@ -27,7 +27,9 @@ fun CoreColumn(
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     isScrollable: Boolean = false,
     scrollState: ScrollState? = rememberScrollStateIf(isScrollable),
-    onScrolled: (() -> Unit)? = null,
+    onScroll: (() -> Unit)? = null,
+    onScrollUp: (() -> Unit)? = null,
+    onScrollDown: (() -> Unit)? = null,
     isRefreshable: Boolean = false,
     isRefreshing: Boolean = false,
     onRefresh: (() -> Unit)? = null,
@@ -36,11 +38,11 @@ fun CoreColumn(
     content: @Composable ColumnScope.() -> Unit
 ) {
     // Config scroll state
-    scrollState?.let {
-        it.onScrolling {
-            onScrolled?.invoke()
-        }
-    }
+    scrollState?.onScroll(
+        onScrollUp = onScrollUp,
+        onScrollDown = onScrollDown,
+        onScroll = onScroll
+    )
 
     // Prepare refresh state
     val pullRefreshState = rememberPullRefreshStateIf(
