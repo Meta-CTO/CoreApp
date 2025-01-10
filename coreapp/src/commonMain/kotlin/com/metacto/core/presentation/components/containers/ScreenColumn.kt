@@ -29,7 +29,9 @@ fun ScreenColumn(
     endPadding: Dp = CoreTheme.spacings.screenPadding,
     enableSafeInsets: Boolean = true,
     isScrollable: Boolean = false,
-    onScrolled: (() -> Unit)? = null,
+    onScroll: (() -> Unit)? = null,
+    onScrollUp: (() -> Unit)? = null,
+    onScrollDown: (() -> Unit)? = null,
     isRefreshable: Boolean = false,
     isRefreshing: Boolean = false,
     onRefresh: (() -> Unit)? = null,
@@ -42,16 +44,6 @@ fun ScreenColumn(
     // Prepare main objects
     val globalState = koinInject<ICoreGlobalState>()
     val isKeyboardVisible by isKeyboardVisible()
-    val onScrolledHandler: () -> Unit = {
-        onScrolled?.invoke()
-
-        // TODO: When tap on input field the view is getting scrolled and keyboard is dismissed instatly
-        // We need to fix tat issue first then enable dismiss event
-//        // Dismiss keyboard if it's visible
-//        if (isKeyboardVisible) {
-//            globalState.dismissKeyboard()
-//        }
-    }
 
     // Container column
     SafeInsetsColumn(
@@ -66,7 +58,9 @@ fun ScreenColumn(
             verticalArrangement = verticalArrangement,
             horizontalAlignment = horizontalAlignment,
             isScrollable = isScrollable,
-            onScrolled = onScrolledHandler,
+            onScroll = onScroll,
+            onScrollUp = onScrollUp,
+            onScrollDown = onScrollDown,
             isRefreshable = isRefreshable,
             isRefreshing = isRefreshing,
             onRefresh = onRefresh,

@@ -337,11 +337,27 @@ fun isKeyboardVisible(): State<Boolean> {
 }
 
 @Composable
-fun ScrollState.onScrolling(callback: () -> Unit) {
+fun ScrollState.onScroll(
+    onScrollUp: (() -> Unit)? = null,
+    onScrollDown: (() -> Unit)? = null,
+    onScroll: (() -> Unit)? = null,
+) {
+    // State to store the previous scroll position
+    var previousScrollPosition by remember { mutableStateOf(0) }
+
     LaunchedEffect(this) {
-        snapshotFlow { isScrollInProgress }
-            .collect {
-                if (it) callback.invoke()
+        snapshotFlow { value }
+            .distinctUntilChanged()
+            .collect { currentScrollPosition ->
+                if (currentScrollPosition != previousScrollPosition) {
+                    if (currentScrollPosition > previousScrollPosition) {
+                        onScrollDown?.invoke()
+                    } else {
+                        onScrollUp?.invoke()
+                    }
+                    onScroll?.invoke()
+                    previousScrollPosition = currentScrollPosition
+                }
             }
     }
 }
