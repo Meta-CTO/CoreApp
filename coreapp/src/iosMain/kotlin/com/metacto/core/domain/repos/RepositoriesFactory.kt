@@ -11,6 +11,7 @@ import com.metacto.strapikmm.datasource.network.KtorClientFactory
 import com.metacto.strapikmm.datasource.network.services.strapi.StrapiService
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
 import com.metacto.strapikmm.sharedpreference.KmmPreference
+import com.metacto.strapikmm.util.Logger
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
 import com.russhwolf.settings.KeychainSettings
@@ -33,10 +34,10 @@ actual open class RepositoriesFactory<T : SerializableNetworkError> constructor(
 ) {
 
     private val oldKeyChainStore = KeychainSettings(service = appStorageName)
-    private val newKeyChainStore = KeychainSettings(
-        kSecAttrService to CFBridgingRetain(appStorageName),
-        kSecAttrAccessible to kSecAttrAccessibleAfterFirstUnlock,
-    )
+//    private val newKeyChainStore = KeychainSettings(
+//        kSecAttrService to CFBridgingRetain(appStorageName),
+//        kSecAttrAccessible to kSecAttrAccessibleAfterFirstUnlock,
+//    )
 
     actual val sharedPreference = KmmPreference(
         preferences = NSUserDefaultsSettings(NSUserDefaults.standardUserDefaults()),
@@ -55,9 +56,9 @@ actual open class RepositoriesFactory<T : SerializableNetworkError> constructor(
         kmmPreference = sharedPreference
     )
 
-    init {
-        migrate(oldKeyChainStore, newKeyChainStore)
-    }
+//    init {
+//        migrate(oldKeyChainStore, newKeyChainStore)
+//    }
 }
 
 // DON'T REMOVE COMMENTED CODE HERE, WE NEED TO MIGRATE OLD KEYCHAIN TO NEW KEYCHAIN
