@@ -1,7 +1,6 @@
 package com.sampleApp.app.presentation.home
 
 import com.metacto.core.permissions.enums.Permission
-import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.presentation.youtube.YoutubeScreen
@@ -9,7 +8,6 @@ import com.metacto.core.utils.deepLink.IDeepLinkManager
 import com.metacto.strapikmm.sharedpreference.KmmPreference
 import com.metacto.strapikmm.util.Logger
 import com.sampleApp.app.presentation.base.BaseViewModel
-import com.sampleApp.app.presentation.camera.CameraScreen
 import com.sampleApp.app.presentation.home.HomeContract.Companion.VIDEOS_LIST
 import com.sampleApp.app.presentation.home.HomeContract.Effect
 import com.sampleApp.app.presentation.home.HomeContract.Event
@@ -59,11 +57,18 @@ class HomeViewModel(
         }
 
         Event.NavigateToCameraScreen -> {
-            executeSilent({
-                permissionManager.requestPermission(Permission.CAMERA)
-                permissionManager.requestPermission(Permission.RECORD_AUDIO)
-                navManager.navigate(CameraScreen)
-            })
+            kmmPreference.putSecureInt("INT_VALUE", 1)
+            kmmPreference.putSecureBool("BOOL_VALUE", true)
+            kmmPreference.putSecureLong("LONG_VALUE", 12132131231)
+            kmmPreference.putSecureFloat("FLOAT_VALUE", 12F)
+            kmmPreference.putSecureDouble("DOUBLE_VALUE", 1212121.1)
+            kmmPreference.putSecureString("STRING_VALUE","Farid")
+
+//            executeSilent({
+//                permissionManager.requestPermission(Permission.CAMERA)
+//                permissionManager.requestPermission(Permission.RECORD_AUDIO)
+//                navManager.navigate(CameraScreen)
+//            })
         }
 
         Event.RequestCameraPermClicked -> {
@@ -84,13 +89,6 @@ class HomeViewModel(
     private fun init() {
         // Validate if already initialized
         if (currentState.isInitialized) return
-        kmmPreference.putSecureInt("INT_VALUE", 1)
-        kmmPreference.putSecureBool("BOOL_VALUE", true)
-        kmmPreference.putSecureLong("LONG_VALUE", 12132131231)
-        kmmPreference.putSecureFloat("FLOAT_VALUE", 12F)
-        kmmPreference.putSecureDouble("DOUBLE_VALUE", 1212121.1)
-        kmmPreference.putSecureString("STRING_VALUE","Farid")
-
         // Init
         executeSilent({
             val cameraPermState = permissionManager.getPermissionState(Permission.CAMERA)

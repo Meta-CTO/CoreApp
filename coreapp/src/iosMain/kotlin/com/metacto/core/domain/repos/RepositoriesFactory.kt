@@ -1,7 +1,7 @@
 @file:OptIn(
-    ExperimentalForeignApi::class,
     ExperimentalSettingsApi::class,
-    ExperimentalSettingsImplementation::class
+    ExperimentalSettingsImplementation::class,
+    ExperimentalForeignApi::class
 )
 
 package com.metacto.core.domain.repos
@@ -32,16 +32,20 @@ actual open class RepositoriesFactory<T : SerializableNetworkError> constructor(
     actual val shouldShowActualErrorMessages: Boolean,
     actual val errorClass: KClass<T>
 ) {
+    val storagen = "appStorageName"
 
-    private val oldKeyChainStore = KeychainSettings(service = appStorageName)
-//    private val newKeyChainStore = KeychainSettings(
-//        kSecAttrService to CFBridgingRetain(appStorageName),
-//        kSecAttrAccessible to kSecAttrAccessibleAfterFirstUnlock,
-//    )
+
+    private val oldKeyChainStore by lazy {  KeychainSettings(service = storagen) }
+    private val newKeyChainStore by lazy {
+        KeychainSettings(
+            kSecAttrService to CFBridgingRetain("${storagen}_new"),
+            kSecAttrAccessible to kSecAttrAccessibleAfterFirstUnlock,
+        )
+    }
 
     actual val sharedPreference = KmmPreference(
         preferences = NSUserDefaultsSettings(NSUserDefaults.standardUserDefaults()),
-        encryptedPreferences = oldKeyChainStore
+        encryptedPreferences = newKeyChainStore
     )
 
     private val ktorClientFactory = KtorClientFactory(
@@ -56,9 +60,9 @@ actual open class RepositoriesFactory<T : SerializableNetworkError> constructor(
         kmmPreference = sharedPreference
     )
 
-//    init {
-//        migrate(oldKeyChainStore, newKeyChainStore)
-//    }
+    init {
+        migrate(oldKeyChainStore, newKeyChainStore)
+    }
 }
 
 // DON'T REMOVE COMMENTED CODE HERE, WE NEED TO MIGRATE OLD KEYCHAIN TO NEW KEYCHAIN
@@ -80,13 +84,13 @@ private fun migrate(oldKeyChainStore: KeychainSettings, newKeyChainStore: Keycha
 
         // Determine the type of value associated with the key in the old keychain store
         val oldValue: Any? = when {
-            oldKeyChainStore.getIntOrNull(key) != null -> {
-                logger.log("Key $key has type Int")
-                oldKeyChainStore.getIntOrNull(key)
-            }
             oldKeyChainStore.getLongOrNull(key) != null -> {
                 logger.log("Key $key has type Long")
                 oldKeyChainStore.getLongOrNull(key)
+            }
+            oldKeyChainStore.getIntOrNull(key) != null -> {
+                logger.log("Key $key has type Int")
+                oldKeyChainStore.getIntOrNull(key)
             }
             oldKeyChainStore.getStringOrNull(key) != null -> {
                 logger.log("Key $key has type String")
@@ -115,8 +119,8 @@ private fun migrate(oldKeyChainStore: KeychainSettings, newKeyChainStore: Keycha
             logger.log("Migrating key: $key with value: $it")
 
             when (it) {
-                is Int -> newKeyChainStore.putInt(key, it).also { logger.log("Migrated key $key as Int") }
                 is Long -> newKeyChainStore.putLong(key, it).also { logger.log("Migrated key $key as Long") }
+                is Int -> newKeyChainStore.putInt(key, it).also { logger.log("Migrated key $key as Int") }
                 is String -> newKeyChainStore.putString(key, it).also { logger.log("Migrated key $key as String") }
                 is Float -> newKeyChainStore.putFloat(key, it).also { logger.log("Migrated key $key as Float") }
                 is Double -> newKeyChainStore.putDouble(key, it).also { logger.log("Migrated key $key as Double") }
