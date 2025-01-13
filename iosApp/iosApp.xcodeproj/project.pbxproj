@@ -173,8 +173,8 @@
 				7555FF79242A565900829871 /* Resources */,
 				93C54575B140DDC0BCCFD8F8 /* Frameworks */,
 				98C6B866A1F5F8B8BE9530C9 /* [CP] Embed Pods Frameworks */,
-				964FDDAF0CD314D60CB039DA /* [CP] Copy Pods Resources */,
 				6B073A5E2CCFABEA008264F2 /* Copy Moko Resources */,
+				964FDDAF0CD314D60CB039DA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);

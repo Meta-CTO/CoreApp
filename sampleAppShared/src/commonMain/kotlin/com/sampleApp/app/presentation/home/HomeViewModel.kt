@@ -6,6 +6,7 @@ import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.presentation.youtube.YoutubeScreen
 import com.metacto.core.utils.deepLink.IDeepLinkManager
+import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.sampleApp.app.presentation.base.BaseViewModel
 import com.sampleApp.app.presentation.home.HomeContract.Companion.VIDEOS_LIST
 import com.sampleApp.app.presentation.home.HomeContract.Effect
@@ -14,7 +15,8 @@ import com.sampleApp.app.presentation.home.HomeContract.State
 import com.sampleApp.app.presentation.test.TestScreen
 
 class HomeViewModel(
-    private val deeplinkManager: IDeepLinkManager
+    private val deeplinkManager: IDeepLinkManager,
+    private val phoneNumberManager: IPhoneNumberManager
 ) : BaseViewModel<State, Event, Effect>() {
 
     override fun setInitialState() = State()
@@ -95,6 +97,10 @@ class HomeViewModel(
                 )
             }
         })
+
+        val validPhoneNumber = phoneNumberManager.getValidPhoneNumber("201555056563","EG")
+        println("phoneNumber: $validPhoneNumber")
+
         observeItemPickerResults()
 
         // Update the flag

@@ -79,6 +79,10 @@ kotlin {
             linkOnly = true
         )
         pod(
+            name = Dependencies.Pods.FIREBASE_ANALYTICS,
+            linkOnly = true
+        )
+        pod(
             name = Dependencies.Pods.APPS_FLYER,
             linkOnly = true
         )
