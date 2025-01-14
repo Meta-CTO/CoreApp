@@ -26,6 +26,8 @@ expect fun VideoPlayer(
     scaleToCrop: Boolean = false,
     enablePip: Boolean = false,
     enableMediaMetadata: Boolean = true,
+    enableVoice: Boolean = true,
+    autoRepeat:Boolean = false,
     handleLifecyclePause: Boolean = true,
     controllerShowTimeoutMs: Int = 0,
     controlsType: ControlsType = ControlsType.NativeControls,

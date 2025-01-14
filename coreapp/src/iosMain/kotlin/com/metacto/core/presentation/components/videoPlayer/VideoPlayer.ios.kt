@@ -49,6 +49,7 @@ import platform.AVFoundation.rate
 import platform.AVFoundation.removeTimeObserver
 import platform.AVFoundation.seekToTime
 import platform.AVFoundation.setKeySpace
+import platform.AVFoundation.volume
 import platform.AVKit.AVPictureInPictureController
 import platform.AVKit.AVPlayerViewController
 import platform.AVKit.externalMetadata
@@ -81,6 +82,8 @@ actual fun VideoPlayer(
     scaleToCrop: Boolean,
     enablePip: Boolean,
     enableMediaMetadata: Boolean,
+    enableVoice: Boolean,
+    autoRepeat: Boolean,
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
     controlsType: ControlsType,
@@ -88,7 +91,7 @@ actual fun VideoPlayer(
     pauseIconRes: DrawableResource,
     customControlsSize: Dp,
     customControlsElevation: Dp,
-    customControlsShape : RoundedCornerShape,
+    customControlsShape: RoundedCornerShape,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?,
     onDurationCaught: ((Duration) -> Unit)?
 ) {
@@ -152,6 +155,11 @@ actual fun VideoPlayer(
 
     val player = remember(playerItem) {
         AVPlayer(playerItem = playerItem)
+    }
+
+    // Update voice state
+    LaunchedEffect(enableVoice) {
+        player.volume = if (enableVoice) 1f else 0f
     }
 
     // Player states
@@ -250,6 +258,8 @@ actual fun VideoPlayer(
                     (subView as? UIView)?.removeFromSuperview()
                 }
 
+                player.volume = if (enableVoice) 1f else 0f
+
                 // Then add the new player view
                 view.addSubview(playerController.view)
 
@@ -340,8 +350,16 @@ actual fun VideoPlayer(
             playerItem,
             null
         ) { _ ->
-            isPlaying = false
-            isVideoEnded = true
+            if (autoRepeat) {
+                // Restart playback from the beginning
+                player.seekToTime(CMTimeMake(0, 1))
+                player.play()
+                isPlaying = true
+                isVideoEnded = false
+            } else {
+                isPlaying = false
+                isVideoEnded = true
+            }
         }
 
         // Clean up on disposal

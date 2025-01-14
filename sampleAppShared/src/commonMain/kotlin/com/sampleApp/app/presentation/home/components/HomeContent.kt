@@ -12,7 +12,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType.Companion.Phone
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
@@ -20,8 +19,6 @@ import com.metacto.core.presentation.components.inputFields.PickerInputField
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
 import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
-import com.metacto.core.utils.PhoneNumberVisualTransformation
-import com.metacto.core.utils.extensions.rememberPhoneNumberUtil
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
@@ -44,8 +41,10 @@ internal fun HomeContent(
             videoTitle = state.currentVideo.title,
             videoArtist = state.currentVideo.artist,
             videoArtworkUrl = state.currentVideo.artworkUrl,
+            enableVoice = false,
             autoPlay = false,
             scaleToCrop = true,
+            autoRepeat = true,
             enablePip = true,
             controlsType = ControlsType.CustomControls,
             handleLifecyclePause = false,
