@@ -49,6 +49,7 @@ import platform.AVFoundation.rate
 import platform.AVFoundation.removeTimeObserver
 import platform.AVFoundation.seekToTime
 import platform.AVFoundation.setKeySpace
+import platform.AVFoundation.volume
 import platform.AVKit.AVPictureInPictureController
 import platform.AVKit.AVPlayerViewController
 import platform.AVKit.externalMetadata
@@ -81,6 +82,7 @@ actual fun VideoPlayer(
     scaleToCrop: Boolean,
     enablePip: Boolean,
     enableMediaMetadata: Boolean,
+    enableVoice: Boolean,
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
     controlsType: ControlsType,
@@ -152,6 +154,11 @@ actual fun VideoPlayer(
 
     val player = remember(playerItem) {
         AVPlayer(playerItem = playerItem)
+    }
+
+    // Update voice state
+    LaunchedEffect(enableVoice) {
+        player.volume = if (enableVoice) 1f else 0f
     }
 
     // Player states
@@ -249,6 +256,8 @@ actual fun VideoPlayer(
                 view.subviews().forEach { subView ->
                     (subView as? UIView)?.removeFromSuperview()
                 }
+
+                player.volume = if (enableVoice) 1f else 0f
 
                 // Then add the new player view
                 view.addSubview(playerController.view)

@@ -52,6 +52,7 @@ actual fun VideoPlayer(
     scaleToCrop: Boolean,
     enablePip: Boolean,
     enableMediaMetadata: Boolean,
+    enableVoice: Boolean,
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
     controlsType: ControlsType,
@@ -71,6 +72,11 @@ actual fun VideoPlayer(
 
     // isPlaying state
     var isPlaying by remember { mutableStateOf(playerManager.exoPlayer.isPlaying) }
+
+    // Configure audio based on enableVoice
+    LaunchedEffect(playerManager, enableVoice) {
+        playerManager.exoPlayer.volume = if (enableVoice) 1f else 0f
+    }
 
     // Prepare player icon
     val icon = if (isPlaying) pauseIconRes else playIconRes
