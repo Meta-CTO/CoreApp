@@ -44,6 +44,7 @@ internal fun HomeContent(
             enableVoice = false,
             autoPlay = false,
             scaleToCrop = true,
+            autoRepeat = true,
             enablePip = true,
             controlsType = ControlsType.CustomControls,
             handleLifecyclePause = false,

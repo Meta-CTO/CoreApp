@@ -53,6 +53,7 @@ actual fun VideoPlayer(
     enablePip: Boolean,
     enableMediaMetadata: Boolean,
     enableVoice: Boolean,
+    autoRepeat: Boolean,
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
     controlsType: ControlsType,
@@ -96,8 +97,7 @@ actual fun VideoPlayer(
 
             override fun onPlaybackStateChanged(state: Int) {
                 if (state == Player.STATE_ENDED) {
-                    isPlaying = false
-                    isVideoEnded = true
+                    isVideoEnded = autoRepeat.not()
                 }
 
                 if (state == Player.STATE_READY) {
@@ -120,6 +120,11 @@ actual fun VideoPlayer(
     // Setup auto play
     LaunchedEffect(playerManager, autoPlay) {
         playerManager.setAutoPlay(autoPlay)
+    }
+
+    // Setup auto repeat
+    LaunchedEffect(playerManager, autoRepeat) {
+        playerManager.setAutoRepeat(autoRepeat)
     }
 
     // Configure the player
@@ -207,10 +212,8 @@ actual fun VideoPlayer(
                                 playerManager.pause()
                             } else {
                                 if (isVideoEnded) {
-                                    // Restart the video
                                     playerManager.exoPlayer.seekTo(0)
                                     isVideoEnded = false
-                                    isPlaying = true
                                 }
                                 playerManager.play()
                                 isPlaying = true

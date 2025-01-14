@@ -83,6 +83,7 @@ actual fun VideoPlayer(
     enablePip: Boolean,
     enableMediaMetadata: Boolean,
     enableVoice: Boolean,
+    autoRepeat: Boolean,
     handleLifecyclePause: Boolean,
     controllerShowTimeoutMs: Int,
     controlsType: ControlsType,
@@ -90,7 +91,7 @@ actual fun VideoPlayer(
     pauseIconRes: DrawableResource,
     customControlsSize: Dp,
     customControlsElevation: Dp,
-    customControlsShape : RoundedCornerShape,
+    customControlsShape: RoundedCornerShape,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?,
     onDurationCaught: ((Duration) -> Unit)?
 ) {
@@ -349,8 +350,16 @@ actual fun VideoPlayer(
             playerItem,
             null
         ) { _ ->
-            isPlaying = false
-            isVideoEnded = true
+            if (autoRepeat) {
+                // Restart playback from the beginning
+                player.seekToTime(CMTimeMake(0, 1))
+                player.play()
+                isPlaying = true
+                isVideoEnded = false
+            } else {
+                isPlaying = false
+                isVideoEnded = true
+            }
         }
 
         // Clean up on disposal

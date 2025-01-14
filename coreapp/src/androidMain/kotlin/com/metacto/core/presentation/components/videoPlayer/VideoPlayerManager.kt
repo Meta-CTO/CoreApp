@@ -87,6 +87,10 @@ internal class VideoPlayerManager(
         this.isAutoPlay = isAutoPlay
     }
 
+    fun setAutoRepeat(autoRepeat:Boolean){
+        this.exoPlayer.repeatMode = if (autoRepeat) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+    }
+
     @OptIn(UnstableApi::class)
     fun setMedia(
         videoUrl: String,
