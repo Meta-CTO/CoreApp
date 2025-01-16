@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.components.containers
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
@@ -8,15 +9,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
-import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.core.utils.extensions.isKeyboardVisible
-import org.koin.compose.koinInject
 
 @Composable
 fun ScreenColumn(
@@ -28,6 +25,7 @@ fun ScreenColumn(
     startPadding: Dp = CoreTheme.spacings.screenPadding,
     endPadding: Dp = CoreTheme.spacings.screenPadding,
     enableSafeInsets: Boolean = true,
+    scrollState: ScrollState? = null,
     isScrollable: Boolean = false,
     onScroll: (() -> Unit)? = null,
     onScrollUp: (() -> Unit)? = null,
@@ -41,10 +39,6 @@ fun ScreenColumn(
     topContent: (@Composable () -> Unit)? = null,
     mainContent: @Composable ColumnScope.() -> Unit,
 ) {
-    // Prepare main objects
-    val globalState = koinInject<ICoreGlobalState>()
-    val isKeyboardVisible by isKeyboardVisible()
-
     // Container column
     SafeInsetsColumn(
         modifier = modifier.fillMaxSize(),
@@ -57,6 +51,7 @@ fun ScreenColumn(
         CoreColumn(
             verticalArrangement = verticalArrangement,
             horizontalAlignment = horizontalAlignment,
+            scrollState = scrollState,
             isScrollable = isScrollable,
             onScroll = onScroll,
             onScrollUp = onScrollUp,
