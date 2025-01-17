@@ -21,6 +21,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDateTime
 import java.io.File
 import java.net.URL
+import java.util.Locale
 
 class IntentLauncher(
     private val context: Context,
@@ -113,6 +114,37 @@ class IntentLauncher(
 
     override fun launchAppSettings() {
         context.openAppSettings()
+    }
+
+    override fun launchMap(latitude: Double, longitude: Double, name: String?) {
+        try {
+            // Attempt to launch a geo intent
+            val mapIntentUri = Uri.parse(
+                String.format(
+                    Locale.ENGLISH,
+                    "geo:0,0?q=%f,%f(%s)",
+                    latitude,
+                    longitude,
+                    Uri.encode(name)
+                )
+            )
+            val intent = Intent(Intent.ACTION_VIEW, mapIntentUri).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+            context.startActivity(intent)
+
+        } catch (_: Throwable) {
+            val mapUrl = String.format(
+                Locale.ENGLISH,
+                "http://maps.google.com/maps?q=loc:%f,%f(%s)",
+                latitude,
+                longitude,
+                Uri.encode(name)
+            )
+
+            // Launch browser
+            launchBrowser(mapUrl)
+        }
     }
 
     override fun checkAppInstalled(appId: String): Boolean {

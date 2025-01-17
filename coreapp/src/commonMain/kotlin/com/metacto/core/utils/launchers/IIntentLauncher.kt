@@ -19,6 +19,8 @@ interface IIntentLauncher {
 
     fun launchAppSettings()
 
+    fun launchMap(latitude: Double, longitude: Double, name: String? = null)
+
     fun checkAppInstalled(appId: String): Boolean
 
     fun openDeepLink(link: String, onError: (() -> Unit)?): Boolean

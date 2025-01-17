@@ -71,6 +71,20 @@ class IntentLauncher : IIntentLauncher {
         openAppSettings()
     }
 
+    override fun launchMap(latitude: Double, longitude: Double, name: String?) {
+        val geoUrl = "geo:0,0?q=${latitude},${longitude}(${name})"
+        val encodedUrl = geoUrl.replace(" ", "%20") // Ensure proper encoding
+        val nsUrl = NSURL(string = encodedUrl)
+
+        if (UIApplication.sharedApplication.canOpenURL(nsUrl)) {
+            openUrl(geoUrl)
+        } else {
+            val namePart = name?.let { "(${name})" } ?: ""
+            val mapUrl = "http://maps.google.com/maps?q=loc:${latitude},${longitude}$namePart"
+            openUrl(mapUrl)
+        }
+    }
+
     override fun checkAppInstalled(appId: String): Boolean {
         val url = NSURL(string = "$appId://app")
         return UIApplication.sharedApplication.canOpenURL(url)
