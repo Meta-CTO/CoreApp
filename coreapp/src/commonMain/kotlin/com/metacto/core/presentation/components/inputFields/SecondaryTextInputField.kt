@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.components.inputFields
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.Composable
@@ -14,7 +15,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.presentation.theme.CoreTheme.colors
+import com.metacto.core.presentation.theme.CoreTheme.spacings
+import com.metacto.core.presentation.theme.CoreTheme.shapes
+import com.metacto.core.presentation.theme.CoreTheme.typography
 import kotlin.time.Duration
 
 @Composable
@@ -34,39 +38,44 @@ fun SecondaryTextInputField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     maxLength: Int = Int.MAX_VALUE,
     maxLines: Int = Int.MAX_VALUE,
-    minHeight: Dp = CoreTheme.spacings.secondaryTextInputField.minHeight,
+    minLines: Int = 1,
+    minHeight: Dp = spacings.secondaryTextInputField.minHeight,
     error: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.secondaryTextInputField.textStyle,
+    textStyle: TextStyle = typography.secondaryTextInputField.textStyle,
     endIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
-    endIconSize: Dp = CoreTheme.spacings.secondaryTextInputField.endIconSize,
+    endIconSize: Dp = spacings.secondaryTextInputField.endIconSize,
     onEndIconClick: (() -> Unit)? = null,
     startIconVector: ImageVector? = null,
     startIconPainter: Painter? = null,
-    startIconSize: Dp = CoreTheme.spacings.secondaryTextInputField.startIconSize,
+    startIconSize: Dp = spacings.secondaryTextInputField.startIconSize,
     onStartIconClick: (() -> Unit)? = null,
-    iconTintColor: Color? = CoreTheme.colors.secondaryTextInputField.iconColor,
+    iconTintColor: Color? = colors.secondaryTextInputField.iconColor,
     placeholder: String? = null,
     placeholderMaxLines: Int = 1,
-    shape: RoundedCornerShape = CoreTheme.shapes.secondaryTextInputField.shape,
+    shape: RoundedCornerShape = shapes.secondaryTextInputField.shape,
     textAlign: TextAlign? = null,
     allowDigitsOnly: Boolean = false,
     isStaticLabel: Boolean = false,
     requestFocus: Boolean = false,
     requestFocusDelay: Duration = DEFAULT_REQUEST_FOCUS_DELAY,
-    backgroundColor: Color = CoreTheme.colors.secondaryTextInputField.bgColor,
-    focusedBorderColor: Color = CoreTheme.colors.secondaryTextInputField.focusedBorderColor,
-    unFocusedBorderColor: Color = CoreTheme.colors.secondaryTextInputField.unFocusedBorderColor,
-    textColor: Color = CoreTheme.colors.secondaryTextInputField.textColor,
-    placeholderTextStyle: TextStyle = CoreTheme.typography.secondaryTextInputField.placeholderTextStyle,
-    placeholderTextColor: Color = CoreTheme.colors.secondaryTextInputField.placeholderColor,
-    labelTextStyle: TextStyle = CoreTheme.typography.secondaryTextInputField.labelTextStyle,
-    labelTextColor: Color = CoreTheme.colors.secondaryTextInputField.labelColor,
-    errorTextStyle: TextStyle = CoreTheme.typography.secondaryTextInputField.errorTextStyle,
-    errorTextColor: Color = CoreTheme.colors.secondaryTextInputField.errorColor,
-    elevation: Dp = CoreTheme.spacings.secondaryTextInputField.elevation,
-    shadowColor: Color = CoreTheme.colors.secondaryTextInputField.shadowColor
-
+    backgroundColor: Color = colors.secondaryTextInputField.bgColor,
+    focusedBorderColor: Color = colors.secondaryTextInputField.focusedBorderColor,
+    unFocusedBorderColor: Color = colors.secondaryTextInputField.unFocusedBorderColor,
+    textColor: Color = colors.secondaryTextInputField.textColor,
+    placeholderTextStyle: TextStyle = typography.secondaryTextInputField.placeholderTextStyle,
+    placeholderTextColor: Color = colors.secondaryTextInputField.placeholderColor,
+    labelTextStyle: TextStyle = typography.secondaryTextInputField.labelTextStyle,
+    labelTextColor: Color = colors.secondaryTextInputField.labelColor,
+    errorTextStyle: TextStyle = typography.secondaryTextInputField.errorTextStyle,
+    errorTextColor: Color = colors.secondaryTextInputField.errorColor,
+    elevation: Dp = spacings.secondaryTextInputField.elevation,
+    shadowColor: Color = colors.secondaryTextInputField.shadowColor,
+    floatingLabelSpacing: Dp = spacings.secondaryTextInputField.floatingLabelSpacing,
+    contentPadding: PaddingValues = spacings.secondaryTextInputField.contentPadding,
+    focusedBorderThickness: Dp = spacings.secondaryTextInputField.focusedBorderThickness,
+    unfocusedBorderThickness: Dp = spacings.secondaryTextInputField.unfocusedBorderThickness,
+    minWidth: Dp = spacings.secondaryTextInputField.minWidth,
 ) {
     BaseTextInputField(
         requestFocus = requestFocus,
@@ -116,5 +125,11 @@ fun SecondaryTextInputField(
         placeholderTextColor = placeholderTextColor,
         labelTextColor = labelTextColor,
         errorTextColor = errorTextColor,
+        floatingLabelSpacing = floatingLabelSpacing,
+        contentPadding = contentPadding,
+        focusedBorderThickness = focusedBorderThickness,
+        unfocusedBorderThickness = unfocusedBorderThickness,
+        minLines = minLines,
+        minWidth = minWidth
     )
 }

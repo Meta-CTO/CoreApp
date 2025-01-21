@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.components.inputFields
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
@@ -23,6 +24,10 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.presentation.theme.CoreTheme.colors
+import com.metacto.core.presentation.theme.CoreTheme.typography
+import com.metacto.core.presentation.theme.CoreTheme.spacings
+import com.metacto.core.presentation.theme.CoreTheme.shapes
 import kotlin.time.Duration
 
 @Composable
@@ -41,36 +46,42 @@ fun PasswordTextInputField(
     readOnly: Boolean = false,
     maxLength: Int = Int.MAX_VALUE,
     maxLines: Int = Int.MAX_VALUE,
-    minHeight: Dp = CoreTheme.spacings.passwordTextInputField.minHeight,
+    minLines: Int = 1,
+    minHeight: Dp = spacings.passwordTextInputField.minHeight,
     error: String? = null,
-    endIconSize: Dp = CoreTheme.spacings.passwordTextInputField.endIconSize,
+    endIconSize: Dp = spacings.passwordTextInputField.endIconSize,
     startIconVector: ImageVector? = null,
     startIconPainter: Painter? = null,
-    startIconSize: Dp = CoreTheme.spacings.passwordTextInputField.startIconSize,
+    startIconSize: Dp = spacings.passwordTextInputField.startIconSize,
     onStartIconClick: (() -> Unit)? = null,
-    iconTintColor: Color? = CoreTheme.colors.passwordTextInputField.iconColor,
+    iconTintColor: Color? = colors.passwordTextInputField.iconColor,
     placeholder: String? = null,
     placeholderMaxLines: Int = 1,
-    shape: RoundedCornerShape = CoreTheme.shapes.passwordTextInputField.shape,
+    shape: RoundedCornerShape = shapes.passwordTextInputField.shape,
     textAlign: TextAlign? = null,
     allowDigitsOnly: Boolean = false,
     isStaticLabel: Boolean = false,
     requestFocus: Boolean = false,
     requestFocusDelay: Duration = DEFAULT_REQUEST_FOCUS_DELAY,
     showPasswordVisibilityToggle: Boolean = false,
-    textStyle: TextStyle = CoreTheme.typography.passwordTextInputField.textStyle,
-    textColor: Color = CoreTheme.colors.passwordTextInputField.textColor,
-    placeholderTextStyle: TextStyle = CoreTheme.typography.passwordTextInputField.placeholderTextStyle,
-    placeholderTextColor: Color = CoreTheme.colors.passwordTextInputField.placeholderColor,
-    labelTextStyle: TextStyle = CoreTheme.typography.passwordTextInputField.labelTextStyle,
-    labelTextColor: Color = CoreTheme.colors.passwordTextInputField.labelColor,
-    errorTextStyle: TextStyle = CoreTheme.typography.passwordTextInputField.errorTextStyle,
-    errorTextColor: Color = CoreTheme.colors.passwordTextInputField.errorColor,
-    focusedBorderColor: Color = CoreTheme.colors.passwordTextInputField.focusedBorderColor,
-    unFocusedBorderColor: Color = CoreTheme.colors.passwordTextInputField.unFocusedBorderColor,
-    backgroundColor: Color = CoreTheme.colors.passwordTextInputField.bgColor,
-    elevation: Dp = CoreTheme.spacings.passwordTextInputField.elevation,
-    shadowColor: Color = CoreTheme.colors.passwordTextInputField.shadowColor
+    textStyle: TextStyle = typography.passwordTextInputField.textStyle,
+    textColor: Color = colors.passwordTextInputField.textColor,
+    placeholderTextStyle: TextStyle = typography.passwordTextInputField.placeholderTextStyle,
+    placeholderTextColor: Color = colors.passwordTextInputField.placeholderColor,
+    labelTextStyle: TextStyle = typography.passwordTextInputField.labelTextStyle,
+    labelTextColor: Color = colors.passwordTextInputField.labelColor,
+    errorTextStyle: TextStyle = typography.passwordTextInputField.errorTextStyle,
+    errorTextColor: Color = colors.passwordTextInputField.errorColor,
+    focusedBorderColor: Color = colors.passwordTextInputField.focusedBorderColor,
+    unFocusedBorderColor: Color = colors.passwordTextInputField.unFocusedBorderColor,
+    backgroundColor: Color = colors.passwordTextInputField.bgColor,
+    elevation: Dp = spacings.passwordTextInputField.elevation,
+    shadowColor: Color = colors.passwordTextInputField.shadowColor,
+    floatingLabelSpacing: Dp = spacings.passwordTextInputField.floatingLabelSpacing,
+    contentPadding: PaddingValues = spacings.passwordTextInputField.contentPadding,
+    focusedBorderThickness: Dp = spacings.passwordTextInputField.focusedBorderThickness,
+    unfocusedBorderThickness: Dp = spacings.passwordTextInputField.unfocusedBorderThickness,
+    minWidth: Dp = spacings.passwordTextInputField.minWidth,
 ) {
     var isPasswordVisible by remember {
         mutableStateOf(false)
@@ -143,6 +154,12 @@ fun PasswordTextInputField(
         labelTextColor = labelTextColor,
         errorTextStyle = errorTextStyle,
         errorTextColor = errorTextColor,
+        floatingLabelSpacing = floatingLabelSpacing,
+        contentPadding = contentPadding,
+        focusedBorderThickness = focusedBorderThickness,
+        unfocusedBorderThickness = unfocusedBorderThickness,
+        minLines = minLines,
+        minWidth = minWidth,
         onEndIconClick = {
             isPasswordVisible = isPasswordVisible.not()
         }

@@ -508,7 +508,7 @@ fun Modifier.verticalScrollIf(
     condition: Boolean,
     state: ScrollState? = rememberScrollState()
 ): Modifier {
-    return if (condition && state != null) this.verticalScroll(state) else this
+    return if (condition) this.verticalScroll(state ?: rememberScrollState()) else this
 }
 
 @Composable

@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.components.inputFields
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.Composable
@@ -15,6 +16,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.presentation.theme.CoreTheme.colors
+import com.metacto.core.presentation.theme.CoreTheme.typography
+import com.metacto.core.presentation.theme.CoreTheme.spacings
+import com.metacto.core.presentation.theme.CoreTheme.shapes
 import com.metacto.core.utils.extensions.formatToMaxDecimals
 import com.metacto.core.utils.extensions.orZero
 import com.metacto.core.utils.extensions.removeAllNonDecimal
@@ -23,16 +28,16 @@ import kotlin.time.Duration
 @Composable
 fun PriceTextInputField(
     modifier: Modifier = Modifier,
-    backgroundColor: Color = CoreTheme.colors.priceTextInputField.bgColor,
-    backgroundShape: RoundedCornerShape = CoreTheme.shapes.priceTextInputField.shape,
+    backgroundColor: Color = colors.priceTextInputField.bgColor,
+    backgroundShape: RoundedCornerShape = shapes.priceTextInputField.shape,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     imeAction: ImeAction = ImeAction.Next,
     price: String? = null,
     isStaticLabel: Boolean = false,
     label: String? = null,
     placeholder: String? = null,
-    textColor: Color = CoreTheme.colors.priceTextInputField.textColor,
-    textStyle: TextStyle = CoreTheme.typography.priceTextInputField.textStyle.copy(color = textColor),
+    textColor: Color = colors.priceTextInputField.textColor,
+    textStyle: TextStyle = typography.priceTextInputField.textStyle.copy(color = textColor),
     visualTransformationSpanStyle: SpanStyle? = null,
     readOnly: Boolean = false,
     enabled: Boolean = true,
@@ -40,33 +45,38 @@ fun PriceTextInputField(
     onClick: (() -> Unit)? = null,
     endIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
-    endIconSize: Dp = CoreTheme.spacings.priceTextInputField.endIconSize,
+    endIconSize: Dp = spacings.priceTextInputField.endIconSize,
     onEndIconClick: (() -> Unit)? = null,
     startIconVector: ImageVector? = null,
     startIconPainter: Painter? = null,
-    startIconSize: Dp = CoreTheme.spacings.priceTextInputField.startIconSize,
+    startIconSize: Dp = spacings.priceTextInputField.startIconSize,
     onStartIconClick: (() -> Unit)? = null,
-    iconTintColor: Color? = CoreTheme.colors.priceTextInputField.iconColor,
-    focusedBorderColor: Color = CoreTheme.colors.priceTextInputField.focusedBorderColor,
-    unFocusedBorderColor: Color = CoreTheme.colors.priceTextInputField.unFocusedBorderColor,
-    placeholderTextStyle: TextStyle = CoreTheme.typography.priceTextInputField.placeholderTextStyle,
-    placeholderTextColor: Color = CoreTheme.colors.priceTextInputField.placeholderColor,
+    iconTintColor: Color? = colors.priceTextInputField.iconColor,
+    focusedBorderColor: Color = colors.priceTextInputField.focusedBorderColor,
+    unFocusedBorderColor: Color = colors.priceTextInputField.unFocusedBorderColor,
+    placeholderTextStyle: TextStyle = typography.priceTextInputField.placeholderTextStyle,
+    placeholderTextColor: Color = colors.priceTextInputField.placeholderColor,
     placeholderMaxLines: Int = 1,
-    labelTextStyle: TextStyle = CoreTheme.typography.priceTextInputField.labelTextStyle,
-    labelTextColor: Color = CoreTheme.colors.priceTextInputField.labelColor,
-    errorTextStyle: TextStyle = CoreTheme.typography.priceTextInputField.errorTextStyle,
-    errorTextColor: Color = CoreTheme.colors.priceTextInputField.errorColor,
+    labelTextStyle: TextStyle = typography.priceTextInputField.labelTextStyle,
+    labelTextColor: Color = colors.priceTextInputField.labelColor,
+    errorTextStyle: TextStyle = typography.priceTextInputField.errorTextStyle,
+    errorTextColor: Color = colors.priceTextInputField.errorColor,
     maxLength: Int = Int.MAX_VALUE,
-    minHeight: Dp = CoreTheme.spacings.priceTextInputField.minHeight,
-    elevation: Dp = CoreTheme.spacings.priceTextInputField.elevation,
-    shadowColor: Color = CoreTheme.colors.priceTextInputField.shadowColor,
+    minHeight: Dp = spacings.priceTextInputField.minHeight,
+    elevation: Dp = spacings.priceTextInputField.elevation,
+    shadowColor: Color = colors.priceTextInputField.shadowColor,
     requestFocus: Boolean = false,
     requestFocusDelay: Duration = DEFAULT_REQUEST_FOCUS_DELAY,
     error: String? = null,
     textAlign: TextAlign? = null,
     allowDecimal: Boolean = false,
     maxAllowedDecimals: Int = 2,
-    ) {
+    floatingLabelSpacing: Dp = spacings.priceTextInputField.floatingLabelSpacing,
+    contentPadding: PaddingValues = spacings.priceTextInputField.contentPadding,
+    focusedBorderThickness: Dp = spacings.priceTextInputField.focusedBorderThickness,
+    unfocusedBorderThickness: Dp = spacings.priceTextInputField.unfocusedBorderThickness,
+    minWidth: Dp = spacings.priceTextInputField.minWidth,
+) {
     val text = if (!allowDecimal) {
         price?.toIntOrNull().orZero().toString()
     } else {
@@ -123,6 +133,12 @@ fun PriceTextInputField(
         keyboardActions = keyboardActions,
         placeholderMaxLines = placeholderMaxLines,
         textAlign = textAlign,
+        floatingLabelSpacing = floatingLabelSpacing,
+        contentPadding = contentPadding,
+        focusedBorderThickness = focusedBorderThickness,
+        unfocusedBorderThickness = unfocusedBorderThickness,
+        minLines = 1,
+        minWidth = minWidth,
         onValueChange = { value ->
             if (value.isEmpty()) {
                 onPriceChange?.invoke(null)

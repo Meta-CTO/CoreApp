@@ -2,20 +2,29 @@ package com.metacto.core.presentation.components.inputFields
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.foundation.text.selection.LocalTextSelectionColors
+import androidx.compose.foundation.text.selection.TextSelectionColors
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,9 +35,11 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
@@ -41,6 +52,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.presentation.theme.CoreTheme.spacings
 import com.metacto.core.utils.extensions.DelayedLaunchedEffect
 import com.metacto.core.utils.extensions.focusRequesterIfNotNull
 import com.metacto.core.utils.extensions.noRippleClickable
@@ -53,6 +65,7 @@ import kotlin.time.Duration.Companion.milliseconds
 
 internal val DEFAULT_REQUEST_FOCUS_DELAY = 250.milliseconds
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BaseTextInputField(
     text: String,
@@ -77,7 +90,9 @@ fun BaseTextInputField(
     labelTextColor: Color,
     errorTextColor: Color,
     maxLength: Int,
+    minLines: Int,
     maxLines: Int,
+    minWidth: Dp,
     minHeight: Dp,
     error: String?,
     endIconVector: ImageVector?,
@@ -98,11 +113,20 @@ fun BaseTextInputField(
     labelTextStyle: TextStyle,
     errorTextStyle: TextStyle,
     allowDigitsOnly: Boolean,
-    shadowColor: Color = CoreTheme.colors.black,
-    elevation: Dp = CoreTheme.spacings.inputFieldElevation,
+    floatingLabelSpacing: Dp,
+    contentPadding: PaddingValues,
+    focusedBorderThickness: Dp,
+    unfocusedBorderThickness: Dp,
+    shadowColor: Color,
+    elevation: Dp,
     requestFocus: Boolean,
     requestFocusDelay: Duration = DEFAULT_REQUEST_FOCUS_DELAY
 ) {
+    // Prepare isError flag
+    val isError = remember(error) {
+        error != null
+    }
+
     // Prepare field box size state
     var fieldBoxSize by remember {
         mutableStateOf(IntSize.Zero)
@@ -116,6 +140,8 @@ fun BaseTextInputField(
             )
         )
     }
+
+    // Text field value state
     if (textFieldValueState.text != text) {
         textFieldValueState = TextFieldValue(
             text = text, selection = TextRange(text.length)
@@ -205,20 +231,16 @@ fun BaseTextInputField(
         {
             // Get input text
             var inputText = it.text
-
             // Handle allow digits only validation
             if (allowDigitsOnly) {
                 inputText = inputText.removeAllNonNumeric()
             }
-
             // Handle length validation
             if (inputText.length > maxLength) {
                 inputText = inputText.substring(0, maxLength)
             }
-
             // Then invoke value changed
             onValueChange?.invoke(inputText)
-
             // Update field state
             textFieldValueState = it
         }
@@ -236,12 +258,58 @@ fun BaseTextInputField(
         }
     }
 
+    // Prepare colors
+    val colors = TextFieldDefaults.colors(
+        focusedTextColor = textColor,
+        unfocusedTextColor = textColor,
+        disabledTextColor = textColor.copy(alpha = 0.38f),
+        errorTextColor = textColor,
+        focusedContainerColor = backgroundColor,
+        unfocusedContainerColor = backgroundColor,
+        disabledContainerColor = backgroundColor.copy(alpha = 0.38f),
+        errorContainerColor = backgroundColor,
+        cursorColor = Color.Unspecified,
+        errorCursorColor = CoreTheme.colors.danger,
+        errorPlaceholderColor = CoreTheme.colors.danger,
+        focusedIndicatorColor = focusedBorderColor,
+        unfocusedIndicatorColor = unFocusedBorderColor,
+        disabledIndicatorColor = unFocusedBorderColor.copy(alpha = 0.38f),
+        errorIndicatorColor = CoreTheme.colors.danger,
+        selectionColors = TextSelectionColors(
+            handleColor = focusedBorderColor,
+            backgroundColor = focusedBorderColor.copy(alpha = 0.4f)
+        ),
+    )
+
+    // Get interaction source
+    val interactionSource = remember { MutableInteractionSource() }
+
+    // Prepare the text color
+    val currentTextColor =
+        textStyle.color.takeOrElse {
+            val focused = interactionSource.collectIsFocusedAsState().value
+            when {
+                !enabled -> colors.disabledTextColor
+                isError -> colors.errorTextColor
+                focused -> colors.focusedTextColor
+                else -> colors.unfocusedTextColor
+            }
+        }
+
+    // And merge the text style
+    val mergedTextStyle = textStyle.merge(
+        TextStyle(
+            color = currentTextColor,
+            textAlign = textAlign ?: TextAlign.Start
+        )
+    )
+
     // Container column
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(CoreTheme.spacings.paddingSmall)
+        verticalArrangement = Arrangement.spacedBy(spacings.paddingSmall)
     ) {
-        // Render static label if required
+        // Static label if needed
         if (label != null && isStaticLabel) {
             Text(
                 text = label,
@@ -252,7 +320,7 @@ fun BaseTextInputField(
             )
         }
 
-        // Render text field box container
+        // Container box
         Box(
             contentAlignment = Alignment.TopStart,
             modifier = Modifier
@@ -265,48 +333,74 @@ fun BaseTextInputField(
                     shape = shape
                 )
         ) {
-            // Render text field
-            OutlinedTextField(
-                textStyle = textStyle.copy(
-                    textAlign = textAlign ?: TextAlign.Start
-                ),
-                readOnly = readOnly,
-                value = textFieldValueState,
-                isError = error != null,
-                keyboardActions = keyboardActions,
-                singleLine = singleLine,
-                maxLines = maxLines,
-                enabled = enabled,
-                onValueChange = valueChangeHandler,
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = keyboardType,
-                    imeAction = imeAction,
-                    capitalization = capitalization
-                ),
-                colors = TextFieldDefaults.colors(
-                    focusedTextColor = textColor,
-                    unfocusedTextColor = textColor,
-                    focusedSupportingTextColor = textColor,
-                    focusedContainerColor = backgroundColor,
-                    unfocusedContainerColor = backgroundColor,
-                    disabledContainerColor = backgroundColor,
-                    errorContainerColor = backgroundColor,
-                    focusedIndicatorColor = focusedBorderColor,
-                    unfocusedIndicatorColor = unFocusedBorderColor,
-                    disabledIndicatorColor = focusedBorderColor.copy(alpha = 0.5f),
-                    errorIndicatorColor = CoreTheme.colors.danger
-                ),
-                shape = shape,
-                visualTransformation = visualTransformation,
-                leadingIcon = leadingImage,
-                trailingIcon = trailingImage,
-                label = labelText,
-                placeholder = placeholderText,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = minHeight)
-                    .focusRequesterIfNotNull(focusRequester)
-            )
+            CompositionLocalProvider(LocalTextSelectionColors provides colors.textSelectionColors) {
+                // Render basic text field
+                BasicTextField(
+                    value = textFieldValueState,
+                    onValueChange = { newValue ->
+                        textFieldValueState = newValue
+                        valueChangeHandler(newValue)
+                    },
+                    enabled = enabled,
+                    readOnly = readOnly,
+                    textStyle = mergedTextStyle,
+                    visualTransformation = visualTransformation,
+                    keyboardActions = keyboardActions,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = keyboardType,
+                        imeAction = imeAction,
+                        capitalization = capitalization
+                    ),
+                    interactionSource = interactionSource,
+                    singleLine = singleLine,
+                    maxLines = maxLines,
+                    minLines = minLines,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .defaultMinSize(
+                            minWidth = minWidth,
+                            minHeight = minHeight
+                        )
+                        .focusRequesterIfNotNull(focusRequester)
+                        .then(
+                            if (label != null && isStaticLabel.not()) {
+                                Modifier
+                                    .semantics(mergeDescendants = true) {}
+                                    .padding(top = floatingLabelSpacing)
+                            } else {
+                                Modifier
+                            }
+                        ),
+                    decorationBox = @Composable { innerTextField ->
+                        OutlinedTextFieldDefaults.DecorationBox(
+                            value = textFieldValueState.text,
+                            visualTransformation = visualTransformation,
+                            innerTextField = innerTextField,
+                            placeholder = placeholderText,
+                            label = labelText,
+                            leadingIcon = leadingImage,
+                            trailingIcon = trailingImage,
+                            singleLine = singleLine,
+                            enabled = enabled,
+                            isError = isError,
+                            interactionSource = interactionSource,
+                            colors = colors,
+                            contentPadding = contentPadding,
+                            container = {
+                                OutlinedTextFieldDefaults.Container(
+                                    enabled = enabled,
+                                    isError = isError,
+                                    interactionSource = interactionSource,
+                                    colors = colors,
+                                    shape = shape,
+                                    focusedBorderThickness = focusedBorderThickness,
+                                    unfocusedBorderThickness = unfocusedBorderThickness,
+                                )
+                            }
+                        )
+                    }
+                )
+            }
 
             // Check if we need clickable layer
             if (onClick != null) {
@@ -320,7 +414,7 @@ fun BaseTextInputField(
         }
 
         // Render error if required
-        AnimatedVisibility(error != null) {
+        AnimatedVisibility(isError) {
             Text(
                 text = error.orEmpty(),
                 style = errorTextStyle,

@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.components.inputFields
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.Composable
@@ -14,7 +15,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.presentation.theme.CoreTheme.colors
+import com.metacto.core.presentation.theme.CoreTheme.typography
+import com.metacto.core.presentation.theme.CoreTheme.spacings
+import com.metacto.core.presentation.theme.CoreTheme.shapes
 import kotlin.time.Duration
 
 @Composable
@@ -34,38 +38,44 @@ fun PrimaryTextInputField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     maxLength: Int = Int.MAX_VALUE,
     maxLines: Int = Int.MAX_VALUE,
-    minHeight: Dp = CoreTheme.spacings.primaryTextInputField.minHeight,
+    minLines: Int = 1,
+    minHeight: Dp = spacings.primaryTextInputField.minHeight,
     error: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.primaryTextInputField.textStyle,
+    textStyle: TextStyle = typography.primaryTextInputField.textStyle,
     endIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
-    endIconSize: Dp = CoreTheme.spacings.primaryTextInputField.endIconSize,
+    endIconSize: Dp = spacings.primaryTextInputField.endIconSize,
     onEndIconClick: (() -> Unit)? = null,
     startIconVector: ImageVector? = null,
     startIconPainter: Painter? = null,
-    startIconSize: Dp = CoreTheme.spacings.primaryTextInputField.startIconSize,
+    startIconSize: Dp = spacings.primaryTextInputField.startIconSize,
     onStartIconClick: (() -> Unit)? = null,
-    iconTintColor: Color? = CoreTheme.colors.primaryTextInputField.iconColor,
+    iconTintColor: Color? = colors.primaryTextInputField.iconColor,
     placeholder: String? = null,
     placeholderMaxLines: Int = 1,
-    shape: RoundedCornerShape = CoreTheme.shapes.primaryTextInputField.shape,
+    shape: RoundedCornerShape = shapes.primaryTextInputField.shape,
     textAlign: TextAlign? = null,
     allowDigitsOnly: Boolean = false,
     isStaticLabel: Boolean = false,
     requestFocus: Boolean = false,
     requestFocusDelay: Duration = DEFAULT_REQUEST_FOCUS_DELAY,
-    backgroundColor: Color = CoreTheme.colors.primaryTextInputField.bgColor,
-    focusedBorderColor: Color = CoreTheme.colors.primaryTextInputField.focusedBorderColor,
-    unFocusedBorderColor: Color = CoreTheme.colors.primaryTextInputField.unFocusedBorderColor,
-    textColor: Color = CoreTheme.colors.primaryTextInputField.textColor,
-    placeholderTextStyle: TextStyle = CoreTheme.typography.primaryTextInputField.placeholderTextStyle,
-    placeholderTextColor: Color = CoreTheme.colors.primaryTextInputField.placeholderColor,
-    labelTextStyle: TextStyle = CoreTheme.typography.primaryTextInputField.labelTextStyle,
-    labelTextColor: Color = CoreTheme.colors.primaryTextInputField.labelColor,
-    errorTextStyle: TextStyle = CoreTheme.typography.primaryTextInputField.errorTextStyle,
-    errorTextColor: Color = CoreTheme.colors.primaryTextInputField.errorColor,
-    elevation: Dp = CoreTheme.spacings.primaryTextInputField.elevation,
-    shadowColor: Color = CoreTheme.colors.primaryTextInputField.shadowColor
+    backgroundColor: Color = colors.primaryTextInputField.bgColor,
+    focusedBorderColor: Color = colors.primaryTextInputField.focusedBorderColor,
+    unFocusedBorderColor: Color = colors.primaryTextInputField.unFocusedBorderColor,
+    textColor: Color = colors.primaryTextInputField.textColor,
+    placeholderTextStyle: TextStyle = typography.primaryTextInputField.placeholderTextStyle,
+    placeholderTextColor: Color = colors.primaryTextInputField.placeholderColor,
+    labelTextStyle: TextStyle = typography.primaryTextInputField.labelTextStyle,
+    labelTextColor: Color = colors.primaryTextInputField.labelColor,
+    errorTextStyle: TextStyle = typography.primaryTextInputField.errorTextStyle,
+    errorTextColor: Color = colors.primaryTextInputField.errorColor,
+    elevation: Dp = spacings.primaryTextInputField.elevation,
+    shadowColor: Color = colors.primaryTextInputField.shadowColor,
+    floatingLabelSpacing: Dp = spacings.primaryTextInputField.floatingLabelSpacing,
+    contentPadding: PaddingValues = spacings.primaryTextInputField.contentPadding,
+    focusedBorderThickness: Dp = spacings.primaryTextInputField.focusedBorderThickness,
+    unfocusedBorderThickness: Dp = spacings.primaryTextInputField.unfocusedBorderThickness,
+    minWidth: Dp = spacings.primaryTextInputField.minWidth,
 ) {
     BaseTextInputField(
         requestFocus = requestFocus,
@@ -115,5 +125,11 @@ fun PrimaryTextInputField(
         placeholderTextColor = placeholderTextColor,
         labelTextColor = labelTextColor,
         errorTextColor = errorTextColor,
+        floatingLabelSpacing = floatingLabelSpacing,
+        contentPadding = contentPadding,
+        focusedBorderThickness = focusedBorderThickness,
+        unfocusedBorderThickness = unfocusedBorderThickness,
+        minLines = minLines,
+        minWidth = minWidth
     )
 }

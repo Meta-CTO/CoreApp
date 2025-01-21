@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.components.inputFields
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.runtime.Composable
@@ -14,7 +15,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.presentation.theme.CoreTheme.colors
+import com.metacto.core.presentation.theme.CoreTheme.shapes
+import com.metacto.core.presentation.theme.CoreTheme.spacings
+import com.metacto.core.presentation.theme.CoreTheme.typography
 import kotlin.time.Duration
 
 @Composable
@@ -34,38 +38,44 @@ fun TertiaryTextInputField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     maxLength: Int = Int.MAX_VALUE,
     maxLines: Int = Int.MAX_VALUE,
-    minHeight: Dp = CoreTheme.spacings.tertiaryTextInputField.minHeight,
+    minLines: Int = 1,
+    minHeight: Dp = spacings.tertiaryTextInputField.minHeight,
     error: String? = null,
     endIconVector: ImageVector? = null,
     endIconPainter: Painter? = null,
-    endIconSize: Dp = CoreTheme.spacings.tertiaryTextInputField.endIconSize,
+    endIconSize: Dp = spacings.tertiaryTextInputField.endIconSize,
     onEndIconClick: (() -> Unit)? = null,
     startIconVector: ImageVector? = null,
     startIconPainter: Painter? = null,
-    startIconSize: Dp = CoreTheme.spacings.tertiaryTextInputField.startIconSize,
+    startIconSize: Dp = spacings.tertiaryTextInputField.startIconSize,
     onStartIconClick: (() -> Unit)? = null,
-    iconTintColor: Color? = CoreTheme.colors.tertiaryTextInputField.iconColor,
+    iconTintColor: Color? = colors.tertiaryTextInputField.iconColor,
     placeholder: String? = null,
     placeholderMaxLines: Int = 1,
-    shape: RoundedCornerShape = CoreTheme.shapes.tertiaryTextInputField.shape,
+    shape: RoundedCornerShape = shapes.tertiaryTextInputField.shape,
     textAlign: TextAlign? = null,
     allowDigitsOnly: Boolean = false,
     isStaticLabel: Boolean = false,
     requestFocus: Boolean = false,
     requestFocusDelay: Duration = DEFAULT_REQUEST_FOCUS_DELAY,
-    textStyle: TextStyle = CoreTheme.typography.tertiaryTextInputField.textStyle,
-    textColor: Color = CoreTheme.colors.tertiaryTextInputField.textColor,
-    placeholderTextStyle: TextStyle = CoreTheme.typography.tertiaryTextInputField.placeholderTextStyle,
-    placeholderTextColor: Color = CoreTheme.colors.tertiaryTextInputField.placeholderColor,
-    labelTextStyle: TextStyle = CoreTheme.typography.tertiaryTextInputField.labelTextStyle,
-    labelTextColor: Color = CoreTheme.colors.tertiaryTextInputField.labelColor,
-    errorTextStyle: TextStyle = CoreTheme.typography.tertiaryTextInputField.errorTextStyle,
-    errorTextColor: Color = CoreTheme.colors.tertiaryTextInputField.errorColor,
-    focusedBorderColor: Color = CoreTheme.colors.tertiaryTextInputField.focusedBorderColor,
-    unFocusedBorderColor: Color = CoreTheme.colors.tertiaryTextInputField.unFocusedBorderColor,
-    backgroundColor: Color = CoreTheme.colors.tertiaryTextInputField.bgColor,
-    elevation: Dp = CoreTheme.spacings.tertiaryTextInputField.elevation,
-    shadowColor: Color = CoreTheme.colors.secondaryTextInputField.shadowColor
+    textStyle: TextStyle = typography.tertiaryTextInputField.textStyle,
+    textColor: Color = colors.tertiaryTextInputField.textColor,
+    placeholderTextStyle: TextStyle = typography.tertiaryTextInputField.placeholderTextStyle,
+    placeholderTextColor: Color = colors.tertiaryTextInputField.placeholderColor,
+    labelTextStyle: TextStyle = typography.tertiaryTextInputField.labelTextStyle,
+    labelTextColor: Color = colors.tertiaryTextInputField.labelColor,
+    errorTextStyle: TextStyle = typography.tertiaryTextInputField.errorTextStyle,
+    errorTextColor: Color = colors.tertiaryTextInputField.errorColor,
+    focusedBorderColor: Color = colors.tertiaryTextInputField.focusedBorderColor,
+    unFocusedBorderColor: Color = colors.tertiaryTextInputField.unFocusedBorderColor,
+    backgroundColor: Color = colors.tertiaryTextInputField.bgColor,
+    elevation: Dp = spacings.tertiaryTextInputField.elevation,
+    shadowColor: Color = colors.secondaryTextInputField.shadowColor,
+    floatingLabelSpacing: Dp = spacings.tertiaryTextInputField.floatingLabelSpacing,
+    contentPadding: PaddingValues = spacings.tertiaryTextInputField.contentPadding,
+    focusedBorderThickness: Dp = spacings.tertiaryTextInputField.focusedBorderThickness,
+    unfocusedBorderThickness: Dp = spacings.tertiaryTextInputField.unfocusedBorderThickness,
+    minWidth: Dp = spacings.tertiaryTextInputField.minWidth,
 ) {
     BaseTextInputField(
         requestFocus = requestFocus,
@@ -114,6 +124,12 @@ fun TertiaryTextInputField(
         labelTextStyle = labelTextStyle,
         labelTextColor = labelTextColor,
         errorTextStyle = errorTextStyle,
-        errorTextColor = errorTextColor
+        errorTextColor = errorTextColor,
+        floatingLabelSpacing = floatingLabelSpacing,
+        contentPadding = contentPadding,
+        focusedBorderThickness = focusedBorderThickness,
+        unfocusedBorderThickness = unfocusedBorderThickness,
+        minLines = minLines,
+        minWidth = minWidth
     )
 }

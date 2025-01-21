@@ -1,10 +1,12 @@
 package com.metacto.core.presentation.theme
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.metacto.core.presentation.theme.CoreTheme.spacings
 
 @Immutable
 data class CoreSpacings(
@@ -79,6 +81,15 @@ data class CoreSpacings(
     val itemPickerHeight: Dp = 300.dp,
     val wheelPickerItemStroke: Dp = 1.dp,
     val itemPickerItemStroke: Dp = 0.dp,
+
+    val inputFieldFloatingLabelSpacing: Dp = 8.dp,
+    val inputFieldFocusedBorderThickness: Dp = 2.dp,
+    val inputFieldUnfocusedBorderThickness: Dp = 1.dp,
+    val inputFieldMinWidth: Dp = 200.dp,
+    val inputFieldContentPadding: PaddingValues = PaddingValues(
+        horizontal = 16.dp,
+        vertical = 10.dp
+    ),
 
     // PrimaryFilledButton
     val primaryFilledButton: PrimaryFilledButtonSpacings = PrimaryFilledButtonSpacings(
@@ -284,33 +295,58 @@ data class CoreSpacings(
     val primaryTextInputField: PrimaryTextInputFieldSpacings = PrimaryTextInputFieldSpacings(
         noSpacing = noSpacing,
         iconSmall = iconSmall,
-        inputFieldElevation = inputFieldElevation
+        inputFieldElevation = inputFieldElevation,
+        floatingLabelSpacing = inputFieldFloatingLabelSpacing,
+        focusedBorderThickness = inputFieldFocusedBorderThickness,
+        unfocusedBorderThickness = inputFieldUnfocusedBorderThickness,
+        minWidth = inputFieldMinWidth,
+        contentPadding = inputFieldContentPadding
     ),
 
     // SecondaryTextInputField
     val secondaryTextInputField: SecondaryTextInputFieldSpacings = SecondaryTextInputFieldSpacings(
         noSpacing = noSpacing,
         iconSmall = iconSmall,
-        inputFieldElevation = inputFieldElevation
+        inputFieldElevation = inputFieldElevation,
+        floatingLabelSpacing = inputFieldFloatingLabelSpacing,
+        focusedBorderThickness = inputFieldFocusedBorderThickness,
+        unfocusedBorderThickness = inputFieldUnfocusedBorderThickness,
+        minWidth = inputFieldMinWidth,
+        contentPadding = inputFieldContentPadding
     ),
 
     // TertiaryTextInputField
     val tertiaryTextInputField: TertiaryTextInputFieldSpacings = TertiaryTextInputFieldSpacings(
         noSpacing = noSpacing,
         iconSmall = iconSmall,
-        inputFieldElevation = inputFieldElevation
+        inputFieldElevation = inputFieldElevation,
+        floatingLabelSpacing = inputFieldFloatingLabelSpacing,
+        focusedBorderThickness = inputFieldFocusedBorderThickness,
+        unfocusedBorderThickness = inputFieldUnfocusedBorderThickness,
+        minWidth = inputFieldMinWidth,
+        contentPadding = inputFieldContentPadding
     ),
 
     // PickerInputField
     val pickerInputField: PickerInputFieldSpacings = PickerInputFieldSpacings(
-        iconSmall = iconSmall
+        iconSmall = iconSmall,
+        floatingLabelSpacing = inputFieldFloatingLabelSpacing,
+        focusedBorderThickness = inputFieldFocusedBorderThickness,
+        unfocusedBorderThickness = inputFieldUnfocusedBorderThickness,
+        minWidth = inputFieldMinWidth,
+        contentPadding = inputFieldContentPadding
     ),
 
     // PasswordTextInputField
     val passwordTextInputField: PasswordTextInputFieldSpacings = PasswordTextInputFieldSpacings(
         noSpacing = noSpacing,
         iconSmall = iconSmall,
-        inputFieldElevation = inputFieldElevation
+        inputFieldElevation = inputFieldElevation,
+        floatingLabelSpacing = inputFieldFloatingLabelSpacing,
+        focusedBorderThickness = inputFieldFocusedBorderThickness,
+        unfocusedBorderThickness = inputFieldUnfocusedBorderThickness,
+        minWidth = inputFieldMinWidth,
+        contentPadding = inputFieldContentPadding
     ),
 
     // OptionItem
@@ -428,7 +464,12 @@ data class CoreSpacings(
     val priceTextInputField: PriceTextInputFieldSpacings = PriceTextInputFieldSpacings(
         iconSmall = iconSmall,
         noSpacing = noSpacing,
-        inputFieldElevation = inputFieldElevation
+        inputFieldElevation = inputFieldElevation,
+        floatingLabelSpacing = inputFieldFloatingLabelSpacing,
+        focusedBorderThickness = inputFieldFocusedBorderThickness,
+        unfocusedBorderThickness = inputFieldUnfocusedBorderThickness,
+        minWidth = inputFieldMinWidth,
+        contentPadding = inputFieldContentPadding
     ),
 
     // Dot
@@ -840,7 +881,12 @@ data class PrimaryTextInputFieldSpacings(
     val minHeight: Dp = noSpacing,
     val startIconSize: Dp = iconSmall,
     val endIconSize: Dp = iconSmall,
-    val elevation: Dp = inputFieldElevation
+    val elevation: Dp = inputFieldElevation,
+    val floatingLabelSpacing: Dp,
+    val focusedBorderThickness: Dp,
+    val unfocusedBorderThickness: Dp,
+    val minWidth: Dp,
+    val contentPadding: PaddingValues,
 )
 
 // SecondaryTextInputField
@@ -851,7 +897,12 @@ data class SecondaryTextInputFieldSpacings(
     val minHeight: Dp = noSpacing,
     val startIconSize: Dp = iconSmall,
     val endIconSize: Dp = iconSmall,
-    val elevation: Dp = inputFieldElevation
+    val elevation: Dp = inputFieldElevation,
+    val floatingLabelSpacing: Dp,
+    val focusedBorderThickness: Dp,
+    val unfocusedBorderThickness: Dp,
+    val minWidth: Dp,
+    val contentPadding: PaddingValues,
 )
 
 // TertiaryTextInputField
@@ -862,14 +913,24 @@ data class TertiaryTextInputFieldSpacings(
     val minHeight: Dp = noSpacing,
     val startIconSize: Dp = iconSmall,
     val endIconSize: Dp = iconSmall,
-    val elevation: Dp = inputFieldElevation
+    val elevation: Dp = inputFieldElevation,
+    val floatingLabelSpacing: Dp,
+    val focusedBorderThickness: Dp,
+    val unfocusedBorderThickness: Dp,
+    val minWidth: Dp,
+    val contentPadding: PaddingValues,
 )
 
 // PickerInputField
 data class PickerInputFieldSpacings(
     private val iconSmall: Dp,
     val startIconSize: Dp = iconSmall,
-    val endIconSize: Dp = iconSmall
+    val endIconSize: Dp = iconSmall,
+    val floatingLabelSpacing: Dp,
+    val focusedBorderThickness: Dp,
+    val unfocusedBorderThickness: Dp,
+    val minWidth: Dp,
+    val contentPadding: PaddingValues,
 )
 
 // PasswordTextInputField
@@ -880,7 +941,12 @@ data class PasswordTextInputFieldSpacings(
     val minHeight: Dp = noSpacing,
     val startIconSize: Dp = iconSmall,
     val endIconSize: Dp = iconSmall,
-    val elevation: Dp = inputFieldElevation
+    val elevation: Dp = inputFieldElevation,
+    val floatingLabelSpacing: Dp,
+    val focusedBorderThickness: Dp,
+    val unfocusedBorderThickness: Dp,
+    val minWidth: Dp,
+    val contentPadding: PaddingValues,
 )
 
 // OptionItem
@@ -1062,7 +1128,12 @@ data class PriceTextInputFieldSpacings(
     val startIconSize: Dp = iconSmall,
     val endIconSize: Dp = iconSmall,
     val minHeight: Dp = noSpacing,
-    val elevation: Dp = inputFieldElevation
+    val elevation: Dp = inputFieldElevation,
+    val floatingLabelSpacing: Dp,
+    val focusedBorderThickness: Dp,
+    val unfocusedBorderThickness: Dp,
+    val minWidth: Dp,
+    val contentPadding: PaddingValues,
 )
 
 // Dot

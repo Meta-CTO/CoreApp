@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.components.inputFields
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExpandMore
@@ -10,7 +11,10 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.presentation.theme.CoreTheme.colors
+import com.metacto.core.presentation.theme.CoreTheme.shapes
+import com.metacto.core.presentation.theme.CoreTheme.spacings
+import com.metacto.core.presentation.theme.CoreTheme.typography
 
 @Composable
 fun PickerInputField(
@@ -23,25 +27,31 @@ fun PickerInputField(
     enabled: Boolean = true,
     endIconVector: ImageVector? = Icons.Default.ExpandMore,
     endIconPainter: Painter? = null,
-    endIconSize: Dp = CoreTheme.spacings.pickerInputField.endIconSize,
+    endIconSize: Dp = spacings.pickerInputField.endIconSize,
     onEndIconClick: (() -> Unit)? = null,
     startIconVector: ImageVector? = null,
     startIconPainter: Painter? = null,
-    startIconSize: Dp = CoreTheme.spacings.pickerInputField.startIconSize,
+    startIconSize: Dp = spacings.pickerInputField.startIconSize,
     onStartIconClick: (() -> Unit)? = null,
-    iconTintColor: Color? = CoreTheme.colors.pickerInputField.iconColor,
-    textStyle: TextStyle = CoreTheme.typography.pickerInputField.textStyle,
-    textColor: Color = CoreTheme.colors.pickerInputField.textColor,
+    iconTintColor: Color? = colors.pickerInputField.iconColor,
+    textStyle: TextStyle = typography.pickerInputField.textStyle,
+    textColor: Color = colors.pickerInputField.textColor,
     isStaticLabel: Boolean = false,
     maxLines: Int = Int.MAX_VALUE,
+    minLines: Int = 1,
     singleLine: Boolean = false,
-    placeholderTextStyle: TextStyle = CoreTheme.typography.pickerInputField.placeholderTextStyle,
-    placeholderTextColor: Color = CoreTheme.colors.pickerInputField.placeholderColor,
-    labelTextStyle: TextStyle = CoreTheme.typography.pickerInputField.labelTextStyle,
-    labelTextColor: Color = CoreTheme.colors.pickerInputField.labelColor,
-    errorTextStyle: TextStyle = CoreTheme.typography.pickerInputField.errorTextStyle,
-    errorTextColor: Color = CoreTheme.colors.pickerInputField.errorColor,
-    shape: RoundedCornerShape = CoreTheme.shapes.pickerInputField.shape
+    placeholderTextStyle: TextStyle = typography.pickerInputField.placeholderTextStyle,
+    placeholderTextColor: Color = colors.pickerInputField.placeholderColor,
+    labelTextStyle: TextStyle = typography.pickerInputField.labelTextStyle,
+    labelTextColor: Color = colors.pickerInputField.labelColor,
+    errorTextStyle: TextStyle = typography.pickerInputField.errorTextStyle,
+    errorTextColor: Color = colors.pickerInputField.errorColor,
+    shape: RoundedCornerShape = shapes.pickerInputField.shape,
+    floatingLabelSpacing: Dp = spacings.pickerInputField.floatingLabelSpacing,
+    contentPadding: PaddingValues = spacings.pickerInputField.contentPadding,
+    focusedBorderThickness: Dp = spacings.pickerInputField.focusedBorderThickness,
+    unfocusedBorderThickness: Dp = spacings.pickerInputField.unfocusedBorderThickness,
+    minWidth: Dp = spacings.pickerInputField.minWidth,
 ) {
     TertiaryTextInputField(
         text = text,
@@ -73,6 +83,12 @@ fun PickerInputField(
         singleLine = singleLine,
         isStaticLabel = isStaticLabel,
         shape = shape,
+        floatingLabelSpacing = floatingLabelSpacing,
+        contentPadding = contentPadding,
+        focusedBorderThickness = focusedBorderThickness,
+        unfocusedBorderThickness = unfocusedBorderThickness,
+        minLines = minLines,
+        minWidth = minWidth,
         modifier = modifier
     )
 }
