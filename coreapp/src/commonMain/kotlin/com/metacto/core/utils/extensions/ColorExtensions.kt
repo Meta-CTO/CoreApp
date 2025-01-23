@@ -1,6 +1,7 @@
 package com.metacto.core.utils.extensions
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.util.lerp
 
 fun Color.blend(background: Color): Color {
     val foregroundAlpha = this.alpha
@@ -43,4 +44,14 @@ fun Color.toHexString(withAlpha: Boolean = false): String {
 
 fun ULong?.toColor(): Color? {
     return if (this != null) Color(this) else null
+}
+
+fun Color.interpolateTo(targetColor: Color, fraction: Float): Color {
+    val clampedFraction = fraction.coerceIn(0f, 1f)
+    return Color(
+        red = lerp(start = this.red, stop = targetColor.red, fraction = clampedFraction),
+        green = lerp(start = this.green, stop = targetColor.green, fraction = clampedFraction),
+        blue = lerp(start = this.blue, stop = targetColor.blue, fraction = clampedFraction),
+        alpha = lerp(start = this.alpha, stop = targetColor.alpha, fraction = clampedFraction)
+    )
 }
