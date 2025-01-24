@@ -33,7 +33,16 @@ internal fun HomeContent(
     ScreenColumn(
         isScrollable = true,
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        enableSafeInsets = true
+        enableSafeInsets = true,
+        onScroll = {
+            println("HomeContent -- onScroll")
+        },
+        onScrollUp = {
+            println("HomeContent -- onScrollUp")
+        },
+        onScrollDown = {
+            println("HomeContent -- onScrollDown")
+        },
     ) {
         VideoPlayer(
             uniqueId = "home_video_player",

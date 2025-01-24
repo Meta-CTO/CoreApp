@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +26,7 @@ fun ScreenColumn(
     startPadding: Dp = CoreTheme.spacings.screenPadding,
     endPadding: Dp = CoreTheme.spacings.screenPadding,
     enableSafeInsets: Boolean = true,
-    scrollState: ScrollState? = null,
+    scrollState: ScrollState = rememberScrollState(),
     isScrollable: Boolean = false,
     onScroll: (() -> Unit)? = null,
     onScrollUp: (() -> Unit)? = null,

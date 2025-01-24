@@ -506,7 +506,7 @@ fun Modifier.borderIf(
 @Composable
 fun Modifier.verticalScrollIf(
     condition: Boolean,
-    state: ScrollState? = rememberScrollState()
+    state: ScrollState
 ): Modifier {
     return if (condition) this.verticalScroll(state ?: rememberScrollState()) else this
 }

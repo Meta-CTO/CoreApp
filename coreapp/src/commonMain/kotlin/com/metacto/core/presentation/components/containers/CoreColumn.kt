@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.runtime.Composable
@@ -16,7 +17,6 @@ import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.onScroll
 import com.metacto.core.utils.extensions.pullRefreshIf
 import com.metacto.core.utils.extensions.rememberPullRefreshStateIf
-import com.metacto.core.utils.extensions.rememberScrollStateIf
 import com.metacto.core.utils.extensions.verticalScrollIf
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -26,7 +26,7 @@ fun CoreColumn(
     verticalArrangement: Arrangement.Vertical = Arrangement.Top,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     isScrollable: Boolean = false,
-    scrollState: ScrollState? = rememberScrollStateIf(isScrollable),
+    scrollState: ScrollState = rememberScrollState(),
     onScroll: (() -> Unit)? = null,
     onScrollUp: (() -> Unit)? = null,
     onScrollDown: (() -> Unit)? = null,
@@ -38,7 +38,7 @@ fun CoreColumn(
     content: @Composable ColumnScope.() -> Unit
 ) {
     // Config scroll state
-    scrollState?.onScroll(
+    scrollState.onScroll(
         onScrollUp = onScrollUp,
         onScrollDown = onScrollDown,
         onScroll = onScroll
