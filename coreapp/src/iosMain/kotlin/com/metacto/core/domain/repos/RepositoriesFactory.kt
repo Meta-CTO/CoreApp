@@ -3,7 +3,6 @@
     ExperimentalSettingsImplementation::class,
     ExperimentalForeignApi::class
 )
-
 package com.metacto.core.domain.repos
 
 import com.metacto.core.CoreEnvironment
@@ -32,13 +31,10 @@ actual open class RepositoriesFactory<T : SerializableNetworkError> constructor(
     actual val shouldShowActualErrorMessages: Boolean,
     actual val errorClass: KClass<T>
 ) {
-    val storagen = "appStorageName"
-
-
-    private val oldKeyChainStore by lazy {  KeychainSettings(service = storagen) }
+    private val oldKeyChainStore by lazy {  KeychainSettings(service = appStorageName) }
     private val newKeyChainStore by lazy {
         KeychainSettings(
-            kSecAttrService to CFBridgingRetain("${storagen}_new"),
+            kSecAttrService to CFBridgingRetain("${appStorageName}_new"),
             kSecAttrAccessible to kSecAttrAccessibleAfterFirstUnlock,
         )
     }
