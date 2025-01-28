@@ -6,7 +6,6 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.metacto.core.presentation.theme.CoreTheme.spacings
 
 @Immutable
 data class CoreSpacings(
@@ -1053,9 +1052,11 @@ data class MessageDialogSpacings(
     private val popupSpacingLarge: Dp,
     val noTitlePadding: Dp = noSpacing,
     val titlePadding: Dp = paddingXLarge,
+    val descriptionPadding: Dp = paddingXLarge,
     val btnPaddingTop: Dp = popupSpacingLarge,
     val showToolbar: Boolean = true,
-    val bodyTextAlign: TextAlign = TextAlign.Center
+    val bodyTextAlign: TextAlign = TextAlign.Center,
+    val descriptionTextAlign: TextAlign = TextAlign.Center
 )
 
 // OverrideUserDialog

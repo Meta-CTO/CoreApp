@@ -2,6 +2,7 @@ package com.sampleApp.app.presentation.home
 
 import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.permissions.enums.PermissionState
+import com.metacto.core.presentation.globalState.models.MessagePopupParams
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.presentation.youtube.YoutubeScreen
@@ -57,22 +58,16 @@ class HomeViewModel(
         }
 
         Event.NavigateToCameraScreen -> {
-//            executeSilent({
-//                permissionManager.requestPermission(Permission.CAMERA)
-//                permissionManager.requestPermission(Permission.RECORD_AUDIO)
-//                navManager.navigate(CameraScreen)
-//            })
-
-            nativeItemPicker(
-                items = listOf(
-                    PickerItemUIModel("1", "first"),
-                    PickerItemUIModel("2", "second"),
-                    PickerItemUIModel("3","third")
-                ),
-                selectedItem = null,
-                onItemSelected = { item ->
-
-                }
+            globalState.messagePopup(
+                params =
+                MessagePopupParams(
+                    body = "These data give a picture of your physical health. Factors taken into account include how much you exercise and how much energy you burn while active.\n" +
+                            "\n" +
+                            "Vigorous, regular exercise is directly correlated with good physical health, and longer exercise sessions are strong indicators of endurance and overall fitness. ",
+                    description = "Sources:\n" +
+                            "Shaffer, F., & Ginsberg, J. P. (2017). An overview of heart rate variability metrics and norms. Frontiers in Public Health, 5, 258.\n" +
+                            "Brosschot, J. F., van Dijk, E., & Thayer, J. F. (2007). Daily worry is related to low heart rate variability during waking and the subsequent nocturnal sleep period. International Journal of Psychophysiology, 63(1), 39-47."
+                )
             )
         }
 
@@ -98,7 +93,7 @@ class HomeViewModel(
             }
         })
 
-        val validPhoneNumber = phoneNumberManager.getValidPhoneNumber("201555056563","EG")
+        val validPhoneNumber = phoneNumberManager.getValidPhoneNumber("201555056563", "EG")
         println("phoneNumber: $validPhoneNumber")
 
         observeItemPickerResults()

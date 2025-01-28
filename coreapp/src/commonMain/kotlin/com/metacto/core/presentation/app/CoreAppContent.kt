@@ -86,6 +86,7 @@ fun CoreAppContent(
                     isCancellable = params.isCancellable,
                     title = params.title,
                     body = params.body,
+                    description = params.description,
                     buttonText = params.buttonText,
                     onPositiveClick = {
                         globalState.idle()
