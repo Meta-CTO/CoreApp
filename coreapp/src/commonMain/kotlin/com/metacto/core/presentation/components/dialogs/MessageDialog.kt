@@ -23,20 +23,24 @@ fun MessageDialog(
     isCancellable: Boolean = true,
     title: String? = null,
     body: String,
+    description: String? = null,
     buttonText: String? = null,
     onPositiveClick: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
     bodyTextAlign: TextAlign = CoreTheme.spacings.messageDialog.bodyTextAlign,
+    descriptionTextAlign: TextAlign = CoreTheme.spacings.messageDialog.descriptionTextAlign,
     showToolbar: Boolean = CoreTheme.spacings.messageDialog.showToolbar,
     buttonPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.messageDialog.btnPaddingTop),
     bodyTextStyle: TextStyle = CoreTheme.typography.messageDialog.textStyle,
+    descriptionTextStyle: TextStyle = CoreTheme.typography.messageDialog.descriptionStyle,
     bodyTextColor: Color = CoreTheme.colors.messageDialog.bodyTextColor,
+    descriptionTextColor: Color = CoreTheme.colors.messageDialog.descriptionTextColor,
     btnTextStyle: TextStyle = CoreTheme.typography.messageDialog.btnTextStyle,
     btnBgColor: Color = CoreTheme.colors.messageDialog.btnBgColor,
     btnTextColor: Color = CoreTheme.colors.messageDialog.btnTextColor,
     bodyNoTitlePadding: Dp = CoreTheme.spacings.messageDialog.noTitlePadding,
-    bodyTitlePadding: Dp = CoreTheme.spacings.messageDialog.titlePadding
-
+    bodyTitlePadding: Dp = CoreTheme.spacings.messageDialog.titlePadding,
+    descriptionPadding: Dp = CoreTheme.spacings.messageDialog.descriptionPadding
 ) {
     // Prepare spacings
     val msgSpacing = if (title?.isNotEmpty() == true)
@@ -67,6 +71,19 @@ fun MessageDialog(
                     .fillMaxWidth()
                     .padding(top = msgSpacing)
             )
+
+            // Render description text
+            if (description != null) {
+                Text(
+                    text = description,
+                    textAlign = descriptionTextAlign,
+                    color = descriptionTextColor,
+                    style = descriptionTextStyle,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = descriptionPadding)
+                )
+            }
 
             // Render ok positive button
             PrimaryFilledButton(

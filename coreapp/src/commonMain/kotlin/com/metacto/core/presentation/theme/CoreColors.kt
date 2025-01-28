@@ -846,7 +846,8 @@ data class MessageDialogColors(
     private val onPrimary: Color,
     val btnBgColor: Color = primary,
     val btnTextColor: Color = onPrimary,
-    val bodyTextColor: Color = secondary
+    val bodyTextColor: Color = secondary,
+    val descriptionTextColor: Color = secondary,
 )
 
 // OverrideUserDialog
