@@ -448,6 +448,7 @@ data class MessageDialogTypography(
     private val bodyLarge: TextStyle,
     private val btnLabelMedium: TextStyle,
     val textStyle: TextStyle = bodyLarge,
+    val descriptionStyle: TextStyle = bodyLarge,
     val btnTextStyle: TextStyle = btnLabelMedium
 )
 
