@@ -17,7 +17,8 @@ class AppViewModel : BaseViewModel<State, Event, Effect>() {
     override fun setInitialState() = State
 
     override fun handleEvents(event: Event): Any = when(event) {
-        else -> {}
+        Event.Init -> {
+        }
     }
 
     private fun handleDeepLinks() = executeSilent({

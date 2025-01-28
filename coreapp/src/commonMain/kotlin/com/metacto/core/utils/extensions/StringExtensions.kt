@@ -250,3 +250,8 @@ fun String.splitAtIndexSafely(index: Int): Pair<String, String> {
         this.substring(index)
     )
 }
+
+fun String.matchWithWildcard(pattern: String): Boolean {
+    val regex = pattern.replace("*", ".*").toRegex()
+    return matches(regex)
+}

@@ -7,7 +7,9 @@ import com.metacto.core.presentation.base.ViewState
 class AppContract {
     object State : ViewState
 
-    sealed class Event : ViewEvent
+    sealed class Event : ViewEvent {
+        data object Init : Event()
+    }
 
     sealed class Effect : ViewSideEffect
 }

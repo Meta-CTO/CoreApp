@@ -1,7 +1,7 @@
 package com.metacto.core.utils.deepLink
 
+import com.metacto.core.utils.extensions.matchWithWildcard
 import com.metacto.strapikmm.util.Logger
-import io.ktor.http.Url
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -24,17 +24,13 @@ internal class DeepLinkManager(
 
     private fun validAndParseDeepLink(url: String) {
         try {
-            val parsedUrl = Url(url)
+            // Match the path with wildcards in parsers
+            val deepLinkParser = parsers.keys
+                .firstOrNull { url.matchWithWildcard(it) }
+                ?.let { parsers[it] }
+                ?: return
 
-            // Extract path and parse the deep link
-            // Path to handle Https and Http deep links cases like https://www.google.com/{path}
-            var path = parsedUrl.encodedPath
-            // But what if we need to handle deep links like jom://archives
-            // in this case, we need to check the host because the path will be empty
-            if (path.isEmpty()) {
-                path = parsedUrl.host
-            }
-            val deepLinkParser = parsers[path] ?: return
+            // Parse the deep link
             val deepLink = deepLinkParser.parse(url)
 
             // Emit it if possible

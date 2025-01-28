@@ -9,15 +9,19 @@ import androidx.core.view.WindowCompat
 import com.metacto.core.utils.deepLink.IDeepLinkManager
 import com.metacto.core.utils.notification.INotificationManager
 import com.sampleApp.app.presentation.MainView
+import com.sampleApp.app.presentation.app.app.AppContract
+import com.sampleApp.app.presentation.app.app.AppViewModel
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
     private val deepLinkManager by inject<IDeepLinkManager>()
     private val notificationManager by inject<INotificationManager>()
+    private val appViewModel by inject<AppViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         notificationManager.onCreateOrOnNewIntent(intent)
+        appViewModel.setEvent(AppContract.Event.Init)
 
         installSplashScreen()
         WindowCompat.setDecorFitsSystemWindows(window, false)
