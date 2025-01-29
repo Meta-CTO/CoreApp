@@ -1,11 +1,13 @@
 @file:OptIn(
-    ExperimentalForeignApi::class, ExperimentalSettingsApi::class,
+    ExperimentalForeignApi::class,
+    ExperimentalSettingsApi::class,
     ExperimentalSettingsImplementation::class
 )
 
 package com.metacto.core.domain.repos
 
 import com.metacto.core.CoreEnvironment
+import com.metacto.core.domain.CoreConstants
 import com.metacto.strapikmm.datasource.network.KtorClientFactory
 import com.metacto.strapikmm.datasource.network.services.strapi.StrapiService
 import com.metacto.strapikmm.errorhandling.SerializableNetworkError
@@ -15,11 +17,14 @@ import com.russhwolf.settings.ExperimentalSettingsImplementation
 import com.russhwolf.settings.KeychainSettings
 import com.russhwolf.settings.NSUserDefaultsSettings
 import kotlinx.cinterop.ExperimentalForeignApi
+import platform.Foundation.CFBridgingRetain
 import platform.Foundation.NSUserDefaults
+import platform.Security.kSecAttrAccessible
+import platform.Security.kSecAttrAccessibleAfterFirstUnlock
+import platform.Security.kSecAttrService
 import kotlin.reflect.KClass
 
-// DON'T REMOVE COMMENTED CODE HERE, WE NEED TO MIGRATE OLD KEYCHAIN TO NEW KEYCHAIN
-// WE HAVE TO WAIT FOR THE NEW KEYCHAIN TO BE IMPLEMENTED IN THE LIBRARY FIRST
+
 actual open class RepositoriesFactory<T : SerializableNetworkError> constructor(
     actual val environment: CoreEnvironment,
     actual val appStorageName: String,
@@ -27,15 +32,17 @@ actual open class RepositoriesFactory<T : SerializableNetworkError> constructor(
     actual val errorClass: KClass<T>
 ) {
 
-    private val oldKeyChainStore = KeychainSettings(service = appStorageName)
-//    private val newKeyChainStore = KeychainSettings(
-//        kSecAttrService to CFBridgingRetain(appStorageName),
-//        kSecAttrAccessible to kSecAttrAccessibleAfterFirstUnlock,
-//    )
+    private val oldKeyChainStore by lazy {  KeychainSettings(service = appStorageName) }
+    private val newKeyChainStore by lazy {
+        KeychainSettings(
+            kSecAttrService to CFBridgingRetain("${appStorageName}_${environment.title.lowercase()}_keychain"),
+            kSecAttrAccessible to kSecAttrAccessibleAfterFirstUnlock,
+        )
+    }
 
     actual val sharedPreference = KmmPreference(
         preferences = NSUserDefaultsSettings(NSUserDefaults.standardUserDefaults()),
-        encryptedPreferences = oldKeyChainStore
+        encryptedPreferences = newKeyChainStore
     )
 
     private val ktorClientFactory = KtorClientFactory(
@@ -50,41 +57,60 @@ actual open class RepositoriesFactory<T : SerializableNetworkError> constructor(
         kmmPreference = sharedPreference
     )
 
-//    init {
-//        migrate(oldKeyChainStore, newKeyChainStore)
-//    }
+    init {
+        migrate(oldKeyChainStore, newKeyChainStore)
+    }
 }
 
-// DON'T REMOVE COMMENTED CODE HERE, WE NEED TO MIGRATE OLD KEYCHAIN TO NEW KEYCHAIN
-// WE HAVE TO WAIT FOR THE NEW KEYCHAIN TO BE IMPLEMENTED IN THE LIBRARY FIRST
+private fun migrate(oldKeyChainStore: KeychainSettings, newKeyChainStore: KeychainSettings) {
+    // Check if the new store already has the "${CoreConstants.KEYCHAIN_PREFERENCE_VERSION}" key. If it does, migration is not needed.
+    if (newKeyChainStore.hasKey(CoreConstants.KEYCHAIN_PREFERENCE_VERSION)) {
+        return
+    }
 
-//private fun migrate(oldKeyChainStore: KeychainSettings, newKeyChainStore: KeychainSettings) {
-//    if (newKeyChainStore.hasKey("_version")) return
-//
-//    oldKeyChainStore.keys.forEach { key ->
-//        // Check each type and store accordingly
-//        val oldValue: Any? = when {
-//            oldKeyChainStore.getIntOrNull(key) != null -> oldKeyChainStore.getIntOrNull(key)
-//            oldKeyChainStore.getLongOrNull(key) != null -> oldKeyChainStore.getLongOrNull(key)
-//            oldKeyChainStore.getStringOrNull(key) != null -> oldKeyChainStore.getStringOrNull(key)
-//            oldKeyChainStore.getFloatOrNull(key) != null -> oldKeyChainStore.getFloatOrNull(key)
-//            oldKeyChainStore.getDoubleOrNull(key) != null -> oldKeyChainStore.getDoubleOrNull(key)
-//            oldKeyChainStore.getBooleanOrNull(key) != null -> oldKeyChainStore.getBooleanOrNull(key)
-//            else -> null
-//        }
-//
-//        oldValue?.let {
-//            when (it) {
-//                is Int -> newKeyChainStore.putInt(key, it)
-//                is Long -> newKeyChainStore.putLong(key, it)
-//                is String -> newKeyChainStore.putString(key, it)
-//                is Float -> newKeyChainStore.putFloat(key, it)
-//                is Double -> newKeyChainStore.putDouble(key, it)
-//                is Boolean -> newKeyChainStore.putBoolean(key, it)
-//            }
-//        }
-//    }
-//
-//    oldKeyChainStore.clear()
-//    newKeyChainStore.putString("_version", "1")
-//}
+    // Iterate over all keys in the old keychain store
+    oldKeyChainStore.keys.forEach { key ->
+        // Determine the type of value associated with the key in the old keychain store
+        val oldValue: Any? = when {
+            oldKeyChainStore.getLongOrNull(key) != null -> {
+                oldKeyChainStore.getLongOrNull(key)
+            }
+            oldKeyChainStore.getIntOrNull(key) != null -> {
+                oldKeyChainStore.getIntOrNull(key)
+            }
+            oldKeyChainStore.getStringOrNull(key) != null -> {
+                oldKeyChainStore.getStringOrNull(key)
+            }
+            oldKeyChainStore.getFloatOrNull(key) != null -> {
+                oldKeyChainStore.getFloatOrNull(key)
+            }
+            oldKeyChainStore.getDoubleOrNull(key) != null -> {
+                oldKeyChainStore.getDoubleOrNull(key)
+            }
+            oldKeyChainStore.getBooleanOrNull(key) != null -> {
+                oldKeyChainStore.getBooleanOrNull(key)
+            }
+            else -> {
+                null
+            }
+        }
+
+        // If the old value is not null, migrate it to the new keychain store
+        oldValue?.let {
+            when (it) {
+                is Long -> newKeyChainStore.putLong(key, it)
+                is Int -> newKeyChainStore.putInt(key, it)
+                is String -> newKeyChainStore.putString(key, it)
+                is Float -> newKeyChainStore.putFloat(key, it)
+                is Double -> newKeyChainStore.putDouble(key, it)
+                is Boolean -> newKeyChainStore.putBoolean(key, it)
+            }
+        }
+    }
+
+    // Clear the old keychain store after migration
+    oldKeyChainStore.clear()
+
+    // Mark the new keychain store as migrated by setting the "_version" key
+    newKeyChainStore.putString(CoreConstants.KEYCHAIN_PREFERENCE_VERSION, "1")
+}

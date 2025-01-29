@@ -9,4 +9,5 @@ object CoreConstants {
     const val US_COUNTRY_CODE = "US"
     const val CACHED_REMOTE_CONFIGS = "CACHED_REMOTE_CONFIGS"
     const val KEY_NOTIFICATION_ID = "KEY_NOTIFICATION_ID"
+    const val KEYCHAIN_PREFERENCE_VERSION = "k_version"
 }
