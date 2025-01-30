@@ -255,3 +255,13 @@ fun String.matchWithWildcard(pattern: String): Boolean {
     val regex = pattern.replace("*", ".*").toRegex()
     return matches(regex)
 }
+
+fun String.cleanHtml(): String {
+    return this
+        .replace("<p>", "")
+        .replace("</p>", "\n")
+        .replace("<strong>", "")
+        .replace("</strong>", "")
+        .replace("\r\n", "")
+        .trim()
+}
