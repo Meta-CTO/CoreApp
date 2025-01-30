@@ -6,14 +6,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import com.metacto.core.presentation.base.BaseScreen
-import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.components.bottomSheets.BottomSheetInsetsContainer
 import com.metacto.core.presentation.components.voyager.FadeTransition
 import com.metacto.core.presentation.globalState.ICoreGlobalState
@@ -33,13 +36,13 @@ fun CoreAppNavigator(
     startScreen: Screen
 ) {
     // Get main objects
-    var navigator: Navigator? = null
-    var sheetNavigator: BottomSheetNavigator? = null
-    val coroutineScope = rememberCoroutineScope()
     val globalState = koinInject<ICoreGlobalState>()
+    val coroutineScope = rememberCoroutineScope()
+    var navigator by remember { mutableStateOf<Navigator?>(null) }
+    var sheetNavigator by remember { mutableStateOf<BottomSheetNavigator?>(null) }
 
     // Handle navigation effects
-    LaunchedEffect(SIDE_EFFECTS_KEY) {
+    LaunchedEffect(navigator, sheetNavigator) {
         navManager.collectNavEffects(this) { effect ->
             // First dismiss the keyboard for better UX
             globalState.dismissKeyboard()
