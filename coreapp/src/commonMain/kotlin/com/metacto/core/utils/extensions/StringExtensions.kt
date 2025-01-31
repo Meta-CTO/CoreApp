@@ -258,10 +258,19 @@ fun String.matchWithWildcard(pattern: String): Boolean {
 
 fun String.cleanHtml(): String {
     return this
-        .replace("<p>", "")
-        .replace("</p>", "\n")
-        .replace("<strong>", "")
-        .replace("</strong>", "")
-        .replace("\r\n", "")
+        .replace(Regex("<p>|</p>"), "\n") // Replace <p> with new lines
+        .replace(Regex("<[^>]*>"), "") // Remove all other HTML tags
+        .replace("&nbsp;", " ") // Replace non-breaking spaces
+        .replace("&mdash;", "—") // Replace em dash
+        .replace("&hellip;", "...") // Replace ellipsis
+        .replace("&rsquo;", "'") // Replace right single quote
+        .replace("&ldquo;", "\"") // Replace left double quote
+        .replace("&rdquo;", "\"") // Replace right double quote
+        .replace("&lsquo;", "'") // Replace left single quote
+        .replace("&amp;", "&") // Replace ampersand
+        .replace("&lt;", "<") // Replace less than
+        .replace("&gt;", ">") // Replace greater than
+        .replace("\r\n", "\n") // Normalize line breaks
+        .replace(Regex("\\n+"), "\n\n") // Remove multiple new lines
         .trim()
 }
