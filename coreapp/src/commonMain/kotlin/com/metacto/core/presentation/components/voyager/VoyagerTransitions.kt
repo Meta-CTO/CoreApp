@@ -40,7 +40,7 @@ private fun ScreenTransition(
 
 @ExperimentalAnimationApi
 @Composable
-internal fun FadeTransition(
+fun FadeTransition(
     navigator: Navigator,
     modifier: Modifier = Modifier,
     animationSpec: FiniteAnimationSpec<Float> = spring(

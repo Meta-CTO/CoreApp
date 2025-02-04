@@ -13,5 +13,4 @@ open class CoreEnvironment(
     open val androidRemoteNotificationIcon: Int? = null,
     open val showRemoteNotifications: Boolean = false,
     open val askRemoteNotificationPermissionOnStart: Boolean = false,
-    open val enableIosSwipeToGoBack: Boolean = false,
 )

@@ -16,15 +16,11 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
-import com.metacto.core.CoreEnvironment
 import com.metacto.core.presentation.base.BaseScreen
 import com.metacto.core.presentation.components.bottomSheets.BottomSheetInsetsContainer
 import com.metacto.core.presentation.components.voyager.FadeTransition
-import com.metacto.core.presentation.components.voyager.SwipeBackContent
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.core.utils.PlatformType
-import com.metacto.core.utils.extensions.getPlatformType
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
@@ -41,11 +37,7 @@ fun CoreAppNavigator(
 ) {
     // Get main objects
     val globalState = koinInject<ICoreGlobalState>()
-    val coreEnvironment = koinInject<CoreEnvironment>()
     val coroutineScope = rememberCoroutineScope()
-    val enableSwipeToGoBack = coreEnvironment.enableIosSwipeToGoBack && getPlatformType() == PlatformType.IOS
-
-    // Init the navigators
     var navigator by remember { mutableStateOf<Navigator?>(null) }
     var sheetNavigator by remember { mutableStateOf<BottomSheetNavigator?>(null) }
 
@@ -174,11 +166,7 @@ fun CoreAppNavigator(
                     Box(
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        if (enableSwipeToGoBack) {
-                            SwipeBackContent(createdNavigator)
-                        } else {
-                            FadeTransition(createdNavigator)
-                        }
+                        FadeTransition(createdNavigator)
                     }
                 }
             )
