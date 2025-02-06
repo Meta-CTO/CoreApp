@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import org.jetbrains.compose.resources.DrawableResource
@@ -36,6 +37,8 @@ actual fun AudioPlayer(
     modifier: Modifier,
     uniqueId: String,
     audioUrl: String,
+    title: String,
+    thumbnailUrl: String,
     autoPlay: Boolean,
     handleLifecyclePause: Boolean,
     playIconRes: DrawableResource,
@@ -43,12 +46,22 @@ actual fun AudioPlayer(
     playIconColor: Color,
     playIconSize: Dp,
     durationTextColor: Color,
-    progressColor: Color,
+    progressColor: List<Color>,
+    thumbnailShape: Shape,
     trackerColor: Color,
     progressHeight: Dp,
     durationTextStyle: TextStyle,
     durationTextWidth: Dp,
     progressRadius: Dp,
+    thumbnailSize: Dp,
+    titleColor: Color,
+    titleStyle: TextStyle,
+    thumbnailShadowColor: Color,
+    thumbnailElevation: Dp,
+    progressSpacing: Dp,
+    topPadding: Dp,
+    horizontalPadding: Dp,
+    horizontalArrangement: Dp,
     onPlayerCreated: ((AudioPlayerController) -> Unit)?
 ) {
 
@@ -132,19 +145,27 @@ actual fun AudioPlayer(
 
     AudioPlayerComponent(
         totalDuration = totalDuration,
-        currentPosition = currentPosition,
         isPlaying = isPlaying,
         playIconRes = playIconRes,
         pauseIconRes = pauseIconRes,
         playIconColor = playIconColor,
         playIconSize = playIconSize,
-        durationTextColor = durationTextColor,
-        durationTextStyle = durationTextStyle,
+        thumbnailUrl = thumbnailUrl,
+        thumbnailShape = thumbnailShape,
+        thumbnailSize = thumbnailSize,
+        title = title,
+        titleColor = titleColor,
+        titleStyle = titleStyle,
         progressColor = progressColor,
         trackerColor = trackerColor,
         progressHeight = progressHeight,
-        durationTextWidth = durationTextWidth,
         progressRadius = progressRadius,
+        thumbnailShadowColor = thumbnailShadowColor,
+        thumbnailElevation = thumbnailElevation,
+        horizontalArrangement = horizontalArrangement,
+        horizontalPadding = horizontalPadding,
+        progressSpacing = progressSpacing,
+        topPadding = topPadding,
         onPlayClick = {
             if (isPlaying) {
                 player.pause()
@@ -165,7 +186,7 @@ actual fun AudioPlayer(
     // Pause player if needed
     DisposableEffect(player) {
         onDispose {
-            if(handleLifecyclePause) {
+            if (handleLifecyclePause) {
                 player.pause()
             }
         }

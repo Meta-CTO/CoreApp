@@ -181,6 +181,11 @@ data class CoreShapes(
     // VideoPLayer
     val videoPlayer: VideoPlayerShapes = VideoPlayerShapes(
         circle = circle
+    ),
+
+    // AudioPlayer
+    val audioPlayer: AudioPlayerShapes = AudioPlayerShapes(
+        large = large
     )
 )
 
@@ -380,6 +385,12 @@ data class WheelDatePickerShapes(
 data class VideoPlayerShapes(
     private val circle: RoundedCornerShape,
     val customIconShape: RoundedCornerShape = circle
+)
+
+// AudioPlayer
+data class AudioPlayerShapes(
+    private val large: RoundedCornerShape,
+    val thumbnailShape: RoundedCornerShape = large
 )
 
 val LocalCoreShapes = staticCompositionLocalOf { CoreShapes() }

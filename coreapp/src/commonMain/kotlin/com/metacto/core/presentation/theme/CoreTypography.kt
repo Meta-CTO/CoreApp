@@ -325,7 +325,8 @@ data class CoreTypography(
 
     // AudioPlayerTypography
     val audioPlayer: AudioPlayerTypography = AudioPlayerTypography(
-        labelSmall = labelSmall
+        labelSmall = labelSmall,
+        labelMedium = labelMedium
     )
 )
 
@@ -642,7 +643,9 @@ data class DatePickerDialogTypography(
 // AudioPlayer
 data class AudioPlayerTypography(
     private val labelSmall: TextStyle,
-    val duration: TextStyle = labelSmall
+    private val labelMedium: TextStyle,
+    val duration: TextStyle = labelSmall,
+    val titleStyle: TextStyle = labelMedium
 )
 
 val LocalCoreTypography = staticCompositionLocalOf { CoreTypography() }

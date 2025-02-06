@@ -9,6 +9,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.media3.common.util.UnstableApi
@@ -23,6 +24,8 @@ actual fun AudioPlayer(
     modifier: Modifier,
     uniqueId: String,
     audioUrl: String,
+    title: String,
+    thumbnailUrl: String,
     autoPlay: Boolean,
     handleLifecyclePause: Boolean,
     playIconRes: DrawableResource,
@@ -30,16 +33,27 @@ actual fun AudioPlayer(
     playIconColor: Color,
     playIconSize: Dp,
     durationTextColor: Color,
-    progressColor: Color,
+    progressColor: List<Color>,
+    thumbnailShape: Shape,
     trackerColor: Color,
     progressHeight: Dp,
     durationTextStyle: TextStyle,
     durationTextWidth: Dp,
     progressRadius: Dp,
+    thumbnailSize: Dp,
+    titleColor: Color,
+    titleStyle: TextStyle,
+    thumbnailShadowColor: Color,
+    thumbnailElevation: Dp,
+    progressSpacing: Dp,
+    topPadding: Dp,
+    horizontalPadding: Dp,
+    horizontalArrangement: Dp,
     onPlayerCreated: ((AudioPlayerController) -> Unit)?
 ) {
     // Inject main stuff
-    val playerManagers = koinInject<MutableMap<String, AudioPlayerManager>>(DiQualifiers.audioPlayerManagers)
+    val playerManagers =
+        koinInject<MutableMap<String, AudioPlayerManager>>(DiQualifiers.audioPlayerManagers)
     val playerManager = playerManagers.getOrPut(uniqueId) {
         AudioPlayerManager(uniqueId)
     }
@@ -77,19 +91,27 @@ actual fun AudioPlayer(
 
     AudioPlayerComponent(
         totalDuration = playerManager.totalDuration.value,
-        currentPosition = currentPosition,
         isPlaying = playerManager.isPlaying.value,
         playIconRes = playIconRes,
         pauseIconRes = pauseIconRes,
         playIconColor = playIconColor,
         playIconSize = playIconSize,
-        durationTextColor = durationTextColor,
-        durationTextStyle = durationTextStyle,
-        durationTextWidth = durationTextWidth,
+        thumbnailUrl = thumbnailUrl,
+        thumbnailShape = thumbnailShape,
+        thumbnailSize = thumbnailSize,
+        title = title,
+        titleColor = titleColor,
+        titleStyle = titleStyle,
         progressColor = progressColor,
         trackerColor = trackerColor,
         progressHeight = progressHeight,
         progressRadius = progressRadius,
+        thumbnailShadowColor = thumbnailShadowColor,
+        thumbnailElevation = thumbnailElevation,
+        horizontalArrangement = horizontalArrangement,
+        horizontalPadding = horizontalPadding,
+        progressSpacing = progressSpacing,
+        topPadding = topPadding,
         onPlayClick = playerManager::togglePlay,
         modifier = modifier
     )
