@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.metacto.core.presentation.components.audioPlayer.AudioPlayer
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
@@ -54,11 +53,11 @@ internal fun ProfileContent(
             text = 20f.toFeetInches()
         )
 
-        AudioPlayer(
-            modifier = Modifier.fillMaxWidth(),
-            audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Evillaugh.ogg",
-//            audioUrl = "https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
-        )
+//        AudioPlayer(
+//            modifier = Modifier.fillMaxWidth(),
+//            audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Evillaugh.ogg",
+////            audioUrl = "https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
+//        )
 
         PrimaryFilledButton(
             text = "Open native picker",

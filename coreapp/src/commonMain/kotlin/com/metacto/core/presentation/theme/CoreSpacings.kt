@@ -558,7 +558,7 @@ data class CoreSpacings(
     val audioPlayer: AudioPlayerSpacings = AudioPlayerSpacings(),
 
     // NonLazyGrid
-    val nonLazyGrid :NonLazyGridSpacings = NonLazyGridSpacings()
+    val nonLazyGrid: NonLazyGridSpacings = NonLazyGridSpacings()
 )
 
 // PrimaryFilledButton
@@ -1271,6 +1271,12 @@ data class AudioPlayerSpacings(
     val progressHeight: Dp = 4.dp,
     val durationTextWidth: Dp = 40.dp,
     val progressRadius: Dp = 12.dp,
+    val thumbnailSize: Dp = 12.dp,
+    val thumbnailElevation: Dp = 4.dp,
+    val progressSpacing: Dp = 16.dp,
+    val topPadding: Dp = 12.dp,
+    val horizontalPadding: Dp = 16.dp,
+    val horizontalArrangement: Dp = 16.dp
 )
 
 // NonLazyGrid

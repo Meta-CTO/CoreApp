@@ -3,7 +3,6 @@ package com.sampleApp.app.presentation.home.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Work
 import androidx.compose.runtime.Composable
@@ -13,12 +12,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.metacto.core.presentation.components.audioPlayer.AudioPlayer
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.inputFields.PickerInputField
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
-import com.metacto.core.presentation.components.videoPlayer.ControlsType
-import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
@@ -44,29 +42,11 @@ internal fun HomeContent(
             println("HomeContent -- onScrollDown")
         },
     ) {
-        VideoPlayer(
-            uniqueId = "home_video_player",
-            videoUrl = state.currentVideo.url,
-            videoTitle = state.currentVideo.title,
-            videoArtist = state.currentVideo.artist,
-            videoArtworkUrl = state.currentVideo.artworkUrl,
-            enableVoice = false,
-            autoPlay = false,
-            scaleToCrop = true,
-            autoRepeat = true,
-            enablePip = true,
-            controlsType = ControlsType.CustomControls,
-            handleLifecyclePause = false,
-            controllerShowTimeoutMs = 2000,
-            onPlayerCreated = {
-                onEvent(Event.VideoPlayerControllerCreated(it))
-            },
-            onDurationCaught = {
-                println("Video duration: $it")
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(400.dp)
+        AudioPlayer(
+            thumbnailUrl = "https://cdn.sanity.io/images/599r6htc/regionalized/a26fe0cf37bcc164980bcf8014817652df9683a7-1440x810.png",
+            audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg",
+            title = "testing testing testing testing testing testing testing testing testing",
+            thumbnailSize = 50.dp
         )
 
         Row(
