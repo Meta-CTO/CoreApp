@@ -272,5 +272,7 @@ fun String.cleanHtml(): String {
         .replace("&gt;", ">") // Replace greater than
         .replace("\r\n", "\n") // Normalize line breaks
         .replace(Regex("\\n+"), "\n\n") // Remove multiple new lines
+        .split("\n")
+        .joinToString("\n") { it.trimStart() } // Join lines back
         .trim()
 }
