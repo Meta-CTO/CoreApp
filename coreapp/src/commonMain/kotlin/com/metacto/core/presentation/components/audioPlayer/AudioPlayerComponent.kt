@@ -30,7 +30,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.presentation.components.images.AppImage
 import com.metacto.core.presentation.components.texts.SingleLineText
-import com.metacto.core.presentation.theme.CoreTheme.colors
 import com.metacto.core.utils.extensions.noRippleClickable
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
@@ -60,6 +59,7 @@ fun AudioPlayerComponent(
     topPadding: Dp,
     horizontalPadding: Dp,
     horizontalArrangement: Dp,
+    backgroundColor: Color,
     onPlayClick: () -> Unit
 ) {
     // prepare vars
@@ -89,7 +89,7 @@ fun AudioPlayerComponent(
         verticalArrangement = Arrangement.spacedBy(progressSpacing),
         modifier = modifier
             .fillMaxWidth()
-            .background(color = colors.white)
+            .background(color = backgroundColor)
             .padding(top = topPadding)
     ) {
         // Main content row

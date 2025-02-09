@@ -451,7 +451,8 @@ data class CoreColors(
     // AudioPlayer
     val audioPlayer: AudioPlayerColors = AudioPlayerColors(
         primary = primary,
-        black = black
+        black = black,
+        white = white
     )
 )
 
@@ -1012,12 +1013,14 @@ data class LoadingMoreColors(
 data class AudioPlayerColors(
     private val primary: Color,
     private val black: Color,
+    private val white: Color,
     val playIcon: Color = primary,
     val durationText: Color = primary,
     val progress: List<Color> = listOf(primary, primary),
     val tracker: Color = primary.copy(alpha = 0.5f),
     val titleColor: Color = primary,
-    val thumbnailShadowColor: Color = black
+    val thumbnailShadowColor: Color = black,
+    val backgroundColor: Color = white
 )
 
 val LocalCoreColors = staticCompositionLocalOf { CoreColors() }

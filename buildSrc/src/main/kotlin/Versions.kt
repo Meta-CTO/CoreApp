@@ -16,7 +16,7 @@ object Versions {
     const val VOYAGER = "1.1.0-beta02"
     const val ACTIVITY_COMPOSE = "1.8.0"
     const val APP_COMPAT = "1.6.1"
-    const val CORE_KTS = "1.12.0"
+    const val CORE_KTS = "1.15.0"
     const val SECURITY_CRYPTO = "1.0.0"
     const val PLAY_SERVICES_AUTH = "20.7.0"
     const val SPLASH_SCREEN = "1.1.0-alpha02"

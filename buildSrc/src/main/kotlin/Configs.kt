@@ -1,6 +1,6 @@
 object Configs {
-    const val COMPILE_SDK_VERSION = 34
-    const val TARGET_SDK_VERSION = 34
+    const val COMPILE_SDK_VERSION = 35
+    const val TARGET_SDK_VERSION = 35
     const val MIN_SDK_VERSION = 26
     const val CORE_APP_ID = "com.metacto.coreApp"
     const val SAMPLE_APP_FRAMEWORK_NAME = "sampleAppShared"

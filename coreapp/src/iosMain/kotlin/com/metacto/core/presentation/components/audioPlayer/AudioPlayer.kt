@@ -43,6 +43,7 @@ actual fun AudioPlayer(
     handleLifecyclePause: Boolean,
     playIconRes: DrawableResource,
     pauseIconRes: DrawableResource,
+    backgroundColor: Color,
     playIconColor: Color,
     playIconSize: Dp,
     durationTextColor: Color,
@@ -166,6 +167,7 @@ actual fun AudioPlayer(
         horizontalPadding = horizontalPadding,
         progressSpacing = progressSpacing,
         topPadding = topPadding,
+        backgroundColor = backgroundColor,
         onPlayClick = {
             if (isPlaying) {
                 player.pause()

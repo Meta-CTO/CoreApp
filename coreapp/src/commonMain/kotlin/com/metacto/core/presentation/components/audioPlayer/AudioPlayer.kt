@@ -29,6 +29,7 @@ expect fun AudioPlayer(
     handleLifecyclePause: Boolean = false,
     playIconRes: DrawableResource = Res.drawable.ic_audio_play,
     pauseIconRes: DrawableResource = Res.drawable.ic_audio_pause,
+    backgroundColor: Color = colors.audioPlayer.backgroundColor,
     playIconColor: Color = colors.audioPlayer.playIcon,
     playIconSize: Dp = spacings.audioPlayer.playIconSize,
     durationTextColor: Color = colors.audioPlayer.durationText,
