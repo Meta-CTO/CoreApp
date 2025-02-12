@@ -21,6 +21,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
+import coil3.network.NetworkHeaders
+import coil3.network.httpHeaders
 import coil3.request.CachePolicy
 import coil3.request.ImageRequest
 import coil3.request.crossfade
@@ -58,9 +60,15 @@ fun AppImage(
     quality: FilterQuality = FilterQuality.Medium,
     crossFade: Boolean = true,
     shimmerLoading: Boolean = false,
+    extraHeaders: Map<String, String> = emptyMap(),
     shimmerLoadingColor: Color = CoreTheme.colors.appImagesColors.shimmerLoading,
     crossFadeDuration: Int = DEFAULT_IMAGE_CROSS_FADE_DURATION
 ) {
+    // Prepare network headers
+    val networkHeaders = NetworkHeaders.Builder()
+        .apply { extraHeaders.forEach { (key, value) -> add(key, value) } }
+        .build()
+
     // Prepare painters
     val placeholder = placeholderPainter ?: placeholderVector?.let { rememberVectorPainter(it) }
     val error = errorPainter ?: errorVector?.let { rememberVectorPainter(it) }
@@ -72,6 +80,7 @@ fun AppImage(
     val model = remember(url, image?.getData()) {
         ImageRequest.Builder(context)
             .data(url ?: image?.getData())
+            .httpHeaders(networkHeaders)
             .diskCachePolicy(CachePolicy.ENABLED)
             .memoryCachePolicy(CachePolicy.DISABLED)
             .applyIf(crossFade) { crossfade(crossFadeDuration) }
