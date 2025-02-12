@@ -60,6 +60,7 @@ fun AudioPlayerComponent(
     topPadding: Dp,
     horizontalPadding: Dp,
     horizontalArrangement: Dp,
+    thumbnailExtraHeaders: Map<String, String> = emptyMap(),
     onPlayClick: () -> Unit
 ) {
     // prepare vars
@@ -104,6 +105,7 @@ fun AudioPlayerComponent(
             AppImage(
                 url = thumbnailUrl,
                 contentScale = ContentScale.Crop,
+                extraHeaders = thumbnailExtraHeaders,
                 modifier = Modifier
                     .shadow(
                         elevation = thumbnailElevation,

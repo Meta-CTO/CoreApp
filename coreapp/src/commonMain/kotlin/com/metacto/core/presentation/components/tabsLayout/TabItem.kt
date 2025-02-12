@@ -43,6 +43,7 @@ fun TabItem(
     activeIndicatorThickness: Dp = CoreTheme.spacings.tabItem.activeIndicatorThickness,
     inActiveIndicatorThickness: Dp = CoreTheme.spacings.tabItem.inactiveIndicatorThickness,
     itemMinWidth: Dp = CoreTheme.spacings.tabItem.itemMinWidth,
+    imageExtraHeaders: Map<String, String> = emptyMap(),
     horizontalArrangement: Arrangement.Horizontal = Arrangement.spacedBy(
         space = CoreTheme.spacings.tabItem.textPadding,
         alignment = Alignment.CenterHorizontally
@@ -110,6 +111,7 @@ fun TabItem(
                 AppImage(
                     image = tabIcon,
                     contentDescription = tabItemModel.title,
+                    extraHeaders = imageExtraHeaders,
                     crossFade = false,
                     modifier = Modifier.size(iconSize)
                 )

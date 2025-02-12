@@ -39,6 +39,7 @@ fun WhiteAppImage(
     quality: FilterQuality = FilterQuality.Medium,
     crossFade: Boolean = true,
     shimmerLoading: Boolean = false,
+    extraHeaders: Map<String, String> = emptyMap(),
     shimmerLoadingColor: Color = CoreTheme.colors.appImagesColors.shimmerLoading,
     crossFadeDuration: Int = DEFAULT_IMAGE_CROSS_FADE_DURATION
 ) {
@@ -64,6 +65,7 @@ fun WhiteAppImage(
         fallbackVector = fallbackVector,
         shimmerLoading = shimmerLoading,
         shimmerLoadingColor = shimmerLoadingColor,
+        extraHeaders = extraHeaders,
         placeholderPainter = painterResource(Res.drawable.img_white_placeholder)
     )
 }
