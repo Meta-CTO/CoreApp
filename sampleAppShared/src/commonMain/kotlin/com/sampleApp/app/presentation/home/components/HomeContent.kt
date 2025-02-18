@@ -17,6 +17,7 @@ import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.images.AppImage
 import com.metacto.core.presentation.components.inputFields.PickerInputField
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
+import com.metacto.core.utils.contacts.rememberContactsCollectorOptionsFactory
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
@@ -28,6 +29,8 @@ internal fun HomeContent(
     state: State,
     onEvent: (Event) -> Unit
 ) {
+    val contactsCollectorOptionsFactory = rememberContactsCollectorOptionsFactory()
+
     ScreenColumn(
         isScrollable = true,
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -177,6 +180,9 @@ internal fun HomeContent(
                 println("PhoneNumberManager --formattedPhoneNumber: $formattedPhoneNumber")
                 val getE164FormattedPhoneNumber = phoneNumberManager.getE164FormattedPhoneNumber(phoneNumber, countryCode)
                 println("PhoneNumberManager --getE164FormattedPhoneNumber: $getE164FormattedPhoneNumber")
+
+                val options = contactsCollectorOptionsFactory.createOptions()
+                // TODO: pass options to the view model
             }
         )
     }
