@@ -1,6 +1,5 @@
 package com.metacto.core.presentation.components.audioPlayer
 
-import androidx.annotation.OptIn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -12,13 +11,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import androidx.media3.common.util.UnstableApi
 import com.metacto.core.domain.DiQualifiers
 import com.metacto.core.utils.extensions.OnLifecycleEvent
 import org.jetbrains.compose.resources.DrawableResource
 import org.koin.compose.koinInject
 
-@OptIn(UnstableApi::class)
 @Composable
 actual fun AudioPlayer(
     modifier: Modifier,
@@ -26,6 +23,7 @@ actual fun AudioPlayer(
     audioUrl: String,
     title: String,
     thumbnailUrl: String,
+    audioPlayerStatusListener: AudioPlayerStatusListener,
     autoPlay: Boolean,
     handleLifecyclePause: Boolean,
     playIconRes: DrawableResource,
@@ -55,7 +53,7 @@ actual fun AudioPlayer(
     val playerManagers =
         koinInject<MutableMap<String, AudioPlayerManager>>(DiQualifiers.audioPlayerManagers)
     val playerManager = playerManagers.getOrPut(uniqueId) {
-        AudioPlayerManager(uniqueId)
+        AudioPlayerManager(uniqueId, audioPlayerStatusListener)
     }
 
     // Player states

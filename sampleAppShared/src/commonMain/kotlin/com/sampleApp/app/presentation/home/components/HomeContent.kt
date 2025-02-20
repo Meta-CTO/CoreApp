@@ -12,6 +12,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.metacto.core.presentation.components.audioPlayer.AudioPlayer
+import com.metacto.core.presentation.components.audioPlayer.AudioPlayerStatusListener
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.images.AppImage
@@ -49,12 +51,21 @@ internal fun HomeContent(
             url = "https://scstage103-cd.joycemeyer.org/-/media/JoyceMeyer/Ads/Books/Battlefield-of-the-Mind/BOTM_WebAd1.jpeg",
             extraHeaders = mapOf("Accept" to "image/png")
         )
-//        AudioPlayer(
-//            thumbnailUrl = "https://cdn.sanity.io/images/599r6htc/regionalized/a26fe0cf37bcc164980bcf8014817652df9683a7-1440x810.png",
-//            audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg",
-//            title = "testing testing testing testing testing testing testing testing testing",
-//            thumbnailSize = 50.dp
-//        )
+        AudioPlayer(
+            thumbnailUrl = "https://cdn.sanity.io/images/599r6htc/regionalized/a26fe0cf37bcc164980bcf8014817652df9683a7-1440x810.png",
+            audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg",
+            title = "testing testing testing testing testing testing testing testing testing",
+            thumbnailSize = 50.dp,
+            audioPlayerStatusListener = object :AudioPlayerStatusListener{
+                override fun onAudioPlayed() {
+                    println("Audio player played")
+                }
+
+                override fun onAudioPaused() {
+                    println("Audio player paused")
+                }
+            }
+        )
 
         Row(
             modifier = Modifier.fillMaxWidth()
