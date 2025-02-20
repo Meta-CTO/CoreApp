@@ -19,7 +19,8 @@ import org.koin.core.component.inject
 import kotlin.time.Duration.Companion.milliseconds
 
 internal class AudioPlayerManager(
-    private val uniqueId: String
+    private val uniqueId: String,
+    private val audioPlayerStatusListener: AudioPlayerStatusListener
 ) : KoinComponent {
 
     private val context by inject<Context>()
@@ -41,7 +42,7 @@ internal class AudioPlayerManager(
         // Add play listener to exo player
         exoPlayer.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(state: Int) {
-                when(state) {
+                when (state) {
                     Player.STATE_READY -> {
                         // Update total duration when the player is ready
                         _totalDuration.longValue = exoPlayer.duration
@@ -95,12 +96,14 @@ internal class AudioPlayerManager(
     fun play() {
         if (exoPlayer.isPlaying.not()) {
             exoPlayer.play()
+            audioPlayerStatusListener.onAudioPlayed()
         }
     }
 
     fun pause() {
         if (exoPlayer.isPlaying) {
             exoPlayer.pause()
+            audioPlayerStatusListener.onAudioPaused()
         }
     }
 

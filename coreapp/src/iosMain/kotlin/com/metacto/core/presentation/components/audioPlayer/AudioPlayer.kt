@@ -39,6 +39,7 @@ actual fun AudioPlayer(
     audioUrl: String,
     title: String,
     thumbnailUrl: String,
+    audioPlayerStatusListener: AudioPlayerStatusListener,
     autoPlay: Boolean,
     handleLifecyclePause: Boolean,
     playIconRes: DrawableResource,
@@ -130,10 +131,12 @@ actual fun AudioPlayer(
         object : AudioPlayerController {
             override fun play() {
                 player.play()
+                audioPlayerStatusListener.onAudioPlayed()
             }
 
             override fun pause() {
                 player.pause()
+                audioPlayerStatusListener.onAudioPaused()
             }
         }
     }
@@ -169,6 +172,7 @@ actual fun AudioPlayer(
         onPlayClick = {
             if (isPlaying) {
                 player.pause()
+                audioPlayerStatusListener.onAudioPaused()
             } else {
                 if (isAudioEnded) {
                     // Restart the video
@@ -177,6 +181,7 @@ actual fun AudioPlayer(
                     isPlaying = true
                 }
                 player.play()
+                audioPlayerStatusListener.onAudioPlayed()
                 isPlaying = true
             }
         },
@@ -188,6 +193,7 @@ actual fun AudioPlayer(
         onDispose {
             if (handleLifecyclePause) {
                 player.pause()
+                audioPlayerStatusListener.onAudioPaused()
             }
         }
     }
