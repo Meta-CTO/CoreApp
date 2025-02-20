@@ -25,6 +25,7 @@ expect fun AudioPlayer(
     audioUrl: String,
     title: String,
     thumbnailUrl: String,
+    audioPlayerStatusListener: AudioPlayerStatusListener,
     autoPlay: Boolean = false,
     handleLifecyclePause: Boolean = false,
     playIconRes: DrawableResource = Res.drawable.ic_audio_play,
