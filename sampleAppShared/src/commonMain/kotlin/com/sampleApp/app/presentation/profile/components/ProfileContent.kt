@@ -2,6 +2,7 @@ package com.sampleApp.app.presentation.profile.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -11,6 +12,7 @@ import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.extensions.toFeetInches
+import com.metacto.core.utils.extensions.topStroke
 import com.sampleApp.app.presentation.models.VideoItemInfo
 import com.sampleApp.app.presentation.profile.ProfileContract.Event
 import com.sampleApp.app.presentation.profile.ProfileContract.State
@@ -47,6 +49,9 @@ internal fun ProfileContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(400.dp)
+                .padding(top = 20.dp)
+                .topStroke(horizontalPadding = 30.dp)
+                .padding(top = 20.dp)
         )
 
         Text(

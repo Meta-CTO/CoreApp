@@ -627,52 +627,64 @@ fun Modifier.topShadow(elevation: Dp) = drawBehind {
 @Composable
 fun Modifier.topStroke(
     color: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
-    thickness: Dp = 1.dp
+    thickness: Dp = 1.dp,
+    horizontalPadding: Dp = 0.dp
 ) = drawBehind {
     val strokeHeight = thickness.toPx()
+    val paddingPx = horizontalPadding.toPx()
+
     drawRect(
         color = color,
-        topLeft = Offset(0f, 0f),
-        size = Size(width = size.width, height = strokeHeight)
+        topLeft = Offset(paddingPx, 0f),
+        size = Size(width = size.width - (2 * paddingPx), height = strokeHeight)
     )
 }
 
 @Composable
 fun Modifier.bottomStroke(
     color: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
-    thickness: Dp = 1.dp
+    thickness: Dp = 1.dp,
+    horizontalPadding: Dp = 0.dp
 ) = drawBehind {
     val strokeHeight = thickness.toPx()
+    val paddingPx = horizontalPadding.toPx()
+
     drawRect(
         color = color,
-        topLeft = Offset(0f, size.height - strokeHeight),
-        size = Size(width = size.width, height = strokeHeight)
+        topLeft = Offset(paddingPx, size.height - strokeHeight),
+        size = Size(width = size.width - (2 * paddingPx), height = strokeHeight)
     )
 }
 
 @Composable
 fun Modifier.startStroke(
     color: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
-    thickness: Dp = 1.dp
+    thickness: Dp = 1.dp,
+    verticalPadding: Dp = 0.dp
 ) = drawBehind {
     val strokeWidthPx = thickness.toPx()
+    val paddingPx = verticalPadding.toPx()
+
     drawRect(
         color = color,
-        topLeft = Offset(0f, 0f),
-        size = Size(width = strokeWidthPx, height = size.height)
+        topLeft = Offset(0f, paddingPx),
+        size = Size(width = strokeWidthPx, height = size.height - (2 * paddingPx))
     )
 }
 
 @Composable
 fun Modifier.endStroke(
     color: Color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
-    thickness: Dp = 1.dp
+    thickness: Dp = 1.dp,
+    verticalPadding: Dp = 0.dp
 ) = drawBehind {
     val strokeWidthPx = thickness.toPx()
+    val paddingPx = verticalPadding.toPx()
+
     drawRect(
         color = color,
-        topLeft = Offset(size.width - strokeWidthPx, 0f),
-        size = Size(width = strokeWidthPx, height = size.height)
+        topLeft = Offset(size.width - strokeWidthPx, paddingPx),
+        size = Size(width = strokeWidthPx, height = size.height - (2 * paddingPx))
     )
 }
 
