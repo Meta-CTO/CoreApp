@@ -172,7 +172,6 @@ actual fun AudioPlayer(
         onPlayClick = {
             if (isPlaying) {
                 player.pause()
-                audioPlayerStatusListener.onAudioPaused()
             } else {
                 if (isAudioEnded) {
                     // Restart the video
@@ -181,7 +180,6 @@ actual fun AudioPlayer(
                     isPlaying = true
                 }
                 player.play()
-                audioPlayerStatusListener.onAudioPlayed()
                 isPlaying = true
             }
         },
