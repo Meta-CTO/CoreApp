@@ -55,3 +55,28 @@ fun Color.interpolateTo(targetColor: Color, fraction: Float): Color {
         alpha = lerp(start = this.alpha, stop = targetColor.alpha, fraction = clampedFraction)
     )
 }
+
+fun List<Color>.averageColor(): Color {
+    if (isEmpty()) return Color.Transparent
+
+    var totalRed = 0f
+    var totalGreen = 0f
+    var totalBlue = 0f
+    var totalAlpha = 0f
+
+    for (color in this) {
+        totalRed += color.red
+        totalGreen += color.green
+        totalBlue += color.blue
+        totalAlpha += color.alpha
+    }
+
+    val size = this.size.toFloat()
+
+    return Color(
+        red = totalRed / size,
+        green = totalGreen / size,
+        blue = totalBlue / size,
+        alpha = totalAlpha / size
+    )
+}
