@@ -18,6 +18,7 @@ import kotlinx.datetime.isoDayNumber
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
 
+@Deprecated("Use com.metacto.core.utils.date.DateTimeUtils instead", ReplaceWith("DateTimeUtils"))
 expect object DateHelper {
     fun format(instant: Instant, format: String): String
 

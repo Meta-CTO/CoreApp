@@ -53,6 +53,7 @@ fun NSDate.toDateComponents(): NSDateComponents {
     )
 }
 
+@Deprecated("Use com.metacto.core.utils.date.DateTimeUtils instead", ReplaceWith("DateTimeUtils"))
 actual object DateHelper {
     private val timeFormatter = NSDateComponentsFormatter().apply {
         unitsStyle = NSDateComponentsFormatterUnitsStyleAbbreviated

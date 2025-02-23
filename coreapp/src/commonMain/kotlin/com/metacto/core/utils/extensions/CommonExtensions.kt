@@ -15,3 +15,5 @@ fun CancellableContinuation<*>.cancelIfActive() {
 expect fun getPlatformType(): PlatformType
 
 expect fun randomUUID(): String
+
+expect fun getSystemLanguage(): String

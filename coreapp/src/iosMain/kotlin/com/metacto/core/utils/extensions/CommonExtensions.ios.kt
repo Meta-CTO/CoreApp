@@ -4,48 +4,19 @@ package com.metacto.core.utils.extensions
 
 import com.metacto.core.utils.PlatformType
 import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.cinterop.useContents
 import kotlinx.coroutines.Dispatchers
-import platform.Foundation.NSNotificationCenter
+import platform.Foundation.NSLocale
 import platform.Foundation.NSThread
 import platform.Foundation.NSURL
 import platform.Foundation.NSUUID
-import platform.Foundation.NSValue
-import platform.UIKit.CGRectValue
+import platform.Foundation.currentLocale
+import platform.Foundation.languageCode
 import platform.UIKit.UIApplication
 import platform.UIKit.UIApplicationOpenSettingsURLString
-import platform.UIKit.UIKeyboardFrameEndUserInfoKey
-import platform.UIKit.UIKeyboardWillHideNotification
-import platform.UIKit.UIKeyboardWillShowNotification
 import platform.darwin.DISPATCH_QUEUE_PRIORITY_DEFAULT
 import platform.darwin.dispatch_async
 import platform.darwin.dispatch_get_global_queue
 import platform.darwin.dispatch_get_main_queue
-
-actual fun getPlatformType(): PlatformType {
-    return PlatformType.IOS
-}
-
-@OptIn(ExperimentalForeignApi::class)
-fun observeKeyboardHeight(
-    onKeyboardVisible: (Float) -> Unit,
-    onKeyboardHidden: () -> Unit
-) {
-    // Observe keyboard visibility
-    NSNotificationCenter.defaultCenter()
-        .addObserverForName(UIKeyboardWillShowNotification, null, null) {
-            val keyboardFrameBegin = it?.userInfo?.getValue(UIKeyboardFrameEndUserInfoKey)
-            (keyboardFrameBegin as? NSValue)?.CGRectValue?.useContents {
-                onKeyboardVisible.invoke(size.height.toFloat())
-            }
-        }
-
-    // Observe keyboard hidden
-    NSNotificationCenter.defaultCenter()
-        .addObserverForName(UIKeyboardWillHideNotification, null, null) {
-            onKeyboardHidden.invoke()
-        }
-}
 
 inline fun <T1> mainContinuation(
     noinline block: (T1) -> Unit
@@ -115,4 +86,12 @@ fun openAppSettings() {
     openUrl(UIApplicationOpenSettingsURLString)
 }
 
+actual fun getPlatformType(): PlatformType {
+    return PlatformType.IOS
+}
+
 actual fun randomUUID(): String = NSUUID().UUIDString()
+
+actual fun getSystemLanguage(): String {
+    return NSLocale.currentLocale.languageCode ?: "en"
+}

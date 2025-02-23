@@ -19,6 +19,7 @@ actual fun dateFromTimestamp(timestamp: Long): Date {
     return Date(timestamp)
 }
 
+@Deprecated("Use com.metacto.core.utils.date.DateTimeUtils instead", ReplaceWith("DateTimeUtils"))
 actual object DateHelper {
     actual fun format(instant: Instant, format: String): String {
         val timestamp = instant.toEpochMilliseconds()
