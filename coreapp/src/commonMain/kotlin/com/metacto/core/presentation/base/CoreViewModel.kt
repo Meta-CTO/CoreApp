@@ -52,6 +52,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import org.jetbrains.compose.resources.DrawableResource
@@ -85,6 +87,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     private var isObservingItemPicker: Boolean = false
     private var onPickerItemSelected: ((PickerItem) -> Unit)? = null
     private var loadingCount = 0
+    private val mutex = Mutex()
 
     abstract fun setInitialState(): S
     abstract fun handleEvents(event: E): Any
@@ -120,6 +123,14 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     protected fun setState(reducer: S.() -> S) {
         val newState = viewState.value.reducer()
         _viewState.value = newState
+    }
+
+    protected fun setStateLocked(reducer: S.() -> S) {
+        screenModelScope.launch {
+            mutex.withLock {
+                setState { reducer() }
+            }
+        }
     }
 
     protected fun setEffect(builder: () -> SF) {
