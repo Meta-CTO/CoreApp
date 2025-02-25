@@ -44,7 +44,6 @@ import io.ktor.client.plugins.HttpRequestTimeoutException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.Channel
@@ -147,6 +146,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         debounce: Long = 0,
         oldDebounceJob: Job? = null,
         onCreated: (Job) -> Unit = {},
+        shouldShowErrorMessage: (Throwable) -> Boolean = { true },
         onError: ((Throwable, String?) -> Unit)? = null,
         onComplete: (() -> Unit)? = null,
     ): Job {
@@ -203,10 +203,12 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                     }
                 }
                 if (hasLoading) hideLoading()
-                showError(
-                    error = errorMessage,
-                    errorType = errorType
-                )
+                if (shouldShowErrorMessage(throwable)) {
+                    showError(
+                        error = errorMessage,
+                        errorType = errorType
+                    )
+                }
                 onError?.invoke(throwable, errorMessage)
             } finally {
                 onComplete?.invoke()
