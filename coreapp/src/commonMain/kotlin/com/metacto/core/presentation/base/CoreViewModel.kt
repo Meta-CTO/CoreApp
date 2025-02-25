@@ -21,6 +21,7 @@ import com.metacto.core.presentation.itemPicker.NativeItemPicker
 import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.utils.PlatformType
 import com.metacto.core.utils.extensions.getPlatformType
+import com.metacto.core.utils.extensions.isInternetConnectionError
 import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.resources.IResourceProvider
 import com.metacto.coreApp.resources.Res
@@ -36,8 +37,6 @@ import com.metacto.coreApp.resources.update_button
 import com.metacto.coreApp.resources.your_session_expired_login_again
 import com.metacto.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
 import com.metacto.strapikmm.errorhandling.AppException
-import com.metacto.strapikmm.errorhandling.NetworkMapperConstants
-import com.metacto.strapikmm.errorhandling.errortype.isNetworkException
 import com.metacto.strapikmm.util.Logger
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
@@ -182,7 +181,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                 }
 
                 // Handle network errors
-                if (throwable.isNetworkException()) {
+                if (throwable.isInternetConnectionError()) {
                     handleNetworkError()
                     return@launch
                 }
@@ -263,10 +262,6 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
     private fun isAuthError(throwable: Throwable): Boolean {
         return throwable is AppException && throwable.getHttpErrorCode() == 401
-    }
-
-    private fun isNetworkError(throwable: Throwable): Boolean {
-        return throwable is AppException && throwable.getErrorCode() == NetworkMapperConstants.NO_INTERNET_CONNECTION
     }
 
     open suspend fun logout() {}
