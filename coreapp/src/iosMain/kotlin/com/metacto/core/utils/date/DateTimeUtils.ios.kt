@@ -5,17 +5,42 @@ import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import platform.Foundation.NSCalendar
 import platform.Foundation.NSCalendarIdentifierGregorian
+import platform.Foundation.NSCalendarUnitDay
+import platform.Foundation.NSCalendarUnitHour
+import platform.Foundation.NSCalendarUnitMinute
+import platform.Foundation.NSCalendarUnitMonth
+import platform.Foundation.NSCalendarUnitNanosecond
+import platform.Foundation.NSCalendarUnitWeekOfMonth
+import platform.Foundation.NSCalendarUnitYear
 import platform.Foundation.NSDate
 import platform.Foundation.NSDateComponents
+import platform.Foundation.NSDateComponentsFormatter
+import platform.Foundation.NSDateComponentsFormatterUnitsStyleAbbreviated
+import platform.Foundation.NSDateComponentsFormatterZeroFormattingBehaviorDropAll
 import platform.Foundation.NSDateFormatter
-import platform.Foundation.NSLocale
-import platform.Foundation.NSCalendarUnitNanosecond
 import platform.Foundation.NSDayCalendarUnit
 import platform.Foundation.NSHourCalendarUnit
+import platform.Foundation.NSLocale
 import platform.Foundation.NSMinuteCalendarUnit
 import platform.Foundation.NSMonthCalendarUnit
 import platform.Foundation.NSSecondCalendarUnit
 import platform.Foundation.NSYearCalendarUnit
+import platform.Foundation.timeIntervalSince1970
+
+private val timeFormatter = NSDateComponentsFormatter().apply {
+    unitsStyle = NSDateComponentsFormatterUnitsStyleAbbreviated
+    zeroFormattingBehavior = NSDateComponentsFormatterZeroFormattingBehaviorDropAll
+    maximumUnitCount = 1
+    allowedUnits = (
+            NSCalendarUnitYear
+                    or NSCalendarUnitMonth
+                    or NSCalendarUnitWeekOfMonth
+                    or NSCalendarUnitDay
+                    or NSCalendarUnitHour
+                    or NSCalendarUnitMinute
+            )
+    includesApproximationPhrase = false
+}
 
 actual fun LocalDateTime.format(format: String, language: String): String {
     return try {
@@ -176,4 +201,34 @@ private fun NSDate.toKotlinLocalTime(): LocalTime {
         second = components.second.toInt(),
         nanosecond = components.nanosecond.toInt()
     )
+}
+
+actual fun LocalDate.formatToRelativeDate(): String {
+    return this.toMillis().timestampToReadableDate()
+}
+
+actual fun LocalDateTime.formatToRelativeDate(): String {
+    return this.toMillis().timestampToReadableDate()
+}
+
+private fun Long.timestampToReadableDate(): String {
+    // Prepare timestamp seconds
+    val timestampSeconds = this.div(1000).toDouble()
+
+    // Create dates
+    val now = NSDate()
+    val date = this.toLocalDateTime().toNSDate()
+
+    // Check and return
+    return when {
+        (now.timeIntervalSince1970 - timestampSeconds) <= 59 -> {
+            // Less than one minute
+            "Just Now"
+        }
+
+        else -> {
+            // Or convert to readable date
+            timeFormatter.stringFromDate(startDate = date, toDate = now).orEmpty()
+        }
+    }
 }

@@ -6,6 +6,7 @@ import com.metacto.core.presentation.globalState.models.MessagePopupParams
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.presentation.youtube.YoutubeScreen
+import com.metacto.core.utils.date.formatToRelativeDate
 import com.metacto.core.utils.deepLink.IDeepLinkManager
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.sampleApp.app.presentation.base.BaseViewModel
@@ -14,6 +15,9 @@ import com.sampleApp.app.presentation.home.HomeContract.Effect
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
 import com.sampleApp.app.presentation.test.TestScreen
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.LocalTime
 
 class HomeViewModel(
     private val deeplinkManager: IDeepLinkManager,
@@ -82,6 +86,27 @@ class HomeViewModel(
     private fun init() {
         // Validate if already initialized
         if (currentState.isInitialized) return
+
+        val date1 = LocalDate(2021, 1, 1)
+        val date2 = LocalDate(2025, 2, 25)
+        val date3 = LocalDateTime(
+            date = LocalDate(2025, 2, 25),
+            time = LocalTime(14, 15)
+        )
+        val date4 = LocalDateTime(
+            date = LocalDate(2025, 2, 25),
+            time = LocalTime(14, 10)
+        )
+        val date5 = LocalDateTime(
+            date = LocalDate(2025, 2, 25),
+            time = LocalTime(13, 0)
+        )
+
+        println("Formatted date ==== date1: ${date1.formatToRelativeDate()}")
+        println("Formatted date ==== date2: ${date2.formatToRelativeDate()}")
+        println("Formatted date ==== date3: ${date3.formatToRelativeDate()}")
+        println("Formatted date ==== date4: ${date4.formatToRelativeDate()}")
+        println("Formatted date ==== date5: ${date5.formatToRelativeDate()}")
 
         // Init
         executeSilent({

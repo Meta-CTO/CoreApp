@@ -1,5 +1,7 @@
 package com.metacto.core.utils.date
 
+import android.text.format.DateUtils
+import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
@@ -81,5 +83,25 @@ actual fun String.parseLocalTime(format: String, language: String): LocalTime? {
     } catch (e: Throwable) {
         e.printStackTrace()
         null
+    }
+}
+
+actual fun LocalDate.formatToRelativeDate(): String {
+    return toMillis().timestampToRelativeDate()
+}
+
+actual fun LocalDateTime.formatToRelativeDate(): String {
+    return toMillis().timestampToRelativeDate()
+}
+
+private fun Long.timestampToRelativeDate(): String {
+    val now = LocalDateTime.now().toMillis()
+    val difference = now - this
+
+    return when {
+        difference < DateUtils.MINUTE_IN_MILLIS -> "Just now"
+        else -> DateUtils
+            .getRelativeTimeSpanString(this, now, DateUtils.MINUTE_IN_MILLIS)
+            .toString()
     }
 }
