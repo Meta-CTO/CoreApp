@@ -37,6 +37,7 @@ import com.metacto.coreApp.resources.your_session_expired_login_again
 import com.metacto.strapikmm.datasource.network.services.strapi.JsonWithIgnoredUnknownKeys
 import com.metacto.strapikmm.errorhandling.AppException
 import com.metacto.strapikmm.errorhandling.NetworkMapperConstants
+import com.metacto.strapikmm.errorhandling.errortype.isNetworkException
 import com.metacto.strapikmm.util.Logger
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
@@ -181,7 +182,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                 }
 
                 // Handle network errors
-                if (isNetworkError(throwable)) {
+                if (throwable.isNetworkException()) {
                     handleNetworkError()
                     return@launch
                 }
@@ -292,7 +293,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     }
 
 
-    private fun handleNetworkError() {
+    open fun handleNetworkError() {
         hideLoading()
         coreGlobalState.snackBar(
             SnackBarParams(
