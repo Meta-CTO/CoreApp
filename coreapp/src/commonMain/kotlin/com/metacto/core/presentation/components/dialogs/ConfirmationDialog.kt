@@ -90,6 +90,7 @@ fun ConfirmationDialog(
                     textColor = negativeBtnTextColor,
                     backgroundColor = negativeBtnBgColor,
                     isSmall = true,
+                    elevation = CoreTheme.spacings.noSpacing,
                     onClick = {
                         onNegativeClick?.invoke()
                     },
