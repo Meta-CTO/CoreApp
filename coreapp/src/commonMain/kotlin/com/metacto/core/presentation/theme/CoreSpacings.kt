@@ -869,7 +869,8 @@ data class OutlinedOtpInputFieldSpacings(
     private val paddingLarge: Dp,
     private val noSpacing: Dp,
     val horizontalSpacing: Dp = paddingLarge,
-    val digitItemElevation: Dp = noSpacing
+    val digitItemElevation: Dp = noSpacing,
+    val digitItemStroke: Dp = noSpacing
 )
 
 // PrimaryTextInputField

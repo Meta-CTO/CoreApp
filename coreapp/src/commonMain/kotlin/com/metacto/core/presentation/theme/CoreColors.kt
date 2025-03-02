@@ -634,7 +634,9 @@ data class OutlinedOtpInputFieldColors(
     private val black: Color,
     val textColor: Color = primary,
     val bgColor: Color = tertiary,
-    val shadowColor: Color = black
+    val shadowColor: Color = black,
+    val valueStrokeColor: Color = primary,
+    val emptyStrokeColor: Color = tertiary,
 )
 
 // PickerInputField

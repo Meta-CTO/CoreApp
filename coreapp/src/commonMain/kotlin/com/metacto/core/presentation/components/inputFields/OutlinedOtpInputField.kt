@@ -1,6 +1,8 @@
 package com.metacto.core.presentation.components.inputFields
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -145,8 +147,15 @@ private fun OtpDigit(
     digitShadowColor: Color = CoreTheme.colors.outlinedOtpInputField.shadowColor,
     digitItemElevation: Dp = CoreTheme.spacings.outlinedOtpInputField.digitItemElevation,
     shape: RoundedCornerShape = CoreTheme.shapes.otpDigit.shape,
+    valueStrokeColor: Color = CoreTheme.colors.outlinedOtpInputField.valueStrokeColor,
+    emptyStrokeColor: Color = CoreTheme.colors.outlinedOtpInputField.emptyStrokeColor,
+    strokeWidth: Dp = CoreTheme.spacings.outlinedOtpInputField.digitItemStroke,
     paddingValues: PaddingValues = PaddingValues(vertical = CoreTheme.spacings.otpDigit.paddingVertical)
 ) {
+    val strokeColor by animateColorAsState(
+        if (digit == ' ') emptyStrokeColor else valueStrokeColor
+    )
+
     // Render digit text
     Text(
         text = digit.toString(),
@@ -162,6 +171,11 @@ private fun OtpDigit(
             )
             .clip(shape)
             .background(backgroundColor)
+            .border(
+                width = strokeWidth,
+                color = strokeColor,
+                shape = shape
+            )
             .padding(paddingValues)
     )
 }

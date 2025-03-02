@@ -17,6 +17,7 @@ import com.metacto.core.presentation.components.audioPlayer.AudioPlayerStatusLis
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.images.AppImage
+import com.metacto.core.presentation.components.inputFields.OutlinedOtpInputField
 import com.metacto.core.presentation.components.inputFields.PickerInputField
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
 import com.metacto.core.utils.contacts.rememberContactsCollectorOptionsFactory
@@ -47,6 +48,15 @@ internal fun HomeContent(
             println("HomeContent -- onScrollDown")
         },
     ) {
+        var otp by remember { mutableStateOf("") }
+        OutlinedOtpInputField(
+            pinCount = 6,
+            text = otp,
+            onValueChange = {
+                otp = it
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
         AppImage(
             url = "https://scstage103-cd.joycemeyer.org/-/media/JoyceMeyer/Ads/Books/Battlefield-of-the-Mind/BOTM_WebAd1.jpeg",
             extraHeaders = mapOf("Accept" to "image/png")
