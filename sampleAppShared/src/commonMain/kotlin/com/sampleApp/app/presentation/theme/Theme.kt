@@ -7,9 +7,13 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.LayoutDirection
 import com.metacto.core.presentation.theme.CoreColors
 import com.metacto.core.presentation.theme.CoreShapes
 import com.metacto.core.presentation.theme.CoreSpacings
@@ -18,6 +22,8 @@ import com.metacto.core.presentation.theme.LocalCoreColors
 import com.metacto.core.presentation.theme.LocalCoreShapes
 import com.metacto.core.presentation.theme.LocalCoreSpacings
 import com.metacto.core.presentation.theme.LocalCoreTypography
+import com.metacto.core.utils.language.ILanguageManager
+import org.koin.compose.koinInject
 
 internal object AppTheme {
     val colors
@@ -45,7 +51,12 @@ internal object AppTheme {
 private fun ProvideTheme(
     content: @Composable () -> Unit
 ) {
-    // Provide different theme implementations here if you need
+    // Prepare language and layout direction stuff
+    val languageManager = koinInject<ILanguageManager>()
+    val currentLanguage by remember { languageManager.currentLanguageAsState() }
+    val layoutDirection = remember(currentLanguage) {
+        if (currentLanguage?.isRtl == true) LayoutDirection.Rtl else LayoutDirection.Ltr
+    }
 
     // Get font families
     val fenwickFontFamily = getFenwickFontFamily()
@@ -80,9 +91,12 @@ private fun ProvideTheme(
         LocalCoreShapes provides coreShapes,
         LocalCoreSpacings provides coreSpacings,
         LocalAppTypography provides appTypography,
-        LocalCoreTypography provides coreTypography
+        LocalCoreTypography provides coreTypography,
+        LocalLayoutDirection provides layoutDirection
     ) {
-        content()
+        key(layoutDirection, currentLanguage) {
+            content()
+        }
     }
 }
 

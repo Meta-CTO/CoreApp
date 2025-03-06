@@ -7,6 +7,7 @@ import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.utils.Date
 import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.getCurrentWeekDates
+import com.metacto.core.utils.language.ILanguageManager
 import com.metacto.core.utils.notification.INotificationManager
 import com.metacto.core.utils.notification.Notification
 import com.metacto.core.utils.toFormattedDate
@@ -19,6 +20,7 @@ import org.koin.core.component.inject
 class MainViewModel : BaseViewModel<State, Event, Effect>() {
     private val appEnvironment by inject<CoreEnvironment>()
     private val notificationManager by inject<INotificationManager>()
+    private val languageManager by inject<ILanguageManager>()
 
     override fun setInitialState() = State()
 
@@ -34,6 +36,7 @@ class MainViewModel : BaseViewModel<State, Event, Effect>() {
         if (currentState.isInitialized) return
 
         // Init
+        setupCurrentLanguage()
         getCurrentWeekDates().forEach { date ->
             println("Day: ${date.toFormattedDate("EEE")} -- Day Number: ${date.dayOfMonth} -- Date: $date")
         }
@@ -42,6 +45,12 @@ class MainViewModel : BaseViewModel<State, Event, Effect>() {
 
         // Update the flag
         setState { copy(isInitialized = true) }
+    }
+
+    private fun setupCurrentLanguage() {
+        languageManager.getCurrentLanguage().let {
+            languageManager.changeLanguage(it)
+        }
     }
 
     private fun checkForUpdates() = executeSilent({

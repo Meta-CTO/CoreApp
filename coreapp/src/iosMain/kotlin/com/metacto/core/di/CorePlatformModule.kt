@@ -89,7 +89,7 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
     }
 
     single<ILanguageManager> {
-        LanguageManager()
+        LanguageManager(get())
     }
 
     single<MetadataLoader> {

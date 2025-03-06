@@ -42,11 +42,11 @@ private val timeFormatter = NSDateComponentsFormatter().apply {
     includesApproximationPhrase = false
 }
 
-actual fun LocalDateTime.format(format: String, language: String): String {
+actual fun LocalDateTime.format(format: String, langCode: String): String {
     return try {
         val formatter = NSDateFormatter().apply {
             dateFormat = format
-            locale = NSLocale(localeIdentifier = language)
+            locale = NSLocale(localeIdentifier = langCode)
         }
         formatter.stringFromDate(this.toNSDate())
     } catch (e: Throwable) {
@@ -55,11 +55,11 @@ actual fun LocalDateTime.format(format: String, language: String): String {
     }
 }
 
-actual fun LocalDate.format(format: String, language: String): String {
+actual fun LocalDate.format(format: String, langCode: String): String {
     return try {
         val formatter = NSDateFormatter().apply {
             dateFormat = format
-            locale = NSLocale(localeIdentifier = language)
+            locale = NSLocale(localeIdentifier = langCode)
         }
         formatter.stringFromDate(this.toNSDate())
     } catch (e: Throwable) {
@@ -68,11 +68,11 @@ actual fun LocalDate.format(format: String, language: String): String {
     }
 }
 
-actual fun LocalTime.format(format: String, language: String): String {
+actual fun LocalTime.format(format: String, langCode: String): String {
     return try {
         val formatter = NSDateFormatter().apply {
             dateFormat = format
-            locale = NSLocale(localeIdentifier = language)
+            locale = NSLocale(localeIdentifier = langCode)
         }
         formatter.stringFromDate(this.toNSDate())
     } catch (e: Throwable) {
@@ -81,11 +81,11 @@ actual fun LocalTime.format(format: String, language: String): String {
     }
 }
 
-actual fun String.parseLocalDateTime(format: String, language: String): LocalDateTime? {
+actual fun String.parseLocalDateTime(format: String, langCode: String): LocalDateTime? {
     return try {
         val formatter = NSDateFormatter().apply {
             dateFormat = format
-            locale = NSLocale(localeIdentifier = language)
+            locale = NSLocale(localeIdentifier = langCode)
         }
         return formatter.dateFromString(this)?.toKotlinLocalDateTime()
     } catch (e: Throwable) {
@@ -94,11 +94,11 @@ actual fun String.parseLocalDateTime(format: String, language: String): LocalDat
     }
 }
 
-actual fun String.parseLocalDate(format: String, language: String): LocalDate? {
+actual fun String.parseLocalDate(format: String, langCode: String): LocalDate? {
     return try {
         val formatter = NSDateFormatter().apply {
             dateFormat = format
-            locale = NSLocale(localeIdentifier = language)
+            locale = NSLocale(localeIdentifier = langCode)
         }
         return formatter.dateFromString(this)?.toKotlinLocalDate()
     } catch (e: Throwable) {
@@ -107,11 +107,11 @@ actual fun String.parseLocalDate(format: String, language: String): LocalDate? {
     }
 }
 
-actual fun String.parseLocalTime(format: String, language: String): LocalTime? {
+actual fun String.parseLocalTime(format: String, langCode: String): LocalTime? {
     return try {
         val formatter = NSDateFormatter().apply {
             dateFormat = format
-            locale = NSLocale(localeIdentifier = language)
+            locale = NSLocale(localeIdentifier = langCode)
         }
         return formatter.dateFromString(this)?.toKotlinLocalTime()
     } catch (e: Throwable) {

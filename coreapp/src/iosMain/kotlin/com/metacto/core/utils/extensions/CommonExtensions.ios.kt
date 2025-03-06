@@ -3,14 +3,18 @@
 package com.metacto.core.utils.extensions
 
 import com.metacto.core.utils.PlatformType
+import com.metacto.core.utils.language.Language
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers
 import platform.Foundation.NSLocale
+import platform.Foundation.NSLocaleLanguageDirectionRightToLeft
 import platform.Foundation.NSThread
 import platform.Foundation.NSURL
 import platform.Foundation.NSUUID
+import platform.Foundation.characterDirectionForLanguage
 import platform.Foundation.currentLocale
 import platform.Foundation.languageCode
+import platform.Foundation.localizedStringForLanguageCode
 import platform.UIKit.UIApplication
 import platform.UIKit.UIApplicationOpenSettingsURLString
 import platform.darwin.DISPATCH_QUEUE_PRIORITY_DEFAULT
@@ -92,6 +96,15 @@ actual fun getPlatformType(): PlatformType {
 
 actual fun randomUUID(): String = NSUUID().UUIDString()
 
-actual fun getSystemLanguage(): String {
-    return NSLocale.currentLocale.languageCode ?: "en"
+actual fun getSystemLanguage(): Language {
+    val locale = NSLocale.currentLocale
+    val languageCode = locale.languageCode ?: "en"
+    val languageTitle = locale.localizedStringForLanguageCode(languageCode) ?: "English"
+    val isRtl = NSLocale.characterDirectionForLanguage(languageCode) == NSLocaleLanguageDirectionRightToLeft
+
+    return Language(
+        code = languageCode,
+        name = languageTitle,
+        isRtl = isRtl
+    )
 }

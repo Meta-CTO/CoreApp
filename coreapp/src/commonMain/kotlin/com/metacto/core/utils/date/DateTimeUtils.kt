@@ -47,17 +47,35 @@ fun LocalDate.isPast(): Boolean {
     return this < LocalDate.now()
 }
 
-expect fun LocalDateTime.format(format: String, language: String = getSystemLanguage()): String
+expect fun LocalDateTime.format(
+    format: String,
+    langCode: String = getSystemLanguage().code
+): String
 
-expect fun LocalDate.format(format: String, language: String = getSystemLanguage()): String
+expect fun LocalDate.format(
+    format: String,
+    langCode: String = getSystemLanguage().code
+): String
 
-expect fun LocalTime.format(format: String, language: String = getSystemLanguage()): String
+expect fun LocalTime.format(
+    format: String,
+    langCode: String = getSystemLanguage().code
+): String
 
-expect fun String.parseLocalDateTime(format: String, language: String = getSystemLanguage()): LocalDateTime?
+expect fun String.parseLocalDateTime(
+    format: String,
+    langCode: String = getSystemLanguage().code
+): LocalDateTime?
 
-expect fun String.parseLocalDate(format: String, language: String = getSystemLanguage()): LocalDate?
+expect fun String.parseLocalDate(
+    format: String,
+    langCode: String = getSystemLanguage().code
+): LocalDate?
 
-expect fun String.parseLocalTime(format: String, language: String = getSystemLanguage()): LocalTime?
+expect fun String.parseLocalTime(
+    format: String,
+    langCode: String = getSystemLanguage().code
+): LocalTime?
 
 expect fun LocalDate.formatToRelativeDate(): String
 

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Work
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,11 +22,26 @@ import com.metacto.core.presentation.components.inputFields.OutlinedOtpInputFiel
 import com.metacto.core.presentation.components.inputFields.PickerInputField
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
 import com.metacto.core.utils.contacts.rememberContactsCollectorOptionsFactory
+import com.metacto.core.utils.language.English
+import com.metacto.core.utils.language.ILanguageManager
+import com.metacto.core.utils.language.Language
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
 import com.sampleApp.app.presentation.theme.AppTheme
+import com.sampleApp.app.resources.Res
+import com.sampleApp.app.resources.toggle_language
+import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+
+private val LANGUAGES = mapOf(
+    "en" to Language.English,
+    "ar" to Language(
+        code = "ar",
+        name = "العربية",
+        isRtl = true
+    )
+)
 
 @Composable
 internal fun HomeContent(
@@ -33,6 +49,7 @@ internal fun HomeContent(
     onEvent: (Event) -> Unit
 ) {
     val contactsCollectorOptionsFactory = rememberContactsCollectorOptionsFactory()
+    val languageManager = koinInject<ILanguageManager>()
 
     ScreenColumn(
         isScrollable = true,
@@ -204,6 +221,21 @@ internal fun HomeContent(
 
                 val options = contactsCollectorOptionsFactory.createOptions()
                 // TODO: pass options to the view model
+            }
+        )
+
+        Text(
+            "Current language: ${languageManager.getCurrentLanguage().name}",
+        )
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(Res.string.toggle_language),
+            onClick = {
+                if (languageManager.getCurrentLanguage().code == "en") {
+                    languageManager.changeLanguage(LANGUAGES["ar"]!!)
+                } else {
+                    languageManager.changeLanguage(LANGUAGES["en"]!!)
+                }
             }
         )
     }
