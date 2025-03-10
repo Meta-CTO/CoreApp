@@ -14,6 +14,8 @@ class TestContract {
         data object Init : Event()
         data object BackClicked : Event()
         data object ClearAndOpenMainScreen : Event()
+        data object CheckMainScreenClicked : Event()
+        data object CheckYoutubeScreenClicked : Event()
     }
 
     sealed class Effect : ViewSideEffect

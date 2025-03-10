@@ -1,5 +1,6 @@
 package com.metacto.core.navigation
 
+import kotlinx.coroutines.CompletableDeferred
 import kotlin.reflect.KClass
 
 sealed class NavEffect {
@@ -29,6 +30,16 @@ sealed class NavEffect {
     ) : NavEffect()
 
     data class NavigateToBottomSheet(val destination: NavDestination) : NavEffect()
+
+    data class CheckScreenByTag(
+        val tag: String,
+        val result: CompletableDeferred<Boolean>
+    ) : NavEffect()
+
+    data class CheckScreenByClass<D : NavDestination>(
+        val clazz: KClass<D>,
+        val result: CompletableDeferred<Boolean>
+    ) : NavEffect()
 
     data object GoBack : NavEffect()
 }

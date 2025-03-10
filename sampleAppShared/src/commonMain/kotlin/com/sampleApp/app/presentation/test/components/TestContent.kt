@@ -60,5 +60,21 @@ internal fun TestContent(
                 onEvent(Event.ClearAndOpenMainScreen)
             }
         )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Check main screen",
+            onClick = {
+                onEvent(Event.CheckMainScreenClicked)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "Check youtube screen",
+            onClick = {
+                onEvent(Event.CheckYoutubeScreenClicked)
+            }
+        )
     }
 }

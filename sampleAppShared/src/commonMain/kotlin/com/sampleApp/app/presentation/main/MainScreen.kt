@@ -10,6 +10,9 @@ import com.sampleApp.app.presentation.main.components.MainContent
 
 internal class MainScreen : BaseScreen<MainViewModel>() {
 
+    override val screenTag: String
+        get() = "MainScreen"
+
     @Composable
     override fun Content() {
         // Get the view model

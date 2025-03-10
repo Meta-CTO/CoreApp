@@ -1,5 +1,6 @@
 package com.sampleApp.app.presentation.test
 
+import com.metacto.core.presentation.youtube.YoutubeScreen
 import com.sampleApp.app.presentation.base.BaseViewModel
 import com.sampleApp.app.presentation.main.MainScreen
 import com.sampleApp.app.presentation.test.TestContract.Effect
@@ -16,6 +17,8 @@ class TestViewModel : BaseViewModel<State, Event, Effect>() {
         Event.ClearAndOpenMainScreen -> navManager.clearAndNavigate(
             MainScreen()
         )
+        Event.CheckMainScreenClicked -> handleCheckMainScreenClick()
+        Event.CheckYoutubeScreenClicked -> handleCheckYoutubeScreenClick()
     }
 
     private fun init() {
@@ -27,4 +30,16 @@ class TestViewModel : BaseViewModel<State, Event, Effect>() {
         // Update the flag
         setState { copy(isInitialized = true) }
     }
+
+    private fun handleCheckMainScreenClick() = executeSilent({
+//        val exists = navManager.checkScreenByClass(MainScreen::class)
+        val exists = navManager.checkScreenByTag("MainScreen")
+        showError("MainScreen exists: $exists")
+    })
+
+    private fun handleCheckYoutubeScreenClick() = executeSilent({
+//        val exists = navManager.checkScreenByClass(YoutubeScreen::class)
+        val exists = navManager.checkScreenByTag("YoutubeScreen")
+        showError("YoutubeScreen exists: $exists")
+    })
 }

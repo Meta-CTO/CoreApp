@@ -1,5 +1,6 @@
 package com.metacto.core.navigation
 
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
@@ -74,7 +75,10 @@ class NavManager {
         }
     }
 
-    fun <D : NavDestination> navigateAndPopToExclusive(navToDest: NavDestination, popToDestClass: KClass<D>) {
+    fun <D : NavDestination> navigateAndPopToExclusive(
+        navToDest: NavDestination,
+        popToDestClass: KClass<D>
+    ) {
         GlobalScope.launch {
             _effects.send(
                 NavEffect.NavigateAndPopToExclusive(
@@ -85,7 +89,10 @@ class NavManager {
         }
     }
 
-    fun <D : NavDestination> navigateAndPopToInclusive(navToDest: NavDestination, popToDestClass: KClass<D>) {
+    fun <D : NavDestination> navigateAndPopToInclusive(
+        navToDest: NavDestination,
+        popToDestClass: KClass<D>
+    ) {
         GlobalScope.launch {
             _effects.send(
                 NavEffect.NavigateAndPopToInclusive(
@@ -102,6 +109,28 @@ class NavManager {
                 NavEffect.NavigateToBottomSheet(destination)
             )
         }
+    }
+
+    suspend fun checkScreenByTag(tag: String): Boolean {
+        val result = CompletableDeferred<Boolean>()
+        _effects.send(
+            NavEffect.CheckScreenByTag(
+                tag = tag,
+                result = result
+            )
+        )
+        return result.await()
+    }
+
+    suspend fun <D : NavDestination> checkScreenByClass(clazz: KClass<D>): Boolean {
+        val result = CompletableDeferred<Boolean>()
+        _effects.send(
+            NavEffect.CheckScreenByClass(
+                clazz = clazz,
+                result = result
+            )
+        )
+        return result.await()
     }
 
     fun goBack() {

@@ -21,6 +21,7 @@ import com.metacto.core.presentation.components.bottomSheets.BottomSheetInsetsCo
 import com.metacto.core.presentation.components.voyager.FadeTransition
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.utils.extensions.orFalse
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
@@ -119,12 +120,22 @@ fun CoreAppNavigator(
                     }
                 }
 
+                is NavEffect.CheckScreenByTag -> {
+                    val hasScreen = navigator?.checkScreenByTag(effect.tag).orFalse()
+                    effect.result.complete(hasScreen)
+                }
+
+                is NavEffect.CheckScreenByClass<*> -> {
+                    val hasScreen = navigator?.checkScreenByClass(effect.clazz).orFalse()
+                    effect.result.complete(hasScreen)
+                }
+
                 is NavEffect.GoBack -> {
                     // Hide bottom sheet if visible or navigate back
                     if (sheetNavigator?.isVisible == true) {
                         sheetNavigator?.hide()
                     } else {
-                        navigator?.pop()
+                        navigator?.goBack()
                     }
                 }
             }

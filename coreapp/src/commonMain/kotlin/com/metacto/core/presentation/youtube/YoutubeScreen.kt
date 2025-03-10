@@ -15,6 +15,9 @@ class YoutubeScreen(
     private val showFullScreenButton: Boolean = true
 ) : BaseScreen<YoutubeViewModel>() {
 
+    override val screenTag: String
+        get() = "YoutubeScreen"
+
     @Composable
     override fun Content() {
         // Get the view model
