@@ -228,7 +228,7 @@ actual fun VideoPlayer(
 				)
 }
 
-// Common video content rendering using AndroidView.
+// Video player content composable.
 @OptIn(UnstableApi::class)
 @Composable
 private fun VideoPlayerContent(
