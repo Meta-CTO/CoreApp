@@ -10,9 +10,10 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,31 +24,25 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import com.metacto.coreApp.resources.*
 import com.metacto.core.presentation.components.visibilities.FadeVisibility
-import com.metacto.core.presentation.theme.CoreTheme
-import com.metacto.core.resources.FileResource
-import com.metacto.core.resources.IFileResource
-import com.metacto.core.resources.file
+import com.metacto.core.presentation.theme.CoreTheme.shapes
+import com.metacto.core.presentation.theme.CoreTheme.spacings
+import com.metacto.core.presentation.theme.CoreTheme.typography
 import com.metacto.core.utils.extensions.orZero
-import com.metacto.core.utils.extensions.rememberLottieComposition
 import com.metacto.core.utils.extensions.tintIfNotNull
-import io.github.alexzhirkevich.compottie.LottieAnimation
-import io.github.alexzhirkevich.compottie.LottieConstants
-import io.github.alexzhirkevich.compottie.animateLottieCompositionAsState
 
 @Composable
 fun BaseButton(
     modifier: Modifier = Modifier,
     text: String? = null,
-    textStyle: TextStyle = CoreTheme.typography.btnLabelMedium,
+    textStyle: TextStyle = typography.btnLabelMedium,
     textColor: Color,
-    shape: Shape = CoreTheme.shapes.small,
-    minHeight: Dp = CoreTheme.spacings.btnMinHeightNormal,
+    shape: Shape = shapes.small,
+    minHeight: Dp = spacings.btnMinHeightNormal,
     backgroundColor: Color,
     disabledBackgroundColor: Color = backgroundColor.copy(alpha = 0.3f),
     border: BorderStroke? = null,
-    iconSize: Dp = CoreTheme.spacings.iconLarge,
+    iconSize: Dp = spacings.iconLarge,
     iconColor: Color?,
     startIconPainter: Painter? = null,
     startIconVector: ImageVector? = null,
@@ -56,13 +51,13 @@ fun BaseButton(
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isLoading: Boolean = false,
-    loadingAnimRes: IFileResource = Res.file.loading_indicator_anim,
-    contentSpacing: Dp = CoreTheme.spacings.paddingXLarge,
-    elevation: Dp = CoreTheme.spacings.btnElevation,
+    loadingColor: Color = ProgressIndicatorDefaults.circularColor,
+    contentSpacing: Dp = spacings.paddingXLarge,
+    elevation: Dp = spacings.btnElevation,
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     padding: PaddingValues = PaddingValues(
-        vertical = CoreTheme.spacings.btnPaddingVertical,
-        horizontal = CoreTheme.spacings.btnPaddingHorizontal
+        vertical = spacings.btnPaddingVertical,
+        horizontal = spacings.btnPaddingHorizontal
     ),
     onClick: () -> Unit = {}
 ) {
@@ -95,20 +90,10 @@ fun BaseButton(
         ) {
             // Loading indicator
             FadeVisibility(visible = isLoading) {
-                // Prepare composition
-                val composition by rememberLottieComposition(loadingAnimRes)
-                val progress = animateLottieCompositionAsState(
-                    composition = composition,
-                    iterations = LottieConstants.IterateForever,
-                )
-
-                // Then render lottie
-                LottieAnimation(
-                    composition = composition,
-                    progress = { progress.value },
-                    modifier = Modifier.size(
-                        CoreTheme.spacings.btnLoadingSize
-                    )
+                CircularProgressIndicator(
+                    color = loadingColor,
+                    strokeWidth = spacings.btnLoadingStroke,
+                    modifier = Modifier.size(spacings.btnLoadingSize)
                 )
             }
 

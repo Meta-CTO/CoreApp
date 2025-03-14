@@ -462,7 +462,8 @@ data class PrimaryFilledButtonColors(
     val bgColor: Color = primary,
     val textColor: Color = onPrimary,
     val iconColor: Color = onPrimary,
-    val disabledBgColor: Color = primary.copy(0.5f)
+    val disabledBgColor: Color = primary.copy(0.5f),
+    val loadingColor: Color = onPrimary
 )
 
 // DangerFilledButton
@@ -472,7 +473,8 @@ data class DangerFilledButtonColors(
     val bgColor: Color = danger,
     val textColor: Color = onPrimary,
     val iconColor: Color = onPrimary,
-    val disabledBgColor: Color = danger.copy(0.5f)
+    val disabledBgColor: Color = danger.copy(0.5f),
+    val loadingColor: Color = onPrimary
 )
 
 // FloatingButton
@@ -482,7 +484,8 @@ data class FloatingButtonColors(
     val bgColor: Color = onSecondary,
     val textColor: Color = secondary,
     val iconColor: Color = secondary,
-    val disabledBgColor: Color = onSecondary.copy(0.5f)
+    val disabledBgColor: Color = onSecondary.copy(0.5f),
+    val loadingColor: Color = onSecondary
 )
 
 // OnSecondaryTransparentFilledButton
@@ -491,6 +494,7 @@ data class OnSecondaryTransparentFilledButtonColors(
     val bgColor: Color = onSecondary.copy(alpha = 0.1f),
     val textColor: Color = onSecondary.copy(alpha = 0.9f),
     val iconColor: Color = onSecondary,
+    val loadingColor: Color = onSecondary.copy(alpha = 0.9f)
 )
 
 // PrimaryCheckableButton
@@ -513,7 +517,8 @@ data class PrimaryStrokedButtonColors(
     val strokeColor: Color = primary,
     val textColor: Color = primary,
     val iconColor: Color = primary,
-    val disabledBgColor: Color = background.copy(0.5f)
+    val disabledBgColor: Color = background.copy(0.5f),
+    val loadingColor: Color = primary
 )
 
 // PrimaryTextButton
@@ -530,7 +535,8 @@ data class SecondaryFilledButtonColors(
     val bgColor: Color = secondary,
     val textColor: Color = onSecondary,
     val iconColor: Color = onSecondary,
-    val disabledBgColor: Color = secondary.copy(0.5f)
+    val disabledBgColor: Color = secondary.copy(0.5f),
+    val loadingColor: Color = onSecondary
 )
 
 // SecondaryStrokedButton
@@ -541,7 +547,8 @@ data class SecondaryStrokedButtonColors(
     val strokeColor: Color = secondary,
     val textColor: Color = secondary,
     val iconColor: Color = secondary,
-    val disabledBgColor: Color = background.copy(0.5f)
+    val disabledBgColor: Color = background.copy(0.5f),
+    val loadingColor: Color = secondary
 )
 
 // SecondaryTextButton
@@ -557,6 +564,7 @@ data class SocialButtonColors(
     private val onPrimary: Color,
     val bgColor: Color = black,
     val textColor: Color = onPrimary,
+    val loadingColor: Color = onPrimary,
     val strokeColor: Color = onPrimary,
     val disabledBgColor: Color = black.copy(0.5f)
 )
@@ -567,6 +575,7 @@ data class TertiaryFilledButtonColors(
     private val onTertiary: Color,
     val bgColor: Color = tertiary,
     val textColor: Color = onTertiary,
+    val loadingColor: Color = onTertiary,
     val iconColor: Color = onTertiary,
     val disabledBgColor: Color = tertiary.copy(0.5f)
 )
@@ -578,6 +587,7 @@ data class TertiaryStrokedButtonColors(
     val bgColor: Color = background,
     val strokeColor: Color = tertiary,
     val textColor: Color = tertiary,
+    val loadingColor: Color = tertiary,
     val iconColor: Color = tertiary,
     val disabledBgColor: Color = background.copy(0.5f)
 )
@@ -596,6 +606,7 @@ data class TransparentStrokedButtonColors(
     val bgColor: Color = transparent,
     val strokeColor: Color = onPrimary,
     val textColor: Color = onPrimary,
+    val loadingColor: Color = onPrimary,
     val iconColor: Color = onPrimary
 )
 

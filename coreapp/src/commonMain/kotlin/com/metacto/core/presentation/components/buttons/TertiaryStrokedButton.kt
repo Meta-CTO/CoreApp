@@ -35,6 +35,7 @@ fun TertiaryStrokedButton(
         horizontal = CoreTheme.spacings.tertiaryStrokedButton.paddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.tertiaryStrokedButton.textColor,
+    loadingColor: Color = CoreTheme.colors.tertiaryStrokedButton.loadingColor,
     backgroundColor: Color = CoreTheme.colors.tertiaryStrokedButton.bgColor,
     minHeightSmall: Dp = CoreTheme.spacings.tertiaryStrokedButton.minHeightSmall,
     minHeightNormal: Dp = CoreTheme.spacings.tertiaryStrokedButton.minHeightNormal,
@@ -63,6 +64,7 @@ fun TertiaryStrokedButton(
         elevation = elevation,
         contentSpacing = contentSpacing,
         isLoading = isLoading,
+        loadingColor = loadingColor,
         onClick = onClick,
         backgroundColor = backgroundColor,
         minHeight = if (isSmall) minHeightSmall else minHeightNormal,

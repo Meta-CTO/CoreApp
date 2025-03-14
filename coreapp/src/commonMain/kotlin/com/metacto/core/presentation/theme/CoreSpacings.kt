@@ -42,6 +42,7 @@ data class CoreSpacings(
     val btnPaddingHorizontal: Dp = 16.dp,
     val btnCheckablePaddingVertical: Dp = 14.dp,
     val btnCheckablePaddingHorizontal: Dp = 20.dp,
+    val btnLoadingStroke: Dp = 2.dp,
     val btnLoadingSize: Dp = 36.dp,
     val floatingBtnElevation: Dp = 6.dp,
     val textBtnSpacing: Dp = 8.dp,

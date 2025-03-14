@@ -32,6 +32,7 @@ fun SocialButton(
         horizontal = CoreTheme.spacings.socialButton.paddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.socialButton.textColor,
+    loadingColor: Color = CoreTheme.colors.socialButton.loadingColor,
     backgroundColor: Color = CoreTheme.colors.socialButton.bgColor,
     contentAlignment: Alignment.Horizontal = Alignment.Start,
     shapeSmall: RoundedCornerShape = CoreTheme.shapes.socialButton.shapeSmall,
@@ -56,6 +57,7 @@ fun SocialButton(
         backgroundColor = backgroundColor,
         isEnabled = isEnabled,
         isLoading = isLoading,
+        loadingColor = loadingColor,
         onClick = onClick,
         iconColor = null,
         contentAlignment = contentAlignment,

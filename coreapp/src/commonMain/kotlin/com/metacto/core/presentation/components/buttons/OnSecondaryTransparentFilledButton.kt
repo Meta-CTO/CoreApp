@@ -24,6 +24,7 @@ fun OnSecondaryTransparentFilledButton(
     isEnabled: Boolean = true,
     isDimmed: Boolean = false,
     isLoading: Boolean = false,
+    loadingColor: Color = CoreTheme.colors.onSecondaryTransparentFilledButton.bgColor,
     padding: PaddingValues = PaddingValues(
         vertical = CoreTheme.spacings.onSecondaryTransparentFilledButton.paddingVertical,
         horizontal = CoreTheme.spacings.onSecondaryTransparentFilledButton.paddingHorizontal
@@ -54,6 +55,7 @@ fun OnSecondaryTransparentFilledButton(
         isEnabled = isEnabled,
         isDimmed = isDimmed,
         isLoading = isLoading,
+        loadingColor = loadingColor,
         contentSpacing = contentSpacing,
         onClick = onClick,
         minHeight = minHeight,

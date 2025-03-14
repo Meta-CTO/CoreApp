@@ -34,6 +34,7 @@ fun SecondaryFilledButton(
         horizontal = CoreTheme.spacings.secondaryFilledButton.paddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.secondaryFilledButton.textColor,
+    loadingColor: Color = CoreTheme.colors.secondaryFilledButton.loadingColor,
     backgroundColor: Color = CoreTheme.colors.secondaryFilledButton.bgColor,
     minHeightSmall: Dp = CoreTheme.spacings.secondaryFilledButton.minHeightSmall,
     minHeightNormal: Dp = CoreTheme.spacings.secondaryFilledButton.minHeightNormal,
@@ -59,6 +60,7 @@ fun SecondaryFilledButton(
         isEnabled = isEnabled,
         isDimmed = isDimmed,
         isLoading = isLoading,
+        loadingColor = loadingColor,
         onClick = onClick,
         minHeight = if (isSmall) minHeightSmall else minHeightNormal,
         shape = if (isSmall) shapeSmall else shapeNormal,

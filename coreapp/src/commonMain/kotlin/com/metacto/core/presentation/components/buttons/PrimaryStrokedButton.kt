@@ -36,6 +36,7 @@ fun PrimaryStrokedButton(
         horizontal = CoreTheme.spacings.primaryStrokedButton.paddingHorizontal
     ),
     backgroundColor: Color = CoreTheme.colors.primaryStrokedButton.bgColor,
+    loadingColor: Color = CoreTheme.colors.primaryStrokedButton.loadingColor,
     minHeightSmall: Dp = CoreTheme.spacings.primaryStrokedButton.minHeightSmall,
     minHeightNormal: Dp = CoreTheme.spacings.primaryStrokedButton.minHeightNormal,
     shapeSmall: RoundedCornerShape = CoreTheme.shapes.primaryStrokedButton.shapeSmall,
@@ -61,6 +62,7 @@ fun PrimaryStrokedButton(
         isEnabled = isEnabled,
         isDimmed = isDimmed,
         isLoading = isLoading,
+        loadingColor = loadingColor,
         contentSpacing = contentSpacing,
         elevation = elevation,
         onClick = onClick,

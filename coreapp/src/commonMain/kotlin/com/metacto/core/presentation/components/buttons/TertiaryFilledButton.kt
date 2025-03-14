@@ -34,6 +34,7 @@ fun TertiaryFilledButton(
         horizontal = CoreTheme.spacings.tertiaryFilledButton.paddingHorizontal
     ),
     textColor: Color = CoreTheme.colors.tertiaryFilledButton.textColor,
+    loadingColor: Color = CoreTheme.colors.tertiaryFilledButton.loadingColor,
     backgroundColor: Color = CoreTheme.colors.tertiaryFilledButton.bgColor,
     minHeightSmall: Dp = CoreTheme.spacings.tertiaryFilledButton.minHeightSmall,
     minHeightNormal: Dp = CoreTheme.spacings.tertiaryFilledButton.minHeightNormal,
@@ -59,6 +60,7 @@ fun TertiaryFilledButton(
         isEnabled = isEnabled,
         isDimmed = isDimmed,
         isLoading = isLoading,
+        loadingColor = loadingColor,
         onClick = onClick,
         minHeight = if (isSmall) minHeightSmall else minHeightNormal,
         shape = if (isSmall) shapeSmall else shapeNormal,

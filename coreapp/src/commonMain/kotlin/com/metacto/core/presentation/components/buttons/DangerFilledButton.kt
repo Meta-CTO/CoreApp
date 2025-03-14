@@ -25,6 +25,7 @@ fun DangerFilledButton(
     isDimmed: Boolean = false,
     isSmall: Boolean = false,
     isLoading: Boolean = false,
+    loadingColor: Color = CoreTheme.colors.dangerFilledButton.loadingColor,
     disabledBgColor: Color = CoreTheme.colors.dangerFilledButton.disabledBgColor,
     padding: PaddingValues = PaddingValues(
         vertical = CoreTheme.spacings.dangerFilledButton.paddingVertical,
@@ -59,6 +60,7 @@ fun DangerFilledButton(
         isEnabled = isEnabled,
         isDimmed = isDimmed,
         isLoading = isLoading,
+        loadingColor = loadingColor,
         onClick = onClick,
         minHeight = if (isSmall) minHeightSmall else minHeightNormal,
         shape = if (isSmall) shapeSmall else shapeNormal,
