@@ -17,52 +17,52 @@ import com.sampleApp.app.presentation.profile.ProfileContract.State
 
 @Composable
 internal fun ProfileContent(
-				state: State,
-				onEvent: (Event) -> Unit,
+    state: State,
+    onEvent: (Event) -> Unit,
 ) {
-				val videoInfo = remember {
-								VideoItemInfo(
-												url = "https://storage.sardius.media/-KrXWhrxRAYPfu44QPJ0/archives/DAA6A5576Dd5Ee41CBd6B68696F6/media/playlist.m3u8?feedId=27d824FCdF&vttUrl=https%253A%252F%252Fstorage.sardius.media%252F-KrXWhrxRAYPfu44QPJ0%252Farchives%252FDAA6A5576Dd5Ee41CBd6B68696F6%252Fstatic%252F1730996105358-1.vtt",
-												title = "Random Video Title",
-												artist = "Random Artist",
-												artworkUrl = "https://yurielkaim.com/wp-content/uploads/2016/03/Happiness-Habits-10-Things-Happy-People-Do-Before-Bed-1200x900.jpg"
-								)
-				}
-				// Container column
-				ScreenColumn(
-								startPadding = 0.dp,
-								endPadding = 0.dp,
-								isScrollable = false
-				) {
-								VideoPlayer(
-												uniqueId = "profile_video_player",
-												videoUrl = videoInfo.url,
-												videoTitle = videoInfo.title,
-												videoArtist = videoInfo.artist,
-												videoArtworkUrl = videoInfo.artworkUrl,
-												autoPlay = false,
-												scaleToCrop = true,
-												enablePip = true,
-												handleLifecyclePause = false,
-												controllerShowTimeoutMs = 2000,
-												modifier = Modifier
-																.fillMaxWidth()
-																.height(224.dp)
-								)
-								
-								Text(
-												text = 20f.toFeetInches()
-								)
+    val videoInfo = remember {
+        VideoItemInfo(
+            url = "https://storage.sardius.media/-KrXWhrxRAYPfu44QPJ0/archives/DAA6A5576Dd5Ee41CBd6B68696F6/media/playlist.m3u8?feedId=27d824FCdF&vttUrl=https%253A%252F%252Fstorage.sardius.media%252F-KrXWhrxRAYPfu44QPJ0%252Farchives%252FDAA6A5576Dd5Ee41CBd6B68696F6%252Fstatic%252F1730996105358-1.vtt",
+            title = "Random Video Title",
+            artist = "Random Artist",
+            artworkUrl = "https://yurielkaim.com/wp-content/uploads/2016/03/Happiness-Habits-10-Things-Happy-People-Do-Before-Bed-1200x900.jpg"
+        )
+    }
+    // Container column
+    ScreenColumn(
+        startPadding = 0.dp,
+        endPadding = 0.dp,
+        isScrollable = false
+    ) {
+        VideoPlayer(
+            uniqueId = "profile_video_player",
+            videoUrl = videoInfo.url,
+            videoTitle = videoInfo.title,
+            videoArtist = videoInfo.artist,
+            videoArtworkUrl = videoInfo.artworkUrl,
+            autoPlay = false,
+            scaleToCrop = true,
+            enablePip = true,
+            handleLifecyclePause = false,
+            controllerShowTimeoutMs = 2000,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(224.dp)
+        )
+
+        Text(
+            text = 20f.toFeetInches()
+        )
 //        AudioPlayer(
 //            modifier = Modifier.fillMaxWidth(),
 //            audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Evillaugh.ogg",
 ////            audioUrl = "https://actions.google.com/sounds/v1/alarms/beep_short.ogg"
 //        )
-								PrimaryFilledButton(
-												text = "Open native picker",
-												onClick = {
-																onEvent(Event.NativeItemPicker)
-												}
-								)
-				}
+        PrimaryFilledButton(
+            text = "Open native picker",
+            onClick = {
+                onEvent(Event.NativeItemPicker)
+            }
+        )
+    }
 }
