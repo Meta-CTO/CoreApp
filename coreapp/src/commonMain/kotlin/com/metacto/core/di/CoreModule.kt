@@ -2,6 +2,7 @@ package com.metacto.core.di
 
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.RepositoriesFactory
+import com.metacto.core.domain.repos.UploadRepository
 import com.metacto.core.navigation.NavManager
 import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.deepLink.DeepLinkManager
@@ -124,5 +125,9 @@ fun <T : SerializableNetworkError> coreModule(
 
     single<IResourceProvider> {
         ResourceProvider
+    }
+
+    single {
+        UploadRepository(get(), get(), get())
     }
 }
