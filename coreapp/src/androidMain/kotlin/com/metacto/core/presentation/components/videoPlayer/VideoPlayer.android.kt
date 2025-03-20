@@ -1,10 +1,12 @@
 package com.metacto.core.presentation.components.videoPlayer
 
+import android.content.res.Configuration
 import android.view.SurfaceView
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.annotation.OptIn
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -19,8 +21,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.media3.common.C
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
@@ -63,32 +69,27 @@ actual fun VideoPlayer(
     customControlsElevation: Dp,
     customControlsShape: RoundedCornerShape,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?,
-    onDurationCaught: ((Duration) -> Unit)?
+    onDurationCaught: ((Duration) -> Unit)?,
 ) {
     // Inject main stuff
-    val playerManagers = koinInject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
+    val playerManagers =
+        koinInject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
     val playerManager = playerManagers.getOrPut(uniqueId) {
         VideoPlayerManager(uniqueId)
     }
-
-    // isPlaying state
+    // Local state variables for UI and playback.
     var isPlaying by remember { mutableStateOf(playerManager.exoPlayer.isPlaying) }
+    val icon = if (isPlaying) pauseIconRes else playIconRes
+    val isPlayButtonVisible by remember { mutableStateOf(true) }
+    var isVideoEnded by remember { mutableStateOf(false) }
+    var isFullScreen by remember { mutableStateOf(false) }
 
-    // Configure audio based on enableVoice
+
     LaunchedEffect(playerManager, enableVoice) {
         playerManager.exoPlayer.volume = if (enableVoice) 1f else 0f
     }
 
-    // Prepare player icon
-    val icon = if (isPlaying) pauseIconRes else playIconRes
-
-    // icon visibility state
-    var isPlayButtonVisible by remember { mutableStateOf(true) }
-
-    // Track video ended state
-    var isVideoEnded by remember { mutableStateOf(false) }
-
-    // Observe changes to the player state
+    // Listen for player state changes.
     LaunchedEffect(playerManager.exoPlayer) {
         playerManager.exoPlayer.addListener(object : Player.Listener {
             override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
@@ -99,35 +100,24 @@ actual fun VideoPlayer(
                 if (state == Player.STATE_ENDED) {
                     isVideoEnded = autoRepeat.not()
                 }
-
                 if (state == Player.STATE_READY) {
                     val durationMs = playerManager.exoPlayer.duration
                     if (durationMs != C.TIME_UNSET) {
-                        onDurationCaught?.invoke(
-                            durationMs.toDuration(DurationUnit.MILLISECONDS)
-                        )
+                        onDurationCaught?.invoke(durationMs.toDuration(DurationUnit.MILLISECONDS))
                     }
                 }
             }
         })
     }
-
-    // Setup scaling mode
-    LaunchedEffect(playerManager, scaleToCrop) {
-        playerManager.setScaleToCrop(scaleToCrop)
-    }
-
-    // Setup auto play
+    // Configure auto play, repeat, media, and metadata.
     LaunchedEffect(playerManager, autoPlay) {
         playerManager.setAutoPlay(autoPlay)
     }
 
-    // Setup auto repeat
     LaunchedEffect(playerManager, autoRepeat) {
         playerManager.setAutoRepeat(autoRepeat)
     }
 
-    // Configure the player
     LaunchedEffect(playerManager, videoUrl, videoTitle, videoArtist, videoArtworkUrl) {
         playerManager.setMedia(
             videoUrl = videoUrl,
@@ -136,51 +126,146 @@ actual fun VideoPlayer(
             videoArtworkUrl = videoArtworkUrl
         )
     }
-
-    // Configure media meta data
     LaunchedEffect(enableMediaMetadata) {
         playerManager.setMediaMetadataEnabled(enableMediaMetadata)
     }
-
-    // Create the player controller
-    val playerController = remember(playerManager) {
+    // Set up and deliver the player controller callback.
+    val controller = remember(playerManager) {
         object : VideoPlayerController {
-            override fun play() {
-                playerManager.play()
+            override fun play() = playerManager.play()
+            override fun pause() = playerManager.pause()
+        }
+    }
+    LaunchedEffect(controller, onPlayerCreated) {
+        onPlayerCreated?.invoke(controller)
+    }
+    // Monitor device orientation to update full screen & scale mode.
+    val configuration = LocalConfiguration.current
+    LaunchedEffect(configuration.orientation) {
+        isFullScreen = (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+    }
+    // Render the video content (either embedded or full screen).
+    if (!isFullScreen) {
+        Box(modifier = modifier) {
+            VideoPlayerContent(
+                playerManager = playerManager,
+                controlsType = controlsType,
+                controllerShowTimeoutMs = controllerShowTimeoutMs,
+                isPlayButtonVisible = isPlayButtonVisible,
+                icon = icon,
+                customControlsSize = customControlsSize,
+                customControlsElevation = customControlsElevation,
+                customControlsShape = customControlsShape,
+                onTogglePlay = {
+                    if (isPlaying) {
+                        playerManager.pause()
+                    } else {
+                        if (isVideoEnded) {
+                            playerManager.exoPlayer.seekTo(0)
+                            isVideoEnded = false
+                        }
+                        playerManager.play()
+                        isPlaying = true
+                    }
+                },
+                onNativeFullscreenClick = {
+                    isFullScreen = !isFullScreen
+                    // Optionally toggle scale mode with full screen.
+                }
+            )
+        }
+    } else {
+        Dialog(
+            onDismissRequest = { isFullScreen = false },
+            properties = DialogProperties(usePlatformDefaultWidth = false)
+        ) {
+            Box(
+                modifier = Modifier
+					.fillMaxSize()
+					.background(Color.Black)
+            ) {
+                VideoPlayerContent(
+                    playerManager = playerManager,
+                    controlsType = controlsType,
+                    controllerShowTimeoutMs = controllerShowTimeoutMs,
+                    isPlayButtonVisible = isPlayButtonVisible,
+                    icon = icon,
+                    customControlsSize = customControlsSize,
+                    customControlsElevation = customControlsElevation,
+                    customControlsShape = customControlsShape,
+                    onTogglePlay = {
+                        if (isPlaying) {
+                            playerManager.pause()
+                        } else {
+                            if (isVideoEnded) {
+                                playerManager.exoPlayer.seekTo(0)
+                                isVideoEnded = false
+                            }
+                            playerManager.play()
+                            isPlaying = true
+                        }
+                    },
+                    onNativeFullscreenClick = {
+                        isFullScreen = !isFullScreen
+                    }
+                )
             }
-
-            override fun pause() {
+        }
+    }
+    // Pause the player when the composable is disposed or when the lifecycle pauses.
+    DisposableEffect(Unit) {
+        onDispose {
+            if (handleLifecyclePause) {
                 playerManager.pause()
             }
         }
     }
+    OnLifecycleEvent(
+        onPause = {
+            if (handleLifecyclePause) {
+                playerManager.pause()
+            }
+        }
+    )
+}
 
-    // Launched effect to invoke player created
-    LaunchedEffect(playerController, onPlayerCreated) {
-        onPlayerCreated?.invoke(playerController)
-    }
-
-    Box(modifier = modifier) {
+// Video player content composable.
+@OptIn(UnstableApi::class)
+@Composable
+private fun VideoPlayerContent(
+    playerManager: VideoPlayerManager,
+    controlsType: ControlsType,
+    controllerShowTimeoutMs: Int,
+    isPlayButtonVisible: Boolean,
+    icon: DrawableResource,
+    customControlsSize: Dp,
+    customControlsElevation: Dp,
+    customControlsShape: RoundedCornerShape,
+    onTogglePlay: () -> Unit,
+    onNativeFullscreenClick: () -> Unit,
+) {
+    Box(modifier = Modifier.fillMaxSize()) {
         AndroidView(
             modifier = Modifier
-                .fillMaxSize()
-                .noRippleClickable {
-                    isPlayButtonVisible = isPlayButtonVisible.not()
-                },
+                .fillMaxSize(),
             factory = { context ->
                 PlayerView(context).apply {
-                    useController = controlsType == ControlsType.NativeControls
+                    useController = (controlsType == ControlsType.NativeControls)
+
                     this.controllerShowTimeoutMs = controllerShowTimeoutMs
-                    resizeMode = when (scaleToCrop) {
-                        true -> AspectRatioFrameLayout.RESIZE_MODE_FILL
-                        false -> AspectRatioFrameLayout.RESIZE_MODE_FIT
-                    }
+
+                    resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH
 
                     player = playerManager.exoPlayer
+
                     layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
                     (videoSurfaceView as? SurfaceView)?.let {
                         playerManager.exoPlayer.setVideoSurfaceView(it)
+                    }
+                    if (controlsType == ControlsType.NativeControls) {
+                        // Leverage native full screen button.
+                        setFullscreenButtonClickListener { onNativeFullscreenClick() }
                     }
                 }
             },
@@ -190,54 +275,25 @@ actual fun VideoPlayer(
                 }
             }
         )
-
+        // For custom controls, overlay a play/pause button.
         if (controlsType == ControlsType.CustomControls) {
             FadeVisibility(
                 visible = isPlayButtonVisible,
                 duration = CONTROLS_ANIM_DURATION,
                 modifier = Modifier.align(Alignment.Center)
             ) {
-                // Player control icon
                 Image(
                     painter = painterResource(icon),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(customControlsSize)
-                        .shadow(
-                            elevation = customControlsElevation,
-                            shape = customControlsShape
-                        )
-                        .noRippleClickable {
-                            if (isPlaying) {
-                                playerManager.pause()
-                            } else {
-                                if (isVideoEnded) {
-                                    playerManager.exoPlayer.seekTo(0)
-                                    isVideoEnded = false
-                                }
-                                playerManager.play()
-                                isPlaying = true
-                            }
-                        }
+						.size(customControlsSize)
+						.shadow(
+							elevation = customControlsElevation,
+							shape = customControlsShape
+						)
+						.noRippleClickable { onTogglePlay() }
                 )
             }
         }
     }
-
-    DisposableEffect(Unit) {
-        onDispose {
-            if (handleLifecyclePause) {
-                playerManager.pause()
-            }
-        }
-    }
-
-    // Handle lifecycle
-    OnLifecycleEvent(
-        onPause = {
-            if (handleLifecyclePause) {
-                playerManager.pause()
-            }
-        }
-    )
 }

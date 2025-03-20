@@ -49,6 +49,7 @@ internal fun CommonYouTubePlayer(
         encoding = BASE_ENCODING,
     )
 
+
     val navigator = rememberWebViewNavigator()
     val command: YouTubeExecCommand? = hostState.command
     webViewState.webSettings.apply {
