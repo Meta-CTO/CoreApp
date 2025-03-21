@@ -4,7 +4,7 @@ import com.metacto.core.utils.CommonSerializable
 import org.jetbrains.compose.resources.DrawableResource
 
 data class ImageUIModel(
-    val id: Int? = null,
+    val id: String? = null,
     val bytes: ByteArray? = null,
     val resource: DrawableResource? = null,
     val url: String? = null,
