@@ -1,5 +1,6 @@
 package com.metacto.core.utils.launchers
 
+import com.metacto.core.utils.date.toNSDateComponent
 import com.metacto.core.utils.delegates.EventEditDelegate
 import com.metacto.core.utils.extensions.openAppSettings
 import com.metacto.core.utils.extensions.runOnMainThread
@@ -7,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.toNSDateComponents
 import platform.EventKit.EKEntityType
 import platform.EventKit.EKEvent
 import platform.EventKit.EKEventStore
@@ -163,8 +163,8 @@ class IntentLauncher : IIntentLauncher {
                 val event = EKEvent.eventWithEventStore(eventStore).apply {
                     this.title = eventTitle
                     this.notes = eventDescription
-                    this.startDate = eventStartTime.toNSDateComponents().date
-                    this.endDate = eventEndTime.toNSDateComponents().date
+                    this.startDate = eventStartTime.toNSDateComponent().date
+                    this.endDate = eventEndTime.toNSDateComponent().date
                     this.calendar = eventStore.defaultCalendarForNewEvents
                 }
 
