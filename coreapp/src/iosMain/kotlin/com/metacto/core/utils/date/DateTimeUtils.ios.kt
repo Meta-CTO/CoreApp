@@ -237,7 +237,7 @@ private fun Long.timestampToReadableDate(): String {
 fun LocalDateTime.toNSDateComponent(): NSDateComponents {
     val components = NSDateComponents()
     components.year = year.toLong()
-    components.month = this.month.ordinal.toLong()
+    components.month = monthNumber.toLong()
     components.day = this.dayOfMonth.toLong()
     components.hour = this.hour.toLong()
     components.minute = this.minute.toLong()
