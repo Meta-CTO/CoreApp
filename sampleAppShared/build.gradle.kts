@@ -11,7 +11,6 @@ plugins {
     id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
     id(Plugins.SERIALIZATION_PLUGIN)
     id(Plugins.PARCELIZE_PLUGIN)
-    id(Plugins.MOKO_RESOURCES_PLUGIN)
 }
 
 kotlin {
