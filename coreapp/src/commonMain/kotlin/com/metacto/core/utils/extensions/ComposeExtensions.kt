@@ -727,6 +727,39 @@ fun Modifier.extendOutsideParent(
 }
 
 @Composable
+fun Modifier.onEdgeSwipe(
+    isEnabled: Boolean,
+    edgeWidth: Int = 100,
+    onSwiped: () -> Unit
+): Modifier {
+    var isDragging by remember { mutableStateOf(false) }
+    val edgeWidthPx = edgeWidth.dp.toPx()
+
+    if (isEnabled.not()) return this
+
+    return Modifier.pointerInput(Unit) {
+        detectDragGestures(
+            onDragStart = { startOffset ->
+                isDragging = startOffset.x <= edgeWidthPx ||
+                        startOffset.x >= (size.width - edgeWidthPx)
+            },
+            onDrag = { change, dragAmount ->
+                if (isDragging) {
+                    if (dragAmount.x > edgeWidth) {
+                        onSwiped()
+                        isDragging = false
+                    }
+                    change.consume()
+                }
+            },
+            onDragEnd = {
+                isDragging = false
+            }
+        )
+    }
+}
+
+@Composable
 expect fun defaultMetadataLoader(): MetadataLoader
 
 @Composable

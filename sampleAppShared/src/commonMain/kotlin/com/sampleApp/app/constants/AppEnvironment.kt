@@ -12,7 +12,8 @@ object AppEnvironment {
         forceUpdateRemoteConfigKey = "RECOMMENDED_APP_VERSIONS",
         appConfigurationExpirationInMinutes = 1 * 60 * 24,
         currentAppConfigurationVersion = 1,
-        askRemoteNotificationPermissionOnStart = true
+        askRemoteNotificationPermissionOnStart = true,
+        enableSwipeToGoBack = true
     )
 
     fun prod() = CoreEnvironment(
@@ -22,6 +23,7 @@ object AppEnvironment {
         iosAppStoreId = "id310633997",
         appConfigurationExpirationInMinutes = 1 * 60 * 24,
         currentAppConfigurationVersion = 1,
-        askRemoteNotificationPermissionOnStart = true
+        askRemoteNotificationPermissionOnStart = true,
+        enableSwipeToGoBack = true
     )
 }

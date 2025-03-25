@@ -12,16 +12,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
+import com.metacto.core.CoreEnvironment
 import com.metacto.core.presentation.base.BaseScreen
 import com.metacto.core.presentation.components.bottomSheets.BottomSheetInsetsContainer
 import com.metacto.core.presentation.components.voyager.FadeTransition
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.theme.CoreTheme
+import com.metacto.core.utils.extensions.onEdgeSwipe
 import com.metacto.core.utils.extensions.orFalse
+import com.metacto.core.utils.extensions.toPx
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
@@ -41,6 +45,12 @@ fun CoreAppNavigator(
     val coroutineScope = rememberCoroutineScope()
     var navigator by remember { mutableStateOf<Navigator?>(null) }
     var sheetNavigator by remember { mutableStateOf<BottomSheetNavigator?>(null) }
+
+    // Prepare swipe objects
+    val appEnvironment = koinInject<CoreEnvironment>()
+    var isDragging by remember { mutableStateOf(false) }
+    val edgeWidth = 100
+    val edgeWidthPx = edgeWidth.dp.toPx()
 
     // Handle navigation effects
     LaunchedEffect(navigator, sheetNavigator) {
@@ -175,7 +185,11 @@ fun CoreAppNavigator(
 
                     // Render current screen
                     Box(
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .onEdgeSwipe(isEnabled = appEnvironment.enableSwipeToGoBack) {
+                                navManager.goBack()
+                            }
                     ) {
                         FadeTransition(createdNavigator)
                     }
