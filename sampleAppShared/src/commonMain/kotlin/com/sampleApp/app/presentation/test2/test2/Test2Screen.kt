@@ -1,20 +1,18 @@
-package com.sampleApp.app.presentation.test
+package com.sampleApp.app.presentation.test2.test2
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.sampleApp.app.presentation.test.TestContract.Event
-import com.sampleApp.app.presentation.test.components.TestContent
+import com.sampleApp.app.presentation.test2.test2.Test2Contract.Event
+import com.sampleApp.app.presentation.test2.test2.components.Test2Content
 import com.metacto.core.presentation.base.BaseScreen
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.base.rememberViewModel
 
-internal object TestScreen : BaseScreen<TestViewModel>() {
-    override val enableSwipeToGoBack = false
-
+internal class Test2Screen : BaseScreen<Test2ViewModel>() {
     @Composable
     override fun Content() {
         // Get the view model
-        val viewModel = rememberViewModel<TestViewModel>()
+        val viewModel = rememberViewModel<Test2ViewModel>()
 
         // Init view model
         LaunchedEffect(SIDE_EFFECTS_KEY) {
@@ -22,7 +20,7 @@ internal object TestScreen : BaseScreen<TestViewModel>() {
         }
 
         // Render content
-        TestContent(
+        Test2Content(
             state = viewModel.viewState.value,
             onEvent = viewModel::setEvent
         )

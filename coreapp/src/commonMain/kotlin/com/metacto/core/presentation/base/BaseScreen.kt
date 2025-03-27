@@ -13,6 +13,7 @@ abstract class BaseScreen<T : CoreViewModel<*, *, *>> : Screen, KoinComponent {
     override val key: ScreenKey = randomUUID()
     open val viewModelTag: String = randomUUID()
     open val screenTag: String = randomUUID()
+    open val enableSwipeToGoBack: Boolean = true
 
     protected fun getNavManager(): NavManager {
         return inject<NavManager>().value

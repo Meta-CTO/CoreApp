@@ -6,13 +6,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.CurrentScreen
 import cafe.adriel.voyager.navigator.Navigator
@@ -25,7 +25,6 @@ import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.onEdgeSwipe
 import com.metacto.core.utils.extensions.orFalse
-import com.metacto.core.utils.extensions.toPx
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
@@ -48,9 +47,12 @@ fun CoreAppNavigator(
 
     // Prepare swipe objects
     val appEnvironment = koinInject<CoreEnvironment>()
-    var isDragging by remember { mutableStateOf(false) }
-    val edgeWidth = 100
-    val edgeWidthPx = edgeWidth.dp.toPx()
+    val enableSwipeToGoBack by remember(appEnvironment, navigator?.lastItem) {
+        val currentScreen = navigator?.lastItem as? BaseScreen<*>
+        derivedStateOf {
+            appEnvironment.enableSwipeToGoBack && currentScreen?.enableSwipeToGoBack == true
+        }
+    }
 
     // Handle navigation effects
     LaunchedEffect(navigator, sheetNavigator) {
@@ -187,7 +189,7 @@ fun CoreAppNavigator(
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .onEdgeSwipe(isEnabled = appEnvironment.enableSwipeToGoBack) {
+                            .onEdgeSwipe(isEnabled = enableSwipeToGoBack) {
                                 navManager.goBack()
                             }
                     ) {

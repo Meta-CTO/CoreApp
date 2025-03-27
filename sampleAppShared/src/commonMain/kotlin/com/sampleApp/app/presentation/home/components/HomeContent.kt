@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.metacto.core.navigation.NavManager
 import com.metacto.core.presentation.components.audioPlayer.AudioPlayer
 import com.metacto.core.presentation.components.audioPlayer.AudioPlayerStatusListener
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
@@ -28,6 +29,7 @@ import com.metacto.core.utils.language.Language
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
+import com.sampleApp.app.presentation.test2.test2.Test2Screen
 import com.sampleApp.app.presentation.theme.AppTheme
 import com.sampleApp.app.resources.Res
 import com.sampleApp.app.resources.toggle_language
@@ -50,6 +52,7 @@ internal fun HomeContent(
 ) {
     val contactsCollectorOptionsFactory = rememberContactsCollectorOptionsFactory()
     val languageManager = koinInject<ILanguageManager>()
+    val navManager = koinInject<NavManager>()
 
     ScreenColumn(
         isScrollable = true,
@@ -143,6 +146,14 @@ internal fun HomeContent(
             text = "To Test Screen",
             onClick = {
                 onEvent(Event.NavToTestScreen)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
+            text = "To Test Screen 2",
+            onClick = {
+                navManager.navigate(Test2Screen())
             }
         )
 
