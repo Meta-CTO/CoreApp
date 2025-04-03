@@ -47,7 +47,7 @@ internal fun ProfileContent(
             controllerShowTimeoutMs = 2000,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(224.dp)
+                .height(500.dp)
         )
 
         Text(

@@ -84,11 +84,6 @@ actual fun VideoPlayer(
     var isVideoEnded by remember { mutableStateOf(false) }
     var isFullScreen by remember { mutableStateOf(false) }
 
-
-    LaunchedEffect(playerManager, enableVoice) {
-        playerManager.exoPlayer.volume = if (enableVoice) 1f else 0f
-    }
-
     // Listen for player state changes.
     LaunchedEffect(playerManager.exoPlayer) {
         playerManager.exoPlayer.addListener(object : Player.Listener {
@@ -109,15 +104,28 @@ actual fun VideoPlayer(
             }
         })
     }
-    // Configure auto play, repeat, media, and metadata.
+
+    // Voice configuration
+    LaunchedEffect(playerManager, enableVoice) {
+        playerManager.exoPlayer.volume = if (enableVoice) 1f else 0f
+    }
+
+    // Setup scaling mode
+    LaunchedEffect(playerManager, scaleToCrop) {
+        playerManager.setScaleToCrop(scaleToCrop)
+    }
+
+    // Auto play configuration
     LaunchedEffect(playerManager, autoPlay) {
         playerManager.setAutoPlay(autoPlay)
     }
 
+    // Auto repeat configuration
     LaunchedEffect(playerManager, autoRepeat) {
         playerManager.setAutoRepeat(autoRepeat)
     }
 
+    // Media metadata configuration
     LaunchedEffect(playerManager, videoUrl, videoTitle, videoArtist, videoArtworkUrl) {
         playerManager.setMedia(
             videoUrl = videoUrl,
@@ -129,6 +137,7 @@ actual fun VideoPlayer(
     LaunchedEffect(enableMediaMetadata) {
         playerManager.setMediaMetadataEnabled(enableMediaMetadata)
     }
+
     // Set up and deliver the player controller callback.
     val controller = remember(playerManager) {
         object : VideoPlayerController {
@@ -136,14 +145,17 @@ actual fun VideoPlayer(
             override fun pause() = playerManager.pause()
         }
     }
+
     LaunchedEffect(controller, onPlayerCreated) {
         onPlayerCreated?.invoke(controller)
     }
+
     // Monitor device orientation to update full screen & scale mode.
     val configuration = LocalConfiguration.current
     LaunchedEffect(configuration.orientation) {
         isFullScreen = (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
     }
+
     // Render the video content (either embedded or full screen).
     if (!isFullScreen) {
         Box(modifier = modifier) {
@@ -156,6 +168,10 @@ actual fun VideoPlayer(
                 customControlsSize = customControlsSize,
                 customControlsElevation = customControlsElevation,
                 customControlsShape = customControlsShape,
+                resizeMode = when (scaleToCrop) {
+                    true -> AspectRatioFrameLayout.RESIZE_MODE_FILL
+                    false -> AspectRatioFrameLayout.RESIZE_MODE_FIT
+                },
                 onTogglePlay = {
                     if (isPlaying) {
                         playerManager.pause()
@@ -193,6 +209,7 @@ actual fun VideoPlayer(
                     customControlsSize = customControlsSize,
                     customControlsElevation = customControlsElevation,
                     customControlsShape = customControlsShape,
+                    resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH,
                     onTogglePlay = {
                         if (isPlaying) {
                             playerManager.pause()
@@ -212,6 +229,7 @@ actual fun VideoPlayer(
             }
         }
     }
+
     // Pause the player when the composable is disposed or when the lifecycle pauses.
     DisposableEffect(Unit) {
         onDispose {
@@ -236,6 +254,7 @@ private fun VideoPlayerContent(
     playerManager: VideoPlayerManager,
     controlsType: ControlsType,
     controllerShowTimeoutMs: Int,
+    resizeMode: Int,
     isPlayButtonVisible: Boolean,
     icon: DrawableResource,
     customControlsSize: Dp,
@@ -251,13 +270,9 @@ private fun VideoPlayerContent(
             factory = { context ->
                 PlayerView(context).apply {
                     useController = (controlsType == ControlsType.NativeControls)
-
                     this.controllerShowTimeoutMs = controllerShowTimeoutMs
-
-                    resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH
-
+                    this.resizeMode = resizeMode
                     player = playerManager.exoPlayer
-
                     layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
                     (videoSurfaceView as? SurfaceView)?.let {
