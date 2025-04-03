@@ -16,4 +16,9 @@ internal data class FileResource(
             value = Res.readBytes(path).decodeToString()
         }
     }
+
+    @OptIn(ExperimentalResourceApi::class)
+    override fun getUri(): String {
+        return Res.getUri(path)
+    }
 }

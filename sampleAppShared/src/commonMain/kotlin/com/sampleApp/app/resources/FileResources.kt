@@ -8,5 +8,6 @@ val Res.file: FileResources
 fun String.asFileResource(): IFileResource = FileResource(path = "files/$this")
 
 object FileResources {
-    val app_loading: IFileResource = "app_loading.json".asFileResource()
+    val app_loading = "app_loading.json".asFileResource()
+    val intro_video = "intro_video.mp4".asFileResource()
 }

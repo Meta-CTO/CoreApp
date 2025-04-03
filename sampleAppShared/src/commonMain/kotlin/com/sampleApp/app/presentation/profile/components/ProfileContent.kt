@@ -14,6 +14,7 @@ import com.metacto.core.utils.extensions.toFeetInches
 import com.sampleApp.app.presentation.models.VideoItemInfo
 import com.sampleApp.app.presentation.profile.ProfileContract.Event
 import com.sampleApp.app.presentation.profile.ProfileContract.State
+import com.sampleApp.app.resources.FileResources
 
 @Composable
 internal fun ProfileContent(
@@ -23,6 +24,7 @@ internal fun ProfileContent(
     val videoInfo = remember {
         VideoItemInfo(
             url = "https://storage.sardius.media/-KrXWhrxRAYPfu44QPJ0/archives/DAA6A5576Dd5Ee41CBd6B68696F6/media/playlist.m3u8?feedId=27d824FCdF&vttUrl=https%253A%252F%252Fstorage.sardius.media%252F-KrXWhrxRAYPfu44QPJ0%252Farchives%252FDAA6A5576Dd5Ee41CBd6B68696F6%252Fstatic%252F1730996105358-1.vtt",
+//            url = FileResources.intro_video.getUri(),
             title = "Random Video Title",
             artist = "Random Artist",
             artworkUrl = "https://yurielkaim.com/wp-content/uploads/2016/03/Happiness-Habits-10-Things-Happy-People-Do-Before-Bed-1200x900.jpg"

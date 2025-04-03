@@ -11,6 +11,8 @@ interface IFileResource {
 
     @Composable
     fun readAsState(): State<String?>
+
+    fun getUri(): String
 }
 
 internal data class FileResource(
@@ -22,5 +24,10 @@ internal data class FileResource(
         return produceState<String?>(null, this) {
             value = Res.readBytes(path).decodeToString()
         }
+    }
+
+    @OptIn(ExperimentalResourceApi::class)
+    override fun getUri(): String {
+        return Res.getUri(path)
     }
 }

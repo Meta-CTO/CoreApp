@@ -82,7 +82,7 @@ internal class AudioPlayerManager(
 
         exoPlayer.apply {
             // Create the media item
-            val mediaItem = createMediaSource(url = audioUrl)
+            val mediaItem = createMediaSource(context = context, url = audioUrl)
 
             // Set media source and prepare
             if (isAutoPlay) {

@@ -114,6 +114,7 @@ internal class VideoPlayerManager(
 
             // Create the media item
             val mediaItem = createMediaSource(
+                context = context,
                 url = videoUrl,
                 metaData = mediaMetaData
             )
