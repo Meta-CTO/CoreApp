@@ -69,6 +69,7 @@ kotlin {
                 api(Dependencies.Coil.CORE)
                 api(Dependencies.Coil.COMPOSE)
                 api(Dependencies.Coil.NETWORK)
+                api(Dependencies.Coil.SVG)
 
                 // GitLive
                 api(Dependencies.GitLive.CONFIG)

@@ -1,14 +1,18 @@
 package com.sampleApp.app.presentation.profile.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
+import com.metacto.core.presentation.components.images.AppImage
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.extensions.toFeetInches
 import com.sampleApp.app.presentation.models.VideoItemInfo
@@ -50,6 +54,22 @@ internal fun ProfileContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(500.dp)
+        )
+
+
+        AppImage(
+            url = "https://storage.googleapis.com/journey-rewards-uploads-us-east1/image_NIHI%20Resorts-white-logo.svg",
+            modifier = Modifier
+                .size(100.dp)
+                .background(Color.Black)
+        )
+
+
+        AppImage(
+            url = "https://plus.unsplash.com/premium_photo-1664474619075-644dd191935f?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8aW1hZ2V8ZW58MHx8MHx8fDA%3D",
+            modifier = Modifier
+                .size(100.dp)
+                .background(Color.Black)
         )
 
         Text(

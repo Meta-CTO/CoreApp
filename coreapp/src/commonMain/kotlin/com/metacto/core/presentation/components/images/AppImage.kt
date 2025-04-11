@@ -26,6 +26,7 @@ import coil3.network.httpHeaders
 import coil3.request.CachePolicy
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import coil3.svg.SvgDecoder
 import com.metacto.core.presentation.models.ImageUIModel
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.extensions.backgroundIfNotNull
@@ -79,6 +80,7 @@ fun AppImage(
     val context = LocalPlatformContext.current
     val model = remember(url, image?.getData()) {
         ImageRequest.Builder(context)
+            .decoderFactory(SvgDecoder.Factory())
             .data(url ?: image?.getData())
             .httpHeaders(networkHeaders)
             .diskCachePolicy(CachePolicy.ENABLED)
