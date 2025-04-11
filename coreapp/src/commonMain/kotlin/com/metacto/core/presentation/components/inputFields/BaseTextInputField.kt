@@ -227,7 +227,7 @@ fun BaseTextInputField(
     } else null
 
     // Prepare value change handler
-    val valueChangeHandler: (TextFieldValue) -> Unit = remember {
+    val valueChangeHandler: (TextFieldValue) -> Unit = remember(maxLength) {
         {
             // Get input text
             var inputText = it.text
