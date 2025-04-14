@@ -15,6 +15,7 @@ import com.metacto.core.utils.extensions.getLauncherPendingIntent
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
+@UnstableApi
 internal class VideoPlayerManager(
     private val uniqueId: String
 ) : KoinComponent {
@@ -26,7 +27,10 @@ internal class VideoPlayerManager(
 
     // Define the exo player
     val exoPlayer by lazy {
-        ExoPlayer.Builder(context).build()
+        ExoPlayer.Builder(context)
+            .setSeekBackIncrementMs(10_000L)
+            .setSeekForwardIncrementMs(10_000L)
+            .build()
     }
 
     // Define the media session
