@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,6 +39,8 @@ import com.metacto.core.presentation.components.visibilities.FadeVisibility
 import com.metacto.core.utils.extensions.OnLifecycleEvent
 import com.metacto.core.utils.extensions.getActivity
 import com.metacto.core.utils.extensions.noRippleClickable
+import com.metacto.core.utils.extensions.setPortraitOrientation
+import com.metacto.core.utils.extensions.setUnspecifiedOrientation
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
@@ -86,14 +89,30 @@ actual fun VideoPlayer(
     var isVideoEnded = remember { mutableStateOf(false) }
     var isFullScreen = remember { mutableStateOf(false) }
     val activity = LocalContext.current.getActivity<AppCompatActivity>()
-
-    // Monitor device orientation to update full screen & scale mode.
     val configuration = LocalConfiguration.current
-    LaunchedEffect(configuration.orientation) {
-        isFullScreen.value = (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
+    val isLandscape by remember(configuration.orientation) {
+        derivedStateOf {
+            configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+        }
+    }
+
+    // Set fullscreen by default when move to landscape
+    LaunchedEffect(isLandscape) {
+        if (isLandscape) {
+            isFullScreen.value = true
+        }
     }
 
     // Handle fullscreen changes
+    LaunchedEffect(isFullScreen.value) {
+        if (isFullScreen.value) {
+            activity?.setUnspecifiedOrientation()
+        } else {
+            activity?.setPortraitOrientation()
+        }
+    }
+
+    // Show and dismiss fullscreen dialog when needed
     LaunchedEffect(isFullScreen.value) {
         if (isFullScreen.value) {
             // Show fullscreen dialog if needed
@@ -374,12 +393,12 @@ private fun VideoPlayerContent(
                     painter = painterResource(icon),
                     contentDescription = null,
                     modifier = Modifier
-						.size(customControlsSize)
-						.shadow(
-							elevation = customControlsElevation,
-							shape = customControlsShape
-						)
-						.noRippleClickable { onTogglePlay() }
+                        .size(customControlsSize)
+                        .shadow(
+                            elevation = customControlsElevation,
+                            shape = customControlsShape
+                        )
+                        .noRippleClickable { onTogglePlay() }
                 )
             }
         }
