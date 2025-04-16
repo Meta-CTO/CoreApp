@@ -38,4 +38,6 @@ expect fun VideoPlayer(
     customControlsShape: RoundedCornerShape = CoreTheme.shapes.videoPlayer.customIconShape,
     onPlayerCreated: ((VideoPlayerController) -> Unit)? = null,
     onDurationCaught: ((Duration) -> Unit)? = null,
+    onVideoLoop: (() -> Unit)? = null,
+    onVideoEnd: (() -> Unit)? = null
 )

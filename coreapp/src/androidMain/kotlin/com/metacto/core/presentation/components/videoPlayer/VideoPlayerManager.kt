@@ -1,7 +1,6 @@
 package com.metacto.core.presentation.components.videoPlayer
 
 import android.content.Context
-import android.net.Uri
 import androidx.annotation.OptIn
 import androidx.media3.common.C
 import androidx.media3.common.MediaMetadata
@@ -14,6 +13,7 @@ import com.metacto.core.utils.extensions.createMediaSource
 import com.metacto.core.utils.extensions.getLauncherPendingIntent
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import androidx.core.net.toUri
 
 @UnstableApi
 internal class VideoPlayerManager(
@@ -24,6 +24,8 @@ internal class VideoPlayerManager(
     private val playerManagers by inject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
     private var isAutoPlay = false
     private var isMediaMetadataEnabled = false
+    var onVideoLoop: (() -> Unit)? = null
+    var onVideoEnd: (() -> Unit)? = null
 
     // Define the exo player
     val exoPlayer by lazy {
@@ -76,6 +78,23 @@ internal class VideoPlayerManager(
                 // Show the notification for current exo player
                 notificationManager.showNotificationForPlayer(exoPlayer)
             }
+
+            override fun onPositionDiscontinuity(
+                oldPosition: Player.PositionInfo,
+                newPosition: Player.PositionInfo,
+                reason: Int
+            ) {
+                if (reason == Player.DISCONTINUITY_REASON_AUTO_TRANSITION) {
+                    // Video has looped
+                    onVideoLoop?.invoke()
+                }
+            }
+
+            override fun onPlaybackStateChanged(state: Int) {
+                if (state == Player.STATE_ENDED) {
+                    onVideoEnd?.invoke()
+                }
+            }
         })
     }
 
@@ -113,7 +132,7 @@ internal class VideoPlayerManager(
                 .setTitle(videoTitle.orEmpty())
                 .setArtist(videoArtist.orEmpty())
                 .setAlbumArtist(videoArtist.orEmpty())
-                .setArtworkUri(videoArtworkUrl?.let { Uri.parse(it) })
+                .setArtworkUri(videoArtworkUrl?.toUri())
                 .build()
 
             // Create the media item

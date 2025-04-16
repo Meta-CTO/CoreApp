@@ -75,6 +75,8 @@ actual fun VideoPlayer(
     customControlsShape: RoundedCornerShape,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?,
     onDurationCaught: ((Duration) -> Unit)?,
+    onVideoLoop: (() -> Unit)?,
+    onVideoEnd: (() -> Unit)?
 ) {
     // Inject main stuff
     val playerManagers =
@@ -83,11 +85,11 @@ actual fun VideoPlayer(
         VideoPlayerManager(uniqueId)
     }
     // Local state variables for UI and playback.
-    var isPlaying = remember { mutableStateOf(playerManager.exoPlayer.isPlaying) }
+    val isPlaying = remember { mutableStateOf(playerManager.exoPlayer.isPlaying) }
     val icon = if (isPlaying.value) pauseIconRes else playIconRes
     val isPlayButtonVisible by remember { mutableStateOf(true) }
-    var isVideoEnded = remember { mutableStateOf(false) }
-    var isFullScreen = remember { mutableStateOf(false) }
+    val isVideoEnded = remember { mutableStateOf(false) }
+    val isFullScreen = remember { mutableStateOf(false) }
     val activity = LocalContext.current.getActivity<AppCompatActivity>()
     val configuration = LocalConfiguration.current
     val isLandscape by remember(configuration.orientation) {
@@ -202,6 +204,16 @@ actual fun VideoPlayer(
 
     LaunchedEffect(controller, onPlayerCreated) {
         onPlayerCreated?.invoke(controller)
+    }
+
+    // Video loop configuration
+    LaunchedEffect(onVideoLoop) {
+        playerManager.onVideoLoop = onVideoLoop
+    }
+
+    // Video end configuration
+    LaunchedEffect(onVideoEnd) {
+        playerManager.onVideoEnd = onVideoEnd
     }
 
     // Render normal video player if needed

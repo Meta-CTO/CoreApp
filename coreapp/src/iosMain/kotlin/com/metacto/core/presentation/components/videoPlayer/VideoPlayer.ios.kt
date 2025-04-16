@@ -94,7 +94,9 @@ actual fun VideoPlayer(
     customControlsElevation: Dp,
     customControlsShape: RoundedCornerShape,
     onPlayerCreated: ((VideoPlayerController) -> Unit)?,
-    onDurationCaught: ((Duration) -> Unit)?
+    onDurationCaught: ((Duration) -> Unit)?,
+    onVideoLoop: (() -> Unit)?,
+    onVideoEnd: (() -> Unit)?
 ) {
     // Create the player item with the url
     val playerItem = remember(videoUrl) {
@@ -357,9 +359,11 @@ actual fun VideoPlayer(
                 player.play()
                 isPlaying = true
                 isVideoEnded = false
+                onVideoLoop?.invoke()
             } else {
                 isPlaying = false
                 isVideoEnded = true
+                onVideoEnd?.invoke()
             }
         }
 

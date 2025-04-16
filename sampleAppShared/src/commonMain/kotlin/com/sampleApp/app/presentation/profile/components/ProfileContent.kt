@@ -13,12 +13,15 @@ import androidx.compose.ui.unit.dp
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.images.AppImage
+import com.metacto.core.presentation.components.videoPlayer.ControlsType
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.extensions.toFeetInches
 import com.sampleApp.app.presentation.models.VideoItemInfo
 import com.sampleApp.app.presentation.profile.ProfileContract.Event
 import com.sampleApp.app.presentation.profile.ProfileContract.State
 import com.sampleApp.app.resources.FileResources
+import com.sampleApp.app.resources.Res
+import com.sampleApp.app.resources.file
 
 @Composable
 internal fun ProfileContent(
@@ -42,15 +45,26 @@ internal fun ProfileContent(
     ) {
         VideoPlayer(
             uniqueId = "profile_video_player",
-            videoUrl = videoInfo.url,
-            videoTitle = videoInfo.title,
-            videoArtist = videoInfo.artist,
-            videoArtworkUrl = videoInfo.artworkUrl,
-            autoPlay = false,
+            videoUrl = Res.file.intro_video.getUri(),
+            autoPlay = true,
             scaleToCrop = true,
-            enablePip = true,
-            handleLifecyclePause = false,
-            controllerShowTimeoutMs = 2000,
+            enableVoice = false,
+            enablePip = false,
+            enableMediaMetadata = false,
+            autoRepeat = true,
+            controlsType = ControlsType.HideControls,
+            onVideoLoop = {
+                println("Video looped")
+            },
+            onVideoEnd = {
+                println("Video ended")
+            },
+//            videoTitle = videoInfo.title,
+//            videoArtist = videoInfo.artist,
+//            videoArtworkUrl = videoInfo.artworkUrl,
+//            enablePip = true,
+//            handleLifecyclePause = false,
+//            controllerShowTimeoutMs = 2000,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(500.dp)
