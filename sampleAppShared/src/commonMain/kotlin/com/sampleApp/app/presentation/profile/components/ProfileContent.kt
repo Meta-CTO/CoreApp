@@ -30,8 +30,8 @@ internal fun ProfileContent(
 ) {
     val videoInfo = remember {
         VideoItemInfo(
-//            url = "https://storage.sardius.media/-KrXWhrxRAYPfu44QPJ0/archives/DAA6A5576Dd5Ee41CBd6B68696F6/media/playlist.m3u8?feedId=27d824FCdF&vttUrl=https%253A%252F%252Fstorage.sardius.media%252F-KrXWhrxRAYPfu44QPJ0%252Farchives%252FDAA6A5576Dd5Ee41CBd6B68696F6%252Fstatic%252F1730996105358-1.vtt",
-            url = FileResources.intro_video.getUri(),
+            url = "https://storage.sardius.media/-KrXWhrxRAYPfu44QPJ0/archives/DAA6A5576Dd5Ee41CBd6B68696F6/media/playlist.m3u8?feedId=27d824FCdF&vttUrl=https%253A%252F%252Fstorage.sardius.media%252F-KrXWhrxRAYPfu44QPJ0%252Farchives%252FDAA6A5576Dd5Ee41CBd6B68696F6%252Fstatic%252F1730996105358-1.vtt",
+//            url = FileResources.intro_video.getUri(),
             title = "Random Video Title",
             artist = "Random Artist",
             artworkUrl = "https://yurielkaim.com/wp-content/uploads/2016/03/Happiness-Habits-10-Things-Happy-People-Do-Before-Bed-1200x900.jpg"
@@ -44,27 +44,31 @@ internal fun ProfileContent(
         isScrollable = false
     ) {
         VideoPlayer(
+//            uniqueId = "profile_video_player",
+//            videoUrl = Res.file.intro_video.getUri(),
+//            autoPlay = true,
+//            scaleToCrop = true,
+//            enableVoice = false,
+//            enablePip = false,
+//            enableMediaMetadata = false,
+//            autoRepeat = true,
+//            controlsType = ControlsType.HideControls,
+//            onVideoLoop = {
+//                println("Video looped")
+//            },
+//            onVideoEnd = {
+//                println("Video ended")
+//            },
             uniqueId = "profile_video_player",
-            videoUrl = Res.file.intro_video.getUri(),
-            autoPlay = true,
-            scaleToCrop = true,
-            enableVoice = false,
-            enablePip = false,
-            enableMediaMetadata = false,
-            autoRepeat = true,
-            controlsType = ControlsType.HideControls,
-            onVideoLoop = {
-                println("Video looped")
-            },
-            onVideoEnd = {
-                println("Video ended")
-            },
-//            videoTitle = videoInfo.title,
-//            videoArtist = videoInfo.artist,
-//            videoArtworkUrl = videoInfo.artworkUrl,
-//            enablePip = true,
-//            handleLifecyclePause = false,
-//            controllerShowTimeoutMs = 2000,
+            videoUrl = videoInfo.url,
+            videoTitle = videoInfo.title,
+            videoArtist = videoInfo.artist,
+            videoArtworkUrl = videoInfo.artworkUrl,
+            autoPlay = false,
+            scaleToCrop = false,
+            enablePip = true,
+            handleLifecyclePause = false,
+            controllerShowTimeoutMs = 2000,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(500.dp)

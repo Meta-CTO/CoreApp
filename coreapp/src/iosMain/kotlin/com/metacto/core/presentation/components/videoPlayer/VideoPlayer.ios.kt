@@ -13,10 +13,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.interop.UIKitView
+import androidx.compose.ui.viewinterop.UIKitView
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.viewinterop.UIKitInteropInteractionMode
+import androidx.compose.ui.viewinterop.UIKitInteropProperties
 import com.metacto.core.presentation.components.visibilities.FadeVisibility
 import com.metacto.core.utils.extensions.DefaultLaunchedEffect
 import com.metacto.core.utils.extensions.IOLaunchedEffect
@@ -70,7 +73,7 @@ import kotlin.time.toDuration
 
 private const val CONTROLS_ANIM_DURATION = 150
 
-@OptIn(ExperimentalForeignApi::class)
+@OptIn(ExperimentalForeignApi::class, ExperimentalComposeUiApi::class)
 @Composable
 actual fun VideoPlayer(
     modifier: Modifier,
@@ -249,7 +252,15 @@ actual fun VideoPlayer(
                 .noRippleClickable {
                     isPlayButtonVisible = isPlayButtonVisible.not()
                 },
-            interactive = controlsType == ControlsType.NativeControls,
+            properties = UIKitInteropProperties(
+                interactionMode = if (controlsType == ControlsType.NativeControls) {
+                    UIKitInteropInteractionMode.NonCooperative
+                } else {
+                    UIKitInteropInteractionMode.Cooperative(
+                        delayMillis = Int.MAX_VALUE
+                    )
+                },
+            ),
             factory = {
                 UIView().apply {
                     addSubview(playerController.view)
@@ -285,18 +296,6 @@ actual fun VideoPlayer(
 
                 // Start PiP if it's not already running
                 pipController.startIfPossible()
-            },
-            onResize = { view, rect ->
-                CATransaction.run {
-                    begin()
-
-                    setValue(true, kCATransactionDisableActions)
-                    view.layer.setFrame(rect)
-                    playerLayer.setFrame(rect)
-                    playerController.view.layer.frame = rect
-
-                    commit()
-                }
             },
             onRelease = {
                 player.pause()
