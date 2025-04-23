@@ -6,6 +6,7 @@ object Plugins {
     const val COMPOSE_PLUGIN = "org.jetbrains.compose"
     const val COMPOSE_COMPILER_PLUGIN = "org.jetbrains.kotlin.plugin.compose"
     const val SERIALIZATION_PLUGIN = "org.jetbrains.kotlin.plugin.serialization"
+    const val KOTLIN_SERIALIZATION_PLUGIN = "plugin.serialization"
     const val PARCELIZE_PLUGIN = "kotlin-parcelize"
     const val ANDROID_APPLICATION_PLUGIN = "com.android.application"
     const val PLAY_SERVICES_PLUGIN = "com.google.gms.google-services"
