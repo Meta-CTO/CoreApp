@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDateTime
-import platform.EventKit.EKEntityType
 import platform.EventKit.EKEvent
 import platform.EventKit.EKEventStore
 import platform.EventKitUI.EKEventEditViewController
@@ -158,8 +157,6 @@ class IntentLauncher : IIntentLauncher {
         eventEndTime: LocalDateTime
     ) {
         val eventStore = EKEventStore()
-        eventStore.requestAccessToEntityType(EKEntityType.EKEntityTypeEvent) { granted, error ->
-            if (granted) {
                 val event = EKEvent.eventWithEventStore(eventStore).apply {
                     this.title = eventTitle
                     this.notes = eventDescription
@@ -187,12 +184,7 @@ class IntentLauncher : IIntentLauncher {
                         completion = null
                     )
                 }
-            } else {
-                // Handle access denial or error
-                println("Access denied or error: ${error?.localizedDescription}")
-            }
         }
-    }
 
     private fun openUrl(url: String): Boolean {
         // Create the url
