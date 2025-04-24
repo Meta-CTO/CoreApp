@@ -17,7 +17,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration
@@ -34,7 +33,7 @@ fun <T> InfiniteScrollLazyRow(
     scrollSpeed: Float = 10f,
     scrollDelay: Duration = Duration.ZERO,
     itemWidth: Float = 100f,
-    items: ImmutableList<T>,
+    items: List<T>,
     itemContent: @Composable (Int, T) -> Unit
 ) {
     // Mutable list to hold items and enable dynamic adding

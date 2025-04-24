@@ -1,7 +1,5 @@
 package com.metacto.core.utils.extensions
 
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import kotlin.math.abs
 import kotlin.random.Random
 
@@ -125,7 +123,3 @@ fun <T> Array<T>.random(): T {
 }
 
 fun <T> List<T>.takeIfNotEmpty() = this.takeIf { it.isNotEmpty() }
-
-fun <E> ImmutableList<E>?.orEmpty(): ImmutableList<E> {
-    return this ?: persistentListOf()
-}

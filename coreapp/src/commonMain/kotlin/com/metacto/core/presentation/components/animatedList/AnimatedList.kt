@@ -17,7 +17,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.metacto.core.utils.extensions.half
-import kotlinx.collections.immutable.ImmutableList
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -26,7 +25,7 @@ fun <T> LazyListScope.AnimatedList(
     animateItems: Boolean,
     animDuration: Duration = 500.milliseconds,
     animOffsetY: Dp = 300.dp,
-    data: ImmutableList<T>,
+    data: List<T>,
     item: @Composable (Int, T) -> Unit
 ) {
     itemsIndexed(data) { index, dataItem ->

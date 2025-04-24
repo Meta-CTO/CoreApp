@@ -7,7 +7,6 @@ import com.metacto.core.presentation.itemPicker.ItemPickerContract.State
 import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.utils.PlatformType
 import com.metacto.core.utils.extensions.orZero
-import kotlinx.collections.immutable.toImmutableList
 
 
 class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
@@ -46,11 +45,10 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
             .orZero()
 
         // Update state
-        val immutableItems = items.toImmutableList()
         setState {
             copy(
-                items = immutableItems,
-                displayedItems = immutableItems,
+                items = items,
+                displayedItems = items,
                 initialItemIndex = initialItemIndex,
                 currentItemIndex = initialItemIndex,
                 canSearch = canSearch,
@@ -91,9 +89,7 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
         val filteredItems = if (value.isBlank()) {
             currentState.items
         } else {
-            currentState.items
-                .filter { it.title.contains(value, ignoreCase = true) }
-                .toImmutableList()
+            currentState.items.filter { it.title.contains(value, ignoreCase = true) }
         }
 
         // Update state

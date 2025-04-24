@@ -6,15 +6,13 @@ import com.metacto.core.presentation.base.ViewState
 import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.utils.PlatformType
 import com.metacto.core.utils.extensions.getPlatformType
-import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 
 class ItemPickerContract {
 
     data class State(
         val isInitialized: Boolean = false,
-        val items: ImmutableList<PickerItem> = persistentListOf(),
-        val displayedItems: ImmutableList<PickerItem> = persistentListOf(),
+        val items: List<PickerItem> = listOf(),
+        val displayedItems: List<PickerItem> = listOf(),
         val initialItemIndex: Int = 0,
         val platform: PlatformType? = null,
         val currentItemIndex: Int = 0,
