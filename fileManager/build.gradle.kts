@@ -53,6 +53,9 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // ANY COMMON MAIN DEPENDENCIES
+            
+            // Koin
+            api(Dependencies.Koin.CORE)
         }
 
         androidMain.dependencies {
