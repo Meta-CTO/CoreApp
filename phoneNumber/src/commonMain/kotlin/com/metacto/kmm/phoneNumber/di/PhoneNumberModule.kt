@@ -5,7 +5,7 @@ import com.metacto.kmm.phoneNumber.phoneNumberManger.PhoneNumberManager
 import org.koin.dsl.module
 
 val phoneNumberModule = module {
-				single<IPhoneNumberManager> {
-								PhoneNumberManager(get())
-				}
+    single<IPhoneNumberManager> {
+        PhoneNumberManager(get())
+    }
 }
