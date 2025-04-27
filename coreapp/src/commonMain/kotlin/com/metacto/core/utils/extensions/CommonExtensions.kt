@@ -7,12 +7,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.contentOrNull
-import kotlinx.serialization.json.encodeToJsonElement
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -22,17 +16,6 @@ fun <R> ifTrue(expression: Boolean, block: () -> R): R? {
 
 fun CancellableContinuation<*>.cancelIfActive() {
     if (isActive) cancel()
-}
-
-inline fun <reified T> T.toMap(): Map<String, String> {
-    val jsonElement = Json.encodeToJsonElement(this)
-    return jsonElement.jsonObject.toMap()
-}
-
-fun JsonObject.toMap(): Map<String, String> {
-    return entries.associate { (key, jsonElement) ->
-        key to (jsonElement.jsonPrimitive.contentOrNull ?: jsonElement.toString())
-    }
 }
 
 fun <T> CoroutineScope.asyncIf(
