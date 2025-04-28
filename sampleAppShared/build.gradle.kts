@@ -34,7 +34,7 @@ kotlin {
         ios.deploymentTarget = Configs.IOS_DEPLOYMENT_TARGET
         podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = Configs.SAMPLE_APP_FRAMEWORK_NAME
+            baseName = SampleAppConfigs.FRAMEWORK_NAME
             isStatic = true
             linkerOpts.add("-lsqlite3")
 
@@ -117,7 +117,7 @@ kotlin {
 }
 
 android {
-    namespace = Configs.SAMPLE_APP_NAMESPACE
+    namespace = SampleAppConfigs.NAMESPACE
     compileSdk = Configs.COMPILE_SDK_VERSION
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -141,6 +141,6 @@ android {
 
 compose.resources {
     publicResClass = true
-    packageOfResClass = "${Configs.SAMPLE_APP_NAMESPACE}.resources"
+    packageOfResClass = "${SampleAppConfigs.NAMESPACE}.resources"
     generateResClass = always
 }

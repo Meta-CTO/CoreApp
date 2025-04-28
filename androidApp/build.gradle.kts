@@ -10,7 +10,7 @@ plugins {
 }
 
 android {
-    namespace = Configs.SAMPLE_APP_NAMESPACE
+    namespace = SampleAppConfigs.NAMESPACE
     compileSdk = Configs.COMPILE_SDK_VERSION
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -28,8 +28,8 @@ android {
     defaultConfig {
         minSdk = Configs.MIN_SDK_VERSION
         targetSdk = Configs.TARGET_SDK_VERSION
-        versionCode = Configs.MY_ATLAS_VERSION_CODE
-        versionName = Configs.MY_ATLAS_VERSION_NAME
+        versionCode = SampleAppConfigs.VERSION_CODE
+        versionName = SampleAppConfigs.VERSION_NAME
 
         proguardFiles(
             getDefaultProguardFile("proguard-android-optimize.txt"), "./proguard-rules.pro"

@@ -12,14 +12,14 @@ plugins {
 }
 
 val versionProperties = Properties().apply {
-    load(FileInputStream(File(rootProject.rootDir, Constants.VERSIONS_PROPERTIES)))
+    load(FileInputStream(File(rootProject.rootDir, Configs.VERSIONS_PROPERTIES)))
 }
 
-val currentVersion = versionProperties.getProperty(Constants.PUBLISH_VERSION) as String
+val currentVersion = versionProperties.getProperty(Configs.PUBLISH_VERSION) as String
 val libName = "notificationsModule"
 
 version = currentVersion
-group = Constants.GROUP_ID
+group = Configs.GROUP_ID
 
 kotlin {
     androidTarget {
@@ -86,28 +86,28 @@ android {
 publishing {
     repositories {
         val localProperties = gradleLocalProperties(rootDir, providers)
-        var publishUserRepo = localProperties.getProperty(Constants.PUBLISH_REPO_USER)
-        var publishTokenRepo = localProperties.getProperty(Constants.PUBLISH_REPO_TOKEN)
+        var publishUserRepo = localProperties.getProperty(Configs.PUBLISH_REPO_USER)
+        var publishTokenRepo = localProperties.getProperty(Configs.PUBLISH_REPO_TOKEN)
 
         if (publishUserRepo.isNullOrEmpty()) {
             publishUserRepo = ""
-            localProperties.setProperty(Constants.PUBLISH_REPO_USER, publishUserRepo)
+            localProperties.setProperty(Configs.PUBLISH_REPO_USER, publishUserRepo)
         }
 
         if (publishTokenRepo.isNullOrEmpty()) {
             publishTokenRepo = ""
-            localProperties.setProperty(Constants.PUBLISH_REPO_TOKEN, publishTokenRepo)
+            localProperties.setProperty(Configs.PUBLISH_REPO_TOKEN, publishTokenRepo)
         }
 
         if (publishUserRepo.isEmpty() || publishTokenRepo.isEmpty()) {
             localProperties.store(
-                FileOutputStream(File(rootDir, Constants.LOCAL_PROPERTIES)), null
+                FileOutputStream(File(rootDir, Configs.LOCAL_PROPERTIES)), null
             )
         }
 
         repositories {
-            maven(Constants.MAVEN_URL) {
-                name = Constants.PUBLISH_MAVEN_REPO_NAME
+            maven(Configs.MAVEN_URL) {
+                name = Configs.PUBLISH_MAVEN_REPO_NAME
                 credentials {
                     username = publishUserRepo
                     password = publishTokenRepo
