@@ -11,14 +11,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.metacto.core.presentation.theme.CoreTheme
-import kotlinx.collections.immutable.ImmutableList
 
 const val TABS_SCROLL_MIN_COUNT = 3
 
 @Composable
 fun TabsLayout(
     modifier: Modifier = Modifier,
-    tabModels: ImmutableList<TabItemModel>,
+    tabModels: List<TabItemModel>,
     currentPage: Int,
     showIndicator: Boolean = false,
     tabsScrollMinCount: Int = TABS_SCROLL_MIN_COUNT,

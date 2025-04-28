@@ -33,7 +33,6 @@ object Dependencies {
 
     object Kotlin {
         const val DATE_TIME = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.DATE_TIME}"
-        const val COLLECTIONS = "org.jetbrains.kotlinx:kotlinx-collections-immutable:${Versions.COLLECTIONS}"
     }
 
     object Koin {
