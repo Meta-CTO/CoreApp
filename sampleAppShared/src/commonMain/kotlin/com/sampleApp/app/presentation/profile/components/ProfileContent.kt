@@ -10,11 +10,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.metacto.core.mediaplayers.videoPlayer.VideoPlayer
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.images.AppImage
-import com.metacto.core.presentation.components.videoPlayer.ControlsType
-import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.extensions.toFeetInches
 import com.sampleApp.app.presentation.models.VideoItemInfo
 import com.sampleApp.app.presentation.profile.ProfileContract.Event

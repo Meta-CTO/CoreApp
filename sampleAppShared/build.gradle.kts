@@ -93,6 +93,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(Dependencies.Modules.CORE_APP))
+                implementation(project(Dependencies.Modules.MEDIA_PLAYERS))
             }
         }
 

@@ -13,9 +13,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.metacto.core.mediaplayers.audioPlayer.AudioPlayer
+import com.metacto.core.mediaplayers.audioPlayer.AudioPlayerStatusListener
 import com.metacto.core.navigation.NavManager
-import com.metacto.core.presentation.components.audioPlayer.AudioPlayer
-import com.metacto.core.presentation.components.audioPlayer.AudioPlayerStatusListener
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.images.AppImage
@@ -86,7 +86,7 @@ internal fun HomeContent(
             audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg",
             title = "testing testing testing testing testing testing testing testing testing",
             thumbnailSize = 50.dp,
-            audioPlayerStatusListener = object :AudioPlayerStatusListener{
+            audioPlayerStatusListener = object : AudioPlayerStatusListener {
                 override fun onAudioPlayed() {
                     println("Audio player played")
                 }

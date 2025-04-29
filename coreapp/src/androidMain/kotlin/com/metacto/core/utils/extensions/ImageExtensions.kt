@@ -3,13 +3,11 @@ package com.metacto.core.utils.extensions
 import android.content.Context
 import android.graphics.Bitmap
 import coil3.ImageLoader
-import coil3.annotation.ExperimentalCoilApi
 import coil3.request.ImageRequest
 import coil3.request.SuccessResult
 import coil3.request.allowHardware
 import coil3.toBitmap
 
-@OptIn(ExperimentalCoilApi::class)
 suspend fun String.downloadBitmap(context: Context): Bitmap? {
     val loader = ImageLoader(context)
     val request = ImageRequest.Builder(context)

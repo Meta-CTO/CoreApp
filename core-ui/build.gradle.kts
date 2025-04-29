@@ -5,18 +5,22 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 plugins {
-    id(Plugins.ANDROID_LIBRARY_PLUGIN)
     kotlin(Plugins.MULTIPLATFORM_PLUGIN)
+    id(Plugins.ANDROID_LIBRARY_PLUGIN)
+    id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
+    id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
     id(Plugins.MAVEN_PUBLISH)
     id(Plugins.SIGNING)
 }
 
-val versionProperties = Properties().apply {
+
+private val versionProperties = Properties().apply {
     load(FileInputStream(File(rootProject.rootDir, Configs.VERSIONS_PROPERTIES)))
 }
 
-val currentVersion = versionProperties.getProperty(Configs.PUBLISH_VERSION) as String
-val libName = "core-ui"
+private val currentVersion = versionProperties.getProperty(Configs.PUBLISH_VERSION) as String
+private val libName = "core-ui"
+private val libNamespace = "com.metacto.core.ui"
 
 version = currentVersion
 group = Configs.GROUP_ID
@@ -52,6 +56,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            // Common
+            implementation(project(Dependencies.Modules.COMMON))
+
             // Compose
             api(Dependencies.Compose.RUNTIME)
             api(Dependencies.Compose.FOUNDATION)
@@ -61,10 +68,20 @@ kotlin {
             api(Dependencies.Compose.ANIMATION_GRAPHICS)
             api(Dependencies.Compose.EXTENDED_ICONS)
             api(Dependencies.Compose.RESOURCES)
+
+            // Coil
+            implementation(Dependencies.Coil.CORE)
+            implementation(Dependencies.Coil.COMPOSE)
+            implementation(Dependencies.Coil.NETWORK)
+            implementation(Dependencies.Coil.SVG)
+
+            // Shimmer
+            implementation(Dependencies.SHIMMER)
         }
 
         androidMain.dependencies {
-            // ANDROID ANDROID DEPENDENCIES
+            api(Dependencies.AndroidX.ACTIVITY_COMPOSE)
+            api(Dependencies.AndroidX.APP_COMPAT)
         }
 
         iosMain.dependencies {
@@ -76,7 +93,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.metacto.core.ui"
+    namespace = libNamespace
     compileSdk = Configs.COMPILE_SDK_VERSION
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
@@ -87,6 +104,12 @@ android {
         sourceCompatibility = Versions.JVM
         targetCompatibility = Versions.JVM
     }
+}
+
+compose.resources {
+    publicResClass = false
+    packageOfResClass = "$libNamespace.resources"
+    generateResClass = always
 }
 
 publishing {
@@ -122,4 +145,3 @@ publishing {
         }
     }
 }
-

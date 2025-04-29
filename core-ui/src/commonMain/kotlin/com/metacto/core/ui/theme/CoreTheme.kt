@@ -2,7 +2,6 @@ package com.metacto.core.ui.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
-import com.metacto.core.presentation.theme.LocalCoreTypography
 
 object CoreTheme {
     val spacings

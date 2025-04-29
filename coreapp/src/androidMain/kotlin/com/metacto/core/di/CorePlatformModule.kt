@@ -1,7 +1,6 @@
 package com.metacto.core.di
 
 import com.metacto.core.CoreEnvironment
-import com.metacto.core.domain.DiQualifiers
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
 import com.metacto.core.permissions.IPermissionManager
@@ -10,8 +9,6 @@ import com.metacto.core.presentation.base.CommonViewModel
 import com.metacto.core.presentation.camera.CameraController
 import com.metacto.core.presentation.camera.CameraEngine
 import com.metacto.core.presentation.camera.models.CameraLens
-import com.metacto.core.presentation.components.audioPlayer.AudioPlayerManager
-import com.metacto.core.presentation.components.videoPlayer.VideoPlayerManager
 import com.metacto.core.presentation.itemPicker.NativeItemPicker
 import com.metacto.core.utils.calendar.CalendarManager
 import com.metacto.core.utils.calendar.ICalendarManager
@@ -120,14 +117,6 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
             appConfigurationRepository = get(),
             remoteConfigs = get(),
         )
-    }
-
-    single<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers) {
-        mutableMapOf()
-    }
-
-    single<MutableMap<String, AudioPlayerManager>>(DiQualifiers.audioPlayerManagers) {
-        mutableMapOf()
     }
 
     single<NotifierManager> {

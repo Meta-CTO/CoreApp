@@ -14,11 +14,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.metacto.core.mediaplayers.videoPlayer.ControlsType
+import com.metacto.core.mediaplayers.videoPlayer.VideoPlayer
 import com.metacto.core.navigation.NavManager
 import com.metacto.core.presentation.camera.CameraPreview
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
-import com.metacto.core.presentation.components.videoPlayer.ControlsType
-import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.sampleApp.app.presentation.camera.CameraContract.Event
 import com.sampleApp.app.presentation.camera.CameraContract.State
 import com.sampleApp.app.presentation.test.TestScreen

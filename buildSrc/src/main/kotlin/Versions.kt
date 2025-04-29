@@ -19,6 +19,7 @@ object Versions {
     const val SECURITY_CRYPTO = "1.0.0"
     const val PLAY_SERVICES_AUTH = "20.7.0"
     const val SPLASH_SCREEN = "1.1.0-alpha02"
+    const val FRAGMENT = "1.7.0"
     const val FIREBASE = "32.7.0"
     const val SERIALIZATION = "2.1.0"
     const val PLAY_SERVICES_PLUGIN = "4.3.14"

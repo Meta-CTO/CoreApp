@@ -1,10 +1,10 @@
 package com.sampleApp.app.presentation.camera
 
+import com.metacto.core.mediaplayers.videoPlayer.VideoPlayerController
 import com.metacto.core.presentation.base.ViewEvent
 import com.metacto.core.presentation.base.ViewSideEffect
 import com.metacto.core.presentation.base.ViewState
 import com.metacto.core.presentation.camera.CameraController
-import com.metacto.core.presentation.components.videoPlayer.VideoPlayerController
 
 class CameraContract {
 
