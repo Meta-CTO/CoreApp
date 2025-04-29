@@ -91,9 +91,9 @@ object Dependencies {
 
     object Modules {
         const val CORE_APP = ":coreapp"
-        const val CORE = ":core"
-        const val CORE_UI = ":core-ui"
-        const val MEDIA_PLAYERS = ":media-players"
+        const val CORE = ":core:core"
+        const val CORE_UI = ":ui:core-ui"
+        const val MEDIA_PLAYERS = ":ui:media-players"
         const val SAMPLE_APP_SHARED = ":sampleAppShared"
     }
 
