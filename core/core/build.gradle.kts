@@ -53,11 +53,15 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            // COMMON DEPENDENCIES
+            // Koin
+            api(Dependencies.Koin.CORE)
+            api(Dependencies.Koin.COMPOSE)
         }
 
         androidMain.dependencies {
-            // ANDROID DEPENDENCIES
+            // Koin
+            api(Dependencies.Koin.ANDROID)
+            api(Dependencies.Koin.ANDROID_COMPOSE)
         }
 
         iosMain.dependencies {

@@ -55,15 +55,12 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(Dependencies.Modules.CORE))
+            // Core UI
             implementation(project(Dependencies.Modules.CORE_UI))
-            implementation(Dependencies.Koin.CORE)
-            implementation(Dependencies.Koin.COMPOSE)
         }
 
         androidMain.dependencies {
-            implementation(Dependencies.Koin.ANDROID)
-            implementation(Dependencies.Koin.ANDROID_COMPOSE)
+            // Exo Player
             implementation(Dependencies.ExoPlayer.PLAYER)
             implementation(Dependencies.ExoPlayer.HLS)
             implementation(Dependencies.ExoPlayer.UI)

@@ -56,8 +56,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            // Common
-            implementation(project(Dependencies.Modules.CORE))
+            // Core
+            api(project(Dependencies.Modules.CORE))
 
             // Compose
             api(Dependencies.Compose.RUNTIME)
@@ -80,7 +80,10 @@ kotlin {
         }
 
         androidMain.dependencies {
+            // Compose
             api(Dependencies.AndroidX.ACTIVITY_COMPOSE)
+
+            // AndroidX
             api(Dependencies.AndroidX.APP_COMPAT)
         }
 
