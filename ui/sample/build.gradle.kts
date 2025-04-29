@@ -5,18 +5,21 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 plugins {
-    id(Plugins.ANDROID_LIBRARY_PLUGIN)
     kotlin(Plugins.MULTIPLATFORM_PLUGIN)
+    id(Plugins.ANDROID_LIBRARY_PLUGIN)
+    id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
+    id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
     id(Plugins.MAVEN_PUBLISH)
     id(Plugins.SIGNING)
 }
 
-val versionProperties = Properties().apply {
+private val versionProperties = Properties().apply {
     load(FileInputStream(File(rootProject.rootDir, Configs.VERSIONS_PROPERTIES)))
 }
 
-val currentVersion = versionProperties.getProperty(Configs.PUBLISH_VERSION) as String
-val libName = "baseModule"
+private val currentVersion = versionProperties.getProperty(Configs.PUBLISH_VERSION) as String
+private val libName = "sample-ui"
+private val libNamespace = "com.metacto.core.ui.sample"
 
 version = currentVersion
 group = Configs.GROUP_ID
@@ -52,7 +55,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            // ANY COMMON MAIN DEPENDENCIES
+            // Core UI
+            implementation(project(Dependencies.Modules.CORE_UI))
         }
 
         androidMain.dependencies {
@@ -68,9 +72,14 @@ kotlin {
 }
 
 android {
-    namespace = "com.metacto.kmm.base"
+    namespace = libNamespace
     compileSdk = Configs.COMPILE_SDK_VERSION
+
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].res.srcDirs("src/androidMain/res")
+    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+    sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/resources")
+
     defaultConfig {
         minSdk = Configs.MIN_SDK_VERSION
         consumerProguardFiles("consumer-rules.pro")
@@ -79,6 +88,12 @@ android {
         sourceCompatibility = Versions.JVM
         targetCompatibility = Versions.JVM
     }
+}
+
+compose.resources {
+    publicResClass = false
+    packageOfResClass = "$libNamespace.resources"
+    generateResClass = always
 }
 
 publishing {
