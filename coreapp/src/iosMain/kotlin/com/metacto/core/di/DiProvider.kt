@@ -1,4 +1,4 @@
-package com.metacto.core.dii
+package com.metacto.core.di
 
 import org.koin.core.component.KoinComponent
 import kotlin.reflect.KClass

@@ -1,4 +1,4 @@
-package com.metacto.core.dii
+package com.metacto.core.di
 
 import com.metacto.core.environment.CoreEnvironment
 import com.metacto.core.language.ILanguageManager

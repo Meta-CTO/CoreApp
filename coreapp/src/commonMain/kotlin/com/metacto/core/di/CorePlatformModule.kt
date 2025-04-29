@@ -1,4 +1,4 @@
-package com.metacto.core.dii
+package com.metacto.core.di
 
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.presentation.base.CommonViewModel

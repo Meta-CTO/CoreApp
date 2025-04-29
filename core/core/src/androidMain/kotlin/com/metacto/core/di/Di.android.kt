@@ -1,4 +1,4 @@
-package com.metacto.core.dii
+package com.metacto.core.di
 
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences

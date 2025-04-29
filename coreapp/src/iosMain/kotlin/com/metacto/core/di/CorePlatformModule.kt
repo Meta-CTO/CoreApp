@@ -1,4 +1,4 @@
-package com.metacto.core.dii
+package com.metacto.core.di
 
 import coil3.PlatformContext
 import com.metacto.core.CoreEnvironment

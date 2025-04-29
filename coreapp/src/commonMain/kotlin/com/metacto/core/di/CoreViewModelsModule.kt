@@ -1,4 +1,4 @@
-package com.metacto.core.dii
+package com.metacto.core.di
 
 import com.metacto.core.presentation.imagePicker.ImagePickerViewModel
 import com.metacto.core.presentation.itemPicker.ItemPickerViewModel

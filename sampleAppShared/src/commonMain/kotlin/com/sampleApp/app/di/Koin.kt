@@ -1,7 +1,7 @@
 package com.sampleApp.app.di
 
 import com.metacto.core.CoreEnvironment
-import com.metacto.core.dii.coreModule
+import com.metacto.core.di.coreModule
 import com.metacto.core.files.di.filesModule
 import com.metacto.core.notifications.di.notificationsModule
 import com.metacto.core.ui.mediaplayers.di.mediaPlayersModule
