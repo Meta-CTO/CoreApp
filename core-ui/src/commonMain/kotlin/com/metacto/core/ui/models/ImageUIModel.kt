@@ -1,6 +1,6 @@
 package com.metacto.core.ui.models
 
-import com.metacto.core.common.CommonSerializable
+import com.metacto.core.CommonSerializable
 import org.jetbrains.compose.resources.DrawableResource
 
 data class ImageUIModel(

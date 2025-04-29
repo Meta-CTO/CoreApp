@@ -9,7 +9,7 @@ import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import androidx.media3.ui.PlayerNotificationManager
 import com.google.common.util.concurrent.ListenableFuture
-import com.metacto.core.common.extensions.applyIf
+import com.metacto.core.extensions.applyIf
 import com.metacto.core.mediaplayers.R
 import com.metacto.core.ui.extensions.downloadBitmap
 import kotlinx.coroutines.CoroutineScope

@@ -16,8 +16,8 @@ private val versionProperties = Properties().apply {
 }
 
 private val currentVersion = versionProperties.getProperty(Configs.PUBLISH_VERSION) as String
-private val libName = "common"
-private val libNamespace = "com.metacto.core.common"
+private val libName = "core"
+private val libNamespace = "com.metacto.core"
 
 version = currentVersion
 group = Configs.GROUP_ID

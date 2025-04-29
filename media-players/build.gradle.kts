@@ -55,7 +55,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(Dependencies.Modules.COMMON))
+            implementation(project(Dependencies.Modules.CORE))
             implementation(project(Dependencies.Modules.CORE_UI))
             implementation(Dependencies.Koin.CORE)
             implementation(Dependencies.Koin.COMPOSE)

@@ -1,4 +1,4 @@
-package com.metacto.core.common.extensions
+package com.metacto.core.extensions
 
 fun String.cleanFilePath(): String {
     return this

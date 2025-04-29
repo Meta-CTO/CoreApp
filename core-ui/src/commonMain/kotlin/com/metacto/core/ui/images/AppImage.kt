@@ -27,7 +27,7 @@ import coil3.request.CachePolicy
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.svg.SvgDecoder
-import com.metacto.core.common.extensions.applyIf
+import com.metacto.core.extensions.applyIf
 import com.metacto.core.ui.extensions.backgroundIfNotNull
 import com.metacto.core.ui.extensions.borderIfNotNull
 import com.metacto.core.ui.extensions.clipIfNotNull

@@ -20,8 +20,8 @@ import androidx.compose.ui.viewinterop.UIKitView
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.viewinterop.UIKitInteropInteractionMode
 import androidx.compose.ui.viewinterop.UIKitInteropProperties
-import com.metacto.core.common.extensions.cleanFilePath
-import com.metacto.core.common.extensions.isValidUrl
+import com.metacto.core.extensions.cleanFilePath
+import com.metacto.core.extensions.isValidUrl
 import com.metacto.core.ui.extensions.DefaultLaunchedEffect
 import com.metacto.core.ui.extensions.IOLaunchedEffect
 import com.metacto.core.ui.extensions.noRippleClickable

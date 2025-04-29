@@ -13,8 +13,8 @@ import androidx.media3.datasource.FileDataSource
 import androidx.media3.exoplayer.hls.HlsMediaSource
 import androidx.media3.exoplayer.source.MediaSource
 import androidx.media3.exoplayer.source.ProgressiveMediaSource
-import com.metacto.core.common.extensions.applyIf
-import com.metacto.core.common.extensions.isLocalFile
+import com.metacto.core.extensions.applyIf
+import com.metacto.core.extensions.isLocalFile
 
 internal fun createMediaSource(
     context: Context,

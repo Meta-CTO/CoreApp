@@ -1,4 +1,4 @@
-package com.metacto.core.common
+package com.metacto.core
 
 expect interface CommonSerializable
 

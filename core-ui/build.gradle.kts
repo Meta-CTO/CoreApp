@@ -57,7 +57,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // Common
-            implementation(project(Dependencies.Modules.COMMON))
+            implementation(project(Dependencies.Modules.CORE))
 
             // Compose
             api(Dependencies.Compose.RUNTIME)

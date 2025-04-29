@@ -91,7 +91,7 @@ object Dependencies {
 
     object Modules {
         const val CORE_APP = ":coreapp"
-        const val COMMON = ":common"
+        const val CORE = ":core"
         const val CORE_UI = ":core-ui"
         const val MEDIA_PLAYERS = ":media-players"
         const val SAMPLE_APP_SHARED = ":sampleAppShared"
