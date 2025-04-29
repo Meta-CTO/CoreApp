@@ -13,8 +13,6 @@ import com.metacto.core.presentation.itemPicker.NativeItemPicker
 import com.metacto.core.utils.calendar.CalendarManager
 import com.metacto.core.utils.calendar.ICalendarManager
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
-import com.metacto.core.utils.file.FileManager
-import com.metacto.core.utils.file.IFileManager
 import com.metacto.core.utils.imagePreloader.IPreloader
 import com.metacto.core.utils.imagePreloader.Preloader
 import com.metacto.core.utils.language.ILanguageManager
@@ -130,10 +128,6 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
                 )
             )
         }
-    }
-
-    single<IFileManager> {
-        FileManager()
     }
 
     single<IMediaManager> {

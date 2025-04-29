@@ -1,4 +1,4 @@
-package com.metacto.core.utils.file
+package com.metacto.core.files
 
 interface IFileManager {
     @Throws(Throwable::class)

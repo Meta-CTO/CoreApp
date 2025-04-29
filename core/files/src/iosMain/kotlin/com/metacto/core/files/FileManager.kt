@@ -1,6 +1,6 @@
-package com.metacto.core.utils.file
+package com.metacto.core.files
 
-import dev.gitlive.firebase.remoteconfig.toByteArray
+import com.metacto.core.extensions.toByteArray
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSData
 import platform.Foundation.NSFileManager
