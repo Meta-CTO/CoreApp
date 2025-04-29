@@ -1,12 +1,12 @@
-package com.metacto.core.mediaplayers.videoPlayer
+package com.metacto.core.ui.mediaplayers.videoPlayer
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
-import com.metacto.core.mediaplayers.resources.Res
-import com.metacto.core.mediaplayers.resources.ic_pause
-import com.metacto.core.mediaplayers.resources.ic_play
+import com.metacto.core.ui.mediaplayers.resources.Res
+import com.metacto.core.ui.mediaplayers.resources.ic_pause
+import com.metacto.core.ui.mediaplayers.resources.ic_play
 import com.metacto.core.ui.theme.CoreTheme
 import org.jetbrains.compose.resources.DrawableResource
 import kotlin.time.Duration

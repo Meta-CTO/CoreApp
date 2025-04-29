@@ -1,7 +1,7 @@
 package com.sampleApp.app.presentation.camera
 
 import com.metacto.core.domain.repos.UploadRepository
-import com.metacto.core.mediaplayers.videoPlayer.VideoPlayerController
+import com.metacto.core.ui.mediaplayers.videoPlayer.VideoPlayerController
 import com.metacto.core.presentation.camera.CameraController
 import com.metacto.core.presentation.camera.models.CameraLens
 import com.metacto.core.presentation.camera.models.VideoRecordingParams

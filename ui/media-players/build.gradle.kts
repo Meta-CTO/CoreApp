@@ -19,7 +19,7 @@ private val versionProperties = Properties().apply {
 
 private val currentVersion = versionProperties.getProperty(Configs.PUBLISH_VERSION) as String
 private val libName = "media-players"
-private val libNamespace = "com.metacto.core.mediaplayers"
+private val libNamespace = "com.metacto.core.ui.mediaplayers"
 
 version = currentVersion
 group = Configs.GROUP_ID

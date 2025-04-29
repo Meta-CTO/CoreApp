@@ -1,4 +1,4 @@
-package com.metacto.core.mediaplayers.audioPlayer
+package com.metacto.core.ui.mediaplayers.audioPlayer
 
 import android.content.Context
 import androidx.annotation.OptIn
@@ -8,8 +8,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
-import com.metacto.core.mediaplayers.di.DiQualifiers
-import com.metacto.core.mediaplayers.extensions.createMediaSource
+import com.metacto.core.ui.mediaplayers.di.DiQualifiers
+import com.metacto.core.ui.mediaplayers.extensions.createMediaSource
+import com.metacto.core.ui.mediaplayers.audioPlayer.AudioPlayerStatusListener
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.conflate

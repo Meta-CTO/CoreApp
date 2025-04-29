@@ -1,4 +1,4 @@
-package com.metacto.core.mediaplayers.audioPlayer
+package com.metacto.core.ui.mediaplayers.audioPlayer
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -11,8 +11,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import com.metacto.core.mediaplayers.di.DiQualifiers
+import com.metacto.core.ui.mediaplayers.di.DiQualifiers
 import com.metacto.core.ui.extensions.OnLifecycleEvent
+import com.metacto.core.ui.mediaplayers.audioPlayer.AudioPlayerComponent
+import com.metacto.core.ui.mediaplayers.audioPlayer.AudioPlayerController
+import com.metacto.core.ui.mediaplayers.audioPlayer.AudioPlayerStatusListener
 import org.jetbrains.compose.resources.DrawableResource
 import org.koin.compose.koinInject
 

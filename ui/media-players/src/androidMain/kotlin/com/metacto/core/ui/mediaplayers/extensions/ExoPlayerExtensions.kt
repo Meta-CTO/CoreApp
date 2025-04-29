@@ -1,4 +1,4 @@
-package com.metacto.core.mediaplayers.extensions
+package com.metacto.core.ui.mediaplayers.extensions
 
 import android.content.Context
 import androidx.annotation.OptIn

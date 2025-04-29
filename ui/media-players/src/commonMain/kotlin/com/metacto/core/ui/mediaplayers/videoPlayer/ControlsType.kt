@@ -1,4 +1,4 @@
-package com.metacto.core.mediaplayers.videoPlayer
+package com.metacto.core.ui.mediaplayers.videoPlayer
 
 enum class ControlsType {
     HideControls,

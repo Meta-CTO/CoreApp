@@ -13,8 +13,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.metacto.core.mediaplayers.audioPlayer.AudioPlayer
-import com.metacto.core.mediaplayers.audioPlayer.AudioPlayerStatusListener
+import com.metacto.core.ui.mediaplayers.audioPlayer.AudioPlayer
+import com.metacto.core.ui.mediaplayers.audioPlayer.AudioPlayerStatusListener
 import com.metacto.core.navigation.NavManager
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn

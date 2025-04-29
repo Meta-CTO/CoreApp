@@ -1,4 +1,4 @@
-package com.metacto.core.mediaplayers.videoPlayer
+package com.metacto.core.ui.mediaplayers.videoPlayer
 
 import android.content.Context
 import androidx.annotation.OptIn
@@ -11,8 +11,8 @@ import androidx.media3.session.MediaSession
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import androidx.core.net.toUri
-import com.metacto.core.mediaplayers.di.DiQualifiers
-import com.metacto.core.mediaplayers.extensions.createMediaSource
+import com.metacto.core.ui.mediaplayers.di.DiQualifiers
+import com.metacto.core.ui.mediaplayers.extensions.createMediaSource
 import com.metacto.core.ui.extensions.getLauncherPendingIntent
 
 @UnstableApi

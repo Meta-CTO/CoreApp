@@ -1,4 +1,4 @@
-package com.metacto.core.mediaplayers.audioPlayer
+package com.metacto.core.ui.mediaplayers.audioPlayer
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -6,11 +6,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
+import com.metacto.core.ui.mediaplayers.resources.Res
+import com.metacto.core.ui.mediaplayers.resources.ic_audio_pause
+import com.metacto.core.ui.mediaplayers.resources.ic_audio_play
 import com.metacto.core.ui.theme.CoreTheme.colors
 import com.metacto.core.ui.theme.CoreTheme.shapes
 import com.metacto.core.ui.theme.CoreTheme.spacings
 import com.metacto.core.ui.theme.CoreTheme.typography
-import com.metacto.core.mediaplayers.resources.*
 import org.jetbrains.compose.resources.DrawableResource
 
 interface AudioPlayerController {

@@ -1,4 +1,4 @@
-package com.metacto.core.mediaplayers.videoPlayer
+package com.metacto.core.ui.mediaplayers.videoPlayer
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -16,19 +16,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.viewinterop.UIKitView
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.viewinterop.UIKitInteropInteractionMode
 import androidx.compose.ui.viewinterop.UIKitInteropProperties
+import androidx.compose.ui.viewinterop.UIKitView
 import com.metacto.core.extensions.cleanFilePath
 import com.metacto.core.extensions.isValidUrl
 import com.metacto.core.ui.extensions.DefaultLaunchedEffect
 import com.metacto.core.ui.extensions.IOLaunchedEffect
 import com.metacto.core.ui.extensions.noRippleClickable
 import com.metacto.core.ui.visibilities.FadeVisibility
+import kotlinx.cinterop.ExperimentalForeignApi
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import kotlinx.cinterop.ExperimentalForeignApi
 import platform.AVFAudio.AVAudioSession
 import platform.AVFAudio.AVAudioSessionCategoryPlayback
 import platform.AVFAudio.AVAudioSessionModeMoviePlayback

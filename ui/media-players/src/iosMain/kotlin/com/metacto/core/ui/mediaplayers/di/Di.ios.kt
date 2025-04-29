@@ -1,4 +1,4 @@
-package com.metacto.core.mediaplayers.di
+package com.metacto.core.ui.mediaplayers.di
 
 import org.koin.dsl.module
 

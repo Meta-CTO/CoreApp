@@ -1,4 +1,4 @@
-package com.metacto.core.mediaplayers.audioPlayer
+package com.metacto.core.ui.mediaplayers.audioPlayer
 
 interface AudioPlayerStatusListener {
     fun onAudioPlayed()

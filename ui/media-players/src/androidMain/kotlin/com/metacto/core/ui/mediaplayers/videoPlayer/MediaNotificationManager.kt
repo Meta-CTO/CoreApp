@@ -1,4 +1,4 @@
-package com.metacto.core.mediaplayers.videoPlayer
+package com.metacto.core.ui.mediaplayers.videoPlayer
 
 import android.app.PendingIntent
 import android.content.Context
@@ -10,8 +10,8 @@ import androidx.media3.session.SessionToken
 import androidx.media3.ui.PlayerNotificationManager
 import com.google.common.util.concurrent.ListenableFuture
 import com.metacto.core.extensions.applyIf
-import com.metacto.core.mediaplayers.R
 import com.metacto.core.ui.extensions.downloadBitmap
+import com.metacto.core.ui.mediaplayers.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

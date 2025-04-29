@@ -1,4 +1,4 @@
-package com.metacto.core.mediaplayers.audioPlayer
+package com.metacto.core.ui.mediaplayers.audioPlayer
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -12,8 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import org.jetbrains.compose.resources.DrawableResource
 import kotlinx.cinterop.ExperimentalForeignApi
+import org.jetbrains.compose.resources.DrawableResource
 import platform.AVFoundation.AVPlayer
 import platform.AVFoundation.AVPlayerItem
 import platform.AVFoundation.AVPlayerItemDidPlayToEndTimeNotification

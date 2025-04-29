@@ -1,4 +1,4 @@
-package com.metacto.core.mediaplayers.videoPlayer
+package com.metacto.core.ui.mediaplayers.videoPlayer
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration
@@ -32,7 +32,7 @@ import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
-import com.metacto.core.mediaplayers.di.DiQualifiers
+import com.metacto.core.ui.mediaplayers.di.DiQualifiers
 import com.metacto.core.ui.dialogs.dismissFullScreenDialog
 import com.metacto.core.ui.dialogs.showFullScreenDialog
 import com.metacto.core.ui.extensions.OnLifecycleEvent
@@ -40,6 +40,8 @@ import com.metacto.core.ui.extensions.getActivity
 import com.metacto.core.ui.extensions.noRippleClickable
 import com.metacto.core.ui.extensions.setPortraitOrientation
 import com.metacto.core.ui.extensions.setUnspecifiedOrientation
+import com.metacto.core.ui.mediaplayers.videoPlayer.ControlsType
+import com.metacto.core.ui.mediaplayers.videoPlayer.VideoPlayerController
 import com.metacto.core.ui.visibilities.FadeVisibility
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource

@@ -1,4 +1,4 @@
-package com.metacto.core.mediaplayers.audioPlayer
+package com.metacto.core.ui.mediaplayers.audioPlayer
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing

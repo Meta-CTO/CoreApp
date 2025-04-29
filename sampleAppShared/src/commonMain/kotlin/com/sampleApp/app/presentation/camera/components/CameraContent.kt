@@ -14,8 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.metacto.core.mediaplayers.videoPlayer.ControlsType
-import com.metacto.core.mediaplayers.videoPlayer.VideoPlayer
+import com.metacto.core.ui.mediaplayers.videoPlayer.ControlsType
+import com.metacto.core.ui.mediaplayers.videoPlayer.VideoPlayer
 import com.metacto.core.navigation.NavManager
 import com.metacto.core.presentation.camera.CameraPreview
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton

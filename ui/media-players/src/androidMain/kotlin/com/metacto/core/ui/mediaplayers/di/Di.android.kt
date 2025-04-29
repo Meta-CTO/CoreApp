@@ -1,7 +1,7 @@
-package com.metacto.core.mediaplayers.di
+package com.metacto.core.ui.mediaplayers.di
 
-import com.metacto.core.mediaplayers.audioPlayer.AudioPlayerManager
-import com.metacto.core.mediaplayers.videoPlayer.VideoPlayerManager
+import com.metacto.core.ui.mediaplayers.audioPlayer.AudioPlayerManager
+import com.metacto.core.ui.mediaplayers.videoPlayer.VideoPlayerManager
 import org.koin.dsl.module
 
 internal actual val platformModule = module {

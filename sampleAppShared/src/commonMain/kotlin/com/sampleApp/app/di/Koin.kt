@@ -2,7 +2,7 @@ package com.sampleApp.app.di
 
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.di.coreModule
-import com.metacto.core.mediaplayers.di.mediaPlayersModule
+import com.metacto.core.ui.mediaplayers.di.mediaPlayersModule
 import com.metacto.strapikmm.errorhandling.NetworkError
 import com.sampleApp.app.constants.AppEnvironment
 import com.sampleApp.app.deepLink.DEEP_LINK_PARSERS
