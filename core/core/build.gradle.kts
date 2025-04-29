@@ -69,8 +69,7 @@ kotlin {
             api(Dependencies.Kotlin.DATE_TIME)
 
             // Others
-            implementation(Dependencies.SETTINGS)
-            implementation(Dependencies.AndroidX.SECURITY_CRYPTO)
+            api(Dependencies.SHARED_PREFERENCES)
         }
 
         androidMain.dependencies {

@@ -6,7 +6,7 @@ import androidx.security.crypto.MasterKeys
 import com.metacto.core.environment.CoreEnvironment
 import com.metacto.core.language.ILanguageManager
 import com.metacto.core.language.LanguageManager
-import com.metacto.core.prefs.KmmPreference
+import com.metacto.kmm.sharedpreferences.KmmPreference
 import com.russhwolf.settings.SharedPreferencesSettings
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module

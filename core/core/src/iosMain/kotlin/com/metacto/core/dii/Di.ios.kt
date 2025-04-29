@@ -3,7 +3,7 @@ package com.metacto.core.dii
 import com.metacto.core.environment.CoreEnvironment
 import com.metacto.core.language.ILanguageManager
 import com.metacto.core.language.LanguageManager
-import com.metacto.core.prefs.KmmPreference
+import com.metacto.kmm.sharedpreferences.KmmPreference
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
 import com.russhwolf.settings.KeychainSettings

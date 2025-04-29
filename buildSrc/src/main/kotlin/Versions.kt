@@ -12,6 +12,7 @@ object Versions {
     const val COROUTINES = "1.10.2"
     const val SERIALIZATION_JSON = "1.8.1"
     const val STRAPI_KMM = "10.0.144"
+    const val SHARED_PREFERENCES = "1.0.0"
     const val KOIN = "4.0.0"
     const val KOIN_COMPOSE = "1.1.0"
     const val VOYAGER = "1.1.0-beta02"
@@ -40,5 +41,4 @@ object Versions {
     const val STATELY_COMMON = "2.0.5"
     const val UUID = "0.8.4"
     const val CAMERA_X = "1.3.4"
-    const val SETTINGS = "1.3.0"
 }

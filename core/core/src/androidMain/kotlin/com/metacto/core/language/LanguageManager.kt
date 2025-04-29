@@ -5,9 +5,9 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import com.metacto.core.extensions.getSystemLanguage
 import com.metacto.core.language.ILanguageManager.Companion.KEY_APP_LANG
-import com.metacto.core.prefs.KmmPreference
-import com.metacto.core.prefs.getObject
-import com.metacto.core.prefs.putObject
+import com.metacto.kmm.sharedpreferences.KmmPreference
+import com.metacto.kmm.sharedpreferences.getObject
+import com.metacto.kmm.sharedpreferences.putObject
 import java.util.Locale
 
 class LanguageManager(

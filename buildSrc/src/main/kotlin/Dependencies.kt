@@ -120,11 +120,11 @@ object Dependencies {
     }
 
     const val STRAPI_KMM = "com.metacto:strapi:${Versions.STRAPI_KMM}"
+    const val SHARED_PREFERENCES = "com.metacto:sharedpreferences:${Versions.SHARED_PREFERENCES}"
     const val ANDROID_IMAGE_PICKER = "com.github.dhaval2404:imagepicker:${Versions.ANDROID_IMAGE_PICKER}"
     const val LIB_PHONE_NUMBER = "io.github.luca992.libphonenumber-kotlin:libphonenumber:${Versions.LIB_PHONE_NUMBER}"
     const val ANDROID_CROPPER = "com.vanniktech:android-image-cropper:${Versions.ANDROID_CROPPER}"
     const val COMPOTTIE = "io.github.alexzhirkevich:compottie:${Versions.COMPOTTIE}"
     const val WEBVIEW = "io.github.kevinnzou:compose-webview-multiplatform:${Versions.WEBVIEW}"
     const val SHIMMER = "com.valentinilk.shimmer:compose-shimmer:${Versions.SHIMMER}"
-    const val SETTINGS = "com.russhwolf:multiplatform-settings:${Versions.SETTINGS}"
 }

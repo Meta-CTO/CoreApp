@@ -43,6 +43,7 @@ kotlin {
             }
 
             export(project(Dependencies.Modules.CORE_APP))
+            export(project(Dependencies.Modules.CORE))
         }
         pod(
             name = Dependencies.Pods.FIREBASE_AUTH,
