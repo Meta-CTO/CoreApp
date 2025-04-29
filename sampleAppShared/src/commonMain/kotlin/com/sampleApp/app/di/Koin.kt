@@ -1,11 +1,13 @@
 package com.sampleApp.app.di
 
 import com.metacto.core.CoreEnvironment
-import com.metacto.core.di.coreModule
+import com.metacto.core.dii.coreModule
 import com.metacto.core.files.di.filesModule
+import com.metacto.core.notifications.di.notificationsModule
 import com.metacto.core.ui.mediaplayers.di.mediaPlayersModule
 import com.metacto.strapikmm.errorhandling.NetworkError
 import com.sampleApp.app.constants.AppEnvironment
+import com.sampleApp.app.constants.OldAppEnvironment
 import com.sampleApp.app.deepLink.DEEP_LINK_PARSERS
 import dev.gitlive.firebase.auth.ActionCodeSettings
 import dev.gitlive.firebase.auth.AndroidPackageName
@@ -30,15 +32,20 @@ fun initKoin(
         platformModule,
         viewModelsModule,
         repositoriesModule,
-        mediaPlayersModule,
-        filesModule,
+        coreModule(AppEnvironment.Dev),
+        mediaPlayersModule(),
+        filesModule(),
+        notificationsModule(
+            showNotifications = true,
+            askNotificationPermissionOnStart = true
+        )
     )
 }
 
 private fun createCoreModule(environment: CoreEnvironment) = coreModule(
     environment = environment,
     appStorageName = "SampleApp",
-    shouldShowActualErrorMessages = environment != AppEnvironment.prod(),
+    shouldShowActualErrorMessages = environment != OldAppEnvironment.prod(),
     errorClass = NetworkError::class,
     actionCodeSettings = ActionCodeSettings(
         iOSBundleId = "com.sampleApp.app",

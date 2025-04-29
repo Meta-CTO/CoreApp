@@ -1,20 +1,20 @@
 package com.sampleApp.app.presentation.main
 
 import com.metacto.core.CoreEnvironment
+import com.metacto.core.date.now
 import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource
+import com.metacto.core.notifications.INotificationManager
+import com.metacto.core.notifications.Notification
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
-import com.metacto.core.utils.Date
-import com.metacto.core.utils.DateHelper
 import com.metacto.core.utils.getCurrentWeekDates
 import com.metacto.core.utils.language.ILanguageManager
-import com.metacto.core.utils.notification.INotificationManager
-import com.metacto.core.utils.notification.Notification
 import com.metacto.core.utils.toFormattedDate
 import com.sampleApp.app.presentation.base.BaseViewModel
 import com.sampleApp.app.presentation.main.MainContract.Effect
 import com.sampleApp.app.presentation.main.MainContract.Event
 import com.sampleApp.app.presentation.main.MainContract.State
+import kotlinx.datetime.LocalDateTime
 import org.koin.core.component.inject
 
 class MainViewModel : BaseViewModel<State, Event, Effect>() {
@@ -107,7 +107,7 @@ class MainViewModel : BaseViewModel<State, Event, Effect>() {
                     title = "ssss: $title",
                     body = "body: $body"
                 ),
-                date = Date()
+                date = LocalDateTime.now()
             )
         }
 
@@ -125,7 +125,7 @@ class MainViewModel : BaseViewModel<State, Event, Effect>() {
                     title = "Notification",
                     body = data.toString()
                 ),
-                date = Date()
+                date = LocalDateTime.now()
             )
         }
 

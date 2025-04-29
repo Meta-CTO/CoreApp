@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 import org.jetbrains.kotlin.konan.properties.Properties
 import java.io.FileInputStream
@@ -7,6 +8,7 @@ import java.io.FileOutputStream
 plugins {
     kotlin(Plugins.MULTIPLATFORM_PLUGIN)
     id(Plugins.ANDROID_LIBRARY_PLUGIN)
+    id(Plugins.PARCELIZE_PLUGIN)
     id(Plugins.MAVEN_PUBLISH)
     id(Plugins.SIGNING)
 }
@@ -24,6 +26,9 @@ group = Configs.GROUP_ID
 
 kotlin {
     androidTarget {
+        compilerOptions {
+            freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.metacto.core.CommonParcelize")
+        }
         compilations.all {
             kotlinOptions {
                 jvmTarget = Versions.JVM.toString()

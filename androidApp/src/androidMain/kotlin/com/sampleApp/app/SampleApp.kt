@@ -1,7 +1,7 @@
 package com.sampleApp.app
 
 import android.app.Application
-import com.sampleApp.app.constants.AppEnvironment
+import com.sampleApp.app.constants.OldAppEnvironment
 import com.sampleApp.app.di.initKoin
 import org.koin.android.ext.koin.androidContext
 
@@ -11,9 +11,9 @@ class SampleApp : Application() {
 
         // Prepare environment
         val environment = if (BuildConfig.FLAVOR == "qa") {
-            AppEnvironment.dev()
+            OldAppEnvironment.dev()
         } else {
-            AppEnvironment.prod()
+            OldAppEnvironment.prod()
         }
 
         // Init koin

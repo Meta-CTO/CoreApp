@@ -33,6 +33,8 @@ object Dependencies {
 
     object Kotlin {
         const val DATE_TIME = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.DATE_TIME}"
+        const val COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}"
+        const val SERIALIZATION_JSON = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.SERIALIZATION_JSON}"
     }
 
     object Koin {
@@ -93,6 +95,7 @@ object Dependencies {
         const val CORE_APP = ":coreapp"
         const val CORE = ":core:core"
         const val FILES = ":core:files"
+        const val NOTIFICATIONS = ":core:notifications"
         const val CORE_UI = ":ui:core-ui"
         const val MEDIA_PLAYERS = ":ui:media-players"
         const val SAMPLE_APP_SHARED = ":sampleAppShared"
@@ -110,6 +113,12 @@ object Dependencies {
         const val VIDEO = "androidx.camera:camera-video:${Versions.CAMERA_X}"
     }
 
+    object Notifications {
+        const val KMP_NOTIFIER = "io.github.mirzemehdi:kmpnotifier:${Versions.KMP_NOTIFIER}"
+        const val STATELY_COMMON = "co.touchlab:stately-common:${Versions.STATELY_COMMON}"
+        const val UUID = "com.benasher44:uuid:${Versions.UUID}"
+    }
+
     const val STRAPI_KMM = "com.metacto:strapi:${Versions.STRAPI_KMM}"
     const val ANDROID_IMAGE_PICKER = "com.github.dhaval2404:imagepicker:${Versions.ANDROID_IMAGE_PICKER}"
     const val LIB_PHONE_NUMBER = "io.github.luca992.libphonenumber-kotlin:libphonenumber:${Versions.LIB_PHONE_NUMBER}"
@@ -117,6 +126,5 @@ object Dependencies {
     const val COMPOTTIE = "io.github.alexzhirkevich:compottie:${Versions.COMPOTTIE}"
     const val WEBVIEW = "io.github.kevinnzou:compose-webview-multiplatform:${Versions.WEBVIEW}"
     const val SHIMMER = "com.valentinilk.shimmer:compose-shimmer:${Versions.SHIMMER}"
-    const val KMP_NOTIFIER = "io.github.mirzemehdi:kmpnotifier:${Versions.KMP_NOTIFIER}"
-    const val STATELY_COMMON = "co.touchlab:stately-common:2.0.5"
+    const val SETTINGS = "com.russhwolf:multiplatform-settings:${Versions.SETTINGS}"
 }

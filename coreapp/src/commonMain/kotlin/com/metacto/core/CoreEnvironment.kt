@@ -10,8 +10,5 @@ open class CoreEnvironment(
     open val forceUpdateRemoteConfigKey: String? = null,
     open val currentAppConfigurationVersion: Int,
     open val appConfigurationExpirationInMinutes: Long,
-    open val androidRemoteNotificationIcon: Int? = null,
-    open val showRemoteNotifications: Boolean = false,
-    open val askRemoteNotificationPermissionOnStart: Boolean = false,
     open val enableSwipeToGoBack: Boolean = false,
 )

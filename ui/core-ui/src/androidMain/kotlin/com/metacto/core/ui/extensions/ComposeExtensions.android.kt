@@ -17,6 +17,11 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.metacto.core.extensions.NAVIGATION_BAR_INTERACTION_MODE_GESTURE
+import com.metacto.core.extensions.getActivity
+import com.metacto.core.extensions.getNavigationBarInteractionMode
+import com.metacto.core.extensions.hideKeyboard
+import com.metacto.core.extensions.openUrl
 
 @SuppressLint("ComposableNaming")
 @Composable

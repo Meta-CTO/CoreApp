@@ -9,6 +9,8 @@ object Versions {
     const val COMPOSE_ANDROID = "1.7.4"
     const val GOOGLE_SIGN_IN_POD = "7.0.0"
     const val DATE_TIME = "0.4.0"
+    const val COROUTINES = "1.10.2"
+    const val SERIALIZATION_JSON = "1.8.1"
     const val STRAPI_KMM = "10.0.144"
     const val KOIN = "4.0.0"
     const val KOIN_COMPOSE = "1.1.0"
@@ -35,5 +37,8 @@ object Versions {
     const val YOUTUBE_PLAYER = "12.1.0"
     const val SHIMMER = "1.3.1"
     const val KMP_NOTIFIER = "1.3.0"
+    const val STATELY_COMMON = "2.0.5"
+    const val UUID = "0.8.4"
     const val CAMERA_X = "1.3.4"
+    const val SETTINGS = "1.3.0"
 }

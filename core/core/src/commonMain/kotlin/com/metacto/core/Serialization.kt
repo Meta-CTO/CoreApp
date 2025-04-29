@@ -4,4 +4,4 @@ expect interface CommonSerializable
 
 expect interface CommonParcelable
 
-annotation class CommonParcelize
+expect annotation class CommonParcelize()

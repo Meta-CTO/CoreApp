@@ -2,7 +2,7 @@ package com.sampleApp.app.di
 
 // MARK: Add imports
 import com.sampleApp.app.presentation.test2.test2.Test2ViewModel
-import com.metacto.core.di.commonViewModel
+import com.metacto.core.dii.commonViewModel
 import com.sampleApp.app.presentation.app.app.AppViewModel
 import com.sampleApp.app.presentation.camera.CameraViewModel
 import com.sampleApp.app.presentation.home.HomeViewModel

@@ -93,8 +93,10 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(Dependencies.Modules.CORE_APP))
+                implementation(project(Dependencies.Modules.CORE_UI))
                 implementation(project(Dependencies.Modules.MEDIA_PLAYERS))
                 implementation(project(Dependencies.Modules.FILES))
+                api(project(Dependencies.Modules.NOTIFICATIONS))
             }
         }
 

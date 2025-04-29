@@ -13,7 +13,7 @@ import org.koin.core.component.inject
 import androidx.core.net.toUri
 import com.metacto.core.ui.mediaplayers.di.DiQualifiers
 import com.metacto.core.ui.mediaplayers.extensions.createMediaSource
-import com.metacto.core.ui.extensions.getLauncherPendingIntent
+import com.metacto.core.extensions.getLauncherPendingIntent
 
 @UnstableApi
 internal class VideoPlayerManager(
