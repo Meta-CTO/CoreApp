@@ -173,4 +173,6 @@ expect fun Double.format(decimalsCount: Int): String
 
 expect fun Double.formatToComma(maxFractionCount: Int = 0): String
 
-expect fun Double.formatNumber(): String
+expect fun Double.formatNumber(maxFractionCount: Int = 0): String
+
+expect fun Double.formatAmount(): String
