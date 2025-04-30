@@ -10,8 +10,6 @@ import com.metacto.core.presentation.camera.CameraController
 import com.metacto.core.presentation.camera.CameraEngine
 import com.metacto.core.presentation.camera.models.CameraLens
 import com.metacto.core.presentation.itemPicker.NativeItemPicker
-import com.metacto.core.utils.calendar.CalendarManager
-import com.metacto.core.utils.calendar.ICalendarManager
 import com.metacto.core.utils.eventBroadcaster.EventBroadcaster
 import com.metacto.core.utils.imagePreloader.IPreloader
 import com.metacto.core.utils.imagePreloader.Preloader
@@ -73,10 +71,6 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
 
     single<IIntentLauncher> {
         IntentLauncher(androidContext(), get())
-    }
-
-    single<ICalendarManager> {
-        CalendarManager(androidContext(), get())
     }
 
     single<ILanguageManager> {

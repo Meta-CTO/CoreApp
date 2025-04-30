@@ -10,6 +10,4 @@ include(":ui:sample")
 include(":ui:media-players")
 
 include(":samples:sample-app-shared")
-include(":sampleAppShared")
 include(":coreapp")
-include(":androidApp")
