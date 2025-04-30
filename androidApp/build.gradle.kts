@@ -9,8 +9,10 @@ plugins {
     id(Plugins.CRASHLYTICS_PLUGIN)
 }
 
+private val appNamespace = "com.sampleApp.app"
+
 android {
-    namespace = SampleAppConfigs.NAMESPACE
+    namespace = appNamespace
     compileSdk = Configs.COMPILE_SDK_VERSION
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -28,8 +30,8 @@ android {
     defaultConfig {
         minSdk = Configs.MIN_SDK_VERSION
         targetSdk = Configs.TARGET_SDK_VERSION
-        versionCode = SampleAppConfigs.VERSION_CODE
-        versionName = SampleAppConfigs.VERSION_NAME
+        versionCode = 1
+        versionName = "1.0.0"
 
         proguardFiles(
             getDefaultProguardFile("proguard-android-optimize.txt"), "./proguard-rules.pro"
@@ -62,7 +64,7 @@ android {
     productFlavors {
         ProductFlavor.all().forEach { flavor ->
             maybeCreate(flavor.toString()).apply {
-                applicationId = flavor.applicationId
+                applicationId = "com.sampleApp.app.dev"
                 versionNameSuffix = flavor.versionNameSuffix
                 resValue(
                     type = "string",

@@ -13,6 +13,9 @@ plugins {
     id(Plugins.PARCELIZE_PLUGIN)
 }
 
+private val frameworkName = "appShared"
+private val appNamespace = "com.sampleApp.app"
+
 kotlin {
     targetHierarchy.default()
 
@@ -34,7 +37,7 @@ kotlin {
         ios.deploymentTarget = Configs.IOS_DEPLOYMENT_TARGET
         podfile = project.file("../iosApp/Podfile")
         framework {
-            baseName = SampleAppConfigs.FRAMEWORK_NAME
+            baseName = frameworkName
             isStatic = true
             linkerOpts.add("-lsqlite3")
 
@@ -122,7 +125,7 @@ kotlin {
 }
 
 android {
-    namespace = SampleAppConfigs.NAMESPACE
+    namespace = appNamespace
     compileSdk = Configs.COMPILE_SDK_VERSION
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -146,6 +149,6 @@ android {
 
 compose.resources {
     publicResClass = true
-    packageOfResClass = "${SampleAppConfigs.NAMESPACE}.resources"
+    packageOfResClass = "${appNamespace}.resources"
     generateResClass = always
 }
