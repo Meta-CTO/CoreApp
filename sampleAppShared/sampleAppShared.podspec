@@ -6,7 +6,7 @@ Pod::Spec.new do |spec|
     spec.authors                  = ''
     spec.license                  = ''
     spec.summary                  = 'Sample app shared module'
-    spec.vendored_frameworks      = 'build/cocoapods/framework/sampleAppShared.framework'
+    spec.vendored_frameworks      = 'build/cocoapods/framework/appShared.framework'
     spec.libraries                = 'c++'
     spec.ios.deployment_target    = '14.1'
     spec.dependency 'Amplitude'
@@ -20,10 +20,10 @@ Pod::Spec.new do |spec|
     spec.dependency 'FirebaseRemoteConfig'
     spec.dependency 'GoogleSignIn', '7.0.0'
                 
-    if !Dir.exist?('build/cocoapods/framework/sampleAppShared.framework') || Dir.empty?('build/cocoapods/framework/sampleAppShared.framework')
+    if !Dir.exist?('build/cocoapods/framework/appShared.framework') || Dir.empty?('build/cocoapods/framework/appShared.framework')
         raise "
 
-        Kotlin framework 'sampleAppShared' doesn't exist yet, so a proper Xcode project can't be generated.
+        Kotlin framework 'appShared' doesn't exist yet, so a proper Xcode project can't be generated.
         'pod install' should be executed after running ':generateDummyFramework' Gradle task:
 
             ./gradlew :sampleAppShared:generateDummyFramework
@@ -37,7 +37,7 @@ Pod::Spec.new do |spec|
                 
     spec.pod_target_xcconfig = {
         'KOTLIN_PROJECT_PATH' => ':sampleAppShared',
-        'PRODUCT_MODULE_NAME' => 'sampleAppShared',
+        'PRODUCT_MODULE_NAME' => 'appShared',
     }
                 
     spec.script_phases = [

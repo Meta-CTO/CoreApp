@@ -70,6 +70,9 @@ kotlin {
 
             // Others
             api(Dependencies.SHARED_PREFERENCES)
+
+            // Don't remove this
+            implementation(Dependencies.Notifications.STATELY_COMMON)
         }
 
         androidMain.dependencies {
