@@ -8,6 +8,7 @@ include(":core:notifications")
 include(":ui:core-ui")
 include(":ui:sample")
 include(":ui:media-players")
+include(":ui:camera")
 
 include(":samples:sample-app-shared")
 include(":sampleAppShared")

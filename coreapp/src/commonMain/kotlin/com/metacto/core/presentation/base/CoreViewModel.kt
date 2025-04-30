@@ -8,7 +8,6 @@ import cafe.adriel.voyager.core.model.screenModelScope
 import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource
 import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
 import com.metacto.core.navigation.NavManager
-import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.presentation.globalState.ICoreGlobalState
 import com.metacto.core.presentation.globalState.models.ConfirmationPopupParams
 import com.metacto.core.presentation.globalState.models.ForceUpdatePopupParams
@@ -19,6 +18,7 @@ import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.NativeItemPicker
 import com.metacto.core.presentation.itemPicker.models.PickerItem
+import com.metacto.core.ui.permissions.IPermissionManager
 import com.metacto.core.utils.PlatformType
 import com.metacto.core.utils.extensions.getPlatformType
 import com.metacto.core.utils.extensions.isInternetConnectionError

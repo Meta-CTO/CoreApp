@@ -4,6 +4,8 @@ import com.metacto.core.CoreEnvironment
 import com.metacto.core.di.coreModule
 import com.metacto.core.files.di.filesModule
 import com.metacto.core.notifications.di.notificationsModule
+import com.metacto.core.ui.camera.di.cameraModule
+import com.metacto.core.ui.di.coreUIModule
 import com.metacto.core.ui.mediaplayers.di.mediaPlayersModule
 import com.metacto.strapikmm.errorhandling.NetworkError
 import com.sampleApp.app.constants.AppEnvironment
@@ -33,12 +35,14 @@ fun initKoin(
         viewModelsModule,
         repositoriesModule,
         coreModule(AppEnvironment.Dev),
+        coreUIModule(),
         mediaPlayersModule(),
         filesModule(),
         notificationsModule(
             showNotifications = true,
             askNotificationPermissionOnStart = true
-        )
+        ),
+        cameraModule()
     )
 }
 

@@ -9,8 +9,6 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.metacto.core.navigation.CoreAppNavigator
 import com.metacto.core.navigation.NavManager
-import com.metacto.core.permissions.BindEffect
-import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.presentation.components.dialogs.ChoicesDialog
 import com.metacto.core.presentation.components.dialogs.ConfirmationDialog
 import com.metacto.core.presentation.components.dialogs.ForceUpdateDialog
@@ -31,6 +29,8 @@ import com.metacto.core.presentation.globalState.models.LoadingType
 import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.resources.file
+import com.metacto.core.ui.permissions.BindEffect
+import com.metacto.core.ui.permissions.IPermissionManager
 import com.metacto.core.utils.extensions.dismissKeyboard
 import com.metacto.core.utils.extensions.setNavigationBarColor
 import com.metacto.core.utils.extensions.setStatusBarColor

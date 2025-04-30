@@ -98,6 +98,7 @@ object Dependencies {
         const val NOTIFICATIONS = ":core:notifications"
         const val CORE_UI = ":ui:core-ui"
         const val MEDIA_PLAYERS = ":ui:media-players"
+        const val CAMERA = ":ui:camera"
         const val SAMPLE_APP_SHARED = ":sampleAppShared"
     }
 

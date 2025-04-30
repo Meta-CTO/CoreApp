@@ -79,6 +79,7 @@ kotlin {
                 api(Dependencies.COMPOTTIE)
                 api(Dependencies.WEBVIEW)
                 api(Dependencies.SHIMMER)
+                implementation(project(Dependencies.Modules.CORE_UI))
             }
         }
 
@@ -119,13 +120,6 @@ kotlin {
                 // Youtube Player
                 api(Dependencies.YoutubePlayer.CORE)
                 api(Dependencies.YoutubePlayer.CUSTOM_UI)
-
-                // Camera X
-                api(Dependencies.Camera.CAMERA_VIEW)
-                api(Dependencies.Camera.CAMERA2)
-                api(Dependencies.Camera.CORE)
-                api(Dependencies.Camera.LIFECYCLE)
-                api(Dependencies.Camera.VIDEO)
 
                 // Others
                 api(Dependencies.ANDROID_IMAGE_PICKER)

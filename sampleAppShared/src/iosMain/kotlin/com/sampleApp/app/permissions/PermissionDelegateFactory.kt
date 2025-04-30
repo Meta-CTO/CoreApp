@@ -1,9 +1,9 @@
 package com.sampleApp.app.permissions
 
 import com.metacto.core.permissions.enums.Permission
-import com.metacto.core.permissions.helpers.AlwaysGrantedPermissionDelegate
-import com.metacto.core.permissions.helpers.IPermissionDelegateFactory
-import com.metacto.core.permissions.helpers.PermissionDelegate
+import com.metacto.core.ui.permissions.helpers.AlwaysGrantedPermissionDelegate
+import com.metacto.core.ui.permissions.helpers.IPermissionDelegateFactory
+import com.metacto.core.ui.permissions.helpers.PermissionDelegate
 import platform.AVFoundation.AVMediaTypeAudio
 import platform.AVFoundation.AVMediaTypeVideo
 import platform.Contacts.CNContactStore

@@ -1,15 +1,16 @@
 package com.sampleApp.app.presentation.home
 
-import com.metacto.core.permissions.enums.Permission
-import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.presentation.globalState.models.MessagePopupParams
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.presentation.youtube.YoutubeScreen
+import com.metacto.core.ui.permissions.enums.Permission
+import com.metacto.core.ui.permissions.enums.PermissionState
 import com.metacto.core.utils.date.formatToRelativeDate
 import com.metacto.core.utils.deepLink.IDeepLinkManager
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.sampleApp.app.presentation.base.BaseViewModel
+import com.sampleApp.app.presentation.camera.CameraScreen
 import com.sampleApp.app.presentation.home.HomeContract.Companion.VIDEOS_LIST
 import com.sampleApp.app.presentation.home.HomeContract.Effect
 import com.sampleApp.app.presentation.home.HomeContract.Event
@@ -62,17 +63,18 @@ class HomeViewModel(
         }
 
         Event.NavigateToCameraScreen -> {
-            globalState.messagePopup(
-                params =
-                MessagePopupParams(
-                    body = "These data give a picture of your physical health. Factors taken into account include how much you exercise and how much energy you burn while active.\n" +
-                            "\n" +
-                            "Vigorous, regular exercise is directly correlated with good physical health, and longer exercise sessions are strong indicators of endurance and overall fitness. ",
-                    description = "Sources:\n" +
-                            "Shaffer, F., & Ginsberg, J. P. (2017). An overview of heart rate variability metrics and norms. Frontiers in Public Health, 5, 258.\n" +
-                            "Brosschot, J. F., van Dijk, E., & Thayer, J. F. (2007). Daily worry is related to low heart rate variability during waking and the subsequent nocturnal sleep period. International Journal of Psychophysiology, 63(1), 39-47."
-                )
-            )
+            navManager.navigate(CameraScreen)
+//            globalState.messagePopup(
+//                params =
+//                MessagePopupParams(
+//                    body = "These data give a picture of your physical health. Factors taken into account include how much you exercise and how much energy you burn while active.\n" +
+//                            "\n" +
+//                            "Vigorous, regular exercise is directly correlated with good physical health, and longer exercise sessions are strong indicators of endurance and overall fitness. ",
+//                    description = "Sources:\n" +
+//                            "Shaffer, F., & Ginsberg, J. P. (2017). An overview of heart rate variability metrics and norms. Frontiers in Public Health, 5, 258.\n" +
+//                            "Brosschot, J. F., van Dijk, E., & Thayer, J. F. (2007). Daily worry is related to low heart rate variability during waking and the subsequent nocturnal sleep period. International Journal of Psychophysiology, 63(1), 39-47."
+//                )
+//            )
         }
 
         Event.RequestCameraPermClicked -> {

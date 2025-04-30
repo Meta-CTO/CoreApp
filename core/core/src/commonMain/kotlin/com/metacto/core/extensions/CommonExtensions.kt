@@ -9,6 +9,8 @@ import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 fun <T> T.applyIf(condition: Boolean, block: T.() -> Unit): T {
     return apply {
@@ -39,6 +41,14 @@ fun <T> CoroutineScope.asyncIf(
     } else {
         null
     }
+}
+
+fun <T> CancellableContinuation<T>.resumeIfActive(value: T) {
+    if (isActive) resume(value)
+}
+
+fun CancellableContinuation<*>.exceptionIfActive(throwable: Throwable) {
+    if (isActive) resumeWithException(throwable)
 }
 
 expect fun getPlatformType(): PlatformType

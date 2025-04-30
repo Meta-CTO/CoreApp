@@ -1,6 +1,6 @@
 package com.sampleApp.app.di
 
-import com.metacto.core.permissions.helpers.IPermissionDelegateFactory
+import com.metacto.core.ui.permissions.helpers.IPermissionDelegateFactory
 import com.sampleApp.app.permissions.PermissionDelegateFactory
 import org.koin.dsl.module
 

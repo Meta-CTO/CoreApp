@@ -3,7 +3,7 @@ package com.sampleApp.app.permissions
 import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.permissions.exceptions.DeniedAlwaysException
-import com.metacto.core.permissions.helpers.PermissionDelegate
+import com.metacto.core.ui.permissions.helpers.PermissionDelegate
 import platform.Contacts.CNAuthorizationStatus
 import platform.Contacts.CNAuthorizationStatusAuthorized
 import platform.Contacts.CNAuthorizationStatusDenied

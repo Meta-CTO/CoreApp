@@ -2,10 +2,10 @@ package com.sampleApp.app.presentation.main
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.metacto.core.permissions.BindEffect
 import com.metacto.core.presentation.base.BaseScreen
 import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
 import com.metacto.core.presentation.base.rememberViewModel
+import com.metacto.core.ui.permissions.BindEffect
 import com.sampleApp.app.presentation.main.components.MainContent
 
 internal class MainScreen : BaseScreen<MainViewModel>() {
