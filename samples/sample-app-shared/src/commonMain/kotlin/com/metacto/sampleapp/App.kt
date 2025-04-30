@@ -1,4 +1,4 @@
-package org.metacto.sampleapp
+package com.metacto.sampleapp
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -10,8 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.sampleApp.app.resources.Res
-import com.sampleApp.app.resources.compose_multiplatform
+import com.metacto.sampleapp.resources.Res
+import com.metacto.sampleapp.resources.compose_multiplatform
 import org.jetbrains.compose.resources.painterResource
 
 @Composable

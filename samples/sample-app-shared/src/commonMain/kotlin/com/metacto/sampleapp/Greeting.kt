@@ -1,4 +1,4 @@
-package org.metacto.sampleapp
+package com.metacto.sampleapp
 
 class Greeting {
     private val platform = getPlatform()

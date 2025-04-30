@@ -1,4 +1,4 @@
-package org.metacto.sampleapp
+package com.metacto.sampleapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

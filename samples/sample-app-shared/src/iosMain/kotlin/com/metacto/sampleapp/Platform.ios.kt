@@ -1,5 +1,6 @@
-package org.metacto.sampleapp
+package com.metacto.sampleapp
 
+import com.metacto.sampleapp.Platform
 import platform.UIKit.UIDevice
 
 class IOSPlatform: Platform {
