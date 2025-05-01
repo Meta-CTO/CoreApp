@@ -4,7 +4,7 @@ import com.metacto.core.ui.mediaplayers.videoPlayer.VideoPlayerController
 import com.metacto.core.presentation.base.ViewEvent
 import com.metacto.core.presentation.base.ViewSideEffect
 import com.metacto.core.presentation.base.ViewState
-import com.metacto.core.presentation.itemPicker.models.PickerItem
+import com.metacto.core.ui.components.itemPicker.models.PickerItem
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.ui.permissions.enums.PermissionState
 import com.sampleApp.app.presentation.models.VideoItemInfo

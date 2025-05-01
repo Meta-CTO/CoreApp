@@ -1,6 +1,6 @@
 package com.metacto.core.di
 
-import com.metacto.core.environment.CoreEnvironment
+import com.metacto.core.CoreConfigs
 import com.metacto.core.language.ILanguageManager
 import com.metacto.core.language.LanguageManager
 import com.metacto.kmm.sharedpreferences.KmmPreference
@@ -29,7 +29,7 @@ internal actual fun platformModule() = module {
     }
 
     single<KmmPreference> {
-        val storageName = get<CoreEnvironment>().title
+        val storageName = get<CoreConfigs>().storageName
 
         val preferences = NSUserDefaultsSettings(NSUserDefaults.standardUserDefaults())
         val encryptedPreferences = KeychainSettings(

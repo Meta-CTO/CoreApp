@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import com.metacto.core.presentation.components.texts.SingleLineText
-import com.metacto.core.utils.extensions.noRippleClickable
+import com.metacto.core.ui.extensions.noRippleClickable
 import com.sampleApp.app.presentation.theme.AppTheme.colors
 import com.sampleApp.app.presentation.theme.AppTheme.spacings
 import com.sampleApp.app.presentation.theme.AppTheme.typography

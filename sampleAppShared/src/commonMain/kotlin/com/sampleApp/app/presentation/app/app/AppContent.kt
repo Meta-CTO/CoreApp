@@ -4,7 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.metacto.core.navigation.NavManager
+import com.metacto.core.ui.navigation.NavManager
 import com.metacto.core.presentation.app.CoreAppContent
 import com.sampleApp.app.presentation.app.globalState.IAppGlobalState
 import com.sampleApp.app.presentation.app.globalState.models.AppBackgroundType

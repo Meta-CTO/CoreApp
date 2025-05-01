@@ -8,7 +8,7 @@ import com.metacto.core.presentation.globalState.models.SnackBarType
 import com.metacto.core.ui.camera.CameraController
 import com.metacto.core.ui.camera.models.CameraLens
 import com.metacto.core.ui.camera.models.VideoRecordingParams
-import com.metacto.core.utils.media.IMediaManager
+import com.metacto.core.ui.media.IMediaManager
 import com.metacto.strapikmm.constants.SharedConstants
 import com.metacto.strapikmm.sharedpreference.KmmPreference
 import com.sampleApp.app.presentation.base.BaseViewModel

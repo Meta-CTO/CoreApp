@@ -1,6 +1,6 @@
 package com.sampleApp.app.resources
 
-import com.metacto.core.resources.IFileResource
+import com.metacto.core.ui.resources.IFileResource
 
 val Res.file: FileResources
     get() = FileResources

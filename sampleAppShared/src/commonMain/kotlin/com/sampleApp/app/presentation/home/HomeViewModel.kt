@@ -1,14 +1,13 @@
 package com.sampleApp.app.presentation.home
 
-import com.metacto.core.presentation.globalState.models.MessagePopupParams
-import com.metacto.core.presentation.itemPicker.ItemPickerSheet
+import com.metacto.core.ui.components.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
 import com.metacto.core.presentation.youtube.YoutubeScreen
 import com.metacto.core.ui.permissions.enums.Permission
 import com.metacto.core.ui.permissions.enums.PermissionState
 import com.metacto.core.utils.date.formatToRelativeDate
-import com.metacto.core.utils.deepLink.IDeepLinkManager
-import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
+import com.metacto.core.deepLink.IDeepLinkManager
+import com.metacto.core.ui.phoneNumber.IPhoneNumberManager
 import com.sampleApp.app.presentation.base.BaseViewModel
 import com.sampleApp.app.presentation.camera.CameraScreen
 import com.sampleApp.app.presentation.home.HomeContract.Companion.VIDEOS_LIST

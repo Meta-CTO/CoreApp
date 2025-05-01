@@ -3,7 +3,7 @@ package com.metacto.core.di
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import com.metacto.core.environment.CoreEnvironment
+import com.metacto.core.CoreConfigs
 import com.metacto.core.language.ILanguageManager
 import com.metacto.core.language.LanguageManager
 import com.metacto.kmm.sharedpreferences.KmmPreference
@@ -21,7 +21,7 @@ internal actual fun platformModule() = module {
     single<KmmPreference> {
         val app = androidApplication()
         val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
-        val storageName = get<CoreEnvironment>().title
+        val storageName = get<CoreConfigs>().storageName
 
         val sharedPreferencesDelegate = app.getSharedPreferences(
             "${storageName}_normal",

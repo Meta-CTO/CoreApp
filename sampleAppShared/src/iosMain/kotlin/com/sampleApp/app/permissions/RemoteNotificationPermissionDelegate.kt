@@ -4,7 +4,7 @@ import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.permissions.exceptions.DeniedAlwaysException
 import com.metacto.core.ui.permissions.helpers.PermissionDelegate
-import com.metacto.core.utils.extensions.mainContinuation
+import com.metacto.core.ui.extensions.mainContinuation
 import platform.UserNotifications.UNAuthorizationOptionAlert
 import platform.UserNotifications.UNAuthorizationOptionBadge
 import platform.UserNotifications.UNAuthorizationOptionSound

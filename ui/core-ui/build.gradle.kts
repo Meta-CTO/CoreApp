@@ -73,6 +73,12 @@ kotlin {
             api(Dependencies.Compose.EXTENDED_ICONS)
             api(Dependencies.Compose.RESOURCES)
 
+            // Voyager
+            implementation(Dependencies.Voyager.NAVIGATOR)
+            implementation(Dependencies.Voyager.BOTTOM_SHEET)
+            implementation(Dependencies.Voyager.TAB_NAVIGATOR)
+            implementation(Dependencies.Voyager.SCREEN_MODEL)
+
             // Coil
             implementation(Dependencies.Coil.CORE)
             implementation(Dependencies.Coil.COMPOSE)
@@ -81,18 +87,38 @@ kotlin {
 
             // Shimmer
             implementation(Dependencies.SHIMMER)
+
+            // Others
+            implementation(Dependencies.LIB_PHONE_NUMBER)
+            implementation(Dependencies.COMPOTTIE)
+            implementation(Dependencies.WEBVIEW)
         }
 
         androidMain.dependencies {
-            // Compose
-            api(Dependencies.AndroidX.ACTIVITY_COMPOSE)
-
             // AndroidX
             api(Dependencies.AndroidX.APP_COMPAT)
+            api(Dependencies.AndroidX.ACTIVITY_COMPOSE)
+            api(Dependencies.AndroidX.CORE_KTS)
+            api(Dependencies.AndroidX.SPLASH_SCREEN)
+
+            // Koin
+            api(Dependencies.Koin.ANDROID)
+            api(Dependencies.Koin.ANDROID_COMPOSE)
+
+            // Voyager
+            implementation(Dependencies.Voyager.KOIN)
+
+            // Youtube Player
+            api(Dependencies.YoutubePlayer.CORE)
+            api(Dependencies.YoutubePlayer.CUSTOM_UI)
+
+            // Others
+            implementation(Dependencies.ANDROID_IMAGE_PICKER)
+            implementation(Dependencies.ANDROID_CROPPER)
         }
 
         iosMain.dependencies {
-            // IOS DEPENDENCIES
+            api(Dependencies.Compose.MATERIAL)
         }
     }
 

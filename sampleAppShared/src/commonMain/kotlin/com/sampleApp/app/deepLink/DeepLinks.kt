@@ -1,7 +1,7 @@
 package com.sampleApp.app.deepLink
 
-import com.metacto.core.utils.deepLink.DeepLink
-import com.metacto.core.utils.deepLink.DeepLinkParser
+import com.metacto.core.deepLink.DeepLink
+import com.metacto.core.deepLink.DeepLinkParser
 import io.ktor.http.Url
 
 internal val DEEP_LINK_PARSERS = mapOf(

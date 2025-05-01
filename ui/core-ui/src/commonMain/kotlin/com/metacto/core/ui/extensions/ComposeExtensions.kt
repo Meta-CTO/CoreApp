@@ -77,7 +77,12 @@ import androidx.compose.ui.text.lerp
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
+import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
+import com.metacto.core.ui.base.ViewSideEffect
+import com.metacto.core.ui.resources.IFileResource
 import com.valentinilk.shimmer.shimmer
+import io.github.alexzhirkevich.compottie.LottieCompositionResult
+import io.github.alexzhirkevich.compottie.LottieCompositionSpec
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -718,6 +723,31 @@ fun Modifier.onEdgeSwipe(
 @Composable
 fun Modifier.shimmerIf(condition: Boolean): Modifier {
     return if (condition) this.shimmer() else this
+}
+
+fun Dp?.orZero() = this ?: 0.dp
+
+
+@Composable
+fun rememberLottieComposition(res: IFileResource): LottieCompositionResult {
+    // Load json if required
+    var json by remember(res) { mutableStateOf<String?>(null) }
+    if (json == null) json = res.readAsState().value
+
+    // Then return the composition
+    return io.github.alexzhirkevich.compottie.rememberLottieComposition(
+        LottieCompositionSpec.JsonString(
+            json.orEmpty()
+        )
+    )
+}
+
+@Composable
+fun <T : ViewSideEffect> Flow<T>.consume(
+    key: String = SIDE_EFFECTS_KEY,
+    action: (effect: T) -> Unit
+) {
+    LaunchedEffect(key) { onEach(action).collect() }
 }
 
 @Composable

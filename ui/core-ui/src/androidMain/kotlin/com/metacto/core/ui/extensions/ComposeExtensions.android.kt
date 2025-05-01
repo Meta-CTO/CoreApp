@@ -1,4 +1,5 @@
 package com.metacto.core.ui.extensions
+
 import android.annotation.SuppressLint
 import android.graphics.BitmapFactory
 import androidx.compose.runtime.Composable
@@ -20,7 +21,6 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.metacto.core.extensions.NAVIGATION_BAR_INTERACTION_MODE_GESTURE
 import com.metacto.core.extensions.getActivity
 import com.metacto.core.extensions.getNavigationBarInteractionMode
-import com.metacto.core.extensions.hideKeyboard
 import com.metacto.core.extensions.openUrl
 
 @SuppressLint("ComposableNaming")

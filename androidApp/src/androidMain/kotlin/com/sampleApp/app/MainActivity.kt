@@ -7,14 +7,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.metacto.core.notifications.INotificationManager
-import com.metacto.core.utils.deepLink.IDeepLinkManager
+import com.metacto.core.deepLink.IDeepLinkManager
 import com.sampleApp.app.presentation.MainView
 import com.sampleApp.app.presentation.app.app.AppContract
 import com.sampleApp.app.presentation.app.app.AppViewModel
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
-    private val deepLinkManager by inject<IDeepLinkManager>()
+    private val deepLinkManager by inject<com.metacto.core.deepLink.IDeepLinkManager>()
     private val notificationManager by inject<INotificationManager>()
     private val appViewModel by inject<AppViewModel>()
 

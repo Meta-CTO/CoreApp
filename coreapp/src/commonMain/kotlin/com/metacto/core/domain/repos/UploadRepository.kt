@@ -3,7 +3,7 @@ package com.metacto.core.domain.repos
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.models.request.UpdatePreviewUrlRequest
 import com.metacto.core.domain.models.request.UpdatePreviewUrlRequestData
-import com.metacto.core.utils.extensions.randomUUID
+import com.metacto.core.ui.extensions.randomUUID
 import com.metacto.strapikmm.constants.SharedConstants
 import com.metacto.strapikmm.datasource.network.services.strapi.JsonFlatter
 import com.metacto.strapikmm.datasource.network.services.strapi.StrapiService

@@ -3,7 +3,7 @@ package com.sampleApp.app.resources
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.produceState
-import com.metacto.core.resources.IFileResource
+import com.metacto.core.ui.resources.IFileResource
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 internal data class FileResource(

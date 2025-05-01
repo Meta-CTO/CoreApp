@@ -7,9 +7,9 @@ import com.metacto.core.notifications.INotificationManager
 import com.metacto.core.notifications.Notification
 import com.metacto.core.presentation.globalState.models.SnackBarParams
 import com.metacto.core.presentation.globalState.models.SnackBarType
-import com.metacto.core.utils.getCurrentWeekDates
+import com.metacto.core.date.getCurrentWeekDates
 import com.metacto.core.utils.language.ILanguageManager
-import com.metacto.core.utils.toFormattedDate
+import com.metacto.core.date.toFormattedDate
 import com.sampleApp.app.presentation.base.BaseViewModel
 import com.sampleApp.app.presentation.main.MainContract.Effect
 import com.sampleApp.app.presentation.main.MainContract.Event

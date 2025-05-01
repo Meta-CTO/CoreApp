@@ -1,9 +1,9 @@
 package com.metacto.core.utils.remoteConfigs
 
 import com.metacto.core.domain.CoreConstants.CACHED_REMOTE_CONFIGS
-import com.metacto.core.utils.extensions.putObject
-import com.metacto.core.utils.extensions.toJsonObject
-import com.metacto.core.utils.extensions.toPairs
+import com.metacto.core.extensions.putObject
+import com.metacto.core.extensions.toJsonObject
+import com.metacto.core.extensions.toPairs
 import com.metacto.strapikmm.sharedpreference.KmmPreference
 import com.metacto.strapikmm.util.Logger
 import dev.gitlive.firebase.remoteconfig.FirebaseRemoteConfig

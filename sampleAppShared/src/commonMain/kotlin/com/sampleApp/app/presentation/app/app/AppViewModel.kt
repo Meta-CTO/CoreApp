@@ -1,6 +1,6 @@
 package com.sampleApp.app.presentation.app.app
 
-import com.metacto.core.utils.deepLink.IDeepLinkManager
+import com.metacto.core.deepLink.IDeepLinkManager
 import com.sampleApp.app.presentation.app.app.AppContract.Effect
 import com.sampleApp.app.presentation.app.app.AppContract.Event
 import com.sampleApp.app.presentation.app.app.AppContract.State

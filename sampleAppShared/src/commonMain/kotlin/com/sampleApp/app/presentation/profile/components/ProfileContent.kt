@@ -14,13 +14,10 @@ import com.metacto.core.ui.mediaplayers.videoPlayer.VideoPlayer
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.images.AppImage
-import com.metacto.core.utils.extensions.toFeetInches
+import com.metacto.core.extensions.toFeetInches
 import com.sampleApp.app.presentation.models.VideoItemInfo
 import com.sampleApp.app.presentation.profile.ProfileContract.Event
 import com.sampleApp.app.presentation.profile.ProfileContract.State
-import com.sampleApp.app.resources.FileResources
-import com.sampleApp.app.resources.Res
-import com.sampleApp.app.resources.file
 
 @Composable
 internal fun ProfileContent(

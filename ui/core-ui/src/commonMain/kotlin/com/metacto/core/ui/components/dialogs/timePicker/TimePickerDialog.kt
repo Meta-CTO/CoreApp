@@ -1,0 +1,184 @@
+package com.metacto.core.ui.components.dialogs.timePicker
+
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.DpSize
+import com.metacto.core.ui.components.buttons.PrimaryFilledButton
+import com.metacto.core.ui.components.dialogs.AppDialog
+import com.metacto.core.ui.components.wheelPicker.SelectorProperties
+import com.metacto.core.ui.components.wheelPicker.WheelPickerDefaults
+import com.metacto.core.ui.components.wheelPicker.datetime.MAX
+import com.metacto.core.ui.components.wheelPicker.datetime.MIN
+import com.metacto.core.ui.components.wheelPicker.datetime.WheelTimePicker
+import com.metacto.core.ui.components.wheelPicker.datetime.now
+import com.metacto.core.ui.theme.CoreTheme
+import com.metacto.core.ui.extensions.getScreenSize
+import com.metacto.core.ui.extensions.toDp
+import com.metacto.core.ui.globalState.ICoreGlobalState
+import com.metacto.core.ui.globalState.models.SnackBarParams
+import com.metacto.core.ui.globalState.models.SnackBarType
+import com.metacto.core.ui.resources.IResourceProvider
+import com.metacto.core.ui.resources.Res
+import com.metacto.core.ui.resources.maximum_allowed_time_is_s
+import com.metacto.core.ui.resources.minimum_allowed_time_is_s
+import com.metacto.core.ui.resources.ok
+import org.jetbrains.compose.resources.stringResource
+import kotlinx.datetime.LocalTime
+import org.koin.compose.koinInject
+
+@Suppress("NAME_SHADOWING")
+@Composable
+internal fun TimePickerDialog(
+    modifier: Modifier = Modifier,
+    isCancellable: Boolean = true,
+    selectedTime: LocalTime? = null,
+    minTime: LocalTime? = null,
+    maxTime: LocalTime? = null,
+    rowCount: Int = 5,
+    selectorBg: Color = CoreTheme.colors.timePickerDialog.selectorBgColor,
+    selectorBorderColor: Color = CoreTheme.colors.timePickerDialog.selectorBorderColor,
+    onTimePicked: (LocalTime) -> Unit,
+    showToolbar: Boolean = CoreTheme.spacings.timePickerDialog.showToolbar,
+    padding: PaddingValues = PaddingValues(CoreTheme.spacings.timePickerDialog.padding),
+    wheelPadding: PaddingValues = PaddingValues(horizontal = CoreTheme.spacings.timePickerDialog.wheelPaddingHorizontal),
+    okBtnPadding: PaddingValues = PaddingValues(top = CoreTheme.spacings.timePickerDialog.btnPaddingTop),
+    height: Dp = CoreTheme.spacings.timePickerDialog.height,
+    pickerPadding: Dp = CoreTheme.spacings.timePickerDialog.pickPadding,
+    wheelHeight: Dp = CoreTheme.spacings.timePickerDialog.wheelHeight,
+    btnBgColor: Color = CoreTheme.colors.timePickerDialog.btnBgColor,
+    btnTextColor: Color = CoreTheme.colors.timePickerDialog.btnTextColor,
+    btnTextStyle: TextStyle = CoreTheme.typography.timePickerDialog.btnTextStyle,
+    selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(
+        color = selectorBg, border = BorderStroke(
+            width = CoreTheme.spacings.timePickerDialog.selectorBorderWidth,
+            color = selectorBorderColor
+        )
+    ),
+    onDismiss: () -> Unit = {}
+) {
+    // Get main objects
+    val globalState = koinInject<ICoreGlobalState>()
+    val resourceProvider = koinInject<IResourceProvider>()
+
+    // Config times
+    val selectedTime = selectedTime ?: LocalTime.now()
+    val minTime = minTime ?: LocalTime.MIN
+    val maxTime = maxTime ?: LocalTime.MAX
+
+    // Prepare selected time states
+    var currentHour by remember {
+        mutableStateOf(0)
+    }
+    var currentMinute by remember {
+        mutableStateOf(0)
+    }
+    var isCurrentAm by remember {
+        mutableStateOf(false)
+    }
+
+    // Prepare ok click handler
+    fun handleOkClick() {
+        // Prepare valid hour
+        val validTimeHour = currentHour.let {
+            val hour = if (it == 12) 0 else it
+            return@let if (isCurrentAm) hour else hour + 12
+        }
+
+        // Create local time object
+        val selectedTime = LocalTime(
+            hour = validTimeHour,
+            minute = currentMinute
+        )
+
+        // Validate min time
+        if (selectedTime < minTime) {
+            // Show error
+            globalState.snackBar(
+                SnackBarParams(
+                    type = SnackBarType.ERROR,
+                    message = resourceProvider.getString(
+                        Res.string.minimum_allowed_time_is_s,
+                        minTime.toString()
+                    )
+                )
+            )
+            return
+        }
+
+        // Validate max time
+        if (selectedTime > maxTime) {
+            // Show error
+            globalState.snackBar(
+                SnackBarParams(
+                    type = SnackBarType.ERROR,
+                    message = resourceProvider.getString(
+                        Res.string.maximum_allowed_time_is_s,
+                        maxTime.toString()
+                    )
+                )
+            )
+            return
+        }
+
+        // Everything is ok
+        onTimePicked.invoke(selectedTime)
+    }
+
+    // Render app dialog
+    AppDialog(
+        modifier = modifier,
+        onDismiss = onDismiss,
+        isCancellable = isCancellable,
+        showToolbar = showToolbar
+    ) {
+        // Container column
+        Column(
+            modifier = Modifier.padding(padding)
+        ) {
+            // Render time picker
+            WheelTimePicker(
+                rowCount = rowCount,
+                startTime = selectedTime,
+                onSnappedTime = { snappedTime ->
+                    currentHour = snappedTime.hour
+                    currentMinute = snappedTime.minute
+                    isCurrentAm = snappedTime.hour < 12
+                },
+                size = DpSize(
+                    getScreenSize().first.toDp() - pickerPadding,
+                    wheelHeight
+                ),
+                selectorProperties = selectorProperties,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(height)
+                    .padding(wheelPadding)
+            )
+
+            // Ok button
+            PrimaryFilledButton(
+                text = stringResource(Res.string.ok),
+                onClick = ::handleOkClick,
+                backgroundColor = btnBgColor,
+                textStyle = btnTextStyle,
+                textColor = btnTextColor,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(okBtnPadding)
+            )
+        }
+    }
+}

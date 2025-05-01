@@ -1,0 +1,33 @@
+<resources>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="ok">Ok</string>
+    <string name="no_email_apps_found_on_your_device">No email apps installed on your device</string>
+    <string name="can_not_find_a_suitable_app_to_preform_that_action">Can\'t find a suitable app to preform that action</string>
+    <string name="no_phone_apps_found_on_your_device">No phone apps installed on your device</string>
+    <string name="session_expired">Session Expired</string>
+    <string name="your_session_expired_login_again">Your session has expired, please login again.</string>
+    <string name="error">Error</string>
+    <string name="no_internet_connection_check_connection">Hmm, there seems to be a problem with your internet connection.</string>
+    <string name="server_taking_too_long">Looks like the server is taking too long to respond, please try again later.</string>
+    <string name="something_went_wrong_try_again">Something went wrong, please try again later.</string>
+    <string name="no_results">No Results</string>
+    <string name="no_results_subtitle">Please double check your\n spelling and state</string>
+    <string name="minimum_allowed_date_is_s">Minimum allowed date is: %1$s</string>
+    <string name="maximum_allowed_date_is_s">Maximum allowed date is: %1$s</string>
+    <string name="minimum_allowed_time_is_s">Minimum allowed time is: %1$s</string>
+    <string name="maximum_allowed_time_is_s">Maximum allowed time is: %1$s</string>
+    <string name="choose_from_library">Choose from library</string>
+    <string name="take_photo">Take photo</string>
+    <string name="remove_current_photo">Remove current photo</string>
+    <string name="no_browser_installed">No browser installed</string>
+    <string name="override_current_user">Override Current User</string>
+    <string name="override_current_user_message">Please enter the user ID you want to override.</string>
+    <string name="reset_current_user">Reset Current User</string>
+    <string name="override">Override</string>
+    <string name="search_here">Search here...</string>
+    <string name="force_update_title">Update Required</string>
+    <string name="update_button">Update now</string>
+    <string name="skip_update_button">Skip update</string>
+    <string name="action_done">Done</string>
+</resources>

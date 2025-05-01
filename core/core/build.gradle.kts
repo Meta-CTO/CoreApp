@@ -59,6 +59,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            // Core SDKs
+            api(Dependencies.CORE_NETWORK)
+
             // Koin
             api(Dependencies.Koin.CORE)
             api(Dependencies.Koin.COMPOSE)

@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import com.metacto.core.presentation.base.BaseTabScreen
-import com.metacto.core.utils.extensions.rememberPrevious
+import com.metacto.core.ui.extensions.rememberPrevious
 import com.sampleApp.app.presentation.home.HomeTab
 import com.sampleApp.app.presentation.main.MainContract.Event
 import com.sampleApp.app.presentation.main.MainContract.State

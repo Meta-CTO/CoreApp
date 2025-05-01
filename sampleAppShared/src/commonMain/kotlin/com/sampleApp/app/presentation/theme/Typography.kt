@@ -6,7 +6,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.metacto.core.utils.extensions.FontFamily
+import com.metacto.core.ui.extensions.FontFamily
 import com.sampleApp.app.resources.*
 import org.jetbrains.compose.resources.Font
 

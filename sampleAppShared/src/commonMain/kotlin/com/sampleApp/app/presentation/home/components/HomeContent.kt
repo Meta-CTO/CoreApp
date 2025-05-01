@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.metacto.core.ui.mediaplayers.audioPlayer.AudioPlayer
 import com.metacto.core.ui.mediaplayers.audioPlayer.AudioPlayerStatusListener
-import com.metacto.core.navigation.NavManager
+import com.metacto.core.ui.navigation.NavManager
 import com.metacto.core.presentation.components.buttons.PrimaryFilledButton
 import com.metacto.core.presentation.components.containers.ScreenColumn
 import com.metacto.core.presentation.components.images.AppImage
@@ -26,7 +26,7 @@ import com.metacto.core.utils.contacts.rememberContactsCollectorOptionsFactory
 import com.metacto.core.utils.language.English
 import com.metacto.core.utils.language.ILanguageManager
 import com.metacto.core.utils.language.Language
-import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
+import com.metacto.core.ui.phoneNumber.IPhoneNumberManager
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
 import com.sampleApp.app.presentation.test2.test2.Test2Screen
