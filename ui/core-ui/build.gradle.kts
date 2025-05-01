@@ -76,7 +76,6 @@ kotlin {
             // Voyager
             implementation(Dependencies.Voyager.NAVIGATOR)
             implementation(Dependencies.Voyager.BOTTOM_SHEET)
-            implementation(Dependencies.Voyager.TAB_NAVIGATOR)
             api(Dependencies.Voyager.SCREEN_MODEL)
 
             // Coil
@@ -113,7 +112,7 @@ kotlin {
         }
 
         iosMain.dependencies {
-            api(Dependencies.Compose.MATERIAL)
+            implementation(Dependencies.Compose.MATERIAL)
         }
     }
 
