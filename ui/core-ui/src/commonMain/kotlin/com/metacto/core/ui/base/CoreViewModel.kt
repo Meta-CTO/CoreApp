@@ -30,6 +30,7 @@ import com.metacto.core.ui.resources.server_taking_too_long
 import com.metacto.core.ui.resources.session_expired
 import com.metacto.core.ui.resources.your_session_expired_login_again
 import com.metacto.kmm.network.errorhandling.AppException
+import com.metacto.kmm.network.logs.Logger
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.HttpRequestTimeoutException
@@ -48,7 +49,6 @@ import kotlinx.coroutines.sync.withLock
 import org.jetbrains.compose.resources.StringResource
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import org.koin.core.logger.Logger
 import kotlin.coroutines.CoroutineContext
 
 interface ViewEvent
@@ -156,7 +156,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
             } catch (_: kotlin.coroutines.cancellation.CancellationException) {
             } catch (_: CancellationException) {
             } catch (throwable: Throwable) {
-                logger.error("Error: ${throwable.message}")
+                logger.log("Error: ${throwable.message}")
 
                 // Ignore if it's a cancelled job
                 if (throwable.message.equals("Job was cancelled", true)) {
@@ -168,13 +168,6 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                     handleAuthError()
                     return@launch
                 }
-
-                // Handle network errors
-                // TODO: Revisit after strapi-kmm integration
-//                if (throwable.isInternetConnectionError()) {
-//                    handleNetworkError()
-//                    return@launch
-//                }
 
                 // Handle other errors
                 val errorMessage = when (throwable) {
@@ -233,7 +226,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
             } catch (_: kotlin.coroutines.cancellation.CancellationException) {
             } catch (_: CancellationException) {
             } catch (throwable: Throwable) {
-                logger.error("Error: ${throwable.message}")
+                logger.log("Error: ${throwable.message}")
 
                 if (isAuthError(throwable)) {
                     handleAuthError()
@@ -346,54 +339,6 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
             navManager.onNavResult<D, R>(callback = onResult)
         })
     }
-
-    // TODO: Revisit after strapi-kmm integration
-//    suspend fun checkAppUpdates(
-//        appUpdateSource: AppUpdateSource,
-//        showTitle: Boolean = true,
-//        title: String? = null,
-//        image: DrawableResource? = null,
-//        onUpdateClick: (() -> Unit)? = null,
-//        onSkipUpdateClick: (() -> Unit)? = null,
-//        onProceedAction: () -> Unit
-//    ) {
-//        // check if the title is enabled and handle the title
-//        val forceUpdateTitle = if (showTitle) title
-//            ?: resourceProvider.getString(Res.string.force_update_title) else null
-//
-//        // check for app updates first
-//        val response = forceUpdateRepository.checkForceUpdate(appUpdateSource = appUpdateSource)
-//
-//        if (response != null) {
-//            coreGlobalState.forceUpdatePopup(
-//                params = ForceUpdatePopupParams(
-//                    isRequired = response.isRequired,
-//                    title = forceUpdateTitle,
-//                    body = response.message,
-//                    image = image ?: Res.drawable.ic_upgrade,
-//                    updateButtonText = resourceProvider.getString(Res.string.update_button),
-//                    skipUpdateButtonText = resourceProvider.getString(Res.string.skip_update_button),
-//                    onDismiss = {
-//                        if (response.isRequired.not()) {
-//                            onProceedAction.invoke()
-//                        }
-//                    },
-//                    onUpdateClick = {
-//                        if (onUpdateClick != null) {
-//                            onUpdateClick.invoke()
-//                        } else {
-//                            intentLauncher.launchAppInStore(response.iosAppStoreId)
-//                        }
-//                    },
-//                    onSkipUpdateClicked = {
-//                        onSkipUpdateClick?.invoke()
-//                    }
-//                )
-//            )
-//        } else {
-//            onProceedAction()
-//        }
-//    }
 
     protected fun nativeItemPicker(
         items: List<PickerItem>,

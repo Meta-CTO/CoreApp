@@ -11,7 +11,7 @@ import com.metacto.kmm.sharedpreferences.KmmPreference
 import com.russhwolf.settings.SharedPreferencesSettings
 import kotlin.reflect.KClass
 
-actual open class RepositoriesFactory<T : SerializableNetworkError> constructor(
+actual open class RepositoriesFactory<T : SerializableNetworkError>(
     context: Context,
     actual val coreConfigs: CoreConfigs,
     actual val appStorageName: String,

@@ -1,10 +1,10 @@
 package com.metacto.core.deepLink
 
 import com.metacto.core.extensions.matchWithWildcard
+import com.metacto.kmm.network.logs.Logger
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collectLatest
-import org.koin.core.logger.Logger
 
 internal class DeepLinkManager(
     private val appLogger: Logger,
@@ -32,7 +32,7 @@ internal class DeepLinkManager(
                 deepLinksFlow.tryEmit(deepLink)
             }
         } catch (e: Exception) {
-            appLogger.error("Failed to parse deep link: $url - Error: ${e.message}")
+            appLogger.log("Failed to parse deep link: $url - Error: ${e.message}")
         }
     }
 

@@ -33,6 +33,7 @@ actual open class RepositoriesFactory<T : SerializableNetworkError>(
 ) {
 
     private val oldKeyChainStore by lazy { KeychainSettings(service = appStorageName) }
+    @OptIn(ExperimentalForeignApi::class)
     private val newKeyChainStore by lazy {
         KeychainSettings(
             kSecAttrService to CFBridgingRetain("${appStorageName}_${coreConfigs.storageName.lowercase()}_keychain"),
