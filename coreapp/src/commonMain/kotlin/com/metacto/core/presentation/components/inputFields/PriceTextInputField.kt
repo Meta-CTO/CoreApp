@@ -15,11 +15,10 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
-import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.presentation.theme.CoreTheme.colors
-import com.metacto.core.presentation.theme.CoreTheme.typography
-import com.metacto.core.presentation.theme.CoreTheme.spacings
 import com.metacto.core.presentation.theme.CoreTheme.shapes
+import com.metacto.core.presentation.theme.CoreTheme.spacings
+import com.metacto.core.presentation.theme.CoreTheme.typography
 import com.metacto.core.utils.extensions.formatToMaxDecimals
 import com.metacto.core.utils.extensions.orZero
 import com.metacto.core.utils.extensions.removeAllNonDecimal
@@ -76,6 +75,7 @@ fun PriceTextInputField(
     focusedBorderThickness: Dp = spacings.priceTextInputField.focusedBorderThickness,
     unfocusedBorderThickness: Dp = spacings.priceTextInputField.unfocusedBorderThickness,
     minWidth: Dp = spacings.priceTextInputField.minWidth,
+    addCommaToFormattedCurrency: Boolean = false,
 ) {
     val text = if (!allowDecimal) {
         price?.toIntOrNull().orZero().toString()
@@ -94,7 +94,8 @@ fun PriceTextInputField(
         textStyle = textStyle,
         visualTransformation = CurrencyAmountInputVisualTransformation(
             style = visualTransformationSpanStyle,
-            maxAllowedDecimals = maxAllowedDecimals
+            maxAllowedDecimals = maxAllowedDecimals,
+            addCommaToFormattedCurrency = addCommaToFormattedCurrency,
         ),
         maxLines = 1,
         singleLine = true,

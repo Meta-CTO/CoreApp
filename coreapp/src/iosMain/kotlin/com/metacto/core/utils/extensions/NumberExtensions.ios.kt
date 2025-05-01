@@ -21,10 +21,12 @@ actual fun Double.formatToComma(maxFractionCount: Int): String {
     }
 }
 
-actual fun Double.formatNumber(): String {
+actual fun Double.formatNumber(maxFractionCount: Int): String {
     val formatter = NSNumberFormatter().apply {
         numberStyle = NSNumberFormatterDecimalStyle
         locale = NSLocale.currentLocale
+        minimumFractionDigits = maxFractionCount.toULong()
+        maximumFractionDigits = maxFractionCount.toULong()
     }
     return formatter.stringFromNumber(NSNumber(this)) ?: "$this"
 }
@@ -41,4 +43,14 @@ fun uiColor(hex: Long): UIColor {
         blue = blue,
         alpha = alpha
     )
+}
+
+actual fun Double.formatAmount(): String {
+    val formatter = NSNumberFormatter().apply {
+        numberStyle = NSNumberFormatterDecimalStyle
+        locale = NSLocale.currentLocale
+        minimumFractionDigits = 2u
+        maximumFractionDigits = 2u
+    }
+    return formatter.stringFromNumber(NSNumber(this)) ?: "$this"
 }

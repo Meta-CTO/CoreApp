@@ -14,7 +14,24 @@ actual fun Double.formatToComma(maxFractionCount: Int): String {
     }
 }
 
-actual  fun Double.formatNumber(): String {
-    val formatter = DecimalFormat("#,###")
+actual fun Double.formatNumber(maxFractionCount: Int): String {
+    val pattern = buildString {
+        append("#,##0")
+        if (maxFractionCount > 0) {
+            append(".")
+            repeat(maxFractionCount) { append("0") }
+        }
+    }
+    val formatter = DecimalFormat(pattern)
+    return formatter.format(this)
+}
+
+
+actual fun Double.formatAmount(): String {
+    val formatter = if (this.toString().contains('.')) {
+        DecimalFormat("#,###.00")
+    } else {
+        DecimalFormat("#,###")
+    }
     return formatter.format(this)
 }

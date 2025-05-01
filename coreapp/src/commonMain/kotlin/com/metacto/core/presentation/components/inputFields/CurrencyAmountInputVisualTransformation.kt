@@ -6,6 +6,7 @@ import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import com.metacto.core.utils.extensions.addList
+import com.metacto.core.utils.extensions.formatNumber
 import com.metacto.core.utils.extensions.formatToCurrency
 import com.metacto.core.utils.extensions.orZero
 
@@ -13,19 +14,28 @@ class CurrencyAmountInputVisualTransformation(
     private val style: SpanStyle? = null,
     private val currency: String = "$",
     private val addSpaceToFormattedCurrency: Boolean = true,
-    private val maxAllowedDecimals: Int = 2
+    private val maxAllowedDecimals: Int = 2,
+    private val addCommaToFormattedCurrency: Boolean = false,
 ) : VisualTransformation {
 
     override fun filter(text: AnnotatedString): TransformedText {
         val inputText = text.text
-        val formattedNumber = inputText.formatToCurrency(
-            currency = currency,
-            addSpace = addSpaceToFormattedCurrency,
-            allowedMaxDecimals = maxAllowedDecimals
-        )
+        val formattedNumber = if (addCommaToFormattedCurrency) {
+            inputText.toDoubleOrNull()?.formatNumber(
+                maxFractionCount = maxAllowedDecimals
+            )?.formatToCurrency(
+                currency = currency, addSpace = addSpaceToFormattedCurrency
+            )
+        } else {
+            inputText.formatToCurrency(
+                currency = currency,
+                addSpace = addSpaceToFormattedCurrency,
+                allowedMaxDecimals = maxAllowedDecimals
+            )
+        }
 
         val newText = AnnotatedString(
-            text = formattedNumber,
+            text = formattedNumber.orEmpty(),
             spanStyles = if (style == null) {
                 text.spanStyles
             } else {
@@ -36,7 +46,7 @@ class CurrencyAmountInputVisualTransformation(
 
         val offsetMapping = FixedCursorOffsetMapping(
             contentLength = inputText.length,
-            formattedContentLength = formattedNumber.length.orZero()
+            formattedContentLength = formattedNumber?.length.orZero()
         )
 
         return TransformedText(newText, offsetMapping)
