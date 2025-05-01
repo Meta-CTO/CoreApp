@@ -6,12 +6,12 @@
 
 package com.metacto.core.domain.repos
 
-import com.metacto.core.CoreEnvironment
+import com.metacto.core.CoreConfigs
 import com.metacto.core.domain.CoreConstants
-import com.metacto.strapikmm.datasource.network.KtorClientFactory
-import com.metacto.strapikmm.datasource.network.services.strapi.StrapiService
-import com.metacto.strapikmm.errorhandling.SerializableNetworkError
-import com.metacto.strapikmm.sharedpreference.KmmPreference
+import com.metacto.kmm.network.KtorClientFactory
+import com.metacto.kmm.network.errorhandling.SerializableNetworkError
+import com.metacto.kmm.network.services.HttpService
+import com.metacto.kmm.sharedpreferences.KmmPreference
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
 import com.russhwolf.settings.KeychainSettings
@@ -25,17 +25,17 @@ import platform.Security.kSecAttrService
 import kotlin.reflect.KClass
 
 
-actual open class RepositoriesFactory<T : SerializableNetworkError> constructor(
-    actual val environment: CoreEnvironment,
+actual open class RepositoriesFactory<T : SerializableNetworkError>(
+    actual val coreConfigs: CoreConfigs,
     actual val appStorageName: String,
     actual val shouldShowActualErrorMessages: Boolean,
     actual val errorClass: KClass<T>
 ) {
 
-    private val oldKeyChainStore by lazy {  KeychainSettings(service = appStorageName) }
+    private val oldKeyChainStore by lazy { KeychainSettings(service = appStorageName) }
     private val newKeyChainStore by lazy {
         KeychainSettings(
-            kSecAttrService to CFBridgingRetain("${appStorageName}_${environment.title.lowercase()}_keychain"),
+            kSecAttrService to CFBridgingRetain("${appStorageName}_${coreConfigs.storageName.lowercase()}_keychain"),
             kSecAttrAccessible to kSecAttrAccessibleAfterFirstUnlock,
         )
     }
@@ -46,14 +46,14 @@ actual open class RepositoriesFactory<T : SerializableNetworkError> constructor(
     )
 
     private val ktorClientFactory = KtorClientFactory(
-        networkLogLevel = environment.networkLogLevel,
+        networkLogLevel = coreConfigs.networkLogLevel,
         preference = sharedPreference,
         shouldShowActualErrorMessages = shouldShowActualErrorMessages
     )
 
-    actual val strapiService = StrapiService(
+    actual val httpService = HttpService(
         httpClient = ktorClientFactory.build(errorClass),
-        baseUrl = environment.baseUrl,
+        baseUrl = coreConfigs.baseUrl,
         kmmPreference = sharedPreference
     )
 
@@ -75,21 +75,27 @@ private fun migrate(oldKeyChainStore: KeychainSettings, newKeyChainStore: Keycha
             oldKeyChainStore.getLongOrNull(key) != null -> {
                 oldKeyChainStore.getLongOrNull(key)
             }
+
             oldKeyChainStore.getIntOrNull(key) != null -> {
                 oldKeyChainStore.getIntOrNull(key)
             }
+
             oldKeyChainStore.getStringOrNull(key) != null -> {
                 oldKeyChainStore.getStringOrNull(key)
             }
+
             oldKeyChainStore.getFloatOrNull(key) != null -> {
                 oldKeyChainStore.getFloatOrNull(key)
             }
+
             oldKeyChainStore.getDoubleOrNull(key) != null -> {
                 oldKeyChainStore.getDoubleOrNull(key)
             }
+
             oldKeyChainStore.getBooleanOrNull(key) != null -> {
                 oldKeyChainStore.getBooleanOrNull(key)
             }
+
             else -> {
                 null
             }

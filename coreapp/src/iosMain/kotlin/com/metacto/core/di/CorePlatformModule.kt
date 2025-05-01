@@ -36,7 +36,7 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
 ) = module {
     single {
         RepositoriesFactory<T>(
-            environment = get(),
+            coreConfigs = get(),
             appStorageName = appStorageName,
             shouldShowActualErrorMessages = shouldShowActualErrorMessages,
             errorClass = errorClass
@@ -79,7 +79,7 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
 
     single<ForceUpdateRepository> {
         ForceUpdateRepository(
-            appEnvironment = get(),
+            coreConfigs = get(),
             appConfigurationRepository = get(),
             remoteConfigs = get(),
         )

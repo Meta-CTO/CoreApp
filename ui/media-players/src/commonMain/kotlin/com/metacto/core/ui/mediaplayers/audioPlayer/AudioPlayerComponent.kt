@@ -30,8 +30,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
+import com.metacto.core.ui.components.images.AppImage
 import com.metacto.core.ui.extensions.noRippleClickable
-import com.metacto.core.ui.images.AppImage
 import com.metacto.core.ui.theme.CoreTheme.colors
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource

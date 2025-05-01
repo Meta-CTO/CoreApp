@@ -3,17 +3,17 @@ package com.metacto.core.domain.repos
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
-import com.metacto.core.CoreEnvironment
-import com.metacto.strapikmm.datasource.network.KtorClientFactory
-import com.metacto.strapikmm.datasource.network.services.strapi.StrapiService
-import com.metacto.strapikmm.errorhandling.SerializableNetworkError
-import com.metacto.strapikmm.sharedpreference.KmmPreference
+import com.metacto.core.CoreConfigs
+import com.metacto.kmm.network.KtorClientFactory
+import com.metacto.kmm.network.errorhandling.SerializableNetworkError
+import com.metacto.kmm.network.services.HttpService
+import com.metacto.kmm.sharedpreferences.KmmPreference
 import com.russhwolf.settings.SharedPreferencesSettings
 import kotlin.reflect.KClass
 
 actual open class RepositoriesFactory<T : SerializableNetworkError> constructor(
     context: Context,
-    actual val environment: CoreEnvironment,
+    actual val coreConfigs: CoreConfigs,
     actual val appStorageName: String,
     actual val shouldShowActualErrorMessages: Boolean,
     actual val errorClass: KClass<T>
@@ -38,15 +38,14 @@ actual open class RepositoriesFactory<T : SerializableNetworkError> constructor(
     )
 
     private val ktorClientFactory = KtorClientFactory(
-        networkLogLevel = environment.networkLogLevel,
+        networkLogLevel = coreConfigs.networkLogLevel,
         preference = sharedPreference,
         shouldShowActualErrorMessages = shouldShowActualErrorMessages
     )
 
-    actual val strapiService = StrapiService(
+    actual val httpService = HttpService(
         httpClient = ktorClientFactory.build(errorClass),
-        baseUrl = environment.baseUrl,
-        kmmPreference = sharedPreference,
-        context = context
+        baseUrl = coreConfigs.baseUrl,
+        kmmPreference = sharedPreference
     )
 }

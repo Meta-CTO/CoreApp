@@ -1,5 +1,9 @@
 package com.metacto.core.extensions
 
+import com.metacto.core.domain.models.JwtPayload
+import io.ktor.util.decodeBase64String
+import kotlinx.serialization.json.Json
+
 fun String.format(vararg args: Any): String {
     var formattedString = this
     args.forEach { arg ->
@@ -238,4 +242,16 @@ fun String.cleanHtml(): String {
         .split("\n")
         .joinToString("\n") { it.trimStart() } // Join lines back
         .trim()
+}
+
+fun String.decodeJwt(): JwtPayload? {
+    return try {
+        val parts = this.split(".")
+        val payloadBase64 = parts.getOrNull(1)
+        val decodedPayload = payloadBase64?.decodeBase64String() ?: return null
+        val json = Json { ignoreUnknownKeys = true }
+        return json.decodeFromString<JwtPayload>(decodedPayload)
+    } catch (_: Throwable) {
+        null
+    }
 }

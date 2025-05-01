@@ -65,7 +65,7 @@ fun <T : SerializableNetworkError> coreModule(
     }
 
     single {
-        get<RepositoriesFactory<T>>().strapiService
+        get<RepositoriesFactory<T>>().httpService
     }
 
     single {

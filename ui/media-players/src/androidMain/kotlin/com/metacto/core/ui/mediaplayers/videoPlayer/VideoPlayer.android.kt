@@ -40,7 +40,7 @@ import com.metacto.core.extensions.getActivity
 import com.metacto.core.ui.extensions.noRippleClickable
 import com.metacto.core.extensions.setPortraitOrientation
 import com.metacto.core.extensions.setUnspecifiedOrientation
-import com.metacto.core.ui.visibilities.FadeVisibility
+import com.metacto.core.ui.components.visibilities.FadeVisibility
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject

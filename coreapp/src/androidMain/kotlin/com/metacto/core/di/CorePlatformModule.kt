@@ -39,7 +39,7 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
     single {
         RepositoriesFactory<T>(
             context = androidContext(),
-            environment = get(),
+            coreConfigs = get(),
             appStorageName = appStorageName,
             shouldShowActualErrorMessages = shouldShowActualErrorMessages,
             errorClass = errorClass
@@ -83,7 +83,7 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
 
     single<ForceUpdateRepository> {
         ForceUpdateRepository(
-            appEnvironment = get(),
+            coreConfigs = get(),
             applicationContext = androidContext(),
             appConfigurationRepository = get(),
             remoteConfigs = get(),

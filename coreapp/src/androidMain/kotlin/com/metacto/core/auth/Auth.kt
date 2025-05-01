@@ -10,7 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
-import com.metacto.core.ui.extensions.getActivity
+import com.metacto.core.extensions.getActivity
 import com.metacto.strapikmm.auth.AuthOptions
 import dev.gitlive.firebase.auth.PhoneVerificationProvider
 import java.util.concurrent.TimeUnit

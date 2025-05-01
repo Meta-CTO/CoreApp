@@ -1,15 +1,15 @@
 package com.metacto.core.domain.repos
 
-import com.metacto.core.CoreEnvironment
+import com.metacto.core.CoreConfigs
 import com.metacto.core.domain.models.request.UpdatePreviewUrlRequest
 import com.metacto.core.domain.models.request.UpdatePreviewUrlRequestData
-import com.metacto.core.ui.extensions.randomUUID
-import com.metacto.strapikmm.constants.SharedConstants
-import com.metacto.strapikmm.datasource.network.services.strapi.JsonFlatter
-import com.metacto.strapikmm.datasource.network.services.strapi.StrapiService
-import com.metacto.strapikmm.datasource.network.services.strapi.convert
-import com.metacto.strapikmm.model.image.Image
-import com.metacto.strapikmm.sharedpreference.KmmPreference
+import com.metacto.core.extensions.randomUUID
+import com.metacto.kmm.network.JsonFlatter
+import com.metacto.kmm.network.constants.SharedConstants
+import com.metacto.kmm.network.model.image.Image
+import com.metacto.kmm.network.services.HttpService
+import com.metacto.kmm.network.services.convert
+import com.metacto.kmm.sharedpreferences.KmmPreference
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.forms.submitFormWithBinaryData
@@ -19,8 +19,8 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.jsonObject
 
 class UploadRepository(
-    private val appEnvironment: CoreEnvironment,
-    private val uploadService: StrapiService,
+    private val coreConfigs: CoreConfigs,
+    private val httpService: HttpService,
     private val sharedPreference: KmmPreference
 ) {
     @Throws(Throwable::class)
@@ -52,8 +52,8 @@ class UploadRepository(
     @Throws(Throwable::class)
     private suspend fun uploadMedia(bytes: ByteArray, fileName: String): Image {
         val token = sharedPreference.getSecureString(SharedConstants.ACCESS_TOKEN)
-        val response = uploadService.httpClient.submitFormWithBinaryData(
-            url = "${appEnvironment.baseUrl}/upload",
+        val response = httpService.httpClient.submitFormWithBinaryData(
+            url = "${coreConfigs.baseUrl}/upload",
             formData = formData {
                 append(
                     "files",
@@ -72,7 +72,7 @@ class UploadRepository(
 
     @Throws(Throwable::class)
     suspend fun updateVideoPreviewUrl(id: Int, previewUrl: String) {
-        uploadService.put<Unit> {
+        httpService.put<Unit> {
             endpoint("/custom-uploader/{id}")
             path("id", id.toString())
             body(UpdatePreviewUrlRequest(UpdatePreviewUrlRequestData(previewUrl)))
