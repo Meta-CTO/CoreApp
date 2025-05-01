@@ -11,5 +11,6 @@ data class CoreConfigs(
     val networkLogLevel: NetworkLogLevel,
     val shouldShowActualErrorMessages: Boolean,
     val errorClass: KClass<SerializableNetworkError>,
+    val appConfigurationExpirationInMinutes: Long,
     val deepLinkParsers: Map<String, DeepLinkParser> = emptyMap()
 )
