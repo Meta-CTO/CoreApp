@@ -34,6 +34,7 @@ import com.metacto.strapikmm.repos.AppConfigurationRepository
 import com.mmk.kmpnotifier.notification.NotifierManager
 import com.mmk.kmpnotifier.notification.configuration.NotificationPlatformConfiguration
 import dev.gitlive.firebase.Firebase
+import com.metacto.core.presentation.components.videoPlayer.VideoPlayerEventBroadcaster
 import dev.gitlive.firebase.remoteconfig.remoteConfig
 import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
 import io.michaelrocks.libphonenumber.kotlin.metadata.source.AssetsMetadataLoader
@@ -71,6 +72,10 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
 
     single {
         EventBroadcaster
+    }
+
+    single {
+        VideoPlayerEventBroadcaster
     }
 
     single {
