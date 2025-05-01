@@ -122,7 +122,6 @@ object Dependencies {
 
     const val STRAPI_KMM = "com.metacto:strapi:${Versions.STRAPI_KMM}"
     const val CORE_NETWORK = "com.metacto:network-core:${Versions.CORE_NETWORK}"
-    const val SHARED_PREFERENCES = "com.metacto:sharedpreferences:${Versions.SHARED_PREFERENCES}"
     const val ANDROID_IMAGE_PICKER = "com.github.dhaval2404:imagepicker:${Versions.ANDROID_IMAGE_PICKER}"
     const val LIB_PHONE_NUMBER = "io.github.luca992.libphonenumber-kotlin:libphonenumber:${Versions.LIB_PHONE_NUMBER}"
     const val ANDROID_CROPPER = "com.vanniktech:android-image-cropper:${Versions.ANDROID_CROPPER}"

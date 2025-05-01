@@ -13,7 +13,6 @@ object Versions {
     const val SERIALIZATION_JSON = "1.8.1"
     const val STRAPI_KMM = "10.0.144"
     const val CORE_NETWORK = "1.0.13"
-    const val SHARED_PREFERENCES = "1.0.0"
     const val KOIN = "4.0.0"
     const val KOIN_COMPOSE = "1.1.0"
     const val VOYAGER = "1.1.0-beta02"

@@ -1,5 +1,4 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 import org.jetbrains.kotlin.konan.properties.Properties
 import java.io.FileInputStream
@@ -70,9 +69,6 @@ kotlin {
             api(Dependencies.Kotlin.COROUTINES)
             api(Dependencies.Kotlin.SERIALIZATION_JSON)
             api(Dependencies.Kotlin.DATE_TIME)
-
-            // Others
-            api(Dependencies.SHARED_PREFERENCES)
 
             // Don't remove this
             implementation(Dependencies.Notifications.STATELY_COMMON)
