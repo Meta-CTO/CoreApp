@@ -17,9 +17,6 @@
     <string name="maximum_allowed_date_is_s">A data máxima permitida é: %1$s</string>
     <string name="minimum_allowed_time_is_s">O horário mínimo permitido é: %1$s</string>
     <string name="maximum_allowed_time_is_s">O horário máximo permitido é: %1$s</string>
-    <string name="choose_from_library">Escolher da biblioteca</string>
-    <string name="take_photo">Tirar foto</string>
-    <string name="remove_current_photo">Remover foto atual</string>
     <string name="no_browser_installed">Nenhum navegador instalado</string>
     <string name="search_here">Pesquise aqui...</string>
 </resources>

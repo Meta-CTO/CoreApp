@@ -17,9 +17,6 @@
     <string name="maximum_allowed_date_is_s">Maximum allowed date is: %1$s</string>
     <string name="minimum_allowed_time_is_s">Minimum allowed time is: %1$s</string>
     <string name="maximum_allowed_time_is_s">Maximum allowed time is: %1$s</string>
-    <string name="choose_from_library">Choose from library</string>
-    <string name="take_photo">Take photo</string>
-    <string name="remove_current_photo">Remove current photo</string>
     <string name="no_browser_installed">No browser installed</string>
     <string name="override_current_user">Override Current User</string>
     <string name="override_current_user_message">Please enter the user ID you want to override.</string>
