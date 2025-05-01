@@ -1,12 +1,10 @@
 package com.metacto.core.presentation.components.videoPlayer
 
 import android.annotation.SuppressLint
-import android.content.res.Configuration
 import android.view.SurfaceView
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.annotation.OptIn
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,14 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -33,14 +30,9 @@ import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
 import com.metacto.core.domain.DiQualifiers
-import com.metacto.core.presentation.components.dialog.dismissFullScreenDialog
-import com.metacto.core.presentation.components.dialog.showFullScreenDialog
 import com.metacto.core.presentation.components.visibilities.FadeVisibility
 import com.metacto.core.utils.extensions.OnLifecycleEvent
-import com.metacto.core.utils.extensions.getActivity
 import com.metacto.core.utils.extensions.noRippleClickable
-import com.metacto.core.utils.extensions.setPortraitOrientation
-import com.metacto.core.utils.extensions.setUnspecifiedOrientation
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
@@ -79,65 +71,36 @@ actual fun VideoPlayer(
     onVideoEnd: (() -> Unit)?
 ) {
     // Inject main stuff
+    val context = LocalContext.current
+    val eventBroadcaster = koinInject<VideoPlayerEventBroadcaster>()
     val playerManagers =
         koinInject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
     val playerManager = playerManagers.getOrPut(uniqueId) {
         VideoPlayerManager(uniqueId)
     }
+
     // Local state variables for UI and playback.
     val isPlaying = remember { mutableStateOf(playerManager.exoPlayer.isPlaying) }
     val icon = if (isPlaying.value) pauseIconRes else playIconRes
     val isPlayButtonVisible by remember { mutableStateOf(true) }
     val isVideoEnded = remember { mutableStateOf(false) }
-    val isFullScreen = remember { mutableStateOf(false) }
-    val activity = LocalContext.current.getActivity<AppCompatActivity>()
-    val configuration = LocalConfiguration.current
-    val isLandscape by remember(configuration.orientation) {
-        derivedStateOf {
-            configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-        }
+
+    // TODO: should change full screen icon to fixed icon
+    // Full screen handler
+    var enableRendering by remember {
+        mutableStateOf(true)
+    }
+    fun onFullScreen(uniqueId: String) {
+        VideoPlayerActivity.start(
+            context = context,
+            uniqueId = uniqueId
+        )
+        enableRendering = false
     }
 
-    // Set fullscreen by default when move to landscape
-    LaunchedEffect(isLandscape) {
-        if (isLandscape) {
-            isFullScreen.value = true
-        }
-    }
-
-    // Handle fullscreen changes
-    LaunchedEffect(isFullScreen.value) {
-        if (isFullScreen.value) {
-            activity?.setUnspecifiedOrientation()
-        } else {
-            activity?.setPortraitOrientation()
-        }
-    }
-
-    // Show and dismiss fullscreen dialog when needed
-    LaunchedEffect(isFullScreen.value) {
-        if (isFullScreen.value) {
-            // Show fullscreen dialog if needed
-            activity?.showFullScreenDialog {
-                FullScreenVideoPlayer(
-                    modifier = Modifier,
-                    playerManager = playerManager,
-                    isPlayButtonVisible = isPlayButtonVisible,
-                    icon = icon,
-                    isPlaying = isPlaying,
-                    isVideoEnded = isVideoEnded,
-                    isFullScreen = isFullScreen,
-                    controllerShowTimeoutMs = controllerShowTimeoutMs,
-                    controlsType = controlsType,
-                    customControlsSize = customControlsSize,
-                    customControlsElevation = customControlsElevation,
-                    customControlsShape = customControlsShape
-                )
-            }
-        } else {
-            // Dismiss current fullscreen dialog if exists
-            activity?.dismissFullScreenDialog()
-        }
+    // Collect required events
+    eventBroadcaster.collectInCompose<VideoPlayerEvent.StoppedPip> {
+        enableRendering = true
     }
 
     // Listen for player state changes.
@@ -217,23 +180,24 @@ actual fun VideoPlayer(
     }
 
     // Render normal video player if needed
-    if (isFullScreen.value.not()) {
-        NormalVideoPlayer(
-            modifier = modifier,
-            playerManager = playerManager,
-            isPlayButtonVisible = isPlayButtonVisible,
-            icon = icon,
-            isPlaying = isPlaying,
-            isVideoEnded = isVideoEnded,
-            isFullScreen = isFullScreen,
-            scaleToCrop = scaleToCrop,
-            controllerShowTimeoutMs = controllerShowTimeoutMs,
-            controlsType = controlsType,
-            customControlsSize = customControlsSize,
-            customControlsElevation = customControlsElevation,
-            customControlsShape = customControlsShape
-        )
-    }
+    NormalVideoPlayer(
+        modifier = modifier,
+        playerManager = playerManager,
+        enableRendering = enableRendering,
+        isPlayButtonVisible = isPlayButtonVisible,
+        icon = icon,
+        isPlaying = isPlaying,
+        isVideoEnded = isVideoEnded,
+        scaleToCrop = scaleToCrop,
+        controllerShowTimeoutMs = controllerShowTimeoutMs,
+        controlsType = controlsType,
+        customControlsSize = customControlsSize,
+        customControlsElevation = customControlsElevation,
+        customControlsShape = customControlsShape,
+        onFullscreenClick = {
+            onFullScreen(uniqueId)
+        }
+    )
 
     // Pause the player when the composable is disposed or when the lifecycle pauses.
     DisposableEffect(Unit) {
@@ -257,11 +221,12 @@ actual fun VideoPlayer(
 private fun NormalVideoPlayer(
     modifier: Modifier,
     playerManager: VideoPlayerManager,
+    enableRendering: Boolean,
     isPlayButtonVisible: Boolean,
     icon: DrawableResource,
     isPlaying: MutableState<Boolean>,
     isVideoEnded: MutableState<Boolean>,
-    isFullScreen: MutableState<Boolean>,
+    onFullscreenClick: () -> Unit,
     scaleToCrop: Boolean,
     controllerShowTimeoutMs: Int,
     controlsType: ControlsType,
@@ -274,6 +239,7 @@ private fun NormalVideoPlayer(
     ) {
         VideoPlayerContent(
             playerManager = playerManager,
+            enableRendering = enableRendering,
             controlsType = controlsType,
             controllerShowTimeoutMs = controllerShowTimeoutMs,
             isPlayButtonVisible = isPlayButtonVisible,
@@ -285,9 +251,7 @@ private fun NormalVideoPlayer(
                 true -> AspectRatioFrameLayout.RESIZE_MODE_FILL
                 false -> AspectRatioFrameLayout.RESIZE_MODE_FIT
             },
-            onNativeFullscreenClick = {
-                isFullScreen.value = isFullScreen.value.not()
-            },
+            onNativeFullscreenClick = onFullscreenClick,
             onTogglePlay = {
                 if (isPlaying.value) {
                     playerManager.pause()
@@ -299,54 +263,6 @@ private fun NormalVideoPlayer(
                     playerManager.play()
                     isPlaying.value = true
                 }
-            }
-        )
-    }
-}
-
-@SuppressLint("UnsafeOptInUsageError")
-@Composable
-private fun FullScreenVideoPlayer(
-    modifier: Modifier,
-    playerManager: VideoPlayerManager,
-    isPlayButtonVisible: Boolean,
-    icon: DrawableResource,
-    isPlaying: MutableState<Boolean>,
-    isVideoEnded: MutableState<Boolean>,
-    isFullScreen: MutableState<Boolean>,
-    controllerShowTimeoutMs: Int,
-    controlsType: ControlsType,
-    customControlsSize: Dp,
-    customControlsElevation: Dp,
-    customControlsShape: RoundedCornerShape
-) {
-    Box(
-        modifier = modifier.fillMaxSize()
-    ) {
-        VideoPlayerContent(
-            playerManager = playerManager,
-            controlsType = controlsType,
-            controllerShowTimeoutMs = controllerShowTimeoutMs,
-            isPlayButtonVisible = isPlayButtonVisible,
-            icon = icon,
-            customControlsSize = customControlsSize,
-            customControlsElevation = customControlsElevation,
-            customControlsShape = customControlsShape,
-            resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH,
-            onTogglePlay = {
-                if (isPlaying.value) {
-                    playerManager.pause()
-                } else {
-                    if (isVideoEnded.value) {
-                        playerManager.exoPlayer.seekTo(0)
-                        isVideoEnded.value = false
-                    }
-                    playerManager.play()
-                    isPlaying.value = true
-                }
-            },
-            onNativeFullscreenClick = {
-                isFullScreen.value = isFullScreen.value.not()
             }
         )
     }
@@ -356,6 +272,7 @@ private fun FullScreenVideoPlayer(
 @Composable
 private fun VideoPlayerContent(
     playerManager: VideoPlayerManager,
+    enableRendering: Boolean,
     controlsType: ControlsType,
     controllerShowTimeoutMs: Int,
     resizeMode: Int,
@@ -379,18 +296,26 @@ private fun VideoPlayerContent(
                     player = playerManager.exoPlayer
                     layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
-                    (videoSurfaceView as? SurfaceView)?.let {
-                        playerManager.exoPlayer.setVideoSurfaceView(it)
+                    setFullscreenButtonClickListener {
+                        onNativeFullscreenClick()
                     }
-                    if (controlsType == ControlsType.NativeControls) {
-                        // Leverage native full screen button.
-                        setFullscreenButtonClickListener { onNativeFullscreenClick() }
+
+                    if (enableRendering) {
+                        (videoSurfaceView as? SurfaceView)?.let {
+                            playerManager.exoPlayer.setVideoSurfaceView(it)
+                        }
                     }
                 }
             },
             update = { playerView ->
-                (playerView.videoSurfaceView as? SurfaceView)?.let {
-                    playerManager.exoPlayer.setVideoSurfaceView(it)
+                playerView.setFullscreenButtonClickListener {
+                    onNativeFullscreenClick()
+                }
+
+                if (enableRendering) {
+                    (playerView.videoSurfaceView as? SurfaceView)?.let {
+                        playerManager.exoPlayer.setVideoSurfaceView(it)
+                    }
                 }
             }
         )

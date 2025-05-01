@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
+import com.metacto.core.domain.DiQualifiers
 import com.metacto.coreApp.R
 import org.koin.android.ext.android.inject
 
@@ -54,7 +55,7 @@ internal class VideoPlayerActivity : AppCompatActivity() {
 
     @OptIn(UnstableApi::class)
     private fun configPlayerView(playerId: String) {
-        val playerManagers by inject<MutableMap<String, VideoPlayerManager>>()
+        val playerManagers by inject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
         exoPlayer = playerManagers[playerId]?.exoPlayer ?: return
 
         val playerView = findViewById<PlayerView>(R.id.player_view)
@@ -65,9 +66,9 @@ internal class VideoPlayerActivity : AppCompatActivity() {
         }
     }
 
-    override fun onNewIntent(intent: Intent?) {
+    override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        intent?.getStringExtra(KEY_PLAYER_ID)?.let {
+        intent.getStringExtra(KEY_PLAYER_ID)?.let {
             configPlayerView(it)
         }
     }
