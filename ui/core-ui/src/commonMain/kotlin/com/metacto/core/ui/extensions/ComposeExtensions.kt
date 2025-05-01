@@ -727,7 +727,6 @@ fun Modifier.shimmerIf(condition: Boolean): Modifier {
 
 fun Dp?.orZero() = this ?: 0.dp
 
-
 @Composable
 fun rememberLottieComposition(res: IFileResource): LottieCompositionResult {
     // Load json if required

@@ -66,7 +66,7 @@ kotlin {
             // Compose
             api(Dependencies.Compose.RUNTIME)
             api(Dependencies.Compose.FOUNDATION)
-            api(Dependencies.Compose.MATERIAL)
+            implementation(Dependencies.Compose.MATERIAL)
             api(Dependencies.Compose.MATERIAL3)
             api(Dependencies.Compose.ANIMATION)
             api(Dependencies.Compose.ANIMATION_GRAPHICS)
@@ -84,7 +84,6 @@ kotlin {
             implementation(Dependencies.Coil.NETWORK)
             implementation(Dependencies.Coil.SVG)
 
-            // TODO: check this
             // Others
             implementation(Dependencies.COMPOTTIE)
             implementation(Dependencies.SHIMMER)
@@ -97,14 +96,11 @@ kotlin {
             api(Dependencies.AndroidX.CORE_KTS)
             api(Dependencies.AndroidX.SPLASH_SCREEN)
 
-            // Koin
-            api(Dependencies.Koin.ANDROID)
-            api(Dependencies.Koin.ANDROID_COMPOSE)
-
             // Voyager
             implementation(Dependencies.Voyager.KOIN)
 
             // Others
+            // TODO: Move this
             implementation(Dependencies.ANDROID_IMAGE_PICKER)
             implementation(Dependencies.ANDROID_CROPPER)
         }

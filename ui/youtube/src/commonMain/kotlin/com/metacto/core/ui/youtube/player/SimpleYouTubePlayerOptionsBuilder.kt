@@ -2,6 +2,7 @@ package com.metacto.core.ui.youtube.player
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 internal class SimpleYouTubePlayerOptionsBuilder : YouTubePlayerOptionsBuilder {

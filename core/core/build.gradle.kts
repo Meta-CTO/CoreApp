@@ -65,9 +65,8 @@ kotlin {
             api(Dependencies.Koin.CORE)
             api(Dependencies.Koin.COMPOSE)
 
-            // Kotlin dates
+            // Kotlin
             api(Dependencies.Kotlin.COROUTINES)
-            api(Dependencies.Kotlin.SERIALIZATION_JSON)
             api(Dependencies.Kotlin.DATE_TIME)
 
             // Don't remove this

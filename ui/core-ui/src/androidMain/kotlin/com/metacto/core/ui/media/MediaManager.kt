@@ -2,7 +2,6 @@ package com.metacto.core.ui.media
 
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever
-import com.metacto.core.ui.media.IMediaManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
