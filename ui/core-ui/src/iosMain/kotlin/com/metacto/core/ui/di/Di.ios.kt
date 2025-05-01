@@ -10,8 +10,6 @@ import com.metacto.core.ui.media.IMediaManager
 import com.metacto.core.ui.media.MediaManager
 import com.metacto.core.ui.permissions.IPermissionManager
 import com.metacto.core.ui.permissions.PermissionManager
-import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
-import io.michaelrocks.libphonenumber.kotlin.metadata.init.ComposeResourceMetadataLoader
 import org.koin.dsl.module
 
 internal actual fun platformModule() = module {
@@ -32,11 +30,6 @@ internal actual fun platformModule() = module {
     single<IIntentLauncher> {
         IntentLauncher()
     }
-
-    single<MetadataLoader> {
-        ComposeResourceMetadataLoader()
-    }
-
 
     single<IMediaManager> {
         MediaManager()

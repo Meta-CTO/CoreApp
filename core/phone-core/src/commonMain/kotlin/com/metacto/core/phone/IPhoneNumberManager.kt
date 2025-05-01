@@ -1,4 +1,4 @@
-package com.metacto.core.ui.phoneNumber
+package com.metacto.core.phone
 
 val Class = IPhoneNumberManager::class
 

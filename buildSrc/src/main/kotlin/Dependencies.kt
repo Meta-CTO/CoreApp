@@ -96,10 +96,12 @@ object Dependencies {
         const val CORE = ":core:core"
         const val FILES = ":core:files"
         const val NOTIFICATIONS = ":core:notifications"
+        const val PHONE_CORE = ":core:phone-core"
         const val CORE_UI = ":ui:core-ui"
         const val MEDIA_PLAYERS = ":ui:media-players"
         const val CAMERA = ":ui:camera"
         const val YOUTUBE = ":ui:youtube"
+        const val PHONE_UI = ":ui:phone-ui"
         const val SAMPLE_APP_SHARED = ":sampleAppShared"
     }
 

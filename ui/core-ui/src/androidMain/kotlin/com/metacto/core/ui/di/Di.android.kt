@@ -9,9 +9,6 @@ import com.metacto.core.ui.media.IMediaManager
 import com.metacto.core.ui.media.MediaManager
 import com.metacto.core.ui.permissions.IPermissionManager
 import com.metacto.core.ui.permissions.PermissionManager
-import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
-import io.michaelrocks.libphonenumber.kotlin.metadata.source.AssetsMetadataLoader
-import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -30,10 +27,6 @@ internal actual fun platformModule() = module {
 
     single<IIntentLauncher> {
         IntentLauncher(androidContext(), get())
-    }
-
-    single<MetadataLoader> {
-        AssetsMetadataLoader(androidApplication().assets)
     }
 
     single<IMediaManager> {

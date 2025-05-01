@@ -1,4 +1,4 @@
-package com.metacto.core.ui.phoneNumber
+package com.metacto.core.phone
 
 import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
 import io.michaelrocks.libphonenumber.kotlin.Phonenumber

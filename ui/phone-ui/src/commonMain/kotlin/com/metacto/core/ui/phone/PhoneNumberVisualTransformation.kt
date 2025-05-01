@@ -1,4 +1,4 @@
-package com.metacto.core.ui.components.inputFields
+package com.metacto.core.ui.phone
 
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.OffsetMapping
