@@ -10,7 +10,7 @@ data class CoreConfigs(
     val baseUrl: String,
     val networkLogLevel: NetworkLogLevel,
     val shouldShowActualErrorMessages: Boolean,
-    val errorClass: KClass<SerializableNetworkError>,
+    val errorClass: KClass<SerializableNetworkError>, // TODO: Revisit that
     val appConfigurationExpirationInMinutes: Long,
     val deepLinkParsers: Map<String, DeepLinkParser> = emptyMap()
 )
