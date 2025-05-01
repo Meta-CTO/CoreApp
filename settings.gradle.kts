@@ -9,6 +9,7 @@ include(":ui:core-ui")
 include(":ui:sample")
 include(":ui:media-players")
 include(":ui:camera")
+include(":ui:youtube")
 
 include(":samples:sample-app-shared")
 include(":sampleAppShared")

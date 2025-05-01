@@ -99,6 +99,7 @@ object Dependencies {
         const val CORE_UI = ":ui:core-ui"
         const val MEDIA_PLAYERS = ":ui:media-players"
         const val CAMERA = ":ui:camera"
+        const val YOUTUBE = ":ui:youtube"
         const val SAMPLE_APP_SHARED = ":sampleAppShared"
     }
 

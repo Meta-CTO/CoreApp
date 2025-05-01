@@ -50,6 +50,7 @@ kotlin {
             implementation(project(Dependencies.Modules.NOTIFICATIONS))
             implementation(project(Dependencies.Modules.MEDIA_PLAYERS))
             implementation(project(Dependencies.Modules.CAMERA))
+            implementation(project(Dependencies.Modules.YOUTUBE))
         }
 
         androidMain.dependencies {

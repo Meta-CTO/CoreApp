@@ -14,14 +14,13 @@ plugins {
     id(Plugins.SIGNING)
 }
 
-
 private val versionProperties = Properties().apply {
     load(FileInputStream(File(rootProject.rootDir, Configs.VERSIONS_PROPERTIES)))
 }
 
 private val currentVersion = versionProperties.getProperty(Configs.PUBLISH_VERSION) as String
-private val libName = "core-ui"
-private val libNamespace = "com.metacto.core.ui"
+private val libName = "youtube"
+private val libNamespace = "com.metacto.core.ui.youtube"
 
 version = currentVersion
 group = Configs.GROUP_ID
@@ -60,60 +59,17 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            // Core
-            api(project(Dependencies.Modules.CORE))
-
-            // Compose
-            api(Dependencies.Compose.RUNTIME)
-            api(Dependencies.Compose.FOUNDATION)
-            api(Dependencies.Compose.MATERIAL)
-            api(Dependencies.Compose.MATERIAL3)
-            api(Dependencies.Compose.ANIMATION)
-            api(Dependencies.Compose.ANIMATION_GRAPHICS)
-            api(Dependencies.Compose.EXTENDED_ICONS)
-            api(Dependencies.Compose.RESOURCES)
-
-            // Voyager
-            implementation(Dependencies.Voyager.NAVIGATOR)
-            implementation(Dependencies.Voyager.BOTTOM_SHEET)
-            implementation(Dependencies.Voyager.TAB_NAVIGATOR)
-            api(Dependencies.Voyager.SCREEN_MODEL)
-
-            // Coil
-            implementation(Dependencies.Coil.CORE)
-            implementation(Dependencies.Coil.COMPOSE)
-            implementation(Dependencies.Coil.NETWORK)
-            implementation(Dependencies.Coil.SVG)
-
-            // Shimmer
-            implementation(Dependencies.SHIMMER)
-
-            // Others
-            implementation(Dependencies.LIB_PHONE_NUMBER)
-            implementation(Dependencies.COMPOTTIE)
+            implementation(project(Dependencies.Modules.CORE_UI))
+            implementation(Dependencies.WEBVIEW)
         }
 
         androidMain.dependencies {
-            // AndroidX
-            api(Dependencies.AndroidX.APP_COMPAT)
-            api(Dependencies.AndroidX.ACTIVITY_COMPOSE)
-            api(Dependencies.AndroidX.CORE_KTS)
-            api(Dependencies.AndroidX.SPLASH_SCREEN)
-
-            // Koin
-            api(Dependencies.Koin.ANDROID)
-            api(Dependencies.Koin.ANDROID_COMPOSE)
-
-            // Voyager
-            implementation(Dependencies.Voyager.KOIN)
-
-            // Others
-            implementation(Dependencies.ANDROID_IMAGE_PICKER)
-            implementation(Dependencies.ANDROID_CROPPER)
+            api(Dependencies.YoutubePlayer.CORE)
+            api(Dependencies.YoutubePlayer.CUSTOM_UI)
         }
 
         iosMain.dependencies {
-            api(Dependencies.Compose.MATERIAL)
+            // IOS DEPENDENCIES
         }
     }
 
@@ -123,7 +79,12 @@ kotlin {
 android {
     namespace = libNamespace
     compileSdk = Configs.COMPILE_SDK_VERSION
+
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    sourceSets["main"].res.srcDirs("src/androidMain/res")
+    sourceSets["main"].resources.srcDirs("src/commonMain/resources")
+    sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/resources")
+
     defaultConfig {
         minSdk = Configs.MIN_SDK_VERSION
         consumerProguardFiles("consumer-rules.pro")
@@ -173,3 +134,4 @@ publishing {
         }
     }
 }
+

@@ -4,7 +4,6 @@ import com.metacto.core.ui.CoreUIConfigs
 import com.metacto.core.ui.components.imagePicker.ImagePickerViewModel
 import com.metacto.core.ui.components.itemPicker.ItemPickerViewModel
 import com.metacto.core.ui.components.options.OptionsViewModel
-import com.metacto.core.ui.components.youtube.screen.YoutubeViewModel
 import com.metacto.core.ui.navigation.NavManager
 import com.metacto.core.ui.phoneNumber.IPhoneNumberManager
 import com.metacto.core.ui.phoneNumber.PhoneNumberManager
@@ -33,10 +32,6 @@ fun coreUIModule(configs: CoreUIConfigs) = module {
 
     commonViewModel {
         ItemPickerViewModel()
-    }
-
-    commonViewModel {
-        YoutubeViewModel()
     }
 
     single {
