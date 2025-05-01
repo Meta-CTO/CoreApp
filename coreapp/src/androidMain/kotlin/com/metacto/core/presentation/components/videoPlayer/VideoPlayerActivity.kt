@@ -74,7 +74,8 @@ internal class VideoPlayerActivity : AppCompatActivity() {
     }
 
     override fun onStop() {
-        eventBroadcaster.emit(VideoPlayerEvent.StoppedPip)
+        val wasPlaying = exoPlayer?.isPlaying ?: false
+        eventBroadcaster.emit(VideoPlayerEvent.ReturnedFromFullscreen(wasPlaying))
         exoPlayer?.pause()
         super.onStop()
     }
