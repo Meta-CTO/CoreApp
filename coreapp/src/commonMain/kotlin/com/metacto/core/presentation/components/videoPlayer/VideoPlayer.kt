@@ -11,7 +11,7 @@ interface VideoPlayerController {
 @Composable
 expect fun VideoPlayer(
     modifier: Modifier = Modifier,
-    playerId: String = "default_player_id",
+    uniqueId: String = "default_player_id",
     videoUrl: String,
     videoArtist: String? = null,
     videoTitle: String? = null,

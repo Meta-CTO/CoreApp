@@ -29,7 +29,7 @@ internal class VideoPlayerActivity : AppCompatActivity() {
         setupViews()
 
         // Config player view
-        intent?.getStringExtra(KEY_PLAYER_ID)?.let {
+        intent?.getStringExtra(KEY_UNIQUE_ID)?.let {
             configPlayerView(it)
         }
     }
@@ -53,9 +53,9 @@ internal class VideoPlayerActivity : AppCompatActivity() {
     }
 
     @OptIn(UnstableApi::class)
-    private fun configPlayerView(playerId: String) {
+    private fun configPlayerView(uniqueId: String) {
         val playerManagers by inject<MutableMap<String, VideoPlayerManager>>()
-        exoPlayer = playerManagers[playerId]?.exoPlayer ?: return
+        exoPlayer = playerManagers[uniqueId]?.exoPlayer ?: return
 
         val playerView = findViewById<PlayerView>(R.id.player_view)
         playerView.player = exoPlayer
@@ -67,7 +67,7 @@ internal class VideoPlayerActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-        intent?.getStringExtra(KEY_PLAYER_ID)?.let {
+        intent?.getStringExtra(KEY_UNIQUE_ID)?.let {
             configPlayerView(it)
         }
     }
@@ -79,11 +79,11 @@ internal class VideoPlayerActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val KEY_PLAYER_ID = "player_id"
+        private const val KEY_UNIQUE_ID = "unique_id"
 
-        fun start(context: Context, playerId: String) {
+        fun start(context: Context, uniqueId: String) {
             val intent = Intent(context, VideoPlayerActivity::class.java).apply {
-                putExtra(KEY_PLAYER_ID, playerId)
+                putExtra(KEY_UNIQUE_ID, uniqueId)
             }
             context.startActivity(intent)
         }

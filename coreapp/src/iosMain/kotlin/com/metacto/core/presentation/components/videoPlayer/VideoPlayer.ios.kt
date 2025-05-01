@@ -43,7 +43,7 @@ import platform.Foundation.dataWithContentsOfURL
 @Composable
 actual fun VideoPlayer(
     modifier: Modifier,
-    playerId: String,
+    uniqueId: String,
     videoUrl: String,
     videoArtist: String?,
     videoTitle: String?,

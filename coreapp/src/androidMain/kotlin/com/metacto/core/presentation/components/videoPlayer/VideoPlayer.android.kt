@@ -24,7 +24,7 @@ import org.koin.compose.rememberKoinInject
 @Composable
 actual fun VideoPlayer(
     modifier: Modifier,
-    playerId: String,
+    uniqueId: String,
     videoUrl: String,
     videoArtist: String?,
     videoTitle: String?,
@@ -40,8 +40,8 @@ actual fun VideoPlayer(
     val context = LocalContext.current
     val eventBroadcaster = rememberKoinInject<VideoPlayerEventBroadcaster>()
     val playerManagers = rememberKoinInject<MutableMap<String, VideoPlayerManager>>()
-    val playerManager = playerManagers.getOrPut(playerId) {
-        VideoPlayerManager(playerId)
+    val playerManager = playerManagers.getOrPut(uniqueId) {
+        VideoPlayerManager(uniqueId)
     }
 
     // Setup scaling mode
@@ -87,10 +87,10 @@ actual fun VideoPlayer(
     var enableRendering by remember {
         mutableStateOf(true)
     }
-    fun onFullScreen(playerId: String) {
+    fun onFullScreen(uniqueId: String) {
         VideoPlayerActivity.start(
             context = context,
-            playerId = playerId
+            uniqueId = uniqueId
         )
         enableRendering = false
     }
@@ -117,7 +117,7 @@ actual fun VideoPlayer(
                 player = playerManager.exoPlayer
                 layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
                 setFullscreenButtonClickListener {
-                    onFullScreen(playerId)
+                    onFullScreen(uniqueId)
                 }
 
                 (videoSurfaceView as? SurfaceView)?.let {
@@ -127,7 +127,7 @@ actual fun VideoPlayer(
         },
         update = { playerView ->
             playerView.setFullscreenButtonClickListener {
-                onFullScreen(playerId)
+                onFullScreen(uniqueId)
             }
             if (enableRendering) {
                 (playerView.videoSurfaceView as? SurfaceView)?.let {

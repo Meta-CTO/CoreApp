@@ -15,7 +15,7 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
 internal class VideoPlayerManager(
-    private val playerId: String
+    private val uniqueId: String
 ) : KoinComponent {
 
     private val context by inject<Context>()
@@ -31,7 +31,7 @@ internal class VideoPlayerManager(
     // Define the media session
     private val mediaSession by lazy {
         MediaSession.Builder(context, exoPlayer).run {
-            this.setId(playerId)
+            this.setId(uniqueId)
             context.getLauncherPendingIntent()?.let {
                 setSessionActivity(it)
             }
@@ -58,7 +58,7 @@ internal class VideoPlayerManager(
                 // Pause other players
                 playerManagers.values.forEach {
                     // Skip if it's current player
-                    if (it.playerId == playerId) return@forEach
+                    if (it.uniqueId == uniqueId) return@forEach
 
                     // Pause the player and hide the notification
                     it.exoPlayer.pause()
