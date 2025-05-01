@@ -84,12 +84,11 @@ kotlin {
             implementation(Dependencies.Coil.NETWORK)
             implementation(Dependencies.Coil.SVG)
 
-            // Shimmer
-            implementation(Dependencies.SHIMMER)
-
+            // TODO: check this
             // Others
             implementation(Dependencies.LIB_PHONE_NUMBER)
             implementation(Dependencies.COMPOTTIE)
+            implementation(Dependencies.SHIMMER)
         }
 
         androidMain.dependencies {
