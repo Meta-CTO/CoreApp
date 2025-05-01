@@ -12,7 +12,8 @@ import kotlinx.coroutines.launch
 
 internal sealed class VideoPlayerEvent {
     data object StoppedPip : VideoPlayerEvent()
-    data class ReturnedFromFullscreen(val wasPlaying: Boolean) : VideoPlayerEvent()
+    data object StartedPip : VideoPlayerEvent()
+    data object DisablePip : VideoPlayerEvent()
 }
 
 internal object VideoPlayerEventBroadcaster {

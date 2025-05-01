@@ -32,7 +32,6 @@ import com.metacto.core.domain.DiQualifiers
 import com.metacto.core.presentation.components.visibilities.FadeVisibility
 import com.metacto.core.utils.extensions.OnLifecycleEvent
 import com.metacto.core.utils.extensions.noRippleClickable
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
@@ -87,14 +86,18 @@ actual fun VideoPlayer(
     // Event handling
     eventBroadcaster.collectInCompose<VideoPlayerEvent.StoppedPip> {
         enableRendering = true
+        playerManager.pause()
     }
 
-    eventBroadcaster.collectInCompose<VideoPlayerEvent.ReturnedFromFullscreen> { event ->
-        enableRendering = true
-        if (event.wasPlaying) {
-            // Resume playback
-            playerManager.play()
+    eventBroadcaster.collectInCompose<VideoPlayerEvent.DisablePip> {
+        if (!enablePip) {
+            //TODO Handle disabling PiP if needed
         }
+    }
+
+    // Add PiP configuration
+    LaunchedEffect(enablePip) {
+        playerManager.isPipEnabled = enablePip
     }
 
     // Player controller setup
@@ -154,9 +157,9 @@ actual fun VideoPlayer(
         onPlayerCreated?.invoke(controller)
     }
 
-    // Fullscreen handler
+    // Fullscreen handler with PiP support
     fun onFullScreen(id: String) {
-        VideoPlayerActivity.start(context = context, uniqueId = id)
+        VideoPlayerActivity.start(context = context, uniqueId = id, enablePip = enablePip)
         enableRendering = false
     }
 
@@ -234,7 +237,6 @@ actual fun VideoPlayer(
 
 
 // Toggles playback between play and pause states
-
 @OptIn(UnstableApi::class)
 private fun togglePlayback(
     isPlaying: Boolean,

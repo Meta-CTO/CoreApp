@@ -5,6 +5,7 @@ import androidx.annotation.OptIn
 import androidx.media3.common.C
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
+import androidx.media3.common.VideoSize
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
@@ -26,6 +27,8 @@ internal class VideoPlayerManager(
     private var isMediaMetadataEnabled = false
     var onVideoLoop: (() -> Unit)? = null
     var onVideoEnd: (() -> Unit)? = null
+    var isPipEnabled: Boolean = true
+    private var videoSizeListener: ((width: Int, height: Int) -> Unit)? = null
 
     // Define the exo player
     val exoPlayer by lazy {
@@ -95,6 +98,10 @@ internal class VideoPlayerManager(
                     onVideoEnd?.invoke()
                 }
             }
+
+            override fun onVideoSizeChanged(videoSize: VideoSize) {
+                videoSizeListener?.invoke(videoSize.width, videoSize.height)
+            }
         })
     }
 
@@ -110,8 +117,19 @@ internal class VideoPlayerManager(
         this.isAutoPlay = isAutoPlay
     }
 
-    fun setAutoRepeat(autoRepeat:Boolean){
-        this.exoPlayer.repeatMode = if (autoRepeat) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+    fun setAutoRepeat(autoRepeat: Boolean) {
+        this.exoPlayer.repeatMode =
+            if (autoRepeat) Player.REPEAT_MODE_ONE else Player.REPEAT_MODE_OFF
+    }
+
+    fun setVideoSizeListener(listener: (width: Int, height: Int) -> Unit) {
+        this.videoSizeListener = listener
+
+        val currentWidth = exoPlayer.videoSize.width
+        val currentHeight = exoPlayer.videoSize.height
+        if (currentWidth > 0 && currentHeight > 0) {
+            listener(currentWidth, currentHeight)
+        }
     }
 
     @OptIn(UnstableApi::class)
