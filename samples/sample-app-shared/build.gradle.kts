@@ -46,6 +46,10 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(Dependencies.Modules.CORE_UI))
+            implementation(project(Dependencies.Modules.FILES))
+            implementation(project(Dependencies.Modules.NOTIFICATIONS))
+            implementation(project(Dependencies.Modules.MEDIA_PLAYERS))
+            implementation(project(Dependencies.Modules.CAMERA))
         }
 
         androidMain.dependencies {

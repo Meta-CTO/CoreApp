@@ -22,10 +22,10 @@ import androidx.compose.ui.viewinterop.UIKitInteropProperties
 import androidx.compose.ui.viewinterop.UIKitView
 import com.metacto.core.extensions.cleanFilePath
 import com.metacto.core.extensions.isValidUrl
+import com.metacto.core.ui.components.visibilities.FadeVisibility
 import com.metacto.core.ui.extensions.DefaultLaunchedEffect
 import com.metacto.core.ui.extensions.IOLaunchedEffect
 import com.metacto.core.ui.extensions.noRippleClickable
-import com.metacto.core.ui.visibilities.FadeVisibility
 import kotlinx.cinterop.ExperimentalForeignApi
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
