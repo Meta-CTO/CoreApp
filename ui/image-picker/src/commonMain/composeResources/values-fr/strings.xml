@@ -1,0 +1,5 @@
+<resources>
+    <string name="choose_from_library">Choisir depuis la bibliothèque</string>
+    <string name="take_photo">Prendre une photo</string>
+    <string name="remove_current_photo">Supprimer la photo actuelle</string>
+</resources>

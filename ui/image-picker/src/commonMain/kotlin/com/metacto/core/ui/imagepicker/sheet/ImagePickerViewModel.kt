@@ -1,10 +1,10 @@
-package com.metacto.core.ui.components.imagePicker
+package com.metacto.core.ui.imagepicker.sheet
 
 import com.metacto.core.ui.base.CoreViewModel
-import com.metacto.core.ui.components.imagePicker.ImagePickerContract.Effect
-import com.metacto.core.ui.components.imagePicker.ImagePickerContract.Event
-import com.metacto.core.ui.components.imagePicker.ImagePickerContract.State
-import com.metacto.core.ui.components.imagePicker.models.ImagePickerResult
+import com.metacto.core.ui.imagepicker.sheet.ImagePickerContract.Effect
+import com.metacto.core.ui.imagepicker.sheet.ImagePickerContract.Event
+import com.metacto.core.ui.imagepicker.sheet.ImagePickerContract.State
+import com.metacto.core.ui.imagepicker.sheet.models.ImagePickerResult
 
 
 class ImagePickerViewModel : CoreViewModel<State, Event, Effect>() {

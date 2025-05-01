@@ -53,6 +53,7 @@ kotlin {
             implementation(project(Dependencies.Modules.CAMERA))
             implementation(project(Dependencies.Modules.YOUTUBE))
             implementation(project(Dependencies.Modules.PHONE_UI))
+            implementation(project(Dependencies.Modules.IMAGE_PICKER))
         }
 
         androidMain.dependencies {

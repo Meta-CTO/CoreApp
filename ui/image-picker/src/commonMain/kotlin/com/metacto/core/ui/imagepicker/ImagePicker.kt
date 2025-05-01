@@ -1,4 +1,4 @@
-package com.metacto.core.ui.components.imagePicker
+package com.metacto.core.ui.imagepicker
 
 import androidx.compose.runtime.Composable
 

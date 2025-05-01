@@ -1,12 +1,13 @@
-package com.metacto.core.ui.components.imagePicker
+package com.metacto.core.ui.imagepicker.sheet
 
 import androidx.compose.runtime.Composable
 import com.metacto.core.ui.base.BaseSheet
 import com.metacto.core.ui.base.getViewModel
 import com.metacto.core.ui.extensions.consume
-import com.metacto.core.ui.components.imagePicker.ImagePickerContract.Effect
-import com.metacto.core.ui.components.imagePicker.ImagePickerContract.Event
-import com.metacto.core.ui.components.imagePicker.components.ImagePickerContent
+import com.metacto.core.ui.imagepicker.rememberImagePicker
+import com.metacto.core.ui.imagepicker.sheet.ImagePickerContract.Effect
+import com.metacto.core.ui.imagepicker.sheet.ImagePickerContract.Event
+import com.metacto.core.ui.imagepicker.sheet.components.ImagePickerContent
 
 actual class ImagePickerSheet actual constructor(
     actual val allowGallery: Boolean,

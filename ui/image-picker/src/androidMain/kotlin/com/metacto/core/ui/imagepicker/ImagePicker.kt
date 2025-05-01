@@ -1,4 +1,4 @@
-package com.metacto.core.ui.components.imagePicker
+package com.metacto.core.ui.imagepicker
 
 import android.annotation.SuppressLint
 import android.app.Activity

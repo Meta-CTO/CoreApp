@@ -1,4 +1,4 @@
-package com.metacto.core.ui.components.imagePicker
+package com.metacto.core.ui.imagepicker.sheet
 
 import com.metacto.core.ui.base.ViewEvent
 import com.metacto.core.ui.base.ViewSideEffect

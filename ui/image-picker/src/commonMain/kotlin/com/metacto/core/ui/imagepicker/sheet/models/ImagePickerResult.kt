@@ -1,4 +1,4 @@
-package com.metacto.core.ui.components.imagePicker.models
+package com.metacto.core.ui.imagepicker.sheet.models
 
 import com.metacto.core.CommonParcelable
 import com.metacto.core.CommonParcelize

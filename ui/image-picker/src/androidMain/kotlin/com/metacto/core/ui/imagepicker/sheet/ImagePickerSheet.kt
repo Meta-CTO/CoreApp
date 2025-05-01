@@ -1,14 +1,14 @@
-package com.metacto.core.ui.components.imagePicker
+package com.metacto.core.ui.imagepicker.sheet
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.metacto.core.ui.base.BaseSheet
 import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
-import com.metacto.core.ui.components.imagePicker.components.ImagePickerContent
-import com.metacto.core.ui.components.imagePicker.ImagePickerContract.Event
-import com.metacto.core.ui.components.imagePicker.ImagePickerContract.Effect
 import com.metacto.core.ui.extensions.consume
+import com.metacto.core.ui.imagepicker.sheet.ImagePickerContract.Effect
+import com.metacto.core.ui.imagepicker.sheet.ImagePickerContract.Event
+import com.metacto.core.ui.imagepicker.sheet.components.ImagePickerContent
 
 actual class ImagePickerSheet actual constructor(
     actual val allowGallery: Boolean,
@@ -23,7 +23,7 @@ actual class ImagePickerSheet actual constructor(
     actual override fun Content() {
         // Get main objects
         val viewModel = rememberViewModel<ImagePickerViewModel>()
-        val imagePicker = rememberImagePicker(
+        val imagePicker = com.metacto.core.ui.imagepicker.rememberImagePicker(
             enableCropping = enableCropping,
             aspectRatioX = aspectRatioX,
             aspectRatioY = aspectRatioY

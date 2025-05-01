@@ -1,0 +1,5 @@
+<resources>
+    <string name="choose_from_library">اختر من المعرض</string>
+    <string name="take_photo">التقاط صورة</string>
+    <string name="remove_current_photo">إزالة الصورة الحالية</string>
+</resources>

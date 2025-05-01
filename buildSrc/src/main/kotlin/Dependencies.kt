@@ -34,7 +34,6 @@ object Dependencies {
     object Kotlin {
         const val DATE_TIME = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.DATE_TIME}"
         const val COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.COROUTINES}"
-        const val SERIALIZATION_JSON = "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.SERIALIZATION_JSON}"
     }
 
     object Koin {
@@ -102,6 +101,7 @@ object Dependencies {
         const val CAMERA = ":ui:camera"
         const val YOUTUBE = ":ui:youtube"
         const val PHONE_UI = ":ui:phone-ui"
+        const val IMAGE_PICKER = ":ui:image-picker"
         const val SAMPLE_APP_SHARED = ":sampleAppShared"
     }
 

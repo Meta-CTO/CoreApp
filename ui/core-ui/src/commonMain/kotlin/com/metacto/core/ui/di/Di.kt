@@ -1,7 +1,6 @@
 package com.metacto.core.ui.di
 
 import com.metacto.core.ui.CoreUIConfigs
-import com.metacto.core.ui.components.imagePicker.ImagePickerViewModel
 import com.metacto.core.ui.components.itemPicker.ItemPickerViewModel
 import com.metacto.core.ui.components.options.OptionsViewModel
 import com.metacto.core.ui.navigation.NavManager
@@ -17,10 +16,6 @@ fun coreUIModule(configs: CoreUIConfigs) = module {
 
     single {
         configs
-    }
-
-    commonViewModel {
-        ImagePickerViewModel()
     }
 
     commonViewModel {
