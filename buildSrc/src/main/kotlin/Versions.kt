@@ -31,7 +31,7 @@ object Versions {
     const val WEBVIEW = "1.9.40-alpha04"
     const val EXO_PLAYER = "1.3.1"
     const val MEDIA_ROUTER_VERSION = "1.4.0"
-    const val PLAY_SERVICES_CAST_VERSION = "21.3.0"
+    const val PLAY_SERVICES_CAST_VERSION = "22.0.0"
     const val GIT_LIVE = "1.10.4"
     const val YOUTUBE_PLAYER = "12.1.0"
     const val SHIMMER = "1.3.1"

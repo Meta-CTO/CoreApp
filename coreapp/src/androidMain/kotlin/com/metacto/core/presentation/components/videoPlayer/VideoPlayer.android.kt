@@ -5,14 +5,22 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.annotation.OptIn
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Cast
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,14 +28,17 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.C
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
+import androidx.mediarouter.app.MediaRouteButton
 import com.metacto.core.domain.DiQualifiers
 import com.metacto.core.presentation.components.visibilities.FadeVisibility
 import com.metacto.core.utils.extensions.OnLifecycleEvent
@@ -80,6 +91,10 @@ actual fun VideoPlayer(
     var shouldResumePlayback by remember { mutableStateOf(false) }
     val icon = if (isPlaying.value) pauseIconRes else playIconRes
     val isPlayButtonVisible by remember { mutableStateOf(true) }
+
+    // Cast support
+    val castAvailable by playerManager.castAvailable.collectAsState()
+    val isCasting by playerManager.isCasting.collectAsState()
 
     eventBroadcaster.collectInCompose<VideoPlayerEvent.ActivityFinished> {
         enableRendering = true
@@ -183,6 +198,7 @@ actual fun VideoPlayer(
             }
         )
 
+        // Custom Controls - Play/Pause button
         if (controlsType == ControlsType.CustomControls) {
             FadeVisibility(
                 visible = isPlayButtonVisible && enableRendering,
@@ -205,6 +221,43 @@ actual fun VideoPlayer(
                                 playerManager = playerManager
                             )
                         }
+                )
+            }
+        }
+
+        // Cast Button
+        if (castAvailable) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(8.dp)
+            ) {
+                // Add the Cast button as AndroidView
+                AndroidView(
+                    factory = { ctx ->
+                        MediaRouteButton(ctx).apply {
+                            playerManager.setupCastButton(this)
+                        }
+                    },
+                    modifier = Modifier.size(48.dp)
+                )
+            }
+        }
+
+        // Casting Indicator
+        if (isCasting) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .background(Color.Black.copy(alpha = 0.7f))
+                    .padding(8.dp)
+            ) {
+                // Show a simple "Casting to device" text - you can replace with your own UI
+                androidx.compose.material3.Text(
+                    text = "Casting to device",
+                    color = Color.White,
+                    modifier = Modifier.align(Alignment.Center)
                 )
             }
         }

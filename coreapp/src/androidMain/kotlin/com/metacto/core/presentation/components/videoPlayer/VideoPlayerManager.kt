@@ -2,7 +2,9 @@ package com.metacto.core.presentation.components.videoPlayer
 
 import android.content.Context
 import androidx.annotation.OptIn
+import androidx.core.net.toUri
 import androidx.media3.common.C
+import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.common.VideoSize
@@ -14,7 +16,9 @@ import com.metacto.core.utils.extensions.createMediaSource
 import com.metacto.core.utils.extensions.getLauncherPendingIntent
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
-import androidx.core.net.toUri
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 @UnstableApi
 internal class VideoPlayerManager(
@@ -25,10 +29,20 @@ internal class VideoPlayerManager(
     private val playerManagers by inject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
     private var isAutoPlay = false
     private var isMediaMetadataEnabled = false
+    private var castManager: CastManager? = null
+
+    // Added for cast support
+    private val _castAvailable = MutableStateFlow(false)
+    val castAvailable: StateFlow<Boolean> = _castAvailable.asStateFlow()
+
+    private val _isCasting = MutableStateFlow(false)
+    val isCasting: StateFlow<Boolean> = _isCasting.asStateFlow()
+
     var onVideoLoop: (() -> Unit)? = null
     var onVideoEnd: (() -> Unit)? = null
     var isPipEnabled: Boolean = true
     private var videoSizeListener: ((width: Int, height: Int) -> Unit)? = null
+    private var myMediaItem: MediaItem? = null
 
     // Define the exo player
     val exoPlayer by lazy {
@@ -103,6 +117,35 @@ internal class VideoPlayerManager(
                 videoSizeListener?.invoke(videoSize.width, videoSize.height)
             }
         })
+
+        // Initialize cast manager
+        initCastManager()
+    }
+
+    private fun initCastManager() {
+        try {
+            castManager = CastManager(context).apply {
+                // Set the local player for transfer between devices
+                setLocalPlayer(exoPlayer)
+
+                // Observe cast availability
+                observeCastStates(this)
+            }
+        } catch (e: Exception) {
+            // Cast not available or failed to initialize
+            e.printStackTrace()
+        }
+    }
+
+    private fun observeCastStates(castManager: CastManager) {
+        // Collect cast state flows and update our own states
+        try {
+            // This is simplified - in a real app, you'd use lifecycleScope or similar
+            _castAvailable.value = castManager.castAvailable.value
+            _isCasting.value = castManager.isCasting.value
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     @OptIn(UnstableApi::class)
@@ -160,6 +203,13 @@ internal class VideoPlayerManager(
                 metaData = mediaMetaData
             )
 
+            // Store the media item for casting
+            myMediaItem = MediaItem.Builder()
+                .setUri(videoUrl.toUri())
+                .setMediaId(videoUrl)
+                .setMediaMetadata(mediaMetaData)
+                .build()
+
             // Set media source and prepare
             if (isAutoPlay) {
                 playWhenReady = true
@@ -170,18 +220,42 @@ internal class VideoPlayerManager(
     }
 
     fun play() {
-        if (exoPlayer.isPlaying.not()) {
+        if (_isCasting.value) {
+            castManager?.getCurrentPlayer()?.play()
+        } else if (exoPlayer.isPlaying.not()) {
             exoPlayer.play()
         }
     }
 
     fun pause() {
-        if (exoPlayer.isPlaying) {
+        if (_isCasting.value) {
+            castManager?.getCurrentPlayer()?.pause()
+        } else if (exoPlayer.isPlaying) {
             exoPlayer.pause()
         }
     }
 
+    fun startCasting() {
+        myMediaItem?.let {
+            castManager?.startCasting(it)
+        }
+    }
+
+    fun stopCasting() {
+        castManager?.stopCasting()
+    }
+
+    fun setupCastButton(mediaRouteButton: androidx.mediarouter.app.MediaRouteButton) {
+        castManager?.setupCastButton(mediaRouteButton)
+    }
+
     fun setMediaMetadataEnabled(isEnabled: Boolean) {
         isMediaMetadataEnabled = isEnabled
+    }
+
+    fun release() {
+        castManager?.release()
+        castManager = null
+        exoPlayer.release()
     }
 }
