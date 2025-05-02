@@ -9,5 +9,5 @@
 // Configuration settings file format documentation can be found at:
 // https://help.apple.com/xcode/#/dev745c5c974
 
-DISPLAY_NAME = SampleApp
-PRODUCT_BUNDLE_IDENTIFIER = com.sampleApp.app.prod
+DISPLAY_NAME = CatalogApp
+PRODUCT_BUNDLE_IDENTIFIER = com.metacto.catalogapp.prod

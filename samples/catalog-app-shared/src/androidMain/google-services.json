@@ -2,9 +2,85 @@
   "project_info": {
     "project_number": "211134116667",
     "project_id": "metactosampleapp",
-    "storage_bucket": "metactosampleapp.appspot.com"
+    "storage_bucket": "metactosampleapp.firebasestorage.app"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211134116667:android:633de12b60b915a9827d1e",
+        "android_client_info": {
+          "package_name": "com.metacto.catalogapp.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSqPW4Jn4HksPCcHoRqfXQ2IUxWY_oVro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211134116667:android:11c05db275bd39c4827d1e",
+        "android_client_info": {
+          "package_name": "com.metacto.catalogapp.prod"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSqPW4Jn4HksPCcHoRqfXQ2IUxWY_oVro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211134116667:android:57cbac40ee2b5a80827d1e",
+        "android_client_info": {
+          "package_name": "com.metacto.playground.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSqPW4Jn4HksPCcHoRqfXQ2IUxWY_oVro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:211134116667:android:147bb91290ee9879827d1e",
+        "android_client_info": {
+          "package_name": "com.metacto.playground.prod"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSqPW4Jn4HksPCcHoRqfXQ2IUxWY_oVro"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:211134116667:android:0f5bd66d529ccdbc827d1e",
