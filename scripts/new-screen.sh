@@ -2,9 +2,8 @@
 
 # Paths
 current_path="$(pwd)"
-app_folder_path="${current_path}/sampleAppShared/src/commonMain/kotlin/com/sampleApp/app"
-
-package_name="com.sampleApp.app"
+app_folder_path="${current_path}/samples/sample-app-shared/src/commonMain/kotlin/com/metacto/sampleapp"
+package_name="com.metacto.sampleapp"
 
 # Check if both feature and screen arguments are provided
 if [ "$#" -ne 2 ]; then
@@ -27,9 +26,9 @@ contract_file_name="${screen}Contract.kt"
 contract_file_path="${app_folder_path}/presentation/${feature}/${screen_lower}"
 contract_file_content="package ${package_name}.presentation.${feature}.${screen_lower}
 
-import com.metacto.core.presentation.base.ViewEvent
-import com.metacto.core.presentation.base.ViewSideEffect
-import com.metacto.core.presentation.base.ViewState
+import com.metacto.core.ui.base.ViewEvent
+import com.metacto.core.ui.base.ViewSideEffect
+import com.metacto.core.ui.base.ViewState
 
 class ${screen}Contract {
 
@@ -102,9 +101,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import ${package_name}.presentation.${feature}.${screen_lower}.${screen}Contract.Event
 import ${package_name}.presentation.${feature}.${screen_lower}.components.${screen}Content
-import com.metacto.core.presentation.base.BaseScreen
-import com.metacto.core.presentation.base.SIDE_EFFECTS_KEY
-import com.metacto.core.presentation.base.rememberViewModel
+import com.metacto.core.ui.base.BaseScreen
+import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
+import com.metacto.core.ui.base.rememberViewModel
 
 internal object ${screen}Screen : BaseScreen<${screen}ViewModel>() {
     @Composable
@@ -144,11 +143,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import com.metacto.core.presentation.components.containers.ScreenColumn
-import ${package_name}.presentation.theme.AppTheme.colors
-import ${package_name}.presentation.theme.AppTheme.typography
-import ${package_name}.presentation.theme.AppTheme.shapes
-import ${package_name}.presentation.theme.AppTheme.spacings
+import com.metacto.core.ui.components.containers.ScreenColumn
+import ${package_name}.presentation.theme.colors
+import ${package_name}.presentation.theme.typography
+import ${package_name}.presentation.theme.shapes
+import ${package_name}.presentation.theme.spacings
 import ${package_name}.presentation.${feature}.${screen_lower}.${screen}Contract.State
 import ${package_name}.presentation.${feature}.${screen_lower}.${screen}Contract.Event
 
