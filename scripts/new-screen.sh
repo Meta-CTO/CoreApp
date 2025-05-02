@@ -105,7 +105,7 @@ import com.metacto.core.ui.base.BaseScreen
 import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
 
-internal object ${screen}Screen : BaseScreen<${screen}ViewModel>() {
+internal class ${screen}Screen : BaseScreen<${screen}ViewModel>() {
     @Composable
     override fun Content() {
         // Get the view model
