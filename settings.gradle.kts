@@ -1,4 +1,4 @@
-rootProject.name = "MetaCtoCore"
+rootProject.name = "CmpCore"
 
 include(":core:core")
 include(":core:sample")
