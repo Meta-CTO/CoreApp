@@ -1,4 +1,4 @@
-rootProject.name = "CoreApp"
+rootProject.name = "MetaCtoCore"
 
 include(":core:core")
 include(":core:sample")
@@ -15,6 +15,3 @@ include(":ui:phone-ui")
 include(":ui:image-picker")
 
 include(":samples:sample-app-shared")
-include(":sampleAppShared")
-include(":coreapp")
-include(":androidApp")

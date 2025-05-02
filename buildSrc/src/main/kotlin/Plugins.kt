@@ -1,7 +1,6 @@
 object Plugins {
     // Plugins
     const val MULTIPLATFORM_PLUGIN = "multiplatform"
-    const val COCOAPODS_PLUGIN = "native.cocoapods"
     const val ANDROID_LIBRARY_PLUGIN = "com.android.library"
     const val COMPOSE_PLUGIN = "org.jetbrains.compose"
     const val COMPOSE_COMPILER_PLUGIN = "org.jetbrains.kotlin.plugin.compose"

@@ -34,6 +34,10 @@ kotlin {
             baseName = SampleAppConfigs.FRAMEWORK_NAME
             xcf.add(this)
             isStatic = true
+
+            export(project(Dependencies.Modules.CORE))
+            export(project(Dependencies.Modules.CORE_UI))
+            //export(project(Dependencies.Modules.NOTIFICATIONS))
         }
     }
 
@@ -45,9 +49,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(Dependencies.Modules.CORE_UI))
+            api(project(Dependencies.Modules.CORE_UI))
             implementation(project(Dependencies.Modules.FILES))
-            implementation(project(Dependencies.Modules.NOTIFICATIONS))
+            //api(project(Dependencies.Modules.NOTIFICATIONS))
             implementation(project(Dependencies.Modules.PHONE_CORE))
             implementation(project(Dependencies.Modules.MEDIA_PLAYERS))
             implementation(project(Dependencies.Modules.CAMERA))

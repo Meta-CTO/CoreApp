@@ -1,21 +1,4 @@
 object Dependencies {
-    object Pods {
-        const val FIREBASE_AUTH = "FirebaseAuth"
-        const val FIREBASE_ANALYTICS = "FirebaseAnalytics"
-        const val GOOGLE_SIGN_IN = "GoogleSignIn"
-        const val FIREBASE_DYNAMIC_LINKS = "FirebaseDynamicLinks"
-        const val FIREBASE_CRASHLYTICS = "FirebaseCrashlytics"
-        const val FIREBASE_REMOTE_CONFIG = "FirebaseRemoteConfig"
-        const val FIREBASE_MESSAGING = "FirebaseMessaging"
-        const val AMPLITUDE = "Amplitude"
-        const val APPS_FLYER = "AppsFlyerFramework"
-
-        object CleverTap {
-            const val MODULE = "CleverTapSDK"
-            const val SDK = "CleverTap-iOS-SDK"
-        }
-    }
-
     object Compose {
         const val RUNTIME = "org.jetbrains.compose.runtime:runtime:${Versions.COMPOSE}"
         const val FOUNDATION = "org.jetbrains.compose.foundation:foundation:${Versions.COMPOSE}"
@@ -28,7 +11,6 @@ object Dependencies {
             "org.jetbrains.compose.material:material-icons-extended:${Versions.COMPOSE}"
         const val RESOURCES =
             "org.jetbrains.compose.components:components-resources:${Versions.COMPOSE}"
-        const val UI_TOOLING = "androidx.compose.ui:ui-tooling:${Versions.COMPOSE_ANDROID}"
     }
 
     object Kotlin {
@@ -47,7 +29,6 @@ object Dependencies {
         const val NAVIGATOR = "cafe.adriel.voyager:voyager-navigator:${Versions.VOYAGER}"
         const val BOTTOM_SHEET =
             "cafe.adriel.voyager:voyager-bottom-sheet-navigator:${Versions.VOYAGER}"
-        const val TAB_NAVIGATOR = "cafe.adriel.voyager:voyager-tab-navigator:${Versions.VOYAGER}"
         const val SCREEN_MODEL = "cafe.adriel.voyager:voyager-screenmodel:${Versions.VOYAGER}"
         const val KOIN = "cafe.adriel.voyager:voyager-koin:${Versions.VOYAGER}"
     }
@@ -91,7 +72,6 @@ object Dependencies {
     }
 
     object Modules {
-        const val CORE_APP = ":coreapp"
         const val CORE = ":core:core"
         const val FILES = ":core:files"
         const val NOTIFICATIONS = ":core:notifications"
@@ -102,11 +82,6 @@ object Dependencies {
         const val YOUTUBE = ":ui:youtube"
         const val PHONE_UI = ":ui:phone-ui"
         const val IMAGE_PICKER = ":ui:image-picker"
-        const val SAMPLE_APP_SHARED = ":sampleAppShared"
-    }
-
-    object GitLive {
-        const val CONFIG = "dev.gitlive:firebase-config:${Versions.GIT_LIVE}"
     }
 
     object Camera {
