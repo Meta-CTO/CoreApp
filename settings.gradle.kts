@@ -14,4 +14,4 @@ include(":ui:youtube")
 include(":ui:phone-ui")
 include(":ui:image-picker")
 
-include(":samples:sample-app-shared")
+include(":samples:catalog-app-shared")

@@ -7,13 +7,13 @@ sealed class ProductFlavor {
     open val versionNameSuffix: String = ""
 
     object QA : ProductFlavor() {
-        override val applicationId: String = SampleAppConfigs.DEV_APP_ID
+        override val applicationId: String = CatalogAppConfigs.DEV_APP_ID
         override val appNameSuffix: String = "-DEV"
         override val versionNameSuffix: String = "-dev"
     }
 
     object PROD : ProductFlavor() {
-        override val applicationId: String = SampleAppConfigs.PROD_APP_ID
+        override val applicationId: String = CatalogAppConfigs.PROD_APP_ID
     }
 
     companion object {

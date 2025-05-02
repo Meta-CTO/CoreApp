@@ -1,4 +1,4 @@
-object SampleAppConfigs {
+object CatalogAppConfigs {
     const val FRAMEWORK_NAME = "appShared"
     const val NAMESPACE = "com.metacto.sampleapp"
     const val DEV_APP_ID = "com.metacto.sampleapp.dev"

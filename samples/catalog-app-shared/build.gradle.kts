@@ -30,8 +30,8 @@ kotlin {
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
-        it.binaries.framework(SampleAppConfigs.FRAMEWORK_NAME) {
-            baseName = SampleAppConfigs.FRAMEWORK_NAME
+        it.binaries.framework(CatalogAppConfigs.FRAMEWORK_NAME) {
+            baseName = CatalogAppConfigs.FRAMEWORK_NAME
             xcf.add(this)
             isStatic = true
         }
@@ -67,7 +67,7 @@ kotlin {
 }
 
 android {
-    namespace = SampleAppConfigs.NAMESPACE
+    namespace = CatalogAppConfigs.NAMESPACE
     compileSdk = Configs.COMPILE_SDK_VERSION
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -77,8 +77,8 @@ android {
 
     defaultConfig {
         minSdk = Configs.MIN_SDK_VERSION
-        versionCode = SampleAppConfigs.VERSION_CODE
-        versionName = SampleAppConfigs.VERSION_NAME
+        versionCode = CatalogAppConfigs.VERSION_CODE
+        versionName = CatalogAppConfigs.VERSION_NAME
 
         proguardFiles(
             getDefaultProguardFile("proguard-android-optimize.txt"), "./proguard-rules.pro"
@@ -153,6 +153,6 @@ android {
 
 compose.resources {
     publicResClass = false
-    packageOfResClass = "${SampleAppConfigs.NAMESPACE}.resources"
+    packageOfResClass = "${CatalogAppConfigs.NAMESPACE}.resources"
     generateResClass = always
 }
