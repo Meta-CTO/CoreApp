@@ -1,10 +1,10 @@
-package com.metacto.sampleapp.presentation.notifications.samples
+package com.metacto.sampleapp.presentation.notifications
 
 import com.metacto.core.ui.base.ViewEvent
 import com.metacto.core.ui.base.ViewSideEffect
 import com.metacto.core.ui.base.ViewState
 
-class NotificationSamplesContract {
+class NotificationsSamplesContract {
 
     data class State(
         val isInitialized: Boolean = false

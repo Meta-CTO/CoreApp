@@ -80,19 +80,19 @@ internal fun AppTypography.getCoreTypography(): CoreTypography {
     return coreTypography.copy(
         primary = primary.base,
         primaryFilledButton = coreTypography.primaryFilledButton.copy(
-            textStyle = primary.medium._14
+            textStyle = primary.medium._16
         ),
         tertiaryFilledButton = coreTypography.tertiaryFilledButton.copy(
-            textStyle = primary.medium._14
+            textStyle = primary.medium._16
         ),
         primaryStrokedButton = coreTypography.primaryStrokedButton.copy(
-            textStyle = primary.medium._14
+            textStyle = primary.medium._16
         ),
         primaryTextButton = coreTypography.primaryTextButton.copy(
-            textStyle = primary.medium._14
+            textStyle = primary.medium._16
         ),
         secondaryTextButton = coreTypography.secondaryTextButton.copy(
-            textStyle = primary.medium._12
+            textStyle = primary.medium._16
         )
     )
 }

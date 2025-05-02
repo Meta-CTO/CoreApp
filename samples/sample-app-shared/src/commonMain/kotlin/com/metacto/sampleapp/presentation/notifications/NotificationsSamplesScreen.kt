@@ -1,18 +1,18 @@
-package com.metacto.sampleapp.presentation.notifications.samples
+package com.metacto.sampleapp.presentation.notifications
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.metacto.sampleapp.presentation.notifications.samples.NotificationSamplesContract.Event
-import com.metacto.sampleapp.presentation.notifications.samples.components.NotificationSamplesContent
+import com.metacto.sampleapp.presentation.notifications.NotificationsSamplesContract.Event
+import com.metacto.sampleapp.presentation.notifications.components.NotificationsSamplesContent
 import com.metacto.core.ui.base.BaseScreen
 import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
 
-internal class NotificationSamplesScreen : BaseScreen<NotificationSamplesViewModel>() {
+internal class NotificationsSamplesScreen : BaseScreen<NotificationsSamplesViewModel>() {
     @Composable
     override fun Content() {
         // Get the view model
-        val viewModel = rememberViewModel<NotificationSamplesViewModel>()
+        val viewModel = rememberViewModel<NotificationsSamplesViewModel>()
 
         // Init view model
         LaunchedEffect(SIDE_EFFECTS_KEY) {
@@ -20,7 +20,7 @@ internal class NotificationSamplesScreen : BaseScreen<NotificationSamplesViewMod
         }
 
         // Render content
-        NotificationSamplesContent(
+        NotificationsSamplesContent(
             state = viewModel.viewState.value,
             onEvent = viewModel::setEvent
         )
