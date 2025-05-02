@@ -11,9 +11,11 @@ import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.util.Rational
+import android.view.MotionEvent
 import android.view.SurfaceView
 import android.view.View
 import android.widget.ImageButton
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
@@ -33,6 +35,7 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
     private var exoPlayer: ExoPlayer? = null
     private var isPipSupported = false
     private var wasPlayingBeforePip = false
+    private var hasUserInteracted = false
     private var playerView: PlayerView? = null
     private var playerId: String? = null
 
@@ -63,8 +66,22 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
             this.playerId = it
             configPlayerView(it)
         }
-
         registerReceiver(pipActionsReceiver, IntentFilter(ACTION_MEDIA_CONTROL), RECEIVER_EXPORTED)
+        handleBackPress()
+    }
+
+    private fun handleBackPress() {
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+
+                if (isInPictureInPictureMode) {
+                    finish()
+                    return
+                }
+                this.remove()
+                onBackPressedDispatcher.onBackPressed()
+            }
+        })
     }
 
     private fun hideSystemBars() {
@@ -164,6 +181,7 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
         val ibPip = findViewById<ImageButton>(R.id.ib_pip)
 
         if (isInPictureInPictureMode) {
+            hasUserInteracted = false
             playerView?.useController = false
             playerView?.hideController()
             // Hide the PiP button when in PiP mode
@@ -181,6 +199,10 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
                 exoPlayer?.setVideoSurfaceView(it)
             }
             eventBroadcaster.emit(VideoPlayerEvent.StoppedPip)
+
+            if (!isChangingConfigurations && !hasUserInteracted) {
+                finish()
+            }
         }
     }
 
@@ -220,6 +242,11 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
         eventBroadcaster.emit(VideoPlayerEvent.ActivityFinished)
     }
 
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        hasUserInteracted = true
+        return super.dispatchTouchEvent(ev)
+    }
+
     companion object {
         private const val KEY_PLAYER_ID = "player_id"
         private const val KEY_ENABLE_PIP = "enable_pip"
@@ -235,6 +262,7 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
             val intent = Intent(context, VideoPlayerActivity::class.java).apply {
                 putExtra(KEY_PLAYER_ID, uniqueId)
                 putExtra(KEY_ENABLE_PIP, enablePip)
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
             }
             context.startActivity(intent)
         }
