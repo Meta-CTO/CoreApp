@@ -1,13 +1,13 @@
-.PHONY: pod-install pull-mains cleanup
+.PHONY: pull-mains cleanup new-screen
 
-# 1. pull_mains.sh
+# ======================PULL MAINS======================
 pull-mains:
 	@echo "Pulling main branches..."
-	git pull origin develop
+	git pull
 	git pull origin staging
 	git pull origin release
 
-# 2. cleanup.sh
+# ======================CLEANUP======================
 cleanup:
 	@echo "Cleaning project..."
 	rm -rf .idea
@@ -19,3 +19,18 @@ cleanup:
 	rm -rf sameples/samplle-ios-app/Pods
 	rm -rf sameples/samplle-ios-app/iosApp.xcodeproj/project.xcworkspace
 	rm -rf sameples/samplle-ios-app/iosApp.xcodeproj/xcuserdata
+
+# ====================== NEW SCREEN======================
+new-screen:
+	@echo "Creating new screen..."
+	@feature=$(word 2, $(MAKECMDGOALS)); \
+	screen=$(word 3, $(MAKECMDGOALS)); \
+	if [ -z "$$feature" ] || [ -z "$$screen" ]; then \
+		echo "Usage: make new-screen <feature> <screen>"; exit 1; \
+	fi; \
+	echo "Feature: $$feature, Screen: $$screen"; \
+	./scripts/new-screen.sh "$$feature" "$$screen"
+
+# ====================== CATCHALL for dynamic targets =======================
+%:
+	@echo "Shamy is genius ;)"
