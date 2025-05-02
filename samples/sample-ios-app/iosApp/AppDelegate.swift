@@ -1,9 +1,9 @@
 import SwiftUI
 import AVFAudio
 import appShared
+import FirebaseMessaging
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-//    private let notificationManager =  DiProvider().get(clazz: INotificationManagerKt.Class) as INotificationManager
     
     func application(
         _ application: UIApplication,
@@ -26,14 +26,14 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
     ) {
-        print("didRegisterForRemoteNotificationsWithDeviceToken")
+        Messaging.messaging().apnsToken = deviceToken
     }
     
     func application(
         _ application: UIApplication,
         didReceiveRemoteNotification userInfo: [AnyHashable : Any]
     ) async -> UIBackgroundFetchResult {
-        //notificationManager.onApplicationDidReceiveRemoteNotification(userInfo: userInfo)
+        DiProvider.notificationManager.onApplicationDidReceiveRemoteNotification(userInfo: userInfo)
         return UIBackgroundFetchResult.newData
     }
 }

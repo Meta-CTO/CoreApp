@@ -2,8 +2,8 @@ package com.metacto.sampleapp.di
 
 import com.metacto.core.di.coreModule
 import com.metacto.core.files.di.filesModule
-//import com.metacto.core.notifications.NotificationsConfigs
-//import com.metacto.core.notifications.di.notificationsModule
+import com.metacto.core.notifications.NotificationsConfigs
+import com.metacto.core.notifications.di.notificationsModule
 import com.metacto.core.phone.di.phoneCoreModule
 import com.metacto.core.ui.camera.di.cameraModule
 import com.metacto.core.ui.di.coreUIModule
@@ -35,11 +35,11 @@ fun initKoin(
         coreModule(environment.coreConfigs),
         coreUIModule(environment.coreUIConfigs),
         filesModule(),
-//        notificationsModule(
-//            NotificationsConfigs(
-//                askNotificationPermissionOnStart = true
-//            )
-//        ),
+        notificationsModule(
+            NotificationsConfigs(
+                askNotificationPermissionOnStart = true
+            )
+        ),
         phoneCoreModule(),
         mediaPlayersModule(),
         cameraModule(),
