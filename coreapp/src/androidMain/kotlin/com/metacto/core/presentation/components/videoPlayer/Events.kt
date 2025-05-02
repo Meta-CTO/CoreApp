@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 internal sealed class VideoPlayerEvent {
     data object StoppedPip : VideoPlayerEvent()
     data object StartedPip : VideoPlayerEvent()
+    data object ActivityFinished : VideoPlayerEvent()
     data object DisablePip : VideoPlayerEvent()
 }
 

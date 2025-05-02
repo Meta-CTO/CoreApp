@@ -69,38 +69,41 @@ actual fun VideoPlayer(
     onVideoLoop: (() -> Unit)?,
     onVideoEnd: (() -> Unit)?
 ) {
-    // Setup context and dependencies
     val context = LocalContext.current
     val eventBroadcaster = koinInject<VideoPlayerEventBroadcaster>()
-    val playerManagers =
-        koinInject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
+    val playerManagers = koinInject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
     val playerManager = playerManagers.getOrPut(uniqueId) { VideoPlayerManager(uniqueId) }
 
-    // State management
     val isPlaying = remember { mutableStateOf(playerManager.exoPlayer.isPlaying) }
     val isVideoEnded = remember { mutableStateOf(false) }
     var enableRendering by remember { mutableStateOf(true) }
+    var shouldResumePlayback by remember { mutableStateOf(false) }
     val icon = if (isPlaying.value) pauseIconRes else playIconRes
     val isPlayButtonVisible by remember { mutableStateOf(true) }
 
-    // Event handling
-    eventBroadcaster.collectInCompose<VideoPlayerEvent.StoppedPip> {
+    eventBroadcaster.collectInCompose<VideoPlayerEvent.ActivityFinished> {
         enableRendering = true
-        playerManager.pause()
-    }
-
-    eventBroadcaster.collectInCompose<VideoPlayerEvent.DisablePip> {
-        if (!enablePip) {
-            //TODO Handle disabling PiP if needed
+        if (shouldResumePlayback) {
+            playerManager.play()
+            shouldResumePlayback = false
         }
+        isPlaying.value = playerManager.exoPlayer.isPlaying
     }
 
-    // Add PiP configuration
+    eventBroadcaster.collectInCompose<VideoPlayerEvent.StartedPip> {
+        enableRendering = false
+        shouldResumePlayback = playerManager.exoPlayer.isPlaying
+    }
+
+    eventBroadcaster.collectInCompose<VideoPlayerEvent.StoppedPip> {
+        enableRendering = false
+        shouldResumePlayback = playerManager.exoPlayer.isPlaying
+    }
+
     LaunchedEffect(enablePip) {
         playerManager.isPipEnabled = enablePip
     }
 
-    // Player controller setup
     val controller = remember(playerManager) {
         object : VideoPlayerController {
             override fun play() = playerManager.play()
@@ -108,9 +111,7 @@ actual fun VideoPlayer(
         }
     }
 
-    // Configure player options
     LaunchedEffect(key1 = playerManager) {
-        // Setup player listeners
         playerManager.exoPlayer.addListener(object : Player.Listener {
             override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
                 isPlaying.value = playWhenReady
@@ -130,42 +131,34 @@ actual fun VideoPlayer(
         })
     }
 
-    // Configure player settings
     LaunchedEffect(
         playerManager, videoUrl, videoTitle, videoArtist, videoArtworkUrl,
         autoPlay, scaleToCrop, autoRepeat, enableVoice, enableMediaMetadata,
         onVideoLoop, onVideoEnd, controller, onPlayerCreated
     ) {
-        // Media configuration
         playerManager.setMedia(
             videoUrl = videoUrl,
             videoTitle = videoTitle,
             videoArtist = videoArtist,
             videoArtworkUrl = videoArtworkUrl
         )
-
-        // Player settings
         playerManager.setAutoPlay(autoPlay)
         playerManager.setScaleToCrop(scaleToCrop)
         playerManager.setAutoRepeat(autoRepeat)
         playerManager.setMediaMetadataEnabled(enableMediaMetadata)
         playerManager.exoPlayer.volume = if (enableVoice) 1f else 0f
-
-        // Callbacks
         playerManager.onVideoLoop = onVideoLoop
         playerManager.onVideoEnd = onVideoEnd
         onPlayerCreated?.invoke(controller)
     }
 
-    // Fullscreen handler with PiP support
     fun onFullScreen(id: String) {
-        VideoPlayerActivity.start(context = context, uniqueId = id, enablePip = enablePip)
+        shouldResumePlayback = playerManager.exoPlayer.isPlaying
         enableRendering = false
+        VideoPlayerActivity.start(context = context, uniqueId = id, enablePip = enablePip)
     }
 
-    // Render video player
     Box(modifier = modifier) {
-        // Player view
         AndroidView(
             modifier = Modifier.fillMaxSize(),
             factory = { ctx ->
@@ -190,10 +183,9 @@ actual fun VideoPlayer(
             }
         )
 
-        // Custom controls overlay
         if (controlsType == ControlsType.CustomControls) {
             FadeVisibility(
-                visible = isPlayButtonVisible,
+                visible = isPlayButtonVisible && enableRendering,
                 duration = CONTROLS_ANIM_DURATION,
                 modifier = Modifier.align(Alignment.Center)
             ) {
@@ -218,7 +210,6 @@ actual fun VideoPlayer(
         }
     }
 
-    // Lifecycle management
     DisposableEffect(Unit) {
         onDispose {
             if (handleLifecyclePause) {
@@ -226,17 +217,23 @@ actual fun VideoPlayer(
             }
         }
     }
+
     OnLifecycleEvent(
         onPause = {
-            if (handleLifecyclePause) {
+            if (handleLifecyclePause && enableRendering) {
+                shouldResumePlayback = playerManager.exoPlayer.isPlaying
                 playerManager.pause()
+            }
+        },
+        onResume = {
+            if (handleLifecyclePause && enableRendering && shouldResumePlayback) {
+                playerManager.play()
+                shouldResumePlayback = false
             }
         }
     )
 }
 
-
-// Toggles playback between play and pause states
 @OptIn(UnstableApi::class)
 private fun togglePlayback(
     isPlaying: Boolean,
@@ -254,7 +251,6 @@ private fun togglePlayback(
     }
 }
 
-// Creates a PlayerView with the specified configuration
 @OptIn(UnstableApi::class)
 private fun createPlayerView(
     context: android.content.Context,
@@ -279,12 +275,14 @@ private fun createPlayerView(
         if (enableRendering) {
             (videoSurfaceView as? SurfaceView)?.let {
                 playerManager.exoPlayer.setVideoSurfaceView(it)
+            } ?: run {
+                playerManager.exoPlayer.setVideoSurface(null)
+                playerManager.exoPlayer.setVideoSurfaceView(videoSurfaceView as? SurfaceView)
             }
         }
     }
 }
 
-// Updates an existing PlayerView with new configuration
 @OptIn(UnstableApi::class)
 private fun updatePlayerView(
     playerView: PlayerView,
@@ -297,8 +295,16 @@ private fun updatePlayerView(
     }
 
     if (enableRendering) {
+        if (playerView.player != playerManager.exoPlayer) {
+            playerView.player = playerManager.exoPlayer
+        }
         (playerView.videoSurfaceView as? SurfaceView)?.let {
             playerManager.exoPlayer.setVideoSurfaceView(it)
+        } ?: run {
+            playerManager.exoPlayer.setVideoSurface(null)
+            playerManager.exoPlayer.setVideoSurfaceView(playerView.videoSurfaceView as? SurfaceView)
         }
+    } else {
+        playerManager.exoPlayer.clearVideoSurface()
     }
 }
