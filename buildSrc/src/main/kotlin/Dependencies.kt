@@ -82,6 +82,7 @@ object Dependencies {
         const val HLS = "androidx.media3:media3-exoplayer-hls:${Versions.EXO_PLAYER}"
         const val UI = "androidx.media3:media3-ui:${Versions.EXO_PLAYER}"
         const val SESSION = "androidx.media3:media3-session:${Versions.EXO_PLAYER}"
+        const val MEDIA3_CAST = "androidx.media3:media3-cast:${Versions.EXO_PLAYER}"
     }
 
     object YoutubePlayer {
@@ -115,4 +116,6 @@ object Dependencies {
     const val SHIMMER = "com.valentinilk.shimmer:compose-shimmer:${Versions.SHIMMER}"
     const val KMP_NOTIFIER = "io.github.mirzemehdi:kmpnotifier:${Versions.KMP_NOTIFIER}"
     const val STATELY_COMMON = "co.touchlab:stately-common:2.0.5"
+    const val MEDIA_ROUTER = "androidx.mediarouter:mediarouter:${Versions.MEDIA_ROUTER_VERSION}"
+    const val CAST_FRAMEWORK = "com.google.android.gms:play-services-cast-framework:${Versions.PLAY_SERVICES_CAST_VERSION}"
 }
