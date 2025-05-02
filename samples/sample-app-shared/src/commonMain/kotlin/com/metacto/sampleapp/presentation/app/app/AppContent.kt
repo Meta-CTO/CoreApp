@@ -9,7 +9,7 @@ import com.metacto.sampleapp.presentation.theme.AppThemeContent
 import org.koin.compose.koinInject
 
 @Composable
-internal fun MainContent() {
+internal fun AppContent() {
     // Get main objects
     val globalState = koinInject<IAppGlobalState>()
     val navManager = koinInject<NavManager>()
