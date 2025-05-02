@@ -15,3 +15,4 @@ include(":ui:phone-ui")
 include(":ui:image-picker")
 
 include(":samples:catalog-app-shared")
+include(":samples:playground-app-shared")

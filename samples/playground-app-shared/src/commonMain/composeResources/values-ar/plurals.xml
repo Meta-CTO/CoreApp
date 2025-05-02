@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <plurals name="d_languages">
+        <item quantity="one">%1$d لغة</item>
+        <item quantity="other">%1$d لغات</item>
+    </plurals>
+
+    <plurals name="my_languages">
+        <item quantity="one">لغتي</item>
+        <item quantity="other">لغاتي</item>
+    </plurals>
+</resources>
