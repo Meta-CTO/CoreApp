@@ -18,34 +18,31 @@ import com.metacto.core.language.ILanguageManager
 import com.metacto.core.ui.theme.CoreColors
 import com.metacto.core.ui.theme.CoreShapes
 import com.metacto.core.ui.theme.CoreSpacings
-import com.metacto.core.ui.theme.CoreTypography
 import com.metacto.core.ui.theme.LocalCoreColors
 import com.metacto.core.ui.theme.LocalCoreShapes
 import com.metacto.core.ui.theme.LocalCoreSpacings
 import com.metacto.core.ui.theme.LocalCoreTypography
 import org.koin.compose.koinInject
 
-internal object AppTheme {
-    val colors
-        @Composable
-        @ReadOnlyComposable
-        get() = LocalAppColors.current
+internal val colors
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalAppColors.current
 
-    val typography
-        @Composable
-        @ReadOnlyComposable
-        get() = LocalAppTypography.current
+internal val typography
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalAppTypography.current
 
-    val spacings
-        @Composable
-        @ReadOnlyComposable
-        get() = LocalAppSpacings.current
+internal val spacings
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalAppSpacings.current
 
-    val shapes
-        @Composable
-        @ReadOnlyComposable
-        get() = LocalAppShapes.current
-}
+internal val shapes
+    @Composable
+    @ReadOnlyComposable
+    get() = LocalAppShapes.current
 
 @Composable
 private fun ProvideTheme(
@@ -59,20 +56,16 @@ private fun ProvideTheme(
     }
 
     // Get font families
-    val fenwickFontFamily = getFenwickFontFamily()
     val quasimodaFontFamily = getQuasimodaFontFamily()
 
-    // Create app & core typographies
-    val appTypography = remember(fenwickFontFamily, quasimodaFontFamily) {
+    // Create typographies
+    val appTypography = remember(quasimodaFontFamily) {
         AppTypography(
-            fenwick = TextStyle(fontFamily = fenwickFontFamily),
-            quasimoda = TextStyle(fontFamily = quasimodaFontFamily),
+            primary = Primary(TextStyle(fontFamily = quasimodaFontFamily))
         )
     }
-    val coreTypography = remember(fenwickFontFamily, quasimodaFontFamily) {
-        CoreTypography(
-            primary = TextStyle(fontFamily = quasimodaFontFamily)
-        )
+    val coreTypography = remember(appTypography) {
+        appTypography.getCoreTypography()
     }
 
     // Create other app & core theme sets
@@ -106,20 +99,20 @@ internal fun AppThemeContent(
 ) {
     // Create material color scheme
     val materialColorScheme = lightColorScheme(
-        primary = AppTheme.colors.nectarine,
-        onPrimary = AppTheme.colors.midnight,
-        primaryContainer = AppTheme.colors.miniPeach,
-        onPrimaryContainer = AppTheme.colors.midnight,
-        secondary = AppTheme.colors.midnight,
-        onSecondary = AppTheme.colors.white,
-        secondaryContainer = AppTheme.colors.lavender,
-        onSecondaryContainer = AppTheme.colors.midnight,
-        tertiary = AppTheme.colors.gray,
-        onTertiary = AppTheme.colors.white,
-        tertiaryContainer = AppTheme.colors.white,
-        onTertiaryContainer = AppTheme.colors.midnight,
-        background = AppTheme.colors.background,
-        surface = AppTheme.colors.background
+        primary = colors.nectarine,
+        onPrimary = colors.midnight,
+        primaryContainer = colors.miniPeach,
+        onPrimaryContainer = colors.midnight,
+        secondary = colors.midnight,
+        onSecondary = colors.white,
+        secondaryContainer = colors.lavender,
+        onSecondaryContainer = colors.midnight,
+        tertiary = colors.gray,
+        onTertiary = colors.white,
+        tertiaryContainer = colors.white,
+        onTertiaryContainer = colors.midnight,
+        background = colors.background,
+        surface = colors.background
     )
 
     // Provide different theme then render material theme
@@ -128,8 +121,8 @@ internal fun AppThemeContent(
             colorScheme = materialColorScheme
         ) {
             Scaffold(
-                containerColor = AppTheme.colors.background,
-                modifier = Modifier.background(AppTheme.colors.background)
+                containerColor = colors.background,
+                modifier = Modifier.background(colors.background)
             ) {
                 content()
             }

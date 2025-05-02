@@ -37,7 +37,6 @@ fun initKoin(
         filesModule(),
         notificationsModule(
             NotificationsConfigs(
-                showNotifications = true,
                 askNotificationPermissionOnStart = true
             )
         ),

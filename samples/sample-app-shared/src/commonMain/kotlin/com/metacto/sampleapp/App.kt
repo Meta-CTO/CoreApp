@@ -11,7 +11,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.metacto.sampleapp.resources.Res
-import com.metacto.sampleapp.resources.compose_multiplatform
+import com.metacto.sampleapp.resources.ic_star_filled
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
@@ -25,7 +25,7 @@ fun App() {
             AnimatedVisibility(showContent) {
                 val greeting = remember { Greeting().greet() }
                 Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
+                    Image(painterResource(Res.drawable.ic_star_filled), null)
                     Text("Compose: $greeting")
                 }
             }
