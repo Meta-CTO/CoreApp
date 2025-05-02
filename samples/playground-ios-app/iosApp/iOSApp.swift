@@ -23,10 +23,9 @@ struct iOSApp: App {
         WindowGroup {
             ContentView()
                 .onOpenURL { url in
-                    DiProvider.deepLinkManager.emitDeepLink(link: url.absoluteString)
+                
                 }.onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { activity in
                     if let url = activity.webpageURL?.absoluteString {
-                        DiProvider.deepLinkManager.emitDeepLink(link: url)
                     }
                 }
         }

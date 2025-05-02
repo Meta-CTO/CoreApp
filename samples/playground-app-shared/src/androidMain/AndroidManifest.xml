@@ -3,20 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="DiscouragedApi,LockedOrientationActivity">
 
-    <uses-feature
-        android:name="android.hardware.camera"
-        android:required="false" />
-
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
-        android:name=".SampleApp"
+        android:name=".PlaygroundApp"
         android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -36,24 +28,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="https" />
-                <data android:scheme="http" />
-                <data android:scheme="shamy" />
-                <data android:host="www.mahmoudelshamy.com" />
-                <data android:host="mahmoudelshamy.com" />
-                <data android:host="joycemeyer.org" />
-                <data android:path="/set-password.html" />
-                <data android:path="/archives" />
-                <data android:pathPrefix="/DailyDevo/" />
-
             </intent-filter>
         </activity>
     </application>

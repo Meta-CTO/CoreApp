@@ -46,14 +46,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(Dependencies.Modules.CORE_UI))
-            implementation(project(Dependencies.Modules.FILES))
-            implementation(project(Dependencies.Modules.NOTIFICATIONS))
-            implementation(project(Dependencies.Modules.PHONE_CORE))
-            implementation(project(Dependencies.Modules.MEDIA_PLAYERS))
-            implementation(project(Dependencies.Modules.CAMERA))
-            implementation(project(Dependencies.Modules.YOUTUBE))
-            implementation(project(Dependencies.Modules.PHONE_UI))
-            implementation(project(Dependencies.Modules.IMAGE_PICKER))
         }
 
         androidMain.dependencies {
@@ -121,7 +113,7 @@ android {
                 resValue(
                     type = "string",
                     name = "app_name",
-                    value = "CatalogApp${flavor.appNameSuffix}"
+                    value = "PlaygroundApp${flavor.appNameSuffix}"
                 )
             }
         }

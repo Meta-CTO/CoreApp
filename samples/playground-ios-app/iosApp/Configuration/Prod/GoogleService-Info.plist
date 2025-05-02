@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.metacto.catalogapp.prod</string>
+	<string>com.metacto.playground.prod</string>
 	<key>PROJECT_ID</key>
 	<string>metactosampleapp</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:211134116667:ios:f86b1fab684b7f91827d1e</string>
+	<string>1:211134116667:ios:8bfefacbf012a64c827d1e</string>
 </dict>
 </plist>
