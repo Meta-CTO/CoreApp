@@ -139,11 +139,10 @@ content_file_name="${screen}Content.kt"
 content_file_path="${app_folder_path}/presentation/${feature}/${screen_lower}/components"
 content_file_content="package ${package_name}.presentation.${feature}.${screen_lower}.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import com.metacto.core.ui.components.containers.ScreenColumn
+import com.metacto.core.ui.navigation.NavManager
+import com.metacto.sampleapp.presentation.components.containers.AppScreenColumn
+import org.koin.compose.koinInject
 import ${package_name}.presentation.theme.colors
 import ${package_name}.presentation.theme.typography
 import ${package_name}.presentation.theme.shapes
@@ -156,14 +155,20 @@ internal fun ${screen}Content(
     state: State,
     onEvent: (Event) -> Unit
 ) {
+    // Di
+    val navManager = koinInject<NavManager>()
+
     // Container column
-    ScreenColumn(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+    AppScreenColumn(
+        title = \"${screen}\",
+        isScrollable = true,
+        showToolbar = true,
+        showBack = true,
+        onBackClick = {
+            navManager.goBack()
+        },
     ) {
-        Text(
-            text = \"${screen} Screen\"
-        )
+        // TODO: Render content
     }
 }"
 
