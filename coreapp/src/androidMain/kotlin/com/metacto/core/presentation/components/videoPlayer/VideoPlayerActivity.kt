@@ -161,13 +161,19 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
     ) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
 
+        val ibPip = findViewById<ImageButton>(R.id.ib_pip)
+
         if (isInPictureInPictureMode) {
             playerView?.useController = false
             playerView?.hideController()
+            // Hide the PiP button when in PiP mode
+            ibPip.visibility = View.GONE
             eventBroadcaster.emit(VideoPlayerEvent.StartedPip)
         } else {
             playerView?.useController = true
             showSystemBars()
+            // Show the PiP button again when exiting PiP mode
+            ibPip.visibility = if (isPipSupported) View.VISIBLE else View.GONE
             if (playerView?.player == null) {
                 playerView?.player = exoPlayer
             }

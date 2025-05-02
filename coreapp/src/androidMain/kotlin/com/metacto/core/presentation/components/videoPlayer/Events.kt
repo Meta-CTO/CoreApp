@@ -37,12 +37,4 @@ internal object VideoPlayerEventBroadcaster {
                 }
         }
     }
-
-    suspend inline fun <reified T : VideoPlayerEvent> collect(crossinline onReceived: (T) -> Unit) {
-        events
-            .filter { it is T }
-            .collectLatest {
-                onReceived(it as T)
-            }
-    }
 }
