@@ -9,7 +9,7 @@ object Versions {
     const val COMPOSE_ANDROID = "1.7.4"
     const val DATE_TIME = "0.4.0"
     const val COROUTINES = "1.10.2"
-    const val STRAPI_KMM = "10.0.144"
+    const val STRAPI_KMM = "10.0.150"
     const val CORE_NETWORK = "1.0.13"
     const val KOIN = "4.0.0"
     const val KOIN_COMPOSE = "1.1.0"

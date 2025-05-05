@@ -75,6 +75,7 @@ fun PriceTextInputField(
     focusedBorderThickness: Dp = spacings.priceTextInputField.focusedBorderThickness,
     unfocusedBorderThickness: Dp = spacings.priceTextInputField.unfocusedBorderThickness,
     minWidth: Dp = spacings.priceTextInputField.minWidth,
+    addCommaToFormattedCurrency: Boolean = false,
 ) {
     val text = if (!allowDecimal) {
         price?.toIntOrNull().orZero().toString()
@@ -93,7 +94,8 @@ fun PriceTextInputField(
         textStyle = textStyle,
         visualTransformation = CurrencyAmountInputVisualTransformation(
             style = visualTransformationSpanStyle,
-            maxAllowedDecimals = maxAllowedDecimals
+            maxAllowedDecimals = maxAllowedDecimals,
+            addCommaToFormattedCurrency = addCommaToFormattedCurrency,
         ),
         maxLines = 1,
         singleLine = true,
