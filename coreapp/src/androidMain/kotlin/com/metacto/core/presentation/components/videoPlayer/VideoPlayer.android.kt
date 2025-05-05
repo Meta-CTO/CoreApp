@@ -6,16 +6,17 @@ import android.widget.FrameLayout
 import androidx.annotation.OptIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cast
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -29,7 +30,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -43,6 +46,7 @@ import com.metacto.core.domain.DiQualifiers
 import com.metacto.core.presentation.components.visibilities.FadeVisibility
 import com.metacto.core.utils.extensions.OnLifecycleEvent
 import com.metacto.core.utils.extensions.noRippleClickable
+import com.metacto.coreApp.R
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
@@ -82,7 +86,8 @@ actual fun VideoPlayer(
 ) {
     val context = LocalContext.current
     val eventBroadcaster = koinInject<VideoPlayerEventBroadcaster>()
-    val playerManagers = koinInject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
+    val playerManagers =
+        koinInject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
     val playerManager = playerManagers.getOrPut(uniqueId) { VideoPlayerManager(uniqueId) }
 
     val isPlaying = remember { mutableStateOf(playerManager.exoPlayer.isPlaying) }
@@ -93,7 +98,6 @@ actual fun VideoPlayer(
     val isPlayButtonVisible by remember { mutableStateOf(true) }
 
     // Cast support
-    val castAvailable by playerManager.castAvailable.collectAsState()
     val isCasting by playerManager.isCasting.collectAsState()
 
     eventBroadcaster.collectInCompose<VideoPlayerEvent.ActivityFinished> {
@@ -226,22 +230,22 @@ actual fun VideoPlayer(
         }
 
         // Cast Button
-        if (castAvailable) {
-            Box(
-                modifier = Modifier
-                    .align(Alignment.TopEnd)
-                    .padding(8.dp)
-            ) {
-                // Add the Cast button as AndroidView
-                AndroidView(
-                    factory = { ctx ->
-                        MediaRouteButton(ctx).apply {
-                            playerManager.setupCastButton(this)
-                        }
-                    },
-                    modifier = Modifier.size(48.dp)
-                )
-            }
+        Box(
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .padding(end = 8.dp)
+                .align(Alignment.TopEnd)
+                .background(color = Color.LightGray, shape = CircleShape)
+        ) {
+            AndroidView(
+                factory = { context ->
+                    MediaRouteButton(context).apply {
+                        // Setup the cast button - this connects it to the CastContext
+                        playerManager.setupCastButton(this)
+                    }
+                },
+                modifier = Modifier.size(48.dp)
+            )
         }
 
         // Casting Indicator
@@ -253,9 +257,9 @@ actual fun VideoPlayer(
                     .background(Color.Black.copy(alpha = 0.7f))
                     .padding(8.dp)
             ) {
-                // Show a simple "Casting to device" text - you can replace with your own UI
-                androidx.compose.material3.Text(
-                    text = "Casting to device",
+                // "Casting to device" text
+                Text(
+                    text = stringResource(R.string.casting_to_device),
                     color = Color.White,
                     modifier = Modifier.align(Alignment.Center)
                 )

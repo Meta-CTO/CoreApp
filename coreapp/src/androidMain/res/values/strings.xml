@@ -1,4 +1,5 @@
 <resources>
     <string name="media_notification_channel">Media Channel</string>
     <string name="media_notification_channel_description">Media Channel</string>
+    <string name="casting_to_device">Casting to device</string>
 </resources>

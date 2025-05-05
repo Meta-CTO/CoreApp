@@ -11,6 +11,7 @@ import androidx.media3.common.VideoSize
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaSession
+import androidx.mediarouter.app.MediaRouteButton
 import com.metacto.core.domain.DiQualifiers
 import com.metacto.core.utils.extensions.createMediaSource
 import com.metacto.core.utils.extensions.getLauncherPendingIntent
@@ -123,28 +124,12 @@ internal class VideoPlayerManager(
     }
 
     private fun initCastManager() {
-        try {
-            castManager = CastManager(context).apply {
-                // Set the local player for transfer between devices
-                setLocalPlayer(exoPlayer)
-
-                // Observe cast availability
-                observeCastStates(this)
-            }
-        } catch (e: Exception) {
-            // Cast not available or failed to initialize
-            e.printStackTrace()
-        }
-    }
-
-    private fun observeCastStates(castManager: CastManager) {
-        // Collect cast state flows and update our own states
-        try {
-            // This is simplified - in a real app, you'd use lifecycleScope or similar
-            _castAvailable.value = castManager.castAvailable.value
-            _isCasting.value = castManager.isCasting.value
-        } catch (e: Exception) {
-            e.printStackTrace()
+        castManager = CastManager(context).apply {
+            // Set the local player
+            setLocalPlayer(exoPlayer)
+            // Observe cast states
+            _castAvailable.value = castAvailable.value
+            _isCasting.value = isCasting.value
         }
     }
 
@@ -235,27 +220,11 @@ internal class VideoPlayerManager(
         }
     }
 
-    fun startCasting() {
-        myMediaItem?.let {
-            castManager?.startCasting(it)
-        }
-    }
-
-    fun stopCasting() {
-        castManager?.stopCasting()
-    }
-
-    fun setupCastButton(mediaRouteButton: androidx.mediarouter.app.MediaRouteButton) {
+    fun setupCastButton(mediaRouteButton: MediaRouteButton) {
         castManager?.setupCastButton(mediaRouteButton)
     }
 
     fun setMediaMetadataEnabled(isEnabled: Boolean) {
         isMediaMetadataEnabled = isEnabled
-    }
-
-    fun release() {
-        castManager?.release()
-        castManager = null
-        exoPlayer.release()
     }
 }
