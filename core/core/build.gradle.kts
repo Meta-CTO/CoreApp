@@ -59,24 +59,24 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // Core SDKs
-            api(Dependencies.CORE_NETWORK)
+            api(libs.core.network)
 
             // Koin
-            api(Dependencies.Koin.CORE)
-            api(Dependencies.Koin.COMPOSE)
+            api(libs.koin.core)
+            api(libs.koin.compose)
 
             // Kotlin
-            api(Dependencies.Kotlin.COROUTINES)
-            api(Dependencies.Kotlin.DATE_TIME)
+            api(libs.kotlinx.coroutines.core)
+            api(libs.kotlinx.datetime)
 
             // Don't remove this
-            implementation(Dependencies.Notifications.STATELY_COMMON)
+            implementation(libs.stately.common)
         }
 
         androidMain.dependencies {
             // Koin
-            api(Dependencies.Koin.ANDROID)
-            api(Dependencies.Koin.ANDROID_COMPOSE)
+            api(libs.koin.android)
+            api(libs.koin.androidx.compose)
         }
 
         iosMain.dependencies {
