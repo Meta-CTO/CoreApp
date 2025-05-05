@@ -45,15 +45,15 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(Dependencies.Modules.CORE_UI))
-            implementation(project(Dependencies.Modules.FILES))
-            implementation(project(Dependencies.Modules.NOTIFICATIONS))
-            implementation(project(Dependencies.Modules.PHONE_CORE))
-            implementation(project(Dependencies.Modules.MEDIA_PLAYERS))
-            implementation(project(Dependencies.Modules.CAMERA))
-            implementation(project(Dependencies.Modules.YOUTUBE))
-            implementation(project(Dependencies.Modules.PHONE_UI))
-            implementation(project(Dependencies.Modules.IMAGE_PICKER))
+            implementation(project(":ui:core-ui"))
+            implementation(project(":core:files"))
+            implementation(project(":core:notifications"))
+            implementation(project(":core:phone-core"))
+            implementation(project(":ui:media-players"))
+            implementation(project(":ui:camera"))
+            implementation(project(":ui:youtube"))
+            implementation(project(":ui:phone-ui"))
+            implementation(project(":ui:image-picker"))
         }
 
         androidMain.dependencies {

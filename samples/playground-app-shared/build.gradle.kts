@@ -45,7 +45,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(Dependencies.Modules.CORE_UI))
+            implementation(project(":ui:core-ui"))
         }
 
         androidMain.dependencies {
