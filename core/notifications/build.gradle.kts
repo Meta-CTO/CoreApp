@@ -58,12 +58,12 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // Core
-            implementation(project(Dependencies.Modules.CORE))
+            implementation(project(":core:core"))
 
             // Notifications
-            implementation(Dependencies.Notifications.KMP_NOTIFIER)
-            implementation(Dependencies.Notifications.UUID)  // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
-            implementation(Dependencies.Notifications.STATELY_COMMON) // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
+            implementation(libs.kmp.notifier)
+            implementation(libs.uuid) // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
+            implementation(libs.stately.common) // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
         }
 
         androidMain.dependencies {

@@ -59,7 +59,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // Core
-            implementation(project(Dependencies.Modules.CORE))
+            implementation(project(":core:core"))
         }
 
         androidMain.dependencies {

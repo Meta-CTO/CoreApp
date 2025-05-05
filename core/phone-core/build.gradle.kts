@@ -57,8 +57,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(Dependencies.Modules.CORE))
-            implementation(Dependencies.LIB_PHONE_NUMBER)
+            implementation(project(":core:core"))
+            implementation(libs.libphonenumber)
         }
 
         androidMain.dependencies {
