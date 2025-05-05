@@ -61,47 +61,47 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // Core
-            api(project(Dependencies.Modules.CORE))
+            api(project(":core:core"))
 
             // Compose
-            api(Dependencies.Compose.RUNTIME)
-            api(Dependencies.Compose.FOUNDATION)
-            implementation(Dependencies.Compose.MATERIAL)
-            api(Dependencies.Compose.MATERIAL3)
-            api(Dependencies.Compose.ANIMATION)
-            api(Dependencies.Compose.ANIMATION_GRAPHICS)
-            api(Dependencies.Compose.EXTENDED_ICONS)
-            api(Dependencies.Compose.RESOURCES)
+            api(libs.compose.runtime)
+            api(libs.compose.foundation)
+            implementation(libs.compose.material)
+            api(libs.compose.material3)
+            api(libs.compose.animation)
+            api(libs.compose.animation.graphics)
+            api(libs.compose.material.icons.extended)
+            api(libs.compose.components.resources)
 
             // Voyager
-            implementation(Dependencies.Voyager.NAVIGATOR)
-            implementation(Dependencies.Voyager.BOTTOM_SHEET)
-            api(Dependencies.Voyager.SCREEN_MODEL)
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.bottomsheet)
+            api(libs.voyager.screenmodel)
 
             // Coil
-            implementation(Dependencies.Coil.CORE)
-            implementation(Dependencies.Coil.COMPOSE)
-            implementation(Dependencies.Coil.NETWORK)
-            implementation(Dependencies.Coil.SVG)
+            implementation(libs.coil)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network)
+            implementation(libs.coil.svg)
 
             // Others
-            implementation(Dependencies.COMPOTTIE)
-            implementation(Dependencies.SHIMMER)
+            implementation(libs.compottie)
+            implementation(libs.shimmer)
         }
 
         androidMain.dependencies {
             // AndroidX
-            api(Dependencies.AndroidX.APP_COMPAT)
-            api(Dependencies.AndroidX.ACTIVITY_COMPOSE)
-            api(Dependencies.AndroidX.CORE_KTS)
-            api(Dependencies.AndroidX.SPLASH_SCREEN)
+            api(libs.appcompat)
+            api(libs.activity.compose)
+            api(libs.core.ktx)
+            api(libs.splashscreen)
 
             // Voyager
-            implementation(Dependencies.Voyager.KOIN)
+            implementation(libs.voyager.koin)
         }
 
         iosMain.dependencies {
-            implementation(Dependencies.Compose.MATERIAL)
+            implementation(libs.compose.material)
         }
     }
 
