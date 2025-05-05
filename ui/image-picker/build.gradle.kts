@@ -60,12 +60,12 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // Core UI
-            implementation(project(Dependencies.Modules.CORE_UI))
+            implementation(project(":ui:core-ui"))
         }
 
         androidMain.dependencies {
-            implementation(Dependencies.ANDROID_IMAGE_PICKER)
-            implementation(Dependencies.ANDROID_CROPPER)
+            implementation(libs.android.image.picker)
+            implementation(libs.android.cropper)
         }
 
         iosMain.dependencies {

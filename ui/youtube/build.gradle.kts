@@ -59,13 +59,13 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(Dependencies.Modules.CORE_UI))
-            implementation(Dependencies.WEBVIEW)
+            implementation(project(":ui:core-ui"))
+            implementation(libs.webview)
         }
 
         androidMain.dependencies {
-            api(Dependencies.YoutubePlayer.CORE)
-            api(Dependencies.YoutubePlayer.CUSTOM_UI)
+            api(libs.youtube.player.core)
+            api(libs.youtube.player.custom.ui)
         }
 
         iosMain.dependencies {

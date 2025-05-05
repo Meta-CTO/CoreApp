@@ -60,18 +60,16 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // Core UI
-            implementation(project(Dependencies.Modules.CORE_UI))
-
-            // Camera X
-            implementation(Dependencies.Camera.CAMERA_VIEW)
-            implementation(Dependencies.Camera.CAMERA2)
-            implementation(Dependencies.Camera.CORE)
-            implementation(Dependencies.Camera.LIFECYCLE)
-            implementation(Dependencies.Camera.VIDEO)
+            implementation(project(":ui:core-ui"))
         }
 
         androidMain.dependencies {
-            // ANDROID ANDROID DEPENDENCIES
+            // Camera X
+            implementation(libs.camera.view)
+            implementation(libs.camera.camera2)
+            implementation(libs.camera.core)
+            implementation(libs.camera.lifecycle)
+            implementation(libs.camera.video)
         }
 
         iosMain.dependencies {
