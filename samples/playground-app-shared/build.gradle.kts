@@ -2,13 +2,13 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
-    kotlin(Plugins.MULTIPLATFORM_PLUGIN)
-    id(Plugins.ANDROID_APPLICATION_PLUGIN)
-    id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
-    id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
-    id(Plugins.SERIALIZATION_PLUGIN)
-    id(Plugins.PARCELIZE_PLUGIN)
-    id(Plugins.CRASHLYTICS_PLUGIN)
+    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 kotlin {

@@ -5,13 +5,13 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 plugins {
-    kotlin(Plugins.MULTIPLATFORM_PLUGIN)
-    id(Plugins.ANDROID_LIBRARY_PLUGIN)
-    id(Plugins.PARCELIZE_PLUGIN)
-    id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
-    id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
-    id(Plugins.MAVEN_PUBLISH)
-    id(Plugins.SIGNING)
+    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.maven.publish)
+    alias(libs.plugins.signing)
 }
 
 private val versionProperties = Properties().apply {
