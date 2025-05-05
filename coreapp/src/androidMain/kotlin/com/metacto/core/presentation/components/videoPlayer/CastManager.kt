@@ -193,17 +193,4 @@ class CastManager(private val context: Context) {
         val resultCode = googleApiAvailability.isGooglePlayServicesAvailable(context)
         return resultCode == ConnectionResult.SUCCESS
     }
-
-    fun release() {
-        castContext?.sessionManager?.removeSessionManagerListener(
-            sessionManagerListener,
-            CastSession::class.java
-        )
-        castPlayer?.setSessionAvailabilityListener(null)
-        castPlayer?.release()
-
-        castPlayer = null
-        currentPlayer = null
-        localExoPlayer = null
-    }
 }
