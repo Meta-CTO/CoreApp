@@ -11,7 +11,6 @@ import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.util.Rational
-import android.view.MotionEvent
 import android.view.SurfaceView
 import android.view.View
 import android.widget.FrameLayout
@@ -40,7 +39,6 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
     private var exoPlayer: ExoPlayer? = null
     private var isPipSupported = false
     private var wasPlayingBeforePip = false
-    private var hasUserInteracted = false
     private var playerView: PlayerView? = null
     private var playerId: String? = null
 
@@ -54,28 +52,22 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
         }
     }
 
-    // Subtitle picker launcher
     private val subtitlePickerLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == RESULT_OK) {
             val uri = result.data?.data ?: return@registerForActivityResult
-
-            // Take persistent permission
             contentResolver.takePersistableUriPermission(
                 uri,
                 Intent.FLAG_GRANT_READ_URI_PERMISSION
             )
 
-            // Use SubtitleFileLoader to load the file
             lifecycleScope.launch {
                 val subtitleLoader = SubtitleFileLoader(this@VideoPlayerActivity)
-                val result = subtitleLoader.loadSubtitleFile(uri)
+                val fileLoaderResult = subtitleLoader.loadSubtitleFile(uri)
 
-                if (result != null) {
-                    val (language, fileName, content) = result
-
-                    // Get the player manager and add the subtitle
+                if (fileLoaderResult != null) {
+                    val (language, fileName, content) = fileLoaderResult
                     val playerManagers by inject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
                     playerManagers[playerId]?.addExternalSubtitle(language, fileName, content)
                 }
@@ -129,7 +121,6 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
     private fun handleBackPress() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-
                 if (isInPictureInPictureMode) {
                     finish()
                     return
@@ -159,7 +150,6 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
         }
         ibPip.visibility = if (isPipSupported) View.VISIBLE else View.GONE
 
-        // Set up Cast Button
         val castButton = findViewById<androidx.mediarouter.app.MediaRouteButton>(R.id.cast_button)
         val playerManagers by inject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
         playerId?.let { playerManagers[it]?.setupCastButton(castButton) }
@@ -167,9 +157,7 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
 
     private fun enablePip() {
         if (!isPipSupported) return
-
         wasPlayingBeforePip = exoPlayer?.isPlaying ?: false
-
         val params = updatePipParams()
         if (params != null) {
             enterPictureInPictureMode(params)
@@ -226,7 +214,6 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
             }
         }
 
-        // Set up Cast Button
         val castButton = findViewById<androidx.mediarouter.app.MediaRouteButton>(R.id.cast_button)
         playerManager.setupCastButton(castButton)
     }
@@ -247,25 +234,31 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
         val topControlsContainer = findViewById<LinearLayout>(R.id.top_controls_container)
 
         if (isInPictureInPictureMode) {
-            hasUserInteracted = false
+            eventBroadcaster.setPipActivePlayerId(playerId)
+
+            val playerManagers by inject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
+            playerManagers.forEach { (id, manager) ->
+                if (id != playerId) {
+                    manager.pause()
+                }
+            }
+
             playerView?.useController = false
             playerView?.hideController()
-            // Hide the PiP button when in PiP mode
             pipContainer.visibility = View.GONE
             topControlsContainer.visibility = View.GONE
-
-            // Hide subtitles in PIP mode
             playerView?.subtitleView?.visibility = View.INVISIBLE
 
             eventBroadcaster.emit(VideoPlayerEvent.StartedPip)
         } else {
+            if (eventBroadcaster.getPipActivePlayerId() == playerId) {
+                eventBroadcaster.setPipActivePlayerId(null)
+            }
+
             playerView?.useController = true
             showSystemBars()
-            // Show the PiP button again when exiting PiP mode
             pipContainer.visibility = if (isPipSupported) View.VISIBLE else View.GONE
             topControlsContainer.visibility = if (isPipSupported) View.VISIBLE else View.GONE
-
-            // Show subtitles again when exiting PIP mode
             playerView?.subtitleView?.visibility = View.VISIBLE
 
             if (playerView?.player == null) {
@@ -275,10 +268,6 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
                 exoPlayer?.setVideoSurfaceView(it)
             }
             eventBroadcaster.emit(VideoPlayerEvent.StoppedPip)
-
-            if (!isChangingConfigurations && !hasUserInteracted) {
-                finish()
-            }
         }
     }
 
@@ -315,12 +304,11 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
         playerView?.player = null
         exoPlayer = null
 
-        eventBroadcaster.emit(VideoPlayerEvent.ActivityFinished)
-    }
+        if (eventBroadcaster.getPipActivePlayerId() == playerId) {
+            eventBroadcaster.setPipActivePlayerId(null)
+        }
 
-    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        hasUserInteracted = true
-        return super.dispatchTouchEvent(ev)
+        eventBroadcaster.emit(VideoPlayerEvent.ActivityFinished)
     }
 
     companion object {
@@ -329,6 +317,7 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
         private const val ACTION_MEDIA_CONTROL = "media_control"
         private const val EXTRA_CONTROL_TYPE = "control_type"
         private const val CONTROL_TYPE_PLAY_PAUSE = 1
+        private const val RECEIVER_EXPORTED = Context.RECEIVER_EXPORTED
 
         fun start(
             context: Context,

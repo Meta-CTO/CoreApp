@@ -303,12 +303,21 @@ internal class VideoPlayerManager(
     }
 
     fun play() {
+        val eventBroadcaster = VideoPlayerEventBroadcaster
+        val pipPlayerId = eventBroadcaster.getPipActivePlayerId()
+
+        if (pipPlayerId != null && pipPlayerId != uniqueId) {
+            val playerManagers by inject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
+            playerManagers[pipPlayerId]?.pause()
+        }
+
         if (_isCasting.value) {
             castManager?.getCurrentPlayer()?.play()
         } else if (exoPlayer.isPlaying.not()) {
             exoPlayer.play()
         }
     }
+
 
     fun pause() {
         if (_isCasting.value) {

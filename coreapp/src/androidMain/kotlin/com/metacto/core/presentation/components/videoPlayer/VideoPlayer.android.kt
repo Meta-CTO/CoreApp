@@ -145,7 +145,10 @@ actual fun VideoPlayer(
 
     val controller = remember(playerManager) {
         object : VideoPlayerController {
-            override fun play() = playerManager.play()
+            override fun play() {
+                playerManager.play()
+                eventBroadcaster.emit(VideoPlayerEvent.PlayerStarted(uniqueId))
+            }
             override fun pause() = playerManager.pause()
         }
     }
