@@ -98,7 +98,7 @@ class FilesSamplesScreenViewModel : BaseViewModel<State, Event, Effect>() {
         } else {
             coreGlobalState.snackBar(
                 SnackBarParams(
-                    message = "File deleted successfully",
+                    message = "Failed to delete file",
                     type = SnackBarType.ERROR,
                 )
             )
