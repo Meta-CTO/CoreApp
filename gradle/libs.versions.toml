@@ -53,11 +53,11 @@ signing = { id = "signing" }
 
 [libraries]
 # Plugin classpaths
-android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
-kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
-kotlin-serialization-plugin = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "serialization" }
-google-services-plugin = { module = "com.google.gms:google-services", version.ref = "play-services-plugin" }
-crashlytics-gradle-plugin = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics-plugin" }
+android-gradle-classpath = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+kotlin-gradle-classpath = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlin-serialization-classpath = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "serialization" }
+google-services-classpath = { module = "com.google.gms:google-services", version.ref = "play-services-plugin" }
+crashlytics-gradle-classpath = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics-plugin" }
 
 # Compose
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose" }

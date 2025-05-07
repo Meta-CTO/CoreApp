@@ -19,7 +19,7 @@ kotlin {
         }
         compilations.all {
             kotlinOptions {
-                jvmTarget = Versions.JVM.toString()
+                jvmTarget = libs.versions.jvm.get()
             }
         }
     }
@@ -78,8 +78,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = Versions.JVM
-        targetCompatibility = Versions.JVM
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
     }
 
     signingConfigs {
@@ -130,16 +130,16 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE_ANDROID
+        kotlinCompilerExtensionVersion = libs.versions.compose.android.get()
     }
 
     compileOptions {
-        sourceCompatibility = Versions.JVM
-        targetCompatibility = Versions.JVM
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
     }
 
     kotlin {
-        jvmToolchain(Versions.JVM.toString().toInt())
+        jvmToolchain(libs.versions.jvm.get().toInt())
     }
 }
 
