@@ -2,8 +2,8 @@
 
 # Paths
 current_path="$(pwd)"
-app_folder_path="${current_path}/samples/sample-app-shared/src/commonMain/kotlin/com/metacto/sampleapp"
-package_name="com.metacto.sampleapp"
+app_folder_path="${current_path}/samples/catalog-app-shared/src/commonMain/kotlin/com/metacto/catalogapp"
+package_name="com.metacto.catalogapp"
 
 # Check if both feature and screen arguments are provided
 if [ "$#" -ne 2 ]; then
