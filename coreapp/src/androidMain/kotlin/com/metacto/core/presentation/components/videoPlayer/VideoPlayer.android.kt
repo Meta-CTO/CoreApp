@@ -1,6 +1,8 @@
 package com.metacto.core.presentation.components.videoPlayer
 
+import android.util.TypedValue
 import android.view.SurfaceView
+import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.annotation.OptIn
@@ -8,14 +10,18 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Cast
+import androidx.compose.material.icons.filled.ClosedCaption
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -30,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
@@ -82,7 +87,7 @@ actual fun VideoPlayer(
     onPlayerCreated: ((VideoPlayerController) -> Unit)?,
     onDurationCaught: ((Duration) -> Unit)?,
     onVideoLoop: (() -> Unit)?,
-    onVideoEnd: (() -> Unit)?
+    onVideoEnd: (() -> Unit)?,
 ) {
     val context = LocalContext.current
     val eventBroadcaster = koinInject<VideoPlayerEventBroadcaster>()
@@ -96,9 +101,15 @@ actual fun VideoPlayer(
     var shouldResumePlayback by remember { mutableStateOf(false) }
     val icon = if (isPlaying.value) pauseIconRes else playIconRes
     val isPlayButtonVisible by remember { mutableStateOf(true) }
+    val playerViewRef = remember { mutableStateOf<PlayerView?>(null) }
 
     // Cast support
     val isCasting by playerManager.isCasting.collectAsState()
+
+    // Subtitle file loading
+    val subtitleFilePicker = rememberSubtitleFilePicker { language, fileName, content ->
+        playerManager.addExternalSubtitle(language, fileName, content)
+    }
 
     eventBroadcaster.collectInCompose<VideoPlayerEvent.ActivityFinished> {
         enableRendering = true
@@ -107,16 +118,25 @@ actual fun VideoPlayer(
             shouldResumePlayback = false
         }
         isPlaying.value = playerManager.exoPlayer.isPlaying
+
+        // Ensure subtitles are visible when activity finishes
+        playerViewRef.value?.subtitleView?.visibility = View.VISIBLE
     }
 
     eventBroadcaster.collectInCompose<VideoPlayerEvent.StartedPip> {
         enableRendering = false
         shouldResumePlayback = playerManager.exoPlayer.isPlaying
+
+        // Hide subtitles when entering PIP mode
+        playerViewRef.value?.subtitleView?.visibility = View.INVISIBLE
     }
 
     eventBroadcaster.collectInCompose<VideoPlayerEvent.StoppedPip> {
         enableRendering = false
         shouldResumePlayback = playerManager.exoPlayer.isPlaying
+
+        // Show subtitles when exiting PIP mode
+        playerViewRef.value?.subtitleView?.visibility = View.VISIBLE
     }
 
     LaunchedEffect(enablePip) {
@@ -190,9 +210,12 @@ actual fun VideoPlayer(
                     else AspectRatioFrameLayout.RESIZE_MODE_FIT,
                     enableRendering = enableRendering,
                     onFullscreenClick = { onFullScreen(uniqueId) }
-                )
+                ).also {
+                    playerViewRef.value = it
+                }
             },
             update = { playerView ->
+                playerViewRef.value = playerView
                 updatePlayerView(
                     playerView = playerView,
                     playerManager = playerManager,
@@ -229,23 +252,51 @@ actual fun VideoPlayer(
             }
         }
 
-        // Cast Button
-        Box(
+        // Top control bar with subtitle and cast buttons
+        FadeVisibility(
+            visible = isPlayButtonVisible && enableRendering,
+            duration = CONTROLS_ANIM_DURATION,
             modifier = Modifier
-                .padding(top = 8.dp)
-                .padding(end = 8.dp)
                 .align(Alignment.TopEnd)
-                .background(color = Color.LightGray, shape = CircleShape)
+                .padding(top = 8.dp, end = 8.dp)
         ) {
-            AndroidView(
-                factory = { context ->
-                    MediaRouteButton(context).apply {
-                        // Setup the cast button - this connects it to the CastContext
-                        playerManager.setupCastButton(this)
-                    }
-                },
-                modifier = Modifier.size(48.dp)
-            )
+            Row {
+                // Subtitle button - directly opens file picker
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .background(color = Color.LightGray, shape = CircleShape)
+                        .clickable { subtitleFilePicker() },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.ClosedCaption,
+                        contentDescription = "Load Subtitle File",
+                        tint = Color.Black,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .background(color = Color.LightGray, shape = CircleShape)
+                        .clickable { subtitleFilePicker() },
+                    contentAlignment = Alignment.Center
+                ) {
+                    // Cast button
+                    AndroidView(
+                        factory = { context ->
+                            MediaRouteButton(context).apply {
+                                playerManager.setupCastButton(this)
+                            }
+                        },
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
         }
 
         // Casting Indicator
@@ -257,7 +308,6 @@ actual fun VideoPlayer(
                     .background(Color.Black.copy(alpha = 0.7f))
                     .padding(8.dp)
             ) {
-                // "Casting to device" text
                 Text(
                     text = stringResource(R.string.casting_to_device),
                     color = Color.White,
@@ -325,6 +375,11 @@ private fun createPlayerView(
         player = playerManager.exoPlayer
         layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
+        subtitleView?.setFixedTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+        subtitleView?.setPaddingRelative(0, 0, 0, 20)
+        subtitleView?.setApplyEmbeddedStyles(true)
+        subtitleView?.setCues(null)
+
         setFullscreenButtonClickListener {
             onFullscreenClick()
         }
@@ -350,6 +405,9 @@ private fun updatePlayerView(
     playerView.setFullscreenButtonClickListener {
         onFullscreenClick()
     }
+
+    playerView.subtitleView?.setFixedTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+    playerView.subtitleView?.setPaddingRelative(0, 0, 0, 20)
 
     if (enableRendering) {
         if (playerView.player != playerManager.exoPlayer) {

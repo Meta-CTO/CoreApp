@@ -14,19 +14,24 @@ import android.util.Rational
 import android.view.MotionEvent
 import android.view.SurfaceView
 import android.view.View
+import android.widget.FrameLayout
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.OptIn
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.ui.PlayerView
 import com.metacto.core.domain.DiQualifiers
 import com.metacto.coreApp.R
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 @OptIn(UnstableApi::class)
@@ -44,6 +49,35 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
             when (intent?.getIntExtra(EXTRA_CONTROL_TYPE, 0)) {
                 CONTROL_TYPE_PLAY_PAUSE -> {
                     exoPlayer?.playWhenReady = !(exoPlayer?.playWhenReady ?: false)
+                }
+            }
+        }
+    }
+
+    // Subtitle picker launcher
+    private val subtitlePickerLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val uri = result.data?.data ?: return@registerForActivityResult
+
+            // Take persistent permission
+            contentResolver.takePersistableUriPermission(
+                uri,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+
+            // Use SubtitleFileLoader to load the file
+            lifecycleScope.launch {
+                val subtitleLoader = SubtitleFileLoader(this@VideoPlayerActivity)
+                val result = subtitleLoader.loadSubtitleFile(uri)
+
+                if (result != null) {
+                    val (language, fileName, content) = result
+
+                    // Get the player manager and add the subtitle
+                    val playerManagers by inject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
+                    playerManagers[playerId]?.addExternalSubtitle(language, fileName, content)
                 }
             }
         }
@@ -68,6 +102,28 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
         }
         registerReceiver(pipActionsReceiver, IntentFilter(ACTION_MEDIA_CONTROL), RECEIVER_EXPORTED)
         handleBackPress()
+        setupSubtitleButton()
+    }
+
+    private fun setupSubtitleButton() {
+        val subtitleButton = findViewById<ImageButton>(R.id.ib_subtitle)
+        subtitleButton.setOnClickListener {
+            openSubtitleFilePicker()
+        }
+    }
+
+    private fun openSubtitleFilePicker() {
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*"
+            putExtra(Intent.EXTRA_MIME_TYPES, arrayOf(
+                "text/vtt",
+                "application/x-subrip",
+                "text/plain",
+                "text/x-ssa"
+            ))
+        }
+        subtitlePickerLauncher.launch(intent)
     }
 
     private fun handleBackPress() {
@@ -102,6 +158,11 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
             enablePip()
         }
         ibPip.visibility = if (isPipSupported) View.VISIBLE else View.GONE
+
+        // Set up Cast Button
+        val castButton = findViewById<androidx.mediarouter.app.MediaRouteButton>(R.id.cast_button)
+        val playerManagers by inject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
+        playerId?.let { playerManagers[it]?.setupCastButton(castButton) }
     }
 
     private fun enablePip() {
@@ -159,11 +220,15 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
             exoPlayer?.setVideoSurfaceView(it)
         }
 
-        playerManager.setVideoSizeListener { _, _ ->
+        playerManager.setVideoSizeListener { width, height ->
             if (isInPictureInPictureMode) {
                 updatePipParams()
             }
         }
+
+        // Set up Cast Button
+        val castButton = findViewById<androidx.mediarouter.app.MediaRouteButton>(R.id.cast_button)
+        playerManager.setupCastButton(castButton)
     }
 
     override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -178,20 +243,31 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
     ) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
 
-        val ibPip = findViewById<ImageButton>(R.id.ib_pip)
+        val pipContainer = findViewById<FrameLayout>(R.id.pip_container)
+        val topControlsContainer = findViewById<LinearLayout>(R.id.top_controls_container)
 
         if (isInPictureInPictureMode) {
             hasUserInteracted = false
             playerView?.useController = false
             playerView?.hideController()
             // Hide the PiP button when in PiP mode
-            ibPip.visibility = View.GONE
+            pipContainer.visibility = View.GONE
+            topControlsContainer.visibility = View.GONE
+
+            // Hide subtitles in PIP mode
+            playerView?.subtitleView?.visibility = View.INVISIBLE
+
             eventBroadcaster.emit(VideoPlayerEvent.StartedPip)
         } else {
             playerView?.useController = true
             showSystemBars()
             // Show the PiP button again when exiting PiP mode
-            ibPip.visibility = if (isPipSupported) View.VISIBLE else View.GONE
+            pipContainer.visibility = if (isPipSupported) View.VISIBLE else View.GONE
+            topControlsContainer.visibility = if (isPipSupported) View.VISIBLE else View.GONE
+
+            // Show subtitles again when exiting PIP mode
+            playerView?.subtitleView?.visibility = View.VISIBLE
+
             if (playerView?.player == null) {
                 playerView?.player = exoPlayer
             }

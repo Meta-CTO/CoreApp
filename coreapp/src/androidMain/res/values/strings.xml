@@ -2,4 +2,10 @@
     <string name="media_notification_channel">Media Channel</string>
     <string name="media_notification_channel_description">Media Channel</string>
     <string name="casting_to_device">Casting to device</string>
+    <string name="subtitle_settings">Subtitle Settings</string>
+    <string name="subtitle_off">Off</string>
+    <string name="subtitle_on">On</string>
+    <string name="subtitle_text_size">Text Size</string>
+    <string name="subtitle_language">Language</string>
+    <string name="subtitle_style">Style</string>
 </resources>

@@ -10,6 +10,7 @@ import androidx.media3.common.Player
 import androidx.media3.common.VideoSize
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.trackselection.DefaultTrackSelector
 import androidx.media3.session.MediaSession
 import androidx.mediarouter.app.MediaRouteButton
 import com.metacto.core.domain.DiQualifiers
@@ -32,7 +33,12 @@ internal class VideoPlayerManager(
     private var isMediaMetadataEnabled = false
     private var castManager: CastManager? = null
 
-    // Added for cast support
+    private val trackSelector = DefaultTrackSelector(context).apply {
+        parameters = DefaultTrackSelector.Parameters.Builder(context!!)
+            .setPreferredTextLanguage("en")
+            .build()
+    }
+
     private val _castAvailable = MutableStateFlow(false)
     val castAvailable: StateFlow<Boolean> = _castAvailable.asStateFlow()
 
@@ -43,17 +49,15 @@ internal class VideoPlayerManager(
     var onVideoEnd: (() -> Unit)? = null
     var isPipEnabled: Boolean = true
     private var videoSizeListener: ((width: Int, height: Int) -> Unit)? = null
-    private var myMediaItem: MediaItem? = null
 
-    // Define the exo player
     val exoPlayer by lazy {
         ExoPlayer.Builder(context)
+            .setTrackSelector(trackSelector)
             .setSeekBackIncrementMs(10_000L)
             .setSeekForwardIncrementMs(10_000L)
             .build()
     }
 
-    // Define the media session
     private val mediaSession by lazy {
         MediaSession.Builder(context, exoPlayer).run {
             this.setId(uniqueId)
@@ -64,7 +68,6 @@ internal class VideoPlayerManager(
         }
     }
 
-    // Define the notification manager
     private val notificationManager by lazy {
         MediaNotificationManager(
             context = context,
@@ -74,26 +77,17 @@ internal class VideoPlayerManager(
     }
 
     init {
-        // Add play listener to exo player
         exoPlayer.addListener(object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
-                // Skip if the feature is not enabled
                 if (isMediaMetadataEnabled.not()) return
-
-                // Skip if not playing
                 if (isPlaying.not()) return
 
-                // Pause other players
                 playerManagers.values.forEach {
-                    // Skip if it's current player
                     if (it.uniqueId == uniqueId) return@forEach
-
-                    // Pause the player and hide the notification
                     it.exoPlayer.pause()
                     it.notificationManager.hideNotification()
                 }
 
-                // Show the notification for current exo player
                 notificationManager.showNotificationForPlayer(exoPlayer)
             }
 
@@ -103,7 +97,6 @@ internal class VideoPlayerManager(
                 reason: Int
             ) {
                 if (reason == Player.DISCONTINUITY_REASON_AUTO_TRANSITION) {
-                    // Video has looped
                     onVideoLoop?.invoke()
                 }
             }
@@ -117,17 +110,18 @@ internal class VideoPlayerManager(
             override fun onVideoSizeChanged(videoSize: VideoSize) {
                 videoSizeListener?.invoke(videoSize.width, videoSize.height)
             }
+
+            override fun onTracksChanged(tracks: androidx.media3.common.Tracks) {
+                updateSubtitleTracks()
+            }
         })
 
-        // Initialize cast manager
         initCastManager()
     }
 
     private fun initCastManager() {
         castManager = CastManager(context).apply {
-            // Set the local player
             setLocalPlayer(exoPlayer)
-            // Observe cast states
             _castAvailable.value = castAvailable.value
             _isCasting.value = isCasting.value
         }
@@ -167,13 +161,11 @@ internal class VideoPlayerManager(
         videoArtist: String?,
         videoArtworkUrl: String?
     ) {
-        // If the player is already playing the same video, skip
         if (exoPlayer.currentMediaItem?.mediaId == videoUrl) {
             return
         }
 
         exoPlayer.apply {
-            // Create the metadata
             val mediaMetaData = MediaMetadata.Builder()
                 .setTitle(videoTitle.orEmpty())
                 .setArtist(videoArtist.orEmpty())
@@ -181,27 +173,133 @@ internal class VideoPlayerManager(
                 .setArtworkUri(videoArtworkUrl?.toUri())
                 .build()
 
-            // Create the media item
-            val mediaItem = createMediaSource(
+            val mediaSource = createMediaSource(
                 context = context,
                 url = videoUrl,
                 metaData = mediaMetaData
             )
 
-            // Store the media item for casting
-            myMediaItem = MediaItem.Builder()
-                .setUri(videoUrl.toUri())
-                .setMediaId(videoUrl)
-                .setMediaMetadata(mediaMetaData)
-                .build()
-
-            // Set media source and prepare
             if (isAutoPlay) {
                 playWhenReady = true
             }
-            setMediaSource(mediaItem)
+            setMediaSource(mediaSource)
             prepare()
         }
+    }
+
+    fun addExternalSubtitle(language: String, fileName: String, content: String) {
+        val uniqueFileName = "${System.currentTimeMillis()}_$fileName"
+
+        val file = java.io.File(context.cacheDir, uniqueFileName)
+        file.writeText(content, Charsets.UTF_8)
+
+        if (!file.exists() || file.length() == 0.toLong()) {
+            return
+        }
+
+        val authority = "${context.packageName}.fileprovider"
+
+        val subtitleLoader = SubtitleFileLoader(context)
+        val mimeType = subtitleLoader.getMimeTypeFromFileName(fileName)
+
+        val subtitleUri = androidx.core.content.FileProvider.getUriForFile(
+            context,
+            authority,
+            file
+        )
+
+        context.grantUriPermission(
+            context.packageName,
+            subtitleUri,
+            android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
+
+        val currentItem = exoPlayer.currentMediaItem ?: return
+        val mediaMetadata = currentItem.mediaMetadata
+
+        val newSubtitleConfig = MediaItem.SubtitleConfiguration.Builder(subtitleUri)
+            .setMimeType(mimeType)
+            .setLanguage(language)
+            .setLabel(fileName)
+            .setSelectionFlags(C.SELECTION_FLAG_DEFAULT)
+            .build()
+
+        val currentConfigs = ArrayList(currentItem.localConfiguration?.subtitleConfigurations ?: emptyList())
+        currentConfigs.add(newSubtitleConfig)
+
+        val updatedItem = MediaItem.Builder()
+            .setUri(currentItem.localConfiguration?.uri)
+            .setMediaId(currentItem.mediaId)
+            .setMediaMetadata(mediaMetadata)
+            .setSubtitleConfigurations(currentConfigs)
+            .build()
+
+        val currentPosition = exoPlayer.currentPosition
+        exoPlayer.setMediaItem(updatedItem, currentPosition)
+        exoPlayer.prepare()
+
+        updateSubtitleTracks()
+        val parameters = trackSelector.parameters.buildUpon()
+            .setPreferredTextLanguage(language)
+            .setRendererDisabled(C.TRACK_TYPE_TEXT, false)
+            .setSelectUndeterminedTextLanguage(true)
+            .build()
+
+        trackSelector.setParameters(parameters)
+    }
+
+    private fun updateSubtitleTracks() {
+        val tracks = exoPlayer.currentTracks
+        val subtitleTracks = mutableListOf<SubtitleTrack>()
+
+        subtitleTracks.add(SubtitleTrack("none", "None", false))
+
+        var hasSelectedTrack = false
+
+        for (group in tracks.groups) {
+            if (group.type == C.TRACK_TYPE_TEXT) {
+                for (i in 0 until group.length) {
+                    val format = group.getTrackFormat(i)
+                    val language = format.language ?: "unknown"
+                    val label = format.label ?: language.uppercase()
+                    val isSelected = group.isTrackSelected(i)
+
+                    val track = SubtitleTrack(language, label, isSelected)
+                    subtitleTracks.add(track)
+
+                    if (isSelected) {
+                        hasSelectedTrack = true
+                    }
+                }
+            }
+        }
+
+        if (subtitleTracks.size > 1 && !hasSelectedTrack) {
+            val firstTrack = subtitleTracks.firstOrNull { it.languageCode != "none" }
+            if (firstTrack != null) {
+                selectSubtitleTrack(firstTrack)
+            }
+        }
+    }
+
+    private fun selectSubtitleTrack(track: SubtitleTrack?) {
+        val parameters = if (track == null || track.languageCode == "none") {
+            trackSelector.parameters.buildUpon()
+                .setPreferredTextLanguage(null)
+                .setRendererDisabled(C.TRACK_TYPE_TEXT, true)
+                .build()
+        } else {
+            trackSelector.parameters.buildUpon()
+                .setPreferredTextLanguage(track.languageCode)
+                .setRendererDisabled(C.TRACK_TYPE_TEXT, false)
+                .setSelectUndeterminedTextLanguage(true)
+                .build()
+        }
+
+        trackSelector.setParameters(parameters)
+
+        val currentPos = exoPlayer.currentPosition
+        exoPlayer.seekTo(currentPos)
     }
 
     fun play() {
@@ -228,3 +326,9 @@ internal class VideoPlayerManager(
         isMediaMetadataEnabled = isEnabled
     }
 }
+
+data class SubtitleTrack(
+    val languageCode: String,
+    val displayName: String,
+    val isSelected: Boolean
+)
