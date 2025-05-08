@@ -11,9 +11,9 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 internal sealed class VideoPlayerEvent {
-    data object StoppedPip : VideoPlayerEvent()
-    data object StartedPip : VideoPlayerEvent()
-    data object ActivityFinished : VideoPlayerEvent()
+    data class StoppedPip(val playerId: String) : VideoPlayerEvent() // Added playerId
+    data class StartedPip(val playerId: String) : VideoPlayerEvent() // Added playerId
+    data class ActivityFinished(val playerId: String) : VideoPlayerEvent() // Added playerId
     data class PlayerStarted(val playerId: String) : VideoPlayerEvent()
 }
 

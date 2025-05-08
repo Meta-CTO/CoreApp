@@ -3,8 +3,6 @@ package com.metacto.core.presentation.components.videoPlayer
 import android.util.TypedValue
 import android.view.SurfaceView
 import android.view.View
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.FrameLayout
 import androidx.annotation.OptIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -95,48 +93,60 @@ actual fun VideoPlayer(
         koinInject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
     val playerManager = playerManagers.getOrPut(uniqueId) { VideoPlayerManager(uniqueId) }
 
+    // State management
     val isPlaying = remember { mutableStateOf(playerManager.exoPlayer.isPlaying) }
     val isVideoEnded = remember { mutableStateOf(false) }
-    var enableRendering by remember { mutableStateOf(true) }
+    var enableRendering by remember { mutableStateOf(true) } // Default to true for composable player
     var shouldResumePlayback by remember { mutableStateOf(false) }
+    var surfaceRecreationTrigger by remember { mutableStateOf(false) }
     val icon = if (isPlaying.value) pauseIconRes else playIconRes
     val isPlayButtonVisible by remember { mutableStateOf(true) }
     val playerViewRef = remember { mutableStateOf<PlayerView?>(null) }
 
-    // Cast support
     val isCasting by playerManager.isCasting.collectAsState()
 
-    // Subtitle file loading
     val subtitleFilePicker = rememberSubtitleFilePicker { language, fileName, content ->
         playerManager.addExternalSubtitle(language, fileName, content)
     }
 
+    // Listen for Activity finishing to re-enable rendering in the composable
     eventBroadcaster.collectInCompose<VideoPlayerEvent.ActivityFinished> {
-        enableRendering = true
-        if (shouldResumePlayback) {
-            playerManager.play()
-            shouldResumePlayback = false
+        if (it.playerId == uniqueId) {
+            enableRendering = true
+            if (shouldResumePlayback && playerManager.exoPlayer.playbackState != Player.STATE_ENDED) {
+                playerManager.play()
+                shouldResumePlayback = false
+            }
+            isPlaying.value = playerManager.exoPlayer.isPlaying
+            playerViewRef.value?.subtitleView?.visibility = View.VISIBLE
+            surfaceRecreationTrigger = !surfaceRecreationTrigger
         }
-        isPlaying.value = playerManager.exoPlayer.isPlaying
-
-        // Ensure subtitles are visible when activity finishes
-        playerViewRef.value?.subtitleView?.visibility = View.VISIBLE
     }
 
+    // Listen for PiP start to disable rendering in the composable
     eventBroadcaster.collectInCompose<VideoPlayerEvent.StartedPip> {
-        enableRendering = false
-        shouldResumePlayback = playerManager.exoPlayer.isPlaying
-
-        // Hide subtitles when entering PIP mode
-        playerViewRef.value?.subtitleView?.visibility = View.INVISIBLE
+        if (it.playerId == uniqueId) {
+            shouldResumePlayback = playerManager.exoPlayer.isPlaying
+            enableRendering = false
+            playerViewRef.value?.subtitleView?.visibility = View.INVISIBLE
+            surfaceRecreationTrigger = !surfaceRecreationTrigger
+        }
     }
 
+    // Listen for PiP stop
     eventBroadcaster.collectInCompose<VideoPlayerEvent.StoppedPip> {
-        enableRendering = false
-        shouldResumePlayback = playerManager.exoPlayer.isPlaying
-
-        // Show subtitles when exiting PIP mode
-        playerViewRef.value?.subtitleView?.visibility = View.VISIBLE
+        if (it.playerId == uniqueId) {
+            if (eventBroadcaster.getPipActivePlayerId() == null) {
+                enableRendering = true
+                if (shouldResumePlayback && playerManager.exoPlayer.playbackState != Player.STATE_ENDED) {
+                    playerManager.play()
+                    shouldResumePlayback = false
+                }
+                isPlaying.value = playerManager.exoPlayer.isPlaying
+                playerViewRef.value?.subtitleView?.visibility = View.VISIBLE
+                surfaceRecreationTrigger = !surfaceRecreationTrigger
+            }
+        }
     }
 
     LaunchedEffect(enablePip) {
@@ -149,10 +159,12 @@ actual fun VideoPlayer(
                 playerManager.play()
                 eventBroadcaster.emit(VideoPlayerEvent.PlayerStarted(uniqueId))
             }
+
             override fun pause() = playerManager.pause()
         }
     }
 
+    // Player listener setup
     LaunchedEffect(key1 = playerManager) {
         playerManager.exoPlayer.addListener(object : Player.Listener {
             override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
@@ -173,6 +185,7 @@ actual fun VideoPlayer(
         })
     }
 
+    // Initialize player with media info
     LaunchedEffect(
         playerManager, videoUrl, videoTitle, videoArtist, videoArtworkUrl,
         autoPlay, scaleToCrop, autoRepeat, enableVoice, enableMediaMetadata,
@@ -197,38 +210,57 @@ actual fun VideoPlayer(
     fun onFullScreen(id: String) {
         shouldResumePlayback = playerManager.exoPlayer.isPlaying
         enableRendering = false
+        surfaceRecreationTrigger = !surfaceRecreationTrigger
         VideoPlayerActivity.start(context = context, uniqueId = id, enablePip = enablePip)
     }
 
     Box(modifier = modifier) {
+        // Video player view
         AndroidView(
             modifier = Modifier.fillMaxSize(),
             factory = { ctx ->
-                createPlayerView(
-                    context = ctx,
-                    playerManager = playerManager,
-                    controlsType = controlsType,
-                    controllerShowTimeoutMs = controllerShowTimeoutMs,
-                    resizeMode = if (scaleToCrop) AspectRatioFrameLayout.RESIZE_MODE_FILL
-                    else AspectRatioFrameLayout.RESIZE_MODE_FIT,
-                    enableRendering = enableRendering,
-                    onFullscreenClick = { onFullScreen(uniqueId) }
-                ).also {
+                PlayerView(ctx).apply {
+                    useController = (controlsType == ControlsType.NativeControls)
+                    this.controllerShowTimeoutMs = controllerShowTimeoutMs
+                    this.resizeMode = if (scaleToCrop) AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+                    else AspectRatioFrameLayout.RESIZE_MODE_FIT
+                    subtitleView?.setFixedTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+                    subtitleView?.setPaddingRelative(0, 0, 0, 20)
+                    subtitleView?.setApplyEmbeddedStyles(true)
+                    subtitleView?.setCues(null)
+
+                    setFullscreenButtonClickListener {
+                        onFullScreen(uniqueId)
+                    }
+                }.also {
                     playerViewRef.value = it
                 }
             },
-            update = { playerView ->
-                playerViewRef.value = playerView
-                updatePlayerView(
-                    playerView = playerView,
-                    playerManager = playerManager,
-                    enableRendering = enableRendering,
-                    onFullscreenClick = { onFullScreen(uniqueId) }
-                )
+            update = { view ->
+                playerViewRef.value = view
+                if (enableRendering) {
+                    if (view.player != playerManager.exoPlayer) {
+                        view.player = null
+                        view.player = playerManager.exoPlayer
+                    } else {
+                        (view.videoSurfaceView as? SurfaceView)?.let {
+                            playerManager.exoPlayer.setVideoSurfaceView(it)
+                        }
+                    }
+                    view.subtitleView?.visibility = View.VISIBLE
+                    if (playerManager.exoPlayer.playWhenReady && !playerManager.exoPlayer.isPlaying && playerManager.exoPlayer.playbackState != Player.STATE_ENDED) {
+                        playerManager.exoPlayer.play()
+                    }
+                } else {
+                    if (view.player != null) {
+                        view.player = null
+                    }
+                    view.subtitleView?.visibility = View.INVISIBLE
+                }
             }
         )
 
-        // Custom Controls - Play/Pause button
+        // Custom play/pause control
         if (controlsType == ControlsType.CustomControls) {
             FadeVisibility(
                 visible = isPlayButtonVisible && enableRendering,
@@ -255,7 +287,7 @@ actual fun VideoPlayer(
             }
         }
 
-        // Top control bar with subtitle and cast buttons
+        // Top row controls (subtitle and cast buttons)
         FadeVisibility(
             visible = isPlayButtonVisible && enableRendering,
             duration = CONTROLS_ANIM_DURATION,
@@ -264,7 +296,6 @@ actual fun VideoPlayer(
                 .padding(top = 8.dp, end = 8.dp)
         ) {
             Row {
-                // Subtitle button - directly opens file picker
                 Box(
                     modifier = Modifier
                         .size(36.dp)
@@ -285,14 +316,12 @@ actual fun VideoPlayer(
                 Box(
                     modifier = Modifier
                         .size(36.dp)
-                        .background(color = Color.LightGray, shape = CircleShape)
-                        .clickable { subtitleFilePicker() },
+                        .background(color = Color.LightGray, shape = CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
-                    // Cast button
                     AndroidView(
-                        factory = { context ->
-                            MediaRouteButton(context).apply {
+                        factory = { ctx ->
+                            MediaRouteButton(ctx).apply {
                                 playerManager.setupCastButton(this)
                             }
                         },
@@ -302,7 +331,7 @@ actual fun VideoPlayer(
             }
         }
 
-        // Casting Indicator
+        // Casting indicator
         if (isCasting) {
             Box(
                 modifier = Modifier
@@ -320,30 +349,34 @@ actual fun VideoPlayer(
         }
     }
 
+    // Cleanup when component is removed
     DisposableEffect(Unit) {
-        onDispose {
-            if (handleLifecyclePause) {
-                playerManager.pause()
-            }
-        }
+        onDispose { }
     }
 
+    // Handle app lifecycle events
     OnLifecycleEvent(
         onPause = {
             if (handleLifecyclePause && enableRendering) {
-                shouldResumePlayback = playerManager.exoPlayer.isPlaying
+                if (!playerManager.exoPlayer.isPlaying && shouldResumePlayback) {
+                } else {
+                    shouldResumePlayback = playerManager.exoPlayer.isPlaying
+                }
                 playerManager.pause()
             }
         },
         onResume = {
             if (handleLifecyclePause && enableRendering && shouldResumePlayback) {
-                playerManager.play()
+                if (playerManager.exoPlayer.playbackState != Player.STATE_ENDED) {
+                    playerManager.play()
+                }
                 shouldResumePlayback = false
             }
         }
     )
 }
 
+// Utility function for toggling play/pause
 @OptIn(UnstableApi::class)
 private fun togglePlayback(
     isPlaying: Boolean,
@@ -358,71 +391,5 @@ private fun togglePlayback(
             isVideoEnded.value = false
         }
         playerManager.play()
-    }
-}
-
-@OptIn(UnstableApi::class)
-private fun createPlayerView(
-    context: android.content.Context,
-    playerManager: VideoPlayerManager,
-    controlsType: ControlsType,
-    controllerShowTimeoutMs: Int,
-    resizeMode: Int,
-    enableRendering: Boolean,
-    onFullscreenClick: () -> Unit
-): PlayerView {
-    return PlayerView(context).apply {
-        useController = (controlsType == ControlsType.NativeControls)
-        this.controllerShowTimeoutMs = controllerShowTimeoutMs
-        this.resizeMode = resizeMode
-        player = playerManager.exoPlayer
-        layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
-
-        subtitleView?.setFixedTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
-        subtitleView?.setPaddingRelative(0, 0, 0, 20)
-        subtitleView?.setApplyEmbeddedStyles(true)
-        subtitleView?.setCues(null)
-
-        setFullscreenButtonClickListener {
-            onFullscreenClick()
-        }
-
-        if (enableRendering) {
-            (videoSurfaceView as? SurfaceView)?.let {
-                playerManager.exoPlayer.setVideoSurfaceView(it)
-            } ?: run {
-                playerManager.exoPlayer.setVideoSurface(null)
-                playerManager.exoPlayer.setVideoSurfaceView(videoSurfaceView as? SurfaceView)
-            }
-        }
-    }
-}
-
-@OptIn(UnstableApi::class)
-private fun updatePlayerView(
-    playerView: PlayerView,
-    playerManager: VideoPlayerManager,
-    enableRendering: Boolean,
-    onFullscreenClick: () -> Unit
-) {
-    playerView.setFullscreenButtonClickListener {
-        onFullscreenClick()
-    }
-
-    playerView.subtitleView?.setFixedTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
-    playerView.subtitleView?.setPaddingRelative(0, 0, 0, 20)
-
-    if (enableRendering) {
-        if (playerView.player != playerManager.exoPlayer) {
-            playerView.player = playerManager.exoPlayer
-        }
-        (playerView.videoSurfaceView as? SurfaceView)?.let {
-            playerManager.exoPlayer.setVideoSurfaceView(it)
-        } ?: run {
-            playerManager.exoPlayer.setVideoSurface(null)
-            playerManager.exoPlayer.setVideoSurfaceView(playerView.videoSurfaceView as? SurfaceView)
-        }
-    } else {
-        playerManager.exoPlayer.clearVideoSurface()
     }
 }
