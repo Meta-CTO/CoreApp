@@ -7,14 +7,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.metacto.core.ui.components.buttons.PrimaryFilledButton
-import com.metacto.core.ui.components.containers.ScreenColumn
-import com.metacto.core.ui.navigation.NavManager
 import com.metacto.catalogapp.presentation.main.MainContract.Event
 import com.metacto.catalogapp.presentation.main.MainContract.State
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesScreen
-import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberScreen
+import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberSamplesScreen
 import com.metacto.catalogapp.presentation.theme.spacings
+import com.metacto.core.ui.components.buttons.PrimaryFilledButton
+import com.metacto.core.ui.components.containers.ScreenColumn
+import com.metacto.core.ui.navigation.NavManager
 import org.koin.compose.koinInject
 
 @Composable
@@ -43,7 +43,7 @@ internal fun MainContent(
         PrimaryFilledButton(
             text = "Phone Number samples",
             onClick = {
-                navManage.navigate(PhoneNumberScreen())
+                navManage.navigate(PhoneNumberSamplesScreen())
             },
             modifier = Modifier
                 .fillMaxWidth()

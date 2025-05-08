@@ -1,7 +1,7 @@
 package com.metacto.catalogapp.di
 
 // MARK: Add imports
-import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberViewModel
+import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberSamplesViewModel
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesViewModel
 import com.metacto.core.ui.di.commonViewModel
 import com.metacto.catalogapp.presentation.app.app.AppViewModel
@@ -10,7 +10,7 @@ import org.koin.dsl.module
 
 val viewModelsModule = module {
     // MARK: Add view model definitions
-    commonViewModel { PhoneNumberViewModel() }
+    commonViewModel { PhoneNumberSamplesViewModel() }
     commonViewModel { NotificationsSamplesViewModel() }
     commonViewModel { MainViewModel() }
     single { AppViewModel() }
