@@ -2,13 +2,13 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
-    kotlin(Plugins.MULTIPLATFORM_PLUGIN)
-    id(Plugins.ANDROID_APPLICATION_PLUGIN)
-    id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
-    id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
-    id(Plugins.SERIALIZATION_PLUGIN)
-    id(Plugins.PARCELIZE_PLUGIN)
-    id(Plugins.CRASHLYTICS_PLUGIN)
+    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 kotlin {
@@ -19,7 +19,7 @@ kotlin {
         }
         compilations.all {
             kotlinOptions {
-                jvmTarget = Versions.JVM.toString()
+                jvmTarget = libs.versions.jvm.get()
             }
         }
     }
@@ -30,8 +30,8 @@ kotlin {
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
-        it.binaries.framework(CatalogAppConfigs.FRAMEWORK_NAME) {
-            baseName = CatalogAppConfigs.FRAMEWORK_NAME
+        it.binaries.framework(CatalogConfigs.FRAMEWORK_NAME) {
+            baseName = CatalogConfigs.FRAMEWORK_NAME
             xcf.add(this)
             isStatic = true
         }
@@ -45,15 +45,15 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(Dependencies.Modules.CORE_UI))
-            implementation(project(Dependencies.Modules.FILES))
-            implementation(project(Dependencies.Modules.NOTIFICATIONS))
-            implementation(project(Dependencies.Modules.PHONE_CORE))
-            implementation(project(Dependencies.Modules.MEDIA_PLAYERS))
-            implementation(project(Dependencies.Modules.CAMERA))
-            implementation(project(Dependencies.Modules.YOUTUBE))
-            implementation(project(Dependencies.Modules.PHONE_UI))
-            implementation(project(Dependencies.Modules.IMAGE_PICKER))
+            implementation(project(":ui:core-ui"))
+            implementation(project(":core:files"))
+            implementation(project(":core:notifications"))
+            implementation(project(":core:phone-core"))
+            implementation(project(":ui:media-players"))
+            implementation(project(":ui:camera"))
+            implementation(project(":ui:youtube"))
+            implementation(project(":ui:phone-ui"))
+            implementation(project(":ui:image-picker"))
         }
 
         androidMain.dependencies {
@@ -67,8 +67,8 @@ kotlin {
 }
 
 android {
-    namespace = CatalogAppConfigs.NAMESPACE
-    compileSdk = Configs.COMPILE_SDK_VERSION
+    namespace = CatalogConfigs.NAMESPACE
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
@@ -76,9 +76,9 @@ android {
     sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/resources")
 
     defaultConfig {
-        minSdk = Configs.MIN_SDK_VERSION
-        versionCode = CatalogAppConfigs.VERSION_CODE
-        versionName = CatalogAppConfigs.VERSION_NAME
+        minSdk = libs.versions.minSdk.get().toInt()
+        versionCode = CatalogConfigs.VERSION_CODE
+        versionName = CatalogConfigs.VERSION_NAME
 
         proguardFiles(
             getDefaultProguardFile("proguard-android-optimize.txt"), "./proguard-rules.pro"
@@ -86,8 +86,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = Versions.JVM
-        targetCompatibility = Versions.JVM
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
     }
 
     signingConfigs {
@@ -112,16 +112,16 @@ android {
         }
     }
 
-    flavorDimensions(FlavorDimensions.DEFAULT)
+    flavorDimensions("default")
     productFlavors {
-        ProductFlavor.all().forEach { flavor ->
+        CatalogProductFlavor.all().forEach { flavor ->
             maybeCreate(flavor.toString()).apply {
                 applicationId = flavor.applicationId
                 versionNameSuffix = flavor.versionNameSuffix
                 resValue(
                     type = "string",
                     name = "app_name",
-                    value = "CatalogApp${flavor.appNameSuffix}"
+                    value = flavor.appName
                 )
             }
         }
@@ -138,21 +138,21 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE_ANDROID
+        kotlinCompilerExtensionVersion = libs.versions.compose.android.get()
     }
 
     compileOptions {
-        sourceCompatibility = Versions.JVM
-        targetCompatibility = Versions.JVM
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
     }
 
     kotlin {
-        jvmToolchain(Versions.JVM.toString().toInt())
+        jvmToolchain(libs.versions.jvm.get().toInt())
     }
 }
 
 compose.resources {
     publicResClass = false
-    packageOfResClass = "${CatalogAppConfigs.NAMESPACE}.resources"
+    packageOfResClass = "${CatalogConfigs.NAMESPACE}.resources"
     generateResClass = always
 }
