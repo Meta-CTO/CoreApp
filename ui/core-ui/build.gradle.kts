@@ -5,13 +5,13 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 plugins {
-    kotlin(Plugins.MULTIPLATFORM_PLUGIN)
-    id(Plugins.ANDROID_LIBRARY_PLUGIN)
-    id(Plugins.PARCELIZE_PLUGIN)
-    id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
-    id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
-    id(Plugins.MAVEN_PUBLISH)
-    id(Plugins.SIGNING)
+    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.maven.publish)
+    alias(libs.plugins.signing)
 }
 
 
@@ -33,7 +33,7 @@ kotlin {
         }
         compilations.all {
             kotlinOptions {
-                jvmTarget = Versions.JVM.toString()
+                jvmTarget = libs.versions.jvm.get()
             }
         }
         publishLibraryVariants("debug", "release")
@@ -61,47 +61,47 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // Core
-            api(project(Dependencies.Modules.CORE))
+            api(project(":core:core"))
 
             // Compose
-            api(Dependencies.Compose.RUNTIME)
-            api(Dependencies.Compose.FOUNDATION)
-            implementation(Dependencies.Compose.MATERIAL)
-            api(Dependencies.Compose.MATERIAL3)
-            api(Dependencies.Compose.ANIMATION)
-            api(Dependencies.Compose.ANIMATION_GRAPHICS)
-            api(Dependencies.Compose.EXTENDED_ICONS)
-            api(Dependencies.Compose.RESOURCES)
+            api(libs.compose.runtime)
+            api(libs.compose.foundation)
+            implementation(libs.compose.material)
+            api(libs.compose.material3)
+            api(libs.compose.animation)
+            api(libs.compose.animationgraphics)
+            api(libs.compose.icons)
+            api(libs.compose.resources)
 
             // Voyager
-            implementation(Dependencies.Voyager.NAVIGATOR)
-            implementation(Dependencies.Voyager.BOTTOM_SHEET)
-            api(Dependencies.Voyager.SCREEN_MODEL)
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.bottomsheet)
+            api(libs.voyager.screenmodel)
 
             // Coil
-            implementation(Dependencies.Coil.CORE)
-            implementation(Dependencies.Coil.COMPOSE)
-            implementation(Dependencies.Coil.NETWORK)
-            implementation(Dependencies.Coil.SVG)
+            implementation(libs.coil)
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network)
+            implementation(libs.coil.svg)
 
             // Others
-            implementation(Dependencies.COMPOTTIE)
-            implementation(Dependencies.SHIMMER)
+            implementation(libs.compottie)
+            implementation(libs.shimmer)
         }
 
         androidMain.dependencies {
             // AndroidX
-            api(Dependencies.AndroidX.APP_COMPAT)
-            api(Dependencies.AndroidX.ACTIVITY_COMPOSE)
-            api(Dependencies.AndroidX.CORE_KTS)
-            api(Dependencies.AndroidX.SPLASH_SCREEN)
+            api(libs.android.appcompat)
+            api(libs.android.activitycompose)
+            api(libs.android.corektx)
+            api(libs.android.splashscreen)
 
             // Voyager
-            implementation(Dependencies.Voyager.KOIN)
+            implementation(libs.voyager.koin)
         }
 
         iosMain.dependencies {
-            implementation(Dependencies.Compose.MATERIAL)
+            implementation(libs.compose.material)
         }
     }
 
@@ -110,15 +110,15 @@ kotlin {
 
 android {
     namespace = libNamespace
-    compileSdk = Configs.COMPILE_SDK_VERSION
+    compileSdk = libs.versions.compileSdk.get().toInt()
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdk = Configs.MIN_SDK_VERSION
+        minSdk = libs.versions.minSdk.get().toInt()
         consumerProguardFiles("consumer-rules.pro")
     }
     compileOptions {
-        sourceCompatibility = Versions.JVM
-        targetCompatibility = Versions.JVM
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
     }
 }
 

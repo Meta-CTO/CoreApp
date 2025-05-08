@@ -2,13 +2,13 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
-    kotlin(Plugins.MULTIPLATFORM_PLUGIN)
-    id(Plugins.ANDROID_APPLICATION_PLUGIN)
-    id(Plugins.COMPOSE_PLUGIN) version Versions.COMPOSE
-    id(Plugins.COMPOSE_COMPILER_PLUGIN) version Versions.KOTLIN
-    id(Plugins.SERIALIZATION_PLUGIN)
-    id(Plugins.PARCELIZE_PLUGIN)
-    id(Plugins.CRASHLYTICS_PLUGIN)
+    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 kotlin {
@@ -19,7 +19,7 @@ kotlin {
         }
         compilations.all {
             kotlinOptions {
-                jvmTarget = Versions.JVM.toString()
+                jvmTarget = libs.versions.jvm.get()
             }
         }
     }
@@ -30,8 +30,8 @@ kotlin {
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
-        it.binaries.framework(PlaygroundAppConfigs.FRAMEWORK_NAME) {
-            baseName = PlaygroundAppConfigs.FRAMEWORK_NAME
+        it.binaries.framework(PlaygroundConfigs.FRAMEWORK_NAME) {
+            baseName = PlaygroundConfigs.FRAMEWORK_NAME
             xcf.add(this)
             isStatic = true
         }
@@ -45,7 +45,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(Dependencies.Modules.CORE_UI))
+            implementation(project(":ui:core-ui"))
         }
 
         androidMain.dependencies {
@@ -59,8 +59,8 @@ kotlin {
 }
 
 android {
-    namespace = PlaygroundAppConfigs.NAMESPACE
-    compileSdk = Configs.COMPILE_SDK_VERSION
+    namespace = PlaygroundConfigs.NAMESPACE
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
@@ -68,9 +68,9 @@ android {
     sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/resources")
 
     defaultConfig {
-        minSdk = Configs.MIN_SDK_VERSION
-        versionCode = PlaygroundAppConfigs.VERSION_CODE
-        versionName = PlaygroundAppConfigs.VERSION_NAME
+        minSdk = libs.versions.minSdk.get().toInt()
+        versionCode = PlaygroundConfigs.VERSION_CODE
+        versionName = PlaygroundConfigs.VERSION_NAME
 
         proguardFiles(
             getDefaultProguardFile("proguard-android-optimize.txt"), "./proguard-rules.pro"
@@ -78,8 +78,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = Versions.JVM
-        targetCompatibility = Versions.JVM
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
     }
 
     signingConfigs {
@@ -104,16 +104,16 @@ android {
         }
     }
 
-    flavorDimensions(FlavorDimensions.DEFAULT)
+    flavorDimensions("default")
     productFlavors {
-        ProductFlavor.all().forEach { flavor ->
+        PlaygroundProductFlavor.all().forEach { flavor ->
             maybeCreate(flavor.toString()).apply {
                 applicationId = flavor.applicationId
                 versionNameSuffix = flavor.versionNameSuffix
                 resValue(
                     type = "string",
                     name = "app_name",
-                    value = "PlaygroundApp${flavor.appNameSuffix}"
+                    value = flavor.appName
                 )
             }
         }
@@ -130,21 +130,21 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.COMPOSE_ANDROID
+        kotlinCompilerExtensionVersion = libs.versions.compose.android.get()
     }
 
     compileOptions {
-        sourceCompatibility = Versions.JVM
-        targetCompatibility = Versions.JVM
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
     }
 
     kotlin {
-        jvmToolchain(Versions.JVM.toString().toInt())
+        jvmToolchain(libs.versions.jvm.get().toInt())
     }
 }
 
 compose.resources {
     publicResClass = false
-    packageOfResClass = "${PlaygroundAppConfigs.NAMESPACE}.resources"
+    packageOfResClass = "${PlaygroundConfigs.NAMESPACE}.resources"
     generateResClass = always
 }
