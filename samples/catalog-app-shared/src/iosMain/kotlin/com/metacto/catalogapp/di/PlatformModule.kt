@@ -10,5 +10,4 @@ actual val platformModule = module {
     single<IPermissionDelegateFactory> {
         PermissionDelegateFactory()
     }
-
 }
