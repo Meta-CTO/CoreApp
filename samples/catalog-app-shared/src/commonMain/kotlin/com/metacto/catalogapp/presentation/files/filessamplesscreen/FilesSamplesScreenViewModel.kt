@@ -4,7 +4,6 @@ import com.metacto.catalogapp.presentation.base.BaseViewModel
 import com.metacto.catalogapp.presentation.files.filessamplesscreen.FilesSamplesScreenContract.Effect
 import com.metacto.catalogapp.presentation.files.filessamplesscreen.FilesSamplesScreenContract.Event
 import com.metacto.catalogapp.presentation.files.filessamplesscreen.FilesSamplesScreenContract.State
-import com.metacto.catalogapp.utils.FileHandler
 import com.metacto.core.files.IFileManager
 import com.metacto.core.ui.globalState.models.SnackBarParams
 import com.metacto.core.ui.globalState.models.SnackBarType
@@ -12,7 +11,6 @@ import org.koin.core.component.inject
 
 class FilesSamplesScreenViewModel : BaseViewModel<State, Event, Effect>() {
     private val fileManager by inject<IFileManager>()
-    val fileHandler by inject<FileHandler>()
     override fun setInitialState() = State()
 
     override fun handleEvents(event: Event): Any = when (event) {
@@ -33,9 +31,8 @@ class FilesSamplesScreenViewModel : BaseViewModel<State, Event, Effect>() {
         setState { copy(isInitialized = true) }
     }
 
-    ///TODO THIS FOR DEMO ONLY  JUST TO CREATE FILES TO GET PATHS
     private fun handleCreateFolderAndFile() {
-        val path = fileHandler.createFolderAndFile("MyFolder", "note.txt", "This is a test.")
+        val path = fileManager.createFile(fileName = "note.txt", content = "test", dirName = "notes")
         if (path.isNotEmpty()) {
             coreGlobalState.snackBar(
                 SnackBarParams(
@@ -55,16 +52,27 @@ class FilesSamplesScreenViewModel : BaseViewModel<State, Event, Effect>() {
     }
 
     private fun handleReadFile(path: String) = executeSilent({
-        val bytes = fileManager.readFile(path)
+        try {
+            fileManager.readFile(path)
 
-        if (bytes.isNotEmpty()) {
             coreGlobalState.snackBar(
                 SnackBarParams(
                     message = "File read successfully: $path",
                     type = SnackBarType.SUCCESS,
                 )
             )
+
+        } catch (e: Throwable) {
+            coreGlobalState.snackBar(
+                SnackBarParams(
+                    message = "Failed to read file: $path, ${e.message}",
+
+                    type = SnackBarType.ERROR,
+                )
+            )
         }
+
+
     })
 
     private fun handleClearFolder(path: String) {
