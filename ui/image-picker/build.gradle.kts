@@ -64,8 +64,8 @@ kotlin {
         }
 
         androidMain.dependencies {
-            implementation(libs.android.image.picker)
-            implementation(libs.android.cropper)
+            implementation(libs.imagepicker)
+            implementation(libs.imagecropper)
         }
 
         iosMain.dependencies {

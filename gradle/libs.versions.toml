@@ -128,16 +128,16 @@ camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = 
 camera-video = { module = "androidx.camera:camera-video", version.ref = "camera-x" }
 
 # Notifications
-kmp-notifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmp-notifier" }
-stately-common = { module = "co.touchlab:stately-common", version.ref = "stately-common" }
+kmpnotifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmp-notifier" }
+statelycommon = { module = "co.touchlab:stately-common", version.ref = "stately-common" }
 uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
 
 # Others
-strapi-kmm = { module = "com.metacto:strapi", version.ref = "strapi-kmm" }
-core-network = { module = "com.metacto:network-core", version.ref = "core-network" }
-android-image-picker = { module = "com.github.dhaval2404:imagepicker", version.ref = "android-image-picker" }
+metacto-strapikmm = { module = "com.metacto:strapi", version.ref = "strapi-kmm" }
+metacto-network = { module = "com.metacto:network-core", version.ref = "core-network" }
 libphonenumber = { module = "io.github.luca992.libphonenumber-kotlin:libphonenumber", version.ref = "lib-phone-number" }
-android-cropper = { module = "com.vanniktech:android-image-cropper", version.ref = "android-cropper" }
+imagepicker = { module = "com.github.dhaval2404:imagepicker", version.ref = "android-image-picker" }
+imagecropper = { module = "com.vanniktech:android-image-cropper", version.ref = "android-cropper" }
 compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "compottie" }
 webview = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "webview" }
 shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "shimmer" }

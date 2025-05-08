@@ -61,9 +61,9 @@ kotlin {
             implementation(project(":core:core"))
 
             // Notifications
-            implementation(libs.kmp.notifier)
+            implementation(libs.kmpnotifier)
             implementation(libs.uuid) // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
-            implementation(libs.stately.common) // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
+            implementation(libs.statelycommon) // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
         }
 
         androidMain.dependencies {

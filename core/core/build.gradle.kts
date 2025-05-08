@@ -59,7 +59,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // Core SDKs
-            api(libs.core.network)
+            api(libs.metacto.network)
 
             // Koin
             api(libs.koin.core)
@@ -70,7 +70,7 @@ kotlin {
             api(libs.kotlin.datetime)
 
             // Don't remove this
-            implementation(libs.stately.common)
+            implementation(libs.statelycommon)
         }
 
         androidMain.dependencies {
