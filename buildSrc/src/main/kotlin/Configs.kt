@@ -1,6 +1,4 @@
 object Configs {
-    const val COMPILE_SDK_VERSION = 35
-    const val MIN_SDK_VERSION = 26
     const val GROUP_ID = "com.metacto.kmm"
     const val PUBLISH_REPO_USER = "PUBLISH_REPO_USER"
     const val PUBLISH_REPO_TOKEN = "PUBLISH_REPO_TOKEN"
