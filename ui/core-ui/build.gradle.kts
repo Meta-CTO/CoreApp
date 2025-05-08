@@ -69,9 +69,9 @@ kotlin {
             implementation(libs.compose.material)
             api(libs.compose.material3)
             api(libs.compose.animation)
-            api(libs.compose.animation.graphics)
-            api(libs.compose.material.icons.extended)
-            api(libs.compose.components.resources)
+            api(libs.compose.animationgraphics)
+            api(libs.compose.icons)
+            api(libs.compose.resources)
 
             // Voyager
             implementation(libs.voyager.navigator)

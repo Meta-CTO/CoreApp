@@ -66,8 +66,8 @@ kotlin {
             api(libs.koin.compose)
 
             // Kotlin
-            api(libs.kotlinx.coroutines.core)
-            api(libs.kotlinx.datetime)
+            api(libs.kotlin.coroutines)
+            api(libs.kotlin.datetime)
 
             // Don't remove this
             implementation(libs.stately.common)
@@ -76,7 +76,7 @@ kotlin {
         androidMain.dependencies {
             // Koin
             api(libs.koin.android)
-            api(libs.koin.androidx.compose)
+            api(libs.koin.androidcompose)
         }
 
         iosMain.dependencies {
