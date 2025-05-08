@@ -1,9 +1,4 @@
 object Configs {
-    const val COMPILE_SDK_VERSION = 35
-    const val TARGET_SDK_VERSION = 35
-    const val MIN_SDK_VERSION = 26
-    const val CORE_APP_ID = "com.metacto.coreApp"
-    const val IOS_DEPLOYMENT_TARGET = "14.1"
     const val GROUP_ID = "com.metacto.kmm"
     const val PUBLISH_REPO_USER = "PUBLISH_REPO_USER"
     const val PUBLISH_REPO_TOKEN = "PUBLISH_REPO_TOKEN"

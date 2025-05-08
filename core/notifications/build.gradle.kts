@@ -5,11 +5,11 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 plugins {
-    kotlin(Plugins.MULTIPLATFORM_PLUGIN)
-    id(Plugins.ANDROID_LIBRARY_PLUGIN)
-    id(Plugins.PARCELIZE_PLUGIN)
-    id(Plugins.MAVEN_PUBLISH)
-    id(Plugins.SIGNING)
+    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.maven.publish)
+    alias(libs.plugins.signing)
 }
 
 private val versionProperties = Properties().apply {
@@ -30,7 +30,7 @@ kotlin {
         }
         compilations.all {
             kotlinOptions {
-                jvmTarget = Versions.JVM.toString()
+                jvmTarget = libs.versions.jvm.get()
             }
         }
         publishLibraryVariants("debug", "release")
@@ -58,12 +58,12 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // Core
-            implementation(project(Dependencies.Modules.CORE))
+            implementation(project(":core:core"))
 
             // Notifications
-            implementation(Dependencies.Notifications.KMP_NOTIFIER)
-            implementation(Dependencies.Notifications.UUID)  // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
-            implementation(Dependencies.Notifications.STATELY_COMMON) // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
+            implementation(libs.kmpnotifier)
+            implementation(libs.uuid) // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
+            implementation(libs.statelycommon) // Needed for KmpNotifier (https://github.com/mirzemehdi/KMPNotifier/issues/30)
         }
 
         androidMain.dependencies {
@@ -80,7 +80,7 @@ kotlin {
 
 android {
     namespace = libNamespace
-    compileSdk = Configs.COMPILE_SDK_VERSION
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
@@ -88,12 +88,12 @@ android {
     sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/resources")
 
     defaultConfig {
-        minSdk = Configs.MIN_SDK_VERSION
+        minSdk = libs.versions.minSdk.get().toInt()
         consumerProguardFiles("consumer-rules.pro")
     }
     compileOptions {
-        sourceCompatibility = Versions.JVM
-        targetCompatibility = Versions.JVM
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
     }
 }
 

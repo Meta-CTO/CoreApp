@@ -5,12 +5,12 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 
 plugins {
-    kotlin(Plugins.MULTIPLATFORM_PLUGIN)
-    id(Plugins.ANDROID_LIBRARY_PLUGIN)
-    id(Plugins.PARCELIZE_PLUGIN)
-    id(Plugins.SERIALIZATION_PLUGIN)
-    id(Plugins.MAVEN_PUBLISH)
-    id(Plugins.SIGNING)
+    alias(libs.plugins.multiplatform)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.maven.publish)
+    alias(libs.plugins.signing)
 }
 
 private val versionProperties = Properties().apply {
@@ -31,7 +31,7 @@ kotlin {
         }
         compilations.all {
             kotlinOptions {
-                jvmTarget = Versions.JVM.toString()
+                jvmTarget = libs.versions.jvm.get()
             }
         }
         publishLibraryVariants("debug", "release")
@@ -59,24 +59,24 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // Core SDKs
-            api(Dependencies.CORE_NETWORK)
+            api(libs.metacto.network)
 
             // Koin
-            api(Dependencies.Koin.CORE)
-            api(Dependencies.Koin.COMPOSE)
+            api(libs.koin.core)
+            api(libs.koin.compose)
 
             // Kotlin
-            api(Dependencies.Kotlin.COROUTINES)
-            api(Dependencies.Kotlin.DATE_TIME)
+            api(libs.kotlin.coroutines)
+            api(libs.kotlin.datetime)
 
             // Don't remove this
-            implementation(Dependencies.Notifications.STATELY_COMMON)
+            implementation(libs.statelycommon)
         }
 
         androidMain.dependencies {
             // Koin
-            api(Dependencies.Koin.ANDROID)
-            api(Dependencies.Koin.ANDROID_COMPOSE)
+            api(libs.koin.android)
+            api(libs.koin.androidcompose)
         }
 
         iosMain.dependencies {
@@ -89,7 +89,7 @@ kotlin {
 
 android {
     namespace = libNamespace
-    compileSdk = Configs.COMPILE_SDK_VERSION
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
@@ -97,12 +97,12 @@ android {
     sourceSets["main"].res.srcDirs("src/androidMain/res", "src/commonMain/resources")
 
     defaultConfig {
-        minSdk = Configs.MIN_SDK_VERSION
+        minSdk = libs.versions.minSdk.get().toInt()
         consumerProguardFiles("consumer-rules.pro")
     }
     compileOptions {
-        sourceCompatibility = Versions.JVM
-        targetCompatibility = Versions.JVM
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
     }
 }
 
