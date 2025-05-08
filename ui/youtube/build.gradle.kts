@@ -64,8 +64,8 @@ kotlin {
         }
 
         androidMain.dependencies {
-            api(libs.youtube.player.core)
-            api(libs.youtube.player.custom.ui)
+            api(libs.youtube.core)
+            api(libs.youtube.customui)
         }
 
         iosMain.dependencies {

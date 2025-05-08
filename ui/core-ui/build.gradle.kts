@@ -91,10 +91,10 @@ kotlin {
 
         androidMain.dependencies {
             // AndroidX
-            api(libs.appcompat)
-            api(libs.activity.compose)
-            api(libs.core.ktx)
-            api(libs.splashscreen)
+            api(libs.android.appcompat)
+            api(libs.android.activitycompose)
+            api(libs.android.corektx)
+            api(libs.android.splashscreen)
 
             // Voyager
             implementation(libs.voyager.koin)

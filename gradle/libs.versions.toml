@@ -88,19 +88,21 @@ voyager-screenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", vers
 voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 
 # AndroidX
-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "app-compat" }
-core-ktx = { module = "androidx.core:core-ktx", version.ref = "core-kts" }
-security-crypto = { module = "androidx.security:security-crypto", version.ref = "security-crypto" }
-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splash-screen" }
+android-activitycompose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+android-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "app-compat" }
+android-corektx = { module = "androidx.core:core-ktx", version.ref = "core-kts" }
+android-securitycrypto = { module = "androidx.security:security-crypto", version.ref = "security-crypto" }
+android-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splash-screen" }
 
 # Firebase
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase" }
-firebase-dynamic-links = { module = "com.google.firebase:firebase-dynamic-links-ktx" }
+firebase-dynamiclinks = { module = "com.google.firebase:firebase-dynamic-links-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
-play-services-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "play-services-auth" }
+
+# Google Play Services
+playservices-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "play-services-auth" }
 
 # Coil
 coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
@@ -110,13 +112,13 @@ coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
 
 # ExoPlayer
 exo-player = { module = "androidx.media3:media3-exoplayer", version.ref = "exo-player" }
-exo-player-hls = { module = "androidx.media3:media3-exoplayer-hls", version.ref = "exo-player" }
-exo-player-ui = { module = "androidx.media3:media3-ui", version.ref = "exo-player" }
-exo-player-session = { module = "androidx.media3:media3-session", version.ref = "exo-player" }
+exo-hls = { module = "androidx.media3:media3-exoplayer-hls", version.ref = "exo-player" }
+exo-ui = { module = "androidx.media3:media3-ui", version.ref = "exo-player" }
+exo-session = { module = "androidx.media3:media3-session", version.ref = "exo-player" }
 
 # YouTube Player
-youtube-player-core = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "youtube-player" }
-youtube-player-custom-ui = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:custom-ui", version.ref = "youtube-player" }
+youtube-core = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "youtube-player" }
+youtube-customui = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:custom-ui", version.ref = "youtube-player" }
 
 # CameraX
 camera-view = { module = "androidx.camera:camera-view", version.ref = "camera-x" }

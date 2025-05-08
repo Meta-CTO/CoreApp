@@ -66,9 +66,9 @@ kotlin {
         androidMain.dependencies {
             // Exo Player
             implementation(libs.exo.player)
-            implementation(libs.exo.player.hls)
-            implementation(libs.exo.player.ui)
-            implementation(libs.exo.player.session)
+            implementation(libs.exo.hls)
+            implementation(libs.exo.ui)
+            implementation(libs.exo.session)
         }
 
         iosMain.dependencies {
