@@ -30,8 +30,8 @@ kotlin {
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
-        it.binaries.framework(CatalogAppConfigs.FRAMEWORK_NAME) {
-            baseName = CatalogAppConfigs.FRAMEWORK_NAME
+        it.binaries.framework(CatalogConfigs.FRAMEWORK_NAME) {
+            baseName = CatalogConfigs.FRAMEWORK_NAME
             xcf.add(this)
             isStatic = true
         }
@@ -67,7 +67,7 @@ kotlin {
 }
 
 android {
-    namespace = CatalogAppConfigs.NAMESPACE
+    namespace = CatalogConfigs.NAMESPACE
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -77,8 +77,8 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-        versionCode = CatalogAppConfigs.VERSION_CODE
-        versionName = CatalogAppConfigs.VERSION_NAME
+        versionCode = CatalogConfigs.VERSION_CODE
+        versionName = CatalogConfigs.VERSION_NAME
 
         proguardFiles(
             getDefaultProguardFile("proguard-android-optimize.txt"), "./proguard-rules.pro"
@@ -112,16 +112,16 @@ android {
         }
     }
 
-    flavorDimensions(FlavorDimensions.DEFAULT)
+    flavorDimensions("default")
     productFlavors {
-        ProductFlavor.all().forEach { flavor ->
+        CatalogProductFlavor.all().forEach { flavor ->
             maybeCreate(flavor.toString()).apply {
                 applicationId = flavor.applicationId
                 versionNameSuffix = flavor.versionNameSuffix
                 resValue(
                     type = "string",
                     name = "app_name",
-                    value = "CatalogApp${flavor.appNameSuffix}"
+                    value = flavor.appName
                 )
             }
         }
@@ -153,6 +153,6 @@ android {
 
 compose.resources {
     publicResClass = false
-    packageOfResClass = "${CatalogAppConfigs.NAMESPACE}.resources"
+    packageOfResClass = "${CatalogConfigs.NAMESPACE}.resources"
     generateResClass = always
 }

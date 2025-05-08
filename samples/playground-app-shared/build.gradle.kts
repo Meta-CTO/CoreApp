@@ -30,8 +30,8 @@ kotlin {
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
-        it.binaries.framework(PlaygroundAppConfigs.FRAMEWORK_NAME) {
-            baseName = PlaygroundAppConfigs.FRAMEWORK_NAME
+        it.binaries.framework(PlaygroundConfigs.FRAMEWORK_NAME) {
+            baseName = PlaygroundConfigs.FRAMEWORK_NAME
             xcf.add(this)
             isStatic = true
         }
@@ -59,7 +59,7 @@ kotlin {
 }
 
 android {
-    namespace = PlaygroundAppConfigs.NAMESPACE
+    namespace = PlaygroundConfigs.NAMESPACE
     compileSdk = libs.versions.compileSdk.get().toInt()
 
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
@@ -69,8 +69,8 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
-        versionCode = PlaygroundAppConfigs.VERSION_CODE
-        versionName = PlaygroundAppConfigs.VERSION_NAME
+        versionCode = PlaygroundConfigs.VERSION_CODE
+        versionName = PlaygroundConfigs.VERSION_NAME
 
         proguardFiles(
             getDefaultProguardFile("proguard-android-optimize.txt"), "./proguard-rules.pro"
@@ -104,16 +104,16 @@ android {
         }
     }
 
-    flavorDimensions(FlavorDimensions.DEFAULT)
+    flavorDimensions("default")
     productFlavors {
-        ProductFlavor.all().forEach { flavor ->
+        PlaygroundProductFlavor.all().forEach { flavor ->
             maybeCreate(flavor.toString()).apply {
                 applicationId = flavor.applicationId
                 versionNameSuffix = flavor.versionNameSuffix
                 resValue(
                     type = "string",
                     name = "app_name",
-                    value = "PlaygroundApp${flavor.appNameSuffix}"
+                    value = flavor.appName
                 )
             }
         }
@@ -145,6 +145,6 @@ android {
 
 compose.resources {
     publicResClass = false
-    packageOfResClass = "${PlaygroundAppConfigs.NAMESPACE}.resources"
+    packageOfResClass = "${PlaygroundConfigs.NAMESPACE}.resources"
     generateResClass = always
 }
