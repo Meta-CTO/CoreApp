@@ -3,7 +3,6 @@ package com.metacto.catalogapp.presentation.imagePicker.imagepicker
 import com.metacto.core.ui.base.ViewEvent
 import com.metacto.core.ui.base.ViewSideEffect
 import com.metacto.core.ui.base.ViewState
-import com.metacto.core.ui.models.ImageUIModel
 
 class ImagePickerContract {
 
