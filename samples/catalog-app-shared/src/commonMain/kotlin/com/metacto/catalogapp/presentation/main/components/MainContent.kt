@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.metacto.catalogapp.presentation.files.filessamplesscreen.FilesSamplesScreenScreen
+import com.metacto.catalogapp.presentation.files.FilesSamplesScreen
 import com.metacto.catalogapp.presentation.main.MainContract.Event
 import com.metacto.catalogapp.presentation.main.MainContract.State
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesScreen
@@ -42,7 +42,7 @@ internal fun MainContent(
         PrimaryFilledButton(
             text = "File samples",
             onClick = {
-                navManage.navigate(FilesSamplesScreenScreen())
+                navManage.navigate(FilesSamplesScreen())
             },
             modifier = Modifier
                 .fillMaxWidth()
