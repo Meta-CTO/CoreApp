@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.metacto.catalogapp.presentation.files.FilesSamplesScreen
 import com.metacto.catalogapp.presentation.imagePicker.ImagePickerSamplesScreen
+import com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.ImagePreloaderScreen
 import com.metacto.catalogapp.presentation.main.MainContract.Event
 import com.metacto.catalogapp.presentation.main.MainContract.State
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesScreen
@@ -51,6 +52,14 @@ internal fun MainContent(
             text = "Image picker samples",
             onClick = {
                 navManage.navigate(ImagePickerSamplesScreen())
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
+            text = "Image Preloader sample",
+            onClick = {
+                navManage.navigate(ImagePreloaderScreen())
             },
             modifier = Modifier.fillMaxWidth()
         )
