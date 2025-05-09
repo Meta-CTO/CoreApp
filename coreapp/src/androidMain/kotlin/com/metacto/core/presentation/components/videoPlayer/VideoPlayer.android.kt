@@ -93,10 +93,9 @@ actual fun VideoPlayer(
         koinInject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
     val playerManager = playerManagers.getOrPut(uniqueId) { VideoPlayerManager(uniqueId) }
 
-    // State management
     val isPlaying = remember { mutableStateOf(playerManager.exoPlayer.isPlaying) }
     val isVideoEnded = remember { mutableStateOf(false) }
-    var enableRendering by remember { mutableStateOf(true) } // Default to true for composable player
+    var enableRendering by remember { mutableStateOf(true) }
     var shouldResumePlayback by remember { mutableStateOf(false) }
     var surfaceRecreationTrigger by remember { mutableStateOf(false) }
     val icon = if (isPlaying.value) pauseIconRes else playIconRes
@@ -109,39 +108,52 @@ actual fun VideoPlayer(
         playerManager.addExternalSubtitle(language, fileName, content)
     }
 
-    // Listen for Activity finishing to re-enable rendering in the composable
     eventBroadcaster.collectInCompose<VideoPlayerEvent.ActivityFinished> {
         if (it.playerId == uniqueId) {
-            enableRendering = true
-            if (shouldResumePlayback && playerManager.exoPlayer.playbackState != Player.STATE_ENDED) {
-                playerManager.play()
-                shouldResumePlayback = false
+            val isPipActive = eventBroadcaster.getPipActivePlayerId() == uniqueId
+
+            if (!isPipActive) {
+                enableRendering = true
+
+                if (shouldResumePlayback && playerManager.exoPlayer.playbackState != Player.STATE_ENDED) {
+                    playerManager.play()
+                    shouldResumePlayback = false
+                } else {
+                    playerManager.restoreState()
+                }
+
+                isPlaying.value = playerManager.exoPlayer.isPlaying
+                playerViewRef.value?.subtitleView?.visibility = View.VISIBLE
+                surfaceRecreationTrigger = !surfaceRecreationTrigger
             }
-            isPlaying.value = playerManager.exoPlayer.isPlaying
-            playerViewRef.value?.subtitleView?.visibility = View.VISIBLE
-            surfaceRecreationTrigger = !surfaceRecreationTrigger
         }
     }
 
-    // Listen for PiP start to disable rendering in the composable
     eventBroadcaster.collectInCompose<VideoPlayerEvent.StartedPip> {
         if (it.playerId == uniqueId) {
             shouldResumePlayback = playerManager.exoPlayer.isPlaying
+            playerManager.saveState()
+
             enableRendering = false
             playerViewRef.value?.subtitleView?.visibility = View.INVISIBLE
             surfaceRecreationTrigger = !surfaceRecreationTrigger
         }
     }
 
-    // Listen for PiP stop
     eventBroadcaster.collectInCompose<VideoPlayerEvent.StoppedPip> {
         if (it.playerId == uniqueId) {
-            if (eventBroadcaster.getPipActivePlayerId() == null) {
+            if (eventBroadcaster.getPipActivePlayerId() == null ||
+                eventBroadcaster.getPipActivePlayerId() != uniqueId) {
+
                 enableRendering = true
+
                 if (shouldResumePlayback && playerManager.exoPlayer.playbackState != Player.STATE_ENDED) {
                     playerManager.play()
                     shouldResumePlayback = false
+                } else {
+                    playerManager.restoreState()
                 }
+
                 isPlaying.value = playerManager.exoPlayer.isPlaying
                 playerViewRef.value?.subtitleView?.visibility = View.VISIBLE
                 surfaceRecreationTrigger = !surfaceRecreationTrigger
@@ -157,14 +169,12 @@ actual fun VideoPlayer(
         object : VideoPlayerController {
             override fun play() {
                 playerManager.play()
-                eventBroadcaster.emit(VideoPlayerEvent.PlayerStarted(uniqueId))
             }
 
             override fun pause() = playerManager.pause()
         }
     }
 
-    // Player listener setup
     LaunchedEffect(key1 = playerManager) {
         playerManager.exoPlayer.addListener(object : Player.Listener {
             override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
@@ -185,7 +195,6 @@ actual fun VideoPlayer(
         })
     }
 
-    // Initialize player with media info
     LaunchedEffect(
         playerManager, videoUrl, videoTitle, videoArtist, videoArtworkUrl,
         autoPlay, scaleToCrop, autoRepeat, enableVoice, enableMediaMetadata,
@@ -215,7 +224,6 @@ actual fun VideoPlayer(
     }
 
     Box(modifier = modifier) {
-        // Video player view
         AndroidView(
             modifier = Modifier.fillMaxSize(),
             factory = { ctx ->
@@ -260,7 +268,6 @@ actual fun VideoPlayer(
             }
         )
 
-        // Custom play/pause control
         if (controlsType == ControlsType.CustomControls) {
             FadeVisibility(
                 visible = isPlayButtonVisible && enableRendering,
@@ -287,7 +294,6 @@ actual fun VideoPlayer(
             }
         }
 
-        // Top row controls (subtitle and cast buttons)
         FadeVisibility(
             visible = isPlayButtonVisible && enableRendering,
             duration = CONTROLS_ANIM_DURATION,
@@ -331,7 +337,6 @@ actual fun VideoPlayer(
             }
         }
 
-        // Casting indicator
         if (isCasting) {
             Box(
                 modifier = Modifier
@@ -349,12 +354,10 @@ actual fun VideoPlayer(
         }
     }
 
-    // Cleanup when component is removed
     DisposableEffect(Unit) {
         onDispose { }
     }
 
-    // Handle app lifecycle events
     OnLifecycleEvent(
         onPause = {
             if (handleLifecyclePause && enableRendering) {
@@ -376,7 +379,6 @@ actual fun VideoPlayer(
     )
 }
 
-// Utility function for toggling play/pause
 @OptIn(UnstableApi::class)
 private fun togglePlayback(
     isPlaying: Boolean,

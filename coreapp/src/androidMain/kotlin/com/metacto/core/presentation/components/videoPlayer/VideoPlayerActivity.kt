@@ -1,7 +1,9 @@
 package com.metacto.core.presentation.components.videoPlayer
 
+import android.app.PendingIntent
 import androidx.mediarouter.app.MediaRouteButton
 import android.app.PictureInPictureParams
+import android.app.RemoteAction
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -9,6 +11,7 @@ import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Rect
+import android.graphics.drawable.Icon
 import android.os.Build
 import android.os.Bundle
 import android.util.Rational
@@ -25,6 +28,7 @@ import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
@@ -42,19 +46,44 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
     private var playerView: PlayerView? = null
     private var playerId: String? = null
     private var wasPlayingBeforePipEnter: Boolean = false
+    private val playerManagers by inject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
 
-    // Receiver for PiP action controls
     private val pipActionsReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            when (intent?.getIntExtra(EXTRA_CONTROL_TYPE, 0)) {
+            val controlType = intent?.getIntExtra(EXTRA_CONTROL_TYPE, 0)
+            val receivedPlayerId = intent?.getStringExtra(KEY_PLAYER_ID_PIP_ACTION)
+
+            when (controlType) {
                 CONTROL_TYPE_PLAY_PAUSE -> {
-                    exoPlayer?.playWhenReady = !(exoPlayer?.playWhenReady ?: false)
+                    val currentPipActivePlayerId = eventBroadcaster.getPipActivePlayerId()
+
+                    if (currentPipActivePlayerId != null && receivedPlayerId == currentPipActivePlayerId && isInPictureInPictureMode) {
+                        playerManagers[currentPipActivePlayerId]?.let { pipManager ->
+                            val pipExoPlayer = pipManager.exoPlayer
+                            val wasPlaying = pipExoPlayer.isPlaying
+
+                            if (wasPlaying) {
+                                pipManager.pause()
+                            } else {
+                                pipManager.play()
+                            }
+
+                            // Add a small delay to ensure the player state has updated
+                            lifecycleScope.launch {
+                                kotlinx.coroutines.delay(50)
+                                updatePipParams()
+
+                                if (pipManager.getMediaMetadataEnabled()) {
+                                    pipManager.notificationManager.showNotificationForPlayer(pipExoPlayer)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 
-    // File picker for subtitles
     private val subtitlePickerLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
@@ -71,8 +100,7 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
 
                 if (fileLoaderResult != null) {
                     val (language, fileName, content) = fileLoaderResult
-                    val playerManagers by inject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
-                    playerManagers[playerId]?.addExternalSubtitle(language, fileName, content)
+                    playerManagers[this@VideoPlayerActivity.playerId]?.addExternalSubtitle(language, fileName, content)
                 }
             }
         }
@@ -91,17 +119,15 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
 
         setupViews()
 
-        // Get player ID from intent
-        val newPlayerId = intent?.getStringExtra(KEY_PLAYER_ID)
-        if (newPlayerId != null) {
-            this.playerId = newPlayerId
-            configPlayerView(newPlayerId)
+        val newPlayerIdFromIntent = intent?.getStringExtra(KEY_PLAYER_ID)
+        if (newPlayerIdFromIntent != null) {
+            this.playerId = newPlayerIdFromIntent
+            configPlayerView(newPlayerIdFromIntent)
         } else {
             finish()
             return
         }
 
-        // Register receiver for PiP controls
         registerReceiver(pipActionsReceiver, IntentFilter(ACTION_MEDIA_CONTROL), RECEIVER_EXPORTED)
         handleBackPress()
         setupSubtitleButton()
@@ -133,7 +159,6 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
         })
     }
 
-    // Hide system UI for fullscreen experience
     private fun hideSystemBars() {
         val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
         windowInsetsController.systemBarsBehavior =
@@ -154,24 +179,62 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
         ibPip.visibility = if (isPipSupported) View.VISIBLE else View.GONE
     }
 
-    // Enable Picture-in-Picture mode
     private fun enablePip() {
-        if (!isPipSupported) return
+        if (!isPipSupported || this.playerId == null) return
 
-        wasPlayingBeforePipEnter = exoPlayer?.isPlaying ?: false
+        val currentPlayerManager = playerManagers[this.playerId!!]
+        if (currentPlayerManager == null || !currentPlayerManager.isPipEnabled) return
+
+        wasPlayingBeforePipEnter = currentPlayerManager.exoPlayer.isPlaying
+        currentPlayerManager.saveState()
+
         updatePipParams()?.let {
             enterPictureInPictureMode(it)
         }
     }
 
-    // Update PiP parameters based on video dimensions
-    private fun updatePipParams(): PictureInPictureParams? {
+    private fun createPipRemoteActions(): List<RemoteAction> {
+        val pipPlayerId = this.playerId ?: return emptyList()
+        val playerManager = playerManagers[pipPlayerId] ?: return emptyList()
 
-        val videoWidth = exoPlayer?.videoSize?.width ?: 16
-        val videoHeight = exoPlayer?.videoSize?.height ?: 9
+        val isPlaying = playerManager.exoPlayer.isPlaying
+
+        val playPauseIntent = Intent(ACTION_MEDIA_CONTROL).apply {
+            putExtra(EXTRA_CONTROL_TYPE, CONTROL_TYPE_PLAY_PAUSE)
+            putExtra(KEY_PLAYER_ID_PIP_ACTION, pipPlayerId)
+        }
+
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            CONTROL_TYPE_PLAY_PAUSE,
+            playPauseIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val iconResId = if (isPlaying) R.drawable.ic_pause else R.drawable.ic_play
+        val title = ""
+
+        return listOf(
+            RemoteAction(
+                Icon.createWithResource(this, iconResId),
+                title,
+                title,
+                pendingIntent
+            )
+        )
+    }
+
+    private fun updatePipParams(): PictureInPictureParams? {
+        val currentPlayerManager = playerManagers[this.playerId ?: return null]
+        val currentExoPlayer = currentPlayerManager?.exoPlayer ?: return null
+
+        val videoWidth = currentExoPlayer.videoSize.width
+        val videoHeight = currentExoPlayer.videoSize.height
 
         val builder = PictureInPictureParams.Builder()
             .setAspectRatio(Rational(videoWidth.coerceAtLeast(1), videoHeight.coerceAtLeast(1)))
+
+        builder.setActions(createPipRemoteActions())
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             builder.setAutoEnterEnabled(true)
@@ -190,23 +253,22 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
         return params
     }
 
-    // Configure player view with the appropriate player manager
     @OptIn(UnstableApi::class)
-    private fun configPlayerView(currentPlayerId: String) {
-        val playerManagers by inject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
-        val playerManager = playerManagers[currentPlayerId]
-        val newPlayerInstanceFromManager = playerManager?.exoPlayer
-
-        if (newPlayerInstanceFromManager == null) {
+    private fun configPlayerView(targetPlayerId: String) {
+        val playerManager = playerManagers[targetPlayerId]
+        if (playerManager == null) {
             finish()
             return
         }
 
-        if (this.exoPlayer != null && this.exoPlayer != newPlayerInstanceFromManager) {
+        val newPlayerInstance = playerManager.exoPlayer
+
+        if (this.exoPlayer != null && this.exoPlayer != newPlayerInstance) {
             this.exoPlayer?.removeListener(this)
         }
 
-        this.exoPlayer = newPlayerInstanceFromManager
+        this.exoPlayer = newPlayerInstance
+        this.playerId = targetPlayerId
 
         playerView?.let {
             if (it.player != this.exoPlayer) {
@@ -222,7 +284,7 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
         this.exoPlayer?.addListener(this)
 
         playerManager.setVideoSizeListener { _, _ ->
-            if (isInPictureInPictureMode) {
+            if (isInPictureInPictureMode && eventBroadcaster.getPipActivePlayerId() == this.playerId) {
                 updatePipParams()
             }
         }
@@ -232,90 +294,116 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
     }
 
     override fun onIsPlayingChanged(isPlaying: Boolean) {
-        if (isInPictureInPictureMode) {
+        super.onIsPlayingChanged(isPlaying)
+
+        if (isInPictureInPictureMode && eventBroadcaster.getPipActivePlayerId() == this.playerId) {
             updatePipParams()
         }
     }
 
-    // Handle PiP mode changes
-    override fun onPictureInPictureModeChanged(
-        isInPictureInPictureMode: Boolean,
-        newConfig: Configuration
-    ) {
+    override fun onPlaybackStateChanged(state: Int) {
+        super.onPlaybackStateChanged(state)
+
+        if (isInPictureInPictureMode && eventBroadcaster.getPipActivePlayerId() == this.playerId) {
+            updatePipParams()
+        }
+    }
+
+    override fun onPictureInPictureModeChanged(isInPictureInPictureMode: Boolean, newConfig: Configuration) {
         super.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+
+        if (isInPictureInPictureMode) {
+            updatePipParams()
+        }
+        val currentActivityPlayerId = this.playerId ?: return
+        val currentManager = playerManagers[currentActivityPlayerId]
 
         val pipContainer = findViewById<FrameLayout>(R.id.pip_container)
         val topControlsContainer = findViewById<LinearLayout>(R.id.top_controls_container)
 
         if (isInPictureInPictureMode) {
-            playerId?.let { eventBroadcaster.setPipActivePlayerId(it) }
+            eventBroadcaster.setPipActivePlayerId(currentActivityPlayerId)
+
             playerView?.useController = false
             playerView?.hideController()
             pipContainer.visibility = View.GONE
             topControlsContainer.visibility = View.GONE
             playerView?.subtitleView?.visibility = View.INVISIBLE
-            playerId?.let { eventBroadcaster.emit(VideoPlayerEvent.StartedPip(it)) }
+
+            eventBroadcaster.emit(VideoPlayerEvent.StartedPip(currentActivityPlayerId))
         } else {
-            if (playerId != null && eventBroadcaster.getPipActivePlayerId() == playerId) {
+            val previouslyPipPlayerId = eventBroadcaster.getPipActivePlayerId()
+
+            if (previouslyPipPlayerId == currentActivityPlayerId) {
                 eventBroadcaster.setPipActivePlayerId(null)
+
+                currentManager?.let {
+                    if (!it.isExplicitlyPaused()) {
+                        it.switchFromPip()
+                    } else {
+                        it.setExplicitlyPaused(false)
+                    }
+                }
             }
+
             playerView?.useController = true
             showSystemBars()
             pipContainer.visibility = if (isPipSupported) View.VISIBLE else View.GONE
             topControlsContainer.visibility = if (isPipSupported) View.VISIBLE else View.GONE
             playerView?.subtitleView?.visibility = View.VISIBLE
 
-            // When exiting PiP, ensure player is configured and playing if it was before
-            playerId?.let {
-                configPlayerView(it)
-                if (wasPlayingBeforePipEnter && exoPlayer?.isPlaying == false) {
-                    exoPlayer?.play()
-                }
+            configPlayerView(currentActivityPlayerId)
+
+            if (wasPlayingBeforePipEnter && currentManager?.isExplicitlyPaused() == false && !currentManager.exoPlayer.isPlaying) {
+                currentManager.exoPlayer.play()
             }
-            playerId?.let { eventBroadcaster.emit(VideoPlayerEvent.StoppedPip(it)) }
+            wasPlayingBeforePipEnter = false
+
+            eventBroadcaster.emit(VideoPlayerEvent.StoppedPip(currentActivityPlayerId))
         }
     }
 
     override fun onUserLeaveHint() {
         super.onUserLeaveHint()
-        if (isPipSupported && exoPlayer?.isPlaying == true) {
+        if (this.playerId != null && playerManagers[this.playerId!!]?.isPipEnabled == true && playerManagers[this.playerId!!]?.exoPlayer?.isPlaying == true) {
             enablePip()
         }
     }
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
+        val oldPlayerId = this.playerId
         setIntent(intent)
-        intent.getStringExtra(KEY_PLAYER_ID)?.let {
-            if (it != this.playerId) {
-                this.playerId = it
-                configPlayerView(it)
+
+        val newPlayerIdFromIntent = intent.getStringExtra(KEY_PLAYER_ID)
+        if (newPlayerIdFromIntent != null) {
+            if (newPlayerIdFromIntent != oldPlayerId) {
+                this.playerId = newPlayerIdFromIntent
+                configPlayerView(newPlayerIdFromIntent)
             } else {
-                // If same player ID but activity brought to front
-                configPlayerView(it)
+                configPlayerView(newPlayerIdFromIntent)
             }
         }
     }
 
     override fun onStart() {
         super.onStart()
-        // Ensure player is configured when activity starts/restarts
-        playerId?.let {
+        this.playerId?.let {
             configPlayerView(it)
-            // If it was playing before PiP and we're not in PiP mode anymore, resume
-            if (wasPlayingBeforePipEnter && !isInPictureInPictureMode && exoPlayer?.isPlaying == false) {
-                exoPlayer?.play()
+            val activePipId = eventBroadcaster.getPipActivePlayerId()
+            if (it == activePipId && !isInPictureInPictureMode) {
+                playerManagers[it]?.switchFromPip()
             }
         }
     }
 
     override fun onResume() {
         super.onResume()
-        // Similar to onStart, ensure player is configured and ready
-        playerId?.let {
+        this.playerId?.let {
             configPlayerView(it)
-            if (wasPlayingBeforePipEnter && !isInPictureInPictureMode && exoPlayer?.isPlaying == false) {
-                exoPlayer?.play()
+            val activePipId = eventBroadcaster.getPipActivePlayerId()
+            if (it == activePipId && !isInPictureInPictureMode) {
+                playerManagers[it]?.switchFromPip()
             }
         }
     }
@@ -324,7 +412,12 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
         super.onStop()
         if (!isInPictureInPictureMode && !isChangingConfigurations) {
             if (!isFinishing) {
-                exoPlayer?.pause()
+                this.playerId?.let {
+                    playerManagers[it]?.saveState()
+                    if (playerManagers[it]?.exoPlayer?.isPlaying == true && playerManagers[it]?.isCasting?.value == false) {
+                        playerManagers[it]?.exoPlayer?.pause()
+                    }
+                }
             }
         }
     }
@@ -332,30 +425,30 @@ internal class VideoPlayerActivity : AppCompatActivity(), Player.Listener {
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(pipActionsReceiver)
-        exoPlayer?.removeListener(this)
+        this.exoPlayer?.removeListener(this)
         playerView?.player = null
-        if (playerId != null && eventBroadcaster.getPipActivePlayerId() == playerId) {
+
+        if (!isChangingConfigurations && this.playerId != null && eventBroadcaster.getPipActivePlayerId() == this.playerId) {
             eventBroadcaster.setPipActivePlayerId(null)
         }
-        playerId?.let { eventBroadcaster.emit(VideoPlayerEvent.ActivityFinished(it)) }
+
+        this.playerId?.let { eventBroadcaster.emit(VideoPlayerEvent.ActivityFinished(it)) }
+        this.exoPlayer = null
+        this.playerId = null
     }
 
     companion object {
         private const val KEY_PLAYER_ID = "player_id"
         private const val KEY_ENABLE_PIP = "enable_pip"
-        private const val ACTION_MEDIA_CONTROL = "media_control"
-        private const val EXTRA_CONTROL_TYPE = "control_type"
-        private const val CONTROL_TYPE_PLAY_PAUSE = 1
+        const val ACTION_MEDIA_CONTROL = "com.metacto.core.presentation.components.videoPlayer.ACTION_MEDIA_CONTROL"
+        const val EXTRA_CONTROL_TYPE = "control_type"
+        const val CONTROL_TYPE_PLAY_PAUSE = 1
+        const val KEY_PLAYER_ID_PIP_ACTION = "player_id_pip_action"
 
-        fun start(
-            context: Context,
-            uniqueId: String,
-            enablePip: Boolean = true
-        ) {
+        fun start(context: Context, uniqueId: String, enablePip: Boolean) {
             val intent = Intent(context, VideoPlayerActivity::class.java).apply {
                 putExtra(KEY_PLAYER_ID, uniqueId)
                 putExtra(KEY_ENABLE_PIP, enablePip)
-                flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             }
             context.startActivity(intent)
         }

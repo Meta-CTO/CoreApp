@@ -32,6 +32,9 @@ internal class VideoPlayerManager(
     private var isAutoPlay = false
     private var isMediaMetadataEnabled = false
     private var castManager: CastManager? = null
+    private var savedPosition: Long = 0
+    private var wasPlayingBeforePause: Boolean = false
+    private var explicitlyPaused: Boolean = false
 
     private val trackSelector = DefaultTrackSelector(context).apply {
         parameters = DefaultTrackSelector.Parameters.Builder(context!!)
@@ -68,7 +71,7 @@ internal class VideoPlayerManager(
         }
     }
 
-    private val notificationManager by lazy {
+    val notificationManager by lazy {
         MediaNotificationManager(
             context = context,
             sessionToken = mediaSession.token,
@@ -79,16 +82,25 @@ internal class VideoPlayerManager(
     init {
         exoPlayer.addListener(object : Player.Listener {
             override fun onIsPlayingChanged(isPlaying: Boolean) {
-                if (isMediaMetadataEnabled.not()) return
-                if (isPlaying.not()) return
+                super.onIsPlayingChanged(isPlaying)
 
-                playerManagers.values.forEach {
-                    if (it.uniqueId == uniqueId) return@forEach
-                    it.exoPlayer.pause()
-                    it.notificationManager.hideNotification()
+                if (isMediaMetadataEnabled) {
+                    notificationManager.showNotificationForPlayer(exoPlayer)
                 }
 
-                notificationManager.showNotificationForPlayer(exoPlayer)
+                if (isPlaying) {
+                    playerManagers.values.forEach { otherManager ->
+                        if (otherManager.uniqueId != uniqueId) {
+                            if (otherManager.exoPlayer.isPlaying) {
+                                otherManager.pause()
+                                otherManager.setExplicitlyPaused(true)
+                                if (otherManager.getMediaMetadataEnabled()) {
+                                    otherManager.notificationManager.showNotificationForPlayer(otherManager.exoPlayer)
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             override fun onPositionDiscontinuity(
@@ -104,6 +116,9 @@ internal class VideoPlayerManager(
             override fun onPlaybackStateChanged(state: Int) {
                 if (state == Player.STATE_ENDED) {
                     onVideoEnd?.invoke()
+                }
+                if (isMediaMetadataEnabled) {
+                    notificationManager.showNotificationForPlayer(exoPlayer)
                 }
             }
 
@@ -161,7 +176,7 @@ internal class VideoPlayerManager(
         videoArtist: String?,
         videoArtworkUrl: String?
     ) {
-        if (exoPlayer.currentMediaItem?.mediaId == videoUrl) {
+        if (exoPlayer.currentMediaItem?.mediaId == videoUrl && exoPlayer.playbackState != Player.STATE_IDLE && exoPlayer.playbackState != Player.STATE_ENDED) {
             return
         }
 
@@ -198,10 +213,8 @@ internal class VideoPlayerManager(
         }
 
         val authority = "${context.packageName}.fileprovider"
-
         val subtitleLoader = SubtitleFileLoader(context)
         val mimeType = subtitleLoader.getMimeTypeFromFileName(fileName)
-
         val subtitleUri = androidx.core.content.FileProvider.getUriForFile(
             context,
             authority,
@@ -224,7 +237,8 @@ internal class VideoPlayerManager(
             .setSelectionFlags(C.SELECTION_FLAG_DEFAULT)
             .build()
 
-        val currentConfigs = ArrayList(currentItem.localConfiguration?.subtitleConfigurations ?: emptyList())
+        val currentConfigs =
+            ArrayList(currentItem.localConfiguration?.subtitleConfigurations ?: emptyList())
         currentConfigs.add(newSubtitleConfig)
 
         val updatedItem = MediaItem.Builder()
@@ -304,26 +318,52 @@ internal class VideoPlayerManager(
 
     fun play() {
         val eventBroadcaster = VideoPlayerEventBroadcaster
-        val pipPlayerId = eventBroadcaster.getPipActivePlayerId()
+        val activePipPlayerId = eventBroadcaster.getPipActivePlayerId()
 
-        if (pipPlayerId != null && pipPlayerId != uniqueId) {
-            val playerManagers by inject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
-            playerManagers[pipPlayerId]?.pause()
+        if (activePipPlayerId != null && uniqueId != activePipPlayerId) {
+            playerManagers[activePipPlayerId]?.let { pipManager ->
+                if (pipManager.exoPlayer.isPlaying) {
+                    pipManager.pause()
+                }
+                pipManager.setExplicitlyPaused(true)
+                if (pipManager.isMediaMetadataEnabled) {
+                    pipManager.notificationManager.showNotificationForPlayer(pipManager.exoPlayer)
+                }
+            }
         }
 
         if (_isCasting.value) {
             castManager?.getCurrentPlayer()?.play()
-        } else if (exoPlayer.isPlaying.not()) {
+        } else {
+            if (exoPlayer.playbackState == Player.STATE_IDLE || exoPlayer.playbackState == Player.STATE_ENDED) {
+                exoPlayer.prepare()
+            }
             exoPlayer.play()
         }
     }
-
 
     fun pause() {
         if (_isCasting.value) {
             castManager?.getCurrentPlayer()?.pause()
         } else if (exoPlayer.isPlaying) {
+            saveState()
             exoPlayer.pause()
+        }
+    }
+
+    fun saveState() {
+        savedPosition = exoPlayer.currentPosition
+        wasPlayingBeforePause = exoPlayer.isPlaying
+    }
+
+    fun restoreState() {
+        if (savedPosition > 0) {
+            exoPlayer.seekTo(savedPosition)
+            if (wasPlayingBeforePause) {
+                if (!explicitlyPaused) {
+                    exoPlayer.play()
+                }
+            }
         }
     }
 
@@ -333,6 +373,36 @@ internal class VideoPlayerManager(
 
     fun setMediaMetadataEnabled(isEnabled: Boolean) {
         isMediaMetadataEnabled = isEnabled
+        if (!isEnabled) {
+            notificationManager.hideNotification()
+        } else {
+            notificationManager.showNotificationForPlayer(exoPlayer)
+        }
+    }
+
+    fun getMediaMetadataEnabled(): Boolean {
+        return isMediaMetadataEnabled
+    }
+
+    fun switchFromPip() {
+        val eventBroadcaster = VideoPlayerEventBroadcaster
+        if (eventBroadcaster.getPipActivePlayerId() == uniqueId) {
+            eventBroadcaster.setPipActivePlayerId(null)
+
+            if (!explicitlyPaused) {
+                restoreState()
+            } else {
+                explicitlyPaused = false
+            }
+        }
+    }
+
+    fun setExplicitlyPaused(paused: Boolean) {
+        explicitlyPaused = paused
+    }
+
+    fun isExplicitlyPaused(): Boolean {
+        return explicitlyPaused
     }
 }
 

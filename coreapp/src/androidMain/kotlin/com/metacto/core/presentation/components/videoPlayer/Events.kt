@@ -11,14 +11,14 @@ import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
 internal sealed class VideoPlayerEvent {
-    data class StoppedPip(val playerId: String) : VideoPlayerEvent() // Added playerId
-    data class StartedPip(val playerId: String) : VideoPlayerEvent() // Added playerId
-    data class ActivityFinished(val playerId: String) : VideoPlayerEvent() // Added playerId
-    data class PlayerStarted(val playerId: String) : VideoPlayerEvent()
+    data class StoppedPip(val playerId: String) : VideoPlayerEvent()
+    data class StartedPip(val playerId: String) : VideoPlayerEvent()
+    data class ActivityFinished(val playerId: String) : VideoPlayerEvent()
 }
 
 internal object VideoPlayerEventBroadcaster {
-    private val events = MutableSharedFlow<VideoPlayerEvent>()
+    // Changed from private to internal to allow access from VideoPlayerActivity
+    internal val events = MutableSharedFlow<VideoPlayerEvent>()
     private var pipActivePlayerId: String? = null
 
     fun getPipActivePlayerId(): String? = pipActivePlayerId
