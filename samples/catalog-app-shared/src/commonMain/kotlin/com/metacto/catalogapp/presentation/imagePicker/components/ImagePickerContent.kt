@@ -1,4 +1,4 @@
-package com.metacto.catalogapp.presentation.imagePicker.imagepicker.components
+package com.metacto.catalogapp.presentation.imagePicker.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,8 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.metacto.catalogapp.presentation.components.containers.AppScreenColumn
-import com.metacto.catalogapp.presentation.imagePicker.imagepicker.ImagePickerContract.Event
-import com.metacto.catalogapp.presentation.imagePicker.imagepicker.ImagePickerContract.State
+import com.metacto.catalogapp.presentation.imagePicker.ImagePickerContract.Event
+import com.metacto.catalogapp.presentation.imagePicker.ImagePickerContract.State
 import com.metacto.catalogapp.presentation.theme.spacings
 import com.metacto.core.ui.components.buttons.PrimaryFilledButton
 import com.metacto.core.ui.components.images.AppImage

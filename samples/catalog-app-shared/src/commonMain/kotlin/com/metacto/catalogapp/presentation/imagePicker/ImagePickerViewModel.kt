@@ -1,9 +1,9 @@
-package com.metacto.catalogapp.presentation.imagePicker.imagepicker
+package com.metacto.catalogapp.presentation.imagePicker
 
 import com.metacto.catalogapp.presentation.base.BaseViewModel
-import com.metacto.catalogapp.presentation.imagePicker.imagepicker.ImagePickerContract.Effect
-import com.metacto.catalogapp.presentation.imagePicker.imagepicker.ImagePickerContract.Event
-import com.metacto.catalogapp.presentation.imagePicker.imagepicker.ImagePickerContract.State
+import com.metacto.catalogapp.presentation.imagePicker.ImagePickerContract.Effect
+import com.metacto.catalogapp.presentation.imagePicker.ImagePickerContract.Event
+import com.metacto.catalogapp.presentation.imagePicker.ImagePickerContract.State
 
 class ImagePickerViewModel : BaseViewModel<State, Event, Effect>() {
 

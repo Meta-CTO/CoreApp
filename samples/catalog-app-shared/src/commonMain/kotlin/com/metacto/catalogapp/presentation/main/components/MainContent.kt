@@ -14,7 +14,7 @@ import com.metacto.catalogapp.presentation.main.MainContract.Event
 import com.metacto.catalogapp.presentation.main.MainContract.State
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesScreen
 import org.koin.compose.koinInject
-import com.metacto.catalogapp.presentation.imagePicker.imagepicker.ImagePickerScreen
+import com.metacto.catalogapp.presentation.imagePicker.ImagePickerScreen
 import com.metacto.catalogapp.presentation.theme.spacings
 
 @Composable
