@@ -12,7 +12,7 @@ import com.metacto.core.ui.components.containers.ScreenColumn
 import com.metacto.core.ui.navigation.NavManager
 import com.metacto.catalogapp.presentation.main.MainContract.Event
 import com.metacto.catalogapp.presentation.main.MainContract.State
-import com.metacto.catalogapp.presentation.mediaManager.mediamanager.MediaManagerScreen
+import com.metacto.catalogapp.presentation.mediaManager.MediaManagerScreen
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesScreen
 import com.metacto.catalogapp.presentation.theme.spacings
 import org.koin.compose.koinInject

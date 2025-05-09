@@ -1,9 +1,9 @@
-package com.metacto.catalogapp.presentation.mediaManager.mediamanager
+package com.metacto.catalogapp.presentation.mediaManager
 
 import com.metacto.catalogapp.presentation.base.BaseViewModel
-import com.metacto.catalogapp.presentation.mediaManager.mediamanager.MediaManagerContract.Effect
-import com.metacto.catalogapp.presentation.mediaManager.mediamanager.MediaManagerContract.Event
-import com.metacto.catalogapp.presentation.mediaManager.mediamanager.MediaManagerContract.State
+import com.metacto.catalogapp.presentation.mediaManager.MediaManagerContract.Effect
+import com.metacto.catalogapp.presentation.mediaManager.MediaManagerContract.Event
+import com.metacto.catalogapp.presentation.mediaManager.MediaManagerContract.State
 
 class MediaManagerViewModel : BaseViewModel<State, Event, Effect>() {
 

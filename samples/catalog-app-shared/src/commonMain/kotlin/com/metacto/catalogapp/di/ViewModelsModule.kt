@@ -1,7 +1,7 @@
 package com.metacto.catalogapp.di
 
 // MARK: Add imports
-import com.metacto.catalogapp.presentation.mediaManager.mediamanager.MediaManagerViewModel
+import com.metacto.catalogapp.presentation.mediaManager.MediaManagerViewModel
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesViewModel
 import com.metacto.core.ui.di.commonViewModel
 import com.metacto.catalogapp.presentation.app.app.AppViewModel

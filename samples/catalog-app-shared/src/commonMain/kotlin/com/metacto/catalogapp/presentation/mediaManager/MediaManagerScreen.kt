@@ -1,9 +1,9 @@
-package com.metacto.catalogapp.presentation.mediaManager.mediamanager
+package com.metacto.catalogapp.presentation.mediaManager
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.metacto.catalogapp.presentation.mediaManager.mediamanager.MediaManagerContract.Event
-import com.metacto.catalogapp.presentation.mediaManager.mediamanager.components.MediaManagerContent
+import com.metacto.catalogapp.presentation.mediaManager.MediaManagerContract.Event
+import com.metacto.catalogapp.presentation.mediaManager.components.MediaManagerContent
 import com.metacto.core.ui.base.BaseScreen
 import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel

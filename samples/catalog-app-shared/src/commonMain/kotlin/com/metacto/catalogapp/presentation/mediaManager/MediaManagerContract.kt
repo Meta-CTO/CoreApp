@@ -1,4 +1,4 @@
-package com.metacto.catalogapp.presentation.mediaManager.mediamanager
+package com.metacto.catalogapp.presentation.mediaManager
 
 import com.metacto.core.ui.base.ViewEvent
 import com.metacto.core.ui.base.ViewSideEffect

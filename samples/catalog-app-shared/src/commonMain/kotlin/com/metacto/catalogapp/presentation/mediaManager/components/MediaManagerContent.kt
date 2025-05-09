@@ -1,4 +1,4 @@
-package com.metacto.catalogapp.presentation.mediaManager.mediamanager.components
+package com.metacto.catalogapp.presentation.mediaManager.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -11,8 +11,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import com.metacto.catalogapp.presentation.components.containers.AppScreenColumn
-import com.metacto.catalogapp.presentation.mediaManager.mediamanager.MediaManagerContract.Event
-import com.metacto.catalogapp.presentation.mediaManager.mediamanager.MediaManagerContract.State
+import com.metacto.catalogapp.presentation.mediaManager.MediaManagerContract.Event
+import com.metacto.catalogapp.presentation.mediaManager.MediaManagerContract.State
 import com.metacto.catalogapp.presentation.theme.spacings
 import com.metacto.core.ui.components.images.AppImage
 import com.metacto.core.ui.media.IMediaManager
