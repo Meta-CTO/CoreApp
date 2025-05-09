@@ -5,7 +5,7 @@ object Configs {
     const val LOCAL_PROPERTIES = "local.properties"
     const val VERSIONS_PROPERTIES = "versions.properties"
     const val PUBLISH_VERSION = "PUBLISH_VERSION"
-    const val MAVEN_URL = "https://maven.pkg.github.com/Meta-CTO/kmm-firebase-extensions"
+    const val MAVEN_URL = "https://maven.pkg.github.com/Meta-CTO/coreapp"
     const val PUBLISH_MAVEN_REPO_NAME = "Github"
     const val SH_USERNAME = "developer-swensonhe"
     const val SH_PASSWORD = "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"

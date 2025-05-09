@@ -47,4 +47,4 @@ jobs:
         run: cat ./local.properties
 
       - name: Publish to GitHub Packages
-        run: ./gradlew :coreApp:publishAllPublicationsToGithubRepository
+        run: ./gradlew :CmpCore:publishAllPublicationsToGithubRepository
