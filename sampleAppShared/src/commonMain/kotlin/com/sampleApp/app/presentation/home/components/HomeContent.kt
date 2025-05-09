@@ -3,6 +3,7 @@ package com.sampleApp.app.presentation.home.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Work
 import androidx.compose.material3.Text
@@ -22,6 +23,7 @@ import com.metacto.core.presentation.components.images.AppImage
 import com.metacto.core.presentation.components.inputFields.OutlinedOtpInputField
 import com.metacto.core.presentation.components.inputFields.PickerInputField
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
+import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.contacts.rememberContactsCollectorOptionsFactory
 import com.metacto.core.utils.language.English
 import com.metacto.core.utils.language.ILanguageManager
@@ -29,6 +31,7 @@ import com.metacto.core.utils.language.Language
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
+import com.sampleApp.app.presentation.models.VideoItemInfo
 import com.sampleApp.app.presentation.test2.test2.Test2Screen
 import com.sampleApp.app.presentation.theme.AppTheme
 import com.sampleApp.app.resources.Res
@@ -54,6 +57,16 @@ internal fun HomeContent(
     val languageManager = koinInject<ILanguageManager>()
     val navManager = koinInject<NavManager>()
 
+    val videoInfo = remember {
+        VideoItemInfo(
+            url = "https://storage.sardius.media/-KrXWhrxRAYPfu44QPJ0/archives/DAA6A5576Dd5Ee41CBd6B68696F6/media/playlist.m3u8?feedId=27d824FCdF&vttUrl=https%253A%252F%252Fstorage.sardius.media%252F-KrXWhrxRAYPfu44QPJ0%252Farchives%252FDAA6A5576Dd5Ee41CBd6B68696F6%252Fstatic%252F1730996105358-1.vtt",
+//            url = FileResources.intro_video.getUri(),
+            title = "Random Video Title",
+            artist = "Random Artist",
+            artworkUrl = "https://yurielkaim.com/wp-content/uploads/2016/03/Happiness-Habits-10-Things-Happy-People-Do-Before-Bed-1200x900.jpg"
+        )
+    }
+
     ScreenColumn(
         isScrollable = true,
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -68,6 +81,37 @@ internal fun HomeContent(
             println("HomeContent -- onScrollDown")
         },
     ) {
+
+        VideoPlayer(
+//            uniqueId = "profile_video_player",
+//            videoUrl = Res.file.intro_video.getUri(),
+//            autoPlay = true,
+//            scaleToCrop = true,
+//            enableVoice = false,
+//            enablePip = false,
+//            enableMediaMetadata = false,
+//            autoRepeat = true,
+//            controlsType = ControlsType.HideControls,
+//            onVideoLoop = {
+//                println("Video looped")
+//            },
+//            onVideoEnd = {
+//                println("Video ended")
+//            },
+            uniqueId = "home_video_player",
+            videoUrl = videoInfo.url,
+            videoTitle = videoInfo.title,
+            videoArtist = videoInfo.artist,
+            videoArtworkUrl = videoInfo.artworkUrl,
+            autoPlay = false,
+            scaleToCrop = false,
+            enablePip = true,
+            handleLifecyclePause = false,
+            controllerShowTimeoutMs = 2000,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(500.dp)
+        )
         var otp by remember { mutableStateOf("") }
         OutlinedOtpInputField(
             pinCount = 6,

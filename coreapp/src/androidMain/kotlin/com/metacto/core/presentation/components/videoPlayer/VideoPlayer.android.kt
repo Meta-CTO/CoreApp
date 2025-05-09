@@ -1,46 +1,55 @@
 package com.metacto.core.presentation.components.videoPlayer
 
-import android.annotation.SuppressLint
-import android.content.res.Configuration
+import android.util.TypedValue
 import android.view.SurfaceView
-import android.view.ViewGroup.LayoutParams.MATCH_PARENT
-import android.widget.FrameLayout
+import android.view.View
 import androidx.annotation.OptIn
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ClosedCaption
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.media3.common.C
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
+import androidx.mediarouter.app.MediaRouteButton
 import com.metacto.core.domain.DiQualifiers
-import com.metacto.core.presentation.components.dialog.dismissFullScreenDialog
-import com.metacto.core.presentation.components.dialog.showFullScreenDialog
 import com.metacto.core.presentation.components.visibilities.FadeVisibility
 import com.metacto.core.utils.extensions.OnLifecycleEvent
-import com.metacto.core.utils.extensions.getActivity
 import com.metacto.core.utils.extensions.noRippleClickable
-import com.metacto.core.utils.extensions.setPortraitOrientation
-import com.metacto.core.utils.extensions.setUnspecifiedOrientation
+import com.metacto.coreApp.R
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
@@ -76,72 +85,97 @@ actual fun VideoPlayer(
     onPlayerCreated: ((VideoPlayerController) -> Unit)?,
     onDurationCaught: ((Duration) -> Unit)?,
     onVideoLoop: (() -> Unit)?,
-    onVideoEnd: (() -> Unit)?
+    onVideoEnd: (() -> Unit)?,
 ) {
-    // Inject main stuff
+    val context = LocalContext.current
+    val eventBroadcaster = koinInject<VideoPlayerEventBroadcaster>()
     val playerManagers =
         koinInject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
-    val playerManager = playerManagers.getOrPut(uniqueId) {
-        VideoPlayerManager(uniqueId)
-    }
-    // Local state variables for UI and playback.
+    val playerManager = playerManagers.getOrPut(uniqueId) { VideoPlayerManager(uniqueId) }
+
     val isPlaying = remember { mutableStateOf(playerManager.exoPlayer.isPlaying) }
+    val isVideoEnded = remember { mutableStateOf(false) }
+    var enableRendering by remember { mutableStateOf(true) }
+    var shouldResumePlayback by remember { mutableStateOf(false) }
+    var surfaceRecreationTrigger by remember { mutableStateOf(false) }
     val icon = if (isPlaying.value) pauseIconRes else playIconRes
     val isPlayButtonVisible by remember { mutableStateOf(true) }
-    val isVideoEnded = remember { mutableStateOf(false) }
-    val isFullScreen = remember { mutableStateOf(false) }
-    val activity = LocalContext.current.getActivity<AppCompatActivity>()
-    val configuration = LocalConfiguration.current
-    val isLandscape by remember(configuration.orientation) {
-        derivedStateOf {
-            configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-        }
+    val playerViewRef = remember { mutableStateOf<PlayerView?>(null) }
+
+    val isCasting by playerManager.isCasting.collectAsState()
+
+    val subtitleFilePicker = rememberSubtitleFilePicker { language, fileName, content ->
+        playerManager.addExternalSubtitle(language, fileName, content)
     }
 
-    // Set fullscreen by default when move to landscape
-    LaunchedEffect(isLandscape) {
-        if (isLandscape) {
-            isFullScreen.value = true
-        }
-    }
+    eventBroadcaster.collectInCompose<VideoPlayerEvent.ActivityFinished> {
+        if (it.playerId == uniqueId) {
+            val isPipActive = eventBroadcaster.getPipActivePlayerId() == uniqueId
 
-    // Handle fullscreen changes
-    LaunchedEffect(isFullScreen.value) {
-        if (isFullScreen.value) {
-            activity?.setUnspecifiedOrientation()
-        } else {
-            activity?.setPortraitOrientation()
-        }
-    }
+            if (!isPipActive) {
+                enableRendering = true
 
-    // Show and dismiss fullscreen dialog when needed
-    LaunchedEffect(isFullScreen.value) {
-        if (isFullScreen.value) {
-            // Show fullscreen dialog if needed
-            activity?.showFullScreenDialog {
-                FullScreenVideoPlayer(
-                    modifier = Modifier,
-                    playerManager = playerManager,
-                    isPlayButtonVisible = isPlayButtonVisible,
-                    icon = icon,
-                    isPlaying = isPlaying,
-                    isVideoEnded = isVideoEnded,
-                    isFullScreen = isFullScreen,
-                    controllerShowTimeoutMs = controllerShowTimeoutMs,
-                    controlsType = controlsType,
-                    customControlsSize = customControlsSize,
-                    customControlsElevation = customControlsElevation,
-                    customControlsShape = customControlsShape
-                )
+                if (shouldResumePlayback && playerManager.exoPlayer.playbackState != Player.STATE_ENDED) {
+                    playerManager.play()
+                    shouldResumePlayback = false
+                } else {
+                    playerManager.restoreState()
+                }
+
+                isPlaying.value = playerManager.exoPlayer.isPlaying
+                playerViewRef.value?.subtitleView?.visibility = View.VISIBLE
+                surfaceRecreationTrigger = !surfaceRecreationTrigger
             }
-        } else {
-            // Dismiss current fullscreen dialog if exists
-            activity?.dismissFullScreenDialog()
         }
     }
 
-    // Listen for player state changes.
-    LaunchedEffect(playerManager.exoPlayer) {
+    eventBroadcaster.collectInCompose<VideoPlayerEvent.StartedPip> {
+        if (it.playerId == uniqueId) {
+            shouldResumePlayback = playerManager.exoPlayer.isPlaying
+            playerManager.saveState()
+
+            enableRendering = false
+            playerViewRef.value?.subtitleView?.visibility = View.INVISIBLE
+            surfaceRecreationTrigger = !surfaceRecreationTrigger
+        }
+    }
+
+    eventBroadcaster.collectInCompose<VideoPlayerEvent.StoppedPip> {
+        if (it.playerId == uniqueId) {
+            if (eventBroadcaster.getPipActivePlayerId() == null ||
+                eventBroadcaster.getPipActivePlayerId() != uniqueId) {
+
+                enableRendering = true
+
+                if (shouldResumePlayback && playerManager.exoPlayer.playbackState != Player.STATE_ENDED) {
+                    playerManager.play()
+                    shouldResumePlayback = false
+                } else {
+                    playerManager.restoreState()
+                }
+
+                isPlaying.value = playerManager.exoPlayer.isPlaying
+                playerViewRef.value?.subtitleView?.visibility = View.VISIBLE
+                surfaceRecreationTrigger = !surfaceRecreationTrigger
+            }
+        }
+    }
+
+    LaunchedEffect(enablePip) {
+        playerManager.isPipEnabled = enablePip
+    }
+
+    val controller = remember(playerManager) {
+        object : VideoPlayerController {
+            override fun play() {
+                playerManager.play()
+            }
+
+            override fun pause() = playerManager.pause()
+        }
+    }
+
+    LaunchedEffect(key1 = playerManager) {
         playerManager.exoPlayer.addListener(object : Player.Listener {
             override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
                 isPlaying.value = playWhenReady
@@ -161,243 +195,82 @@ actual fun VideoPlayer(
         })
     }
 
-    // Voice configuration
-    LaunchedEffect(playerManager, enableVoice) {
-        playerManager.exoPlayer.volume = if (enableVoice) 1f else 0f
-    }
-
-    // Setup scaling mode
-    LaunchedEffect(playerManager, scaleToCrop) {
-        playerManager.setScaleToCrop(scaleToCrop)
-    }
-
-    // Auto play configuration
-    LaunchedEffect(playerManager, autoPlay) {
-        playerManager.setAutoPlay(autoPlay)
-    }
-
-    // Auto repeat configuration
-    LaunchedEffect(playerManager, autoRepeat) {
-        playerManager.setAutoRepeat(autoRepeat)
-    }
-
-    // Media metadata configuration
-    LaunchedEffect(playerManager, videoUrl, videoTitle, videoArtist, videoArtworkUrl) {
+    LaunchedEffect(
+        playerManager, videoUrl, videoTitle, videoArtist, videoArtworkUrl,
+        autoPlay, scaleToCrop, autoRepeat, enableVoice, enableMediaMetadata,
+        onVideoLoop, onVideoEnd, controller, onPlayerCreated
+    ) {
         playerManager.setMedia(
             videoUrl = videoUrl,
             videoTitle = videoTitle,
             videoArtist = videoArtist,
             videoArtworkUrl = videoArtworkUrl
         )
-    }
-    LaunchedEffect(enableMediaMetadata) {
+        playerManager.setAutoPlay(autoPlay)
+        playerManager.setScaleToCrop(scaleToCrop)
+        playerManager.setAutoRepeat(autoRepeat)
         playerManager.setMediaMetadataEnabled(enableMediaMetadata)
-    }
-
-    // Set up and deliver the player controller callback.
-    val controller = remember(playerManager) {
-        object : VideoPlayerController {
-            override fun play() = playerManager.play()
-            override fun pause() = playerManager.pause()
-        }
-    }
-
-    LaunchedEffect(controller, onPlayerCreated) {
+        playerManager.exoPlayer.volume = if (enableVoice) 1f else 0f
+        playerManager.onVideoLoop = onVideoLoop
+        playerManager.onVideoEnd = onVideoEnd
         onPlayerCreated?.invoke(controller)
     }
 
-    // Video loop configuration
-    LaunchedEffect(onVideoLoop) {
-        playerManager.onVideoLoop = onVideoLoop
+    fun onFullScreen(id: String) {
+        shouldResumePlayback = playerManager.exoPlayer.isPlaying
+        enableRendering = false
+        surfaceRecreationTrigger = !surfaceRecreationTrigger
+        VideoPlayerActivity.start(context = context, uniqueId = id, enablePip = enablePip)
     }
 
-    // Video end configuration
-    LaunchedEffect(onVideoEnd) {
-        playerManager.onVideoEnd = onVideoEnd
-    }
-
-    // Render normal video player if needed
-    if (isFullScreen.value.not()) {
-        NormalVideoPlayer(
-            modifier = modifier,
-            playerManager = playerManager,
-            isPlayButtonVisible = isPlayButtonVisible,
-            icon = icon,
-            isPlaying = isPlaying,
-            isVideoEnded = isVideoEnded,
-            isFullScreen = isFullScreen,
-            scaleToCrop = scaleToCrop,
-            controllerShowTimeoutMs = controllerShowTimeoutMs,
-            controlsType = controlsType,
-            customControlsSize = customControlsSize,
-            customControlsElevation = customControlsElevation,
-            customControlsShape = customControlsShape
-        )
-    }
-
-    // Pause the player when the composable is disposed or when the lifecycle pauses.
-    DisposableEffect(Unit) {
-        onDispose {
-            if (handleLifecyclePause) {
-                playerManager.pause()
-            }
-        }
-    }
-    OnLifecycleEvent(
-        onPause = {
-            if (handleLifecyclePause) {
-                playerManager.pause()
-            }
-        }
-    )
-}
-
-@SuppressLint("UnsafeOptInUsageError")
-@Composable
-private fun NormalVideoPlayer(
-    modifier: Modifier,
-    playerManager: VideoPlayerManager,
-    isPlayButtonVisible: Boolean,
-    icon: DrawableResource,
-    isPlaying: MutableState<Boolean>,
-    isVideoEnded: MutableState<Boolean>,
-    isFullScreen: MutableState<Boolean>,
-    scaleToCrop: Boolean,
-    controllerShowTimeoutMs: Int,
-    controlsType: ControlsType,
-    customControlsSize: Dp,
-    customControlsElevation: Dp,
-    customControlsShape: RoundedCornerShape
-) {
-    Box(
-        modifier = modifier
-    ) {
-        VideoPlayerContent(
-            playerManager = playerManager,
-            controlsType = controlsType,
-            controllerShowTimeoutMs = controllerShowTimeoutMs,
-            isPlayButtonVisible = isPlayButtonVisible,
-            icon = icon,
-            customControlsSize = customControlsSize,
-            customControlsElevation = customControlsElevation,
-            customControlsShape = customControlsShape,
-            resizeMode = when (scaleToCrop) {
-                true -> AspectRatioFrameLayout.RESIZE_MODE_FILL
-                false -> AspectRatioFrameLayout.RESIZE_MODE_FIT
-            },
-            onNativeFullscreenClick = {
-                isFullScreen.value = isFullScreen.value.not()
-            },
-            onTogglePlay = {
-                if (isPlaying.value) {
-                    playerManager.pause()
-                } else {
-                    if (isVideoEnded.value) {
-                        playerManager.exoPlayer.seekTo(0)
-                        isVideoEnded.value = false
-                    }
-                    playerManager.play()
-                    isPlaying.value = true
-                }
-            }
-        )
-    }
-}
-
-@SuppressLint("UnsafeOptInUsageError")
-@Composable
-private fun FullScreenVideoPlayer(
-    modifier: Modifier,
-    playerManager: VideoPlayerManager,
-    isPlayButtonVisible: Boolean,
-    icon: DrawableResource,
-    isPlaying: MutableState<Boolean>,
-    isVideoEnded: MutableState<Boolean>,
-    isFullScreen: MutableState<Boolean>,
-    controllerShowTimeoutMs: Int,
-    controlsType: ControlsType,
-    customControlsSize: Dp,
-    customControlsElevation: Dp,
-    customControlsShape: RoundedCornerShape
-) {
-    Box(
-        modifier = modifier.fillMaxSize()
-    ) {
-        VideoPlayerContent(
-            playerManager = playerManager,
-            controlsType = controlsType,
-            controllerShowTimeoutMs = controllerShowTimeoutMs,
-            isPlayButtonVisible = isPlayButtonVisible,
-            icon = icon,
-            customControlsSize = customControlsSize,
-            customControlsElevation = customControlsElevation,
-            customControlsShape = customControlsShape,
-            resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FIXED_WIDTH,
-            onTogglePlay = {
-                if (isPlaying.value) {
-                    playerManager.pause()
-                } else {
-                    if (isVideoEnded.value) {
-                        playerManager.exoPlayer.seekTo(0)
-                        isVideoEnded.value = false
-                    }
-                    playerManager.play()
-                    isPlaying.value = true
-                }
-            },
-            onNativeFullscreenClick = {
-                isFullScreen.value = isFullScreen.value.not()
-            }
-        )
-    }
-}
-
-@OptIn(UnstableApi::class)
-@Composable
-private fun VideoPlayerContent(
-    playerManager: VideoPlayerManager,
-    controlsType: ControlsType,
-    controllerShowTimeoutMs: Int,
-    resizeMode: Int,
-    isPlayButtonVisible: Boolean,
-    icon: DrawableResource,
-    customControlsSize: Dp,
-    customControlsElevation: Dp,
-    customControlsShape: RoundedCornerShape,
-    onTogglePlay: () -> Unit,
-    onNativeFullscreenClick: () -> Unit,
-) {
-    Box(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = modifier) {
         AndroidView(
-            modifier = Modifier
-                .fillMaxSize(),
-            factory = { context ->
-                PlayerView(context).apply {
+            modifier = Modifier.fillMaxSize(),
+            factory = { ctx ->
+                PlayerView(ctx).apply {
                     useController = (controlsType == ControlsType.NativeControls)
                     this.controllerShowTimeoutMs = controllerShowTimeoutMs
-                    this.resizeMode = resizeMode
-                    player = playerManager.exoPlayer
-                    layoutParams = FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+                    this.resizeMode = if (scaleToCrop) AspectRatioFrameLayout.RESIZE_MODE_ZOOM
+                    else AspectRatioFrameLayout.RESIZE_MODE_FIT
+                    subtitleView?.setFixedTextSize(TypedValue.COMPLEX_UNIT_SP, 16f)
+                    subtitleView?.setPaddingRelative(0, 0, 0, 20)
+                    subtitleView?.setApplyEmbeddedStyles(true)
+                    subtitleView?.setCues(null)
 
-                    (videoSurfaceView as? SurfaceView)?.let {
-                        playerManager.exoPlayer.setVideoSurfaceView(it)
+                    setFullscreenButtonClickListener {
+                        onFullScreen(uniqueId)
                     }
-                    if (controlsType == ControlsType.NativeControls) {
-                        // Leverage native full screen button.
-                        setFullscreenButtonClickListener { onNativeFullscreenClick() }
-                    }
+                }.also {
+                    playerViewRef.value = it
                 }
             },
-            update = { playerView ->
-                (playerView.videoSurfaceView as? SurfaceView)?.let {
-                    playerManager.exoPlayer.setVideoSurfaceView(it)
+            update = { view ->
+                playerViewRef.value = view
+                if (enableRendering) {
+                    if (view.player != playerManager.exoPlayer) {
+                        view.player = null
+                        view.player = playerManager.exoPlayer
+                    } else {
+                        (view.videoSurfaceView as? SurfaceView)?.let {
+                            playerManager.exoPlayer.setVideoSurfaceView(it)
+                        }
+                    }
+                    view.subtitleView?.visibility = View.VISIBLE
+                    if (playerManager.exoPlayer.playWhenReady && !playerManager.exoPlayer.isPlaying && playerManager.exoPlayer.playbackState != Player.STATE_ENDED) {
+                        playerManager.exoPlayer.play()
+                    }
+                } else {
+                    if (view.player != null) {
+                        view.player = null
+                    }
+                    view.subtitleView?.visibility = View.INVISIBLE
                 }
             }
         )
-        // For custom controls, overlay a play/pause button.
+
         if (controlsType == ControlsType.CustomControls) {
             FadeVisibility(
-                visible = isPlayButtonVisible,
+                visible = isPlayButtonVisible && enableRendering,
                 duration = CONTROLS_ANIM_DURATION,
                 modifier = Modifier.align(Alignment.Center)
             ) {
@@ -410,9 +283,115 @@ private fun VideoPlayerContent(
                             elevation = customControlsElevation,
                             shape = customControlsShape
                         )
-                        .noRippleClickable { onTogglePlay() }
+                        .noRippleClickable {
+                            togglePlayback(
+                                isPlaying = isPlaying.value,
+                                isVideoEnded = isVideoEnded,
+                                playerManager = playerManager
+                            )
+                        }
                 )
             }
         }
+
+        FadeVisibility(
+            visible = isPlayButtonVisible && enableRendering,
+            duration = CONTROLS_ANIM_DURATION,
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(top = 8.dp, end = 8.dp)
+        ) {
+            Row {
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .background(color = Color.LightGray, shape = CircleShape)
+                        .clickable { subtitleFilePicker() },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.ClosedCaption,
+                        contentDescription = "Load Subtitle File",
+                        tint = Color.Black,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Box(
+                    modifier = Modifier
+                        .size(36.dp)
+                        .background(color = Color.LightGray, shape = CircleShape),
+                    contentAlignment = Alignment.Center
+                ) {
+                    AndroidView(
+                        factory = { ctx ->
+                            MediaRouteButton(ctx).apply {
+                                playerManager.setupCastButton(this)
+                            }
+                        },
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
+        }
+
+        if (isCasting) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .background(Color.Black.copy(alpha = 0.7f))
+                    .padding(8.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.casting_to_device),
+                    color = Color.White,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+        }
+    }
+
+    DisposableEffect(Unit) {
+        onDispose { }
+    }
+
+    OnLifecycleEvent(
+        onPause = {
+            if (handleLifecyclePause && enableRendering) {
+                if (!playerManager.exoPlayer.isPlaying && shouldResumePlayback) {
+                } else {
+                    shouldResumePlayback = playerManager.exoPlayer.isPlaying
+                }
+                playerManager.pause()
+            }
+        },
+        onResume = {
+            if (handleLifecyclePause && enableRendering && shouldResumePlayback) {
+                if (playerManager.exoPlayer.playbackState != Player.STATE_ENDED) {
+                    playerManager.play()
+                }
+                shouldResumePlayback = false
+            }
+        }
+    )
+}
+
+@OptIn(UnstableApi::class)
+private fun togglePlayback(
+    isPlaying: Boolean,
+    isVideoEnded: MutableState<Boolean>,
+    playerManager: VideoPlayerManager
+) {
+    if (isPlaying) {
+        playerManager.pause()
+    } else {
+        if (isVideoEnded.value) {
+            playerManager.exoPlayer.seekTo(0)
+            isVideoEnded.value = false
+        }
+        playerManager.play()
     }
 }

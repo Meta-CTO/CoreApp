@@ -118,6 +118,11 @@ kotlin {
                 api(Dependencies.ExoPlayer.HLS)
                 api(Dependencies.ExoPlayer.UI)
                 api(Dependencies.ExoPlayer.SESSION)
+                api(Dependencies.ExoPlayer.MEDIA3_CAST)
+
+                // Cast dependencies
+                api(Dependencies.MEDIA_ROUTER)
+                api(Dependencies.CAST_FRAMEWORK)
 
                 // Youtube Player
                 api(Dependencies.YoutubePlayer.CORE)
