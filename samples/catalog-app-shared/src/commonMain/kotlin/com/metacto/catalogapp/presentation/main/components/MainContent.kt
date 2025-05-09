@@ -11,6 +11,7 @@ import com.metacto.catalogapp.presentation.imagePicker.ImagePickerSamplesScreen
 import com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.ImagePreloaderScreen
 import com.metacto.catalogapp.presentation.main.MainContract.Event
 import com.metacto.catalogapp.presentation.main.MainContract.State
+import com.metacto.catalogapp.presentation.mediaManager.MediaManagerScreen
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesScreen
 import com.metacto.catalogapp.presentation.theme.spacings
 import com.metacto.core.ui.components.buttons.PrimaryFilledButton
@@ -60,6 +61,14 @@ internal fun MainContent(
             text = "Image Preloader sample",
             onClick = {
                 navManage.navigate(ImagePreloaderScreen())
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
+            text = "Media Manager samples",
+            onClick = {
+                navManage.navigate(MediaManagerScreen())
             },
             modifier = Modifier.fillMaxWidth()
         )
