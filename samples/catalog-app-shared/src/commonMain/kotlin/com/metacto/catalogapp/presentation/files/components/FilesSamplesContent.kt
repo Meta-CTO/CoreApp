@@ -8,13 +8,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.metacto.catalogapp.presentation.app.globalState.IAppGlobalState
 import com.metacto.catalogapp.presentation.components.containers.AppScreenColumn
 import com.metacto.catalogapp.presentation.files.FilesSamplesContract.Event
 import com.metacto.catalogapp.presentation.files.FilesSamplesContract.State
 import com.metacto.catalogapp.presentation.theme.spacings
 import com.metacto.core.files.IFileManager
 import com.metacto.core.ui.components.buttons.PrimaryFilledButton
-import com.metacto.core.ui.globalState.ICoreGlobalState
 import com.metacto.core.ui.globalState.models.SnackBarParams
 import com.metacto.core.ui.globalState.models.SnackBarType
 import com.metacto.core.ui.navigation.NavManager
@@ -22,14 +22,14 @@ import org.koin.compose.koinInject
 
 
 @Composable
-internal fun FilesSamplesScreenContent(
+internal fun FilesSamplesContent(
     state: State,
     onEvent: (Event) -> Unit
 ) {
     // Di
     val navManager = koinInject<NavManager>()
     val fileManager = koinInject<IFileManager>()
-    val coreGlobalState = koinInject<ICoreGlobalState>()
+    val globalState = koinInject<IAppGlobalState>()
 
     // state
     var filePath by remember { mutableStateOf("") }
@@ -52,14 +52,14 @@ internal fun FilesSamplesScreenContent(
                     fileName = "note.txt", content = "test", dirName = "notes"
                 )
                 if (path.isNotEmpty()) {
-                    coreGlobalState.snackBar(
+                    globalState.snackBar(
                         SnackBarParams(
                             message = "Folder and file created successfully: $path",
                             type = SnackBarType.SUCCESS,
                         )
                     )
                 } else {
-                    coreGlobalState.snackBar(
+                    globalState.snackBar(
                         SnackBarParams(
                             message = "Failed to create folder and file",
                             type = SnackBarType.ERROR,
@@ -78,7 +78,7 @@ internal fun FilesSamplesScreenContent(
                 try {
                     fileManager.readFile(filePath)
 
-                    coreGlobalState.snackBar(
+                    globalState.snackBar(
                         SnackBarParams(
                             message = "File read successfully: $filePath",
                             type = SnackBarType.SUCCESS,
@@ -86,7 +86,7 @@ internal fun FilesSamplesScreenContent(
                     )
 
                 } catch (e: Throwable) {
-                    coreGlobalState.snackBar(
+                    globalState.snackBar(
                         SnackBarParams(
                             message = "Failed to read file: $filePath, ${e.message}",
 
@@ -106,14 +106,14 @@ internal fun FilesSamplesScreenContent(
             onClick = {
                 val boolean = fileManager.clearFolder(filePath)
                 if (boolean) {
-                    coreGlobalState.snackBar(
+                    globalState.snackBar(
                         SnackBarParams(
                             message = "Folder cleared successfully",
                             type = SnackBarType.SUCCESS,
                         )
                     )
                 } else {
-                    coreGlobalState.snackBar(
+                    globalState.snackBar(
                         SnackBarParams(
                             message = "Failed to clear folder",
                             type = SnackBarType.ERROR,
@@ -132,14 +132,14 @@ internal fun FilesSamplesScreenContent(
             onClick = {
                 val boolean = fileManager.deleteFile(filePath)
                 if (boolean) {
-                    coreGlobalState.snackBar(
+                    globalState.snackBar(
                         SnackBarParams(
                             message = "File deleted successfully",
                             type = SnackBarType.SUCCESS,
                         )
                     )
                 } else {
-                    coreGlobalState.snackBar(
+                    globalState.snackBar(
                         SnackBarParams(
                             message = "Failed to delete file",
                             type = SnackBarType.ERROR,
