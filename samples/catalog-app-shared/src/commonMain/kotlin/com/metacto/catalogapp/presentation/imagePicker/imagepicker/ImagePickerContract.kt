@@ -1,0 +1,19 @@
+package com.metacto.catalogapp.presentation.imagePicker.imagepicker
+
+import com.metacto.core.ui.base.ViewEvent
+import com.metacto.core.ui.base.ViewSideEffect
+import com.metacto.core.ui.base.ViewState
+import com.metacto.core.ui.models.ImageUIModel
+
+class ImagePickerContract {
+
+    data class State(
+        val isInitialized: Boolean = false,
+    ) : ViewState
+
+    sealed class Event : ViewEvent {
+        data object Init : Event()
+    }
+
+    sealed class Effect : ViewSideEffect
+}
