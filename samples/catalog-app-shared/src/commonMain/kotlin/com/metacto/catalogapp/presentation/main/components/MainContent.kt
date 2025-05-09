@@ -3,15 +3,18 @@ package com.metacto.catalogapp.presentation.main.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.ImagePreloaderScreen
 import com.metacto.core.ui.components.buttons.PrimaryFilledButton
 import com.metacto.core.ui.components.containers.ScreenColumn
 import com.metacto.core.ui.navigation.NavManager
 import com.metacto.catalogapp.presentation.main.MainContract.Event
 import com.metacto.catalogapp.presentation.main.MainContract.State
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesScreen
+import com.metacto.catalogapp.presentation.theme.spacings
 import org.koin.compose.koinInject
 
 @Composable
@@ -34,6 +37,16 @@ internal fun MainContent(
             onClick = {
                 navManage.navigate(NotificationsSamplesScreen())
             }
+        )
+
+        PrimaryFilledButton(
+            text = "Image Preloader sample",
+            onClick = {
+                navManage.navigate(ImagePreloaderScreen())
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = spacings.spacing16)
         )
     }
 }
