@@ -11,8 +11,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.metacto.catalogapp.presentation.components.containers.AppScreenColumn
-import com.metacto.catalogapp.presentation.imagePicker.ImagePickerContract.Event
-import com.metacto.catalogapp.presentation.imagePicker.ImagePickerContract.State
+import com.metacto.catalogapp.presentation.imagePicker.ImagePickerSamplesContract.Event
+import com.metacto.catalogapp.presentation.imagePicker.ImagePickerSamplesContract.State
 import com.metacto.catalogapp.presentation.theme.spacings
 import com.metacto.core.ui.components.buttons.PrimaryFilledButton
 import com.metacto.core.ui.components.images.AppImage
@@ -23,7 +23,7 @@ import com.metacto.core.ui.navigation.NavManager
 import org.koin.compose.koinInject
 
 @Composable
-internal fun ImagePickerContent(
+internal fun ImagePickerSamplesContent(
     state: State,
     onEvent: (Event) -> Unit
 ) {
@@ -53,7 +53,7 @@ internal fun ImagePickerContent(
         }
     }
 
-// Container column
+    // Container column
     AppScreenColumn(
         title = "ImagePicker",
         isScrollable = true,
@@ -79,7 +79,6 @@ internal fun ImagePickerContent(
                 .size(spacings.spacing100)
                 .padding(spacings.spacing16)
         )
-
     }
 }
 

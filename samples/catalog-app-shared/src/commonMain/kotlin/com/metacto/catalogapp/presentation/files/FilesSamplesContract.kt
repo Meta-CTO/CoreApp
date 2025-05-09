@@ -1,10 +1,10 @@
-package com.metacto.catalogapp.presentation.imagePicker
+package com.metacto.catalogapp.presentation.files
 
 import com.metacto.core.ui.base.ViewEvent
 import com.metacto.core.ui.base.ViewSideEffect
 import com.metacto.core.ui.base.ViewState
 
-class ImagePickerContract {
+class FilesSamplesContract {
 
     data class State(
         val isInitialized: Boolean = false,

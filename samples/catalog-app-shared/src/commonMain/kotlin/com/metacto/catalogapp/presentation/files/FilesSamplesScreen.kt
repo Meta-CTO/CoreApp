@@ -1,18 +1,18 @@
-package com.metacto.catalogapp.presentation.imagePicker
+package com.metacto.catalogapp.presentation.files
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.metacto.catalogapp.presentation.imagePicker.ImagePickerContract.Event
-import com.metacto.catalogapp.presentation.imagePicker.components.ImagePickerContent
+import com.metacto.catalogapp.presentation.files.FilesSamplesContract.Event
+import com.metacto.catalogapp.presentation.files.components.FilesSamplesContent
 import com.metacto.core.ui.base.BaseScreen
 import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
 
- class ImagePickerScreen : BaseScreen<ImagePickerViewModel>() {
+internal class FilesSamplesScreen : BaseScreen<FilesSamplesViewModel>() {
     @Composable
     override fun Content() {
         // Get the view model
-        val viewModel = rememberViewModel<ImagePickerViewModel>()
+        val viewModel = rememberViewModel<FilesSamplesViewModel>()
 
         // Init view model
         LaunchedEffect(SIDE_EFFECTS_KEY) {
@@ -20,7 +20,7 @@ import com.metacto.core.ui.base.rememberViewModel
         }
 
         // Render content
-        ImagePickerContent(
+        FilesSamplesContent(
             state = viewModel.viewState.value,
             onEvent = viewModel::setEvent
         )
