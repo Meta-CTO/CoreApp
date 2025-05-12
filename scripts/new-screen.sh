@@ -141,7 +141,7 @@ content_file_content="package ${package_name}.presentation.${feature}.${screen_l
 
 import androidx.compose.runtime.Composable
 import com.metacto.core.ui.navigation.NavManager
-import com.metacto.catalogapp.presentation.components.containers.AppScreenColumn
+import ${package_name}.presentation.components.containers.AppScreenColumn
 import org.koin.compose.koinInject
 import ${package_name}.presentation.theme.colors
 import ${package_name}.presentation.theme.typography
