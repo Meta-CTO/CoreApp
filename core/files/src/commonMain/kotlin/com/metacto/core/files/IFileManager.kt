@@ -7,4 +7,6 @@ interface IFileManager {
     fun clearFolder(folderPath: String): Boolean
 
     fun deleteFile(filePath: String): Boolean
+
+    fun createFile(dirName: String? = null, fileName: String, content: String = ""): String
 }

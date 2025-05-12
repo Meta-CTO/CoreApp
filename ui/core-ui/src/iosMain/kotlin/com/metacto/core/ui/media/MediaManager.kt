@@ -21,16 +21,22 @@ class MediaManager : IMediaManager {
 
     @OptIn(ExperimentalForeignApi::class)
     private fun getVideoFrame(videoPath: String, timeInSeconds: Long): ByteArray? {
-        val url = NSURL.fileURLWithPath(videoPath)
+        val url = if (videoPath.startsWith("http")) {
+            NSURL.URLWithString(videoPath)
+        } else {
+            NSURL.fileURLWithPath(videoPath)
+        } ?: return null
+
         val asset = AVAsset.assetWithURL(url)
         val imageGenerator = AVAssetImageGenerator(asset)
+        imageGenerator.appliesPreferredTrackTransform = true
 
         val time = CMTimeMake(value = timeInSeconds, timescale = 1)
 
         return try {
             val cgImage = imageGenerator.copyCGImageAtTime(time, actualTime = null, error = null)
-            UIImage(cgImage).rotate(90.0).toByteArray()
-        } catch (e: Exception) {
+            cgImage?.let { UIImage(it).toByteArray() }
+        } catch (e: Throwable) {
             e.printStackTrace()
             null
         }

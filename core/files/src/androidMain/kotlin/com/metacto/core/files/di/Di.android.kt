@@ -8,6 +8,6 @@ internal actual fun platformModule() = module {
     // Add Android specific dependencies here
 
     single<IFileManager> {
-        FileManager()
+        FileManager(get())
     }
 }

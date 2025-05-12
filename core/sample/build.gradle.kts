@@ -92,37 +92,37 @@ android {
     }
 }
 
-publishing {
-    repositories {
-        val localProperties = gradleLocalProperties(rootDir, providers)
-        var publishUserRepo = localProperties.getProperty(Configs.PUBLISH_REPO_USER)
-        var publishTokenRepo = localProperties.getProperty(Configs.PUBLISH_REPO_TOKEN)
-
-        if (publishUserRepo.isNullOrEmpty()) {
-            publishUserRepo = ""
-            localProperties.setProperty(Configs.PUBLISH_REPO_USER, publishUserRepo)
-        }
-
-        if (publishTokenRepo.isNullOrEmpty()) {
-            publishTokenRepo = ""
-            localProperties.setProperty(Configs.PUBLISH_REPO_TOKEN, publishTokenRepo)
-        }
-
-        if (publishUserRepo.isEmpty() || publishTokenRepo.isEmpty()) {
-            localProperties.store(
-                FileOutputStream(File(rootDir, Configs.LOCAL_PROPERTIES)), null
-            )
-        }
-
-        repositories {
-            maven(Configs.MAVEN_URL) {
-                name = Configs.PUBLISH_MAVEN_REPO_NAME
-                credentials {
-                    username = publishUserRepo
-                    password = publishTokenRepo
-                }
-            }
-        }
-    }
-}
+//publishing {
+//    repositories {
+//        val localProperties = gradleLocalProperties(rootDir, providers)
+//        var publishUserRepo = localProperties.getProperty(Configs.PUBLISH_REPO_USER)
+//        var publishTokenRepo = localProperties.getProperty(Configs.PUBLISH_REPO_TOKEN)
+//
+//        if (publishUserRepo.isNullOrEmpty()) {
+//            publishUserRepo = ""
+//            localProperties.setProperty(Configs.PUBLISH_REPO_USER, publishUserRepo)
+//        }
+//
+//        if (publishTokenRepo.isNullOrEmpty()) {
+//            publishTokenRepo = ""
+//            localProperties.setProperty(Configs.PUBLISH_REPO_TOKEN, publishTokenRepo)
+//        }
+//
+//        if (publishUserRepo.isEmpty() || publishTokenRepo.isEmpty()) {
+//            localProperties.store(
+//                FileOutputStream(File(rootDir, Configs.LOCAL_PROPERTIES)), null
+//            )
+//        }
+//
+//        repositories {
+//            maven(Configs.MAVEN_URL) {
+//                name = Configs.PUBLISH_MAVEN_REPO_NAME
+//                credentials {
+//                    username = publishUserRepo
+//                    password = publishTokenRepo
+//                }
+//            }
+//        }
+//    }
+//}
 
