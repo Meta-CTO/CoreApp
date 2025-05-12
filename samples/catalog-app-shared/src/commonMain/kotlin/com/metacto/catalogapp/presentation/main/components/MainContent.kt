@@ -3,6 +3,7 @@ package com.metacto.catalogapp.presentation.main.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,6 +14,7 @@ import com.metacto.catalogapp.presentation.main.MainContract.Event
 import com.metacto.catalogapp.presentation.main.MainContract.State
 import com.metacto.catalogapp.presentation.mediaManager.MediaManagerScreen
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesScreen
+import com.metacto.catalogapp.presentation.permissions.PermissionsScreen
 import com.metacto.catalogapp.presentation.theme.spacings
 import com.metacto.core.ui.components.buttons.PrimaryFilledButton
 import com.metacto.core.ui.components.containers.ScreenColumn
@@ -46,7 +48,9 @@ internal fun MainContent(
             onClick = {
                 navManage.navigate(FilesSamplesScreen())
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = spacings.spacing16),
         )
 
         PrimaryFilledButton(
@@ -54,7 +58,9 @@ internal fun MainContent(
             onClick = {
                 navManage.navigate(ImagePickerSamplesScreen())
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = spacings.spacing16),
         )
 
         PrimaryFilledButton(
@@ -62,7 +68,9 @@ internal fun MainContent(
             onClick = {
                 navManage.navigate(ImagePreloaderScreen())
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = spacings.spacing16),
         )
 
         PrimaryFilledButton(
@@ -70,7 +78,21 @@ internal fun MainContent(
             onClick = {
                 navManage.navigate(MediaManagerScreen())
             },
-            modifier = Modifier.fillMaxWidth()
-        )
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = spacings.spacing16),
+
+            )
+
+        PrimaryFilledButton(
+            text = "Permissions samples",
+            onClick = {
+                navManage.navigate(PermissionsScreen())
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = spacings.spacing16),
+
+            )
     }
 }
