@@ -15,10 +15,10 @@ cleanup:
 	rm -rf .gradle
 	rm -rf build
 	rm -rf */build
-	rm -rf sameples/sample-ios-app/iosApp.xcworkspace
-	rm -rf sameples/sample-ios-app/Pods
-	rm -rf sameples/sample-ios-app/iosApp.xcodeproj/project.xcworkspace
-	rm -rf sameples/sample-ios-app/iosApp.xcodeproj/xcuserdata
+	rm -rf samples/sample-ios-app/iosApp.xcworkspace
+	rm -rf samples/sample-ios-app/Pods
+	rm -rf samples/sample-ios-app/iosApp.xcodeproj/project.xcworkspace
+	rm -rf samples/sample-ios-app/iosApp.xcodeproj/xcuserdata
 
 # ====================== NEW SCREEN======================
 new-screen:
