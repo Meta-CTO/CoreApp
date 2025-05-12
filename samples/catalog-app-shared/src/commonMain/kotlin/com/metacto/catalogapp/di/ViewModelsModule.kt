@@ -1,9 +1,6 @@
 package com.metacto.catalogapp.di
 
 // MARK: Add imports
-import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberSamplesViewModel
-import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesViewModel
-import com.metacto.core.ui.di.commonViewModel
 import com.metacto.catalogapp.presentation.app.app.AppViewModel
 import com.metacto.catalogapp.presentation.files.FilesSamplesViewModel
 import com.metacto.catalogapp.presentation.imagePicker.ImagePickerSamplesViewModel
@@ -11,6 +8,7 @@ import com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.ImagePr
 import com.metacto.catalogapp.presentation.main.MainViewModel
 import com.metacto.catalogapp.presentation.mediaManager.MediaManagerViewModel
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesViewModel
+import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberSamplesViewModel
 import com.metacto.core.ui.di.commonViewModel
 import org.koin.dsl.module
 
