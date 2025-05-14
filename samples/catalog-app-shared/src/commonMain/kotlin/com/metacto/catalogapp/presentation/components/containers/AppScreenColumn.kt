@@ -31,7 +31,7 @@ internal fun AppScreenColumn(
     startPadding: Dp = spacings.spacing16,
     endPadding: Dp = spacings.spacing16,
     enableSafeInsets: Boolean = true,
-    enableImeInsets: Boolean = false,
+    enableImeInsets: Boolean = true,
     isScrollable: Boolean = false,
     onScroll: (() -> Unit)? = null,
     isRefreshable: Boolean = false,
