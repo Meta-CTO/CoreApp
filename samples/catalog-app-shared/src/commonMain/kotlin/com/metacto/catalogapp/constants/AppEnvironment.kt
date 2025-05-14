@@ -1,9 +1,8 @@
 package com.metacto.catalogapp.constants
 
+import com.metacto.catalogapp.deepLinks.DEEP_LINK_PARSERS
 import com.metacto.core.CoreConfigs
 import com.metacto.core.ui.CoreUIConfigs
-import com.metacto.kmm.network.errorhandling.SerializableNetworkError
-import com.metacto.catalogapp.deepLinks.DEEP_LINK_PARSERS
 import com.metacto.kmm.logger.LogLevel
 import kotlin.time.Duration.Companion.days
 import kotlin.time.Duration.Companion.hours
@@ -20,7 +19,6 @@ sealed class AppEnvironment(
             storageName = "MetaCtoSampleDev",
             logLevel = LogLevel.ALL,
             shouldShowActualErrorMessages = true,
-            errorClass = SerializableNetworkError::class,
             appConfigurationExpirationInMinutes = 1.hours.inWholeMinutes,
             deepLinkParsers = DEEP_LINK_PARSERS
         ),
@@ -32,7 +30,6 @@ sealed class AppEnvironment(
             storageName = "MetaCtoSampleProd",
             logLevel = LogLevel.NONE,
             shouldShowActualErrorMessages = false,
-            errorClass = SerializableNetworkError::class,
             appConfigurationExpirationInMinutes = 1.days.inWholeMinutes,
             deepLinkParsers = DEEP_LINK_PARSERS
         )

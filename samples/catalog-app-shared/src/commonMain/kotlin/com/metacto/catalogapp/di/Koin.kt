@@ -12,6 +12,7 @@ import com.metacto.core.ui.mediaplayers.di.mediaPlayersModule
 import com.metacto.core.ui.phone.di.phoneUIModule
 import com.metacto.core.ui.youtube.di.youtubeModule
 import com.metacto.catalogapp.constants.AppEnvironment
+import com.metacto.kmm.network.errorhandling.NetworkError
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 
@@ -32,7 +33,7 @@ fun initKoin(
         platformModule,
         viewModelsModule,
         domainModule,
-        coreModule(environment.coreConfigs),
+        coreModule(environment.coreConfigs, NetworkError::class),
         coreUIModule(environment.coreUIConfigs),
         filesModule(),
         notificationsModule(

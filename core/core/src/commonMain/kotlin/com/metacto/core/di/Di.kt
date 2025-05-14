@@ -6,6 +6,7 @@ import com.metacto.core.deepLink.IDeepLinkManager
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.domain.repos.UploadRepository
 import com.metacto.kmm.logger.Logger
+import com.metacto.kmm.network.errorhandling.SerializableNetworkError
 import com.metacto.kmm.network.repos.CoreAppConfigurationRepository
 import com.metacto.kmm.network.repos.CoreFirebaseAuthRepository
 import com.metacto.kmm.network.repos.CoreLogoutUseCase
@@ -13,11 +14,12 @@ import com.metacto.kmm.network.repos.CoreUploaderRepository
 import com.metacto.kmm.network.repos.CoreUserRepository
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import kotlin.reflect.KClass
 
-fun coreModule(configs: CoreConfigs) = module {
+fun <T : SerializableNetworkError> coreModule(configs: CoreConfigs, errorClass: KClass<T>) = module {
     // Common dependencies can be added here
 
-    includes(platformModule())
+    includes(platformModule(errorClass))
 
     single {
         configs
@@ -72,4 +74,4 @@ fun coreModule(configs: CoreConfigs) = module {
     }
 }
 
-internal expect fun platformModule(): Module
+internal expect fun <T : SerializableNetworkError> platformModule(errorClass: KClass<T>): Module

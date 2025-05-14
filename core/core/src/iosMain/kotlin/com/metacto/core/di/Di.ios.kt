@@ -5,10 +5,12 @@ import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.eventBroadcaster.EventBroadcaster
 import com.metacto.core.language.ILanguageManager
 import com.metacto.core.language.LanguageManager
+import com.metacto.kmm.network.errorhandling.SerializableNetworkError
 import com.metacto.kmm.sharedpreferences.KmmPreference
 import org.koin.dsl.module
+import kotlin.reflect.KClass
 
-internal actual fun platformModule() = module {
+internal actual fun <T : SerializableNetworkError> platformModule(errorClass: KClass<T>) = module {
     // iOS specific dependencies can be added here
 
     single {
@@ -17,7 +19,7 @@ internal actual fun platformModule() = module {
             coreConfigs = coreConfigs,
             appStorageName = coreConfigs.storageName,
             shouldShowActualErrorMessages = coreConfigs.shouldShowActualErrorMessages,
-            errorClass = coreConfigs.errorClass
+            errorClass = errorClass
         )
     }
 
