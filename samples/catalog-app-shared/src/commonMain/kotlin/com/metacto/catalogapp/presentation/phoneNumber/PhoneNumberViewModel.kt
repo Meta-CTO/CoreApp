@@ -1,11 +1,11 @@
 package com.metacto.catalogapp.presentation.phoneNumber
 
 import com.metacto.catalogapp.presentation.base.BaseViewModel
-import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberSamplesContract.Effect
-import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberSamplesContract.Event
-import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberSamplesContract.State
+import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberContract.Effect
+import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberContract.Event
+import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberContract.State
 
-class PhoneNumberSamplesViewModel : BaseViewModel<State, Event, Effect>() {
+class PhoneNumberViewModel : BaseViewModel<State, Event, Effect>() {
 
     override fun setInitialState() = State()
 
@@ -22,6 +22,4 @@ class PhoneNumberSamplesViewModel : BaseViewModel<State, Event, Effect>() {
         // Update the flag
         setState { copy(isInitialized = true) }
     }
-
-
 }

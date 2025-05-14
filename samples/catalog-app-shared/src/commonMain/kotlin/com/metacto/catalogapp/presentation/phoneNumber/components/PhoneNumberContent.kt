@@ -10,17 +10,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.metacto.catalogapp.presentation.components.containers.AppScreenColumn
-import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberSamplesContract.Event
-import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberSamplesContract.State
+import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberContract.Event
+import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberContract.State
 import com.metacto.catalogapp.presentation.theme.spacings
 import com.metacto.core.phone.IPhoneNumberManager
 import com.metacto.core.ui.components.buttons.PrimaryFilledButton
 import com.metacto.core.ui.components.inputFields.PrimaryTextInputField
 import com.metacto.core.ui.navigation.NavManager
+import com.metacto.core.ui.phone.PhoneNumberVisualTransformation
+import com.metacto.core.ui.phone.rememberPhoneNumberUtil
 import org.koin.compose.koinInject
 
 @Composable
-internal fun PhoneNumberSamplesContent(
+internal fun PhoneNumberContent(
     state: State,
     onEvent: (Event) -> Unit
 ) {
@@ -32,6 +34,13 @@ internal fun PhoneNumberSamplesContent(
     var phoneNumber by remember { mutableStateOf("") }
     var countryCode by remember { mutableStateOf("") }
     var status by remember { mutableStateOf("") }
+    val phoneNumberUtil = rememberPhoneNumberUtil()
+    val phoneVisualTransformation = remember(countryCode) {
+        PhoneNumberVisualTransformation(
+            phoneNumberUtil = phoneNumberUtil,
+            countryCode = countryCode
+        )
+    }
 
     // Container column
     AppScreenColumn(
@@ -69,6 +78,19 @@ internal fun PhoneNumberSamplesContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = spacings.spacing24)
+        )
+
+        // Phone number with visual transformation
+        PrimaryTextInputField(
+            text = phoneNumber,
+            label = "Phone Number with visual transformation",
+            visualTransformation = phoneVisualTransformation,
+            onValueChange = {
+                phoneNumber = it
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = spacings.spacing16)
         )
 
         // Check is valid phone number

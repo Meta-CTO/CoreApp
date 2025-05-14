@@ -4,7 +4,7 @@ import com.metacto.core.ui.base.ViewEvent
 import com.metacto.core.ui.base.ViewSideEffect
 import com.metacto.core.ui.base.ViewState
 
-class PhoneNumberSamplesContract {
+class PhoneNumberContract {
 
     data class State(
         val isInitialized: Boolean = false
