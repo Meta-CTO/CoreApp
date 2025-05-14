@@ -165,6 +165,10 @@ fun Float.toFeetInches(): String {
     return "$feet'${inches}"
 }
 
+fun Int.to2DigitsFormat(): String {
+    return if (this < 10) "0$this" else this.toString()
+}
+
 expect fun Double.format(decimalsCount: Int): String
 
 expect fun Double.formatToComma(maxFractionCount: Int = 0): String
