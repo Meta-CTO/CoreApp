@@ -5,8 +5,9 @@ import com.metacto.core.deepLink.DeepLinkManager
 import com.metacto.core.deepLink.IDeepLinkManager
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.domain.repos.UploadRepository
-import com.metacto.kmm.network.logs.Logger
+import com.metacto.kmm.logger.Logger
 import com.metacto.kmm.network.repos.CoreAppConfigurationRepository
+import com.metacto.kmm.network.repos.CoreFirebaseAuthRepository
 import com.metacto.kmm.network.repos.CoreLogoutUseCase
 import com.metacto.kmm.network.repos.CoreUploaderRepository
 import com.metacto.kmm.network.repos.CoreUserRepository
@@ -41,6 +42,10 @@ fun coreModule(configs: CoreConfigs) = module {
 
     single {
         CoreUserRepository(get(), get(), get())
+    }
+
+    single {
+        CoreFirebaseAuthRepository(get(), get(), get())
     }
 
     single {

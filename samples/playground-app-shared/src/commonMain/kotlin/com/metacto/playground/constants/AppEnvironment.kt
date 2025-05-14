@@ -17,7 +17,7 @@ sealed class AppEnvironment(
         coreConfigs = CoreConfigs(
             baseUrl = "https://dev-api.satyadating.com/api",
             storageName = "CatalogAppDev",
-            networkLogLevel = KmmNetworkLogLevel.ALL,
+            logLevel = KmmNetworkLogLevel.ALL,
             shouldShowActualErrorMessages = true,
             errorClass = SerializableNetworkError::class,
             appConfigurationExpirationInMinutes = 1.hours.inWholeMinutes,
@@ -28,7 +28,7 @@ sealed class AppEnvironment(
         coreConfigs = CoreConfigs(
             baseUrl = "https://api.satyadating.com/api",
             storageName = "CatalogAppProd",
-            networkLogLevel = KmmNetworkLogLevel.NONE,
+            logLevel = KmmNetworkLogLevel.NONE,
             shouldShowActualErrorMessages = false,
             errorClass = SerializableNetworkError::class,
             appConfigurationExpirationInMinutes = 1.days.inWholeMinutes,

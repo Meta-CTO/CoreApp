@@ -47,7 +47,7 @@ actual open class RepositoriesFactory<T : SerializableNetworkError>(
     )
 
     private val ktorClientFactory = KtorClientFactory(
-        networkLogLevel = coreConfigs.networkLogLevel,
+        networkLogLevel = coreConfigs.logLevel,
         preference = sharedPreference,
         shouldShowActualErrorMessages = shouldShowActualErrorMessages
     )

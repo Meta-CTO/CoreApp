@@ -29,8 +29,8 @@ import com.metacto.core.ui.resources.ok
 import com.metacto.core.ui.resources.server_taking_too_long
 import com.metacto.core.ui.resources.session_expired
 import com.metacto.core.ui.resources.your_session_expired_login_again
+import com.metacto.kmm.logger.Logger
 import com.metacto.kmm.network.errorhandling.AppException
-import com.metacto.kmm.network.logs.Logger
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.HttpRequestTimeoutException

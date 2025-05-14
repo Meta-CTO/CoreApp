@@ -1,7 +1,7 @@
 package com.metacto.core.deepLink
 
 import com.metacto.core.extensions.matchWithWildcard
-import com.metacto.kmm.network.logs.Logger
+import com.metacto.kmm.logger.Logger
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.collectLatest
