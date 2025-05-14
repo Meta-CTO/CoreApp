@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import io.michaelrocks.libphonenumber.kotlin.MetadataLoader
 import io.michaelrocks.libphonenumber.kotlin.PhoneNumberUtil
-import io.michaelrocks.libphonenumber.kotlin.metadata.defaultMetadataLoader
 
 @Composable
 fun rememberPhoneNumberUtil(): PhoneNumberUtil {
