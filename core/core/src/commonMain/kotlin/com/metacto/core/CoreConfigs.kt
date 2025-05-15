@@ -9,5 +9,6 @@ data class CoreConfigs(
     val logLevel: LogLevel,
     val shouldShowActualErrorMessages: Boolean,
     val appConfigurationExpirationInMinutes: Long,
-    val deepLinkParsers: Map<String, DeepLinkParser> = emptyMap()
+    val deepLinkParsers: Map<String, DeepLinkParser> = emptyMap(),
+    val enforceDefaultDataWrapper: Boolean = true
 )

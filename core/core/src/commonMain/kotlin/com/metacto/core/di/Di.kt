@@ -38,12 +38,18 @@ fun <T : SerializableNetworkError> coreModule(configs: CoreConfigs, errorClass: 
             applicationContext = get(),
             appConfigurationService = get(),
             sharedPreference = get(),
-            appConfigurationExpirationInMinutes = configs.appConfigurationExpirationInMinutes
+            appConfigurationExpirationInMinutes = configs.appConfigurationExpirationInMinutes,
+            enforceDefaultDataWrapper = configs.enforceDefaultDataWrapper
         )
     }
 
     single {
-        CoreUserRepository(get(), get(), get())
+        CoreUserRepository(
+            userService = get(),
+            sharedPreference = get(),
+            logoutUseCase = get(),
+            enforceDefaultDataWrapper = configs.enforceDefaultDataWrapper
+        )
     }
 
     single {
