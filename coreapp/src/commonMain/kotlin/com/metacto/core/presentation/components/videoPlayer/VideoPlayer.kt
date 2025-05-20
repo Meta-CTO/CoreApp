@@ -39,5 +39,8 @@ expect fun VideoPlayer(
     onPlayerCreated: ((VideoPlayerController) -> Unit)? = null,
     onDurationCaught: ((Duration) -> Unit)? = null,
     onVideoLoop: (() -> Unit)? = null,
-    onVideoEnd: (() -> Unit)? = null
+    onVideoEnd: (() -> Unit)? = null,
+    onVideoStarted: (() -> Unit)? = null,
+    onVideoPaused: (() -> Unit)? = null,
+    onVideoResumed: (() -> Unit)? = null
 )
