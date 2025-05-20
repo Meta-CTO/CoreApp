@@ -16,19 +16,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.viewinterop.UIKitView
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.viewinterop.UIKitInteropInteractionMode
 import androidx.compose.ui.viewinterop.UIKitInteropProperties
+import androidx.compose.ui.viewinterop.UIKitView
 import com.metacto.core.presentation.components.visibilities.FadeVisibility
 import com.metacto.core.utils.extensions.DefaultLaunchedEffect
 import com.metacto.core.utils.extensions.IOLaunchedEffect
 import com.metacto.core.utils.extensions.cleanFilePath
 import com.metacto.core.utils.extensions.isValidUrl
 import com.metacto.core.utils.extensions.noRippleClickable
+import kotlinx.cinterop.ExperimentalForeignApi
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
-import kotlinx.cinterop.ExperimentalForeignApi
 import platform.AVFAudio.AVAudioSession
 import platform.AVFAudio.AVAudioSessionCategoryPlayback
 import platform.AVFAudio.AVAudioSessionModeMoviePlayback
@@ -64,8 +64,6 @@ import platform.Foundation.NSNotificationCenter
 import platform.Foundation.NSString
 import platform.Foundation.NSURL
 import platform.Foundation.dataWithContentsOfURL
-import platform.QuartzCore.CATransaction
-import platform.QuartzCore.kCATransactionDisableActions
 import platform.UIKit.UIView
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
@@ -99,7 +97,10 @@ actual fun VideoPlayer(
     onPlayerCreated: ((VideoPlayerController) -> Unit)?,
     onDurationCaught: ((Duration) -> Unit)?,
     onVideoLoop: (() -> Unit)?,
-    onVideoEnd: (() -> Unit)?
+    onVideoEnd: (() -> Unit)?,
+    onVideoStarted: (() -> Unit)?,
+    onVideoPaused: (() -> Unit)?,
+    onVideoResumed: (() -> Unit)?
 ) {
     // Create the player item with the url
     val playerItem = remember(videoUrl) {
@@ -322,6 +323,8 @@ actual fun VideoPlayer(
                         .noRippleClickable {
                             if (isPlaying) {
                                 player.pause()
+                                isPlaying = false
+                                onVideoPaused?.invoke()
                             } else {
                                 if (isVideoEnded) {
                                     // Restart the video
@@ -331,6 +334,7 @@ actual fun VideoPlayer(
                                 }
                                 player.play()
                                 isPlaying = true
+                                onVideoResumed?.invoke()
                             }
                         }
                 )
@@ -340,11 +344,28 @@ actual fun VideoPlayer(
 
     // Pause player when disposed
     DisposableEffect(player) {
+        var hasStartedPlaying = false
+        var wasPlaying = false
+
         val timeObserver = player.addPeriodicTimeObserverForInterval(
             CMTimeMake(1, 1),
             null
         ) {
-            isPlaying = player.rate != 0f
+            val currentlyPlaying = player.rate != 0f
+            isPlaying = currentlyPlaying
+
+            if (currentlyPlaying && !hasStartedPlaying) {
+                hasStartedPlaying = true
+                onVideoStarted?.invoke()
+            }
+
+            if (currentlyPlaying && !wasPlaying) {
+                onVideoResumed?.invoke()
+            } else if (!currentlyPlaying && wasPlaying) {
+                onVideoPaused?.invoke()
+            }
+
+            wasPlaying = currentlyPlaying
         }
 
         NSNotificationCenter.defaultCenter.addObserverForName(

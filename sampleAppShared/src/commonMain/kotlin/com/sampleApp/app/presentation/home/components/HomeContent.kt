@@ -2,7 +2,10 @@ package com.sampleApp.app.presentation.home.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Work
 import androidx.compose.material3.Text
@@ -22,6 +25,8 @@ import com.metacto.core.presentation.components.images.AppImage
 import com.metacto.core.presentation.components.inputFields.OutlinedOtpInputField
 import com.metacto.core.presentation.components.inputFields.PickerInputField
 import com.metacto.core.presentation.components.inputFields.PrimaryTextInputField
+import com.metacto.core.presentation.components.videoPlayer.ControlsType
+import com.metacto.core.presentation.components.videoPlayer.VideoPlayer
 import com.metacto.core.utils.contacts.rememberContactsCollectorOptionsFactory
 import com.metacto.core.utils.language.English
 import com.metacto.core.utils.language.ILanguageManager
@@ -81,21 +86,46 @@ internal fun HomeContent(
             url = "https://scstage103-cd.joycemeyer.org/-/media/JoyceMeyer/Ads/Books/Battlefield-of-the-Mind/BOTM_WebAd1.jpeg",
             extraHeaders = mapOf("Accept" to "image/png")
         )
-        AudioPlayer(
-            thumbnailUrl = "https://cdn.sanity.io/images/599r6htc/regionalized/a26fe0cf37bcc164980bcf8014817652df9683a7-1440x810.png",
-            audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg",
-            title = "testing testing testing testing testing testing testing testing testing",
-            thumbnailSize = 50.dp,
-            audioPlayerStatusListener = object :AudioPlayerStatusListener{
-                override fun onAudioPlayed() {
-                    println("Audio player played")
-                }
 
-                override fun onAudioPaused() {
-                    println("Audio player paused")
-                }
-            }
+        VideoPlayer(
+            uniqueId = "current_message_video_player",
+            videoUrl = "https://storage.sardius.media/1088c54907d9370/archives/cA62C036E29333D13992134582b5/media/playlist.m3u8?feedId=05028cCcc9",
+            autoPlay = false,
+            enablePip = true,
+            handleLifecyclePause = false,
+            controlsType = ControlsType.NativeControls,
+            controllerShowTimeoutMs = 2000,
+            onPlayerCreated = {
+
+            },
+            onVideoStarted = {
+                println("Video player started")
+            },
+            onVideoPaused = {
+                println("Video player paused")
+            },
+            onVideoResumed = {
+                println("Video player resumed")
+            },
+            modifier = Modifier
+                .height(400.dp)
+                .fillMaxWidth()
         )
+//        AudioPlayer(
+//            thumbnailUrl = "https://cdn.sanity.io/images/599r6htc/regionalized/a26fe0cf37bcc164980bcf8014817652df9683a7-1440x810.png",
+//            audioUrl = "https://commondatastorage.googleapis.com/codeskulptor-assets/Epoq-Lepidoptera.ogg",
+//            title = "testing testing testing testing testing testing testing testing testing",
+//            thumbnailSize = 50.dp,
+//            audioPlayerStatusListener = object :AudioPlayerStatusListener{
+//                override fun onAudioPlayed() {
+//                    println("Audio player played")
+//                }
+//
+//                override fun onAudioPaused() {
+//                    println("Audio player paused")
+//                }
+//            }
+//        )
 
         Row(
             modifier = Modifier.fillMaxWidth()
