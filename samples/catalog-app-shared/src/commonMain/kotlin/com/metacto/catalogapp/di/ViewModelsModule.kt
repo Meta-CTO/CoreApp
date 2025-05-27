@@ -1,6 +1,8 @@
 package com.metacto.catalogapp.di
 
 // MARK: Add imports
+import com.metacto.catalogapp.presentation.videoPlayer.videoplayersample.VideoPlayerSampleViewModel
+import com.metacto.catalogapp.presentation.audioPlayer.audioplayersample.AudioPlayerSampleViewModel
 import com.metacto.catalogapp.presentation.app.app.AppViewModel
 import com.metacto.catalogapp.presentation.files.FilesSamplesViewModel
 import com.metacto.catalogapp.presentation.imagePicker.ImagePickerSamplesViewModel
@@ -14,6 +16,8 @@ import org.koin.dsl.module
 
 val viewModelsModule = module {
     // MARK: Add view model definitions
+    commonViewModel { VideoPlayerSampleViewModel() }
+    commonViewModel { AudioPlayerSampleViewModel() }
     commonViewModel { ImagePreloaderViewModel() }
     commonViewModel { MediaManagerViewModel() }
     commonViewModel { PhoneNumberViewModel() }
