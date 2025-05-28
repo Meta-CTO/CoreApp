@@ -3,6 +3,7 @@ package com.metacto.core.domain.repos.forceUpdate
 import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource.REMOTE_CONFIGS
 import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource.STRAPI_CONFIGS
+import com.metacto.core.presentation.base.getStoreId
 import com.metacto.core.utils.remoteConfigs.IRemoteConfigs
 import com.metacto.strapikmm.appconfigversion.AppConfigurationVersion
 import com.metacto.strapikmm.appconfigversion.AppVersion
@@ -51,7 +52,7 @@ class ForceUpdateRepository(
                 ForceUpdateResponse(
                     appUpdateResult.message,
                     isRequired,
-                    appEnvironment.iosAppStoreId
+                    appEnvironment.getStoreId()
                 )
             }
 
