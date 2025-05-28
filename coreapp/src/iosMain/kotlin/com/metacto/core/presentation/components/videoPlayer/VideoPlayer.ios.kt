@@ -97,7 +97,14 @@ actual fun VideoPlayer(
     val player = playerManager.player
 
     // Media metadata configuration
-    LaunchedEffect(playerManager, videoUrl, enableMediaMetadata, videoTitle, videoArtist, videoArtworkUrl) {
+    LaunchedEffect(
+        playerManager,
+        videoUrl,
+        enableMediaMetadata,
+        videoTitle,
+        videoArtist,
+        videoArtworkUrl
+    ) {
         playerManager.setMedia(
             videoUrl = videoUrl,
             enableMediaMetadata = enableMediaMetadata,
@@ -242,8 +249,10 @@ actual fun VideoPlayer(
                 pipController.startIfPossible()
             },
             onRelease = {
-                player.pause()
-                playerController.player?.pause()
+                if (handleLifecyclePause) {
+                    player.pause()
+                    playerController.player?.pause()
+                }
             }
         )
 
@@ -332,7 +341,9 @@ actual fun VideoPlayer(
 
         // Clean up on disposal
         onDispose {
-            player.pause()
+            if (handleLifecyclePause) {
+                player.pause()
+            }
             player.removeTimeObserver(timeObserver)
         }
     }
