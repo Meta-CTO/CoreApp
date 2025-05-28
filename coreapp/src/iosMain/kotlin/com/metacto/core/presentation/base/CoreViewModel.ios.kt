@@ -1,5 +1,6 @@
 package com.metacto.core.presentation.base
 
+import com.metacto.core.CoreEnvironment
 import com.metacto.strapikmm.errorhandling.AppException
 
 actual fun AppException.getErrorCode(): Int? {
@@ -16,4 +17,8 @@ actual fun AppException.getHttpErrorCode(): Int? {
 
 actual fun AppException.getErrorBody(): String? {
     return this.error.userInfo["errorBody"] as String?
+}
+
+actual fun CoreEnvironment.getStoreId(): String {
+    return iosAppStoreId
 }

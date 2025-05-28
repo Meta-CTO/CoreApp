@@ -5,6 +5,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
+import com.metacto.core.CoreEnvironment
 import com.metacto.core.domain.repos.forceUpdate.AppUpdateSource
 import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
 import com.metacto.core.navigation.NavManager
@@ -391,7 +392,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                         if (onUpdateClick != null) {
                             onUpdateClick.invoke()
                         } else {
-                            intentLauncher.launchAppInStore(response.iosAppStoreId)
+                            intentLauncher.launchAppInStore(response.appId)
                         }
                     },
                     onSkipUpdateClicked = {
@@ -507,3 +508,4 @@ expect fun AppException.getHttpErrorCode(): Int?
 expect fun AppException.getErrorCode(): Int?
 expect fun AppException.getErrorMessage(): String?
 expect fun AppException.getErrorBody(): String?
+expect fun CoreEnvironment.getStoreId(): String
