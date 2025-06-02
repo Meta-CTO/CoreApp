@@ -4,10 +4,13 @@ import com.metacto.core.utils.date.toNSDateComponent
 import com.metacto.core.utils.delegates.EventEditDelegate
 import com.metacto.core.utils.extensions.openAppSettings
 import com.metacto.core.utils.extensions.runOnMainThread
+import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.useContents
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 import kotlinx.datetime.LocalDateTime
+import platform.CoreGraphics.CGRectMake
 import platform.EventKit.EKEvent
 import platform.EventKit.EKEventStore
 import platform.EventKitUI.EKEventEditViewController
@@ -17,6 +20,8 @@ import platform.Foundation.dataWithContentsOfURL
 import platform.UIKit.UIActivityViewController
 import platform.UIKit.UIApplication
 import platform.UIKit.UIImage
+import platform.UIKit.UIPopoverArrowDirectionAny
+import platform.UIKit.popoverPresentationController
 
 class IntentLauncher : IIntentLauncher {
 
@@ -36,6 +41,7 @@ class IntentLauncher : IIntentLauncher {
         }
     }
 
+    @OptIn(ExperimentalForeignApi::class)
     override fun shareText(text: String) = runOnMainThread {
         // Get and validate the root view controller
         val rootViewController = UIApplication.sharedApplication
@@ -49,7 +55,18 @@ class IntentLauncher : IIntentLauncher {
             applicationActivities = null
         )
 
-        // Then present it
+        // Configure for iPad
+        activityController.popoverPresentationController?.let { popover ->
+            popover.sourceView = rootViewController.view
+            popover.sourceRect = CGRectMake(
+                x = rootViewController.view.bounds.useContents { size.width } / 2.0,
+                y = rootViewController.view.bounds.useContents { size.height } / 2.0,
+                width = 0.0,
+                height = 0.0
+            )
+            popover.permittedArrowDirections = UIPopoverArrowDirectionAny
+        }
+
         rootViewController.presentViewController(
             viewControllerToPresent = activityController,
             animated = true,
