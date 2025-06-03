@@ -1,5 +1,6 @@
 package com.metacto.catalogapp.presentation.notifications.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -44,6 +45,7 @@ internal fun NotificationsSamplesContent(
 
     // Container column
     AppScreenColumn(
+        verticalArrangement = Arrangement.spacedBy(spacings.spacing16),
         title = "Notifications Samples",
         isScrollable = true,
         showToolbar = true,
@@ -93,7 +95,7 @@ internal fun NotificationsSamplesContent(
                     globalState.showError("Failed to schedule daily repeating: ${e.message}")
                 }
             },
-            modifier = Modifier.fillMaxWidth().padding(top = spacings.spacing16)
+            modifier = Modifier.fillMaxWidth()
         )
 
         PrimaryFilledButton(
@@ -113,7 +115,7 @@ internal fun NotificationsSamplesContent(
                     globalState.showError("Failed to schedule interval repeating: ${e.message}")
                 }
             },
-            modifier = Modifier.fillMaxWidth().padding(top = spacings.spacing16)
+            modifier = Modifier.fillMaxWidth()
         )
 
         PrimaryFilledButton(
@@ -129,8 +131,8 @@ internal fun NotificationsSamplesContent(
                     }
                 } ?: globalState.showError("No notification ID to cancel.")
             },
-            isEnabled = lastScheduledNotificationId != null, // Corrected: Using the isEnabled parameter
-            modifier = Modifier.fillMaxWidth().padding(top = spacings.spacing16)
+            isEnabled = lastScheduledNotificationId != null,
+            modifier = Modifier.fillMaxWidth()
         )
 
         PrimaryFilledButton(
@@ -145,8 +147,8 @@ internal fun NotificationsSamplesContent(
                     }
                 } ?: globalState.showError("No notification ID to remove (using last scheduled ID for demo).")
             },
-            isEnabled = lastScheduledNotificationId != null, // Corrected: Using the isEnabled parameter
-            modifier = Modifier.fillMaxWidth().padding(top = spacings.spacing16)
+            isEnabled = lastScheduledNotificationId != null,
+            modifier = Modifier.fillMaxWidth()
         )
 
         PrimaryFilledButton(
@@ -159,7 +161,7 @@ internal fun NotificationsSamplesContent(
                     globalState.showError("Failed to remove all delivered: ${e.message}")
                 }
             },
-            modifier = Modifier.fillMaxWidth().padding(top = spacings.spacing16)
+            modifier = Modifier.fillMaxWidth()
         )
 
         PrimaryFilledButton(
@@ -172,7 +174,7 @@ internal fun NotificationsSamplesContent(
                     globalState.showError("Failed to clear badge count: ${e.message}")
                 }
             },
-            modifier = Modifier.fillMaxWidth().padding(top = spacings.spacing16)
+            modifier = Modifier.fillMaxWidth()
         )
 
         PrimaryFilledButton(
@@ -193,7 +195,7 @@ internal fun NotificationsSamplesContent(
                     }
                 }
             },
-            modifier = Modifier.fillMaxWidth().padding(top = spacings.spacing16)
+            modifier = Modifier.fillMaxWidth()
         )
 
         currentPushToken?.let { token ->
@@ -216,7 +218,7 @@ internal fun NotificationsSamplesContent(
                     }
                 }
             },
-            modifier = Modifier.fillMaxWidth().padding(top = spacings.spacing16)
+            modifier = Modifier.fillMaxWidth()
         )
 
         PrimaryFilledButton(
@@ -231,7 +233,7 @@ internal fun NotificationsSamplesContent(
                     }
                 }
             },
-            modifier = Modifier.fillMaxWidth().padding(top = spacings.spacing16)
+            modifier = Modifier.fillMaxWidth()
         )
 
         PrimaryFilledButton(
@@ -246,7 +248,7 @@ internal fun NotificationsSamplesContent(
                     }
                 }
             },
-            modifier = Modifier.fillMaxWidth().padding(top = spacings.spacing16)
+            modifier = Modifier.fillMaxWidth()
         )
 
         PrimaryFilledButton(
@@ -271,7 +273,7 @@ internal fun NotificationsSamplesContent(
                     globalState.showError("Failed to set up listeners: ${e.message}")
                 }
             },
-            modifier = Modifier.fillMaxWidth().padding(top = spacings.spacing16)
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
