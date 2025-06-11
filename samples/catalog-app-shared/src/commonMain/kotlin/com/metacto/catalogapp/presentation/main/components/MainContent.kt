@@ -14,6 +14,7 @@ import com.metacto.catalogapp.presentation.main.MainContract.Event
 import com.metacto.catalogapp.presentation.main.MainContract.State
 import com.metacto.catalogapp.presentation.mediaManager.MediaManagerScreen
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesScreen
+import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberScreen
 import com.metacto.catalogapp.presentation.permissions.PermissionsScreen
 import com.metacto.catalogapp.presentation.theme.spacings
 import com.metacto.core.ui.components.buttons.PrimaryFilledButton
@@ -94,5 +95,16 @@ internal fun MainContent(
                 .padding(top = spacings.spacing16),
 
             )
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        // Phone number samples
+        PrimaryFilledButton(
+            text = "Phone Number samples",
+            onClick = {
+                navManage.navigate(PhoneNumberScreen())
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }

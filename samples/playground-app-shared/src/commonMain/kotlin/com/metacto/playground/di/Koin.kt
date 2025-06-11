@@ -2,6 +2,7 @@ package com.metacto.playground.di
 
 import com.metacto.core.di.coreModule
 import com.metacto.core.ui.di.coreUIModule
+import com.metacto.kmm.network.errorhandling.NetworkError
 import com.metacto.playground.constants.AppEnvironment
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
@@ -23,7 +24,7 @@ fun initKoin(
         platformModule,
         viewModelsModule,
         domainModule,
-        coreModule(environment.coreConfigs),
+        coreModule(environment.coreConfigs, NetworkError::class),
         coreUIModule(environment.coreUIConfigs)
     )
 }

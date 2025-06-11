@@ -81,3 +81,17 @@ fun List<Color>.averageColor(): Color {
         alpha = totalAlpha / size
     )
 }
+
+fun Color.darken(factor: Float): Color {
+    val red = (red * (1 - factor)).coerceIn(0f, 1f)
+    val green = (green * (1 - factor)).coerceIn(0f, 1f)
+    val blue = (blue * (1 - factor)).coerceIn(0f, 1f)
+    return Color(red, green, blue, alpha)
+}
+
+fun Color.lighten(factor: Float): Color {
+    val red = (red + (1 - red) * factor).coerceIn(0f, 1f)
+    val green = (green + (1 - green) * factor).coerceIn(0f, 1f)
+    val blue = (blue + (1 - blue) * factor).coerceIn(0f, 1f)
+    return Color(red, green, blue, alpha)
+}
