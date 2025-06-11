@@ -16,6 +16,7 @@ import com.metacto.catalogapp.presentation.mediaManager.MediaManagerScreen
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesScreen
 import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberScreen
 import com.metacto.catalogapp.presentation.theme.spacings
+import com.metacto.catalogapp.presentation.youtube.youtubesample.YoutubeSampleScreen
 import com.metacto.core.ui.components.buttons.PrimaryFilledButton
 import com.metacto.core.ui.components.containers.ScreenColumn
 import com.metacto.core.ui.navigation.NavManager
@@ -80,6 +81,15 @@ internal fun MainContent(
             text = "Phone Number samples",
             onClick = {
                 navManage.navigate(PhoneNumberScreen())
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        // Youtube samples
+        PrimaryFilledButton(
+            text = "Youtube samples",
+            onClick = {
+                navManage.navigate(YoutubeSampleScreen())
             },
             modifier = Modifier.fillMaxWidth()
         )
