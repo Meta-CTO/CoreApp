@@ -95,8 +95,6 @@ internal fun MainContent(
                 .padding(top = spacings.spacing16),
 
             )
-            modifier = Modifier.fillMaxWidth()
-        )
 
         // Phone number samples
         PrimaryFilledButton(
@@ -104,7 +102,10 @@ internal fun MainContent(
             onClick = {
                 navManage.navigate(PhoneNumberScreen())
             },
-            modifier = Modifier.fillMaxWidth()
-        )
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = spacings.spacing16),
+
+            )
     }
 }
