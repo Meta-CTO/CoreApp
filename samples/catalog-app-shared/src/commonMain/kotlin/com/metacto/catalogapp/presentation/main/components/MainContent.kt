@@ -15,6 +15,7 @@ import com.metacto.catalogapp.presentation.main.MainContract.State
 import com.metacto.catalogapp.presentation.mediaManager.MediaManagerScreen
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesScreen
 import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberScreen
+import com.metacto.catalogapp.presentation.permissions.PermissionsScreen
 import com.metacto.catalogapp.presentation.theme.spacings
 import com.metacto.core.ui.components.buttons.PrimaryFilledButton
 import com.metacto.core.ui.components.containers.ScreenColumn
@@ -48,7 +49,9 @@ internal fun MainContent(
             onClick = {
                 navManage.navigate(FilesSamplesScreen())
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = spacings.spacing16),
         )
 
         PrimaryFilledButton(
@@ -56,7 +59,9 @@ internal fun MainContent(
             onClick = {
                 navManage.navigate(ImagePickerSamplesScreen())
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = spacings.spacing16),
         )
 
         PrimaryFilledButton(
@@ -64,7 +69,9 @@ internal fun MainContent(
             onClick = {
                 navManage.navigate(ImagePreloaderScreen())
             },
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = spacings.spacing16),
         )
 
         PrimaryFilledButton(
@@ -72,8 +79,22 @@ internal fun MainContent(
             onClick = {
                 navManage.navigate(MediaManagerScreen())
             },
-            modifier = Modifier.fillMaxWidth()
-        )
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = spacings.spacing16),
+
+            )
+
+        PrimaryFilledButton(
+            text = "Permissions samples",
+            onClick = {
+                navManage.navigate(PermissionsScreen())
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = spacings.spacing16),
+
+            )
 
         // Phone number samples
         PrimaryFilledButton(
@@ -81,7 +102,10 @@ internal fun MainContent(
             onClick = {
                 navManage.navigate(PhoneNumberScreen())
             },
-            modifier = Modifier.fillMaxWidth()
-        )
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = spacings.spacing16),
+
+            )
     }
 }

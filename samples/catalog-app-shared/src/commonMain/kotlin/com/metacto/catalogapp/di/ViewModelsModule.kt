@@ -10,6 +10,7 @@ import com.metacto.catalogapp.presentation.mediaManager.MediaManagerViewModel
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesViewModel
 import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberViewModel
 import com.metacto.core.ui.di.commonViewModel
+import com.metacto.catalogapp.presentation.permissions.PermissionsViewModel
 import org.koin.dsl.module
 
 val viewModelsModule = module {
@@ -21,5 +22,6 @@ val viewModelsModule = module {
     commonViewModel { FilesSamplesViewModel() }
     commonViewModel { ImagePickerSamplesViewModel() }
     commonViewModel { MainViewModel() }
+    commonViewModel { PermissionsViewModel() }
     single { AppViewModel() }
 }
