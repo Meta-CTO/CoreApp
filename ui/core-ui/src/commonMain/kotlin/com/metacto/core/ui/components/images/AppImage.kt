@@ -28,13 +28,13 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.svg.SvgDecoder
 import com.metacto.core.extensions.applyIf
-import com.metacto.core.ui.theme.CoreTheme
 import com.metacto.core.ui.extensions.backgroundIfNotNull
 import com.metacto.core.ui.extensions.borderIfNotNull
 import com.metacto.core.ui.extensions.clipIfNotNull
 import com.metacto.core.ui.extensions.shadowIfNotNull
 import com.metacto.core.ui.extensions.shimmerIf
 import com.metacto.core.ui.models.ImageUIModel
+import com.metacto.core.ui.theme.CoreTheme
 
 internal const val DEFAULT_IMAGE_CROSS_FADE_DURATION = 200
 
@@ -80,7 +80,9 @@ fun AppImage(
     val context = LocalPlatformContext.current
     val model = remember(url, image?.getData()) {
         ImageRequest.Builder(context)
-            .decoderFactory(SvgDecoder.Factory())
+            .applyIf(url?.contains(".svg", true) == true) {
+                decoderFactory(SvgDecoder.Factory())
+            }
             .data(url ?: image?.getData())
             .httpHeaders(networkHeaders)
             .diskCachePolicy(CachePolicy.ENABLED)
