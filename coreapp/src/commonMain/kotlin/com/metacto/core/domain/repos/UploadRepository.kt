@@ -13,6 +13,9 @@ import com.metacto.strapikmm.sharedpreference.KmmPreference
 import io.ktor.client.call.body
 import io.ktor.client.request.forms.formData
 import io.ktor.client.request.forms.submitFormWithBinaryData
+import io.ktor.client.request.get
+import io.ktor.client.request.header
+import io.ktor.client.statement.HttpResponse
 import io.ktor.http.Headers
 import io.ktor.http.HttpHeaders
 import kotlinx.serialization.json.JsonArray
@@ -76,6 +79,20 @@ class UploadRepository(
             endpoint("/custom-uploader/{id}")
             path("id", id.toString())
             body(UpdatePreviewUrlRequest(UpdatePreviewUrlRequestData(previewUrl)))
+        }
+    }
+
+    suspend fun downloadBytes(
+        url: String,
+        headers: Map<String, List<String>> = emptyMap()
+    ): ByteArray? {
+        return try {
+            val response: HttpResponse = uploadService.httpClient.get(url) {
+                headers.forEach { (key, value) -> header(key, value) }
+            }
+            response.body()
+        } catch (e: Exception) {
+            null
         }
     }
 }
