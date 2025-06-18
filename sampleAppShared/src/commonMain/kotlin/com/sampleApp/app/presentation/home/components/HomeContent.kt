@@ -32,6 +32,7 @@ import com.metacto.core.utils.language.English
 import com.metacto.core.utils.language.ILanguageManager
 import com.metacto.core.utils.language.Language
 import com.metacto.core.utils.phoneNumber.IPhoneNumberManager
+import com.sampleApp.app.presentation.home.HomeContract
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
 import com.sampleApp.app.presentation.test2.test2.Test2Screen
@@ -84,7 +85,10 @@ internal fun HomeContent(
         )
         AppImage(
             url = "https://scstage103-cd.joycemeyer.org/-/media/JoyceMeyer/Ads/Books/Battlefield-of-the-Mind/BOTM_WebAd1.jpeg",
-            extraHeaders = mapOf("Accept" to "image/png")
+            extraHeaders = mapOf("Accept" to "image/png"),
+            onError = {
+                onEvent.invoke(Event.ImageFailedLoading(it))
+            }
         )
 
         VideoPlayer(

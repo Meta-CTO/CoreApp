@@ -1,10 +1,15 @@
 package com.sampleApp.app.presentation.home
 
+import coil3.network.httpHeaders
+import coil3.request.ErrorResult
+import com.metacto.core.domain.repos.UploadRepository
 import com.metacto.core.permissions.enums.Permission
 import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.presentation.globalState.models.MessagePopupParams
 import com.metacto.core.presentation.itemPicker.ItemPickerSheet
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
+import com.metacto.core.presentation.models.ImageUIModel
+import com.metacto.core.presentation.models.copyOrCreate
 import com.metacto.core.presentation.youtube.YoutubeScreen
 import com.metacto.core.utils.date.formatToRelativeDate
 import com.metacto.core.utils.deepLink.IDeepLinkManager
@@ -21,7 +26,8 @@ import kotlinx.datetime.LocalTime
 
 class HomeViewModel(
     private val deeplinkManager: IDeepLinkManager,
-    private val phoneNumberManager: IPhoneNumberManager
+    private val phoneNumberManager: IPhoneNumberManager,
+    private val uploadRepository: UploadRepository
 ) : BaseViewModel<State, Event, Effect>() {
 
     override fun setInitialState() = State()
@@ -81,11 +87,16 @@ class HomeViewModel(
                 setState { copy(cameraPermState = PermissionState.Granted) }
             })
         }
+
+        is Event.ImageFailedLoading -> onImageFailedLoading(event.error)
     }
 
     private fun init() {
         // Validate if already initialized
         if (currentState.isInitialized) return
+
+
+        setState { copy(image = ImageUIModel(url = "https://scstage103-cd.joycemeyer.org/-/media/JoyceMeyer/Grow-Your-Faith/Daily-Devo/DevoImage17.jpg")) }
 
         val date1 = LocalDate(2021, 1, 1)
         val date2 = LocalDate(2025, 2, 25)
@@ -132,4 +143,14 @@ class HomeViewModel(
             setState { copy(pickedItem = pickedItem) }
         }
     }
+
+    private fun onImageFailedLoading(errorResult: ErrorResult) = executeSilent({
+        val error = errorResult.throwable.message.orEmpty()
+        val url = currentState.image?.url ?: return@executeSilent
+        errorResult.request.data
+        if(error.contains("makeFromEncoded", true)) {
+         val bytes =  uploadRepository.downloadBytes(url, errorResult.request.httpHeaders.asMap())
+          setState { copy(image = image.copyOrCreate(bytes = bytes)) }
+        }
+    })
 }

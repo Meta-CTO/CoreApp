@@ -1,5 +1,6 @@
 package com.sampleApp.app.presentation.home
 
+import coil3.request.ErrorResult
 import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.presentation.base.ViewEvent
 import com.metacto.core.presentation.base.ViewSideEffect
@@ -7,6 +8,7 @@ import com.metacto.core.presentation.base.ViewState
 import com.metacto.core.presentation.components.videoPlayer.VideoPlayerController
 import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.presentation.itemPicker.models.PickerItemUIModel
+import com.metacto.core.presentation.models.ImageUIModel
 import com.sampleApp.app.presentation.models.VideoItemInfo
 
 class HomeContract {
@@ -19,6 +21,7 @@ class HomeContract {
         val pickedItem: PickerItemUIModel? = null,
         val selectedNativePickerItem: PickerItem? = null,
         val cameraPermState: PermissionState? = null,
+        val image: ImageUIModel?= null
     ) : ViewState
 
     sealed class Event : ViewEvent {
@@ -28,6 +31,7 @@ class HomeContract {
         data class ChangeCurrentVideo(val index: Int) : Event()
         data class VideoPlayerControllerCreated(val controller: VideoPlayerController) : Event()
         data object OpenPicker : Event()
+        data class ImageFailedLoading(val error: ErrorResult) : Event()
         data object NavigateToCameraScreen : Event()
         data object RequestCameraPermClicked : Event()
     }
