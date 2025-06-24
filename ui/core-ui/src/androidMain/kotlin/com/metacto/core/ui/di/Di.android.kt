@@ -16,7 +16,7 @@ internal actual fun platformModule() = module {
     // Add Android specific dependencies here
 
     single<IPermissionManager> {
-        PermissionManager(androidContext())
+        PermissionManager(androidContext(), get())
     }
 
     single<IPreloader> {
