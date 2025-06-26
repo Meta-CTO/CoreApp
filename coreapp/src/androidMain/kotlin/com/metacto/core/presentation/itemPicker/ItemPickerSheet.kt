@@ -13,6 +13,8 @@ import com.metacto.core.utils.PlatformType
 actual class ItemPickerSheet actual constructor(
     actual val items: List<PickerItem>,
     actual val selectedItem: PickerItem?,
+    actual val maxItemLines: Int,
+    actual val visibleItemCount: Int,
     actual val canSearch: Boolean,
     actual val platform: PlatformType?
 ) : BaseSheet<ItemPickerViewModel>() {
@@ -29,6 +31,8 @@ actual class ItemPickerSheet actual constructor(
                     selectedItem = selectedItem,
                     canSearch = canSearch,
                     platform = platform,
+                    maxItemLines = maxItemLines,
+                    visibleItemCount = visibleItemCount
                 )
             )
         }

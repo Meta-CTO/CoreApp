@@ -27,8 +27,10 @@ import com.metacto.core.presentation.itemPicker.ItemPickerContract.State
 import com.metacto.core.presentation.theme.CoreTheme
 import com.metacto.core.utils.PlatformType
 import com.metacto.core.utils.extensions.getPlatformType
+import com.metacto.core.utils.extensions.getScreenSize
 import com.metacto.core.utils.extensions.toDp
-import com.metacto.coreApp.resources.*
+import com.metacto.coreApp.resources.Res
+import com.metacto.coreApp.resources.search_here
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -58,6 +60,7 @@ fun ItemPickerContent(
     val itemTitles = remember(state.displayedItems) {
         state.displayedItems.map { it.title }
     }
+    val screenSize = getScreenSize()
 
     // Bottom sheet container
     BottomSheetDoneContainer(
@@ -96,7 +99,8 @@ fun ItemPickerContent(
         WheelTextPicker(
             startIndex = state.initialItemIndex,
             texts = itemTitles,
-            rowCount = 5,
+            rowCount = state.visibleItemCount,
+            maxItemLines = state.maxItemLines,
             style = CoreTheme.typography.itemPicker.textStyle,
             color = colorTheme.textColor,
             selectorProperties = WheelPickerDefaults.selectorProperties(
@@ -113,14 +117,14 @@ fun ItemPickerContent(
             },
             size = DpSize(
                 width = sheetSize.width.toDp(),
-                height = CoreTheme.spacings.itemPicker.wheelHeight
+                height = if (state.maxItemLines > 1) (screenSize.second / 2).toDp() else (screenSize.second / 3).toDp()
             ),
             onItemClicked = {
                 onEvent(Event.DoneClicked)
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(CoreTheme.spacings.itemPicker.wheelHeight),
+                .height(if (state.maxItemLines > 1) (screenSize.second / 2).toDp() else (screenSize.second / 3).toDp()),
         )
     }
 }
