@@ -18,8 +18,9 @@ import com.metacto.core.permissions.enums.PermissionState
 import com.metacto.core.permissions.exceptions.DeniedAlwaysException
 import com.metacto.core.permissions.exceptions.DeniedException
 import com.metacto.core.permissions.exceptions.RequestCanceledException
-import com.metacto.core.permissions.helpers.toPlatformPermission
+import com.metacto.core.permissions.helpers.IPermissionFactory
 import com.metacto.core.utils.extensions.openAppSettings
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -29,7 +30,11 @@ import kotlinx.coroutines.withTimeoutOrNull
 import java.util.UUID
 import kotlin.coroutines.suspendCoroutine
 
-internal class PermissionManager(private val context: Context) : IPermissionManager {
+internal class PermissionManager(
+    private val context: Context,
+    private val permissionFactory: IPermissionFactory
+) : IPermissionManager {
+
     private val activityHolder = MutableStateFlow<Activity?>(null)
     private val launcherHolder = MutableStateFlow<ActivityResultLauncher<Array<String>>?>(null)
     private var permissionCallback: PermissionCallback? = null
@@ -112,7 +117,7 @@ internal class PermissionManager(private val context: Context) : IPermissionMana
     private suspend fun handlePermissionRequest(permission: Permission) {
         mutex.withLock {
             val launcher = awaitActivityResultLauncher()
-            val platformPermissions = permission.toPlatformPermission()
+            val platformPermissions = getAndroidPermissions(permission)
 
             suspendCoroutine { continuation ->
                 permissionCallback = PermissionCallback(permission, continuation::resumeWith)
@@ -131,6 +136,10 @@ internal class PermissionManager(private val context: Context) : IPermissionMana
             }
             throw exception
         }
+    }
+
+    private fun getAndroidPermissions(permission: Permission): List<String> {
+        return permissionFactory.getPermissions(permission)
     }
 
     private suspend fun awaitActivityResultLauncher(): ActivityResultLauncher<Array<String>> {
@@ -155,7 +164,7 @@ internal class PermissionManager(private val context: Context) : IPermissionMana
     }
 
     private suspend fun getRuntimePermissionState(permission: Permission): PermissionState {
-        val permissions = permission.toPlatformPermission()
+        val permissions = getAndroidPermissions(permission)
         val status = permissions.map {
             ContextCompat.checkSelfPermission(context, it)
         }

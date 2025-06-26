@@ -6,6 +6,8 @@ import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.domain.repos.forceUpdate.ForceUpdateRepository
 import com.metacto.core.permissions.IPermissionManager
 import com.metacto.core.permissions.PermissionManager
+import com.metacto.core.permissions.helpers.IPermissionFactory
+import com.metacto.core.permissions.helpers.PermissionFactory
 import com.metacto.core.presentation.base.CommonViewModel
 import com.metacto.core.presentation.camera.CameraController
 import com.metacto.core.presentation.camera.CameraEngine
@@ -84,8 +86,15 @@ actual fun <T : SerializableNetworkError> corePlatformModule(
         )
     }
 
+    single<IPermissionFactory> {
+        PermissionFactory()
+    }
+
     single<IPermissionManager> {
-        PermissionManager(androidContext())
+        PermissionManager(
+            context = androidContext(),
+            permissionFactory = get()
+        )
     }
 
     single<IIntentLauncher> {
