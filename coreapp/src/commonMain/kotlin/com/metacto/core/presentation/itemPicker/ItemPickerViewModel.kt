@@ -18,7 +18,9 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
             items = event.items,
             selectedItem = event.selectedItem,
             canSearch = event.canSearch,
-            platform = event.platform
+            platform = event.platform,
+            maxLines = event.maxLines,
+            displayableItemsCount = event.displayableItemsCount
         )
 
         is Event.DoneClicked -> handleDoneClick()
@@ -33,7 +35,9 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
         items: List<PickerItem>,
         selectedItem: PickerItem?,
         canSearch: Boolean,
-        platform: PlatformType?
+        platform: PlatformType?,
+        maxLines: Int,
+        displayableItemsCount: Int
     ) {
         // Validate if already initialized
         if (currentState.isInitialized) return
@@ -52,7 +56,9 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
                 initialItemIndex = initialItemIndex,
                 currentItemIndex = initialItemIndex,
                 canSearch = canSearch,
-                platform = platform
+                platform = platform,
+                maxLines = maxLines,
+                displayableItemsCount = displayableItemsCount
             )
         }
 

@@ -17,7 +17,9 @@ class ItemPickerContract {
         val platform: PlatformType? = null,
         val currentItemIndex: Int = 0,
         val canSearch: Boolean = false,
-        val searchTerm: String = ""
+        val searchTerm: String = "",
+        val maxLines: Int = 1,
+        val displayableItemsCount: Int = 5
     ) : ViewState
 
     sealed class Event : ViewEvent {
@@ -25,7 +27,9 @@ class ItemPickerContract {
             val items: List<PickerItem>,
             val selectedItem: PickerItem?,
             val canSearch: Boolean,
-            val platform: PlatformType?
+            val platform: PlatformType?,
+            val maxLines: Int,
+            val displayableItemsCount: Int
         ) : Event()
 
         data object DoneClicked : Event()
