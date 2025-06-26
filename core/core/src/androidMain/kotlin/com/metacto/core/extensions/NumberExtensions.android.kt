@@ -1,11 +1,10 @@
 package com.metacto.core.extensions
 
 import java.text.DecimalFormat
+import java.util.Locale
 
 actual fun Double.format(decimalsCount: Int): String {
-    return this.truncate(decimalsCount).let {
-        String.format("%.${decimalsCount}f", it)
-    }
+    return String.format(Locale.US, "%.${decimalsCount}f", this)
 }
 
 actual fun Double.formatToComma(maxFractionCount: Int): String {
