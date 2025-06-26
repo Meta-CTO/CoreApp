@@ -1,14 +1,15 @@
 package com.metacto.core.ui.components.wheelPicker
 
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpSize
-import com.metacto.core.ui.components.texts.SingleLineText
-import com.metacto.core.ui.theme.CoreTheme
 import com.metacto.core.ui.extensions.noRippleClickable
+import com.metacto.core.ui.theme.CoreTheme
 
 @Composable
 fun WheelTextPicker(
@@ -25,6 +26,7 @@ fun WheelTextPicker(
     selectorProperties: SelectorProperties = WheelPickerDefaults.selectorProperties(),
     onScrollFinished: (snappedIndex: Int) -> Int? = { null },
     onItemClicked: (() -> Unit)? = null,
+    maxItemLines: Int = 1
 ) {
     WheelPicker(
         modifier = modifier,
@@ -35,8 +37,10 @@ fun WheelTextPicker(
         selectorProperties = selectorProperties,
         onScrollFinished = onScrollFinished,
     ) { index, clickable ->
-        SingleLineText(
+        Text(
             text = texts[index],
+            maxLines = maxItemLines,
+            overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center,
             style = style,
             color = color,
