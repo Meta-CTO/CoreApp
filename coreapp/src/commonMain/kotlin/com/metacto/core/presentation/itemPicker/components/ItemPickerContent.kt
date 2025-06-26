@@ -99,8 +99,8 @@ fun ItemPickerContent(
         WheelTextPicker(
             startIndex = state.initialItemIndex,
             texts = itemTitles,
-            rowCount = state.displayableItemsCount,
-            maxLines = state.maxLines,
+            rowCount = state.visibleItemCount,
+            maxItemLines = state.maxItemLines,
             style = CoreTheme.typography.itemPicker.textStyle,
             color = colorTheme.textColor,
             selectorProperties = WheelPickerDefaults.selectorProperties(
@@ -117,14 +117,14 @@ fun ItemPickerContent(
             },
             size = DpSize(
                 width = sheetSize.width.toDp(),
-                height = if (state.maxLines > 1) (screenSize.second / 2).toDp() else (screenSize.second / 3).toDp()
+                height = if (state.maxItemLines > 1) (screenSize.second / 2).toDp() else (screenSize.second / 3).toDp()
             ),
             onItemClicked = {
                 onEvent(Event.DoneClicked)
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(if (state.maxLines > 1) (screenSize.second / 2).toDp() else (screenSize.second / 3).toDp()),
+                .height(if (state.maxItemLines > 1) (screenSize.second / 2).toDp() else (screenSize.second / 3).toDp()),
         )
     }
 }

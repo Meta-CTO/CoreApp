@@ -5,7 +5,6 @@ import com.metacto.core.presentation.base.ViewSideEffect
 import com.metacto.core.presentation.base.ViewState
 import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.utils.PlatformType
-import com.metacto.core.utils.extensions.getPlatformType
 
 class ItemPickerContract {
 
@@ -18,8 +17,8 @@ class ItemPickerContract {
         val currentItemIndex: Int = 0,
         val canSearch: Boolean = false,
         val searchTerm: String = "",
-        val maxLines: Int = 1,
-        val displayableItemsCount: Int = 5
+        val maxItemLines: Int = 1,
+        val visibleItemCount: Int = 5
     ) : ViewState
 
     sealed class Event : ViewEvent {
@@ -28,8 +27,8 @@ class ItemPickerContract {
             val selectedItem: PickerItem?,
             val canSearch: Boolean,
             val platform: PlatformType?,
-            val maxLines: Int,
-            val displayableItemsCount: Int
+            val maxItemLines: Int,
+            val visibleItemCount: Int
         ) : Event()
 
         data object DoneClicked : Event()

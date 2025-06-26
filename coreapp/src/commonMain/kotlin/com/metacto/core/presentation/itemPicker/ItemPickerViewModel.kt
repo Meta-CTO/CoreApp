@@ -19,8 +19,8 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
             selectedItem = event.selectedItem,
             canSearch = event.canSearch,
             platform = event.platform,
-            maxLines = event.maxLines,
-            displayableItemsCount = event.displayableItemsCount
+            maxLines = event.maxItemLines,
+            displayableItemsCount = event.visibleItemCount
         )
 
         is Event.DoneClicked -> handleDoneClick()
@@ -57,8 +57,8 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
                 currentItemIndex = initialItemIndex,
                 canSearch = canSearch,
                 platform = platform,
-                maxLines = maxLines,
-                displayableItemsCount = displayableItemsCount
+                maxItemLines = maxLines,
+                visibleItemCount = displayableItemsCount
             )
         }
 
