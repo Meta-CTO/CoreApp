@@ -177,6 +177,14 @@ internal fun HomeContent(
 
         PrimaryFilledButton(
             modifier = Modifier.fillMaxWidth(),
+            text = "Test Permissions System",
+            onClick = {
+                onEvent(Event.NavToPermissionsTest)
+            }
+        )
+
+        PrimaryFilledButton(
+            modifier = Modifier.fillMaxWidth(),
             text = "To Test Screen",
             onClick = {
                 onEvent(Event.NavToTestScreen)
@@ -196,14 +204,6 @@ internal fun HomeContent(
             text = "Open Picker",
             onClick = {
                 onEvent(Event.OpenPicker)
-            }
-        )
-
-        PrimaryFilledButton(
-            modifier = Modifier.fillMaxWidth(),
-            text = "Request camera permissions",
-            onClick = {
-                onEvent(Event.RequestCameraPermClicked)
             }
         )
 

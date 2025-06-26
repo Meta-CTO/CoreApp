@@ -20,6 +20,7 @@ import com.sampleApp.app.presentation.home.HomeContract.Effect
 import com.sampleApp.app.presentation.home.HomeContract.Event
 import com.sampleApp.app.presentation.home.HomeContract.State
 import com.sampleApp.app.presentation.test.TestScreen
+import com.sampleApp.app.presentation.permissions.PermissionsTestScreen
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
@@ -41,6 +42,10 @@ class HomeViewModel(
 
         Event.NavToTestScreen -> {
             navManager.navigate(TestScreen)
+        }
+
+        Event.NavToPermissionsTest -> {
+            navManager.navigate(PermissionsTestScreen)
         }
 
         is Event.ChangeCurrentVideo -> {
@@ -70,31 +75,22 @@ class HomeViewModel(
         Event.NavigateToCameraScreen -> {
             globalState.messagePopup(
                 params =
-                MessagePopupParams(
-                    body = "These data give a picture of your physical health. Factors taken into account include how much you exercise and how much energy you burn while active.\n" +
-                            "\n" +
-                            "Vigorous, regular exercise is directly correlated with good physical health, and longer exercise sessions are strong indicators of endurance and overall fitness. ",
-                    description = "Sources:\n" +
-                            "Shaffer, F., & Ginsberg, J. P. (2017). An overview of heart rate variability metrics and norms. Frontiers in Public Health, 5, 258.\n" +
-                            "Brosschot, J. F., van Dijk, E., & Thayer, J. F. (2007). Daily worry is related to low heart rate variability during waking and the subsequent nocturnal sleep period. International Journal of Psychophysiology, 63(1), 39-47."
-                )
+                    MessagePopupParams(
+                        body = "These data give a picture of your physical health. Factors taken into account include how much you exercise and how much energy you burn while active.\n" +
+                                "\n" +
+                                "Vigorous, regular exercise is directly correlated with good physical health, and longer exercise sessions are strong indicators of endurance and overall fitness. ",
+                        description = "Sources:\n" +
+                                "Shaffer, F., & Ginsberg, J. P. (2017). An overview of heart rate variability metrics and norms. Frontiers in Public Health, 5, 258.\n" +
+                                "Brosschot, J. F., van Dijk, E., & Thayer, J. F. (2007). Daily worry is related to low heart rate variability during waking and the subsequent nocturnal sleep period. International Journal of Psychophysiology, 63(1), 39-47."
+                    )
             )
-        }
-
-        Event.RequestCameraPermClicked -> {
-            executeSilent({
-                permissionManager.requestPermission(Permission.CAMERA)
-                setState { copy(cameraPermState = PermissionState.Granted) }
-            })
         }
 
         is Event.ImageFailedLoading -> onImageFailedLoading(event.error)
     }
 
     private fun init() {
-        // Validate if already initialized
         if (currentState.isInitialized) return
-
 
         setState { copy(image = ImageUIModel(url = "https://scstage103-cd.joycemeyer.org/-/media/JoyceMeyer/Grow-Your-Faith/Daily-Devo/DevoImage17.jpg")) }
 
@@ -119,7 +115,6 @@ class HomeViewModel(
         println("Formatted date ==== date4: ${date4.formatToRelativeDate()}")
         println("Formatted date ==== date5: ${date5.formatToRelativeDate()}")
 
-        // Init
         executeSilent({
             val cameraPermState = permissionManager.getPermissionState(Permission.CAMERA)
             setState {
@@ -134,7 +129,6 @@ class HomeViewModel(
 
         observeItemPickerResults()
 
-        // Update the flag
         setState { copy(isInitialized = true) }
     }
 
@@ -149,8 +143,8 @@ class HomeViewModel(
         val url = currentState.image?.url ?: return@executeSilent
         errorResult.request.data
         if(error.contains("makeFromEncoded", true)) {
-         val bytes =  uploadRepository.downloadBytes(url, errorResult.request.httpHeaders.asMap())
-          setState { copy(image = image.copyOrCreate(bytes = bytes)) }
+            val bytes =  uploadRepository.downloadBytes(url, errorResult.request.httpHeaders.asMap())
+            setState { copy(image = image.copyOrCreate(bytes = bytes)) }
         }
     })
 }

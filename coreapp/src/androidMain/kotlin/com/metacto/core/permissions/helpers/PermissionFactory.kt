@@ -12,7 +12,7 @@ internal class PermissionFactory : IPermissionFactory {
             Permission.CAMERA -> listOf(Manifest.permission.CAMERA)
             Permission.GALLERY -> galleryCompat()
             Permission.STORAGE -> allStoragePermissions()
-            Permission.WRITE_STORAGE -> listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            Permission.WRITE_STORAGE -> writeStorageCompat()
             Permission.LOCATION -> fineLocationCompat()
             Permission.COARSE_LOCATION -> listOf(Manifest.permission.ACCESS_COARSE_LOCATION)
             Permission.BACKGROUND_LOCATION -> backgroundLocationCompat()
@@ -31,6 +31,15 @@ internal class PermissionFactory : IPermissionFactory {
                 Manifest.permission.READ_CALENDAR,
                 Manifest.permission.WRITE_CALENDAR
             )
+        }
+    }
+
+    private fun writeStorageCompat(): List<String> {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            // On Android 10+, this permission is ignored by the system
+            emptyList()
+        } else {
+            listOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
     }
 
@@ -126,7 +135,7 @@ internal class PermissionFactory : IPermissionFactory {
     }
 
     private fun motionPermissions(): List<String> {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             listOf(
                 Manifest.permission.ACTIVITY_RECOGNITION,
                 Manifest.permission.BODY_SENSORS
