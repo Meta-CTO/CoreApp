@@ -6,13 +6,15 @@ import com.metacto.core.PlatformType
 import com.metacto.core.ui.base.BaseSheet
 import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
+import com.metacto.core.ui.components.itemPicker.ItemPickerContract.Event
 import com.metacto.core.ui.components.itemPicker.components.ItemPickerContent
 import com.metacto.core.ui.components.itemPicker.models.PickerItem
-import com.metacto.core.ui.components.itemPicker.ItemPickerContract.Event
 
 actual class ItemPickerSheet actual constructor(
     actual val items: List<PickerItem>,
     actual val selectedItem: PickerItem?,
+    actual val maxItemLines: Int,
+    actual val visibleItemCount: Int,
     actual val canSearch: Boolean,
     actual val platform: PlatformType?
 ) : BaseSheet<ItemPickerViewModel>() {
@@ -29,6 +31,8 @@ actual class ItemPickerSheet actual constructor(
                     selectedItem = selectedItem,
                     canSearch = canSearch,
                     platform = platform,
+                    maxItemLines = maxItemLines,
+                    visibleItemCount = visibleItemCount
                 )
             )
         }

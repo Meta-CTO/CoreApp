@@ -22,14 +22,15 @@ import com.metacto.core.PlatformType
 import com.metacto.core.extensions.getPlatformType
 import com.metacto.core.ui.components.bottomSheets.BottomSheetDoneContainer
 import com.metacto.core.ui.components.inputFields.PrimaryTextInputField
-import com.metacto.core.ui.components.wheelPicker.WheelPickerDefaults
-import com.metacto.core.ui.components.wheelPicker.WheelTextPicker
 import com.metacto.core.ui.components.itemPicker.ItemPickerContract.Event
 import com.metacto.core.ui.components.itemPicker.ItemPickerContract.State
-import com.metacto.core.ui.theme.CoreTheme
+import com.metacto.core.ui.components.wheelPicker.WheelPickerDefaults
+import com.metacto.core.ui.components.wheelPicker.WheelTextPicker
+import com.metacto.core.ui.extensions.getScreenSize
 import com.metacto.core.ui.extensions.toDp
 import com.metacto.core.ui.resources.Res
 import com.metacto.core.ui.resources.search_here
+import com.metacto.core.ui.theme.CoreTheme
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -59,6 +60,7 @@ fun ItemPickerContent(
     val itemTitles = remember(state.displayedItems) {
         state.displayedItems.map { it.title }
     }
+    val screenSize = getScreenSize()
 
     // Bottom sheet container
     BottomSheetDoneContainer(
@@ -97,7 +99,8 @@ fun ItemPickerContent(
         WheelTextPicker(
             startIndex = state.initialItemIndex,
             texts = itemTitles,
-            rowCount = 5,
+            rowCount = state.visibleItemCount,
+            maxItemLines = state.maxItemLines,
             style = CoreTheme.typography.itemPicker.textStyle,
             color = colorTheme.textColor,
             selectorProperties = WheelPickerDefaults.selectorProperties(
@@ -114,14 +117,14 @@ fun ItemPickerContent(
             },
             size = DpSize(
                 width = sheetSize.width.toDp(),
-                height = CoreTheme.spacings.itemPicker.wheelHeight
+                height = if (state.maxItemLines > 1) (screenSize.second / 2).toDp() else (screenSize.second / 3).toDp()
             ),
             onItemClicked = {
                 onEvent(Event.DoneClicked)
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .height(CoreTheme.spacings.itemPicker.wheelHeight),
+                .height(if (state.maxItemLines > 1) (screenSize.second / 2).toDp() else (screenSize.second / 3).toDp()),
         )
     }
 }

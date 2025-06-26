@@ -17,7 +17,9 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
             items = event.items,
             selectedItem = event.selectedItem,
             canSearch = event.canSearch,
-            platform = event.platform
+            platform = event.platform,
+            maxLines = event.maxItemLines,
+            displayableItemsCount = event.visibleItemCount
         )
 
         is Event.DoneClicked -> handleDoneClick()
@@ -32,7 +34,9 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
         items: List<PickerItem>,
         selectedItem: PickerItem?,
         canSearch: Boolean,
-        platform: PlatformType?
+        platform: PlatformType?,
+        maxLines: Int,
+        displayableItemsCount: Int
     ) {
         // Validate if already initialized
         if (currentState.isInitialized) return
@@ -51,7 +55,9 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
                 initialItemIndex = initialItemIndex,
                 currentItemIndex = initialItemIndex,
                 canSearch = canSearch,
-                platform = platform
+                platform = platform,
+                maxItemLines = maxLines,
+                visibleItemCount = displayableItemsCount
             )
         }
 
@@ -127,7 +133,8 @@ class ItemPickerViewModel : CoreViewModel<State, Event, Effect>() {
     }
 
     private fun emitSelectedItemAsResult() {
-        val selectedItem = currentState.displayedItems.getOrNull(currentState.currentItemIndex) ?: return
+        val selectedItem =
+            currentState.displayedItems.getOrNull(currentState.currentItemIndex) ?: return
         navManager.sendResult(
             source = ItemPickerSheet::class.simpleName,
             result = selectedItem
