@@ -7,7 +7,6 @@ import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.domain.repos.UploadRepository
 import com.metacto.kmm.logger.Logger
 import com.metacto.kmm.network.errorhandling.SerializableNetworkError
-import com.metacto.kmm.network.repos.CoreAppConfigurationRepository
 import com.metacto.kmm.network.repos.CoreFirebaseAuthRepository
 import com.metacto.kmm.network.repos.CoreLogoutUseCase
 import com.metacto.kmm.network.repos.CoreUploaderRepository
@@ -31,16 +30,6 @@ fun <T : SerializableNetworkError> coreModule(configs: CoreConfigs, errorClass: 
 
     single {
         get<RepositoriesFactory<*>>().sharedPreference
-    }
-
-    single {
-        CoreAppConfigurationRepository(
-            applicationContext = get(),
-            appConfigurationService = get(),
-            sharedPreference = get(),
-            appConfigurationExpirationInMinutes = configs.appConfigurationExpirationInMinutes,
-            enforceDefaultDataWrapper = configs.enforceDefaultDataWrapper
-        )
     }
 
     single {
