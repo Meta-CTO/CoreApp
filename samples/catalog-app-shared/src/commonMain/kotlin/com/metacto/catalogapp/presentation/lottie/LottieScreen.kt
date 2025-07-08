@@ -1,0 +1,28 @@
+package com.metacto.catalogapp.presentation.lottie
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import com.metacto.catalogapp.presentation.lottie.LottieContract.Event
+import com.metacto.catalogapp.presentation.lottie.components.LottieContent
+import com.metacto.core.ui.base.BaseScreen
+import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
+import com.metacto.core.ui.base.rememberViewModel
+
+internal class LottieScreen : BaseScreen<LottieViewModel>() {
+    @Composable
+    override fun Content() {
+        // Get the view model
+        val viewModel = rememberViewModel<LottieViewModel>()
+
+        // Init view model
+        LaunchedEffect(SIDE_EFFECTS_KEY) {
+            viewModel.setEvent(Event.Init)
+        }
+
+        // Render content
+        LottieContent(
+            state = viewModel.viewState.value,
+            onEvent = viewModel::setEvent
+        )
+    }
+}

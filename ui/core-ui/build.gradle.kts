@@ -85,7 +85,7 @@ kotlin {
             implementation(libs.coil.svg)
 
             // Others
-            implementation(libs.compottie)
+            api(libs.compottie)
             implementation(libs.shimmer)
         }
 

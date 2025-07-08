@@ -10,4 +10,5 @@ internal fun String.asFileResource(): IFileResource = FileResource(path = "files
 internal object FileResources {
     val app_loading = "app_loading.json".asFileResource()
     val intro_video = "intro_video.mp4".asFileResource()
+    val people_lottie_anim = "people_lottie_anim.json".asFileResource()
 }
