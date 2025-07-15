@@ -22,14 +22,17 @@ import com.metacto.core.presentation.itemPicker.NativeItemPicker
 import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.utils.PlatformType
 import com.metacto.core.utils.extensions.getPlatformType
+import com.metacto.core.utils.extensions.isConnectionLostError
 import com.metacto.core.utils.extensions.isInternetConnectionError
+import com.metacto.core.utils.extensions.isInternetInterruptedError
+import com.metacto.core.utils.extensions.isNetworkConnectionLostError
 import com.metacto.core.utils.launchers.IIntentLauncher
 import com.metacto.core.utils.resources.IResourceProvider
 import com.metacto.coreApp.resources.Res
 import com.metacto.coreApp.resources.error
 import com.metacto.coreApp.resources.force_update_title
 import com.metacto.coreApp.resources.ic_upgrade
-import com.metacto.coreApp.resources.no_internet_connection_check_connection
+import com.metacto.coreApp.resources.sorry_there_was_problem_connecting
 import com.metacto.coreApp.resources.ok
 import com.metacto.coreApp.resources.server_taking_too_long
 import com.metacto.coreApp.resources.session_expired
@@ -180,6 +183,23 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                     handleAuthError()
                     return@launch
                 }
+                // Handle network internet errors
+                if (throwable.isInternetInterruptedError()) {
+                    handleNetworkError()
+                    return@launch
+                }
+
+                // Handle network connection lost errors
+                if (throwable.isNetworkConnectionLostError()) {
+                    handleNetworkError()
+                    return@launch
+                }
+
+                // Handle connection lost errors message
+                if (throwable.isConnectionLostError()) {
+                    handleNetworkError()
+                    return@launch
+                }
 
                 // Handle network errors
                 if (throwable.isInternetConnectionError()) {
@@ -293,7 +313,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         hideLoading()
         coreGlobalState.snackBar(
             SnackBarParams(
-                message = resourceProvider.getString(Res.string.no_internet_connection_check_connection),
+                message = resourceProvider.getString(Res.string.sorry_there_was_problem_connecting),
                 type = SnackBarType.ERROR
             )
         )
