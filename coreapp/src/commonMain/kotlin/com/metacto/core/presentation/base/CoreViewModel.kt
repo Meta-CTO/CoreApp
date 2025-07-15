@@ -22,6 +22,7 @@ import com.metacto.core.presentation.itemPicker.NativeItemPicker
 import com.metacto.core.presentation.itemPicker.models.PickerItem
 import com.metacto.core.utils.PlatformType
 import com.metacto.core.utils.extensions.getPlatformType
+import com.metacto.core.utils.extensions.isConnectionLostError
 import com.metacto.core.utils.extensions.isInternetConnectionError
 import com.metacto.core.utils.extensions.isInternetInterruptedError
 import com.metacto.core.utils.extensions.isNetworkConnectionLostError
@@ -182,14 +183,20 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                     handleAuthError()
                     return@launch
                 }
-                // Handle network errors
+                // Handle network internet errors
                 if (throwable.isInternetInterruptedError()) {
                     handleNetworkError()
                     return@launch
                 }
 
-                // Handle network errors
+                // Handle network connection lost errors
                 if (throwable.isNetworkConnectionLostError()) {
+                    handleNetworkError()
+                    return@launch
+                }
+
+                // Handle connection lost errors message
+                if (throwable.isConnectionLostError()) {
                     handleNetworkError()
                     return@launch
                 }
