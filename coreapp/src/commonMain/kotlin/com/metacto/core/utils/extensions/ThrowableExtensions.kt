@@ -18,3 +18,7 @@ fun Throwable.isInternetInterruptedError(): Boolean {
 fun Throwable.isNetworkConnectionLostError(): Boolean {
     return this is AppException && this.message == NETWORK_CONNECTION_LOST
 }
+
+fun Throwable.isConnectionLostError(): Boolean {
+    return this.message == NETWORK_CONNECTION_LOST
+}
