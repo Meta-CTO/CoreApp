@@ -10,5 +10,6 @@ data class CoreConfigs(
     val shouldShowActualErrorMessages: Boolean,
     val appConfigurationExpirationInMinutes: Long,
     val deepLinkParsers: Map<String, DeepLinkParser> = emptyMap(),
-    val enforceDefaultDataWrapper: Boolean = true
+    val enforceDefaultDataWrapper: Boolean = true,
+    val forceUpdateRemoteConfigKey: String? = null,
 )

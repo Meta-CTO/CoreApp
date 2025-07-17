@@ -24,6 +24,7 @@ import coil3.compose.LocalPlatformContext
 import coil3.network.NetworkHeaders
 import coil3.network.httpHeaders
 import coil3.request.CachePolicy
+import coil3.request.ErrorResult
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import coil3.svg.SvgDecoder
@@ -63,7 +64,8 @@ fun AppImage(
     shimmerLoading: Boolean = false,
     extraHeaders: Map<String, String> = emptyMap(),
     shimmerLoadingColor: Color = CoreTheme.colors.appImagesColors.shimmerLoading,
-    crossFadeDuration: Int = DEFAULT_IMAGE_CROSS_FADE_DURATION
+    crossFadeDuration: Int = DEFAULT_IMAGE_CROSS_FADE_DURATION,
+    onError: ((ErrorResult) -> Unit)? = null
 ) {
     // Prepare network headers
     val networkHeaders = NetworkHeaders.Builder()
@@ -88,6 +90,9 @@ fun AppImage(
             .diskCachePolicy(CachePolicy.ENABLED)
             .memoryCachePolicy(CachePolicy.DISABLED)
             .applyIf(crossFade) { crossfade(crossFadeDuration) }
+            .listener(onError = { _, error ->
+                onError?.invoke(error)
+            })
             .build()
     }
 

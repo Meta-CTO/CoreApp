@@ -9,6 +9,10 @@ import com.metacto.core.PlatformType
 import com.metacto.core.extensions.getErrorMessage
 import com.metacto.core.extensions.getHttpErrorCode
 import com.metacto.core.extensions.getPlatformType
+import com.metacto.core.extensions.isConnectionLostError
+import com.metacto.core.extensions.isInternetConnectionError
+import com.metacto.core.extensions.isInternetInterruptedError
+import com.metacto.core.extensions.isNetworkConnectionLostError
 import com.metacto.core.ui.globalState.ICoreGlobalState
 import com.metacto.core.ui.globalState.models.ConfirmationPopupParams
 import com.metacto.core.ui.globalState.models.LoadingType
@@ -28,6 +32,7 @@ import com.metacto.core.ui.resources.no_internet_connection_check_connection
 import com.metacto.core.ui.resources.ok
 import com.metacto.core.ui.resources.server_taking_too_long
 import com.metacto.core.ui.resources.session_expired
+import com.metacto.core.ui.resources.sorry_there_was_problem_connecting
 import com.metacto.core.ui.resources.your_session_expired_login_again
 import com.metacto.kmm.logger.Logger
 import com.metacto.kmm.network.errorhandling.AppException
@@ -168,6 +173,29 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                     handleAuthError()
                     return@launch
                 }
+                // Handle network internet errors
+                if (throwable.isInternetInterruptedError()) {
+                    handleNetworkError()
+                    return@launch
+                }
+
+                // Handle network connection lost errors
+                if (throwable.isNetworkConnectionLostError()) {
+                    handleNetworkError()
+                    return@launch
+                }
+
+                // Handle connection lost errors message
+                if (throwable.isConnectionLostError()) {
+                    handleNetworkError()
+                    return@launch
+                }
+
+                // Handle network errors
+                if (throwable.isInternetConnectionError()) {
+                    handleNetworkError()
+                    return@launch
+                }
 
                 // Handle other errors
                 val errorMessage = when (throwable) {
@@ -275,7 +303,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         hideLoading()
         coreGlobalState.snackBar(
             SnackBarParams(
-                message = resourceProvider.getString(Res.string.no_internet_connection_check_connection),
+                message = resourceProvider.getString(Res.string.sorry_there_was_problem_connecting),
                 type = SnackBarType.ERROR
             )
         )
