@@ -20,28 +20,20 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.viewinterop.UIKitInteropInteractionMode
 import androidx.compose.ui.viewinterop.UIKitInteropProperties
 import androidx.compose.ui.viewinterop.UIKitView
-import com.metacto.core.extensions.cleanFilePath
-import com.metacto.core.extensions.isValidUrl
 import com.metacto.core.ui.components.visibilities.FadeVisibility
 import com.metacto.core.ui.extensions.DefaultLaunchedEffect
-import com.metacto.core.ui.extensions.IOLaunchedEffect
 import com.metacto.core.ui.extensions.noRippleClickable
+import com.metacto.core.ui.mediaplayers.di.DiQualifiers
 import kotlinx.cinterop.ExperimentalForeignApi
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.koinInject
 import platform.AVFAudio.AVAudioSession
 import platform.AVFAudio.AVAudioSessionCategoryPlayback
 import platform.AVFAudio.AVAudioSessionModeMoviePlayback
 import platform.AVFAudio.setActive
 import platform.AVFoundation.AVLayerVideoGravityResizeAspect
 import platform.AVFoundation.AVLayerVideoGravityResizeAspectFill
-import platform.AVFoundation.AVMetadataCommonIdentifierArtist
-import platform.AVFoundation.AVMetadataCommonIdentifierArtwork
-import platform.AVFoundation.AVMetadataCommonIdentifierTitle
-import platform.AVFoundation.AVMetadataKeySpaceCommon
-import platform.AVFoundation.AVMutableMetadataItem
-import platform.AVFoundation.AVPlayer
-import platform.AVFoundation.AVPlayerItem
 import platform.AVFoundation.AVPlayerItemDidPlayToEndTimeNotification
 import platform.AVFoundation.AVPlayerLayer
 import platform.AVFoundation.addPeriodicTimeObserverForInterval
@@ -52,18 +44,12 @@ import platform.AVFoundation.play
 import platform.AVFoundation.rate
 import platform.AVFoundation.removeTimeObserver
 import platform.AVFoundation.seekToTime
-import platform.AVFoundation.setKeySpace
 import platform.AVFoundation.volume
 import platform.AVKit.AVPictureInPictureController
 import platform.AVKit.AVPlayerViewController
-import platform.AVKit.externalMetadata
 import platform.CoreMedia.CMTimeGetSeconds
 import platform.CoreMedia.CMTimeMake
-import platform.Foundation.NSData
 import platform.Foundation.NSNotificationCenter
-import platform.Foundation.NSString
-import platform.Foundation.NSURL
-import platform.Foundation.dataWithContentsOfURL
 import platform.UIKit.UIView
 import kotlin.time.Duration
 import kotlin.time.DurationUnit
@@ -97,68 +83,35 @@ actual fun VideoPlayer(
     onPlayerCreated: ((VideoPlayerController) -> Unit)?,
     onDurationCaught: ((Duration) -> Unit)?,
     onVideoLoop: (() -> Unit)?,
-    onVideoEnd: (() -> Unit)?
+    onVideoEnd: (() -> Unit)?,
+    onVideoStarted: (() -> Unit)?,
+    onVideoPaused: (() -> Unit)?,
+    onVideoResumed: (() -> Unit)?
 ) {
-    // Create the player item with the url
-    val playerItem = remember(videoUrl) {
-        // Check if the url is empty of a valid url so we will consider this is a url
-        // (Checking for empty is mandatory as it will crash if we tried to handle the empty url as a file)
-        val nsUrl = if (videoUrl.isEmpty() || videoUrl.isValidUrl()) {
-            NSURL.URLWithString(videoUrl)!!
-        } else {
-            NSURL.fileURLWithPath(videoUrl.cleanFilePath())
-        }
-        AVPlayerItem(uRL = nsUrl)
+    // Inject main stuff
+    val playerManagers =
+        koinInject<MutableMap<String, VideoPlayerManager>>(DiQualifiers.videoPlayerManagers)
+    val playerManager = playerManagers.getOrPut(uniqueId) {
+        VideoPlayerManager()
     }
+    val player = playerManager.player
 
-    // Set the title metadata
-    LaunchedEffect(playerItem, videoTitle) {
-        val metadataItem = AVMutableMetadataItem().apply {
-            setIdentifier(AVMetadataCommonIdentifierTitle)
-            setExtendedLanguageTag("und")
-            setValue(videoTitle.orEmpty() as NSString)
-        }
-
-        playerItem.externalMetadata = playerItem.externalMetadata.toMutableList().also {
-            it.add(metadataItem)
-        }
-    }
-
-    // Check if metadata is enabled or not
-    if (enableMediaMetadata) {
-        // Set the artist metadata
-        LaunchedEffect(playerItem, videoArtist) {
-            val metadataItem = AVMutableMetadataItem().apply {
-                setIdentifier(AVMetadataCommonIdentifierArtist)
-                setExtendedLanguageTag("und")
-                setValue(videoArtist.orEmpty() as NSString)
-            }
-
-            playerItem.externalMetadata = playerItem.externalMetadata.toMutableList().also {
-                it.add(metadataItem)
-            }
-        }
-
-        // Set the artwork metadata
-        IOLaunchedEffect(playerItem, videoArtworkUrl) {
-            val artworkData = videoArtworkUrl?.let {
-                NSData.dataWithContentsOfURL(NSURL.URLWithString(videoArtworkUrl)!!)
-            }
-
-            val metadataItem = AVMutableMetadataItem().apply {
-                setIdentifier(AVMetadataCommonIdentifierArtwork)
-                setKeySpace(AVMetadataKeySpaceCommon)
-                setValue(artworkData)
-            }
-
-            playerItem.externalMetadata = playerItem.externalMetadata.toMutableList().also {
-                it.add(metadataItem)
-            }
-        }
-    }
-
-    val player = remember(playerItem) {
-        AVPlayer(playerItem = playerItem)
+    // Media metadata configuration
+    LaunchedEffect(
+        playerManager,
+        videoUrl,
+        enableMediaMetadata,
+        videoTitle,
+        videoArtist,
+        videoArtworkUrl
+    ) {
+        playerManager.setMedia(
+            videoUrl = videoUrl,
+            enableMediaMetadata = enableMediaMetadata,
+            videoTitle = videoTitle,
+            videoArtist = videoArtist,
+            videoArtworkUrl = videoArtworkUrl
+        )
     }
 
     // Update voice state
@@ -296,8 +249,10 @@ actual fun VideoPlayer(
                 pipController.startIfPossible()
             },
             onRelease = {
-                player.pause()
-                playerController.player?.pause()
+                if (handleLifecyclePause) {
+                    player.pause()
+                    playerController.player?.pause()
+                }
             }
         )
 
@@ -320,6 +275,8 @@ actual fun VideoPlayer(
                         .noRippleClickable {
                             if (isPlaying) {
                                 player.pause()
+                                isPlaying = false
+                                onVideoPaused?.invoke()
                             } else {
                                 if (isVideoEnded) {
                                     // Restart the video
@@ -329,6 +286,7 @@ actual fun VideoPlayer(
                                 }
                                 player.play()
                                 isPlaying = true
+                                onVideoResumed?.invoke()
                             }
                         }
                 )
@@ -338,16 +296,33 @@ actual fun VideoPlayer(
 
     // Pause player when disposed
     DisposableEffect(player) {
+        var hasStartedPlaying = false
+        var wasPlaying = false
+
         val timeObserver = player.addPeriodicTimeObserverForInterval(
             CMTimeMake(1, 1),
             null
         ) {
-            isPlaying = player.rate != 0f
+            val currentlyPlaying = player.rate != 0f
+            isPlaying = currentlyPlaying
+
+            if (currentlyPlaying && !hasStartedPlaying) {
+                hasStartedPlaying = true
+                onVideoStarted?.invoke()
+            }
+
+            if (currentlyPlaying && !wasPlaying) {
+                onVideoResumed?.invoke()
+            } else if (!currentlyPlaying && wasPlaying) {
+                onVideoPaused?.invoke()
+            }
+
+            wasPlaying = currentlyPlaying
         }
 
         NSNotificationCenter.defaultCenter.addObserverForName(
             AVPlayerItemDidPlayToEndTimeNotification,
-            playerItem,
+            player.currentItem,
             null
         ) { _ ->
             if (autoRepeat) {
@@ -366,7 +341,9 @@ actual fun VideoPlayer(
 
         // Clean up on disposal
         onDispose {
-            player.pause()
+            if (handleLifecyclePause) {
+                player.pause()
+            }
             player.removeTimeObserver(timeObserver)
         }
     }

@@ -76,7 +76,10 @@ actual fun VideoPlayer(
     onPlayerCreated: ((VideoPlayerController) -> Unit)?,
     onDurationCaught: ((Duration) -> Unit)?,
     onVideoLoop: (() -> Unit)?,
-    onVideoEnd: (() -> Unit)?
+    onVideoEnd: (() -> Unit)?,
+    onVideoStarted: (() -> Unit)?,
+    onVideoPaused: (() -> Unit)?,
+    onVideoResumed: (() -> Unit)?
 ) {
     // Inject main stuff
     val playerManagers =
@@ -143,8 +146,21 @@ actual fun VideoPlayer(
     // Listen for player state changes.
     LaunchedEffect(playerManager.exoPlayer) {
         playerManager.exoPlayer.addListener(object : Player.Listener {
+            private var hasStarted = false
+
             override fun onPlayWhenReadyChanged(playWhenReady: Boolean, reason: Int) {
                 isPlaying.value = playWhenReady
+
+                if (playWhenReady && playerManager.exoPlayer.playbackState == Player.STATE_READY) {
+                    if (hasStarted.not()) {
+                        hasStarted = true
+                        onVideoStarted?.invoke()
+                    } else {
+                        onVideoResumed?.invoke()
+                    }
+                } else if (playWhenReady.not()) {
+                    onVideoPaused?.invoke()
+                }
             }
 
             override fun onPlaybackStateChanged(state: Int) {
@@ -156,6 +172,11 @@ actual fun VideoPlayer(
                     if (durationMs != C.TIME_UNSET) {
                         onDurationCaught?.invoke(durationMs.toDuration(DurationUnit.MILLISECONDS))
                     }
+                }
+
+                if (playerManager.exoPlayer.playWhenReady && !hasStarted) {
+                    hasStarted = true
+                    onVideoStarted?.invoke()
                 }
             }
         })

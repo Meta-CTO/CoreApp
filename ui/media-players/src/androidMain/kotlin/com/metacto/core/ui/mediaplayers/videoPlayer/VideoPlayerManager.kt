@@ -11,9 +11,9 @@ import androidx.media3.session.MediaSession
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import androidx.core.net.toUri
-import com.metacto.core.ui.mediaplayers.di.DiQualifiers
 import com.metacto.core.ui.mediaplayers.extensions.createMediaSource
 import com.metacto.core.extensions.getLauncherPendingIntent
+import com.metacto.core.ui.mediaplayers.di.DiQualifiers
 
 @UnstableApi
 internal class VideoPlayerManager(
