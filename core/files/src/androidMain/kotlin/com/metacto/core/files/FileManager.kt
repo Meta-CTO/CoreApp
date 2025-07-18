@@ -7,7 +7,7 @@ import androidx.core.net.toUri
 class FileManager(private val context: Context) : IFileManager {
 
     override fun readFile(filePath: String): ByteArray {
-        require(filePath.isBlank()) {
+        require(filePath.isNotBlank()) {
             "File path cannot be blank"
         }
 

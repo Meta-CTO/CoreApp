@@ -40,7 +40,7 @@ internal fun MediaPickerContent(
     val navManager = koinInject<NavManager>()
     val mediaManager = koinInject<IMediaManager>()
     val fileManager = koinInject<IFileManager>()
-    val mediaPicker = rememberMediaPicker()
+    val mediaPicker = rememberMediaPicker(includeData = false)
     val coroutineScope = rememberIOCoroutineScope()
 
     // States
