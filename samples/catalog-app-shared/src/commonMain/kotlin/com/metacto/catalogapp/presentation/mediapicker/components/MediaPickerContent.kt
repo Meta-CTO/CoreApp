@@ -17,6 +17,7 @@ import com.metacto.catalogapp.presentation.mediapicker.MediaPickerContract.State
 import com.metacto.catalogapp.presentation.theme.spacings
 import com.metacto.catalogapp.resources.Res
 import com.metacto.catalogapp.resources.ic_star_filled
+import com.metacto.core.files.IFileManager
 import com.metacto.core.ui.components.buttons.PrimaryFilledButton
 import com.metacto.core.ui.components.images.AppImage
 import com.metacto.core.ui.extensions.rememberIOCoroutineScope
@@ -37,8 +38,9 @@ internal fun MediaPickerContent(
 ) {
     // Di
     val navManager = koinInject<NavManager>()
-    val mediaPicker = rememberMediaPicker()
     val mediaManager = koinInject<IMediaManager>()
+    val fileManager = koinInject<IFileManager>()
+    val mediaPicker = rememberMediaPicker()
     val coroutineScope = rememberIOCoroutineScope()
 
     // States
@@ -90,6 +92,23 @@ internal fun MediaPickerContent(
             text = "Pick Image/Video",
             onClick = {
                 mediaPicker.pickFromGallery(listOf(MediaType.Image, MediaType.Video))
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
+            text = "Fetch medias data",
+            onClick = {
+                coroutineScope.launch {
+                    medias.forEach { media ->
+                        try {
+                            val bytes = fileManager.readFile(media.filePath)
+                            println("Successfully read bytes for ${media.filePath}: ${bytes.size} bytes")
+                        } catch (e: Throwable) {
+                            println("Error reading file ${media.filePath}: ${e.message}")
+                        }
+                    }
+                }
             },
             modifier = Modifier.fillMaxWidth()
         )
