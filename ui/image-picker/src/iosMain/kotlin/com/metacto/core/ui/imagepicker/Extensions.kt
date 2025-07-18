@@ -73,7 +73,7 @@ internal fun NSURL.extractVideoData(): ByteArray? {
             data.getBytes(pinned.addressOf(0), length.toULong())
         }
         byteArray
-    } catch (e: Exception) {
+    } catch (_: Throwable) {
         null
     }
 }
@@ -90,18 +90,17 @@ internal fun UIImage.saveToTemporaryFile(): String? {
         val success = imageData.writeToFile(filePath, atomically = true)
         
         if (success) filePath else null
-    } catch (e: Exception) {
+    } catch (_: Throwable) {
         null
     }
 }
 
 @OptIn(ExperimentalForeignApi::class)
-actual fun MediaInfo.cleanupTemporaryFiles() {
+internal fun MediaInfo.cleanupTemporaryFiles() {
     try {
         if (filePath.isNotEmpty() && filePath.contains("temp_image_")) {
             NSFileManager.defaultManager.removeItemAtPath(filePath, error = null)
         }
-    } catch (e: Exception) {
-        // Ignore cleanup errors
+    } catch (_: Throwable) {
     }
 }

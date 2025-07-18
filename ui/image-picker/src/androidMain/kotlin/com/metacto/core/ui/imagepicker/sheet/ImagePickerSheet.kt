@@ -25,6 +25,7 @@ actual class ImagePickerSheet actual constructor(
         // Get main objects
         val viewModel = rememberViewModel<ImagePickerViewModel>()
         val imagePicker = com.metacto.core.ui.imagepicker.rememberMediaPicker(
+            includeData = true,
             enableCropping = enableCropping,
             aspectRatioX = aspectRatioX,
             aspectRatioY = aspectRatioY

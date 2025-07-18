@@ -1,6 +1,7 @@
 package com.metacto.core.ui.imagepicker
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.interop.LocalUIViewController
 import com.metacto.core.extensions.normalizedImage
@@ -26,6 +27,7 @@ actual class MediaPicker(
     private var onMediaPicked: (MediaInfo) -> Unit = {}
     private var currentSource: MediaInfoSource = MediaInfoSource.Gallery
     private var allowedMediaTypes: List<MediaType> = listOf(MediaType.Image)
+    private val createdMediaInfos = mutableSetOf<MediaInfo>()
 
     private val delegate = object : NSObject(), UIImagePickerControllerDelegateProtocol,
         UINavigationControllerDelegateProtocol {
@@ -42,14 +44,14 @@ actual class MediaPicker(
                 isVideo -> {
                     // Handle video using extension
                     didFinishPickingMediaWithInfo.extractVideoURL()?.let { url ->
-                        onMediaPicked(
-                            MediaInfo(
-                                data = if (includeData) url.extractVideoData() else null,
-                                type = MediaType.Video,
-                                filePath = url.safePathString(),
-                                source = currentSource
-                            )
+                        val mediaInfo = MediaInfo(
+                            data = if (includeData) url.extractVideoData() else null,
+                            type = MediaType.Video,
+                            filePath = url.safePathString(),
+                            source = currentSource
                         )
+                        createdMediaInfos.add(mediaInfo)
+                        onMediaPicked(mediaInfo)
                     }
                 }
                 else -> {
@@ -63,14 +65,14 @@ actual class MediaPicker(
                         val imageData = if (includeData) normalizedImage.toByteArray() else null
                         val filePath = normalizedImage.saveToTemporaryFile()
                         
-                        onMediaPicked(
-                            MediaInfo(
-                                data = imageData,
-                                type = MediaType.Image,
-                                filePath = filePath.orEmpty(),
-                                source = currentSource
-                            )
+                        val mediaInfo = MediaInfo(
+                            data = imageData,
+                            type = MediaType.Image,
+                            filePath = filePath.orEmpty(),
+                            source = currentSource
                         )
+                        createdMediaInfos.add(mediaInfo)
+                        onMediaPicked(mediaInfo)
                     }
                 }
             }
@@ -120,6 +122,13 @@ actual class MediaPicker(
             imagePickerController.delegate = delegate
         }
     }
+    
+    internal actual fun cleanup() {
+        createdMediaInfos.forEach { mediaInfo ->
+            mediaInfo.cleanupTemporaryFiles()
+        }
+        createdMediaInfos.clear()
+    }
 }
 
 @Composable
@@ -130,7 +139,7 @@ actual fun rememberMediaPicker(
     includeData: Boolean
 ): MediaPicker {
     val rootController = LocalUIViewController.current
-    return remember(enableCropping, aspectRatioX, aspectRatioY, includeData) {
+    val mediaPicker = remember(enableCropping, aspectRatioX, aspectRatioY, includeData) {
         MediaPicker(
             rootController = rootController,
             enableCropping = enableCropping,
@@ -139,4 +148,12 @@ actual fun rememberMediaPicker(
             includeData = includeData
         )
     }
+    
+    DisposableEffect(mediaPicker) {
+        onDispose {
+            mediaPicker.cleanup()
+        }
+    }
+    
+    return mediaPicker
 }

@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,7 +22,6 @@ import com.metacto.core.ui.components.images.AppImage
 import com.metacto.core.ui.extensions.rememberIOCoroutineScope
 import com.metacto.core.ui.imagepicker.MediaInfo
 import com.metacto.core.ui.imagepicker.MediaType
-import com.metacto.core.ui.imagepicker.cleanupTemporaryFiles
 import com.metacto.core.ui.imagepicker.rememberMediaPicker
 import com.metacto.core.ui.media.IMediaManager
 import com.metacto.core.ui.models.ImageUIModel
@@ -57,15 +55,6 @@ internal fun MediaPickerContent(
                 videoPreview?.let { preview ->
                     videoPreviews = videoPreviews + (mediaInfo.filePath to preview)
                 }
-            }
-        }
-    }
-
-    // Cleanup temporary files when component is disposed
-    DisposableEffect(medias) {
-        onDispose {
-            medias.forEach { mediaInfo ->
-                mediaInfo.cleanupTemporaryFiles()
             }
         }
     }
@@ -109,7 +98,7 @@ internal fun MediaPickerContent(
             when(mediaInfo.type) {
                 MediaType.Image -> {
                     AppImage(
-                        image = ImageUIModel(bytes = mediaInfo.data),
+                        image = ImageUIModel(filePath = mediaInfo.filePath),
                         placeholderPainter = painterResource(Res.drawable.ic_star_filled),
                         contentScale = ContentScale.Crop,
                         modifier = Modifier.size(150.dp)

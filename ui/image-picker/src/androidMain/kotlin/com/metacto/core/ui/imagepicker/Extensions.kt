@@ -13,10 +13,3 @@ internal fun Uri.getMediaType(activity: Activity): MediaType {
         else -> MediaType.Image
     }
 }
-
-/**
- * Android implementation of MediaInfo cleanup (no-op since Android provides actual paths)
- */
-actual fun MediaInfo.cleanupTemporaryFiles() {
-    // No cleanup needed on Android as we use actual file paths
-}

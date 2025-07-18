@@ -38,8 +38,3 @@ enum class MediaInfoSource {
     Gallery,
     Camera
 }
-
-/**
- * Cleans up temporary files if they exist (iOS specific)
- */
-expect fun MediaInfo.cleanupTemporaryFiles()

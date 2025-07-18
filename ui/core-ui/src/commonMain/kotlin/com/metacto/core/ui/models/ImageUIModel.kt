@@ -6,14 +6,15 @@ import org.jetbrains.compose.resources.DrawableResource
 data class ImageUIModel(
     val id: Int? = null,
     val bytes: ByteArray? = null,
+    val filePath: String? = null,
     val resource: DrawableResource? = null,
     val url: String? = null,
     val isUpdating: Boolean = false
 ) : CommonSerializable {
-    fun getData() = bytes ?: url ?: resource
+    fun getData() = bytes ?: filePath ?: url ?: resource
 
     fun hasData(): Boolean {
-        return bytes != null || url != null || resource != null
+        return bytes != null || filePath?.isNotEmpty() == true || url != null || resource != null
     }
 }
 

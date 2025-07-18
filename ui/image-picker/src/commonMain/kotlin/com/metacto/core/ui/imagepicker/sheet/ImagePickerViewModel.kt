@@ -56,9 +56,10 @@ class ImagePickerViewModel : CoreViewModel<State, Event, Effect>() {
     }
 
     private fun handlePickMediaResult(media: MediaInfo) {
+        val mediaData = media.data ?: return
         navManager.goBackWithResult(
             source = ImagePickerSheet::class.simpleName,
-            result = ImagePickerResult.ImagePicked(media.data)
+            result = ImagePickerResult.ImagePicked(mediaData)
         )
     }
 

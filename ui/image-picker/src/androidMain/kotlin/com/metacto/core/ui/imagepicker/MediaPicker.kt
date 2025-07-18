@@ -8,6 +8,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import com.canhub.cropper.CropImageContract
@@ -103,25 +104,27 @@ actual class MediaPicker(
         if (includeData) {
             // Load the media data into memory
             activity.contentResolver.openInputStream(uri)?.use {
-                onMediaPicked?.invoke(
-                    MediaInfo(
-                        data = it.readBytes(),
-                        type = mediaType,
-                        filePath = uri.toString(),
-                        source = currentSource
-                    )
-                )
-            }
-        } else {
-            // Return only the file path, no data
-            onMediaPicked?.invoke(
-                MediaInfo(
+                val mediaInfo = MediaInfo(
+                    data = it.readBytes(),
                     type = mediaType,
                     filePath = uri.toString(),
                     source = currentSource
                 )
+                onMediaPicked?.invoke(mediaInfo)
+            }
+        } else {
+            // Return only the file path, no data
+            val mediaInfo = MediaInfo(
+                type = mediaType,
+                filePath = uri.toString(),
+                source = currentSource
             )
+            onMediaPicked?.invoke(mediaInfo)
         }
+    }
+
+    internal actual fun cleanup() {
+        // No cleanup needed for Android
     }
 }
 
@@ -133,7 +136,7 @@ actual fun rememberMediaPicker(
     includeData: Boolean
 ): MediaPicker {
     val activity = LocalContext.current as Activity
-    return remember(activity) {
+    val mediaPicker = remember(activity) {
         MediaPicker(
             activity = activity,
             enableCropping = enableCropping,
@@ -142,4 +145,12 @@ actual fun rememberMediaPicker(
             includeData = includeData
         )
     }
+    
+    DisposableEffect(mediaPicker) {
+        onDispose {
+            mediaPicker.cleanup()
+        }
+    }
+    
+    return mediaPicker
 }

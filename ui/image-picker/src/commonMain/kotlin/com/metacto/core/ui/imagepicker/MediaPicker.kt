@@ -14,6 +14,8 @@ expect class MediaPicker {
     fun pickFromGallery(mediaTypes: List<MediaType>)
 
     fun captureUsingCamera()
+    
+    internal fun cleanup()
 }
 
 @Composable

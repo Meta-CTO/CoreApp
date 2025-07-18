@@ -36,6 +36,7 @@ actual class ImagePickerSheet actual constructor(
     actual override fun Content() {
         // Create the image picker
         val imagePicker = rememberMediaPicker(
+            includeData = true,
             enableCropping = enableCropping,
             aspectRatioX = aspectRatioX,
             aspectRatioY = aspectRatioY
