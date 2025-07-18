@@ -3,10 +3,16 @@ package com.metacto.core.ui.imagepicker
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
+import kotlinx.datetime.Clock
 import platform.Foundation.NSData
+import platform.Foundation.NSFileManager
+import platform.Foundation.NSTemporaryDirectory
 import platform.Foundation.NSURL
 import platform.Foundation.dataWithContentsOfURL
 import platform.Foundation.getBytes
+import platform.Foundation.writeToFile
+import platform.UIKit.UIImage
+import platform.UIKit.UIImageJPEGRepresentation
 
 private object MediaTypeConstants {
     const val PUBLIC_IMAGE = "public.image"
@@ -54,9 +60,6 @@ internal fun Map<Any?, *>.extractMediaType(): String? {
     return this["UIImagePickerControllerMediaType"] as? String
 }
 
-/**
- * Extracts video data from NSURL
- */
 @OptIn(ExperimentalForeignApi::class)
 internal fun NSURL.extractVideoData(): ByteArray? {
     return try {
@@ -72,5 +75,33 @@ internal fun NSURL.extractVideoData(): ByteArray? {
         byteArray
     } catch (e: Exception) {
         null
+    }
+}
+
+@OptIn(ExperimentalForeignApi::class)
+internal fun UIImage.saveToTemporaryFile(): String? {
+    return try {
+        val imageData = UIImageJPEGRepresentation(this, 0.9) ?: return null
+        
+        val tempDir = NSTemporaryDirectory()
+        val fileName = "temp_image_${Clock.System.now().toEpochMilliseconds()}.jpg"
+        val filePath = "${tempDir}${fileName}"
+        
+        val success = imageData.writeToFile(filePath, atomically = true)
+        
+        if (success) filePath else null
+    } catch (e: Exception) {
+        null
+    }
+}
+
+@OptIn(ExperimentalForeignApi::class)
+actual fun MediaInfo.cleanupTemporaryFiles() {
+    try {
+        if (filePath.isNotEmpty() && filePath.contains("temp_image_")) {
+            NSFileManager.defaultManager.removeItemAtPath(filePath, error = null)
+        }
+    } catch (e: Exception) {
+        // Ignore cleanup errors
     }
 }

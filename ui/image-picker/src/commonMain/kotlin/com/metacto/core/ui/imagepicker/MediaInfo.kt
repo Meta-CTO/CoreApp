@@ -1,7 +1,7 @@
 package com.metacto.core.ui.imagepicker
 
 data class MediaInfo(
-    val data: ByteArray,
+    val data: ByteArray? = null,
     val type: MediaType,
     val filePath: String,
     val source: MediaInfoSource,
@@ -38,3 +38,8 @@ enum class MediaInfoSource {
     Gallery,
     Camera
 }
+
+/**
+ * Cleans up temporary files if they exist (iOS specific)
+ */
+expect fun MediaInfo.cleanupTemporaryFiles()

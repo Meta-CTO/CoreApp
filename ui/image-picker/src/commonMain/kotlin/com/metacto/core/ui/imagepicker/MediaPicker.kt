@@ -6,6 +6,7 @@ expect class MediaPicker {
     val enableCropping: Boolean
     val aspectRatioX: Int?
     val aspectRatioY: Int?
+    val includeData: Boolean
 
     @Composable
     fun registerPicker(onMediaPicked: (MediaInfo) -> Unit)
@@ -19,5 +20,6 @@ expect class MediaPicker {
 expect fun rememberMediaPicker(
     enableCropping: Boolean = false,
     aspectRatioX: Int? = null,
-    aspectRatioY: Int? = null
+    aspectRatioY: Int? = null,
+    includeData: Boolean = true
 ): MediaPicker

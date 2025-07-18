@@ -19,7 +19,8 @@ actual class MediaPicker(
     private val rootController: UIViewController,
     actual val enableCropping: Boolean,
     actual val aspectRatioX: Int?,
-    actual val aspectRatioY: Int?
+    actual val aspectRatioY: Int?,
+    actual val includeData: Boolean
 ) {
     private val imagePickerController = UIImagePickerController()
     private var onMediaPicked: (MediaInfo) -> Unit = {}
@@ -41,10 +42,9 @@ actual class MediaPicker(
                 isVideo -> {
                     // Handle video using extension
                     didFinishPickingMediaWithInfo.extractVideoURL()?.let { url ->
-                        val videoData = url.extractVideoData() ?: ByteArray(0)
                         onMediaPicked(
                             MediaInfo(
-                                data = videoData,
+                                data = if (includeData) url.extractVideoData() else null,
                                 type = MediaType.Video,
                                 filePath = url.safePathString(),
                                 source = currentSource
@@ -57,13 +57,17 @@ actual class MediaPicker(
                     val image = didFinishPickingMediaWithInfo.extractUIImage(
                         enableCropping && imagePickerController.allowsEditing
                     )
-                    
-                    image?.normalizedImage()?.toByteArray()?.let { imageBytes ->
+
+                    image?.let { uiImage ->
+                        val normalizedImage = uiImage.normalizedImage()
+                        val imageData = if (includeData) normalizedImage.toByteArray() else null
+                        val filePath = normalizedImage.saveToTemporaryFile()
+                        
                         onMediaPicked(
                             MediaInfo(
-                                data = imageBytes,
+                                data = imageData,
                                 type = MediaType.Image,
-                                filePath = "", // iOS doesn't provide direct file path for images
+                                filePath = filePath.orEmpty(),
                                 source = currentSource
                             )
                         )
@@ -122,15 +126,17 @@ actual class MediaPicker(
 actual fun rememberMediaPicker(
     enableCropping: Boolean,
     aspectRatioX: Int?,
-    aspectRatioY: Int?
+    aspectRatioY: Int?,
+    includeData: Boolean
 ): MediaPicker {
     val rootController = LocalUIViewController.current
-    return remember(enableCropping, aspectRatioX, aspectRatioY) {
+    return remember(enableCropping, aspectRatioX, aspectRatioY, includeData) {
         MediaPicker(
             rootController = rootController,
             enableCropping = enableCropping,
             aspectRatioX = aspectRatioX,
-            aspectRatioY = aspectRatioY
+            aspectRatioY = aspectRatioY,
+            includeData = includeData
         )
     }
 }

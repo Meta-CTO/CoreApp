@@ -19,7 +19,8 @@ actual class MediaPicker(
     private val activity: Activity,
     actual val enableCropping: Boolean,
     actual val aspectRatioX: Int?,
-    actual val aspectRatioY: Int?
+    actual val aspectRatioY: Int?,
+    actual val includeData: Boolean
 ) {
     private var onMediaPicked: ((MediaInfo) -> Unit)? = null
     private var pickerLauncher: ActivityResultLauncher<Intent>? = null
@@ -99,10 +100,22 @@ actual class MediaPicker(
     private fun notifyMediaPicked(uri: Uri) {
         val mediaType = uri.getMediaType(activity)
         
-        activity.contentResolver.openInputStream(uri)?.use {
+        if (includeData) {
+            // Load the media data into memory
+            activity.contentResolver.openInputStream(uri)?.use {
+                onMediaPicked?.invoke(
+                    MediaInfo(
+                        data = it.readBytes(),
+                        type = mediaType,
+                        filePath = uri.toString(),
+                        source = currentSource
+                    )
+                )
+            }
+        } else {
+            // Return only the file path, no data
             onMediaPicked?.invoke(
                 MediaInfo(
-                    data = it.readBytes(),
                     type = mediaType,
                     filePath = uri.toString(),
                     source = currentSource
@@ -116,7 +129,8 @@ actual class MediaPicker(
 actual fun rememberMediaPicker(
     enableCropping: Boolean,
     aspectRatioX: Int?,
-    aspectRatioY: Int?
+    aspectRatioY: Int?,
+    includeData: Boolean
 ): MediaPicker {
     val activity = LocalContext.current as Activity
     return remember(activity) {
@@ -124,7 +138,8 @@ actual fun rememberMediaPicker(
             activity = activity,
             enableCropping = enableCropping,
             aspectRatioX = aspectRatioX,
-            aspectRatioY = aspectRatioY
+            aspectRatioY = aspectRatioY,
+            includeData = includeData
         )
     }
 }
