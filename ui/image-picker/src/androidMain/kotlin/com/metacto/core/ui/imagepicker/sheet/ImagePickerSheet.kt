@@ -6,6 +6,7 @@ import com.metacto.core.ui.base.BaseSheet
 import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
 import com.metacto.core.ui.extensions.consume
+import com.metacto.core.ui.imagepicker.MediaType
 import com.metacto.core.ui.imagepicker.sheet.ImagePickerContract.Effect
 import com.metacto.core.ui.imagepicker.sheet.ImagePickerContract.Event
 import com.metacto.core.ui.imagepicker.sheet.components.ImagePickerContent
@@ -23,7 +24,7 @@ actual class ImagePickerSheet actual constructor(
     actual override fun Content() {
         // Get main objects
         val viewModel = rememberViewModel<ImagePickerViewModel>()
-        val imagePicker = com.metacto.core.ui.imagepicker.rememberImagePicker(
+        val imagePicker = com.metacto.core.ui.imagepicker.rememberMediaPicker(
             enableCropping = enableCropping,
             aspectRatioX = aspectRatioX,
             aspectRatioY = aspectRatioY
@@ -32,7 +33,7 @@ actual class ImagePickerSheet actual constructor(
         // Handle side effects
         viewModel.effect.consume { effect ->
             when (effect) {
-                Effect.PickImage -> imagePicker.pickFromGallery()
+                Effect.PickImage -> imagePicker.pickFromGallery(listOf(MediaType.Image))
                 Effect.CaptureImage -> imagePicker.captureUsingCamera()
             }
         }
@@ -50,7 +51,7 @@ actual class ImagePickerSheet actual constructor(
 
         // Register image picker
         imagePicker.registerPicker {
-            viewModel.setEvent(Event.PickImageResult(it))
+            viewModel.setEvent(Event.PickMediaResult(it))
         }
 
         // Render content

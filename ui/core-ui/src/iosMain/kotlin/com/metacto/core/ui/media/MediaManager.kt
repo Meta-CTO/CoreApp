@@ -1,6 +1,5 @@
 package com.metacto.core.ui.media
 
-import com.metacto.core.extensions.rotate
 import com.metacto.core.extensions.toByteArray
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.Dispatchers

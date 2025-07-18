@@ -12,6 +12,7 @@ import com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.ImagePr
 import com.metacto.catalogapp.presentation.lottie.LottieScreen
 import com.metacto.catalogapp.presentation.main.MainContract.Event
 import com.metacto.catalogapp.presentation.main.MainContract.State
+import com.metacto.catalogapp.presentation.mediapicker.MediaPickerScreen
 import com.metacto.catalogapp.presentation.mediaManager.MediaManagerScreen
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesScreen
 import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberScreen
@@ -55,6 +56,14 @@ internal fun MainContent(
             text = "Image picker samples",
             onClick = {
                 navManage.navigate(ImagePickerSamplesScreen())
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
+            text = "Media picker samples",
+            onClick = {
+                navManage.navigate(MediaPickerScreen())
             },
             modifier = Modifier.fillMaxWidth()
         )

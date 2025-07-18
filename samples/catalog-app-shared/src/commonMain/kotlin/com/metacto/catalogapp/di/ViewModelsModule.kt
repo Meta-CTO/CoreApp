@@ -1,6 +1,7 @@
 package com.metacto.catalogapp.di
 
 // MARK: Add imports
+import com.metacto.catalogapp.presentation.mediapicker.MediaPickerViewModel
 import com.metacto.catalogapp.presentation.lottie.LottieViewModel
 import com.metacto.catalogapp.presentation.app.app.AppViewModel
 import com.metacto.catalogapp.presentation.files.FilesSamplesViewModel
@@ -15,6 +16,7 @@ import org.koin.dsl.module
 
 val viewModelsModule = module {
     // MARK: Add view model definitions
+    commonViewModel { MediaPickerViewModel() }
     commonViewModel { LottieViewModel() }
     commonViewModel { ImagePreloaderViewModel() }
     commonViewModel { MediaManagerViewModel() }

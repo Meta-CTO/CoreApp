@@ -30,7 +30,7 @@ internal actual fun platformModule() = module {
     }
 
     single<IMediaManager> {
-        MediaManager()
+        MediaManager(androidContext())
     }
 
     single {

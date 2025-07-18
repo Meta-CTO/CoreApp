@@ -3,6 +3,7 @@ package com.metacto.core.ui.imagepicker.sheet
 import com.metacto.core.ui.base.ViewEvent
 import com.metacto.core.ui.base.ViewSideEffect
 import com.metacto.core.ui.base.ViewState
+import com.metacto.core.ui.imagepicker.MediaInfo
 
 class ImagePickerContract {
 
@@ -23,7 +24,7 @@ class ImagePickerContract {
         data object CloseClicked : Event()
         data object PickFromGalleryClicked : Event()
         data object CaptureUsingCameraClicked : Event()
-        data class PickImageResult(val bytes: ByteArray) : Event()
+        data class PickMediaResult(val media: MediaInfo) : Event()
         data object DeleteCurrentPhotoClicked : Event()
     }
 

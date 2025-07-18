@@ -15,22 +15,22 @@ import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.github.dhaval2404.imagepicker.ImagePicker as SdkImagePicker
 
-actual class ImagePicker(
+actual class MediaPicker(
     private val activity: Activity,
     actual val enableCropping: Boolean,
     actual val aspectRatioX: Int?,
     actual val aspectRatioY: Int?
 ) {
-    private var onImagePicked: ((ByteArray) -> Unit)? = null
-
+    private var onMediaPicked: ((MediaInfo) -> Unit)? = null
     private var pickerLauncher: ActivityResultLauncher<Intent>? = null
     private var cropperLauncher: ActivityResultLauncher<CropImageContractOptions>? = null
+    private var currentSource: MediaInfoSource = MediaInfoSource.Gallery
 
     @SuppressLint("ComposableNaming")
     @Composable
-    actual fun registerPicker(onImagePicked: (ByteArray) -> Unit) {
+    actual fun registerPicker(onMediaPicked: (MediaInfo) -> Unit) {
         // Set onImagePicked
-        this.onImagePicked = onImagePicked
+        this.onMediaPicked = onMediaPicked
 
         // Create image picker launcher
         pickerLauncher = rememberLauncherForActivityResult(
@@ -38,10 +38,13 @@ actual class ImagePicker(
         ) { result ->
             val uri = result.data?.data
             if (result.resultCode == Activity.RESULT_OK && uri != null) {
-                if (enableCropping) {
+                val mediaType = uri.getMediaType(activity)
+                val isVideo = mediaType == MediaType.Video
+                
+                if (enableCropping && !isVideo) {
                     cropImage(uri)
                 } else {
-                    notifyImagePicked(uri)
+                    notifyMediaPicked(uri)
                 }
             }
         }
@@ -53,21 +56,24 @@ actual class ImagePicker(
             ) { result ->
                 val uri = result.uriContent
                 if (result.isSuccessful && uri != null) {
-                    notifyImagePicked(uri)
+                    notifyMediaPicked(uri)
                 }
             }
         }
     }
 
-    actual fun pickFromGallery() {
+    actual fun pickFromGallery(mediaTypes: List<MediaType>) {
+        currentSource = MediaInfoSource.Gallery
         SdkImagePicker.with(activity)
             .galleryOnly()
+            .galleryMimeTypes(mediaTypes.mimeTypes().toTypedArray())
             .createIntent { intent ->
                 pickerLauncher?.launch(intent)
             }
     }
 
     actual fun captureUsingCamera() {
+        currentSource = MediaInfoSource.Camera
         SdkImagePicker.with(activity)
             .cameraOnly()
             .createIntent { intent ->
@@ -90,22 +96,31 @@ actual class ImagePicker(
         )
     }
 
-    private fun notifyImagePicked(uri: Uri) {
+    private fun notifyMediaPicked(uri: Uri) {
+        val mediaType = uri.getMediaType(activity)
+        
         activity.contentResolver.openInputStream(uri)?.use {
-            onImagePicked?.invoke(it.readBytes())
+            onMediaPicked?.invoke(
+                MediaInfo(
+                    data = it.readBytes(),
+                    type = mediaType,
+                    filePath = uri.toString(),
+                    source = currentSource
+                )
+            )
         }
     }
 }
 
 @Composable
-actual fun rememberImagePicker(
+actual fun rememberMediaPicker(
     enableCropping: Boolean,
     aspectRatioX: Int?,
     aspectRatioY: Int?
-): ImagePicker {
+): MediaPicker {
     val activity = LocalContext.current as Activity
     return remember(activity) {
-        ImagePicker(
+        MediaPicker(
             activity = activity,
             enableCropping = enableCropping,
             aspectRatioX = aspectRatioX,

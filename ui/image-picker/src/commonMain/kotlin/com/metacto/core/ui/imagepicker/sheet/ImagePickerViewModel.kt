@@ -1,6 +1,7 @@
 package com.metacto.core.ui.imagepicker.sheet
 
 import com.metacto.core.ui.base.CoreViewModel
+import com.metacto.core.ui.imagepicker.MediaInfo
 import com.metacto.core.ui.imagepicker.sheet.ImagePickerContract.Effect
 import com.metacto.core.ui.imagepicker.sheet.ImagePickerContract.Event
 import com.metacto.core.ui.imagepicker.sheet.ImagePickerContract.State
@@ -21,7 +22,7 @@ class ImagePickerViewModel : CoreViewModel<State, Event, Effect>() {
         Event.CloseClicked -> navManager.goBack()
         Event.PickFromGalleryClicked -> handlePickFromGalleryClick()
         Event.CaptureUsingCameraClicked -> handleCaptureUsingCameraClick()
-        is Event.PickImageResult -> handlePickImageResult(event.bytes)
+        is Event.PickMediaResult -> handlePickMediaResult(event.media)
         Event.DeleteCurrentPhotoClicked -> handleDeleteCurrentPhotoClick()
     }
 
@@ -54,10 +55,10 @@ class ImagePickerViewModel : CoreViewModel<State, Event, Effect>() {
         setEffect { Effect.CaptureImage }
     }
 
-    private fun handlePickImageResult(bytes: ByteArray) {
+    private fun handlePickMediaResult(media: MediaInfo) {
         navManager.goBackWithResult(
             source = ImagePickerSheet::class.simpleName,
-            result = ImagePickerResult.ImagePicked(bytes)
+            result = ImagePickerResult.ImagePicked(media.data)
         )
     }
 
