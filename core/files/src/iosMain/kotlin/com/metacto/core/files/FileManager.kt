@@ -8,16 +8,35 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSSearchPathForDirectoriesInDomains
 import platform.Foundation.NSString
 import platform.Foundation.NSUserDomainMask
+import platform.Foundation.NSURL
 import platform.Foundation.dataWithContentsOfFile
+import platform.Foundation.dataWithContentsOfURL
 import platform.Foundation.stringByAppendingPathComponent
 import platform.Foundation.writeToFile
 
 class FileManager : IFileManager {
 
     override fun readFile(filePath: String): ByteArray {
-        val nsData = NSData.dataWithContentsOfFile(filePath)
+        require(filePath.isNotBlank()) { "File path cannot be blank" }
+        
+        val nsData = when {
+            filePath.startsWith("file://") -> {
+                // Handle iOS file URLs by converting to NSURL
+                val nsurl = NSURL.URLWithString(filePath)
+                nsurl?.let { NSData.dataWithContentsOfURL(it) }
+            }
+            filePath.contains("://") -> {
+                // Handle other URL schemes
+                val nsurl = NSURL.URLWithString(filePath)
+                nsurl?.let { NSData.dataWithContentsOfURL(it) }
+            }
+            else -> {
+                // Handle regular file paths
+                NSData.dataWithContentsOfFile(filePath)
+            }
+        }
+        
         requireNotNull(nsData) { "Can't access file at: $filePath" }
-
         return nsData.toByteArray()
     }
 

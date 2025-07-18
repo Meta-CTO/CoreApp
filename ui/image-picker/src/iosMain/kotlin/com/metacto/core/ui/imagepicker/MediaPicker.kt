@@ -44,10 +44,14 @@ actual class MediaPicker(
                 isVideo -> {
                     // Handle video using extension
                     didFinishPickingMediaWithInfo.extractVideoURL()?.let { url ->
+                        // For iOS videos, always read the data immediately since temp files get deleted
+                        val videoData = url.extractVideoData()
+                        // Always save to temp file for file path, regardless of includeData
+                        val tempFilePath = videoData?.let { saveVideoToTempFile(it) } ?: ""
                         val mediaInfo = MediaInfo(
-                            data = if (includeData) url.extractVideoData() else null,
+                            data = if (includeData) videoData else null,
                             type = MediaType.Video,
-                            filePath = url.safePathString(),
+                            filePath = tempFilePath,
                             source = currentSource
                         )
                         createdMediaInfos.add(mediaInfo)

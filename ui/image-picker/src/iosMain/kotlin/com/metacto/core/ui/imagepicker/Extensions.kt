@@ -9,6 +9,7 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSTemporaryDirectory
 import platform.Foundation.NSURL
 import platform.Foundation.dataWithContentsOfURL
+import platform.Foundation.dataWithBytes
 import platform.Foundation.getBytes
 import platform.Foundation.writeToFile
 import platform.UIKit.UIImage
@@ -96,9 +97,25 @@ internal fun UIImage.saveToTemporaryFile(): String? {
 }
 
 @OptIn(ExperimentalForeignApi::class)
+internal fun saveVideoToTempFile(videoData: ByteArray): String? {
+    return try {
+        val tempDir = NSTemporaryDirectory()
+        val fileName = "temp_video_${Clock.System.now().toEpochMilliseconds()}.mov"
+        val filePath = "${tempDir}${fileName}"
+        
+        val nsData = NSData.dataWithBytes(videoData.usePinned { it.addressOf(0) }, videoData.size.toULong())
+        val success = nsData.writeToFile(filePath, atomically = true)
+        
+        if (success) filePath else null
+    } catch (_: Throwable) {
+        null
+    }
+}
+
+@OptIn(ExperimentalForeignApi::class)
 internal fun MediaInfo.cleanupTemporaryFiles() {
     try {
-        if (filePath.isNotEmpty() && filePath.contains("temp_image_")) {
+        if (filePath.isNotEmpty() && (filePath.contains("temp_image_") || filePath.contains("temp_video_"))) {
             NSFileManager.defaultManager.removeItemAtPath(filePath, error = null)
         }
     } catch (_: Throwable) {
