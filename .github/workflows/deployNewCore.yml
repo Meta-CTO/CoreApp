@@ -46,5 +46,13 @@ jobs:
       - name: Print local.properties content
         run: cat ./local.properties
 
+      - name: Update versions properties
+        env:
+          PUBLISH_VERSION: 0.0.${{ github.run_number }}-alpha
+        run: echo PUBLISH_VERSION=$PUBLISH_VERSION> ./local.properties
+
+      - name: Print versions.properties content
+        run: cat ./versions.properties
+
       - name: Publish to GitHub Packages
         run: ./gradlew publishAllPublicationsToGithubRepository
