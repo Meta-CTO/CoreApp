@@ -49,7 +49,7 @@ jobs:
       - name: Update versions properties
         env:
           PUBLISH_CORE_VERSION: 0.2.${{ github.run_number }}-alpha
-        run: echo PUBLISH_CORE_VERSION=$PUBLISH_CORE_VERSION> ./local.properties
+        run: echo PUBLISH_CORE_VERSION=$PUBLISH_CORE_VERSION> ./versions.properties
 
       - name: Print versions.properties content
         run: cat ./versions.properties
