@@ -40,7 +40,7 @@ jobs:
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
           PUBLISH_CORE_VERSION: 0.2.${{ github.run_number }}-alpha
         run: echo PUBLISH_REPO_USER=$PUBLISH_REPO_USER$'\n'
-          PUBLISH_CORE_VERSION=$PUBLISH_CORE_VERSION'\n'
+          PUBLISH_CORE_VERSION=$PUBLISH_CORE_VERSION$'\n'
           PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN > ./local.properties
 
       - name: Print local.properties content
