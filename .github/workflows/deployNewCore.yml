@@ -38,9 +38,9 @@ jobs:
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
-          PUBLISH_VERSION: 0.2.${{ github.run_number }}-alpha
+          PUBLISH_CORE_VERSION: 0.2.${{ github.run_number }}-alpha
         run: echo PUBLISH_REPO_USER=$PUBLISH_REPO_USER$'\n'
-          PUBLISH_VERSION=$PUBLISH_VERSION$'\n'
+          PUBLISH_CORE_VERSION=$PUBLISH_CORE_VERSION'\n'
           PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN > ./local.properties
 
       - name: Print local.properties content
@@ -48,8 +48,8 @@ jobs:
 
       - name: Update versions properties
         env:
-          PUBLISH_VERSION: 0.2.${{ github.run_number }}-alpha
-        run: echo PUBLISH_VERSION=$PUBLISH_VERSION> ./local.properties
+          PUBLISH_CORE_VERSION: 0.2.${{ github.run_number }}-alpha
+        run: echo PUBLISH_CORE_VERSION=$PUBLISH_CORE_VERSION> ./local.properties
 
       - name: Print versions.properties content
         run: cat ./versions.properties
