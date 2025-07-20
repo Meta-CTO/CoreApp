@@ -69,6 +69,7 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = PlaygroundConfigs.VERSION_CODE
         versionName = PlaygroundConfigs.VERSION_NAME
 
