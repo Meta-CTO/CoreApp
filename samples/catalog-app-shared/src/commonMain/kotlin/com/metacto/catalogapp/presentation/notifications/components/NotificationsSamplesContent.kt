@@ -30,17 +30,6 @@ internal fun NotificationsSamplesContent(
             navManager.goBack()
         },
     ) {
-        // Button to clear permission state for debugging
-        PrimaryFilledButton(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            text = "Clear Permission State (Debug)",
-            onClick = {
-                onEvent(Event.ClearPermissionState)
-            }
-        )
-        
         // Button to request notification permission
         PrimaryFilledButton(
             modifier = Modifier

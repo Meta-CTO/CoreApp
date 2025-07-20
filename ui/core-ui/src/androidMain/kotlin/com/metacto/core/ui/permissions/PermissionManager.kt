@@ -134,12 +134,6 @@ internal class PermissionManager(private val context: Context) : IPermissionMana
         }
     }
 
-    override fun clearPermissionState(permission: Permission) {
-        // With targetSdk properly configured, we no longer need to track permission state
-        // This method is kept for interface compatibility but now does nothing
-        // as we rely on Android's standard permission APIs
-    }
-
     private fun setupPermissionLauncher(activity: ComponentActivity) {
         val registry = (activity as ActivityResultRegistryOwner).activityResultRegistry
         val launcher = registry.register(
@@ -200,11 +194,6 @@ internal class PermissionManager(private val context: Context) : IPermissionMana
         mutex.withLock {
             val launcher = awaitActivityResultLauncher()
             val platformPermissions = permission.toPlatformPermission()
-
-            // Ensure we have permissions to request
-            if (platformPermissions.isEmpty()) {
-                throw IllegalStateException("No platform permissions found for $permission on SDK ${Build.VERSION.SDK_INT}")
-            }
 
             suspendCoroutine { continuation ->
                 permissionCallback = PermissionCallback(permission, continuation::resumeWith)

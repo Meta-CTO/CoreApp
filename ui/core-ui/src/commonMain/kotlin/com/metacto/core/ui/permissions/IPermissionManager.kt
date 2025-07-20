@@ -75,15 +75,4 @@ expect interface IPermissionManager {
      * @return PermissionState.Granted, PermissionState.Denied, or PermissionState.NotDetermined
      */
     suspend fun getPermissionState(permission: Permission): PermissionState
-
-    /**
-     * Clears the stored permission state for debugging purposes.
-     * 
-     * ⚠️ Note: With targetSdk properly configured, this method no longer performs
-     * any operations as we rely on Android's standard permission APIs.
-     * This method is kept for interface compatibility.
-     * 
-     * @param permission The permission whose state should be cleared
-     */
-    fun clearPermissionState(permission: Permission)
 }

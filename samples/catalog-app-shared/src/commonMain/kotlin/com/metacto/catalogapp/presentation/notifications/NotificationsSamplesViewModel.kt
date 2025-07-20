@@ -18,7 +18,6 @@ class NotificationsSamplesViewModel : BaseViewModel<State, Event, Effect>() {
     override fun handleEvents(event: Event): Any = when (event) {
         Event.Init -> init()
         Event.EnablePushNotifications -> handleEnablePushNotificationClick()
-        Event.ClearPermissionState -> clearPermissionState()
     }
 
     private fun init() {
@@ -44,9 +43,4 @@ class NotificationsSamplesViewModel : BaseViewModel<State, Event, Effect>() {
             false
         }
     )
-
-    private fun clearPermissionState() {
-        permissionManager.clearPermissionState(Permission.REMOTE_NOTIFICATION)
-        Logger("clearPermissionState").log("Permission state cleared")
-    }
 }
