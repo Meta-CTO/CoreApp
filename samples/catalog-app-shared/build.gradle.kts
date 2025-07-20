@@ -77,6 +77,7 @@ android {
 
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = CatalogConfigs.VERSION_CODE
         versionName = CatalogConfigs.VERSION_NAME
 
