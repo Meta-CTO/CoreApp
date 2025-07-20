@@ -12,4 +12,5 @@ actual interface IPermissionManager {
     actual suspend fun isPermissionGranted(permission: Permission): Boolean
     actual suspend fun getPermissionState(permission: Permission): PermissionState
     fun bind(activity: ComponentActivity)
+    actual fun clearPermissionState(permission: Permission)
 }

@@ -1,10 +1,15 @@
 package com.metacto.catalogapp.presentation.notifications.components
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.metacto.core.ui.navigation.NavManager
 import com.metacto.catalogapp.presentation.components.containers.AppScreenColumn
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesContract.Event
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesContract.State
+import com.metacto.core.ui.components.buttons.PrimaryFilledButton
 import org.koin.compose.koinInject
 
 @Composable
@@ -25,6 +30,26 @@ internal fun NotificationsSamplesContent(
             navManager.goBack()
         },
     ) {
-        // TODO: Render content
+        // Button to clear permission state for debugging
+        PrimaryFilledButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            text = "Clear Permission State (Debug)",
+            onClick = {
+                onEvent(Event.ClearPermissionState)
+            }
+        )
+        
+        // Button to request notification permission
+        PrimaryFilledButton(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            text = "Enable Push Notifications",
+            onClick = {
+                onEvent(Event.EnablePushNotifications)
+            }
+        )
     }
 }

@@ -12,6 +12,8 @@ class NotificationsSamplesContract {
 
     sealed class Event : ViewEvent {
         data object Init : Event()
+        data object EnablePushNotifications : Event()
+        data object ClearPermissionState : Event()
     }
 
     sealed class Effect : ViewSideEffect
