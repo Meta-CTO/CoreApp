@@ -6,7 +6,6 @@ import com.metacto.core.domain.models.request.UpdatePreviewUrlRequestData
 import com.metacto.core.extensions.randomUUID
 import com.metacto.kmm.network.JsonFlatter
 import com.metacto.kmm.network.constants.SharedConstants
-import com.metacto.kmm.network.model.image.Image
 import com.metacto.kmm.network.model.media.Media
 import com.metacto.kmm.network.services.HttpService
 import com.metacto.kmm.network.services.convert
@@ -31,7 +30,8 @@ class UploadRepository(
     suspend fun uploadImage(bytes: ByteArray, fileName: String = randomUUID()): Media {
         return uploadMedia(
             bytes = bytes,
-            fileName = "$fileName.jpg"
+            fileName = "$fileName.jpg",
+            contentType = "image/jpeg"
         )
     }
 
@@ -43,7 +43,8 @@ class UploadRepository(
     ): Media {
         val video = uploadMedia(
             bytes = bytes,
-            fileName = "$fileName.mp4"
+            fileName = "$fileName.mp4",
+            contentType = "video/mp4"
         )
 
         if (previewUrl != null && video.id != null) {
@@ -54,7 +55,11 @@ class UploadRepository(
     }
 
     @Throws(Throwable::class)
-    private suspend fun uploadMedia(bytes: ByteArray, fileName: String): Media {
+    private suspend fun uploadMedia(
+        bytes: ByteArray,
+        fileName: String,
+        contentType: String
+    ): Media {
         val token = sharedPreference.getSecureString(SharedConstants.ACCESS_TOKEN)
         val response = httpService.httpClient.submitFormWithBinaryData(
             url = "${coreConfigs.baseUrl}/upload",
@@ -64,6 +69,7 @@ class UploadRepository(
                     bytes,
                     Headers.build {
                         append(HttpHeaders.ContentDisposition, "filename=$fileName")
+                        append(HttpHeaders.ContentType, contentType)
                         append(HttpHeaders.Authorization, "Bearer $token")
                     }
                 )
