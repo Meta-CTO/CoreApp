@@ -7,6 +7,7 @@ import com.metacto.core.extensions.randomUUID
 import com.metacto.kmm.network.JsonFlatter
 import com.metacto.kmm.network.constants.SharedConstants
 import com.metacto.kmm.network.model.image.Image
+import com.metacto.kmm.network.model.media.Media
 import com.metacto.kmm.network.services.HttpService
 import com.metacto.kmm.network.services.convert
 import com.metacto.kmm.sharedpreferences.KmmPreference
@@ -27,7 +28,7 @@ class UploadRepository(
     private val sharedPreference: KmmPreference
 ) {
     @Throws(Throwable::class)
-    suspend fun uploadImage(bytes: ByteArray, fileName: String = randomUUID()): Image {
+    suspend fun uploadImage(bytes: ByteArray, fileName: String = randomUUID()): Media {
         return uploadMedia(
             bytes = bytes,
             fileName = "$fileName.jpg"
@@ -39,7 +40,7 @@ class UploadRepository(
         bytes: ByteArray,
         fileName: String = randomUUID(),
         previewUrl: String? = null
-    ): Image {
+    ): Media {
         val video = uploadMedia(
             bytes = bytes,
             fileName = "$fileName.mp4"
@@ -53,7 +54,7 @@ class UploadRepository(
     }
 
     @Throws(Throwable::class)
-    private suspend fun uploadMedia(bytes: ByteArray, fileName: String): Image {
+    private suspend fun uploadMedia(bytes: ByteArray, fileName: String): Media {
         val token = sharedPreference.getSecureString(SharedConstants.ACCESS_TOKEN)
         val response = httpService.httpClient.submitFormWithBinaryData(
             url = "${coreConfigs.baseUrl}/upload",
@@ -70,7 +71,7 @@ class UploadRepository(
         )
 
         val responseContent = ((response.body() as JsonArray)[0].jsonObject)
-        return JsonFlatter.flat<Image>(responseContent).convert()
+        return JsonFlatter.flat<Media>(responseContent).convert()
     }
 
     @Throws(Throwable::class)
