@@ -1,5 +1,5 @@
 package com.metacto.core.deepLink
 
-import com.metacto.core.CommonSerializable
+import com.metacto.kmm.core.CommonSerializable
 
 open class DeepLink : CommonSerializable

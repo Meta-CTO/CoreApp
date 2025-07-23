@@ -15,7 +15,7 @@ kotlin {
     androidTarget {
         compilerOptions {
             jvmTarget.value(JvmTarget.JVM_17)
-            freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.metacto.core.CommonParcelize")
+            freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.metacto.kmm.core.CommonParcelize")
         }
         compilations.all {
             kotlinOptions {

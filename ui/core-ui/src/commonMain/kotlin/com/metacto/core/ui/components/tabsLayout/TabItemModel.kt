@@ -1,7 +1,7 @@
 package com.metacto.core.ui.components.tabsLayout
 
-import com.metacto.core.CommonParcelable
-import com.metacto.core.CommonParcelize
+import com.metacto.kmm.core.CommonParcelable
+import com.metacto.kmm.core.CommonParcelize
 import com.metacto.core.ui.models.ImageUIModel
 
 @CommonParcelize

@@ -29,7 +29,7 @@ group = Configs.GROUP_ID
 kotlin {
     androidTarget {
         compilerOptions {
-            freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.metacto.core.CommonParcelize")
+            freeCompilerArgs.addAll("-P", "plugin:org.jetbrains.kotlin.parcelize:additionalAnnotation=com.metacto.kmm.core.CommonParcelize")
         }
         compilations.all {
             kotlinOptions {

@@ -1,7 +1,7 @@
 package com.metacto.core.ui.imagepicker.sheet.models
 
-import com.metacto.core.CommonParcelable
-import com.metacto.core.CommonParcelize
+import com.metacto.kmm.core.CommonParcelable
+import com.metacto.kmm.core.CommonParcelize
 
 @CommonParcelize
 sealed class ImagePickerResult : CommonParcelable {

@@ -1,6 +1,6 @@
 package com.metacto.core.ui.components.itemPicker.models
 
-import com.metacto.core.CommonParcelize
+import com.metacto.kmm.core.CommonParcelize
 
 @CommonParcelize
 data class PickerItemUIModel(

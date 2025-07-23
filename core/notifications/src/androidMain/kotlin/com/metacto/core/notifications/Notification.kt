@@ -3,8 +3,8 @@ package com.metacto.core.notifications
 import android.app.PendingIntent
 import androidx.annotation.DrawableRes
 import androidx.core.app.NotificationCompat
-import com.metacto.core.CommonParcelable
-import com.metacto.core.CommonParcelize
+import com.metacto.kmm.core.CommonParcelable
+import com.metacto.kmm.core.CommonParcelize
 
 @CommonParcelize
 actual data class Notification(
