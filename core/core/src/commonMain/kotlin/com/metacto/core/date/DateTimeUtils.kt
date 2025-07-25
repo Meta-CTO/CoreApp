@@ -47,6 +47,29 @@ fun LocalDate.isPast(): Boolean {
     return this < LocalDate.now()
 }
 
+fun CoreDateTime.toMillis(timeZone: TimeZone = TimeZone.currentSystemDefault()): Long {
+    return this.value.toMillis(timeZone)
+}
+
+fun CoreDateTime.format(
+    format: String,
+    langCode: String = getSystemLanguage().code
+): String {
+    return this.value.format(format, langCode)
+}
+
+fun CoreDateTime.formatToRelativeDate(): String {
+    return this.value.formatToRelativeDate()
+}
+
+fun CoreDateTime.Companion.now(timeZone: TimeZone = TimeZone.currentSystemDefault()): CoreDateTime {
+    return CoreDateTime(LocalDateTime.now(timeZone))
+}
+
+fun Long.toCoreDateTime(timeZone: TimeZone = TimeZone.currentSystemDefault()): CoreDateTime {
+    return CoreDateTime(this.toLocalDateTime(timeZone))
+}
+
 expect fun LocalDateTime.format(
     format: String,
     langCode: String = getSystemLanguage().code

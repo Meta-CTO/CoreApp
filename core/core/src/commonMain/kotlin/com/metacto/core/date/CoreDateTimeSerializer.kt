@@ -1,7 +1,6 @@
-package com.metacto.core.domain.serializers
+package com.metacto.core.date
 
 import kotlinx.datetime.Instant
-import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
@@ -12,18 +11,18 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-object LocalDateTimeSerializer : KSerializer<LocalDateTime> {
+object CoreDateTimeSerializer : KSerializer<CoreDateTime> {
     override val descriptor: SerialDescriptor =
-        PrimitiveSerialDescriptor("LocalDateTime", PrimitiveKind.STRING)
+        PrimitiveSerialDescriptor("CoreDateTime", PrimitiveKind.STRING)
 
-    override fun serialize(encoder: Encoder, value: LocalDateTime) {
-        val instant = value.toInstant(TimeZone.UTC)
+    override fun serialize(encoder: Encoder, value: CoreDateTime) {
+        val instant = value.value.toInstant(TimeZone.UTC)
         encoder.encodeString(instant.toString())
     }
 
-    override fun deserialize(decoder: Decoder): LocalDateTime {
+    override fun deserialize(decoder: Decoder): CoreDateTime {
         val isoString = decoder.decodeString()
         val instant = Instant.parse(isoString)
-        return instant.toLocalDateTime(TimeZone.UTC)
+        return CoreDateTime(instant.toLocalDateTime(TimeZone.UTC))
     }
 }
