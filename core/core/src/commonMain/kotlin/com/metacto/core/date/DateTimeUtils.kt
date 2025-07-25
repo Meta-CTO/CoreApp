@@ -97,6 +97,21 @@ fun Long.toCoreDate(timeZone: TimeZone = TimeZone.currentSystemDefault()): CoreD
     return CoreDate(this.toLocalDate(timeZone))
 }
 
+fun CoreTime.format(
+    format: String,
+    langCode: String = getSystemLanguage().code
+): String {
+    return this.value.format(format, langCode)
+}
+
+fun CoreTime.Companion.now(timeZone: TimeZone = TimeZone.currentSystemDefault()): CoreTime {
+    return CoreTime(LocalTime.now(timeZone))
+}
+
+fun Long.toCoreTime(timeZone: TimeZone = TimeZone.currentSystemDefault()): CoreTime {
+    return CoreTime(this.toLocalTime(timeZone))
+}
+
 expect fun LocalDateTime.format(
     format: String,
     langCode: String = getSystemLanguage().code
