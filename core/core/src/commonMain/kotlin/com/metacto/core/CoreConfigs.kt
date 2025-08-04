@@ -2,6 +2,9 @@ package com.metacto.core
 
 import com.metacto.core.deepLink.DeepLinkParser
 import com.metacto.kmm.logger.LogLevel
+import io.ktor.client.HttpClientConfig
+
+typealias HttpClientConfiguration = HttpClientConfig<*>.() -> Unit
 
 data class CoreConfigs(
     val storageName: String,
@@ -12,4 +15,5 @@ data class CoreConfigs(
     val deepLinkParsers: Map<String, DeepLinkParser> = emptyMap(),
     val enforceDefaultDataWrapper: Boolean = true,
     val forceUpdateRemoteConfigKey: String? = null,
+    val httpClientConfiguration: HttpClientConfiguration = {}
 )

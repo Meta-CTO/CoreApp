@@ -45,6 +45,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(libs.metacto.network.inspector)
             implementation(project(":ui:core-ui"))
             implementation(project(":core:files"))
             implementation(project(":core:notifications"))

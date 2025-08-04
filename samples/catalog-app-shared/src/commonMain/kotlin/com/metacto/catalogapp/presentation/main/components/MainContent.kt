@@ -21,6 +21,7 @@ import com.metacto.core.ui.components.buttons.PrimaryFilledButton
 import com.metacto.core.ui.components.containers.ScreenColumn
 import com.metacto.core.ui.navigation.NavManager
 import org.koin.compose.koinInject
+import sp.bvantur.inspektify.ktor.InspektifyKtor
 
 @Composable
 internal fun MainContent(
@@ -96,6 +97,14 @@ internal fun MainContent(
             text = "Lottie samples",
             onClick = {
                 navManage.navigate(LottieScreen())
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
+            text = "Open Inspektify",
+            onClick = {
+                InspektifyKtor.startInspektify()
             },
             modifier = Modifier.fillMaxWidth()
         )

@@ -44,8 +44,11 @@ actual open class RepositoriesFactory<T : SerializableNetworkError>(
     )
 
     actual val httpService = HttpService(
-        httpClient = ktorClientFactory.build(errorClass),
         baseUrl = coreConfigs.baseUrl,
-        kmmPreference = sharedPreference
+        kmmPreference = sharedPreference,
+        httpClient = ktorClientFactory.build(
+            errorClass = errorClass,
+            configure = coreConfigs.httpClientConfiguration
+        )
     )
 }

@@ -136,6 +136,7 @@ uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
 # Others
 metacto-strapikmm = { module = "com.metacto:strapi", version.ref = "strapi-kmm" }
 metacto-network = { module = "com.metacto:network-core", version.ref = "core-network" }
+metacto-network-inspector = { module = "com.metacto:network-inspector", version.ref = "core-network" }
 libphonenumber = { module = "io.github.luca992.libphonenumber-kotlin:libphonenumber", version.ref = "lib-phone-number" }
 imagepicker = { module = "com.github.dhaval2404:imagepicker", version.ref = "android-image-picker" }
 imagecropper = { module = "com.vanniktech:android-image-cropper", version.ref = "android-cropper" }
