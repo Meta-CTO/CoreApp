@@ -45,7 +45,6 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.metacto.network.inspector)
             implementation(project(":ui:core-ui"))
             implementation(project(":core:files"))
             implementation(project(":core:notifications"))
@@ -55,6 +54,7 @@ kotlin {
             implementation(project(":ui:youtube"))
             implementation(project(":ui:phone-ui"))
             implementation(project(":ui:image-picker"))
+            implementation(libs.metacto.inspektify)
         }
 
         androidMain.dependencies {

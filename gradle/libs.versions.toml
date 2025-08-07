@@ -12,6 +12,7 @@ date-time = "0.4.0"
 coroutines = "1.10.2"
 strapi-kmm = "10.0.158"
 core-network = "2.0.32"
+metacto-inspektify = "1.0.0-beta09-meta-2"
 metacto-firebase = "1.0.22"
 koin = "4.0.0"
 koin-compose = "1.1.0"
@@ -137,7 +138,7 @@ uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
 # MetaCto Network
 metacto-strapikmm = { module = "com.metacto:strapi", version.ref = "strapi-kmm" }
 metacto-network = { module = "com.metacto:network-core", version.ref = "core-network" }
-metacto-network-inspector = { module = "com.metacto:network-inspector", version.ref = "core-network" }
+metacto-inspektify = { module = "com.metacto:inspektify", version.ref = "metacto-inspektify" }
 
 #MetaCto firebase
 metacto-auth-common = { module = "com.metacto.kmm:auth-common", version.ref = "metacto-firebase" }
