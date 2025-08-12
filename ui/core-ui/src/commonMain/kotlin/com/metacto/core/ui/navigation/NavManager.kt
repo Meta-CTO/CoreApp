@@ -22,7 +22,7 @@ class NavManager {
     private val _results = MutableStateFlow<NavResult<*>?>(null)
 
     fun navigate(
-        destination: NavDestination,
+        destination: NavScreen,
         behaviour: NavigateBehaviour = NavigateBehaviour.Normal
     ) {
         GlobalScope.launch {
@@ -35,7 +35,7 @@ class NavManager {
         }
     }
 
-    fun clearAndNavigate(destination: NavDestination) {
+    fun clearAndNavigate(destination: NavScreen) {
         GlobalScope.launch {
             _effects.send(
                 NavEffect.ClearAndNavigateTo(destination)
@@ -43,7 +43,7 @@ class NavManager {
         }
     }
 
-    fun <D : NavDestination> popToExclusive(destClass: KClass<D>) {
+    fun <D : NavScreen> popToExclusive(destClass: KClass<D>) {
         GlobalScope.launch {
             _effects.send(
                 NavEffect.PopToExclusive(destClass)
@@ -51,7 +51,7 @@ class NavManager {
         }
     }
 
-    fun <D : NavDestination> popToInclusive(destClass: KClass<D>) {
+    fun <D : NavScreen> popToInclusive(destClass: KClass<D>) {
         GlobalScope.launch {
             _effects.send(
                 NavEffect.PopToInclusive(destClass)
@@ -67,7 +67,7 @@ class NavManager {
         }
     }
 
-    fun navigateAndPopupCurrent(destination: NavDestination) {
+    fun navigateAndPopupCurrent(destination: NavScreen) {
         GlobalScope.launch {
             _effects.send(
                 NavEffect.NavigateAndPopCurrent(destination)
@@ -75,8 +75,8 @@ class NavManager {
         }
     }
 
-    fun <D : NavDestination> navigateAndPopToExclusive(
-        navToDest: NavDestination,
+    fun <D : NavScreen> navigateAndPopToExclusive(
+        navToDest: NavScreen,
         popToDestClass: KClass<D>
     ) {
         GlobalScope.launch {
@@ -89,8 +89,8 @@ class NavManager {
         }
     }
 
-    fun <D : NavDestination> navigateAndPopToInclusive(
-        navToDest: NavDestination,
+    fun <D : NavScreen> navigateAndPopToInclusive(
+        navToDest: NavScreen,
         popToDestClass: KClass<D>
     ) {
         GlobalScope.launch {
@@ -103,7 +103,7 @@ class NavManager {
         }
     }
 
-    fun navigateToBottomSheet(destination: NavDestination) {
+    fun navigateToBottomSheet(destination: NavSheet) {
         GlobalScope.launch {
             _effects.send(
                 NavEffect.NavigateToBottomSheet(destination)
@@ -122,7 +122,7 @@ class NavManager {
         return result.await()
     }
 
-    suspend fun <D : NavDestination> checkScreenByClass(clazz: KClass<D>): Boolean {
+    suspend fun <D : NavScreen> checkScreenByClass(clazz: KClass<D>): Boolean {
         val result = CompletableDeferred<Boolean>()
         _effects.send(
             NavEffect.CheckScreenByClass(
