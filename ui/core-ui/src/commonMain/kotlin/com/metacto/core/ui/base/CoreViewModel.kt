@@ -28,7 +28,6 @@ import com.metacto.core.ui.permissions.IPermissionManager
 import com.metacto.core.ui.resources.IResourceProvider
 import com.metacto.core.ui.resources.Res
 import com.metacto.core.ui.resources.error
-import com.metacto.core.ui.resources.no_internet_connection_check_connection
 import com.metacto.core.ui.resources.ok
 import com.metacto.core.ui.resources.server_taking_too_long
 import com.metacto.core.ui.resources.session_expired
@@ -104,6 +103,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     private fun subscribeToEvents() {
         screenModelScope.launch {
             _event.collect {
+                onReceiveEvent(it)
                 handleEvents(it)
             }
         }
@@ -115,6 +115,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
     protected fun setState(reducer: S.() -> S) {
         val newState = viewState.value.reducer()
+        onChangeState(newState)
         _viewState.value = newState
     }
 
@@ -445,4 +446,10 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     open val defaultErrorType: ErrorType = ErrorType.Popup
 
     open val defaultDispatcher: CoroutineContext = Dispatchers.Default
+
+    open fun onReceiveEvent(event: E) {
+    }
+
+    open fun onChangeState(newState: S) {
+    }
 }
