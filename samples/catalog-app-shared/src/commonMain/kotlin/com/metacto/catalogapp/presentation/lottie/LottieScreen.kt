@@ -5,7 +5,6 @@ import androidx.compose.runtime.LaunchedEffect
 import com.metacto.catalogapp.presentation.lottie.LottieContract.Event
 import com.metacto.catalogapp.presentation.lottie.components.LottieContent
 import com.metacto.core.ui.base.CoreScreen
-import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
 
 internal class LottieScreen : CoreScreen<LottieViewModel>() {
@@ -15,7 +14,7 @@ internal class LottieScreen : CoreScreen<LottieViewModel>() {
         val viewModel = rememberViewModel<LottieViewModel>()
 
         // Init view model
-        LaunchedEffect(SIDE_EFFECTS_KEY) {
+        LaunchedEffect(Unit) {
             viewModel.setEvent(Event.Init)
         }
 

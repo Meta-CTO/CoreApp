@@ -3,7 +3,6 @@ package com.metacto.core.ui.youtube.screen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.metacto.core.ui.base.CoreScreen
-import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
 import com.metacto.core.ui.youtube.screen.YoutubeContract.Event
 import com.metacto.core.ui.youtube.screen.components.YoutubeContent
@@ -24,7 +23,7 @@ class YoutubeScreen(
         val viewModel = rememberViewModel<YoutubeViewModel>()
 
         // Init view model
-        LaunchedEffect(SIDE_EFFECTS_KEY) {
+        LaunchedEffect(Unit) {
             viewModel.setEvent(
                 Event.Init(
                     videoId = videoId,

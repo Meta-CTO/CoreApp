@@ -5,7 +5,6 @@ import androidx.compose.runtime.LaunchedEffect
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesContract.Event
 import com.metacto.catalogapp.presentation.notifications.components.NotificationsSamplesContent
 import com.metacto.core.ui.base.CoreScreen
-import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
 
 internal class NotificationsSamplesScreen : CoreScreen<NotificationsSamplesViewModel>() {
@@ -15,7 +14,7 @@ internal class NotificationsSamplesScreen : CoreScreen<NotificationsSamplesViewM
         val viewModel = rememberViewModel<NotificationsSamplesViewModel>()
 
         // Init view model
-        LaunchedEffect(SIDE_EFFECTS_KEY) {
+        LaunchedEffect(Unit) {
             viewModel.setEvent(Event.Init)
         }
 

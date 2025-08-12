@@ -61,8 +61,6 @@ interface ViewState
 
 interface ViewSideEffect
 
-const val SIDE_EFFECTS_KEY = "side-effects_key"
-
 expect open class CommonViewModel()
 
 abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> :

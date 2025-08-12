@@ -5,7 +5,6 @@ import androidx.compose.runtime.LaunchedEffect
 import com.metacto.catalogapp.presentation.files.FilesSamplesContract.Event
 import com.metacto.catalogapp.presentation.files.components.FilesSamplesContent
 import com.metacto.core.ui.base.CoreScreen
-import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
 
 internal class FilesSamplesScreen : CoreScreen<FilesSamplesViewModel>() {
@@ -15,7 +14,7 @@ internal class FilesSamplesScreen : CoreScreen<FilesSamplesViewModel>() {
         val viewModel = rememberViewModel<FilesSamplesViewModel>()
 
         // Init view model
-        LaunchedEffect(SIDE_EFFECTS_KEY) {
+        LaunchedEffect(Unit) {
             viewModel.setEvent(Event.Init)
         }
 

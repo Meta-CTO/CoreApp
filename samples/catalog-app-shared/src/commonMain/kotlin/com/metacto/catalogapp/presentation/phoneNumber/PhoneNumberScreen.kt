@@ -5,7 +5,6 @@ import androidx.compose.runtime.LaunchedEffect
 import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberContract.Event
 import com.metacto.catalogapp.presentation.phoneNumber.components.PhoneNumberContent
 import com.metacto.core.ui.base.CoreScreen
-import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
 
 internal class PhoneNumberScreen : CoreScreen<PhoneNumberViewModel>() {
@@ -15,7 +14,7 @@ internal class PhoneNumberScreen : CoreScreen<PhoneNumberViewModel>() {
         val viewModel = rememberViewModel<PhoneNumberViewModel>()
 
         // Init view model
-        LaunchedEffect(SIDE_EFFECTS_KEY) {
+        LaunchedEffect(Unit) {
             viewModel.setEvent(Event.Init)
         }
 

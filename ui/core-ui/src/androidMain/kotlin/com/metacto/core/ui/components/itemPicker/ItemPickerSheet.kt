@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.metacto.core.PlatformType
 import com.metacto.core.ui.base.CoreSheet
-import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
 import com.metacto.core.ui.components.itemPicker.ItemPickerContract.Event
 import com.metacto.core.ui.components.itemPicker.components.ItemPickerContent
@@ -24,7 +23,7 @@ actual class ItemPickerSheet actual constructor(
         val viewModel = rememberViewModel<ItemPickerViewModel>()
 
         // Init view model
-        LaunchedEffect(SIDE_EFFECTS_KEY) {
+        LaunchedEffect(Unit) {
             viewModel.setEvent(
                 Event.Init(
                     items = items,

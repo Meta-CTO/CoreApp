@@ -5,7 +5,6 @@ import androidx.compose.runtime.LaunchedEffect
 import com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.ImagePreloaderContract.Event
 import com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.components.ImagePreloaderContent
 import com.metacto.core.ui.base.CoreScreen
-import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
 
 internal class ImagePreloaderScreen : CoreScreen<ImagePreloaderViewModel>() {
@@ -15,7 +14,7 @@ internal class ImagePreloaderScreen : CoreScreen<ImagePreloaderViewModel>() {
         val viewModel = rememberViewModel<ImagePreloaderViewModel>()
 
         // Init view model
-        LaunchedEffect(SIDE_EFFECTS_KEY) {
+        LaunchedEffect(Unit) {
             viewModel.setEvent(Event.Init)
         }
 
