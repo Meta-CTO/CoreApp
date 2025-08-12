@@ -5,11 +5,11 @@ import com.metacto.core.extensions.contains
 import kotlin.reflect.KClass
 
 internal fun Navigator.navigateTo(
-    screen: NavDestination,
+    screen: NavScreen,
     behaviour: NavigateBehaviour
 ) {
     // Prepare isSameCurrentScreen flag
-    val isSameCurrentScreen = (lastItemOrNull as? NavDestination)?.screenTag == screen.screenTag
+    val isSameCurrentScreen = (lastItemOrNull as? NavScreen)?.screenTag == screen.screenTag
 
     // Handle navigation according to behavior
     when (behaviour) {
@@ -33,15 +33,15 @@ internal fun Navigator.navigateTo(
     }
 }
 
-internal fun Navigator.clearAndNavigateTo(screen: NavDestination) {
+internal fun Navigator.clearAndNavigateTo(screen: NavScreen) {
     replaceAll(screen)
 }
 
-internal fun <D : NavDestination> Navigator.popToExclusive(screenClass: KClass<D>) {
+internal fun <D : NavScreen> Navigator.popToExclusive(screenClass: KClass<D>) {
     popUntil { it::class == screenClass }
 }
 
-internal fun <D : NavDestination> Navigator.popToInclusive(screenClass: KClass<D>) {
+internal fun <D : NavScreen> Navigator.popToInclusive(screenClass: KClass<D>) {
     val result = popUntil { it::class == screenClass }
     if (result) pop()
 }
@@ -52,20 +52,20 @@ internal fun Navigator.popByCount(popCount: Int) {
     }
 }
 
-internal fun Navigator.navigateAndPopCurrent(screen: NavDestination) {
+internal fun Navigator.navigateAndPopCurrent(screen: NavScreen) {
     replace(screen)
 }
 
-internal fun <D : NavDestination> Navigator.navigateAndPopToExclusive(
-    navToScreen: NavDestination,
+internal fun <D : NavScreen> Navigator.navigateAndPopToExclusive(
+    navToScreen: NavScreen,
     popToScreenClass: KClass<D>
 ) {
     popToExclusive(popToScreenClass)
     push(navToScreen)
 }
 
-internal fun <D : NavDestination> Navigator.navigateAndPopToInclusive(
-    navToScreen: NavDestination,
+internal fun <D : NavScreen> Navigator.navigateAndPopToInclusive(
+    navToScreen: NavScreen,
     popToScreenClass: KClass<D>
 ) {
     popToInclusive(popToScreenClass)
@@ -74,13 +74,13 @@ internal fun <D : NavDestination> Navigator.navigateAndPopToInclusive(
 
 internal fun Navigator.checkScreenByTag(tag: String): Boolean {
     return items
-        .mapNotNull { it as? NavDestination }
+        .mapNotNull { it as? NavScreen }
         .contains { it.screenTag == tag }
 }
 
-internal fun <D : NavDestination> Navigator.checkScreenByClass(clazz: KClass<D>): Boolean {
+internal fun <D : NavScreen> Navigator.checkScreenByClass(clazz: KClass<D>): Boolean {
     return items
-        .mapNotNull { it as? NavDestination }
+        .mapNotNull { it as? NavScreen }
         .contains { it::class == clazz }
 }
 

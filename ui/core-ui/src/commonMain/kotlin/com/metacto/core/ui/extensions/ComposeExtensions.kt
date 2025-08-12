@@ -77,7 +77,6 @@ import androidx.compose.ui.text.lerp
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
-import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.ViewSideEffect
 import com.metacto.core.ui.resources.IFileResource
 import com.valentinilk.shimmer.shimmer
@@ -743,10 +742,9 @@ fun rememberLottieComposition(res: IFileResource): LottieCompositionResult {
 
 @Composable
 fun <T : ViewSideEffect> Flow<T>.consume(
-    key: String = SIDE_EFFECTS_KEY,
     action: (effect: T) -> Unit
 ) {
-    LaunchedEffect(key) { onEach(action).collect() }
+    LaunchedEffect(Unit) { onEach(action).collect() }
 }
 
 @Composable

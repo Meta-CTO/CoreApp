@@ -1,7 +1,7 @@
 package com.metacto.core.ui.components.options
 
 import androidx.compose.runtime.Composable
-import com.metacto.core.ui.base.BaseSheet
+import com.metacto.core.ui.base.CoreSheet
 import com.metacto.core.ui.base.getViewModel
 import com.metacto.core.ui.components.options.OptionsContract.Event
 import com.metacto.core.ui.components.options.components.OptionsContent
@@ -9,7 +9,7 @@ import com.metacto.core.ui.components.options.models.OptionUIModel
 
 actual class OptionsSheet actual constructor(
     actual val options: List<OptionUIModel>
-) : BaseSheet<OptionsViewModel>() {
+) : CoreSheet<OptionsViewModel>() {
 
     private val viewModel = getViewModel<OptionsViewModel>()
 

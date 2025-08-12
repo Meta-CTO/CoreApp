@@ -102,7 +102,6 @@ import androidx.compose.runtime.LaunchedEffect
 import ${package_name}.presentation.${feature}.${screen_lower}.${screen}Contract.Event
 import ${package_name}.presentation.${feature}.${screen_lower}.components.${screen}Content
 import com.metacto.core.ui.base.BaseScreen
-import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
 
 internal class ${screen}Screen : BaseScreen<${screen}ViewModel>() {
@@ -112,7 +111,7 @@ internal class ${screen}Screen : BaseScreen<${screen}ViewModel>() {
         val viewModel = rememberViewModel<${screen}ViewModel>()
 
         // Init view model
-        LaunchedEffect(SIDE_EFFECTS_KEY) {
+        LaunchedEffect(Unit) {
             viewModel.setEvent(Event.Init)
         }
 

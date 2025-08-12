@@ -2,8 +2,7 @@ package com.metacto.core.ui.imagepicker.sheet
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.metacto.core.ui.base.BaseSheet
-import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
+import com.metacto.core.ui.base.CoreSheet
 import com.metacto.core.ui.base.rememberViewModel
 import com.metacto.core.ui.extensions.consume
 import com.metacto.core.ui.imagepicker.MediaType
@@ -18,7 +17,7 @@ actual class ImagePickerSheet actual constructor(
     actual val enableCropping: Boolean,
     actual val aspectRatioX: Int?,
     actual val aspectRatioY: Int?
-) : BaseSheet<ImagePickerViewModel>() {
+) : CoreSheet<ImagePickerViewModel>() {
 
     @Composable
     actual override fun Content() {
@@ -40,7 +39,7 @@ actual class ImagePickerSheet actual constructor(
         }
 
         // Init view model
-        LaunchedEffect(SIDE_EFFECTS_KEY) {
+        LaunchedEffect(Unit) {
             viewModel.setEvent(
                 Event.Init(
                     allowGallery = allowGallery,
