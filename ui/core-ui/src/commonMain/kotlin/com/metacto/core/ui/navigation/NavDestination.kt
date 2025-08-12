@@ -1,8 +1,8 @@
 package com.metacto.core.ui.navigation
 
-import com.metacto.core.ui.base.BaseScreen
-import com.metacto.core.ui.base.BaseSheet
+import com.metacto.core.ui.base.CoreScreen
+import com.metacto.core.ui.base.CoreSheet
 
-typealias NavScreen = BaseScreen<*>
+typealias NavScreen = CoreScreen<*>
 
-typealias NavSheet = BaseSheet<*>
+typealias NavSheet = CoreSheet<*>

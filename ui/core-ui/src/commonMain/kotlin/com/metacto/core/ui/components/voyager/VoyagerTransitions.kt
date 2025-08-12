@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.Navigator
-import com.metacto.core.ui.base.BaseScreen
+import com.metacto.core.ui.base.CoreScreen
 
 
 private typealias ScreenTransitionContent = @Composable AnimatedVisibilityScope.(Screen) -> Unit
@@ -27,7 +27,7 @@ private fun ScreenTransition(
     transition: AnimatedContentTransitionScope<Screen>.() -> ContentTransform,
     modifier: Modifier = Modifier,
     content: ScreenTransitionContent = {
-        (it as? BaseScreen<*>)?.trackLifecycle()
+        (it as? CoreScreen<*>)?.trackLifecycle()
         it.Content()
     }
 ) {
@@ -51,7 +51,7 @@ fun FadeTransition(
         stiffness = Spring.StiffnessMediumLow
     ),
     content: ScreenTransitionContent = {
-        (it as? BaseScreen<*>)?.trackLifecycle()
+        (it as? CoreScreen<*>)?.trackLifecycle()
         it.Content()
     }
 ) {

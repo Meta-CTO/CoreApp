@@ -2,13 +2,13 @@ package com.metacto.playground.presentation.main
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.metacto.core.ui.base.BaseScreen
+import com.metacto.core.ui.base.CoreScreen
 import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
 import com.metacto.playground.presentation.main.MainContract.Event
 import com.metacto.playground.presentation.main.components.MainContent
 
-internal class MainScreen : BaseScreen<MainViewModel>() {
+internal class MainScreen : CoreScreen<MainViewModel>() {
 
     @Composable
     override fun Content() {

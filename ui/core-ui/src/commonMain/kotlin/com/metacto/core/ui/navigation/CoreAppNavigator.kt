@@ -19,7 +19,7 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
 import com.metacto.core.extensions.orFalse
 import com.metacto.core.ui.CoreUIConfigs
-import com.metacto.core.ui.base.BaseScreen
+import com.metacto.core.ui.base.CoreScreen
 import com.metacto.core.ui.components.bottomSheets.BottomSheetInsetsContainer
 import com.metacto.core.ui.components.voyager.FadeTransition
 import com.metacto.core.ui.extensions.onEdgeSwipe
@@ -48,7 +48,7 @@ fun CoreAppNavigator(
     // Prepare swipe objects
     val coreUIConfigs = koinInject<CoreUIConfigs>()
     val enableSwipeToGoBack by remember(coreUIConfigs, navigator?.lastItem) {
-        val currentScreen = navigator?.lastItem as? BaseScreen<*>
+        val currentScreen = navigator?.lastItem as? CoreScreen<*>
         derivedStateOf {
             coreUIConfigs.enableSwipeToGoBack && currentScreen?.enableSwipeToGoBack == true
         }
@@ -174,7 +174,7 @@ fun CoreAppNavigator(
             Navigator(
                 screen = startScreen,
                 onBackPressed = {
-                    if (it is BaseScreen<*>) {
+                    if (it is CoreScreen<*>) {
                         it.onBackPressed()
                         false
                     } else {

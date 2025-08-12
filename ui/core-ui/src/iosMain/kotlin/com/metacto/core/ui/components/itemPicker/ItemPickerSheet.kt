@@ -3,7 +3,7 @@ package com.metacto.core.ui.components.itemPicker
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import com.metacto.core.PlatformType
-import com.metacto.core.ui.base.BaseSheet
+import com.metacto.core.ui.base.CoreSheet
 import com.metacto.core.ui.base.getViewModel
 import com.metacto.core.ui.components.itemPicker.ItemPickerContract.Event
 import com.metacto.core.ui.components.itemPicker.components.ItemPickerContent
@@ -16,7 +16,7 @@ actual class ItemPickerSheet actual constructor(
     actual val visibleItemCount: Int,
     actual val canSearch: Boolean,
     actual val platform: PlatformType?
-) : BaseSheet<ItemPickerViewModel>() {
+) : CoreSheet<ItemPickerViewModel>() {
 
     private val viewModel = getViewModel<ItemPickerViewModel>()
 

@@ -4,11 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberContract.Event
 import com.metacto.catalogapp.presentation.phoneNumber.components.PhoneNumberContent
-import com.metacto.core.ui.base.BaseScreen
+import com.metacto.core.ui.base.CoreScreen
 import com.metacto.core.ui.base.SIDE_EFFECTS_KEY
 import com.metacto.core.ui.base.rememberViewModel
 
-internal class PhoneNumberScreen : BaseScreen<PhoneNumberViewModel>() {
+internal class PhoneNumberScreen : CoreScreen<PhoneNumberViewModel>() {
     @Composable
     override fun Content() {
         // Get the view model

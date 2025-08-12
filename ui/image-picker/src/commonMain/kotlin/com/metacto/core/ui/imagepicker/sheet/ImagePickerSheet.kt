@@ -1,7 +1,7 @@
 package com.metacto.core.ui.imagepicker.sheet
 
 import androidx.compose.runtime.Composable
-import com.metacto.core.ui.base.BaseSheet
+import com.metacto.core.ui.base.CoreSheet
 
 expect class ImagePickerSheet(
     allowGallery: Boolean = true,
@@ -10,7 +10,7 @@ expect class ImagePickerSheet(
     enableCropping: Boolean = false,
     aspectRatioX: Int? = null,
     aspectRatioY: Int? = null
-) : BaseSheet<ImagePickerViewModel> {
+) : CoreSheet<ImagePickerViewModel> {
 
     @Composable
     override fun Content()
