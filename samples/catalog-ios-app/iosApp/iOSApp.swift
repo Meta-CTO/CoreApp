@@ -14,8 +14,9 @@ struct iOSApp: App {
         environment = AppEnvironment.Prod()
         #endif
         
-        KoinKt.doInitKoin(
+        Koin_iosKt.doInitKoin(
             environment: environment,
+            viewsFactory: ViewsFactory(),
             crashLogger: { () -> ICrashLogger in
                 return CrashlyticsLogger()
             }
