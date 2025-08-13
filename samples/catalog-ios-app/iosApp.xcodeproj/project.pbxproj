@@ -10,7 +10,7 @@
 		058557BB273AAA24004C7B11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557BA273AAA24004C7B11 /* Assets.xcassets */; };
 		058557D9273AAEEB004C7B11 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */; };
 		2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2152FB032600AC8F00CF470E /* iOSApp.swift */; };
-		6B47EDD82E4C7C7C006FBC7A /* CrashlyticsLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B47EDD62E4C7C7C006FBC7A /* CrashlyticsLogger.swift */; };
+		6B438A682E4D2012009F3FC4 /* FirebaseCrashlyticsImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B438A662E4D2012009F3FC4 /* FirebaseCrashlyticsImpl.swift */; };
 		6B47EDD92E4C7C7C006FBC7A /* ViewsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B47EDD42E4C7C7C006FBC7A /* ViewsFactory.swift */; };
 		6B47EDDB2E4C7C9A006FBC7A /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 6B47EDDA2E4C7C9A006FBC7A /* FirebaseCrashlytics */; };
 		6BB0E4E62DC4AE2A0065FAA2 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 6BB0E4E52DC4AE2A0065FAA2 /* FirebaseMessaging */; };
@@ -25,8 +25,8 @@
 		058557BA273AAA24004C7B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		058557D8273AAEEB004C7B11 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		2152FB032600AC8F00CF470E /* iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSApp.swift; sourceTree = "<group>"; };
+		6B438A662E4D2012009F3FC4 /* FirebaseCrashlyticsImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseCrashlyticsImpl.swift; sourceTree = "<group>"; };
 		6B47EDD42E4C7C7C006FBC7A /* ViewsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewsFactory.swift; sourceTree = "<group>"; };
-		6B47EDD62E4C7C7C006FBC7A /* CrashlyticsLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashlyticsLogger.swift; sourceTree = "<group>"; };
 		6BB0E4E72DC4AFF80065FAA2 /* DiProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiProvider.swift; sourceTree = "<group>"; };
 		6BFA2DB62DC49697004981FB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7555FF7B242A565900829871 /* My Atlas - DEV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "My Atlas - DEV.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -63,20 +63,20 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		6B438A672E4D2012009F3FC4 /* Crash */ = {
+			isa = PBXGroup;
+			children = (
+				6B438A662E4D2012009F3FC4 /* FirebaseCrashlyticsImpl.swift */,
+			);
+			path = Crash;
+			sourceTree = "<group>";
+		};
 		6B47EDD52E4C7C7C006FBC7A /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
 				6B47EDD42E4C7C7C006FBC7A /* ViewsFactory.swift */,
 			);
 			path = CustomViews;
-			sourceTree = "<group>";
-		};
-		6B47EDD72E4C7C7C006FBC7A /* Loggers */ = {
-			isa = PBXGroup;
-			children = (
-				6B47EDD62E4C7C7C006FBC7A /* CrashlyticsLogger.swift */,
-			);
-			path = Loggers;
 			sourceTree = "<group>";
 		};
 		7555FF72242A565900829871 = {
@@ -100,8 +100,8 @@
 		7555FF7D242A565900829871 /* iosApp */ = {
 			isa = PBXGroup;
 			children = (
+				6B438A672E4D2012009F3FC4 /* Crash */,
 				6B47EDD52E4C7C7C006FBC7A /* CustomViews */,
-				6B47EDD72E4C7C7C006FBC7A /* Loggers */,
 				8C29F3442B04D32C00A67CB1 /* Configuration */,
 				8C78AE7B2B04F206003398E5 /* Resources */,
 				CBBF6BC32A71787F00A56862 /* iosApp.entitlements */,
@@ -282,8 +282,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				6BFA2DB72DC49699004981FB /* AppDelegate.swift in Sources */,
-				6B47EDD82E4C7C7C006FBC7A /* CrashlyticsLogger.swift in Sources */,
 				6B47EDD92E4C7C7C006FBC7A /* ViewsFactory.swift in Sources */,
+				6B438A682E4D2012009F3FC4 /* FirebaseCrashlyticsImpl.swift in Sources */,
 				2152FB042600AC8F00CF470E /* iOSApp.swift in Sources */,
 				7555FF83242A565900829871 /* ContentView.swift in Sources */,
 				6BB0E4E82DC4AFFC0065FAA2 /* DiProvider.swift in Sources */,

@@ -17,8 +17,8 @@ struct iOSApp: App {
         Koin_iosKt.doInitKoin(
             environment: environment,
             viewsFactory: ViewsFactory(),
-            crashLogger: { () -> ICrashLogger in
-                return CrashlyticsLogger()
+            firebaseCrashlytics: { () -> FirebaseCrashlytics in
+                return FirebaseCrashlyticsImpl()
             }
         )
     }

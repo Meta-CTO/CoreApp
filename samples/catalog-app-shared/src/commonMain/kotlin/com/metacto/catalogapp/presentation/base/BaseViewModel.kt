@@ -6,7 +6,7 @@ import com.metacto.core.ui.base.ViewEvent
 import com.metacto.core.ui.base.ViewSideEffect
 import com.metacto.core.ui.base.ViewState
 import com.metacto.core.ui.globalState.models.LoadingType
-import com.metacto.catalogapp.loggers.ICrashLogger
+import com.metacto.catalogapp.crash.CrashLogger
 import com.metacto.catalogapp.presentation.app.globalState.IAppGlobalState
 import org.koin.core.component.inject
 
@@ -14,7 +14,7 @@ abstract class BaseViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     CoreViewModel<S, E, SF>() {
 
     protected val globalState by inject<IAppGlobalState>()
-    private val crashLogger by inject<ICrashLogger>()
+    private val crashLogger by inject<CrashLogger>()
     private val viewModelName by lazy { this::class.simpleName.orEmpty() }
 
     override val defaultLoadingType: LoadingType = LoadingType.SecondaryCircularBlocking
@@ -28,6 +28,7 @@ abstract class BaseViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
     override fun onChangeState(newState: S) {
         super.onChangeState(newState)
+        crashLogger.setCurrentScreenState(newState)
         crashLogger.setCustomKey("UIState", newState.toString())
     }
 

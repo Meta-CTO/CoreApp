@@ -1,6 +1,7 @@
 package com.metacto.catalogapp.di
 
 import com.metacto.catalogapp.constants.AppEnvironment
+import com.metacto.catalogapp.crash.CrashLogger
 import com.metacto.catalogapp.presentation.app.globalState.AppGlobalState
 import com.metacto.catalogapp.presentation.app.globalState.IAppGlobalState
 import com.metacto.core.domain.repos.RepositoriesFactory
@@ -15,4 +16,5 @@ fun appModule(environment: AppEnvironment) = module {
     single<ICoreGlobalState> { get<IAppGlobalState>() }
     single<RemoteConfigProvider> { FirebaseRemoteConfigsProvider(get()) }
     single { get<RepositoriesFactory<*>>().sharedPreference }
+    single { CrashLogger() }
 }
