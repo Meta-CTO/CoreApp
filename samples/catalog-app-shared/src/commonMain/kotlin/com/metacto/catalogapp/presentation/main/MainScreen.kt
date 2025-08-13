@@ -2,12 +2,12 @@ package com.metacto.catalogapp.presentation.main
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.metacto.core.ui.base.CoreScreen
+import com.metacto.catalogapp.presentation.base.BaseScreen
 import com.metacto.core.ui.base.rememberViewModel
 import com.metacto.catalogapp.presentation.main.MainContract.Event
 import com.metacto.catalogapp.presentation.main.components.MainContent
 
-internal class MainScreen : CoreScreen<MainViewModel>() {
+internal class MainScreen : BaseScreen<MainViewModel>() {
 
     @Composable
     override fun Content() {
@@ -16,7 +16,9 @@ internal class MainScreen : CoreScreen<MainViewModel>() {
 
         // Init view model
         LaunchedEffect(Unit) {
-            viewModel.setEvent(Event.Init)
+            if (!viewModel.viewState.value.isInitialized) {
+                viewModel.setEvent(Event.Init)
+            }
         }
 
         // Render content

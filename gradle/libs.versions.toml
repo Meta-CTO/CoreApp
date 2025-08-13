@@ -49,7 +49,7 @@ compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
-google-services = { id = "com.google.gms.google-services", version.ref = "play-services-plugin" }
+google-services = { id = "com.google.gms.google-services" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics" }
 swiftklib = { id = "io.github.ttypic.swiftklib", version.ref = "swift-klib" }
 maven-publish = { id = "maven-publish" }

@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesContract.Event
 import com.metacto.catalogapp.presentation.notifications.components.NotificationsSamplesContent
-import com.metacto.core.ui.base.CoreScreen
+import com.metacto.catalogapp.presentation.base.BaseScreen
 import com.metacto.core.ui.base.rememberViewModel
 
-internal class NotificationsSamplesScreen : CoreScreen<NotificationsSamplesViewModel>() {
+internal class NotificationsSamplesScreen : BaseScreen<NotificationsSamplesViewModel>() {
     @Composable
     override fun Content() {
         // Get the view model
@@ -15,7 +15,9 @@ internal class NotificationsSamplesScreen : CoreScreen<NotificationsSamplesViewM
 
         // Init view model
         LaunchedEffect(Unit) {
-            viewModel.setEvent(Event.Init)
+            if (!viewModel.viewState.value.isInitialized) {
+                viewModel.setEvent(Event.Init)
+            }
         }
 
         // Render content

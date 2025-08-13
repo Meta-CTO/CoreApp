@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.metacto.catalogapp.presentation.lottie.LottieContract.Event
 import com.metacto.catalogapp.presentation.lottie.components.LottieContent
-import com.metacto.core.ui.base.CoreScreen
+import com.metacto.catalogapp.presentation.base.BaseScreen
 import com.metacto.core.ui.base.rememberViewModel
 
-internal class LottieScreen : CoreScreen<LottieViewModel>() {
+internal class LottieScreen : BaseScreen<LottieViewModel>() {
     @Composable
     override fun Content() {
         // Get the view model
@@ -15,7 +15,9 @@ internal class LottieScreen : CoreScreen<LottieViewModel>() {
 
         // Init view model
         LaunchedEffect(Unit) {
-            viewModel.setEvent(Event.Init)
+            if (!viewModel.viewState.value.isInitialized) {
+                viewModel.setEvent(Event.Init)
+            }
         }
 
         // Render content

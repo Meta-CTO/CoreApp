@@ -108,5 +108,13 @@ internal fun MainContent(
             },
             modifier = Modifier.fillMaxWidth()
         )
+
+        PrimaryFilledButton(
+            text = "Test Crash",
+            onClick = {
+                throw RuntimeException("Test crash for Firebase Crashlytics")
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
