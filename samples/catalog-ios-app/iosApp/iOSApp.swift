@@ -15,7 +15,10 @@ struct iOSApp: App {
         #endif
         
         KoinKt.doInitKoin(
-            environment: environment
+            environment: environment,
+            crashLogger: { () -> ICrashLogger in
+                return CrashlyticsLogger()
+            }
         )
     }
     

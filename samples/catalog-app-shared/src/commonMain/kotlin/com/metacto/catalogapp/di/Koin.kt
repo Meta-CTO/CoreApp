@@ -1,5 +1,6 @@
 package com.metacto.catalogapp.di
 
+import com.metacto.catalogapp.constants.AppEnvironment
 import com.metacto.core.di.coreModule
 import com.metacto.core.files.di.filesModule
 import com.metacto.core.notifications.NotificationsConfigs
@@ -11,41 +12,25 @@ import com.metacto.core.ui.imagepicker.di.imagePickerModule
 import com.metacto.core.ui.mediaplayers.di.mediaPlayersModule
 import com.metacto.core.ui.phone.di.phoneUIModule
 import com.metacto.core.ui.youtube.di.youtubeModule
-import com.metacto.catalogapp.constants.AppEnvironment
 import com.metacto.kmm.network.errorhandling.NetworkError
-import org.koin.core.context.startKoin
-import org.koin.dsl.KoinAppDeclaration
 
-fun initKoin(
+fun getCommonModules(
     environment: AppEnvironment
-) = initKoin(
-    environment = environment,
-    appDeclaration = {}
+) = listOf(
+    appModule(environment),
+    viewModelsModule,
+    coreModule(environment.coreConfigs, NetworkError::class),
+    coreUIModule(environment.coreUIConfigs),
+    filesModule(),
+    notificationsModule(
+        NotificationsConfigs(
+            askNotificationPermissionOnStart = true
+        )
+    ),
+    phoneCoreModule(),
+    mediaPlayersModule(),
+    cameraModule(),
+    youtubeModule(),
+    imagePickerModule(),
+    phoneUIModule()
 )
-
-fun initKoin(
-    environment: AppEnvironment,
-    appDeclaration: KoinAppDeclaration = {}
-) = startKoin {
-    appDeclaration()
-    modules(
-        appModule,
-        platformModule,
-        viewModelsModule,
-        domainModule,
-        coreModule(environment.coreConfigs, NetworkError::class),
-        coreUIModule(environment.coreUIConfigs),
-        filesModule(),
-        notificationsModule(
-            NotificationsConfigs(
-                askNotificationPermissionOnStart = true
-            )
-        ),
-        phoneCoreModule(),
-        mediaPlayersModule(),
-        cameraModule(),
-        youtubeModule(),
-        imagePickerModule(),
-        phoneUIModule()
-    )
-}

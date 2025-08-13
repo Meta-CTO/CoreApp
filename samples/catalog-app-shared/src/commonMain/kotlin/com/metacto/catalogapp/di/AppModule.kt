@@ -1,5 +1,6 @@
 package com.metacto.catalogapp.di
 
+import com.metacto.catalogapp.constants.AppEnvironment
 import com.metacto.catalogapp.presentation.app.globalState.AppGlobalState
 import com.metacto.catalogapp.presentation.app.globalState.IAppGlobalState
 import com.metacto.core.domain.repos.RepositoriesFactory
@@ -8,7 +9,8 @@ import com.metacto.kmm.firebase.remoteconfig.FirebaseRemoteConfigsProvider
 import com.metacto.kmm.remoteconfig.common.RemoteConfigProvider
 import org.koin.dsl.module
 
-val appModule = module {
+fun appModule(environment: AppEnvironment) = module {
+    single { environment }
     single<IAppGlobalState> { AppGlobalState() }
     single<ICoreGlobalState> { get<IAppGlobalState>() }
     single<RemoteConfigProvider> { FirebaseRemoteConfigsProvider(get()) }
