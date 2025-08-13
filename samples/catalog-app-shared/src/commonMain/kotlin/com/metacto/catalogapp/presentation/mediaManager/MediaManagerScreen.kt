@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.metacto.catalogapp.presentation.mediaManager.MediaManagerContract.Event
 import com.metacto.catalogapp.presentation.mediaManager.components.MediaManagerContent
-import com.metacto.core.ui.base.CoreScreen
+import com.metacto.catalogapp.presentation.base.BaseScreen
 import com.metacto.core.ui.base.rememberViewModel
 
-internal class MediaManagerScreen : CoreScreen<MediaManagerViewModel>() {
+internal class MediaManagerScreen : BaseScreen<MediaManagerViewModel>() {
     @Composable
     override fun Content() {
         // Get the view model
@@ -15,7 +15,9 @@ internal class MediaManagerScreen : CoreScreen<MediaManagerViewModel>() {
 
         // Init view model
         LaunchedEffect(Unit) {
-            viewModel.setEvent(Event.Init)
+            if (!viewModel.viewState.value.isInitialized) {
+                viewModel.setEvent(Event.Init)
+            }
         }
 
         // Render content

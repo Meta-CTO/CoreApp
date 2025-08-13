@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.google.services)
 }
 
 kotlin {
@@ -55,10 +56,14 @@ kotlin {
             implementation(project(":ui:phone-ui"))
             implementation(project(":ui:image-picker"))
             implementation(libs.metacto.inspektify)
+            implementation(libs.metacto.remoteconfigs.common)
+            implementation(libs.metacto.remoteconfigs.firebase)
         }
 
         androidMain.dependencies {
             // ANDROID DEPENDENCIES
+            implementation(project.dependencies.platform(libs.firebase.bom))
+            implementation(libs.firebase.crashlytics)
         }
 
         iosMain.dependencies {

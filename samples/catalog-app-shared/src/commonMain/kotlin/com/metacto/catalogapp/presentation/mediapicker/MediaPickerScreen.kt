@@ -4,10 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import com.metacto.catalogapp.presentation.mediapicker.MediaPickerContract.Event
 import com.metacto.catalogapp.presentation.mediapicker.components.MediaPickerContent
-import com.metacto.core.ui.base.CoreScreen
+import com.metacto.catalogapp.presentation.base.BaseScreen
 import com.metacto.core.ui.base.rememberViewModel
 
-internal class MediaPickerScreen : CoreScreen<MediaPickerViewModel>() {
+internal class MediaPickerScreen : BaseScreen<MediaPickerViewModel>() {
     @Composable
     override fun Content() {
         // Get the view model
@@ -15,7 +15,9 @@ internal class MediaPickerScreen : CoreScreen<MediaPickerViewModel>() {
 
         // Init view model
         LaunchedEffect(Unit) {
-            viewModel.setEvent(Event.Init)
+            if (!viewModel.viewState.value.isInitialized) {
+                viewModel.setEvent(Event.Init)
+            }
         }
 
         // Render content

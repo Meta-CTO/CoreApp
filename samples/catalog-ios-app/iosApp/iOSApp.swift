@@ -14,8 +14,12 @@ struct iOSApp: App {
         environment = AppEnvironment.Prod()
         #endif
         
-        KoinKt.doInitKoin(
-            environment: environment
+        Koin_iosKt.doInitKoin(
+            environment: environment,
+            viewsFactory: ViewsFactory(),
+            firebaseCrashlytics: { () -> FirebaseCrashlytics in
+                return FirebaseCrashlyticsImpl()
+            }
         )
     }
     
