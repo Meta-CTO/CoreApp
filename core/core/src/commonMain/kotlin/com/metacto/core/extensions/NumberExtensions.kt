@@ -169,6 +169,40 @@ fun Int.to2DigitsFormat(): String {
     return if (this < 10) "0$this" else this.toString()
 }
 
+fun Int.formatThousands(): String {
+    return toString()
+        .split('.')
+        .let { parts ->
+            val integerPart = parts[0].reversed().chunked(3).joinToString(",").reversed()
+            val decimalPart = if (parts.size > 1) ".${parts[1]}" else ""
+            integerPart + decimalPart
+        }
+}
+
+fun Int.formatCount(): String {
+    return when {
+        this < 1_000 -> this.toString()
+        this < 1_000_000 -> formatWithSuffix(this, 1_000, "k")
+        this < 1_000_000_000 -> formatWithSuffix(this, 1_000_000, "M")
+        else -> formatWithSuffix(this, 1_000_000_000, "B")
+    }
+}
+
+private fun formatWithSuffix(value: Int, divisor: Int, suffix: String): String {
+    val shouldShowDecimal = value < divisor * 10
+
+    return if (shouldShowDecimal) {
+        val decimal = (value / (divisor / 10)) / 10.0
+        if (decimal % 1 == 0.0) {
+            "${decimal.toInt()}$suffix"
+        } else {
+            "$decimal$suffix"
+        }
+    } else {
+        "${value / divisor}$suffix"
+    }
+}
+
 expect fun Double.format(decimalsCount: Int): String
 
 expect fun Double.formatToComma(maxFractionCount: Int = 0): String
