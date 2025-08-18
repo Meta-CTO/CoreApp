@@ -1,0 +1,22 @@
+<resources>
+    <string name="cancel">Annuler</string>
+    <string name="confirm">Confirmer</string>
+    <string name="ok">Ok</string>
+    <string name="no_email_apps_found_on_your_device">Aucune application de messagerie installée sur votre appareil</string>
+    <string name="can_not_find_a_suitable_app_to_preform_that_action">Impossible de trouver une application appropriée pour effectuer cette action</string>
+    <string name="no_phone_apps_found_on_your_device">Aucune application téléphonique installée sur votre appareil</string>
+    <string name="session_expired">Session Expirée</string>
+    <string name="your_session_expired_login_again">Votre session a expiré, veuillez vous reconnecter.</string>
+    <string name="error">Erreur</string>
+    <string name="no_internet_connection_check_connection">Hmm, il semble y avoir un problème avec ta connexion internet.</string>
+    <string name="server_taking_too_long">Il semble que le serveur met trop de temps à répondre, veuillez réessayer plus tard.</string>
+    <string name="something_went_wrong_try_again">Quelque chose s\'est mal passé, veuillez réessayer plus tard.</string>
+    <string name="no_results">Aucun Résultat</string>
+    <string name="no_results_subtitle">Veuillez vérifier votre\n orthographe et état</string>
+    <string name="minimum_allowed_date_is_s">La date minimale autorisée est : %1$s</string>
+    <string name="maximum_allowed_date_is_s">La date maximale autorisée est : %1$s</string>
+    <string name="minimum_allowed_time_is_s">L\'heure minimale autorisée est : %1$s</string>
+    <string name="maximum_allowed_time_is_s">L\'heure maximale autorisée est : %1$s</string>
+    <string name="no_browser_installed">Aucun navigateur installé</string>
+    <string name="search_here">mita disinoë...</string>
+</resources>

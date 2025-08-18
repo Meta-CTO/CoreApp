@@ -1,0 +1,29 @@
+package com.metacto.catalogapp.presentation.imagePreloader
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import com.metacto.catalogapp.presentation.imagePreloader.ImagePreloaderContract.Event
+import com.metacto.catalogapp.presentation.imagePreloader.components.ImagePreloaderContent
+import com.metacto.catalogapp.presentation.base.BaseScreen
+import com.metacto.core.ui.base.rememberViewModel
+
+internal class ImagePreloaderScreen : BaseScreen<ImagePreloaderViewModel>() {
+    @Composable
+    override fun Content() {
+        // Get the view model
+        val viewModel = rememberViewModel<ImagePreloaderViewModel>()
+
+        // Init view model
+        LaunchedEffect(Unit) {
+            if (!viewModel.viewState.value.isInitialized) {
+                viewModel.setEvent(Event.Init)
+            }
+        }
+
+        // Render content
+        ImagePreloaderContent(
+            state = viewModel.viewState.value,
+            onEvent = viewModel::setEvent
+        )
+    }
+}

@@ -1,0 +1,155 @@
+[versions]
+compileSdk = "35"
+targetSdk = "35"
+minSdk = "26"
+jvm = "17"
+gradle = "8.7.1"
+kotlin = "2.1.0"
+compose = "1.7.0"
+swift-klib = "0.6.4"
+compose-android = "1.7.4"
+date-time = "0.4.0"
+coroutines = "1.10.2"
+strapi-kmm = "10.0.158"
+core-network = "2.0.32"
+metacto-inspektify = "1.0.0-beta09-meta-2"
+metacto-firebase = "1.0.22"
+koin = "4.0.0"
+koin-compose = "1.1.0"
+voyager = "1.1.0-beta02"
+activity-compose = "1.8.0"
+app-compat = "1.6.1"
+core-kts = "1.12.0"
+security-crypto = "1.0.0"
+play-services-auth = "20.7.0"
+splash-screen = "1.1.0-alpha02"
+firebase = "34.1.0"
+serialization = "2.1.0"
+play-services-plugin = "4.3.14"
+crashlytics-plugin = "2.9.4"
+android-image-picker = "2.1"
+lib-phone-number = "0.1.3-metacto-3"
+android-cropper = "4.5.0"
+coil = "3.0.0-alpha10"
+compottie = "1.1.0"
+webview = "1.9.40-alpha04"
+exo-player = "1.3.1"
+youtube-player = "12.1.0"
+shimmer = "1.3.1"
+kmp-notifier = "1.3.0"
+stately-common = "2.0.5"
+uuid = "0.8.4"
+camera-x = "1.3.4"
+
+[plugins]
+multiplatform = { id = "org.jetbrains.kotlin.multiplatform" }
+android-library = { id = "com.android.library" }
+android-application = { id = "com.android.application" }
+compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization" }
+kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics" }
+swiftklib = { id = "io.github.ttypic.swiftklib", version.ref = "swift-klib" }
+maven-publish = { id = "maven-publish" }
+signing = { id = "signing" }
+
+
+[libraries]
+# Plugin classpaths
+classpath-androidgradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+classpath-kotlingradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+classpath-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "serialization" }
+classpath-googleservices = { module = "com.google.gms:google-services", version.ref = "play-services-plugin" }
+classpath-crashlytics = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlytics-plugin" }
+
+# Compose
+compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose" }
+compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose" }
+compose-material = { module = "org.jetbrains.compose.material:material", version.ref = "compose" }
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "compose" }
+compose-animation = { module = "org.jetbrains.compose.animation:animation", version.ref = "compose" }
+compose-animationgraphics = { module = "org.jetbrains.compose.animation:animation-graphics", version.ref = "compose" }
+compose-icons = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "compose" }
+compose-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose" }
+
+# Kotlin
+kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "date-time" }
+kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+
+# Koin
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-androidcompose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+
+# Voyager
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyager-bottomsheet = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
+voyager-screenmodel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
+voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
+
+# AndroidX
+android-activitycompose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
+android-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "app-compat" }
+android-corektx = { module = "androidx.core:core-ktx", version.ref = "core-kts" }
+android-securitycrypto = { module = "androidx.security:security-crypto", version.ref = "security-crypto" }
+android-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splash-screen" }
+
+# Firebase
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase" }
+firebase-dynamiclinks = { module = "com.google.firebase:firebase-dynamic-links-ktx" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
+
+# Google Play Services
+playservices-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "play-services-auth" }
+
+# Coil
+coil = { module = "io.coil-kt.coil3:coil", version.ref = "coil" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
+coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
+
+# ExoPlayer
+exo-player = { module = "androidx.media3:media3-exoplayer", version.ref = "exo-player" }
+exo-hls = { module = "androidx.media3:media3-exoplayer-hls", version.ref = "exo-player" }
+exo-ui = { module = "androidx.media3:media3-ui", version.ref = "exo-player" }
+exo-session = { module = "androidx.media3:media3-session", version.ref = "exo-player" }
+
+# YouTube Player
+youtube-core = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "youtube-player" }
+youtube-customui = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:custom-ui", version.ref = "youtube-player" }
+
+# CameraX
+camera-view = { module = "androidx.camera:camera-view", version.ref = "camera-x" }
+camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "camera-x" }
+camera-core = { module = "androidx.camera:camera-core", version.ref = "camera-x" }
+camera-lifecycle = { module = "androidx.camera:camera-lifecycle", version.ref = "camera-x" }
+camera-video = { module = "androidx.camera:camera-video", version.ref = "camera-x" }
+
+# Notifications
+kmpnotifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmp-notifier" }
+statelycommon = { module = "co.touchlab:stately-common", version.ref = "stately-common" }
+uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
+
+# MetaCto Network
+metacto-strapikmm = { module = "com.metacto:strapi", version.ref = "strapi-kmm" }
+metacto-network = { module = "com.metacto:network-core", version.ref = "core-network" }
+metacto-inspektify = { module = "com.metacto:inspektify", version.ref = "metacto-inspektify" }
+
+#MetaCto firebase
+metacto-auth-common = { module = "com.metacto.kmm:auth-common", version.ref = "metacto-firebase" }
+metacto-auth-firebase = { module = "com.metacto.kmm:firebase-auth-extensions", version.ref = "metacto-firebase" }
+metacto-remoteconfigs-common = { module = "com.metacto.kmm:remote-config-common", version.ref = "metacto-firebase" }
+metacto-remoteconfigs-firebase = { module = "com.metacto.kmm:firebase-config-extensions", version.ref = "metacto-firebase" }
+
+# Others
+libphonenumber = { module = "io.github.luca992.libphonenumber-kotlin:libphonenumber", version.ref = "lib-phone-number" }
+imagepicker = { module = "com.github.dhaval2404:imagepicker", version.ref = "android-image-picker" }
+imagecropper = { module = "com.vanniktech:android-image-cropper", version.ref = "android-cropper" }
+compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "compottie" }
+webview = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "webview" }
+shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "shimmer" }

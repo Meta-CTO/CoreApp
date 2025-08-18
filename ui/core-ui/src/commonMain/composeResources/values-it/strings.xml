@@ -1,0 +1,22 @@
+<resources>
+    <string name="cancel">Annulla</string>
+    <string name="confirm">Conferma</string>
+    <string name="ok">Ok</string>
+    <string name="no_email_apps_found_on_your_device">Nessuna app di email trovata sul dispositivo</string>
+    <string name="can_not_find_a_suitable_app_to_preform_that_action">Impossibile trovare un\'app adatta per eseguire questa azione</string>
+    <string name="no_phone_apps_found_on_your_device">Nessuna app telefonica trovata sul dispositivo</string>
+    <string name="session_expired">Sessione Scaduta</string>
+    <string name="your_session_expired_login_again">La tua sessione è scaduta, per favore accedi di nuovo.</string>
+    <string name="error">Errore</string>
+    <string name="no_internet_connection_check_connection">Hmm, sembra ci sia un problema con la tua connessione internet.</string>
+    <string name="server_taking_too_long">Sembra che il server impieghi troppo tempo a rispondere, per favore riprova più tardi.</string>
+    <string name="something_went_wrong_try_again">Qualcosa è andato storto, per favore riprova più tardi.</string>
+    <string name="no_results">Nessun Risultato</string>
+    <string name="no_results_subtitle">Per favore controlla nuovamente la tua\n ortografia e stato</string>
+    <string name="minimum_allowed_date_is_s">La data minima consentita è: %1$s</string>
+    <string name="maximum_allowed_date_is_s">La data massima consentita è: %1$s</string>
+    <string name="minimum_allowed_time_is_s">L\'orario minimo consentito è: %1$s</string>
+    <string name="maximum_allowed_time_is_s">L\'orario massimo consentito è: %1$s</string>
+    <string name="no_browser_installed">Nessun browser installato</string>
+    <string name="search_here">Cerca qui...</string>
+</resources>

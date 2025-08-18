@@ -1,0 +1,22 @@
+<resources>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm">Confirmar</string>
+    <string name="ok">Ok</string>
+    <string name="no_email_apps_found_on_your_device">Nenhum app de e-mail encontrado no dispositivo</string>
+    <string name="can_not_find_a_suitable_app_to_preform_that_action">Não foi possível encontrar um app adequado para realizar essa ação</string>
+    <string name="no_phone_apps_found_on_your_device">Nenhum app de telefone encontrado no dispositivo</string>
+    <string name="session_expired">Sessão Expirada</string>
+    <string name="your_session_expired_login_again">Sua sessão expirou, por favor, faça login novamente.</string>
+    <string name="error">Erro</string>
+    <string name="no_internet_connection_check_connection">Hmm, parece haver um problema com a conexão de internet.</string>
+    <string name="server_taking_too_long">Parece que o servidor está demorando muito para responder, por favor, tente novamente mais tarde.</string>
+    <string name="something_went_wrong_try_again">Algo deu errado, por favor, tente novamente mais tarde.</string>
+    <string name="no_results">Sem Resultados</string>
+    <string name="no_results_subtitle">Por favor, verifique sua\n ortografia e estado</string>
+    <string name="minimum_allowed_date_is_s">A data mínima permitida é: %1$s</string>
+    <string name="maximum_allowed_date_is_s">A data máxima permitida é: %1$s</string>
+    <string name="minimum_allowed_time_is_s">O horário mínimo permitido é: %1$s</string>
+    <string name="maximum_allowed_time_is_s">O horário máximo permitido é: %1$s</string>
+    <string name="no_browser_installed">Nenhum navegador instalado</string>
+    <string name="search_here">Pesquise aqui...</string>
+</resources>

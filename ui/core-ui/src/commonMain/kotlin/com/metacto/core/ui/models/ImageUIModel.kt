@@ -1,0 +1,23 @@
+package com.metacto.core.ui.models
+
+import com.metacto.kmm.core.CommonSerializable
+import org.jetbrains.compose.resources.DrawableResource
+
+data class ImageUIModel(
+    val id: Int? = null,
+    val bytes: ByteArray? = null,
+    val filePath: String? = null,
+    val resource: DrawableResource? = null,
+    val url: String? = null,
+    val isUpdating: Boolean = false
+) : CommonSerializable {
+    fun getData() = bytes ?: filePath ?: url ?: resource
+
+    fun hasData(): Boolean {
+        return bytes != null || filePath?.isNotEmpty() == true || url != null || resource != null
+    }
+}
+
+fun ImageUIModel?.copyOrCreate(bytes: ByteArray? = null): ImageUIModel {
+    return this?.copy(bytes = bytes) ?: ImageUIModel(bytes = bytes)
+}

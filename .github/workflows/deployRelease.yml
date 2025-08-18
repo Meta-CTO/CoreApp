@@ -38,13 +38,13 @@ jobs:
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
-          PUBLISH_VERSION: 3.0.${{ github.run_number }}
+          PUBLISH_CORE_VERSION: 3.0.${{ github.run_number }}
         run: echo PUBLISH_REPO_USER=$PUBLISH_REPO_USER$'\n'
-          PUBLISH_VERSION=$PUBLISH_VERSION$'\n'
+          PUBLISH_CORE_VERSION=$PUBLISH_CORE_VERSION$'\n'
           PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN > ./local.properties
 
       - name: Print local.properties content
         run: cat ./local.properties
 
       - name: Publish to GitHub Packages
-        run: ./gradlew :coreApp:publishAllPublicationsToGithubRepository
+        run: ./gradlew :CmpCore:publishAllPublicationsToGithubRepository

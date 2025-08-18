@@ -12,3 +12,5 @@ iosApp/Pods/*
 iosApp/Podfile.lock
 kotlin-js-store/*
 .kotlin/*
+samples/sample-ios-app/Pods/*
+samples/sample-ios-app/Podfile.lock

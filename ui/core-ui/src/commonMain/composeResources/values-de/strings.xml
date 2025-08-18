@@ -1,0 +1,22 @@
+<resources>
+    <string name="cancel">Abbrechen</string>
+    <string name="confirm">Bestätigen</string>
+    <string name="ok">Ok</string>
+    <string name="no_email_apps_found_on_your_device">Keine E-Mail-Apps auf deinem Gerät gefunden</string>
+    <string name="can_not_find_a_suitable_app_to_preform_that_action">Kann keine passende App finden, um diese Aktion auszuführen</string>
+    <string name="no_phone_apps_found_on_your_device">Keine Telefon-Apps auf deinem Gerät gefunden</string>
+    <string name="session_expired">Sitzung abgelaufen</string>
+    <string name="your_session_expired_login_again">Sitzung ist abgelaufen, bitte erneut anmelden.</string>
+    <string name="error">Fehler</string>
+    <string name="no_internet_connection_check_connection">Hmm, es scheint ein Problem mit deiner Internetverbindung zu geben.</string>
+    <string name="server_taking_too_long">Es sieht so aus, als ob der Server zu lange zum Antworten braucht, bitte versuche es später noch einmal.</string>
+    <string name="something_went_wrong_try_again">Etwas ist schiefgelaufen, bitte versuche es später noch einmal.</string>
+    <string name="no_results">Keine Ergebnisse</string>
+    <string name="no_results_subtitle">Bitte überprüfe deine\n Schreibweise und das Bundesland</string>
+    <string name="minimum_allowed_date_is_s">Das erlaubte Mindestdatum ist: %1$s</string>
+    <string name="maximum_allowed_date_is_s">Das erlaubte Höchstdatum ist: %1$s</string>
+    <string name="minimum_allowed_time_is_s">Die erlaubte Mindestzeit ist: %1$s</string>
+    <string name="maximum_allowed_time_is_s">Die erlaubte Höchstzeit ist: %1$s</string>
+    <string name="no_browser_installed">Kein Browser installiert</string>
+    <string name="search_here">Hier suchen...</string>
+</resources>
