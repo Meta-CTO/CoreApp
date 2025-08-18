@@ -1,9 +1,9 @@
-package com.metacto.catalogapp.presentation.imagePreloader.imagepreloader
+package com.metacto.catalogapp.presentation.imagePreloader
 
 import com.metacto.catalogapp.presentation.base.BaseViewModel
-import com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.ImagePreloaderContract.Effect
-import com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.ImagePreloaderContract.Event
-import com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.ImagePreloaderContract.State
+import com.metacto.catalogapp.presentation.imagePreloader.ImagePreloaderContract.Effect
+import com.metacto.catalogapp.presentation.imagePreloader.ImagePreloaderContract.Event
+import com.metacto.catalogapp.presentation.imagePreloader.ImagePreloaderContract.State
 
 class ImagePreloaderViewModel : BaseViewModel<State, Event, Effect>() {
 

@@ -142,6 +142,11 @@ fun CoreAppNavigator(
                     effect.result.complete(hasScreen)
                 }
 
+                is NavEffect.GetLastScreen -> {
+                    val lastScreen = navigator?.lastItem as? NavScreen
+                    effect.result.complete(lastScreen)
+                }
+
                 is NavEffect.GoBack -> {
                     // Hide bottom sheet if visible or navigate back
                     if (sheetNavigator?.isVisible == true) {

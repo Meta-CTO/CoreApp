@@ -101,7 +101,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import ${package_name}.presentation.${feature}.${screen_lower}.${screen}Contract.Event
 import ${package_name}.presentation.${feature}.${screen_lower}.components.${screen}Content
-import com.metacto.core.ui.base.BaseScreen
+import ${package_name}.presentation.base.BaseScreen
 import com.metacto.core.ui.base.rememberViewModel
 
 internal class ${screen}Screen : BaseScreen<${screen}ViewModel>() {

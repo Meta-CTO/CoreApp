@@ -1,4 +1,4 @@
-package com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.components
+package com.metacto.catalogapp.presentation.imagePreloader.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -7,8 +7,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import com.metacto.catalogapp.presentation.components.containers.AppScreenColumn
-import com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.ImagePreloaderContract.Event
-import com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.ImagePreloaderContract.State
+import com.metacto.catalogapp.presentation.imagePreloader.ImagePreloaderContract.Event
+import com.metacto.catalogapp.presentation.imagePreloader.ImagePreloaderContract.State
 import com.metacto.catalogapp.presentation.theme.spacings
 import com.metacto.core.ui.components.images.AppImage
 import com.metacto.core.ui.imagePreloader.IPreloader
