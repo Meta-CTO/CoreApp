@@ -41,5 +41,9 @@ sealed class NavEffect {
         val result: CompletableDeferred<Boolean>
     ) : NavEffect()
 
+    data class GetLastScreen(
+        val result: CompletableDeferred<NavDestination?>
+    ) : NavEffect()
+
     data object GoBack : NavEffect()
 }
