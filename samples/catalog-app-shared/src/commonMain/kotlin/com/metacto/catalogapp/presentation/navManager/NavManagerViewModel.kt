@@ -1,11 +1,11 @@
-package com.metacto.catalogapp.presentation.mediaPicker
+package com.metacto.catalogapp.presentation.navManager
 
 import com.metacto.catalogapp.presentation.base.BaseViewModel
-import com.metacto.catalogapp.presentation.mediaPicker.MediaPickerContract.Effect
-import com.metacto.catalogapp.presentation.mediaPicker.MediaPickerContract.Event
-import com.metacto.catalogapp.presentation.mediaPicker.MediaPickerContract.State
+import com.metacto.catalogapp.presentation.navManager.NavManagerContract.Effect
+import com.metacto.catalogapp.presentation.navManager.NavManagerContract.Event
+import com.metacto.catalogapp.presentation.navManager.NavManagerContract.State
 
-class MediaPickerViewModel : BaseViewModel<State, Event, Effect>() {
+class NavManagerViewModel : BaseViewModel<State, Event, Effect>() {
 
     override fun setInitialState() = State()
 

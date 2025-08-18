@@ -1,13 +1,13 @@
-package com.metacto.catalogapp.presentation.imagePreloader.imagepreloader
+package com.metacto.catalogapp.presentation.mediaPicker
 
 import com.metacto.core.ui.base.ViewEvent
 import com.metacto.core.ui.base.ViewSideEffect
 import com.metacto.core.ui.base.ViewState
 
-class ImagePreloaderContract {
+class MediaPickerContract {
 
     data class State(
-        val isInitialized: Boolean = false
+        val isInitialized: Boolean = false,
     ) : ViewState
 
     sealed class Event : ViewEvent {

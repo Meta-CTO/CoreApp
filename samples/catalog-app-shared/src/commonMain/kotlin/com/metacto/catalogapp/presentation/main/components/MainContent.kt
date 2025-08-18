@@ -8,12 +8,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.metacto.catalogapp.presentation.files.FilesSamplesScreen
 import com.metacto.catalogapp.presentation.imagePicker.ImagePickerSamplesScreen
-import com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.ImagePreloaderScreen
+import com.metacto.catalogapp.presentation.imagePreloader.ImagePreloaderScreen
 import com.metacto.catalogapp.presentation.lottie.LottieScreen
 import com.metacto.catalogapp.presentation.main.MainContract.Event
 import com.metacto.catalogapp.presentation.main.MainContract.State
-import com.metacto.catalogapp.presentation.mediapicker.MediaPickerScreen
+import com.metacto.catalogapp.presentation.mediaPicker.MediaPickerScreen
 import com.metacto.catalogapp.presentation.mediaManager.MediaManagerScreen
+import com.metacto.catalogapp.presentation.navManager.NavManagerScreen
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesScreen
 import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberScreen
 import com.metacto.catalogapp.presentation.theme.spacings
@@ -97,6 +98,14 @@ internal fun MainContent(
             text = "Lottie samples",
             onClick = {
                 navManage.navigate(LottieScreen())
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
+            text = "NavManager samples",
+            onClick = {
+                navManage.navigate(NavManagerScreen())
             },
             modifier = Modifier.fillMaxWidth()
         )

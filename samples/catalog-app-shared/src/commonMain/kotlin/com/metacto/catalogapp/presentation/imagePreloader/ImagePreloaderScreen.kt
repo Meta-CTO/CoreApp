@@ -1,9 +1,9 @@
-package com.metacto.catalogapp.presentation.imagePreloader.imagepreloader
+package com.metacto.catalogapp.presentation.imagePreloader
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.ImagePreloaderContract.Event
-import com.metacto.catalogapp.presentation.imagePreloader.imagepreloader.components.ImagePreloaderContent
+import com.metacto.catalogapp.presentation.imagePreloader.ImagePreloaderContract.Event
+import com.metacto.catalogapp.presentation.imagePreloader.components.ImagePreloaderContent
 import com.metacto.catalogapp.presentation.base.BaseScreen
 import com.metacto.core.ui.base.rememberViewModel
 

@@ -133,6 +133,14 @@ class NavManager {
         return result.await()
     }
 
+    suspend fun getLastScreen(): NavScreen? {
+        val result = CompletableDeferred<NavScreen?>()
+        _effects.send(
+            NavEffect.GetLastScreen(result = result)
+        )
+        return result.await()
+    }
+
     fun goBack() {
         GlobalScope.launch {
             _effects.send(

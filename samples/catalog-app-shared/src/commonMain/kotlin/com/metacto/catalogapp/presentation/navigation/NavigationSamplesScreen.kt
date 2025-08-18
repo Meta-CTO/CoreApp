@@ -1,27 +1,25 @@
-package com.metacto.catalogapp.presentation.mediaPicker
+package com.metacto.catalogapp.presentation.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import com.metacto.catalogapp.presentation.mediaPicker.MediaPickerContract.Event
-import com.metacto.catalogapp.presentation.mediaPicker.components.MediaPickerContent
 import com.metacto.catalogapp.presentation.base.BaseScreen
+import com.metacto.catalogapp.presentation.navigation.NavigationSamplesContract.Event
+import com.metacto.catalogapp.presentation.navigation.components.NavigationSamplesContent
 import com.metacto.core.ui.base.rememberViewModel
 
-internal class MediaPickerScreen : BaseScreen<MediaPickerViewModel>() {
+internal class NavigationSamplesScreen : BaseScreen<NavigationSamplesViewModel>() {
+
     @Composable
     override fun Content() {
-        // Get the view model
-        val viewModel = rememberViewModel<MediaPickerViewModel>()
+        val viewModel = rememberViewModel<NavigationSamplesViewModel>()
 
-        // Init view model
         LaunchedEffect(Unit) {
             if (!viewModel.viewState.value.isInitialized) {
                 viewModel.setEvent(Event.Init)
             }
         }
 
-        // Render content
-        MediaPickerContent(
+        NavigationSamplesContent(
             state = viewModel.viewState.value,
             onEvent = viewModel::setEvent
         )
