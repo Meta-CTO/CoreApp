@@ -3,6 +3,7 @@ package com.metacto.core.date
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
 import platform.Foundation.NSCalendar
 import platform.Foundation.NSCalendarIdentifierGregorian
 import platform.Foundation.NSCalendarUnitDay
@@ -203,11 +204,11 @@ private fun NSDate.toKotlinLocalTime(): LocalTime {
     )
 }
 
-actual fun LocalDate.formatToRelativeDate(): String {
-    return this.toMillis().timestampToReadableDate()
+actual fun LocalDate.formatToRelativeDate(timeZone: TimeZone): String {
+    return this.toMillis(timeZone).timestampToReadableDate()
 }
 
-actual fun LocalDateTime.formatToRelativeDate(): String {
+actual fun LocalDateTime.formatToRelativeDate(timeZone: TimeZone): String {
     return this.toMillis().timestampToReadableDate()
 }
 

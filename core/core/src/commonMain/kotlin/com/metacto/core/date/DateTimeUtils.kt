@@ -142,6 +142,6 @@ expect fun String.parseLocalTime(
     langCode: String = getSystemLanguage().code
 ): LocalTime?
 
-expect fun LocalDate.formatToRelativeDate(): String
+expect fun LocalDate.formatToRelativeDate(timeZone: TimeZone = TimeZone.currentSystemDefault()): String
 
-expect fun LocalDateTime.formatToRelativeDate(): String
+expect fun LocalDateTime.formatToRelativeDate(timeZone: TimeZone = TimeZone.currentSystemDefault()): String

@@ -4,6 +4,7 @@ import android.text.format.DateUtils
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
+import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toJavaLocalDate
 import kotlinx.datetime.toJavaLocalDateTime
 import kotlinx.datetime.toJavaLocalTime
@@ -85,12 +86,12 @@ actual fun String.parseLocalTime(format: String, langCode: String): LocalTime? {
     }
 }
 
-actual fun LocalDate.formatToRelativeDate(): String {
-    return toMillis().timestampToRelativeDate()
+actual fun LocalDate.formatToRelativeDate(timeZone: TimeZone): String {
+    return toMillis(timeZone).timestampToRelativeDate()
 }
 
-actual fun LocalDateTime.formatToRelativeDate(): String {
-    return toMillis().timestampToRelativeDate()
+actual fun LocalDateTime.formatToRelativeDate(timeZone: TimeZone): String {
+    return toMillis(timeZone).timestampToRelativeDate()
 }
 
 private fun Long.timestampToRelativeDate(): String {
