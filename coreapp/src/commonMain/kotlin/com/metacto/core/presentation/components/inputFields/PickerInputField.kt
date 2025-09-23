@@ -52,6 +52,7 @@ fun PickerInputField(
     focusedBorderThickness: Dp = spacings.pickerInputField.focusedBorderThickness,
     unfocusedBorderThickness: Dp = spacings.pickerInputField.unfocusedBorderThickness,
     minWidth: Dp = spacings.pickerInputField.minWidth,
+    backgroundColor: Color = colors.tertiaryTextInputField.bgColor,
 ) {
     TertiaryTextInputField(
         text = text,
@@ -78,6 +79,7 @@ fun PickerInputField(
         labelTextColor = labelTextColor,
         errorTextStyle = errorTextStyle,
         errorTextColor = errorTextColor,
+        backgroundColor = backgroundColor,
         onClick = onClick,
         maxLines = maxLines,
         singleLine = singleLine,
