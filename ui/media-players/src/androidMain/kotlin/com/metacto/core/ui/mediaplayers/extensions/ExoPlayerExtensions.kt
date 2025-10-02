@@ -16,7 +16,7 @@ import androidx.media3.exoplayer.source.ProgressiveMediaSource
 import com.metacto.core.extensions.applyIf
 import com.metacto.core.extensions.isLocalFile
 
-internal fun createMediaSource(
+fun createMediaSource(
     context: Context,
     url: String,
     metaData: MediaMetadata? = null
@@ -54,7 +54,10 @@ private fun createHlsMediaSource(url: String, metaData: MediaMetadata?): HlsMedi
 }
 
 @OptIn(UnstableApi::class)
-private fun createLocalFileMediaSource(url: String, metaData: MediaMetadata?): ProgressiveMediaSource {
+private fun createLocalFileMediaSource(
+    url: String,
+    metaData: MediaMetadata?
+): ProgressiveMediaSource {
     val factory = FileDataSource.Factory()
     return ProgressiveMediaSource
         .Factory(factory)
