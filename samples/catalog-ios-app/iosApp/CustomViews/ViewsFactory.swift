@@ -10,7 +10,16 @@ public class ViewsFactory: NSObject, IViewsFactory {
     }
     
     public func create(type_ type: UIViewType) -> UIView {
-        // Add implementations here when needed
-        return UIView()
+        switch type {
+        case is UIViewType.ApplePayButton:
+            return ApplePayButton(
+                frame: .zero,
+                config: type as! UIViewType.ApplePayButton
+            )
+            
+            
+        default:
+            return UIView()
+        }
     }
 }

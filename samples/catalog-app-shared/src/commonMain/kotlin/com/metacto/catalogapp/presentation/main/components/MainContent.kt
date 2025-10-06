@@ -12,6 +12,7 @@ import com.metacto.catalogapp.presentation.imagePreloader.ImagePreloaderScreen
 import com.metacto.catalogapp.presentation.lottie.LottieScreen
 import com.metacto.catalogapp.presentation.main.MainContract.Event
 import com.metacto.catalogapp.presentation.main.MainContract.State
+import com.metacto.catalogapp.presentation.main.applepay.ApplePayScreen
 import com.metacto.catalogapp.presentation.mediaPicker.MediaPickerScreen
 import com.metacto.catalogapp.presentation.mediaManager.MediaManagerScreen
 import com.metacto.catalogapp.presentation.navManager.NavManagerScreen
@@ -122,6 +123,14 @@ internal fun MainContent(
             text = "Test Crash",
             onClick = {
                 throw RuntimeException("Test crash for Firebase Crashlytics")
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
+            text = "Apple Pay samples",
+            onClick = {
+                navManage.navigate(ApplePayScreen())
             },
             modifier = Modifier.fillMaxWidth()
         )

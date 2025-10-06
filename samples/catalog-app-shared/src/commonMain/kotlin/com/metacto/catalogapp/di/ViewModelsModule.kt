@@ -1,6 +1,7 @@
 package com.metacto.catalogapp.di
 
 // MARK: Add imports
+import com.metacto.catalogapp.presentation.main.applepay.ApplePayViewModel
 import com.metacto.catalogapp.presentation.navManager.NavManagerViewModel
 import com.metacto.catalogapp.presentation.mediaPicker.MediaPickerViewModel
 import com.metacto.catalogapp.presentation.lottie.LottieViewModel
@@ -17,6 +18,7 @@ import org.koin.dsl.module
 
 val viewModelsModule = module {
     // MARK: Add view model definitions
+    commonViewModel { ApplePayViewModel() }
     commonViewModel { NavManagerViewModel() }
     commonViewModel { MediaPickerViewModel() }
     commonViewModel { LottieViewModel() }
