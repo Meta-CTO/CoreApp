@@ -13,3 +13,16 @@ buildscript {
 allprojects {
     repositories.addProjectRepos()
 }
+
+tasks.register<UpdateVersionCatalogTask>("updateVersionCatalog") {
+    group = "publishing"
+    description = "Updates metacto-core version in libs.versions.toml from versions.properties"
+}
+
+// Convenience task to update version catalog and publish
+tasks.register("publishVersionCatalog") {
+    group = "publishing"
+    description = "Updates version catalog and publishes to Maven"
+    dependsOn("updateVersionCatalog")
+    finalizedBy(":version-catalog:publishToMavenLocal")
+}

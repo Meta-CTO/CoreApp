@@ -54,5 +54,16 @@ jobs:
       - name: Print versions.properties content
         run: cat ./versions.properties
 
+      - name: Update version catalog
+        run: ./gradlew updateVersionCatalog
+
+      - name: Commit updated version catalog
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+          git add gradle/libs.versions.toml
+          git commit -m "Update metacto-core version to 0.2.${{ github.run_number }}-alpha"
+          git push
+
       - name: Publish to GitHub Packages
         run: ./gradlew publishAllPublicationsToGithubRepository
