@@ -14,6 +14,7 @@ strapi-kmm = "10.0.158"
 core-network = "2.0.32"
 metacto-core = "0.2.32-alpha"
 metacto-inspektify = "1.0.0-beta09-meta-2"
+metacto-downloadmanager = "0.0.3-alpha"
 metacto-firebase = "1.0.22"
 koin = "4.0.0"
 koin-compose = "1.1.0"
@@ -41,6 +42,9 @@ kmp-notifier = "1.3.0"
 stately-common = "2.0.5"
 uuid = "0.8.4"
 camera-x = "1.5.0"
+calendar = "2.6.2"
+pdfviewer = "2.1.1"
+desugar = "2.0.4"
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform" }
@@ -155,6 +159,7 @@ metacto-remoteconfigs-firebase = { module = "com.metacto.kmm:firebase-config-ext
 metacto-strapikmm = { module = "com.metacto:strapi", version.ref = "strapi-kmm" }
 metacto-network = { module = "com.metacto:network-core", version.ref = "core-network" }
 metacto-inspektify = { module = "com.metacto:inspektify", version.ref = "metacto-inspektify" }
+metacto-downloadmanager = { module = "com.metacto:downloadmanager", version.ref = "metacto-downloadmanager" }
 
 # Others
 libphonenumber = { module = "io.github.luca992.libphonenumber-kotlin:libphonenumber", version.ref = "lib-phone-number" }
@@ -163,3 +168,6 @@ imagecropper = { module = "com.vanniktech:android-image-cropper", version.ref = 
 compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "compottie" }
 webview = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "webview" }
 shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "shimmer" }
+calendar = { module = "com.kizitonwose.calendar:compose-multiplatform", version.ref = "calendar" }
+pdfviewer = { module = "io.github.afreakyelf:Pdf-Viewer", version.ref = "pdfviewer" }
+android-desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
