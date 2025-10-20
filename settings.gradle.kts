@@ -1,5 +1,7 @@
 rootProject.name = "CmpCore"
 
+include(":version-catalog")
+
 include(":core:core")
 include(":core:sample")
 include(":core:files")

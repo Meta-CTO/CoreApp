@@ -53,6 +53,7 @@ google-services = { id = "com.google.gms.google-services" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics" }
 swiftklib = { id = "io.github.ttypic.swiftklib", version.ref = "swift-klib" }
 maven-publish = { id = "maven-publish" }
+version-catalog = { id = "version-catalog" }
 signing = { id = "signing" }
 
 
