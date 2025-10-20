@@ -12,6 +12,7 @@ date-time = "0.4.0"
 coroutines = "1.10.2"
 strapi-kmm = "10.0.158"
 core-network = "2.0.32"
+metacto-core = "0.2.30-alpha"
 metacto-inspektify = "1.0.0-beta09-meta-2"
 metacto-firebase = "1.0.22"
 koin = "4.0.0"
@@ -136,16 +137,24 @@ kmpnotifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmp-
 statelycommon = { module = "co.touchlab:stately-common", version.ref = "stately-common" }
 uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
 
-# MetaCto Network
-metacto-strapikmm = { module = "com.metacto:strapi", version.ref = "strapi-kmm" }
-metacto-network = { module = "com.metacto:network-core", version.ref = "core-network" }
-metacto-inspektify = { module = "com.metacto:inspektify", version.ref = "metacto-inspektify" }
-
-#MetaCto firebase
+#MetaCto
+metacto-core = { module = "com.metacto.kmm:core", version.ref = "metacto-core" }
+metacto-coreui = { module = "com.metacto.kmm:core-ui", version.ref = "metacto-core" }
+metacto-files = { module = "com.metacto.kmm:files", version.ref = "metacto-core" }
+metacto-notifications = { module = "com.metacto.kmm:notifications", version.ref = "metacto-core" }
+metacto-phonecore = { module = "com.metacto.kmm:phone-core", version.ref = "metacto-core" }
+metacto-mediaplayers = { module = "com.metacto.kmm:media-players", version.ref = "metacto-core" }
+metacto-camera = { module = "com.metacto.kmm:camera", version.ref = "metacto-core" }
+metacto-youtube = { module = "com.metacto.kmm:youtube", version.ref = "metacto-core" }
+metacto-phoneui = { module = "com.metacto.kmm:phone-ui", version.ref = "metacto-core" }
+metacto-imagepicker = { module = "com.metacto.kmm:image-picker", version.ref = "metacto-core" }
 metacto-auth-common = { module = "com.metacto.kmm:auth-common", version.ref = "metacto-firebase" }
 metacto-auth-firebase = { module = "com.metacto.kmm:firebase-auth-extensions", version.ref = "metacto-firebase" }
 metacto-remoteconfigs-common = { module = "com.metacto.kmm:remote-config-common", version.ref = "metacto-firebase" }
 metacto-remoteconfigs-firebase = { module = "com.metacto.kmm:firebase-config-extensions", version.ref = "metacto-firebase" }
+metacto-strapikmm = { module = "com.metacto:strapi", version.ref = "strapi-kmm" }
+metacto-network = { module = "com.metacto:network-core", version.ref = "core-network" }
+metacto-inspektify = { module = "com.metacto:inspektify", version.ref = "metacto-inspektify" }
 
 # Others
 libphonenumber = { module = "io.github.luca992.libphonenumber-kotlin:libphonenumber", version.ref = "lib-phone-number" }

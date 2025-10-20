@@ -20,7 +20,7 @@ private val versionProperties = Properties().apply {
 }
 
 private val currentVersion = versionProperties.getProperty(Configs.PUBLISH_VERSION) as String
-
+private val libName = "version-catalog"
 group = Configs.GROUP_ID
 version = currentVersion
 
@@ -45,7 +45,17 @@ publishing {
         )
     }
 
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["versionCatalog"])
+            groupId = Configs.GROUP_ID
+            artifactId = libName
+            version = currentVersion
+        }
+    }
+
     repositories {
+        mavenLocal()
         maven(Configs.MAVEN_URL) {
             name = Configs.PUBLISH_MAVEN_REPO_NAME
             credentials {
