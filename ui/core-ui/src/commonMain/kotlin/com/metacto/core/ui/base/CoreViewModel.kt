@@ -112,15 +112,11 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     }
 
     protected fun setState(reducer: S.() -> S) {
-        val newState = viewState.value.reducer()
-        onChangeState(newState)
-        _viewState.value = newState
-    }
-
-    protected fun setStateLocked(reducer: S.() -> S) {
-        screenModelScope.launch {
+        screenModelScope.launch(Dispatchers.Main.immediate) {
             mutex.withLock {
-                setState { reducer() }
+                val newState = viewState.value.reducer()
+                onChangeState(newState)
+                _viewState.value = newState
             }
         }
     }
