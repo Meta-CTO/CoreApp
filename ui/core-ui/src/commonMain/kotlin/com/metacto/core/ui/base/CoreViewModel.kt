@@ -48,6 +48,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.jetbrains.compose.resources.StringResource
@@ -112,7 +113,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     }
 
     protected fun setState(reducer: S.() -> S) {
-        screenModelScope.launch(Dispatchers.Main.immediate) {
+        runBlocking(Dispatchers.Main.immediate) {
             mutex.withLock {
                 val newState = viewState.value.reducer()
                 onChangeState(newState)
