@@ -114,6 +114,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     private fun subscribeToEvents() {
         screenModelScope.launch {
             _event.collect {
+                onReceiveEvent(it)
                 handleEvents(it)
             }
         }
@@ -125,6 +126,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
     protected fun setState(reducer: S.() -> S) {
         val newState = viewState.value.reducer()
+        onChangeState(newState)
         _viewState.value = newState
     }
 
@@ -138,6 +140,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
     protected fun setEffect(builder: () -> SF) {
         val effectValue = builder()
+        onSendSideEffect(effectValue)
         screenModelScope.launch { _effect.send(effectValue) }
     }
 
@@ -502,6 +505,15 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     open val defaultErrorType: ErrorType = ErrorType.Popup
 
     open val defaultDispatcher: CoroutineContext = Dispatchers.Default
+
+    open fun onReceiveEvent(event: E) {
+    }
+
+    open fun onChangeState(newState: S) {
+    }
+
+    open fun onSendSideEffect(effect: SF) {
+    }
 }
 
 private fun extractErrorCodeAndMessage(jsonString: String): Pair<String, Int> {
