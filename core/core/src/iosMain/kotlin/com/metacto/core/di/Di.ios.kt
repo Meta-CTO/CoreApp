@@ -32,7 +32,7 @@ internal actual fun <T : SerializableNetworkError> platformModule(errorClass: KC
             appConfigurationService = get(),
             sharedPreference = get(),
             appConfigurationExpirationInMinutes = coreConfigs.appConfigurationExpirationInMinutes,
-            enforceDefaultDataWrapper = coreConfigs.strapiVersion == StrapiVersion.V4
+            enforceDefaultDataWrapper = coreConfigs.strapiVersion == StrapiVersion.V5
         )
     }
 
