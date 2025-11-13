@@ -386,6 +386,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         showTitle: Boolean = true,
         title: String? = null,
         image: DrawableResource? = null,
+        showImage: Boolean = true,
         onUpdateClick: (() -> Unit)? = null,
         onSkipUpdateClick: (() -> Unit)? = null,
         onProceedAction: () -> Unit
@@ -398,12 +399,19 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         val response = forceUpdateRepository.checkForceUpdate(appUpdateSource = appUpdateSource)
 
         if (response != null) {
+            // Handle image based on showImage flag
+            val forceUpdateImage = if (showImage) {
+                image ?: Res.drawable.ic_upgrade
+            } else {
+                image
+            }
+
             coreGlobalState.forceUpdatePopup(
                 params = ForceUpdatePopupParams(
                     isRequired = response.isRequired,
                     title = forceUpdateTitle,
                     body = response.message,
-                    image = image ?: Res.drawable.ic_upgrade,
+                    image = forceUpdateImage,
                     updateButtonText = resourceProvider.getString(Res.string.update_button),
                     skipUpdateButtonText = resourceProvider.getString(Res.string.skip_update_button),
                     onDismiss = {
