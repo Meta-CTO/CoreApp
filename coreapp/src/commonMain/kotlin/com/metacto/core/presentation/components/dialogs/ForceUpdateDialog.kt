@@ -36,7 +36,7 @@ fun ForceUpdateDialog(
     onUpdateClick: (() -> Unit)? = null,
     onSkipUpdateClicked: (() -> Unit)? = null,
     onDismiss: (() -> Unit)? = null,
-    image: DrawableResource = Res.drawable.ic_upgrade,
+    image: DrawableResource? = Res.drawable.ic_upgrade,
     bodyTextStyle: TextStyle = CoreTheme.typography.forceUpdateDialog.textStyle,
     bodyTextColor: Color = CoreTheme.colors.forceUpdateDialog.bodyTextColor,
     textPadding: Dp = CoreTheme.spacings.forceUpdateDialog.textPadding,
@@ -66,14 +66,16 @@ fun ForceUpdateDialog(
                 .padding(dialogPadding)
         ) {
 
-            // top image
-            Image(
-                painter = painterResource(image),
-                contentDescription = "force update",
-                modifier = Modifier
-                    .size(CoreTheme.spacings.forceUpdateDialog.imageSize)
-                    .padding(top = msgSpacing)
-            )
+            // top image - only show if image is not null
+            image?.let {
+                Image(
+                    painter = painterResource(it),
+                    contentDescription = "force update",
+                    modifier = Modifier
+                        .size(CoreTheme.spacings.forceUpdateDialog.imageSize)
+                        .padding(top = msgSpacing)
+                )
+            }
 
             // Render body text
             Text(

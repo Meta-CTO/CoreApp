@@ -7,7 +7,7 @@ data class ForceUpdatePopupParams(
     val isRequired: Boolean = true,
     val title: String? = null,
     val body: String? = null,
-    val image: DrawableResource = Res.drawable.ic_upgrade,
+    val image: DrawableResource? = Res.drawable.ic_upgrade,
     val updateButtonText: String? = null,
     val skipUpdateButtonText: String? = null,
     val onUpdateClick: (() -> Unit)? = null,
