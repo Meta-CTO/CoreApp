@@ -385,6 +385,8 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
         appUpdateSource: AppUpdateSource,
         showTitle: Boolean = true,
         title: String? = null,
+        updateButtonText: String? = null,
+        skipUpdateButtonText: String? = null,
         image: DrawableResource? = null,
         showImage: Boolean = true,
         onUpdateClick: (() -> Unit)? = null,
@@ -412,8 +414,8 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
                     title = forceUpdateTitle,
                     body = response.message,
                     image = forceUpdateImage,
-                    updateButtonText = resourceProvider.getString(Res.string.update_button),
-                    skipUpdateButtonText = resourceProvider.getString(Res.string.skip_update_button),
+                    updateButtonText = updateButtonText ?: resourceProvider.getString(Res.string.update_button),
+                    skipUpdateButtonText = skipUpdateButtonText ?: resourceProvider.getString(Res.string.skip_update_button),
                     onDismiss = {
                         if (response.isRequired.not()) {
                             onProceedAction.invoke()
