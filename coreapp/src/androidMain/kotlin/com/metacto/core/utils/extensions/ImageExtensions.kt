@@ -91,7 +91,7 @@ fun Uri.normalizeImageOrientation(context: Context): ByteArray? {
         bitmap.recycle()
 
         result
-    } catch (e: Exception) {
+    } catch (e: Throwable) {
         e.printStackTrace()
         null
     }
