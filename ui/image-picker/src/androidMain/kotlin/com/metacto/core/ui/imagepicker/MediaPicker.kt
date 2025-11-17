@@ -15,6 +15,7 @@ import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.github.dhaval2404.imagepicker.ImagePicker as SdkImagePicker
+import com.metacto.core.ui.extensions.normalizeImageOrientation
 
 actual class MediaPicker(
     private val activity: Activity,
@@ -100,12 +101,19 @@ actual class MediaPicker(
 
     private fun notifyMediaPicked(uri: Uri) {
         val mediaType = uri.getMediaType(activity)
-        
+
         if (includeData) {
             // Load the media data into memory
-            activity.contentResolver.openInputStream(uri)?.use {
+            // For images, normalize orientation to fix rotation issues from camera
+            val data = if (mediaType == MediaType.Image) {
+                uri.normalizeImageOrientation(activity)
+            } else {
+                activity.contentResolver.openInputStream(uri)?.use { it.readBytes() }
+            }
+
+            data?.let {
                 val mediaInfo = MediaInfo(
-                    data = it.readBytes(),
+                    data = it,
                     type = mediaType,
                     filePath = uri.toString(),
                     source = currentSource
