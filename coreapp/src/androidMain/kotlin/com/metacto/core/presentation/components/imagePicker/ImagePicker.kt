@@ -14,6 +14,7 @@ import com.canhub.cropper.CropImageContract
 import com.canhub.cropper.CropImageContractOptions
 import com.canhub.cropper.CropImageOptions
 import com.github.dhaval2404.imagepicker.ImagePicker as SdkImagePicker
+import com.metacto.core.utils.extensions.normalizeImageOrientation
 
 actual class ImagePicker(
     private val activity: Activity,
@@ -91,8 +92,10 @@ actual class ImagePicker(
     }
 
     private fun notifyImagePicked(uri: Uri) {
-        activity.contentResolver.openInputStream(uri)?.use {
-            onImagePicked?.invoke(it.readBytes())
+        // Normalize image orientation to fix rotation issues from camera
+        val imageBytes = uri.normalizeImageOrientation(activity)
+        if (imageBytes != null) {
+            onImagePicked?.invoke(imageBytes)
         }
     }
 }
