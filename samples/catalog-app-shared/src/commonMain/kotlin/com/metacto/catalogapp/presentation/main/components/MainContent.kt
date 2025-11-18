@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.metacto.catalogapp.presentation.datePicker.DatePickerScreen
 import com.metacto.catalogapp.presentation.files.FilesSamplesScreen
 import com.metacto.catalogapp.presentation.imagePicker.ImagePickerSamplesScreen
 import com.metacto.catalogapp.presentation.imagePreloader.ImagePreloaderScreen
@@ -83,6 +84,14 @@ internal fun MainContent(
             text = "Media Manager samples",
             onClick = {
                 navManage.navigate(MediaManagerScreen())
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
+            text = "Date Picker samples",
+            onClick = {
+                navManage.navigate(DatePickerScreen())
             },
             modifier = Modifier.fillMaxWidth()
         )
