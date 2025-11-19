@@ -34,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.takeOrElse
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -268,7 +269,7 @@ fun BaseTextInputField(
         unfocusedContainerColor = backgroundColor,
         disabledContainerColor = backgroundColor.copy(alpha = 0.38f),
         errorContainerColor = backgroundColor,
-        cursorColor = Color.Unspecified,
+        cursorColor = textColor,
         errorCursorColor = CoreTheme.colors.danger,
         errorPlaceholderColor = CoreTheme.colors.danger,
         focusedIndicatorColor = focusedBorderColor,
@@ -351,6 +352,7 @@ fun BaseTextInputField(
                         imeAction = imeAction,
                         capitalization = capitalization
                     ),
+                    cursorBrush = SolidColor(textColor),
                     interactionSource = interactionSource,
                     singleLine = singleLine,
                     maxLines = maxLines,
