@@ -121,7 +121,7 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-dynamiclinks = { module = "com.google.firebase:firebase-dynamic-links-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
-firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 
 # Google Play Services
 playservices-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "play-services-auth" }
