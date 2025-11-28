@@ -57,8 +57,10 @@ fun CoreAppNavigator(
     // Handle navigation effects
     LaunchedEffect(navigator, sheetNavigator) {
         navManager.collectNavEffects(this) { effect ->
-            // First dismiss the keyboard for better UX
-            globalState.dismissKeyboard()
+            // First dismiss the keyboard if needed for better UX
+            if (effect.shouldDismissKeyboard) {
+                globalState.dismissKeyboard()
+            }
 
             // Then execute the navigation
             when (effect) {
