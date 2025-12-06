@@ -2,15 +2,11 @@ package com.metacto.core.ui.imagepicker
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.interop.LocalUIViewController
 import com.metacto.core.extensions.normalizedImage
 import com.metacto.core.extensions.toByteArray
-import com.metacto.core.ui.imagepicker.crop.ImageCropView
-import com.metacto.core.ui.imagepicker.crop.toImageBitmap
+import com.metacto.core.ui.imagepicker.crop.presentCropViewController
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.UIKit.UIImage
 import platform.UIKit.UIImagePickerController
@@ -34,10 +30,6 @@ actual class MediaPicker(
     private var currentSource: MediaInfoSource = MediaInfoSource.Gallery
     private var allowedMediaTypes: List<MediaType> = listOf(MediaType.Image)
     private val createdMediaInfos = mutableSetOf<MediaInfo>()
-
-    // Internal state for crop UI
-    internal var imageToCrop: UIImage? = null
-    internal var onShowCropUI: ((UIImage) -> Unit)? = null
 
     private val delegate = object : NSObject(), UIImagePickerControllerDelegateProtocol,
         UINavigationControllerDelegateProtocol {
@@ -88,8 +80,19 @@ actual class MediaPicker(
                                                    !(aspectRatioX == 1 && aspectRatioY == 1)
 
                         if (shouldShowCustomCrop) {
-                            // Trigger custom crop UI
-                            onShowCropUI?.invoke(normalizedImage)
+                            // Present custom crop UI as a UIViewController
+                            presentCropViewController(
+                                parentController = rootController,
+                                image = normalizedImage,
+                                aspectRatioX = aspectRatioX,
+                                aspectRatioY = aspectRatioY,
+                                onCropComplete = { croppedImage ->
+                                    processAndReturnImage(croppedImage)
+                                },
+                                onCancel = {
+                                    // User cancelled cropping, do nothing
+                                }
+                            )
                         } else {
                             // Process image directly
                             processAndReturnImage(normalizedImage)
@@ -110,34 +113,6 @@ actual class MediaPicker(
     @Composable
     actual fun registerPicker(onMediaPicked: (MediaInfo) -> Unit) {
         this.onMediaPicked = onMediaPicked
-
-        var imageToCrop by remember { mutableStateOf<UIImage?>(null) }
-
-        // Set the callback to show crop UI
-        onShowCropUI = { image ->
-            imageToCrop = image
-        }
-
-        // Show crop UI if we have an image to crop
-        imageToCrop?.let { image ->
-            val imageBitmap = remember(image) { image.toImageBitmap() }
-
-            imageBitmap?.let { bitmap ->
-                ImageCropView(
-                    image = image,
-                    imageBitmap = bitmap,
-                    aspectRatioX = aspectRatioX,
-                    aspectRatioY = aspectRatioY,
-                    onCropComplete = { croppedImage ->
-                        imageToCrop = null
-                        processAndReturnImage(croppedImage)
-                    },
-                    onCancel = {
-                        imageToCrop = null
-                    }
-                )
-            }
-        }
     }
 
     actual fun pickFromGallery(mediaTypes: List<MediaType>) {
