@@ -150,9 +150,10 @@ actual class MediaPicker(
                                              mediaTypes.contains(MediaType.Image)
         imagePickerController.setModalPresentationStyle(UIModalPresentationFullScreen)
 
-        rootController.presentViewController(imagePickerController, true) {
-            imagePickerController.delegate = delegate
-        }
+        // Set delegate BEFORE presenting
+        imagePickerController.delegate = delegate
+
+        rootController.presentViewController(imagePickerController, true, null)
     }
 
     internal fun processAndReturnImage(image: UIImage) {
