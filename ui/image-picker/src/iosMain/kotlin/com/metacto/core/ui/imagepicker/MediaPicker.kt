@@ -59,6 +59,8 @@ actual class MediaPicker(
                         createdMediaInfos.add(mediaInfo)
                         onMediaPicked(mediaInfo)
                     }
+                    // Dismiss the picker controller
+                    picker.dismissViewControllerAnimated(true, null)
                 }
                 else -> {
                     // Handle image using extension
@@ -80,29 +82,29 @@ actual class MediaPicker(
                                                    !(aspectRatioX == 1 && aspectRatioY == 1)
 
                         if (shouldShowCustomCrop) {
-                            // Present custom crop UI as a UIViewController
-                            presentCropViewController(
-                                parentController = rootController,
-                                image = normalizedImage,
-                                aspectRatioX = aspectRatioX,
-                                aspectRatioY = aspectRatioY,
-                                onCropComplete = { croppedImage ->
-                                    processAndReturnImage(croppedImage)
-                                },
-                                onCancel = {
-                                    // User cancelled cropping, do nothing
-                                }
-                            )
+                            // Dismiss picker first, then present crop UI in completion handler
+                            picker.dismissViewControllerAnimated(true) {
+                                presentCropViewController(
+                                    parentController = rootController,
+                                    image = normalizedImage,
+                                    aspectRatioX = aspectRatioX,
+                                    aspectRatioY = aspectRatioY,
+                                    onCropComplete = { croppedImage ->
+                                        processAndReturnImage(croppedImage)
+                                    },
+                                    onCancel = {
+                                        // User cancelled cropping, do nothing
+                                    }
+                                )
+                            }
                         } else {
-                            // Process image directly
+                            // Process image directly and dismiss
                             processAndReturnImage(normalizedImage)
+                            picker.dismissViewControllerAnimated(true, null)
                         }
                     }
                 }
             }
-            
-            // Dismiss the picker controller
-            picker.dismissViewControllerAnimated(true, null)
         }
 
         override fun imagePickerControllerDidCancel(picker: UIImagePickerController) {
