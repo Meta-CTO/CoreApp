@@ -15,11 +15,19 @@ import com.metacto.catalogapp.presentation.main.MainViewModel
 import com.metacto.catalogapp.presentation.mediaManager.MediaManagerViewModel
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesViewModel
 import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberViewModel
+import com.metacto.catalogapp.presentation.sheetSamples.SheetSamplesViewModel
+import com.metacto.catalogapp.presentation.sheetSamples.sheets.FormSheet
+import com.metacto.catalogapp.presentation.sheetSamples.sheets.ListSheet
+import com.metacto.catalogapp.presentation.sheetSamples.sheets.SimpleContentSheet
 import com.metacto.core.ui.di.commonViewModel
 import org.koin.dsl.module
 
 val viewModelsModule = module {
     // MARK: Add view model definitions
+    commonViewModel { ListSheet.ListSheetViewModel() }
+    commonViewModel { FormSheet.FormSheetViewModel() }
+    commonViewModel { SimpleContentSheet.SimpleSheetViewModel() }
+    commonViewModel { SheetSamplesViewModel() }
     commonViewModel { DateConverterViewModel() }
     commonViewModel { ApplePayViewModel() }
     commonViewModel { NavManagerViewModel() }

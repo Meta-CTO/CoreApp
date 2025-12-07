@@ -20,6 +20,7 @@ import com.metacto.catalogapp.presentation.mediaManager.MediaManagerScreen
 import com.metacto.catalogapp.presentation.navManager.NavManagerScreen
 import com.metacto.catalogapp.presentation.notifications.NotificationsSamplesScreen
 import com.metacto.catalogapp.presentation.phoneNumber.PhoneNumberScreen
+import com.metacto.catalogapp.presentation.sheetSamples.SheetSamplesScreen
 import com.metacto.catalogapp.presentation.theme.spacings
 import com.metacto.core.ui.components.buttons.PrimaryFilledButton
 import com.metacto.core.ui.components.containers.ScreenColumn
@@ -125,6 +126,14 @@ internal fun MainContent(
             text = "NavManager samples",
             onClick = {
                 navManage.navigate(NavManagerScreen())
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
+            text = "Sheet samples",
+            onClick = {
+                navManage.navigate(SheetSamplesScreen())
             },
             modifier = Modifier.fillMaxWidth()
         )
