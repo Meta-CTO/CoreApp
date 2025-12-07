@@ -6,7 +6,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.interop.LocalUIViewController
 import com.metacto.core.extensions.normalizedImage
 import com.metacto.core.extensions.toByteArray
+import com.metacto.core.ui.imagepicker.crop.presentCropViewController
 import kotlinx.cinterop.ExperimentalForeignApi
+import platform.UIKit.UIImage
 import platform.UIKit.UIImagePickerController
 import platform.UIKit.UIImagePickerControllerDelegateProtocol
 import platform.UIKit.UIImagePickerControllerSourceType
@@ -57,32 +59,52 @@ actual class MediaPicker(
                         createdMediaInfos.add(mediaInfo)
                         onMediaPicked(mediaInfo)
                     }
+                    // Dismiss the picker controller
+                    picker.dismissViewControllerAnimated(true, null)
                 }
                 else -> {
                     // Handle image using extension
-                    val image = didFinishPickingMediaWithInfo.extractUIImage(
-                        enableCropping && imagePickerController.allowsEditing
-                    )
+                    // Don't use built-in editing if we have custom aspect ratio
+                    val useBuiltInEditing = enableCropping &&
+                                           imagePickerController.allowsEditing &&
+                                           (aspectRatioX == null || aspectRatioY == null ||
+                                            aspectRatioX == 1 && aspectRatioY == 1)
+
+                    val image = didFinishPickingMediaWithInfo.extractUIImage(useBuiltInEditing)
 
                     image?.let { uiImage ->
                         val normalizedImage = uiImage.normalizedImage()
-                        val imageData = if (includeData) normalizedImage.toByteArray() else null
-                        val filePath = normalizedImage.saveToTemporaryFile()
-                        
-                        val mediaInfo = MediaInfo(
-                            data = imageData,
-                            type = MediaType.Image,
-                            filePath = filePath.orEmpty(),
-                            source = currentSource
-                        )
-                        createdMediaInfos.add(mediaInfo)
-                        onMediaPicked(mediaInfo)
+
+                        // Check if we should show custom crop UI
+                        val shouldShowCustomCrop = enableCropping &&
+                                                   aspectRatioX != null &&
+                                                   aspectRatioY != null &&
+                                                   !(aspectRatioX == 1 && aspectRatioY == 1)
+
+                        if (shouldShowCustomCrop) {
+                            // Dismiss picker first, then present crop UI in completion handler
+                            picker.dismissViewControllerAnimated(true) {
+                                presentCropViewController(
+                                    parentController = rootController,
+                                    image = normalizedImage,
+                                    aspectRatioX = aspectRatioX,
+                                    aspectRatioY = aspectRatioY,
+                                    onCropComplete = { croppedImage ->
+                                        processAndReturnImage(croppedImage)
+                                    },
+                                    onCancel = {
+                                        // User cancelled cropping, do nothing
+                                    }
+                                )
+                            }
+                        } else {
+                            // Process image directly and dismiss
+                            processAndReturnImage(normalizedImage)
+                            picker.dismissViewControllerAnimated(true, null)
+                        }
                     }
                 }
             }
-            
-            // Dismiss the picker controller
-            picker.dismissViewControllerAnimated(true, null)
         }
 
         override fun imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -114,19 +136,42 @@ actual class MediaPicker(
 
     private fun pickMedia(source: UIImagePickerControllerSourceType, mediaTypes: List<MediaType>) {
         imagePickerController.sourceType = source
-        
+
         // Set media types using extension
         imagePickerController.mediaTypes = mediaTypes.toMediaTypes()
-        
-        // Only allow editing for images when cropping is enabled
-        imagePickerController.allowsEditing = enableCropping && mediaTypes.size == 1 && mediaTypes.contains(MediaType.Image)
+
+        // Disable built-in editing if we're using custom crop UI
+        val useCustomCrop = enableCropping &&
+                           aspectRatioX != null &&
+                           aspectRatioY != null &&
+                           !(aspectRatioX == 1 && aspectRatioY == 1)
+
+        imagePickerController.allowsEditing = enableCropping &&
+                                             !useCustomCrop &&
+                                             mediaTypes.size == 1 &&
+                                             mediaTypes.contains(MediaType.Image)
         imagePickerController.setModalPresentationStyle(UIModalPresentationFullScreen)
 
-        rootController.presentViewController(imagePickerController, true) {
-            imagePickerController.delegate = delegate
-        }
+        // Set delegate BEFORE presenting
+        imagePickerController.delegate = delegate
+
+        rootController.presentViewController(imagePickerController, true, null)
     }
-    
+
+    internal fun processAndReturnImage(image: UIImage) {
+        val imageData = if (includeData) image.toByteArray() else null
+        val filePath = image.saveToTemporaryFile()
+
+        val mediaInfo = MediaInfo(
+            data = imageData,
+            type = MediaType.Image,
+            filePath = filePath.orEmpty(),
+            source = currentSource
+        )
+        createdMediaInfos.add(mediaInfo)
+        onMediaPicked(mediaInfo)
+    }
+
     internal actual fun cleanup() {
         createdMediaInfos.forEach { mediaInfo ->
             mediaInfo.cleanupTemporaryFiles()

@@ -40,7 +40,21 @@ internal fun MediaPickerContent(
     val navManager = koinInject<NavManager>()
     val mediaManager = koinInject<IMediaManager>()
     val fileManager = koinInject<IFileManager>()
+
+    // Media pickers with different configurations
     val mediaPicker = rememberMediaPicker(includeData = false)
+    val mediaPickerWithCrop = rememberMediaPicker(
+        enableCropping = true,
+        aspectRatioX = 5,
+        aspectRatioY = 2,
+        includeData = false
+    )
+    val mediaPickerSquareCrop = rememberMediaPicker(
+        enableCropping = true,
+        aspectRatioX = 1,
+        aspectRatioY = 1,
+        includeData = false
+    )
     val coroutineScope = rememberIOCoroutineScope()
 
     // States
@@ -59,6 +73,14 @@ internal fun MediaPickerContent(
                 }
             }
         }
+    }
+
+    mediaPickerWithCrop.registerPicker { mediaInfo ->
+        medias = medias + mediaInfo
+    }
+
+    mediaPickerSquareCrop.registerPicker { mediaInfo ->
+        medias = medias + mediaInfo
     }
 
     // Container column
@@ -97,6 +119,38 @@ internal fun MediaPickerContent(
         )
 
         PrimaryFilledButton(
+            text = "Pick Image with 16:9 Crop",
+            onClick = {
+                mediaPickerWithCrop.pickFromGallery(listOf(MediaType.Image))
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
+            text = "Pick Image with Square Crop (1:1)",
+            onClick = {
+                mediaPickerSquareCrop.pickFromGallery(listOf(MediaType.Image))
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
+            text = "Capture from Camera",
+            onClick = {
+                mediaPicker.captureUsingCamera()
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
+            text = "Capture from Camera with Square Crop",
+            onClick = {
+                mediaPickerSquareCrop.captureUsingCamera()
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
             text = "Fetch medias data",
             onClick = {
                 coroutineScope.launch {
@@ -109,6 +163,15 @@ internal fun MediaPickerContent(
                         }
                     }
                 }
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
+            text = "Clear All Media",
+            onClick = {
+                medias = emptyList()
+                videoPreviews = emptyMap()
             },
             modifier = Modifier.fillMaxWidth()
         )
