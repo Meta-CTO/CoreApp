@@ -209,7 +209,7 @@ actual fun LocalDate.formatToRelativeDate(timeZone: TimeZone): String {
 }
 
 actual fun LocalDateTime.formatToRelativeDate(timeZone: TimeZone): String {
-    return this.toMillis().timestampToReadableDate()
+    return this.toMillis(timeZone).timestampToReadableDate()
 }
 
 private fun Long.timestampToReadableDate(): String {
