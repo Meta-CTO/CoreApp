@@ -6,12 +6,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.metacto.catalogapp.presentation.datePicker.DatePickerScreen
 import com.metacto.catalogapp.presentation.files.FilesSamplesScreen
 import com.metacto.catalogapp.presentation.imagePicker.ImagePickerSamplesScreen
 import com.metacto.catalogapp.presentation.imagePreloader.ImagePreloaderScreen
 import com.metacto.catalogapp.presentation.lottie.LottieScreen
 import com.metacto.catalogapp.presentation.main.MainContract.Event
 import com.metacto.catalogapp.presentation.main.MainContract.State
+import com.metacto.catalogapp.presentation.main.applepay.ApplePayScreen
 import com.metacto.catalogapp.presentation.mediaPicker.MediaPickerScreen
 import com.metacto.catalogapp.presentation.mediaManager.MediaManagerScreen
 import com.metacto.catalogapp.presentation.navManager.NavManagerScreen
@@ -87,6 +89,14 @@ internal fun MainContent(
         )
 
         PrimaryFilledButton(
+            text = "Date Picker samples",
+            onClick = {
+                navManage.navigate(DatePickerScreen())
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
             text = "Phone Number samples",
             onClick = {
                 navManage.navigate(PhoneNumberScreen())
@@ -122,6 +132,14 @@ internal fun MainContent(
             text = "Test Crash",
             onClick = {
                 throw RuntimeException("Test crash for Firebase Crashlytics")
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
+            text = "Apple Pay samples",
+            onClick = {
+                navManage.navigate(ApplePayScreen())
             },
             modifier = Modifier.fillMaxWidth()
         )

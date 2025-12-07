@@ -6,6 +6,7 @@ import com.metacto.core.deepLink.IDeepLinkManager
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.domain.repos.UploadRepository
 import com.metacto.kmm.logger.Logger
+import com.metacto.kmm.network.constants.StrapiVersion
 import com.metacto.kmm.network.errorhandling.SerializableNetworkError
 import com.metacto.kmm.network.repos.CoreFirebaseAuthRepository
 import com.metacto.kmm.network.repos.CoreLogoutUseCase
@@ -37,12 +38,12 @@ fun <T : SerializableNetworkError> coreModule(configs: CoreConfigs, errorClass: 
             userService = get(),
             sharedPreference = get(),
             logoutUseCase = get(),
-            enforceDefaultDataWrapper = configs.enforceDefaultDataWrapper
+            enforceDefaultDataWrapper = configs.strapiVersion == StrapiVersion.V5
         )
     }
 
     single {
-        CoreFirebaseAuthRepository(get(), get(), get())
+        CoreFirebaseAuthRepository(get(), get(), get(), configs.strapiVersion)
     }
 
     single {

@@ -4,16 +4,20 @@ targetSdk = "35"
 minSdk = "26"
 jvm = "17"
 gradle = "8.7.1"
-kotlin = "2.1.0"
+kotlin = "2.1.10"
 compose = "1.7.0"
 swift-klib = "0.6.4"
 compose-android = "1.7.4"
 date-time = "0.4.0"
 coroutines = "1.10.2"
+serialization-json = "1.6.0"
 strapi-kmm = "10.0.158"
-core-network = "2.0.32"
+core-network = "2.0.41"
+metacto-core = "0.2.54-alpha"
 metacto-inspektify = "1.0.0-beta09-meta-2"
-metacto-firebase = "1.0.22"
+metacto-downloadmanager = "0.0.3-alpha"
+metacto-firebase = "1.0.29"
+metacto-analytics = "0.0.21"
 koin = "4.0.0"
 koin-compose = "1.1.0"
 voyager = "1.1.0-beta02"
@@ -24,7 +28,7 @@ security-crypto = "1.0.0"
 play-services-auth = "20.7.0"
 splash-screen = "1.1.0-alpha02"
 firebase = "34.1.0"
-serialization = "2.1.0"
+serialization = "2.1.10"
 play-services-plugin = "4.3.14"
 crashlytics-plugin = "2.9.4"
 android-image-picker = "2.1"
@@ -40,6 +44,19 @@ kmp-notifier = "1.3.0"
 stately-common = "2.0.5"
 uuid = "0.8.4"
 camera-x = "1.5.0"
+calendar = "2.6.2"
+pdfviewer = "2.1.1"
+desugar = "2.0.4"
+sendbird-chat = "4.19.3"
+sendbird-chat-ktx = "4.19.0"
+sendbird-uikit = "3.+"
+recyclerview = "1.3.1"
+revenuecat = "1.7.5+13.28.1"
+location-services = "21.3.0"
+facebook-sdk = "18.0.3"
+play-store-review = "2.0.1"
+work-manager = "2.9.1"
+
 
 [plugins]
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform" }
@@ -53,6 +70,7 @@ google-services = { id = "com.google.gms.google-services" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics" }
 swiftklib = { id = "io.github.ttypic.swiftklib", version.ref = "swift-klib" }
 maven-publish = { id = "maven-publish" }
+version-catalog = { id = "version-catalog" }
 signing = { id = "signing" }
 
 
@@ -77,6 +95,7 @@ compose-resources = { module = "org.jetbrains.compose.components:components-reso
 # Kotlin
 kotlin-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "date-time" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization-json" }
 
 # Koin
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
@@ -102,7 +121,7 @@ firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "fir
 firebase-dynamiclinks = { module = "com.google.firebase:firebase-dynamic-links-ktx" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
-firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 
 # Google Play Services
 playservices-auth = { module = "com.google.android.gms:play-services-auth", version.ref = "play-services-auth" }
@@ -118,6 +137,7 @@ exo-player = { module = "androidx.media3:media3-exoplayer", version.ref = "exo-p
 exo-hls = { module = "androidx.media3:media3-exoplayer-hls", version.ref = "exo-player" }
 exo-ui = { module = "androidx.media3:media3-ui", version.ref = "exo-player" }
 exo-session = { module = "androidx.media3:media3-session", version.ref = "exo-player" }
+exo-common = { module = "androidx.media3:media3-common", version.ref = "exo-player" }
 
 # YouTube Player
 youtube-core = { module = "com.pierfrancescosoffritti.androidyoutubeplayer:core", version.ref = "youtube-player" }
@@ -135,16 +155,44 @@ kmpnotifier = { module = "io.github.mirzemehdi:kmpnotifier", version.ref = "kmp-
 statelycommon = { module = "co.touchlab:stately-common", version.ref = "stately-common" }
 uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
 
-# MetaCto Network
-metacto-strapikmm = { module = "com.metacto:strapi", version.ref = "strapi-kmm" }
-metacto-network = { module = "com.metacto:network-core", version.ref = "core-network" }
-metacto-inspektify = { module = "com.metacto:inspektify", version.ref = "metacto-inspektify" }
-
-#MetaCto firebase
+#MetaCto
+metacto-core = { module = "com.metacto.kmm:core", version.ref = "metacto-core" }
+metacto-coreui = { module = "com.metacto.kmm:core-ui", version.ref = "metacto-core" }
+metacto-files = { module = "com.metacto.kmm:files", version.ref = "metacto-core" }
+metacto-notifications = { module = "com.metacto.kmm:notifications", version.ref = "metacto-core" }
+metacto-phonecore = { module = "com.metacto.kmm:phone-core", version.ref = "metacto-core" }
+metacto-mediaplayers = { module = "com.metacto.kmm:media-players", version.ref = "metacto-core" }
+metacto-camera = { module = "com.metacto.kmm:camera", version.ref = "metacto-core" }
+metacto-youtube = { module = "com.metacto.kmm:youtube", version.ref = "metacto-core" }
+metacto-phoneui = { module = "com.metacto.kmm:phone-ui", version.ref = "metacto-core" }
+metacto-imagepicker = { module = "com.metacto.kmm:image-picker", version.ref = "metacto-core" }
 metacto-auth-common = { module = "com.metacto.kmm:auth-common", version.ref = "metacto-firebase" }
 metacto-auth-firebase = { module = "com.metacto.kmm:firebase-auth-extensions", version.ref = "metacto-firebase" }
 metacto-remoteconfigs-common = { module = "com.metacto.kmm:remote-config-common", version.ref = "metacto-firebase" }
 metacto-remoteconfigs-firebase = { module = "com.metacto.kmm:firebase-config-extensions", version.ref = "metacto-firebase" }
+metacto-strapikmm = { module = "com.metacto:strapi", version.ref = "strapi-kmm" }
+metacto-network = { module = "com.metacto:network-core", version.ref = "core-network" }
+metacto-inspektify = { module = "com.metacto:inspektify", version.ref = "metacto-inspektify" }
+metacto-downloadmanager = { module = "com.metacto:downloadmanager", version.ref = "metacto-downloadmanager" }
+metacto-analytics-core = { module = "com.metacto.kmm.analytics:core", version.ref = "metacto-analytics" }
+metacto-analytics-hightouch = { module = "com.metacto.kmm.analytics:hightouch", version.ref = "metacto-analytics" }
+metacto-analytics-clevertap = { module = "com.metacto.kmm.analytics:clevertap", version.ref = "metacto-analytics" }
+metacto-analytics-appsflyer = { module = "com.metacto.kmm.analytics:appsflyer", version.ref = "metacto-analytics" }
+
+# Sendbird
+sendbird-chat = {module = "com.sendbird.sdk:sendbird-chat", version.ref = "sendbird-chat" }
+sendbird-chat-ktx = {module = "com.sendbird.sdk:sendbird-chat-ktx", version.ref = "sendbird-chat-ktx" }
+sendbird-uikit = {module = "com.sendbird.sdk:uikit", version.ref = "sendbird-uikit" }
+
+# RevenueCat
+revenuecat-purchases-core = { module = "com.revenuecat.purchases:purchases-kmp-core", version.ref = "revenuecat" }
+revenuecat-purchases-ui = { module = "com.revenuecat.purchases:purchases-kmp-ui", version.ref = "revenuecat" }
+revenuecat-purchases-result = { module = "com.revenuecat.purchases:purchases-kmp-result", version.ref = "revenuecat" }
+
+# Google Play Services & Android
+location-services = { module = "com.google.android.gms:play-services-location", version.ref = "location-services" }
+play-store-review = { module = "com.google.android.play:review", version.ref = "play-store-review" }
+work-manager = { module = "androidx.work:work-runtime-ktx", version.ref = "work-manager" }
 
 # Others
 libphonenumber = { module = "io.github.luca992.libphonenumber-kotlin:libphonenumber", version.ref = "lib-phone-number" }
@@ -153,3 +201,8 @@ imagecropper = { module = "com.vanniktech:android-image-cropper", version.ref = 
 compottie = { module = "io.github.alexzhirkevich:compottie", version.ref = "compottie" }
 webview = { module = "io.github.kevinnzou:compose-webview-multiplatform", version.ref = "webview" }
 shimmer = { module = "com.valentinilk.shimmer:compose-shimmer", version.ref = "shimmer" }
+calendar = { module = "com.kizitonwose.calendar:compose-multiplatform", version.ref = "calendar" }
+pdfviewer = { module = "io.github.afreakyelf:Pdf-Viewer", version.ref = "pdfviewer" }
+android-desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
+recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+facebook-sdk = { module = "com.facebook.android:facebook-android-sdk", version.ref = "facebook-sdk" }

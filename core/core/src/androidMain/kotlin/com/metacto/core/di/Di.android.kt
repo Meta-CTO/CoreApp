@@ -5,6 +5,7 @@ import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.eventBroadcaster.EventBroadcaster
 import com.metacto.core.language.ILanguageManager
 import com.metacto.core.language.LanguageManager
+import com.metacto.kmm.network.constants.StrapiVersion
 import com.metacto.kmm.network.errorhandling.SerializableNetworkError
 import com.metacto.kmm.network.repos.CoreAppConfigurationRepository
 import org.koin.android.ext.koin.androidContext
@@ -32,7 +33,7 @@ internal actual fun <T : SerializableNetworkError> platformModule(errorClass: KC
             appConfigurationService = get(),
             sharedPreference = get(),
             appConfigurationExpirationInMinutes = coreConfigs.appConfigurationExpirationInMinutes,
-            enforceDefaultDataWrapper = coreConfigs.enforceDefaultDataWrapper
+            enforceDefaultDataWrapper = coreConfigs.strapiVersion == StrapiVersion.V5
         )
     }
 

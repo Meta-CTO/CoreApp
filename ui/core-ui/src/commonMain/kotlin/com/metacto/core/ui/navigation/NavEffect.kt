@@ -4,6 +4,8 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlin.reflect.KClass
 
 sealed class NavEffect {
+    open val shouldDismissKeyboard: Boolean = true
+
     data class NavigateTo(
         val destination: NavScreen,
         val behaviour: NavigateBehaviour
@@ -34,16 +36,22 @@ sealed class NavEffect {
     data class CheckScreenByTag(
         val tag: String,
         val result: CompletableDeferred<Boolean>
-    ) : NavEffect()
+    ) : NavEffect() {
+        override val shouldDismissKeyboard = false
+    }
 
     data class CheckScreenByClass<D : NavScreen>(
         val clazz: KClass<D>,
         val result: CompletableDeferred<Boolean>
-    ) : NavEffect()
+    ) : NavEffect() {
+        override val shouldDismissKeyboard = false
+    }
 
     data class GetLastScreen(
         val result: CompletableDeferred<NavScreen?>
-    ) : NavEffect()
+    ) : NavEffect() {
+        override val shouldDismissKeyboard = false
+    }
 
     data object GoBack : NavEffect()
 }

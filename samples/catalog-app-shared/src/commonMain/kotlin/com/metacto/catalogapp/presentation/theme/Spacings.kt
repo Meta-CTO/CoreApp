@@ -90,6 +90,7 @@ internal data class AppSpacings(
     val spacing240: Dp = 240.dp,
     val spacing260: Dp = 260.dp,
     val spacing300: Dp = 300.dp,
+    val spacing342: Dp = 342.dp,
     val spacing500: Dp = 500.dp,
     val spacing550: Dp = 550.dp,
     val spacing570: Dp = 570.dp,
