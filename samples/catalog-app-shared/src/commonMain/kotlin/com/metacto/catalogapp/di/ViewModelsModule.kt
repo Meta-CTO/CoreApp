@@ -6,6 +6,7 @@ import com.metacto.catalogapp.presentation.navManager.NavManagerViewModel
 import com.metacto.catalogapp.presentation.mediaPicker.MediaPickerViewModel
 import com.metacto.catalogapp.presentation.lottie.LottieViewModel
 import com.metacto.catalogapp.presentation.app.app.AppViewModel
+import com.metacto.catalogapp.presentation.dateConverter.DateConverterViewModel
 import com.metacto.catalogapp.presentation.datePicker.DatePickerViewModel
 import com.metacto.catalogapp.presentation.files.FilesSamplesViewModel
 import com.metacto.catalogapp.presentation.imagePicker.ImagePickerSamplesViewModel
@@ -19,6 +20,7 @@ import org.koin.dsl.module
 
 val viewModelsModule = module {
     // MARK: Add view model definitions
+    commonViewModel { DateConverterViewModel() }
     commonViewModel { ApplePayViewModel() }
     commonViewModel { NavManagerViewModel() }
     commonViewModel { MediaPickerViewModel() }
