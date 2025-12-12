@@ -425,6 +425,11 @@ data class CoreSpacings(
         popupSpacingLarge = popupSpacingLarge
     ),
 
+    // CustomDialog
+    val customDialog: CustomDialogSpacings = CustomDialogSpacings(
+        paddingXLarge = paddingXLarge
+    ),
+
     // OverrideUserDialog
     val overrideUserDialog: OverrideUserDialogSpacings = OverrideUserDialogSpacings(
         paddingXLarge = paddingXLarge,
@@ -1059,6 +1064,12 @@ data class MessageDialogSpacings(
     val showToolbar: Boolean = true,
     val bodyTextAlign: TextAlign = TextAlign.Center,
     val descriptionTextAlign: TextAlign = TextAlign.Center
+)
+
+// CustomDialog
+data class CustomDialogSpacings(
+    private val paddingXLarge: Dp,
+    val btnPaddingTop: Dp = paddingXLarge
 )
 
 // OverrideUserDialog

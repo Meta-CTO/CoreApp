@@ -330,6 +330,12 @@ data class CoreColors(
         onPrimary = onPrimary
     ),
 
+    // CustomDialog
+    val customDialog: CustomDialogColors = CustomDialogColors(
+        primary = primary,
+        onPrimary = onPrimary
+    ),
+
     // OverrideUserDialog
     val overrideUserDialog: OverrideUserDialogColors = OverrideUserDialogColors(
         secondary = secondary,
@@ -862,6 +868,14 @@ data class MessageDialogColors(
     val btnTextColor: Color = onPrimary,
     val bodyTextColor: Color = secondary,
     val descriptionTextColor: Color = secondary,
+)
+
+// CustomDialog
+data class CustomDialogColors(
+    private val primary: Color,
+    private val onPrimary: Color,
+    val btnBgColor: Color = primary,
+    val btnTextColor: Color = onPrimary
 )
 
 // OverrideUserDialog

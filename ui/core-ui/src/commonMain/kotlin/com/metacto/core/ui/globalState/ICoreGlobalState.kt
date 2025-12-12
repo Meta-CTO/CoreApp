@@ -3,6 +3,7 @@ package com.metacto.core.ui.globalState
 import androidx.compose.runtime.State
 import com.metacto.core.ui.globalState.models.ChoicesPopupParams
 import com.metacto.core.ui.globalState.models.ConfirmationPopupParams
+import com.metacto.core.ui.globalState.models.CustomPopupParams
 import com.metacto.core.ui.globalState.models.DatePickerParams
 import com.metacto.core.ui.globalState.models.ForceUpdatePopupParams
 import com.metacto.core.ui.globalState.models.LoadingType
@@ -21,6 +22,7 @@ interface ICoreGlobalState {
     val confirmationPopupState: State<ConfirmationPopupParams?>
     val forceUpdatePopupState: State<ForceUpdatePopupParams?>
     val choicesPopupState: State<ChoicesPopupParams?>
+    val customPopupState: State<CustomPopupParams?>
     val datePickerState: State<DatePickerParams?>
     val timePickerState: State<TimePickerParams?>
     val snackBarState: State<SnackBarParams>
@@ -37,6 +39,7 @@ interface ICoreGlobalState {
     fun confirmationPopup(params: ConfirmationPopupParams)
     fun forceUpdatePopup(params: ForceUpdatePopupParams)
     fun choicesPopup(params: ChoicesPopupParams)
+    fun customPopup(params: CustomPopupParams)
     fun datePicker(params: DatePickerParams)
     fun timePicker(params: TimePickerParams)
     fun snackBar(params: SnackBarParams)
