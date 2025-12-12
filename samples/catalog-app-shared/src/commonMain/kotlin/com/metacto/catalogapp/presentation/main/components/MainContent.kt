@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.metacto.catalogapp.presentation.customDialog.CustomDialogSamplesScreen
 import com.metacto.catalogapp.presentation.dateConverter.DateConverterScreen
 import com.metacto.catalogapp.presentation.datePicker.DatePickerScreen
 import com.metacto.catalogapp.presentation.files.FilesSamplesScreen
@@ -158,6 +159,14 @@ internal fun MainContent(
             text = "Apple Pay samples",
             onClick = {
                 navManage.navigate(ApplePayScreen())
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
+
+        PrimaryFilledButton(
+            text = "Custom dialog samples",
+            onClick = {
+                navManage.navigate(CustomDialogSamplesScreen())
             },
             modifier = Modifier.fillMaxWidth()
         )

@@ -5,6 +5,7 @@ package com.metacto.core.ui.globalState
 import androidx.compose.runtime.mutableStateOf
 import com.metacto.core.ui.globalState.models.ChoicesPopupParams
 import com.metacto.core.ui.globalState.models.ConfirmationPopupParams
+import com.metacto.core.ui.globalState.models.CustomPopupParams
 import com.metacto.core.ui.globalState.models.DatePickerParams
 import com.metacto.core.ui.globalState.models.ForceUpdatePopupParams
 import com.metacto.core.ui.globalState.models.LoadingType
@@ -29,6 +30,7 @@ open class CoreGlobalState : ICoreGlobalState {
     override val confirmationPopupState = mutableStateOf<ConfirmationPopupParams?>(null)
     override val forceUpdatePopupState = mutableStateOf<ForceUpdatePopupParams?>(null)
     override val choicesPopupState = mutableStateOf<ChoicesPopupParams?>(null)
+    override val customPopupState = mutableStateOf<CustomPopupParams?>(null)
     override val datePickerState = mutableStateOf<DatePickerParams?>(null)
     override val timePickerState = mutableStateOf<TimePickerParams?>(null)
     override val snackBarState = mutableStateOf(SnackBarParams.hidden())
@@ -45,6 +47,7 @@ open class CoreGlobalState : ICoreGlobalState {
         confirmationPopupState.value = null
         forceUpdatePopupState.value = null
         choicesPopupState.value = null
+        customPopupState.value = null
         datePickerState.value = null
         timePickerState.value = null
         overrideUserPopupState.value = null
@@ -76,6 +79,10 @@ open class CoreGlobalState : ICoreGlobalState {
 
     override fun choicesPopup(params: ChoicesPopupParams) {
         choicesPopupState.value = params
+    }
+
+    override fun customPopup(params: CustomPopupParams) {
+        customPopupState.value = params
     }
 
     override fun datePicker(params: DatePickerParams) {

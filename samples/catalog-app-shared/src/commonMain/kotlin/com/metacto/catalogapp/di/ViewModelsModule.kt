@@ -2,6 +2,7 @@ package com.metacto.catalogapp.di
 
 // MARK: Add imports
 import com.metacto.catalogapp.presentation.app.app.AppViewModel
+import com.metacto.catalogapp.presentation.customDialog.CustomDialogSamplesViewModel
 import com.metacto.catalogapp.presentation.dateConverter.DateConverterViewModel
 import com.metacto.catalogapp.presentation.datePicker.DatePickerViewModel
 import com.metacto.catalogapp.presentation.files.FilesSamplesViewModel
@@ -24,6 +25,7 @@ import org.koin.dsl.module
 
 val viewModelsModule = module {
     // MARK: Add view model definitions
+    commonViewModel { CustomDialogSamplesViewModel() }
     commonViewModel { ListSheet.ListSheetViewModel() }
     commonViewModel { FormSheet.FormSheetViewModel() }
     commonViewModel { SimpleContentSheet.SimpleSheetViewModel() }

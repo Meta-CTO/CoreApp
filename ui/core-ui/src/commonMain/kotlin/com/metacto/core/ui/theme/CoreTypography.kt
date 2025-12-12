@@ -182,6 +182,11 @@ data class CoreTypography(
         bodyLarge = bodyLarge
     ),
 
+    // CustomDialog
+    val customDialog: CustomDialogTypography = CustomDialogTypography(
+        btnLabelMedium = btnLabelMedium
+    ),
+
     // OverrideUserDialog
     val overrideUserDialog: OverrideUserDialogTypography = OverrideUserDialogTypography(
         btnLabelMedium = btnLabelMedium,
@@ -450,6 +455,12 @@ data class MessageDialogTypography(
     private val btnLabelMedium: TextStyle,
     val textStyle: TextStyle = bodyLarge,
     val descriptionStyle: TextStyle = bodyLarge,
+    val btnTextStyle: TextStyle = btnLabelMedium
+)
+
+// CustomDialog
+data class CustomDialogTypography(
+    private val btnLabelMedium: TextStyle,
     val btnTextStyle: TextStyle = btnLabelMedium
 )
 

@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import cafe.adriel.voyager.core.screen.Screen
 import com.metacto.core.ui.components.dialogs.ChoicesDialog
 import com.metacto.core.ui.components.dialogs.ConfirmationDialog
+import com.metacto.core.ui.components.dialogs.CustomDialog
 import com.metacto.core.ui.components.dialogs.ForceUpdateDialog
 import com.metacto.core.ui.components.dialogs.MessageDialog
 import com.metacto.core.ui.components.dialogs.OverrideUserDialog
@@ -52,6 +53,7 @@ fun CoreAppContent(
     val confirmationParams by globalState.confirmationPopupState
     val forceUpdateParams by globalState.forceUpdatePopupState
     val choicesParams by globalState.choicesPopupState
+    val customParams by globalState.customPopupState
     val datePickerParams by globalState.datePickerState
     val timePickerParams by globalState.timePickerState
     val loadingType by globalState.loadingState
@@ -195,6 +197,26 @@ fun CoreAppContent(
                         globalState.idle()
                         params.onDismiss?.invoke()
                     }
+                )
+            }
+
+            // Handle custom popup
+            customParams?.let { params ->
+                CustomDialog(
+                    isCancellable = params.isCancellable,
+                    showToolbar = params.showToolbar,
+                    title = params.title,
+                    showPositiveButton = params.showPositiveButton,
+                    positiveButtonText = params.positiveButtonText,
+                    onPositiveClick = {
+                        globalState.idle()
+                        params.onPositiveClick?.invoke()
+                    },
+                    onDismiss = {
+                        globalState.idle()
+                        params.onDismiss?.invoke()
+                    },
+                    content = params.content
                 )
             }
 
