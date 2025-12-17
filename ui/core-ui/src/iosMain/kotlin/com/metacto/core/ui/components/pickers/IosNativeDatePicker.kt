@@ -23,6 +23,7 @@ import platform.Foundation.NSLocale
 import platform.Foundation.NSSelectorFromString
 import platform.Foundation.NSTimeZone
 import platform.Foundation.defaultTimeZone
+import platform.Foundation.setValue
 import platform.UIKit.UIColor
 import platform.UIKit.UIControlEventValueChanged
 import platform.UIKit.UIDatePicker
@@ -196,6 +197,9 @@ class NativeDatePicker(
     private fun UIDatePicker.configurePickerAppearance() {
         // Set background color
         backgroundColor = style.backgroundColor
+
+        // Force text color for all labels in the picker
+        setValue(style.textColor, forKey = "textColor")
 
         // Set tint color (affects selected components and text color)
         style.tintColor?.let {
