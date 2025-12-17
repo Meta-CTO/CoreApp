@@ -26,7 +26,7 @@ actual fun NativeDatePicker(
     modifier: Modifier,
     backgroundColor: Color
 ) {
-    val uiColor = remember(backgroundColor) {
+    val backgroundUiColor = remember(backgroundColor) {
         if (backgroundColor == Color.Transparent) {
             UIColor.systemBackgroundColor
         } else {
@@ -39,11 +39,11 @@ actual fun NativeDatePicker(
         }
     }
 
-    val view = remember(startDate, minDate, maxDate, uiColor) {
+    val view = remember(startDate, minDate, maxDate, backgroundUiColor) {
         NativeDatePicker(
             initialDate = startDate,
             style = DatePickerStyle(
-                backgroundColor = uiColor,
+                backgroundColor = backgroundUiColor,
                 textColor = UIColor.blackColor,
                 pickerStyle = DatePickerUIStyle.WHEELS,
                 pickerMode = DatePickerDisplayMode.DATE_ONLY,
