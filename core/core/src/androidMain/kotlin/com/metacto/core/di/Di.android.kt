@@ -22,6 +22,7 @@ internal actual fun <T : SerializableNetworkError> platformModule(errorClass: KC
             coreConfigs = coreConfigs,
             appStorageName = coreConfigs.storageName,
             shouldShowActualErrorMessages = coreConfigs.shouldShowActualErrorMessages,
+            networkUserAgent = coreConfigs.networkUserAgent,
             errorClass = errorClass
         )
     }

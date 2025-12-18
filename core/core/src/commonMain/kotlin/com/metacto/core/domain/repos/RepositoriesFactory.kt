@@ -12,5 +12,6 @@ expect open class RepositoriesFactory<T : SerializableNetworkError> {
     val coreConfigs: CoreConfigs
     val appStorageName: String
     val shouldShowActualErrorMessages: Boolean
+    val networkUserAgent: String?
     val errorClass: KClass<T>
 }
