@@ -16,5 +16,6 @@ data class CoreConfigs(
     val deepLinkParsers: Map<String, DeepLinkParser> = emptyMap(),
     val strapiVersion: StrapiVersion = StrapiVersion.V5,
     val forceUpdateRemoteConfigKey: String? = null,
-    val httpClientConfiguration: HttpClientConfiguration = {}
+    val httpClientConfiguration: HttpClientConfiguration = {},
+    val networkUserAgent: String? = null
 )

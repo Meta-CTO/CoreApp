@@ -29,6 +29,7 @@ actual open class RepositoriesFactory<T : SerializableNetworkError>(
     actual val coreConfigs: CoreConfigs,
     actual val appStorageName: String,
     actual val shouldShowActualErrorMessages: Boolean,
+    actual val networkUserAgent: String?,
     actual val errorClass: KClass<T>
 ) {
 
@@ -49,7 +50,8 @@ actual open class RepositoriesFactory<T : SerializableNetworkError>(
     private val ktorClientFactory = KtorClientFactory(
         networkLogLevel = coreConfigs.logLevel,
         preference = sharedPreference,
-        shouldShowActualErrorMessages = shouldShowActualErrorMessages
+        shouldShowActualErrorMessages = shouldShowActualErrorMessages,
+        userAgent = networkUserAgent
     )
 
     actual val httpService = HttpService(
