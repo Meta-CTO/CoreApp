@@ -178,6 +178,7 @@ metacto-analytics-core = { module = "com.metacto.kmm.analytics:core", version.re
 metacto-analytics-hightouch = { module = "com.metacto.kmm.analytics:hightouch", version.ref = "metacto-analytics" }
 metacto-analytics-clevertap = { module = "com.metacto.kmm.analytics:clevertap", version.ref = "metacto-analytics" }
 metacto-analytics-appsflyer = { module = "com.metacto.kmm.analytics:appsflyer", version.ref = "metacto-analytics" }
+metacto-analytics-amplitude = { module = "com.metacto.kmm.analytics:amplitude", version.ref = "metacto-analytics" }
 
 # Sendbird
 sendbird-chat = {module = "com.sendbird.sdk:sendbird-chat", version.ref = "sendbird-chat" }
