@@ -123,7 +123,7 @@ class IntentLauncher(
                 context.startActivity(intent)
                 return
             }
-            return
+            // resolveActivity returned null, continue to fallbacks
         } catch (_: Throwable) {
             // Continue to fallback
         }
