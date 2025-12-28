@@ -119,7 +119,10 @@ class IntentLauncher(
             val intent = Intent(Intent.ACTION_VIEW, uri).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
-            context.startActivity(intent)
+            if (intent.resolveActivity(pm) != null) {
+                context.startActivity(intent)
+                return
+            }
             return
         } catch (_: Throwable) {
             // Continue to fallback
@@ -136,8 +139,10 @@ class IntentLauncher(
                         setPackage(resolveInfo.activityInfo.packageName)
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     }
-                    context.startActivity(browserIntent)
-                    return
+                    if (browserIntent.resolveActivity(pm) != null) {
+                        context.startActivity(browserIntent)
+                        return
+                    }
                 } catch (_: Throwable) {
                     continue
                 }
