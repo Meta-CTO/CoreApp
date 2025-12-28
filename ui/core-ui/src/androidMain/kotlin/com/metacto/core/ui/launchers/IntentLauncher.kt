@@ -3,6 +3,7 @@ package com.metacto.core.ui.launchers
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.CalendarContract
 import android.provider.CalendarContract.Events
@@ -113,22 +114,41 @@ class IntentLauncher(
         val pm = context.packageManager
         val uri = url.toUri()
 
-        // Try generic intent first (old approach)
+        // Try generic intent first
         try {
             val intent = Intent(Intent.ACTION_VIEW, uri).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
-            if (intent.resolveActivity(pm) != null) {
-                context.startActivity(intent)
-                return
-            }
+            context.startActivity(intent)
+            return
         } catch (_: Throwable) {
             // Continue to fallback
         }
 
-        // Fallback: Try known browsers explicitly
+        // Fallback 1: Query all apps that can handle browser intents
         try {
-            for (packageName in browserPackages) {
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            val resolveInfos = pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+
+            for (resolveInfo in resolveInfos) {
+                try {
+                    val browserIntent = Intent(Intent.ACTION_VIEW, uri).apply {
+                        setPackage(resolveInfo.activityInfo.packageName)
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    }
+                    context.startActivity(browserIntent)
+                    return
+                } catch (_: Throwable) {
+                    continue
+                }
+            }
+        } catch (_: Throwable) {
+            // Continue to fallback 2
+        }
+
+        // Fallback 2: Try known browsers explicitly (last resort)
+        for (packageName in browserPackages) {
+            try {
                 val intent = Intent(Intent.ACTION_VIEW, uri).apply {
                     setPackage(packageName)
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -137,12 +157,12 @@ class IntentLauncher(
                     context.startActivity(intent)
                     return
                 }
+            } catch (_: Throwable) {
+                continue
             }
-        } catch (_: Throwable) {
-            // Continue to error handling
         }
 
-        // Both approaches failed
+        // All approaches failed
         if (onError != null) {
             onError()
         } else {
