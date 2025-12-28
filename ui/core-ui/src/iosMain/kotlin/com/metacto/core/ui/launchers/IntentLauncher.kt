@@ -78,8 +78,11 @@ class IntentLauncher : IIntentLauncher {
         openUrl(url)
     }
 
-    override fun launchBrowser(url: String) = runOnMainThread {
-        openUrl(url)
+    override fun launchBrowser(url: String, onError: (() -> Unit)?) = runOnMainThread {
+        val success = openUrl(url)
+        if (!success) {
+            onError?.invoke()
+        }
     }
 
     override fun launchAppSettings() {

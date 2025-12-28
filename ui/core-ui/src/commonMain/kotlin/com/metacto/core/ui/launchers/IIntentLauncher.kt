@@ -15,7 +15,7 @@ interface IIntentLauncher {
 
     fun launchPhone(phone: String)
 
-    fun launchBrowser(url: String)
+    fun launchBrowser(url: String, onError: (() -> Unit)? = null)
 
     fun launchAppSettings()
 

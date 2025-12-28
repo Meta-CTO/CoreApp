@@ -29,6 +29,17 @@ class IntentLauncher(
     private val resourceProvider: IResourceProvider
 ) : IIntentLauncher {
 
+    private val browserPackages = listOf(
+        "com.android.chrome",
+        "com.chrome.beta",
+        "com.chrome.dev",
+        "org.mozilla.firefox",
+        "com.opera.browser",
+        "com.microsoft.emmx",
+        "com.brave.browser",
+        "com.samsung.android.app.sbrowser"
+    )
+
     override fun launchEmail(
         email: String,
         subject: String?,
@@ -98,13 +109,43 @@ class IntentLauncher(
         ).show()
     }
 
-    override fun launchBrowser(url: String) {
+    override fun launchBrowser(url: String, onError: (() -> Unit)?) {
+        val pm = context.packageManager
+        val uri = url.toUri()
+
+        // Try generic intent first (old approach)
         try {
-            val intent = Intent(Intent.ACTION_VIEW, url.toUri()).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
-            context.startActivity(intent)
+            if (intent.resolveActivity(pm) != null) {
+                context.startActivity(intent)
+                return
+            }
         } catch (_: Throwable) {
+            // Continue to fallback
+        }
+
+        // Fallback: Try known browsers explicitly
+        try {
+            for (packageName in browserPackages) {
+                val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+                    setPackage(packageName)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                if (intent.resolveActivity(pm) != null) {
+                    context.startActivity(intent)
+                    return
+                }
+            }
+        } catch (_: Throwable) {
+            // Continue to error handling
+        }
+
+        // Both approaches failed
+        if (onError != null) {
+            onError()
+        } else {
             Toast.makeText(
                 context,
                 resourceProvider.getString(Res.string.no_browser_installed),
