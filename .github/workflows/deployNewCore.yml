@@ -1,24 +1,109 @@
-name: Build & upload the debug package
-# Trigger on every tag creation
+name: Build & Publish Changed Modules
+
 on:
   push:
     branches:
       - 'new_core'
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+    paths-ignore:
+      - 'samples/**'
+      - 'core/sample/**'
+      - 'ui/sample/**'
+      - '**.md'
+      - '.gitignore'
+
+env:
+  VERSION_SUFFIX: "-alpha"
+  MAVEN_REPO: "https://maven.pkg.github.com/Meta-CTO/coreapp"
+
 jobs:
-  build:
+  # ============================================
+  # DETECT CHANGES
+  # ============================================
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      core: ${{ steps.changes.outputs.core }}
+      coreui: ${{ steps.changes.outputs.coreui }}
+      files: ${{ steps.changes.outputs.files }}
+      notifications: ${{ steps.changes.outputs.notifications }}
+      phonecore: ${{ steps.changes.outputs.phonecore }}
+      camera: ${{ steps.changes.outputs.camera }}
+      mediaplayers: ${{ steps.changes.outputs.mediaplayers }}
+      youtube: ${{ steps.changes.outputs.youtube }}
+      phoneui: ${{ steps.changes.outputs.phoneui }}
+      imagepicker: ${{ steps.changes.outputs.imagepicker }}
+      buildsrc: ${{ steps.changes.outputs.buildsrc }}
+      any_module: ${{ steps.changes.outputs.any_module }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed modules
+        id: changes
+        run: |
+          # Get changed files between current and previous commit
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || git diff --name-only HEAD)
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+          echo ""
+
+          # Check buildSrc changes (triggers all modules)
+          BUILDSRC_CHANGED=$(echo "$CHANGED_FILES" | grep -q '^buildSrc/' && echo 'true' || echo 'false')
+          echo "buildsrc=$BUILDSRC_CHANGED" >> $GITHUB_OUTPUT
+
+          # Detect per-module changes
+          detect_module() {
+            local module_name=$1
+            local path_pattern=$2
+            local changed=$(echo "$CHANGED_FILES" | grep -qE "$path_pattern" && echo 'true' || echo 'false')
+            # If buildSrc changed, mark all modules as changed
+            if [ "$BUILDSRC_CHANGED" = "true" ]; then
+              changed="true"
+            fi
+            echo "$module_name=$changed" >> $GITHUB_OUTPUT
+            echo "$module_name: $changed"
+          }
+
+          detect_module "core" "^core/core/"
+          detect_module "coreui" "^ui/core-ui/"
+          detect_module "files" "^core/files/"
+          detect_module "notifications" "^core/notifications/"
+          detect_module "phonecore" "^core/phone-core/"
+          detect_module "camera" "^ui/camera/"
+          detect_module "mediaplayers" "^ui/media-players/"
+          detect_module "youtube" "^ui/youtube/"
+          detect_module "phoneui" "^ui/phone-ui/"
+          detect_module "imagepicker" "^ui/image-picker/"
+
+          # Check if any module changed
+          if [ "$BUILDSRC_CHANGED" = "true" ] || echo "$CHANGED_FILES" | grep -qE '^(core/(core|files|notifications|phone-core)|ui/(core-ui|camera|media-players|youtube|phone-ui|image-picker))/'; then
+            echo "any_module=true" >> $GITHUB_OUTPUT
+          else
+            echo "any_module=false" >> $GITHUB_OUTPUT
+          fi
+
+  # ============================================
+  # PUBLISH: CORE
+  # ============================================
+  publish-core:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.core == 'true'
     runs-on: macos-latest
     permissions:
       contents: write
       packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
-      - uses: actions/checkout@v3
-      - name: set up JDK 17
-        uses: actions/setup-java@v1
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
           java-version: 17
+          distribution: 'temurin'
       - name: Cache Gradle
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
@@ -27,7 +112,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Cache Konan
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.konan/caches
@@ -36,37 +121,1054 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
+      - name: Get latest version from Maven
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          # Query GitHub Packages API for latest version
+          PACKAGE_NAME="com.metacto.kmm.core"
 
-      - name: Update local properties
+          # Get versions from GitHub Packages
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            # No versions found, start with base version from catalog
+            CURRENT_VERSION=$(grep 'metacto-core = "' gradle/libs.versions.toml | head -1 | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            # Get the latest alpha version
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-core = "' gradle/libs.versions.toml | head -1 | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
+
+          # Parse and increment version
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          # Validate parsing
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+      - name: Update properties files
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
-          PUBLISH_CORE_VERSION: 0.2.${{ github.run_number }}-alpha
-        run: echo PUBLISH_REPO_USER=$PUBLISH_REPO_USER$'\n'
-          PUBLISH_CORE_VERSION=$PUBLISH_CORE_VERSION$'\n'
-          PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN > ./local.properties
+        run: |
+          # Update local.properties for credentials
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          # Update versions.properties - this is what Gradle reads for the actual version
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_core -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish core module
+        run: ./gradlew :core:core:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-core
+          path: gradle/libs.versions.toml
 
-      - name: Print local.properties content
-        run: cat ./local.properties
-
-      - name: Update versions properties
+  # ============================================
+  # PUBLISH: CORE-UI
+  # ============================================
+  publish-coreui:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.coreui == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Get latest version from Maven
+        id: version
         env:
-          PUBLISH_CORE_VERSION: 0.2.${{ github.run_number }}-alpha
-        run: echo PUBLISH_CORE_VERSION=$PUBLISH_CORE_VERSION> ./versions.properties
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          PACKAGE_NAME="com.metacto.kmm.core-ui"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
 
-      - name: Print versions.properties content
-        run: cat ./versions.properties
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-coreui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-coreui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
 
-      - name: Update version catalog
-        run: ./gradlew updateVersionCatalog
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
 
-      - name: Commit updated version catalog
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+      - name: Update properties files
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_coreui -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish core-ui module
+        run: ./gradlew :ui:core-ui:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-coreui
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: FILES
+  # ============================================
+  publish-files:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.files == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Get latest version from Maven
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          PACKAGE_NAME="com.metacto.kmm.files"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-files = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-files = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+      - name: Update properties files
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_files -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish files module
+        run: ./gradlew :core:files:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-files
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: NOTIFICATIONS
+  # ============================================
+  publish-notifications:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.notifications == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Get latest version from Maven
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          PACKAGE_NAME="com.metacto.kmm.notifications"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-notifications = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-notifications = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+      - name: Update properties files
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_notifications -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish notifications module
+        run: ./gradlew :core:notifications:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-notifications
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: PHONE-CORE
+  # ============================================
+  publish-phonecore:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.phonecore == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Get latest version from Maven
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          PACKAGE_NAME="com.metacto.kmm.phone-core"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-phonecore = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-phonecore = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+      - name: Update properties files
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_phonecore -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish phone-core module
+        run: ./gradlew :core:phone-core:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-phonecore
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: CAMERA
+  # ============================================
+  publish-camera:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.camera == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Get latest version from Maven
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          PACKAGE_NAME="com.metacto.kmm.camera"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-camera = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-camera = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+      - name: Update properties files
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_camera -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish camera module
+        run: ./gradlew :ui:camera:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-camera
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: MEDIA-PLAYERS
+  # ============================================
+  publish-mediaplayers:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.mediaplayers == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Get latest version from Maven
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          PACKAGE_NAME="com.metacto.kmm.media-players"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-mediaplayers = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-mediaplayers = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+      - name: Update properties files
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_mediaplayers -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish media-players module
+        run: ./gradlew :ui:media-players:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-mediaplayers
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: YOUTUBE
+  # ============================================
+  publish-youtube:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.youtube == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Get latest version from Maven
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          PACKAGE_NAME="com.metacto.kmm.youtube"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-youtube = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-youtube = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+      - name: Update properties files
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_youtube -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish youtube module
+        run: ./gradlew :ui:youtube:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-youtube
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: PHONE-UI
+  # ============================================
+  publish-phoneui:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.phoneui == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Get latest version from Maven
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          PACKAGE_NAME="com.metacto.kmm.phone-ui"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-phoneui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-phoneui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+      - name: Update properties files
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_phoneui -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish phone-ui module
+        run: ./gradlew :ui:phone-ui:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-phoneui
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: IMAGE-PICKER
+  # ============================================
+  publish-imagepicker:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.imagepicker == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Get latest version from Maven
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          PACKAGE_NAME="com.metacto.kmm.image-picker"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-imagepicker = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-imagepicker = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+      - name: Update properties files
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_imagepicker -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish image-picker module
+        run: ./gradlew :ui:image-picker:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-imagepicker
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # FINALIZE: Merge version catalogs and commit
+  # ============================================
+  finalize:
+    needs:
+      - detect-changes
+      - publish-core
+      - publish-coreui
+      - publish-files
+      - publish-notifications
+      - publish-phonecore
+      - publish-camera
+      - publish-mediaplayers
+      - publish-youtube
+      - publish-phoneui
+      - publish-imagepicker
+    if: always() && needs.detect-changes.outputs.any_module == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Download all version catalog artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: version-catalogs
+          pattern: version-catalog-*
+
+      - name: Merge version catalogs
+        run: |
+          echo "Merging version catalogs..."
+
+          # Start with the base version catalog
+          cp gradle/libs.versions.toml gradle/libs.versions.toml.merged
+
+          # Apply updates from each published module's artifact
+          merge_version() {
+            local module=$1
+            local version_key=$2
+            local artifact_path="version-catalogs/version-catalog-$module/libs.versions.toml"
+
+            if [ -f "$artifact_path" ]; then
+              # Extract the new version from the artifact
+              NEW_VERSION=$(grep "$version_key = \"" "$artifact_path" | sed 's/.*= "\([^"]*\)".*/\1/')
+              if [ -n "$NEW_VERSION" ]; then
+                echo "Updating $version_key to $NEW_VERSION"
+                sed -i '' "s/$version_key = \"[^\"]*\"/$version_key = \"$NEW_VERSION\"/" gradle/libs.versions.toml.merged
+              fi
+            fi
+          }
+
+          merge_version "core" "metacto-core"
+          merge_version "coreui" "metacto-coreui"
+          merge_version "files" "metacto-files"
+          merge_version "notifications" "metacto-notifications"
+          merge_version "phonecore" "metacto-phonecore"
+          merge_version "camera" "metacto-camera"
+          merge_version "mediaplayers" "metacto-mediaplayers"
+          merge_version "youtube" "metacto-youtube"
+          merge_version "phoneui" "metacto-phoneui"
+          merge_version "imagepicker" "metacto-imagepicker"
+
+          mv gradle/libs.versions.toml.merged gradle/libs.versions.toml
+
+          echo "Updated version catalog:"
+          head -30 gradle/libs.versions.toml
+
+      - name: Get latest version-catalog version from Maven
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          PACKAGE_NAME="com.metacto.kmm.version-catalog"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION="0.2.82-alpha"
+            echo "No published versions found, using default: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION="0.2.82-alpha"
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+          NEW_VERSION="${MAJOR}.${MINOR}.$((PATCH + 1))-alpha"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update properties files
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          # Update versions.properties - this is what Gradle reads for the actual version
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
+
+      - name: Publish version catalog
+        run: ./gradlew :version-catalog:publishAllPublicationsToGithubRepository
+
+      - name: Commit and push updated version catalog
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add gradle/libs.versions.toml
-          git commit -m "Update metacto-core version to 0.2.${{ github.run_number }}-alpha"
-          git push
 
-      - name: Publish to GitHub Packages
-        run: ./gradlew publishAllPublicationsToGithubRepository
+          # Build commit message with list of updated modules and their versions
+          COMMIT_MSG="Update module versions:"
+
+          if [ -d "version-catalogs/version-catalog-core" ]; then
+            VER=$(grep 'metacto-core = "' gradle/libs.versions.toml | head -1 | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG core@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-coreui" ]; then
+            VER=$(grep 'metacto-coreui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG core-ui@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-files" ]; then
+            VER=$(grep 'metacto-files = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG files@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-notifications" ]; then
+            VER=$(grep 'metacto-notifications = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG notifications@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-phonecore" ]; then
+            VER=$(grep 'metacto-phonecore = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG phone-core@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-camera" ]; then
+            VER=$(grep 'metacto-camera = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG camera@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-mediaplayers" ]; then
+            VER=$(grep 'metacto-mediaplayers = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG media-players@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-youtube" ]; then
+            VER=$(grep 'metacto-youtube = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG youtube@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-phoneui" ]; then
+            VER=$(grep 'metacto-phoneui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG phone-ui@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-imagepicker" ]; then
+            VER=$(grep 'metacto-imagepicker = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG image-picker@$VER"
+          fi
+
+          git commit -m "$COMMIT_MSG" || echo "No changes to commit"
+          git push
