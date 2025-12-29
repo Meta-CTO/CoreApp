@@ -113,61 +113,64 @@ class IntentLauncher(
     override fun launchBrowser(url: String, onError: (() -> Unit)?) {
         val pm = context.packageManager
         val uri = url.toUri()
+        tryKnownBrowsers(pm, uri, onError)
+    }
 
-        // Try generic intent first
+    private fun tryKnownBrowsers(pm: PackageManager, uri: Uri, onError: (() -> Unit)?) {
+        for (packageName in browserPackages) {
+            val intent = Intent(Intent.ACTION_VIEW, uri).apply {
+                setPackage(packageName)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+            if (intent.resolveActivity(pm) != null) {
+                try {
+                    context.startActivity(intent)
+                    return // Success, stop
+                } catch (_: Throwable) {
+                    // Try next browser
+                }
+            }
+        }
+        tryGenericBrowserIntent(pm, uri, onError)
+    }
+
+    private fun tryGenericBrowserIntent(pm: PackageManager, uri: Uri, onError: (() -> Unit)?) {
         try {
             val intent = Intent(Intent.ACTION_VIEW, uri).apply {
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
-            if (intent.resolveActivity(pm) != null) {
-                context.startActivity(intent)
-                return
-            }
-            // resolveActivity returned null, continue to fallbacks
+            context.startActivity(intent)
         } catch (_: Throwable) {
-            // Continue to fallback
+            tryQueryIntentActivities(pm, uri, onError)
         }
+    }
 
-        // Fallback 1: Query all apps that can handle browser intents
+    private fun tryQueryIntentActivities(pm: PackageManager, uri: Uri, onError: (() -> Unit)?) {
         try {
             val intent = Intent(Intent.ACTION_VIEW, uri)
             val resolveInfos = pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
 
             for (resolveInfo in resolveInfos) {
-                try {
-                    val browserIntent = Intent(Intent.ACTION_VIEW, uri).apply {
-                        setPackage(resolveInfo.activityInfo.packageName)
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    }
-                    if (browserIntent.resolveActivity(pm) != null) {
+                val browserIntent = Intent(Intent.ACTION_VIEW, uri).apply {
+                    setPackage(resolveInfo.activityInfo.packageName)
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                if (browserIntent.resolveActivity(pm) != null) {
+                    try {
                         context.startActivity(browserIntent)
-                        return
+                        return // Success, stop
+                    } catch (_: Throwable) {
+                        // Try next resolveInfo
                     }
-                } catch (_: Throwable) {
-                    continue
                 }
             }
         } catch (_: Throwable) {
-            // Continue to fallback 2
+            // queryIntentActivities threw
         }
+        handleBrowserLaunchError(onError)
+    }
 
-        // Fallback 2: Try known browsers explicitly (last resort)
-        for (packageName in browserPackages) {
-            try {
-                val intent = Intent(Intent.ACTION_VIEW, uri).apply {
-                    setPackage(packageName)
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }
-                if (intent.resolveActivity(pm) != null) {
-                    context.startActivity(intent)
-                    return
-                }
-            } catch (_: Throwable) {
-                continue
-            }
-        }
-
-        // All approaches failed
+    private fun handleBrowserLaunchError(onError: (() -> Unit)?) {
         if (onError != null) {
             onError()
         } else {
