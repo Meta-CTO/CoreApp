@@ -1,24 +1,109 @@
-name: Build & upload the debug package
-# Trigger on every tag creation
+name: Build & Publish Changed Modules
+
 on:
   push:
     branches:
       - 'new_core'
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+    paths-ignore:
+      - 'samples/**'
+      - 'core/sample/**'
+      - 'ui/sample/**'
+      - '**.md'
+      - '.gitignore'
+
+env:
+  VERSION_PREFIX: "0.2"
+  VERSION_SUFFIX: "-alpha"
+
 jobs:
-  build:
+  # ============================================
+  # DETECT CHANGES
+  # ============================================
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      core: ${{ steps.changes.outputs.core }}
+      coreui: ${{ steps.changes.outputs.coreui }}
+      files: ${{ steps.changes.outputs.files }}
+      notifications: ${{ steps.changes.outputs.notifications }}
+      phonecore: ${{ steps.changes.outputs.phonecore }}
+      camera: ${{ steps.changes.outputs.camera }}
+      mediaplayers: ${{ steps.changes.outputs.mediaplayers }}
+      youtube: ${{ steps.changes.outputs.youtube }}
+      phoneui: ${{ steps.changes.outputs.phoneui }}
+      imagepicker: ${{ steps.changes.outputs.imagepicker }}
+      buildsrc: ${{ steps.changes.outputs.buildsrc }}
+      any_module: ${{ steps.changes.outputs.any_module }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect changed modules
+        id: changes
+        run: |
+          # Get changed files between current and previous commit
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || git diff --name-only HEAD)
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+          echo ""
+
+          # Check buildSrc changes (triggers all modules)
+          BUILDSRC_CHANGED=$(echo "$CHANGED_FILES" | grep -q '^buildSrc/' && echo 'true' || echo 'false')
+          echo "buildsrc=$BUILDSRC_CHANGED" >> $GITHUB_OUTPUT
+
+          # Detect per-module changes
+          detect_module() {
+            local module_name=$1
+            local path_pattern=$2
+            local changed=$(echo "$CHANGED_FILES" | grep -qE "$path_pattern" && echo 'true' || echo 'false')
+            # If buildSrc changed, mark all modules as changed
+            if [ "$BUILDSRC_CHANGED" = "true" ]; then
+              changed="true"
+            fi
+            echo "$module_name=$changed" >> $GITHUB_OUTPUT
+            echo "$module_name: $changed"
+          }
+
+          detect_module "core" "^core/core/"
+          detect_module "coreui" "^ui/core-ui/"
+          detect_module "files" "^core/files/"
+          detect_module "notifications" "^core/notifications/"
+          detect_module "phonecore" "^core/phone-core/"
+          detect_module "camera" "^ui/camera/"
+          detect_module "mediaplayers" "^ui/media-players/"
+          detect_module "youtube" "^ui/youtube/"
+          detect_module "phoneui" "^ui/phone-ui/"
+          detect_module "imagepicker" "^ui/image-picker/"
+
+          # Check if any module changed
+          if [ "$BUILDSRC_CHANGED" = "true" ] || echo "$CHANGED_FILES" | grep -qE '^(core/(core|files|notifications|phone-core)|ui/(core-ui|camera|media-players|youtube|phone-ui|image-picker))/'; then
+            echo "any_module=true" >> $GITHUB_OUTPUT
+          else
+            echo "any_module=false" >> $GITHUB_OUTPUT
+          fi
+
+  # ============================================
+  # PUBLISH: CORE
+  # ============================================
+  publish-core:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.core == 'true'
     runs-on: macos-latest
     permissions:
       contents: write
       packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     steps:
-      - uses: actions/checkout@v3
-      - name: set up JDK 17
-        uses: actions/setup-java@v1
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
           java-version: 17
+          distribution: 'temurin'
       - name: Cache Gradle
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
@@ -27,7 +112,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Cache Konan
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.konan/caches
@@ -36,37 +121,669 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
+      - name: Calculate version
+        id: version
+        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+      - name: Update local properties
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_core -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish core module
+        run: ./gradlew :core:core:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-core
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: CORE-UI
+  # ============================================
+  publish-coreui:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.coreui == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Calculate version
+        id: version
+        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+      - name: Update local properties
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_coreui -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish core-ui module
+        run: ./gradlew :ui:core-ui:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-coreui
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: FILES
+  # ============================================
+  publish-files:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.files == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Calculate version
+        id: version
+        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+      - name: Update local properties
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_files -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish files module
+        run: ./gradlew :core:files:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-files
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: NOTIFICATIONS
+  # ============================================
+  publish-notifications:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.notifications == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Calculate version
+        id: version
+        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+      - name: Update local properties
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_notifications -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish notifications module
+        run: ./gradlew :core:notifications:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-notifications
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: PHONE-CORE
+  # ============================================
+  publish-phonecore:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.phonecore == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Calculate version
+        id: version
+        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+      - name: Update local properties
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_phonecore -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish phone-core module
+        run: ./gradlew :core:phone-core:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-phonecore
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: CAMERA
+  # ============================================
+  publish-camera:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.camera == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Calculate version
+        id: version
+        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+      - name: Update local properties
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_camera -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish camera module
+        run: ./gradlew :ui:camera:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-camera
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: MEDIA-PLAYERS
+  # ============================================
+  publish-mediaplayers:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.mediaplayers == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Calculate version
+        id: version
+        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+      - name: Update local properties
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_mediaplayers -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish media-players module
+        run: ./gradlew :ui:media-players:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-mediaplayers
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: YOUTUBE
+  # ============================================
+  publish-youtube:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.youtube == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Calculate version
+        id: version
+        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+      - name: Update local properties
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_youtube -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish youtube module
+        run: ./gradlew :ui:youtube:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-youtube
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: PHONE-UI
+  # ============================================
+  publish-phoneui:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.phoneui == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Calculate version
+        id: version
+        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+      - name: Update local properties
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_phoneui -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish phone-ui module
+        run: ./gradlew :ui:phone-ui:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-phoneui
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # PUBLISH: IMAGE-PICKER
+  # ============================================
+  publish-imagepicker:
+    needs: detect-changes
+    if: needs.detect-changes.outputs.imagepicker == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache Konan
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.konan/caches
+            ~/.konan/dependencies
+            ~/.konan/kotlin-native-prebuilt-macos-*
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Calculate version
+        id: version
+        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+      - name: Update local properties
+        env:
+          PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
+          PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+      - name: Update version in catalog
+        run: ./gradlew updateVersionCatalog_imagepicker -PmoduleVersion=${{ steps.version.outputs.version }}
+      - name: Publish image-picker module
+        run: ./gradlew :ui:image-picker:publishAllPublicationsToGithubRepository
+      - name: Upload updated version catalog
+        uses: actions/upload-artifact@v4
+        with:
+          name: version-catalog-imagepicker
+          path: gradle/libs.versions.toml
+
+  # ============================================
+  # FINALIZE: Merge version catalogs and commit
+  # ============================================
+  finalize:
+    needs:
+      - detect-changes
+      - publish-core
+      - publish-coreui
+      - publish-files
+      - publish-notifications
+      - publish-phonecore
+      - publish-camera
+      - publish-mediaplayers
+      - publish-youtube
+      - publish-phoneui
+      - publish-imagepicker
+    if: always() && needs.detect-changes.outputs.any_module == 'true'
+    runs-on: macos-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Download all version catalog artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: version-catalogs
+          pattern: version-catalog-*
+
+      - name: Merge version catalogs
+        run: |
+          VERSION="${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}"
+          echo "Merging version catalogs with version: $VERSION"
+
+          # Start with the base version catalog
+          cp gradle/libs.versions.toml gradle/libs.versions.toml.merged
+
+          # Apply updates from each published module
+          update_version() {
+            local module=$1
+            local version_key=$2
+            if [ -f "version-catalogs/version-catalog-$module/libs.versions.toml" ]; then
+              echo "Updating $version_key to $VERSION"
+              sed -i '' "s/$version_key = \"[^\"]*\"/$version_key = \"$VERSION\"/" gradle/libs.versions.toml.merged
+            fi
+          }
+
+          update_version "core" "metacto-core"
+          update_version "coreui" "metacto-coreui"
+          update_version "files" "metacto-files"
+          update_version "notifications" "metacto-notifications"
+          update_version "phonecore" "metacto-phonecore"
+          update_version "camera" "metacto-camera"
+          update_version "mediaplayers" "metacto-mediaplayers"
+          update_version "youtube" "metacto-youtube"
+          update_version "phoneui" "metacto-phoneui"
+          update_version "imagepicker" "metacto-imagepicker"
+
+          mv gradle/libs.versions.toml.merged gradle/libs.versions.toml
+
+          echo "Updated version catalog:"
+          head -30 gradle/libs.versions.toml
 
       - name: Update local properties
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
-          PUBLISH_CORE_VERSION: 0.2.${{ github.run_number }}-alpha
-        run: echo PUBLISH_REPO_USER=$PUBLISH_REPO_USER$'\n'
-          PUBLISH_CORE_VERSION=$PUBLISH_CORE_VERSION$'\n'
-          PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN > ./local.properties
+        run: |
+          echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
+          echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
 
-      - name: Print local.properties content
-        run: cat ./local.properties
+      - name: Publish version catalog
+        run: ./gradlew :version-catalog:publishAllPublicationsToGithubRepository
 
-      - name: Update versions properties
-        env:
-          PUBLISH_CORE_VERSION: 0.2.${{ github.run_number }}-alpha
-        run: echo PUBLISH_CORE_VERSION=$PUBLISH_CORE_VERSION> ./versions.properties
-
-      - name: Print versions.properties content
-        run: cat ./versions.properties
-
-      - name: Update version catalog
-        run: ./gradlew updateVersionCatalog
-
-      - name: Commit updated version catalog
+      - name: Commit and push updated version catalog
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
           git add gradle/libs.versions.toml
-          git commit -m "Update metacto-core version to 0.2.${{ github.run_number }}-alpha"
-          git push
 
-      - name: Publish to GitHub Packages
-        run: ./gradlew publishAllPublicationsToGithubRepository
+          # Build commit message with list of updated modules
+          MODULES=""
+          [ -d "version-catalogs/version-catalog-core" ] && MODULES="$MODULES core"
+          [ -d "version-catalogs/version-catalog-coreui" ] && MODULES="$MODULES core-ui"
+          [ -d "version-catalogs/version-catalog-files" ] && MODULES="$MODULES files"
+          [ -d "version-catalogs/version-catalog-notifications" ] && MODULES="$MODULES notifications"
+          [ -d "version-catalogs/version-catalog-phonecore" ] && MODULES="$MODULES phone-core"
+          [ -d "version-catalogs/version-catalog-camera" ] && MODULES="$MODULES camera"
+          [ -d "version-catalogs/version-catalog-mediaplayers" ] && MODULES="$MODULES media-players"
+          [ -d "version-catalogs/version-catalog-youtube" ] && MODULES="$MODULES youtube"
+          [ -d "version-catalogs/version-catalog-phoneui" ] && MODULES="$MODULES phone-ui"
+          [ -d "version-catalogs/version-catalog-imagepicker" ] && MODULES="$MODULES image-picker"
+
+          git commit -m "Update versions to ${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }} for:$MODULES" || echo "No changes to commit"
+          git push
