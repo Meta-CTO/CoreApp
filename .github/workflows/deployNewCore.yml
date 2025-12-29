@@ -12,7 +12,6 @@ on:
       - '.gitignore'
 
 env:
-  VERSION_PREFIX: "0.2"
   VERSION_SUFFIX: "-alpha"
 
 jobs:
@@ -121,9 +120,25 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate version
+      - name: Calculate next version
         id: version
-        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+        run: |
+          # Read current version from libs.versions.toml
+          CURRENT_VERSION=$(grep 'metacto-core = "' gradle/libs.versions.toml | head -1 | sed 's/.*= "\([^"]*\)".*/\1/')
+          echo "Current version: $CURRENT_VERSION"
+
+          # Parse version components (e.g., 0.2.81-alpha -> 0.2.82-alpha)
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')  # 0.2.81
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          # Increment patch
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
       - name: Update local properties
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
@@ -180,9 +195,22 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate version
+      - name: Calculate next version
         id: version
-        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+        run: |
+          CURRENT_VERSION=$(grep 'metacto-coreui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+          echo "Current version: $CURRENT_VERSION"
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
       - name: Update local properties
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
@@ -239,9 +267,22 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate version
+      - name: Calculate next version
         id: version
-        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+        run: |
+          CURRENT_VERSION=$(grep 'metacto-files = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+          echo "Current version: $CURRENT_VERSION"
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
       - name: Update local properties
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
@@ -298,9 +339,22 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate version
+      - name: Calculate next version
         id: version
-        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+        run: |
+          CURRENT_VERSION=$(grep 'metacto-notifications = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+          echo "Current version: $CURRENT_VERSION"
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
       - name: Update local properties
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
@@ -357,9 +411,22 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate version
+      - name: Calculate next version
         id: version
-        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+        run: |
+          CURRENT_VERSION=$(grep 'metacto-phonecore = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+          echo "Current version: $CURRENT_VERSION"
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
       - name: Update local properties
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
@@ -416,9 +483,22 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate version
+      - name: Calculate next version
         id: version
-        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+        run: |
+          CURRENT_VERSION=$(grep 'metacto-camera = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+          echo "Current version: $CURRENT_VERSION"
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
       - name: Update local properties
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
@@ -475,9 +555,22 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate version
+      - name: Calculate next version
         id: version
-        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+        run: |
+          CURRENT_VERSION=$(grep 'metacto-mediaplayers = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+          echo "Current version: $CURRENT_VERSION"
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
       - name: Update local properties
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
@@ -534,9 +627,22 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate version
+      - name: Calculate next version
         id: version
-        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+        run: |
+          CURRENT_VERSION=$(grep 'metacto-youtube = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+          echo "Current version: $CURRENT_VERSION"
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
       - name: Update local properties
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
@@ -593,9 +699,22 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate version
+      - name: Calculate next version
         id: version
-        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+        run: |
+          CURRENT_VERSION=$(grep 'metacto-phoneui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+          echo "Current version: $CURRENT_VERSION"
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
       - name: Update local properties
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
@@ -652,9 +771,22 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate version
+      - name: Calculate next version
         id: version
-        run: echo "version=${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}" >> $GITHUB_OUTPUT
+        run: |
+          CURRENT_VERSION=$(grep 'metacto-imagepicker = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+          echo "Current version: $CURRENT_VERSION"
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
       - name: Update local properties
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
@@ -723,32 +855,37 @@ jobs:
 
       - name: Merge version catalogs
         run: |
-          VERSION="${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }}"
-          echo "Merging version catalogs with version: $VERSION"
+          echo "Merging version catalogs..."
 
           # Start with the base version catalog
           cp gradle/libs.versions.toml gradle/libs.versions.toml.merged
 
-          # Apply updates from each published module
-          update_version() {
+          # Apply updates from each published module's artifact
+          merge_version() {
             local module=$1
             local version_key=$2
-            if [ -f "version-catalogs/version-catalog-$module/libs.versions.toml" ]; then
-              echo "Updating $version_key to $VERSION"
-              sed -i '' "s/$version_key = \"[^\"]*\"/$version_key = \"$VERSION\"/" gradle/libs.versions.toml.merged
+            local artifact_path="version-catalogs/version-catalog-$module/libs.versions.toml"
+
+            if [ -f "$artifact_path" ]; then
+              # Extract the new version from the artifact
+              NEW_VERSION=$(grep "$version_key = \"" "$artifact_path" | sed 's/.*= "\([^"]*\)".*/\1/')
+              if [ -n "$NEW_VERSION" ]; then
+                echo "Updating $version_key to $NEW_VERSION"
+                sed -i '' "s/$version_key = \"[^\"]*\"/$version_key = \"$NEW_VERSION\"/" gradle/libs.versions.toml.merged
+              fi
             fi
           }
 
-          update_version "core" "metacto-core"
-          update_version "coreui" "metacto-coreui"
-          update_version "files" "metacto-files"
-          update_version "notifications" "metacto-notifications"
-          update_version "phonecore" "metacto-phonecore"
-          update_version "camera" "metacto-camera"
-          update_version "mediaplayers" "metacto-mediaplayers"
-          update_version "youtube" "metacto-youtube"
-          update_version "phoneui" "metacto-phoneui"
-          update_version "imagepicker" "metacto-imagepicker"
+          merge_version "core" "metacto-core"
+          merge_version "coreui" "metacto-coreui"
+          merge_version "files" "metacto-files"
+          merge_version "notifications" "metacto-notifications"
+          merge_version "phonecore" "metacto-phonecore"
+          merge_version "camera" "metacto-camera"
+          merge_version "mediaplayers" "metacto-mediaplayers"
+          merge_version "youtube" "metacto-youtube"
+          merge_version "phoneui" "metacto-phoneui"
+          merge_version "imagepicker" "metacto-imagepicker"
 
           mv gradle/libs.versions.toml.merged gradle/libs.versions.toml
 
@@ -772,18 +909,49 @@ jobs:
           git config user.email "actions@github.com"
           git add gradle/libs.versions.toml
 
-          # Build commit message with list of updated modules
-          MODULES=""
-          [ -d "version-catalogs/version-catalog-core" ] && MODULES="$MODULES core"
-          [ -d "version-catalogs/version-catalog-coreui" ] && MODULES="$MODULES core-ui"
-          [ -d "version-catalogs/version-catalog-files" ] && MODULES="$MODULES files"
-          [ -d "version-catalogs/version-catalog-notifications" ] && MODULES="$MODULES notifications"
-          [ -d "version-catalogs/version-catalog-phonecore" ] && MODULES="$MODULES phone-core"
-          [ -d "version-catalogs/version-catalog-camera" ] && MODULES="$MODULES camera"
-          [ -d "version-catalogs/version-catalog-mediaplayers" ] && MODULES="$MODULES media-players"
-          [ -d "version-catalogs/version-catalog-youtube" ] && MODULES="$MODULES youtube"
-          [ -d "version-catalogs/version-catalog-phoneui" ] && MODULES="$MODULES phone-ui"
-          [ -d "version-catalogs/version-catalog-imagepicker" ] && MODULES="$MODULES image-picker"
+          # Build commit message with list of updated modules and their versions
+          COMMIT_MSG="Update module versions:"
 
-          git commit -m "Update versions to ${{ env.VERSION_PREFIX }}.${{ github.run_number }}${{ env.VERSION_SUFFIX }} for:$MODULES" || echo "No changes to commit"
+          if [ -d "version-catalogs/version-catalog-core" ]; then
+            VER=$(grep 'metacto-core = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG core@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-coreui" ]; then
+            VER=$(grep 'metacto-coreui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG core-ui@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-files" ]; then
+            VER=$(grep 'metacto-files = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG files@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-notifications" ]; then
+            VER=$(grep 'metacto-notifications = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG notifications@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-phonecore" ]; then
+            VER=$(grep 'metacto-phonecore = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG phone-core@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-camera" ]; then
+            VER=$(grep 'metacto-camera = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG camera@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-mediaplayers" ]; then
+            VER=$(grep 'metacto-mediaplayers = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG media-players@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-youtube" ]; then
+            VER=$(grep 'metacto-youtube = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG youtube@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-phoneui" ]; then
+            VER=$(grep 'metacto-phoneui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG phone-ui@$VER"
+          fi
+          if [ -d "version-catalogs/version-catalog-imagepicker" ]; then
+            VER=$(grep 'metacto-imagepicker = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            COMMIT_MSG="$COMMIT_MSG image-picker@$VER"
+          fi
+
+          git commit -m "$COMMIT_MSG" || echo "No changes to commit"
           git push
