@@ -1079,6 +1079,34 @@ jobs:
           echo "Updated version catalog:"
           head -30 gradle/libs.versions.toml
 
+      - name: Get latest version-catalog version from Maven
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
+        run: |
+          PACKAGE_NAME="com.metacto.kmm.version-catalog"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION="0.2.82-alpha"
+            echo "No published versions found, using default: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION="0.2.82-alpha"
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
+
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
+          MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
+          MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
+          PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+          NEW_VERSION="${MAJOR}.${MINOR}.$((PATCH + 1))-alpha"
+
+          echo "New version: $NEW_VERSION"
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
       - name: Update properties files
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
@@ -1086,6 +1114,8 @@ jobs:
         run: |
           echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
           echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
+          # Update versions.properties - this is what Gradle reads for the actual version
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
 
       - name: Publish version catalog
         run: ./gradlew :version-catalog:publishAllPublicationsToGithubRepository
