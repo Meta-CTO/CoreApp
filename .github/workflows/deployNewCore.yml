@@ -13,6 +13,7 @@ on:
 
 env:
   VERSION_SUFFIX: "-alpha"
+  MAVEN_REPO: "https://maven.pkg.github.com/Meta-CTO/coreapp"
 
 jobs:
   # ============================================
@@ -120,20 +121,42 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate next version
+      - name: Get latest version from Maven
         id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
-          # Read current version from libs.versions.toml
-          CURRENT_VERSION=$(grep 'metacto-core = "' gradle/libs.versions.toml | head -1 | sed 's/.*= "\([^"]*\)".*/\1/')
-          echo "Current version: $CURRENT_VERSION"
+          # Query GitHub Packages API for latest version
+          PACKAGE_NAME="com.metacto.kmm.core"
 
-          # Parse version components (e.g., 0.2.81-alpha -> 0.2.82-alpha)
-          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')  # 0.2.81
+          # Get versions from GitHub Packages
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            # No versions found, start with base version from catalog
+            CURRENT_VERSION=$(grep 'metacto-core = "' gradle/libs.versions.toml | head -1 | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            # Get the latest alpha version
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-core = "' gradle/libs.versions.toml | head -1 | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
+
+          # Parse and increment version
+          VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
           MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
           MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
           PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
 
-          # Increment patch
+          # Validate parsing
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
+
           NEW_PATCH=$((PATCH + 1))
           NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
 
@@ -195,16 +218,34 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate next version
+      - name: Get latest version from Maven
         id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
-          CURRENT_VERSION=$(grep 'metacto-coreui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
-          echo "Current version: $CURRENT_VERSION"
+          PACKAGE_NAME="com.metacto.kmm.core-ui"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-coreui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-coreui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
 
           VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
           MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
           MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
           PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
 
           NEW_PATCH=$((PATCH + 1))
           NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
@@ -267,16 +308,34 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate next version
+      - name: Get latest version from Maven
         id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
-          CURRENT_VERSION=$(grep 'metacto-files = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
-          echo "Current version: $CURRENT_VERSION"
+          PACKAGE_NAME="com.metacto.kmm.files"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-files = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-files = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
 
           VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
           MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
           MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
           PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
 
           NEW_PATCH=$((PATCH + 1))
           NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
@@ -339,16 +398,34 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate next version
+      - name: Get latest version from Maven
         id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
-          CURRENT_VERSION=$(grep 'metacto-notifications = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
-          echo "Current version: $CURRENT_VERSION"
+          PACKAGE_NAME="com.metacto.kmm.notifications"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-notifications = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-notifications = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
 
           VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
           MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
           MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
           PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
 
           NEW_PATCH=$((PATCH + 1))
           NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
@@ -411,16 +488,34 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate next version
+      - name: Get latest version from Maven
         id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
-          CURRENT_VERSION=$(grep 'metacto-phonecore = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
-          echo "Current version: $CURRENT_VERSION"
+          PACKAGE_NAME="com.metacto.kmm.phone-core"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-phonecore = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-phonecore = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
 
           VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
           MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
           MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
           PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
 
           NEW_PATCH=$((PATCH + 1))
           NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
@@ -483,16 +578,34 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate next version
+      - name: Get latest version from Maven
         id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
-          CURRENT_VERSION=$(grep 'metacto-camera = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
-          echo "Current version: $CURRENT_VERSION"
+          PACKAGE_NAME="com.metacto.kmm.camera"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-camera = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-camera = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
 
           VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
           MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
           MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
           PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
 
           NEW_PATCH=$((PATCH + 1))
           NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
@@ -555,16 +668,34 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate next version
+      - name: Get latest version from Maven
         id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
-          CURRENT_VERSION=$(grep 'metacto-mediaplayers = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
-          echo "Current version: $CURRENT_VERSION"
+          PACKAGE_NAME="com.metacto.kmm.media-players"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-mediaplayers = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-mediaplayers = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
 
           VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
           MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
           MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
           PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
 
           NEW_PATCH=$((PATCH + 1))
           NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
@@ -627,16 +758,34 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate next version
+      - name: Get latest version from Maven
         id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
-          CURRENT_VERSION=$(grep 'metacto-youtube = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
-          echo "Current version: $CURRENT_VERSION"
+          PACKAGE_NAME="com.metacto.kmm.youtube"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-youtube = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-youtube = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
 
           VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
           MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
           MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
           PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
 
           NEW_PATCH=$((PATCH + 1))
           NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
@@ -699,16 +848,34 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate next version
+      - name: Get latest version from Maven
         id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
-          CURRENT_VERSION=$(grep 'metacto-phoneui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
-          echo "Current version: $CURRENT_VERSION"
+          PACKAGE_NAME="com.metacto.kmm.phone-ui"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-phoneui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-phoneui = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
 
           VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
           MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
           MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
           PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
 
           NEW_PATCH=$((PATCH + 1))
           NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
@@ -771,16 +938,34 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/Dependencies.kt') }}
           restore-keys: |
             ${{ runner.os }}-konan-
-      - name: Calculate next version
+      - name: Get latest version from Maven
         id: version
+        env:
+          GH_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
-          CURRENT_VERSION=$(grep 'metacto-imagepicker = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
-          echo "Current version: $CURRENT_VERSION"
+          PACKAGE_NAME="com.metacto.kmm.image-picker"
+          VERSIONS=$(gh api /orgs/Meta-CTO/packages/maven/$PACKAGE_NAME/versions --jq '.[].name' 2>/dev/null || echo "")
+
+          if [ -z "$VERSIONS" ]; then
+            CURRENT_VERSION=$(grep 'metacto-imagepicker = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            echo "No published versions found, using catalog version: $CURRENT_VERSION"
+          else
+            CURRENT_VERSION=$(echo "$VERSIONS" | grep -E '^[0-9]+\.[0-9]+\.[0-9]+-alpha$' | sort -V | tail -1)
+            if [ -z "$CURRENT_VERSION" ]; then
+              CURRENT_VERSION=$(grep 'metacto-imagepicker = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            fi
+            echo "Latest published version: $CURRENT_VERSION"
+          fi
 
           VERSION_BASE=$(echo "$CURRENT_VERSION" | sed 's/-[^-]*$//')
           MAJOR=$(echo "$VERSION_BASE" | cut -d. -f1)
           MINOR=$(echo "$VERSION_BASE" | cut -d. -f2)
           PATCH=$(echo "$VERSION_BASE" | cut -d. -f3)
+
+          if [ -z "$PATCH" ]; then
+            echo "ERROR: Failed to parse version. CURRENT_VERSION=$CURRENT_VERSION"
+            exit 1
+          fi
 
           NEW_PATCH=$((PATCH + 1))
           NEW_VERSION="${MAJOR}.${MINOR}.${NEW_PATCH}${{ env.VERSION_SUFFIX }}"
@@ -913,7 +1098,7 @@ jobs:
           COMMIT_MSG="Update module versions:"
 
           if [ -d "version-catalogs/version-catalog-core" ]; then
-            VER=$(grep 'metacto-core = "' gradle/libs.versions.toml | sed 's/.*= "\([^"]*\)".*/\1/')
+            VER=$(grep 'metacto-core = "' gradle/libs.versions.toml | head -1 | sed 's/.*= "\([^"]*\)".*/\1/')
             COMMIT_MSG="$COMMIT_MSG core@$VER"
           fi
           if [ -d "version-catalogs/version-catalog-coreui" ]; then
