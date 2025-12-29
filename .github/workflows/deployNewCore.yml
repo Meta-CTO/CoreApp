@@ -162,14 +162,16 @@ jobs:
 
           echo "New version: $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-      - name: Update local properties
+      - name: Update properties files
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
+          # Update local.properties for credentials
           echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
           echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
-          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+          # Update versions.properties - this is what Gradle reads for the actual version
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
       - name: Update version in catalog
         run: ./gradlew updateVersionCatalog_core -PmoduleVersion=${{ steps.version.outputs.version }}
       - name: Publish core module
@@ -252,14 +254,14 @@ jobs:
 
           echo "New version: $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-      - name: Update local properties
+      - name: Update properties files
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
           echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
           echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
-          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
       - name: Update version in catalog
         run: ./gradlew updateVersionCatalog_coreui -PmoduleVersion=${{ steps.version.outputs.version }}
       - name: Publish core-ui module
@@ -342,14 +344,14 @@ jobs:
 
           echo "New version: $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-      - name: Update local properties
+      - name: Update properties files
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
           echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
           echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
-          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
       - name: Update version in catalog
         run: ./gradlew updateVersionCatalog_files -PmoduleVersion=${{ steps.version.outputs.version }}
       - name: Publish files module
@@ -432,14 +434,14 @@ jobs:
 
           echo "New version: $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-      - name: Update local properties
+      - name: Update properties files
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
           echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
           echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
-          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
       - name: Update version in catalog
         run: ./gradlew updateVersionCatalog_notifications -PmoduleVersion=${{ steps.version.outputs.version }}
       - name: Publish notifications module
@@ -522,14 +524,14 @@ jobs:
 
           echo "New version: $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-      - name: Update local properties
+      - name: Update properties files
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
           echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
           echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
-          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
       - name: Update version in catalog
         run: ./gradlew updateVersionCatalog_phonecore -PmoduleVersion=${{ steps.version.outputs.version }}
       - name: Publish phone-core module
@@ -612,14 +614,14 @@ jobs:
 
           echo "New version: $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-      - name: Update local properties
+      - name: Update properties files
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
           echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
           echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
-          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
       - name: Update version in catalog
         run: ./gradlew updateVersionCatalog_camera -PmoduleVersion=${{ steps.version.outputs.version }}
       - name: Publish camera module
@@ -702,14 +704,14 @@ jobs:
 
           echo "New version: $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-      - name: Update local properties
+      - name: Update properties files
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
           echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
           echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
-          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
       - name: Update version in catalog
         run: ./gradlew updateVersionCatalog_mediaplayers -PmoduleVersion=${{ steps.version.outputs.version }}
       - name: Publish media-players module
@@ -792,14 +794,14 @@ jobs:
 
           echo "New version: $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-      - name: Update local properties
+      - name: Update properties files
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
           echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
           echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
-          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
       - name: Update version in catalog
         run: ./gradlew updateVersionCatalog_youtube -PmoduleVersion=${{ steps.version.outputs.version }}
       - name: Publish youtube module
@@ -882,14 +884,14 @@ jobs:
 
           echo "New version: $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-      - name: Update local properties
+      - name: Update properties files
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
           echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
           echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
-          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
       - name: Update version in catalog
         run: ./gradlew updateVersionCatalog_phoneui -PmoduleVersion=${{ steps.version.outputs.version }}
       - name: Publish phone-ui module
@@ -972,14 +974,14 @@ jobs:
 
           echo "New version: $NEW_VERSION"
           echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-      - name: Update local properties
+      - name: Update properties files
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
         run: |
           echo "PUBLISH_REPO_USER=$PUBLISH_REPO_USER" > ./local.properties
           echo "PUBLISH_REPO_TOKEN=$PUBLISH_REPO_TOKEN" >> ./local.properties
-          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" >> ./local.properties
+          echo "PUBLISH_CORE_VERSION=${{ steps.version.outputs.version }}" > ./versions.properties
       - name: Update version in catalog
         run: ./gradlew updateVersionCatalog_imagepicker -PmoduleVersion=${{ steps.version.outputs.version }}
       - name: Publish image-picker module
@@ -1077,7 +1079,7 @@ jobs:
           echo "Updated version catalog:"
           head -30 gradle/libs.versions.toml
 
-      - name: Update local properties
+      - name: Update properties files
         env:
           PUBLISH_REPO_USER: ${{ secrets.PUBLISH_REPO_USER }}
           PUBLISH_REPO_TOKEN: ${{ secrets.PUBLISH_REPO_TOKEN }}
