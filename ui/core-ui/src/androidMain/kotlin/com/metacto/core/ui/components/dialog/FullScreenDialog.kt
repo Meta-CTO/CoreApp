@@ -55,7 +55,7 @@ class FullScreenComposeDialog(
     }
 }
 
-fun AppCompatActivity.showFullScreenDialog(
+fun FragmentActivity.showFullScreenDialog(
     backgroundColor: Color = Color.Black,
     content: @Composable BoxScope.() -> Unit
 ) {
