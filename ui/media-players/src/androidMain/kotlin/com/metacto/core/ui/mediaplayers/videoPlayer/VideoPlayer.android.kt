@@ -6,7 +6,6 @@ import android.view.SurfaceView
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.annotation.OptIn
-import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,20 +26,21 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.fragment.app.FragmentActivity
 import androidx.media3.common.C
 import androidx.media3.common.Player
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.ui.AspectRatioFrameLayout
 import androidx.media3.ui.PlayerView
-import com.metacto.core.ui.mediaplayers.di.DiQualifiers
-import com.metacto.core.ui.components.dialog.dismissFullScreenDialog
-import com.metacto.core.ui.components.dialog.showFullScreenDialog
-import com.metacto.core.ui.extensions.OnLifecycleEvent
 import com.metacto.core.extensions.getActivity
-import com.metacto.core.ui.extensions.noRippleClickable
 import com.metacto.core.extensions.setPortraitOrientation
 import com.metacto.core.extensions.setUnspecifiedOrientation
+import com.metacto.core.ui.components.dialog.dismissFullScreenDialog
+import com.metacto.core.ui.components.dialog.showFullScreenDialog
 import com.metacto.core.ui.components.visibilities.FadeVisibility
+import com.metacto.core.ui.extensions.OnLifecycleEvent
+import com.metacto.core.ui.extensions.noRippleClickable
+import com.metacto.core.ui.mediaplayers.di.DiQualifiers
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
@@ -93,7 +93,7 @@ actual fun VideoPlayer(
     val isPlayButtonVisible by remember { mutableStateOf(true) }
     val isVideoEnded = remember { mutableStateOf(false) }
     val isFullScreen = remember { mutableStateOf(false) }
-    val activity = LocalContext.current.getActivity<AppCompatActivity>()
+    val activity = LocalContext.current.getActivity<FragmentActivity>()
     val configuration = LocalConfiguration.current
     val isLandscape by remember(configuration.orientation) {
         derivedStateOf {
