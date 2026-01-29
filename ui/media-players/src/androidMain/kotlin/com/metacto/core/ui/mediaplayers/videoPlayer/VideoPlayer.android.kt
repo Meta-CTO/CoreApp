@@ -121,7 +121,11 @@ actual fun VideoPlayer(
     LaunchedEffect(isFullScreen.value) {
         if (isFullScreen.value) {
             // Show fullscreen dialog if needed
-            activity?.showFullScreenDialog {
+            activity?.showFullScreenDialog(
+                onDismiss = {
+                    isFullScreen.value = false
+                }
+            ) {
                 FullScreenVideoPlayer(
                     modifier = Modifier,
                     playerManager = playerManager,

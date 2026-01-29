@@ -1,6 +1,7 @@
 package com.metacto.core.ui.components.dialog
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -21,6 +22,7 @@ private const val FULLSCREEN_DIALOG_TAG = "fullscreen-dialog"
 
 class FullScreenComposeDialog(
     val backgroundColor: Color,
+    val onDismissCallback: (() -> Unit)? = null,
     val content: @Composable BoxScope.() -> Unit
 ) : DialogFragment() {
 
@@ -53,14 +55,21 @@ class FullScreenComposeDialog(
 
         return dialog
     }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        super.onDismiss(dialog)
+        onDismissCallback?.invoke()
+    }
 }
 
 fun FragmentActivity.showFullScreenDialog(
     backgroundColor: Color = Color.Black,
+    onDismiss: (() -> Unit)? = null,
     content: @Composable BoxScope.() -> Unit
 ) {
     FullScreenComposeDialog(
         backgroundColor = backgroundColor,
+        onDismissCallback = onDismiss,
         content = content
     ).show(supportFragmentManager, FULLSCREEN_DIALOG_TAG)
 }
