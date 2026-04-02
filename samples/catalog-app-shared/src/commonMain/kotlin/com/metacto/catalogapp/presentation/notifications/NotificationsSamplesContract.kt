@@ -12,6 +12,7 @@ class NotificationsSamplesContract {
 
     sealed class Event : ViewEvent {
         data object Init : Event()
+        data object EnablePushNotifications : Event()
     }
 
     sealed class Effect : ViewSideEffect
