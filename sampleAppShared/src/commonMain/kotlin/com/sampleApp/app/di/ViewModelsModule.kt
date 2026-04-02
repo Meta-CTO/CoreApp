@@ -7,6 +7,7 @@ import com.sampleApp.app.presentation.app.app.AppViewModel
 import com.sampleApp.app.presentation.camera.CameraViewModel
 import com.sampleApp.app.presentation.home.HomeViewModel
 import com.sampleApp.app.presentation.main.MainViewModel
+import com.sampleApp.app.presentation.permissions.PermissionsTestViewModel
 import com.sampleApp.app.presentation.profile.ProfileViewModel
 import com.sampleApp.app.presentation.test.TestViewModel
 import com.sampleApp.app.presentation.testsheet1.TestSheet1ViewModel
@@ -23,5 +24,6 @@ val viewModelsModule = module {
     commonViewModel { ProfileViewModel() }
     commonViewModel { HomeViewModel(get(),get(), get()) }
     commonViewModel { MainViewModel() }
+    commonViewModel { PermissionsTestViewModel() }
     single { AppViewModel() }
 }

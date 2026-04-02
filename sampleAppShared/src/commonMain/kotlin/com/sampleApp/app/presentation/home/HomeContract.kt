@@ -28,12 +28,12 @@ class HomeContract {
         data object Init : Event()
         data object NavToYoutubeScreen : Event()
         data object NavToTestScreen : Event()
+        data object NavToPermissionsTest : Event()
         data class ChangeCurrentVideo(val index: Int) : Event()
         data class VideoPlayerControllerCreated(val controller: VideoPlayerController) : Event()
         data object OpenPicker : Event()
         data class ImageFailedLoading(val error: ErrorResult) : Event()
         data object NavigateToCameraScreen : Event()
-        data object RequestCameraPermClicked : Event()
     }
 
     sealed class Effect : ViewSideEffect
