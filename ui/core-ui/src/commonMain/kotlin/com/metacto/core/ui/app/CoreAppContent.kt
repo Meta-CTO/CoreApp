@@ -1,6 +1,7 @@
 package com.metacto.core.ui.app
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -216,6 +217,8 @@ fun CoreAppContent(
                         globalState.idle()
                         params.onDismiss?.invoke()
                     },
+                    contentPadding = params.contentPadding
+                        ?: PaddingValues(CoreTheme.spacings.appDialog.contentPadding),
                     content = params.content
                 )
             }

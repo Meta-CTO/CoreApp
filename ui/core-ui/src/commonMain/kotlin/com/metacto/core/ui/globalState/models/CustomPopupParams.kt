@@ -1,5 +1,6 @@
 package com.metacto.core.ui.globalState.models
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
 
 /**
@@ -22,5 +23,6 @@ data class CustomPopupParams(
     val positiveButtonText: String? = null,
     val onPositiveClick: (() -> Unit)? = null,
     val onDismiss: (() -> Unit)? = null,
+    val contentPadding: PaddingValues? = null,
     val content: @Composable () -> Unit
 )

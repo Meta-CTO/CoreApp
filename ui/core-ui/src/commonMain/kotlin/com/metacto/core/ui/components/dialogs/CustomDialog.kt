@@ -29,6 +29,7 @@ fun CustomDialog(
     btnTextStyle: TextStyle = CoreTheme.typography.customDialog.btnTextStyle,
     btnBgColor: Color = CoreTheme.colors.customDialog.btnBgColor,
     btnTextColor: Color = CoreTheme.colors.customDialog.btnTextColor,
+    contentPadding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialog.contentPadding),
     content: @Composable () -> Unit
 ) {
     // Render app dialog
@@ -38,6 +39,7 @@ fun CustomDialog(
         showToolbar = showToolbar,
         onDismiss = onDismiss,
         isCancellable = isCancellable,
+        contentPadding = contentPadding,
     ) {
         // Container column
         Column(
