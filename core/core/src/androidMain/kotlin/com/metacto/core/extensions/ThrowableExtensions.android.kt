@@ -15,5 +15,5 @@ actual fun AppException.getErrorBody(): String? {
 }
 
 actual fun AppException.getHttpErrorCode(): Int? {
-    return this.errorCode
+    return this.httpErrorCode
 }
