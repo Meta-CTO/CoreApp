@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +31,7 @@ fun CustomDialog(
     btnBgColor: Color = CoreTheme.colors.customDialog.btnBgColor,
     btnTextColor: Color = CoreTheme.colors.customDialog.btnTextColor,
     contentPadding: PaddingValues = PaddingValues(CoreTheme.spacings.appDialog.contentPadding),
+    shape: RoundedCornerShape = CoreTheme.shapes.appDialog.shape,
     content: @Composable () -> Unit
 ) {
     // Render app dialog
@@ -40,6 +42,7 @@ fun CustomDialog(
         onDismiss = onDismiss,
         isCancellable = isCancellable,
         contentPadding = contentPadding,
+        shape = shape,
     ) {
         // Container column
         Column(

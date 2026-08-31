@@ -7,8 +7,6 @@ fun RepositoryHandler.addProjectRepos() {
     jcenter()
     mavenCentral()
     mavenLocal()
-    maven("https://jitpack.io")
-    maven("https://www.jitpack.io")
     maven("https://storage.googleapis.com/r8-releases/raw")
     maven("https://maven.google.com")
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
@@ -25,4 +23,5 @@ fun RepositoryHandler.addProjectRepos() {
             password = Configs.META_CTO_PASSWORD
         }
     }
+    maven("https://jitpack.io")
 }

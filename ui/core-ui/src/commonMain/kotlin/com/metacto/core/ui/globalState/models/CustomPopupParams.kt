@@ -1,6 +1,7 @@
 package com.metacto.core.ui.globalState.models
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 
 /**
@@ -24,5 +25,6 @@ data class CustomPopupParams(
     val onPositiveClick: (() -> Unit)? = null,
     val onDismiss: (() -> Unit)? = null,
     val contentPadding: PaddingValues? = null,
+    val shape: RoundedCornerShape? = null,
     val content: @Composable () -> Unit
 )

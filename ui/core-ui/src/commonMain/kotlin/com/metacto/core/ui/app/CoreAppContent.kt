@@ -219,6 +219,7 @@ fun CoreAppContent(
                     },
                     contentPadding = params.contentPadding
                         ?: PaddingValues(CoreTheme.spacings.appDialog.contentPadding),
+                    shape = params.shape ?: CoreTheme.shapes.appDialog.shape,
                     content = params.content
                 )
             }

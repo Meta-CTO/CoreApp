@@ -9,6 +9,6 @@ object Configs {
     const val PUBLISH_MAVEN_REPO_NAME = "Github"
     const val SH_USERNAME = "developer-swensonhe"
     const val SH_PASSWORD = "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"
-    const val META_CTO_USERNAME = "metactoengineer"
-    const val META_CTO_PASSWORD = "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"
+    val META_CTO_USERNAME: String = System.getenv("META_CTO_USERNAME").orEmpty()
+    val META_CTO_PASSWORD: String = System.getenv("META_CTO_PASSWORD").orEmpty()
 }
