@@ -9,7 +9,6 @@ package com.metacto.core.domain.repos
 import com.metacto.core.CoreConfigs
 import com.metacto.core.domain.CoreConstants
 import com.metacto.kmm.network.KtorClientFactory
-import com.metacto.kmm.network.errorhandling.SerializableNetworkError
 import com.metacto.kmm.network.services.HttpService
 import com.metacto.kmm.sharedpreferences.KmmPreference
 import com.russhwolf.settings.ExperimentalSettingsApi
@@ -22,15 +21,14 @@ import platform.Foundation.NSUserDefaults
 import platform.Security.kSecAttrAccessible
 import platform.Security.kSecAttrAccessibleAfterFirstUnlock
 import platform.Security.kSecAttrService
-import kotlin.reflect.KClass
 
 
-actual open class RepositoriesFactory<T : SerializableNetworkError>(
+actual open class RepositoriesFactory<T : Any>(
     actual val coreConfigs: CoreConfigs,
     actual val appStorageName: String,
     actual val shouldShowActualErrorMessages: Boolean,
     actual val networkUserAgent: String?,
-    actual val errorClass: KClass<T>
+    actual val errorHandling: ApiErrorHandling<T>
 ) {
 
     private val oldKeyChainStore by lazy { KeychainSettings(service = appStorageName) }
@@ -57,8 +55,8 @@ actual open class RepositoriesFactory<T : SerializableNetworkError>(
     actual val httpService = HttpService(
         baseUrl = coreConfigs.baseUrl,
         kmmPreference = sharedPreference,
-        httpClient = ktorClientFactory.build(
-            errorClass = errorClass,
+        httpClient = errorHandling.buildClient(
+            factory = ktorClientFactory,
             configure = coreConfigs.httpClientConfiguration
         )
     )

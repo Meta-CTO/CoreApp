@@ -3,6 +3,7 @@ package com.metacto.core.di
 import com.metacto.core.CoreConfigs
 import com.metacto.core.deepLink.DeepLinkManager
 import com.metacto.core.deepLink.IDeepLinkManager
+import com.metacto.core.domain.repos.ApiErrorHandling
 import com.metacto.core.domain.repos.RepositoriesFactory
 import com.metacto.core.domain.repos.UploadRepository
 import com.metacto.kmm.logger.Logger
@@ -16,10 +17,13 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import kotlin.reflect.KClass
 
-fun <T : SerializableNetworkError> coreModule(configs: CoreConfigs, errorClass: KClass<T>) = module {
+fun <T : SerializableNetworkError> coreModule(configs: CoreConfigs, errorClass: KClass<T>) =
+    coreModule(configs, ApiErrorHandling.Declared(errorClass))
+
+fun <T : Any> coreModule(configs: CoreConfigs, errorHandling: ApiErrorHandling<T>) = module {
     // Common dependencies can be added here
 
-    includes(platformModule(errorClass))
+    includes(platformModule(errorHandling))
 
     single {
         configs
@@ -70,4 +74,4 @@ fun <T : SerializableNetworkError> coreModule(configs: CoreConfigs, errorClass: 
     }
 }
 
-internal expect fun <T : SerializableNetworkError> platformModule(errorClass: KClass<T>): Module
+internal expect fun <T : Any> platformModule(errorHandling: ApiErrorHandling<T>): Module

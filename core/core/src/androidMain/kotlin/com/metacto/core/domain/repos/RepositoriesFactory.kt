@@ -5,19 +5,17 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKeys
 import com.metacto.core.CoreConfigs
 import com.metacto.kmm.network.KtorClientFactory
-import com.metacto.kmm.network.errorhandling.SerializableNetworkError
 import com.metacto.kmm.network.services.HttpService
 import com.metacto.kmm.sharedpreferences.KmmPreference
 import com.russhwolf.settings.SharedPreferencesSettings
-import kotlin.reflect.KClass
 
-actual open class RepositoriesFactory<T : SerializableNetworkError>(
+actual open class RepositoriesFactory<T : Any>(
     context: Context,
     actual val coreConfigs: CoreConfigs,
     actual val appStorageName: String,
     actual val shouldShowActualErrorMessages: Boolean,
     actual val networkUserAgent: String?,
-    actual val errorClass: KClass<T>
+    actual val errorHandling: ApiErrorHandling<T>
 ) {
 
     private val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
@@ -48,8 +46,8 @@ actual open class RepositoriesFactory<T : SerializableNetworkError>(
     actual val httpService = HttpService(
         baseUrl = coreConfigs.baseUrl,
         kmmPreference = sharedPreference,
-        httpClient = ktorClientFactory.build(
-            errorClass = errorClass,
+        httpClient = errorHandling.buildClient(
+            factory = ktorClientFactory,
             configure = coreConfigs.httpClientConfiguration
         )
     )
