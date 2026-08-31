@@ -6,8 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import cafe.adriel.voyager.core.model.ScreenModel
 import cafe.adriel.voyager.core.model.screenModelScope
 import com.metacto.core.PlatformType
-import com.metacto.core.extensions.getErrorMessage
-import com.metacto.core.extensions.getHttpErrorCode
 import com.metacto.core.extensions.getPlatformType
 import com.metacto.core.extensions.isConnectionLostError
 import com.metacto.core.extensions.isInternetConnectionError
@@ -34,7 +32,7 @@ import com.metacto.core.ui.resources.session_expired
 import com.metacto.core.ui.resources.sorry_there_was_problem_connecting
 import com.metacto.core.ui.resources.your_session_expired_login_again
 import com.metacto.kmm.logger. Logger
-import com.metacto.kmm.network.errorhandling.AppException
+import com.metacto.kmm.network.errorhandling.ApiFailure
 import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.plugins.HttpRequestTimeoutException
@@ -196,8 +194,8 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
 
                 // Handle other errors
                 val errorMessage = when (throwable) {
-                    is AppException -> {
-                        throwable.getErrorMessage().orEmpty()
+                    is ApiFailure -> {
+                        throwable.displayMessage.orEmpty()
                     }
 
                     is SocketTimeoutException,
@@ -269,7 +267,7 @@ abstract class CoreViewModel<S : ViewState, E : ViewEvent, SF : ViewSideEffect> 
     }
 
     private fun isAuthError(throwable: Throwable): Boolean {
-        return throwable is AppException && throwable.getHttpErrorCode() == 401
+        return throwable is ApiFailure && throwable.httpStatus == 401
     }
 
     open suspend fun logout() {}
