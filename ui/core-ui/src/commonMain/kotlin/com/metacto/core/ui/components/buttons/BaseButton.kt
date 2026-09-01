@@ -25,7 +25,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import com.metacto.core.ui.components.visibilities.FadeVisibility
-import com.metacto.core.ui.extensions.orZero
 import com.metacto.core.ui.extensions.tintIfNotNull
 import com.metacto.core.ui.theme.CoreTheme.shapes
 import com.metacto.core.ui.theme.CoreTheme.spacings
@@ -68,7 +67,7 @@ fun BaseButton(
 
     // Render button
     Button(
-        modifier = modifier.heightIn(min = minHeight + border?.width.orZero()),
+        modifier = modifier.heightIn(min = minHeight),
         shape = shape,
         border = border,
         enabled = realIsEnabled,

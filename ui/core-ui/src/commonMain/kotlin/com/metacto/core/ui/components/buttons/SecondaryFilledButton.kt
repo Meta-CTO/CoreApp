@@ -1,5 +1,6 @@
 package com.metacto.core.ui.components.buttons
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -40,6 +41,7 @@ fun SecondaryFilledButton(
     minHeightNormal: Dp = CoreTheme.spacings.secondaryFilledButton.minHeightNormal,
     shapeSmall: RoundedCornerShape = CoreTheme.shapes.secondaryFilledButton.shapeSmall,
     shapeNormal: RoundedCornerShape = CoreTheme.shapes.secondaryFilledButton.shapeNormal,
+    border: BorderStroke? = null,
     onClick: () -> Unit = {}
 ) {
     BaseButton(
@@ -64,6 +66,7 @@ fun SecondaryFilledButton(
         onClick = onClick,
         minHeight = if (isSmall) minHeightSmall else minHeightNormal,
         shape = if (isSmall) shapeSmall else shapeNormal,
+        border = border,
         padding = padding
     )
 }
