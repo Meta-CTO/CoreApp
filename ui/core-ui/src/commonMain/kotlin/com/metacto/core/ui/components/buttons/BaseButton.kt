@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -66,98 +68,108 @@ fun BaseButton(
     val realBgColor = if (isDimmed) disabledBackgroundColor else backgroundColor
 
     // Render button
-    Button(
-        modifier = modifier.heightIn(min = minHeight),
-        shape = shape,
-        border = border,
-        enabled = realIsEnabled,
-        onClick = onClick,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = realBgColor,
-            disabledContainerColor = realDisabledBgColor
-        ),
-        elevation = ButtonDefaults.buttonElevation(
-            defaultElevation = elevation,
-            pressedElevation = elevation,
-            hoveredElevation = elevation
-        ),
-        contentPadding = padding
-    ) {
-        // Container box
-        Box(
-            contentAlignment = Alignment.Center
+    WithoutMaterialTouchTargetPadding {
+        Button(
+            modifier = modifier.heightIn(min = minHeight),
+            shape = shape,
+            border = border,
+            enabled = realIsEnabled,
+            onClick = onClick,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = realBgColor,
+                disabledContainerColor = realDisabledBgColor
+            ),
+            elevation = ButtonDefaults.buttonElevation(
+                defaultElevation = elevation,
+                pressedElevation = elevation,
+                hoveredElevation = elevation
+            ),
+            contentPadding = padding
         ) {
-            // Loading indicator
-            FadeVisibility(visible = isLoading) {
-                CircularProgressIndicator(
-                    color = loadingColor,
-                    strokeWidth = spacings.btnLoadingStroke,
-                    modifier = Modifier.size(spacings.btnLoadingSize)
-                )
-            }
-
-            // Content row
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(
-                    space = contentSpacing,
-                    alignment = contentAlignment
-                )
+            // Container box
+            Box(
+                contentAlignment = Alignment.Center
             ) {
-                // Render start icon if required
-                if (startIconVector != null) {
-                    Image(
-                        imageVector = startIconVector,
-                        colorFilter = tintIfNotNull(iconColor),
-                        contentDescription = null,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier.size(iconSize)
-                    )
-                } else if (startIconPainter != null) {
-                    Image(
-                        painter = startIconPainter,
-                        colorFilter = tintIfNotNull(iconColor),
-                        contentDescription = null,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier.size(iconSize)
+                // Loading indicator
+                FadeVisibility(visible = isLoading) {
+                    CircularProgressIndicator(
+                        color = loadingColor,
+                        strokeWidth = spacings.btnLoadingStroke,
+                        modifier = Modifier.size(spacings.btnLoadingSize)
                     )
                 }
 
-                // Render text
-                FadeVisibility(
-                    visible = isLoading.not(),
-                    modifier = Modifier.weight(
-                        weight = 1f,
-                        fill = false
+                // Content row
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(
+                        space = contentSpacing,
+                        alignment = contentAlignment
                     )
                 ) {
-                    Text(
-                        text = text.orEmpty(),
-                        textAlign = TextAlign.Center,
-                        color = textColor,
-                        style = textStyle
-                    )
-                }
+                    // Render start icon if required
+                    if (startIconVector != null) {
+                        Image(
+                            imageVector = startIconVector,
+                            colorFilter = tintIfNotNull(iconColor),
+                            contentDescription = null,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier.size(iconSize)
+                        )
+                    } else if (startIconPainter != null) {
+                        Image(
+                            painter = startIconPainter,
+                            colorFilter = tintIfNotNull(iconColor),
+                            contentDescription = null,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier.size(iconSize)
+                        )
+                    }
 
-                // Render end icon if required
-                if (endIconVector != null) {
-                    Image(
-                        imageVector = endIconVector,
-                        colorFilter = tintIfNotNull(iconColor),
-                        contentDescription = null,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier.size(iconSize)
-                    )
-                } else if (endIconPainter != null) {
-                    Image(
-                        painter = endIconPainter,
-                        colorFilter = tintIfNotNull(iconColor),
-                        contentDescription = null,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier.size(iconSize)
-                    )
+                    // Render text
+                    FadeVisibility(
+                        visible = isLoading.not(),
+                        modifier = Modifier.weight(
+                            weight = 1f,
+                            fill = false
+                        )
+                    ) {
+                        Text(
+                            text = text.orEmpty(),
+                            textAlign = TextAlign.Center,
+                            color = textColor,
+                            style = textStyle
+                        )
+                    }
+
+                    // Render end icon if required
+                    if (endIconVector != null) {
+                        Image(
+                            imageVector = endIconVector,
+                            colorFilter = tintIfNotNull(iconColor),
+                            contentDescription = null,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier.size(iconSize)
+                        )
+                    } else if (endIconPainter != null) {
+                        Image(
+                            painter = endIconPainter,
+                            colorFilter = tintIfNotNull(iconColor),
+                            contentDescription = null,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier.size(iconSize)
+                        )
+                    }
                 }
             }
         }
     }
+}
+
+@Composable
+private fun WithoutMaterialTouchTargetPadding(content: @Composable () -> Unit) {
+    CompositionLocalProvider(
+        LocalMinimumInteractiveComponentSize provides Dp.Unspecified,
+        content = content
+    )
 }
