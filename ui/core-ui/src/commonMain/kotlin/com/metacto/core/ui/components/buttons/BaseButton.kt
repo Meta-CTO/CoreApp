@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import com.metacto.core.ui.components.visibilities.FadeVisibility
 import com.metacto.core.ui.extensions.tintIfNotNull
 import com.metacto.core.ui.theme.CoreTheme.shapes
@@ -67,6 +68,11 @@ fun BaseButton(
     val realDisabledBgColor = if (isLoading) backgroundColor else disabledBackgroundColor
     val realBgColor = if (isDimmed) disabledBackgroundColor else backgroundColor
 
+    val heightAvailableToContent = (
+        minHeight - padding.calculateTopPadding() - padding.calculateBottomPadding()
+        ).coerceAtLeast(0.dp)
+    val realLoadingSize = spacings.btnLoadingSize.coerceAtMost(heightAvailableToContent)
+
     // Render button
     WithoutMaterialTouchTargetPadding {
         Button(
@@ -95,7 +101,7 @@ fun BaseButton(
                     CircularProgressIndicator(
                         color = loadingColor,
                         strokeWidth = spacings.btnLoadingStroke,
-                        modifier = Modifier.size(spacings.btnLoadingSize)
+                        modifier = Modifier.size(realLoadingSize)
                     )
                 }
 
